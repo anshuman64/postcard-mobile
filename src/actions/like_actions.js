@@ -13,16 +13,15 @@ export const REMOVE_LIKE  = 'REMOVE_LIKE';
 //    |____/ \__, |_| |_|\___| /_/   \_\___|\__|_|\___/|_| |_|___/
 //          |___/
 
-export const receiveLike = (data) => ({
+export let receiveLike = (data) => ({
   type: RECEIVE_LIKE,
   data
 });
 
-export const removeLike = (data) => ({
+export let removeLike = (data) => ({
   type: REMOVE_LIKE,
   data
 });
-
 
 //        _                              _        _   _
 //       / \   ___ _   _ _ __   ___     / \   ___| |_(_) ___  _ __  ___

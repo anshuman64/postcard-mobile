@@ -23,7 +23,7 @@ class App extends React.Component {
 //    |____/ \__|\__, |_|\___||___/
 //              |___/
 
-const styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',

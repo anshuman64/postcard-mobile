@@ -13,16 +13,15 @@ export const REMOVE_POST  = 'REMOVE_POST';
 //    |____/ \__, |_| |_|\___| /_/   \_\___|\__|_|\___/|_| |_|___/
 //          |___/
 
-export const receivePost = (data) => ({
+export let receivePost = (data) => ({
   type: RECEIVE_POST,
   data
 });
 
-export const removePost = (data) => ({
+export let removePost = (data) => ({
   type: REMOVE_POST,
   data
 });
-
 
 //        _                              _        _   _
 //       / \   ___ _   _ _ __   ___     / \   ___| |_(_) ___  _ __  ___
