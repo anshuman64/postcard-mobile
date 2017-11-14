@@ -1,5 +1,8 @@
+// Library Imports
 import React                                from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
+
+//--------------------------------------------------------------------//
 
 class App extends React.Component {
   render() {
@@ -13,6 +16,13 @@ class App extends React.Component {
   }
 }
 
+//     ____  _         _
+//    / ___|| |_ _   _| | ___  ___
+//    \___ \| __| | | | |/ _ \/ __|
+//     ___) | |_| |_| | |  __/\__ \
+//    |____/ \__|\__, |_|\___||___/
+//              |___/
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -25,5 +35,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   }
 });
+
+//--------------------------------------------------------------------//
 
 export default App;
