@@ -1,0 +1,9 @@
+<TextInput
+  onChangeText={(text) => this.setState({text})}
+  onContentSizeChange={(event) => { this.setState({ height: event.nativeEvent.contentSize.height })}}
+  value={this.state.text}
+  multiline={true}
+  maxHeight={70}
+  underlineColorAndroid={'transparent'}
+  style={{backgroundColor: 'gainsboro', flex: 1, height: '100%'}}
+/>
