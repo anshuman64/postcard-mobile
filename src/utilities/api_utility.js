@@ -5,7 +5,7 @@
 //    \____\___/|_| |_|___/\__\__,_|_| |_|\__|___/
 
 
-const BASE_URL = 'http://localhost:3000/';
+const BASE_URL = 'http://localhost:3000';
 const HEADERS  = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ let del = (path) => {
   });
 };
 
-const ApiUtility = {
+const APIUtility = {
   get:  get,
   post: post,
   put:  put,
@@ -105,5 +105,6 @@ const ApiUtility = {
 
 
 //--------------------------------------------------------------------//
+//--------------------------------------------------------------------//
 
-export default ApiUtility;
+export default APIUtility;
