@@ -1,3 +1,4 @@
+// Library Imports
 import React                                from 'react';
 import { Platform, StyleSheet, Text, View, TextInput, ImageBackground, Image, FlatList, ActivityIndicator, TouchableHighlight, ScrollView } from 'react-native';
 
@@ -68,6 +69,8 @@ class NewPostButton extends React.Component {
   }
 }
 
+//--------------------------------------------------------------------//
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -130,10 +133,27 @@ class App extends React.Component {
   }
 }
 
-// const styles = StyleSheet.create({
-//   postBody: {
-//   }
-// });
+//     ____  _         _
+//    / ___|| |_ _   _| | ___  ___
+//    \___ \| __| | | | |/ _ \/ __|
+//     ___) | |_| |_| | |  __/\__ \
+//    |____/ \__|\__, |_|\___||___/
+//              |___/
+
+let styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'gray'
+  },
+  welcome: {
+    fontSize: 20,
+    marginTop: 10
+  }
+});
+
+//--------------------------------------------------------------------//
 
 export default App;
 
