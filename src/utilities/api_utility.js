@@ -50,7 +50,7 @@ let checkStatus = (response) => {
 //    |___|_| |_|\__\___|_|  |_|  \__,_|\___\___|
 
 
-let get = (path, queryParams) => {
+export const get = (path, queryParams) => {
   let url = BASE_URL + path;
 
   if (queryParams) {
@@ -62,7 +62,7 @@ let get = (path, queryParams) => {
   });
 };
 
-let post = (path, payload) => {
+export const post = (path, payload) => {
   let url = BASE_URL + path;
 
   return fetch(url, {
@@ -74,7 +74,7 @@ let post = (path, payload) => {
   });
 };
 
-let put = (path, payload) => {
+export const put = (path, payload) => {
   let url = BASE_URL + path;
 
   return fetch(url, {
@@ -86,7 +86,7 @@ let put = (path, payload) => {
   });
 };
 
-let del = (path) => {
+export const del = (path) => {
   let url = BASE_URL + path;
 
   return fetch(url, {
@@ -95,16 +95,3 @@ let del = (path) => {
     return checkStatus(response);
   });
 };
-
-const APIUtility = {
-  get:  get,
-  post: post,
-  put:  put,
-  del:  del
-};
-
-
-//--------------------------------------------------------------------//
-//--------------------------------------------------------------------//
-
-export default APIUtility;

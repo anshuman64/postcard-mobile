@@ -1,5 +1,5 @@
 // Local Imports
-import PostAPI from '../api/post_api';
+import * as PostAPI from '../api/post_api';
 
 //--------------------------------------------------------------------//
 //--------------------------------------------------------------------//
@@ -24,15 +24,15 @@ export const REMOVE_POST   = 'REMOVE_POST';
 //    /_/   \_\___|\__|_|\___/|_| |_|  \____|_|  \___|\__,_|\__\___/|_|  |___/
 
 
-export let receivePosts = (data) => {
+export const receivePosts = (data) => {
   return { type: RECEIVE_POSTS, data: data };
 };
 
-export let receivePost = (data) => {
+export const receivePost = (data) => {
   return { type: RECEIVE_POST, data: data };
 };
 
-export let removePost = (data) => {
+export const removePost = (data) => {
   return { type: REMOVE_POST, data: data };
 };
 
@@ -45,19 +45,19 @@ export let removePost = (data) => {
 //                 |___/
 
 
-export let getPosts = (queryParams) => (dispatch) => {
+export const getPosts = (queryParams) => (dispatch) => {
   return PostAPI.getPosts(queryParams).then((posts) => {
     dispatch(receivePosts(posts));
   });
 };
 
-export let createPost = (post) => (dispatch) => {
+export const createPost = (post) => (dispatch) => {
   return PostAPI.createPost(post).then((newPost) => {
     dispatch(receivePost(newPost));
   });
 };
 
-export let deletePost = (postId) => (dispatch) => {
+export const deletePost = (postId) => (dispatch) => {
   return PostAPI.deletePost(postId).then((deletedPost) => {
     dispatch(removePost(deletedPost));
   });

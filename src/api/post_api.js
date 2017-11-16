@@ -1,5 +1,5 @@
 // Local Imports
-import APIUtility from '../utilities/api_utility';
+import * as APIUtility from '../utilities/api_utility';
 
 //--------------------------------------------------------------------//
 //--------------------------------------------------------------------//
@@ -12,26 +12,14 @@ import APIUtility from '../utilities/api_utility';
 //    |___|_| |_|\__\___|_|  |_|  \__,_|\___\___|
 
 
-let getPosts = (queryParams) => {
+export const getPosts = (queryParams) => {
   return APIUtility.get('/posts', queryParams);
 };
 
-let createPost = (payload) => {
+export const createPost = (payload) => {
   return APIUtility.post('/posts', payload);
 };
 
-let deletePost = (postId) => {
+export const deletePost = (postId) => {
   return APIUtility.del('/posts/' + postId);
 };
-
-const PostAPI = {
-  getPosts:   getPosts,
-  createPost: createPost,
-  deletePost: deletePost
-};
-
-
-//--------------------------------------------------------------------//
-//--------------------------------------------------------------------//
-
-export default PostAPI;

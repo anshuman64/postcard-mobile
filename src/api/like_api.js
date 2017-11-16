@@ -1,5 +1,5 @@
 // Local Imports
-import APIUtility from '../utilities/api_utility';
+import * as APIUtility from '../utilities/api_utility';
 
 //--------------------------------------------------------------------//
 //--------------------------------------------------------------------//
@@ -12,21 +12,10 @@ import APIUtility from '../utilities/api_utility';
 //    |___|_| |_|\__\___|_|  |_|  \__,_|\___\___|
 
 
-let createLike = (payload) => {
+export const createLike = (payload) => {
   return APIUtility.post('/likes', payload);
 };
 
-let deleteLike = (likeId) => {
+export const deleteLike = (likeId) => {
   return APIUtility.del('/likes/' + likeId);
 };
-
-const LikeAPI = {
-  createLike: createLike,
-  deleteLike: deleteLike
-};
-
-
-//--------------------------------------------------------------------//
-//--------------------------------------------------------------------//
-
-export default LikeAPI;

@@ -1,5 +1,5 @@
 // Local Imports
-import LikeAPI from '../api/like_api';
+import * as LikeAPI from '../api/like_api';
 
 //--------------------------------------------------------------------//
 //--------------------------------------------------------------------//
@@ -23,11 +23,11 @@ export const REMOVE_LIKE  = 'REMOVE_LIKE';
 //    /_/   \_\___|\__|_|\___/|_| |_|  \____|_|  \___|\__,_|\__\___/|_|  |___/
 
 
-export let receiveLike = (data) => {
+export const receiveLike = (data) => {
   return { type: RECEIVE_LIKE, data: data };
 };
 
-export let removeLike = (data) => {
+export const removeLike = (data) => {
   return { type: REMOVE_LIKE, data: data };
 };
 
@@ -40,13 +40,13 @@ export let removeLike = (data) => {
 //                 |___/
 
 
-export let createLike = (like) => (dispatch) => {
+export const createLike = (like) => (dispatch) => {
   return LikeAPI.createLike(like).then((newLike) => {
     dispatch(receiveLike(newLike));
   });
 };
 
-export let deleteLike = (likeId) => (dispatch) => {
+export const deleteLike = (likeId) => (dispatch) => {
   return LikeAPI.deleteLike(likeId).then((deletedLike) => {
     dispatch(removeLike(deletedLike));
   });
