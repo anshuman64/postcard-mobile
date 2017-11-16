@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component }                     from 'react';
 import { View, Button, Text, TextInput, Image } from 'react-native';
 
-import firebase from 'react-native-firebase';
+import firebase                                 from 'react-native-firebase';
 
 const successImageUri = 'https://cdn.pixabay.com/photo/2015/06/09/16/12/icon-803718_1280.png';
 
-export default class PhoneAuthTest extends Component {
+class PhoneAuthTest extends Component {
   constructor(props) {
     super(props);
     this.unsubscribe = null;
@@ -141,3 +141,5 @@ export default class PhoneAuthTest extends Component {
     );
   }
 }
+
+export default PhoneAuthScreen;

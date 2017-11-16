@@ -1,9 +1,9 @@
 // Library Imports
-import React                                                                                from 'react';
+import React, { Component }                                                                              from 'react';
 import { Platform, StyleSheet, View, Text, TextInput, ImageBackground, TouchableHighlight } from 'react-native';
 
 
-class PostButton extends React.Component {
+class PostButton extends Component {
   render () {
     return (
       <TouchableHighlight onPress={() => this.props.navigation.navigate('AllPosts')} underlayColor='grey' style={{height: '100%', width: 50, alignItems: 'center', justifyContent: 'center'}}>
@@ -15,13 +15,14 @@ class PostButton extends React.Component {
   }
 }
 
-class NewPost extends React.Component {
+class NewPostScreen extends Component {
   constructor(props) {
     super(props)
     this.state = { text: '' }
   }
 
   static navigationOptions = {
+    tabBarVisible: false,
     title: 'Create Post',
     headerRight: <PostButton />
   };
@@ -47,4 +48,4 @@ class NewPost extends React.Component {
   }
 }
 
-export default NewPost;
+export default NewPostScreen;

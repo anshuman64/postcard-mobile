@@ -1,11 +1,16 @@
 // Library Imports
-import React                                                       from 'react';
+import React, { Component }                                        from 'react';
 import { Platform, StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
-import PostCard                                                    from './PostCard.js';
-import NewPostButton                                               from './NewPostButton.js';
+
+import PostCard                                                    from '../PostCard.js';
+import NewPostButton                                               from '../NewPostButton.js';
 
 
-class AllPosts extends React.Component {
+class AllPostsScreen extends Component {
+  static navigationOptions = {
+    header: null
+  };
+
   renderSeparator = () => {
     return (
       <View
@@ -45,11 +50,6 @@ class AllPosts extends React.Component {
       )
     };
 
-
-  static navigationOptions = {
-    header: null
-  };
-
   render() {
     return (
       <View>
@@ -67,4 +67,4 @@ class AllPosts extends React.Component {
   }
 }
 
-export default AllPosts;
+export default AllPostsScreen;

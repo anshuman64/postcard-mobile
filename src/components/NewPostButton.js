@@ -1,9 +1,9 @@
 // Library Imports
-import React                                                           from 'react';
+import React, { Component }                                                         from 'react';
 import { Platform, StyleSheet, View, Text, Image, TouchableHighlight } from 'react-native';
 
 
-class NewPostButton extends React.Component {
+class NewPostButton extends Component {
   render () {
     return (
       <TouchableHighlight onPress={() => this.props.navigation.navigate('NewPost')} underlayColor='grey'>
