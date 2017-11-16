@@ -23,15 +23,13 @@ export const REMOVE_LIKE  = 'REMOVE_LIKE';
 //    /_/   \_\___|\__|_|\___/|_| |_|  \____|_|  \___|\__,_|\__\___/|_|  |___/
 
 
-export let receiveLike = (data) => ({
-  type: RECEIVE_LIKE,
-  data
-});
+export let receiveLike = (data) => {
+  return { type: RECEIVE_LIKE, data: data };
+};
 
-export let removeLike = (data) => ({
-  type: REMOVE_LIKE,
-  data
-});
+export let removeLike = (data) => {
+  return { type: REMOVE_LIKE, data: data };
+};
 
 
 //        _
@@ -40,3 +38,16 @@ export let removeLike = (data) => ({
 //     / ___ \\__ \ |_| | | | | (__
 //    /_/   \_\___/\__, |_| |_|\___|
 //                 |___/
+
+
+export let createLike = (like) => (dispatch) => {
+  return LikeAPI.createLike(like).then((newLike) => {
+    dispatch(receiveLike(newLike));
+  });
+};
+
+export let deleteLike = (likeId) => (dispatch) => {
+  return LikeAPI.deleteLike(likeId).then((deletedLike) => {
+    dispatch(removeLike(deletedLike));
+  });
+};
