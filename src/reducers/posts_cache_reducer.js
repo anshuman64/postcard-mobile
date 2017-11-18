@@ -6,30 +6,41 @@ import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../actions/post_action
 import { RECEIVE_LIKE, REMOVE_LIKE }                from '../actions/like_actions';
 
 //--------------------------------------------------------------------//
-//--------------------------------------------------------------------//
 
 
 const PostsCacheReducer = (state = {}, action) => {
   Object.freeze(state);
+  let newState = _.merge({}, state);
 
   switch(action.type) {
     case RECEIVE_POSTS:
-      return;
+      _.forEach(action.data, (post) => {
+        newState[post.id] = post;
+      });
+
+      return newState;
     case RECEIVE_POST:
-      return;
+      newState[action.data.id] = action.data;
+
+      return newState;
     case REMOVE_POST:
-      return;
+      delete newState[action.data.id];
+
+      return newState;
     case RECEIVE_LIKE:
-      return;
+      newState[action.data.post_id].num_likes++;
+
+      return newState;
     case REMOVE_LIKE:
-      return;
+      newState[action.data.post_id].num_likes--;
+
+      return newState;
     default:
       return state;
   }
 };
 
 
-//--------------------------------------------------------------------//
 //--------------------------------------------------------------------//
 
 export default PostsCacheReducer;
