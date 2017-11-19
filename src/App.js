@@ -1,19 +1,16 @@
 // Library Imports
-import React      from 'react';
-import Navigation from 'react-navigation';
+import React from 'react';
 
 // Local Imports
-import Routes from './routes';
+import Router from './router';
 
 //--------------------------------------------------------------------//
 
 
-const RootNavigator = Navigation.StackNavigator(Routes);
-
 class App extends React.Component {
   render() {
     return (
-      <RootNavigator />
+      <Router />
     );
   }
 }

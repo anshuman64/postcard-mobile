@@ -1,11 +1,11 @@
 // Library Imports
-import React                                                    from 'react';
-import { Platform, StyleSheet, View, Text, TouchableHighlight } from 'react-native';
+import React                                from 'react';
+import { Platform, StyleSheet, View, Text } from 'react-native';
 
 //--------------------------------------------------------------------//
 
 
-class Login extends React.Component {
+class Verify extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -14,14 +14,8 @@ class Login extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
-          Phone number login page
+          Verification page
         </Text>
-
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('Verify')} style={styles.nextButton} >
-          <Text>
-            next
-          </Text>
-        </TouchableHighlight>
       </View>
     );
   }
@@ -42,14 +36,10 @@ let styles = StyleSheet.create({
   title: {
     fontSize: 20,
     color: 'white'
-  },
-  nextButton: {
-    justifyContent: 'center',
-    height: 40
   }
 });
 
 
 //--------------------------------------------------------------------//
 
-export default Login;
+export default Verify;
