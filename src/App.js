@@ -1,40 +1,22 @@
 // Library Imports
-import React                                from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import React      from 'react';
+import Navigation from 'react-navigation';
 
 //--------------------------------------------------------------------//
+
+
+const RootNavigator = Navigation.StackNavigator({
+
+});
 
 
 class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-      </View>
+      <RootNavigator />
     );
   }
 }
-
-
-//--------------------------------------------------------------------//
-// Styles
-//--------------------------------------------------------------------//
-
-
-let styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'gray'
-  },
-  welcome: {
-    fontSize: 20,
-    marginTop: 10
-  }
-});
 
 
 //--------------------------------------------------------------------//

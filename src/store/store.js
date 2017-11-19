@@ -1,15 +1,15 @@
 // Library Imports
-import { createStore, applyMiddleware } from 'redux';
+import Redux from 'redux';
 
 // Local Imports
-import { thunk }   from '../middleware/thunk';
+import thunk       from '../middleware/thunk';
 import RootReducer from '../reducers/root_reducer';
 
 //--------------------------------------------------------------------//
 
 
 const configureStore = (preloadedState = {}) => (
-  createStore(RootReducer, preloadedState, applyMiddleware(thunk))
+  Redux.createStore(RootReducer, preloadedState, Redux.applyMiddleware(thunk))
 );
 
 
