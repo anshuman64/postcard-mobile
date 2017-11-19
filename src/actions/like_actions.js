@@ -38,8 +38,8 @@ export const createLike = (like) => (dispatch) => {
   });
 };
 
-export const deleteLike = (likeId) => (dispatch) => {
-  return LikeAPI.deleteLike(likeId).then((deletedLike) => {
+export const deleteLike = (userId, postId) => (dispatch) => {
+  return LikeAPI.deleteLike(userId, postId).then((deletedLike) => {
     dispatch(removeLike(deletedLike));
   });
 };
