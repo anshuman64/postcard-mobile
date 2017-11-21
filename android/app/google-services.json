@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "500815057845",
+    "firebase_url": "https://insiya-mobile.firebaseio.com",
+    "project_id": "insiya-mobile",
+    "storage_bucket": "insiya-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500815057845:android:c455d4d335652cd6",
+        "android_client_info": {
+          "package_name": "com.insiya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "500815057845-ki3k3jcpj408f835spjcjabdncsmin70.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.insiya",
+            "certificate_hash": "d3495efe729f4891cd5230ea29fb5aa33ae07bfe"
+          }
+        },
+        {
+          "client_id": "500815057845-lupvh5eieq0t2mg61cgial93vd288agg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqtN2Ye_1bZ_ZfvX9ppq9FWy52Wrstt3w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "500815057845-lupvh5eieq0t2mg61cgial93vd288agg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
