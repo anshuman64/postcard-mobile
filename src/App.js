@@ -1,47 +1,66 @@
-// Library Imports
-import React, { Component }             from 'react';
-import { Platform, StyleSheet, View }   from 'react-native';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import React from 'react';
+import { View, Text, Button, TextInput } from 'react-native';
+import firebase from 'react-native-firebase';
 
-import PhoneAuthScreen                  from './components/screens/PhoneAuthScreen.js';
-import ConfirmCodeScreen                from './components/screens/ConfirmCodeScreen.js';
-import AllPostsScreen                   from './components/screens/AllPostsScreen.js';
-import MyPostsScreen                    from './components/screens/MyPostsScreen.js';
-import NewPostScreen                    from './components/screens/NewPostScreen.js';
+class App extends React.Component {
+  constructor (props) {
+    super(props);
 
-
-const RootNavigator = StackNavigator({
-  PhoneAuth: {
-    screen: PhoneAuthScreen
-  },
-  ConfirmCode: {
-    screen: ConfirmCodeScreen
-  },
-  AllPosts: {
-    screen: AllPostsScreen
-  },
-  NewPost: {
-    screen: NewPostScreen
+    this.state = {
+      user: 'null',
+      idToken: 'null',
+      error: 'null',
+      count: 0
+    };
   }
-});
 
-const PostNavigator = TabNavigator({
-  AllPosts: {
-    screen: RootNavigator
-  },
-  MyPosts: {
-    screen: MyPostsScreen
+
+  componentDidMount() {
+    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user: user, count: this.state.count+1 });
+        this.getToken();
+
+      }
+    });
   }
-})
 
+  logIn() {
+    firebase.auth().signInWithEmailAndPassword('anshuman64@gmail.com', 'password')
+      .then( (user) => {this.setState({ user: user})});
+  }
 
-class App extends Component {
+  getToken() {
+    firebase.auth().currentUser.getIdToken(false)
+      .then( (idToken) => {this.setState( {idToken: idToken})})
+      .catch( (error) => {this.setState( {idToken: 'bye'})})
+  }
+
+  logOut() {
+    firebase.auth().signOut()
+    .then( (user) => {this.setState({ user: null})});
+  }
+
   render() {
-    return (
-      <PostNavigator />
-    )
+    return(
+      <View>
+        <Button title='Log In' onPress={() => this.logIn()} />
+
+        <Text>{ JSON.stringify(this.state.user) }</Text>
+        <Text>{ JSON.stringify(this.state.count) }</Text>
+        <Button title='Log Out' onPress={() => this.logOut()} />
+        <Button title='Get Token' onPress={() => this.getToken()} />
+        <Text>{ this.state.idToken }</Text>
+        </View>
+    );
   }
 }
 
-
 export default App;
+
+
+
+
+// <TextInput placeholder='email'/>
+// <TextInput placeholder='password'/>
+  // <TextInput placeholder='password'/>
