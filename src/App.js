@@ -1,42 +1,25 @@
-// Library Imports
-import React                                from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+/**
+ * @flow
+ */
 
-//--------------------------------------------------------------------//
+import React from 'react';
+import { AppRegistry } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
+import RootReducer from './reducers/root_reducer.js';
+import AppWithNavigationState from './utilities/app_navigator.js';
 
 class App extends React.Component {
+  store = createStore(RootReducer);
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-      </View>
+      <Provider store={this.store}>
+        <AppWithNavigationState />
+      </Provider>
     );
   }
 }
-
-
-//--------------------------------------------------------------------//
-// Styles
-//--------------------------------------------------------------------//
-
-
-let styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'gray'
-  },
-  welcome: {
-    fontSize: 20,
-    marginTop: 10
-  }
-});
-
-
-//--------------------------------------------------------------------//
 
 export default App;
