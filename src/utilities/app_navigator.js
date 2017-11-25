@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addNavigationHelpers, StackNavigator } from 'react-navigation';
+import { BackHandler } from "react-native";
+import { addNavigationHelpers, StackNavigator, NavigationActions } from 'react-navigation';
 
 import LoginScreen from '../components/screens/login_screen.js';
 import CodeAuthScreen from '../components/screens/codeauth_screen.js';
 import PostsScreen from  '../components/screens/posts_screen.js';
 import NewPostScreen from  '../components/screens/newpost_screen.js';
+import { toBackScreen } from '../actions/navigation_actions.js';
+
 
 export const AppNavigator = StackNavigator({
   LoginScreen: { screen: LoginScreen },
@@ -15,9 +18,34 @@ export const AppNavigator = StackNavigator({
   NewPostScreen: { screen: NewPostScreen }
 });
 
-const AppWithNavigationState = ({ dispatch, nav }) => (
-  <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
-);
+class AppWithNavigationState extends React.Component {
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+  }
+  
+  onBackPress = () => {
+    const { dispatch, nav } = this.props;
+    if (nav.index === 0) {
+      return false;
+    }
+    dispatch(toBackScreen());
+    return true;
+  };
+
+  render() {
+    const { dispatch, nav } = this.props;
+    const navigation = addNavigationHelpers({
+      dispatch,
+      state: nav
+    });
+
+    return <AppNavigator navigation={navigation} />;
+  }
+}
 
 AppWithNavigationState.propTypes = {
   dispatch: PropTypes.func.isRequired,
