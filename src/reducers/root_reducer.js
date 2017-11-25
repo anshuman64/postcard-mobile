@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 
 // Local Imports
-import nav from './navigation_reducer.js';
+import NavigationReducer from './navigation_reducer.js';
 import PostsReducer      from './posts_reducer.js';
 import PostsCacheReducer from './posts_cache_reducer.js';
 
@@ -10,7 +10,7 @@ import PostsCacheReducer from './posts_cache_reducer.js';
 
 
 const RootReducer = combineReducers({
-  nav:        nav,
+  nav:        NavigationReducer,
   posts:      PostsReducer,
   postsCache: PostsCacheReducer
 });

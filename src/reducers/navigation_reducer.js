@@ -8,11 +8,11 @@ import { TO_LOGIN_SCREEN, TO_CODEAUTH_SCREEN, TO_POSTS_SCREEN, TO_NEWPOST_SCREEN
 
 //--------------------------------------------------------------------//
 
-const firstAction = AppNavigator.router.getActionForPathAndParams('LoginScreen');
-const DEFAULT_STATE = AppNavigator.router.getStateForAction(firstAction);
+const DEFAULT_STATE = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('LoginScreen'));
 
-function nav(state = DEFAULT_STATE, action) {
-  let newState;
+const NavigationReducer = (state = DEFAULT_STATE, action) => {
+  Object.freeze(state);
+  let newState = _.merge({}, state);
 
   switch(action.type) {
     case TO_LOGIN_SCREEN:
@@ -58,4 +58,4 @@ function nav(state = DEFAULT_STATE, action) {
 
 //--------------------------------------------------------------------//
 
-export default nav;
+export default NavigationReducer;
