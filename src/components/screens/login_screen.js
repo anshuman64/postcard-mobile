@@ -7,6 +7,7 @@ import { toCodeAuthScreen } from '../../actions/navigation_actions.js';
 import Logo from '../../resources/Logo_ExactFit_807x285.png';
 import countryCodes from '../../resources/country_codes.js';
 
+//--------------------------------------------------------------------//
 
 const scaleFactor = PixelRatio.get();
 const formatter = new asYouType('US');

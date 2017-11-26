@@ -1,8 +1,12 @@
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+//Library Imports
+import React                                from 'react';
+import { Button, StyleSheet, Text, View }   from 'react-native';
+import { connect }                          from 'react-redux';
 
-import { toPostsScreen } from '../../actions/navigation_actions.js';
+// Local Imports
+import { toPostsScreen }                    from '../../actions/navigation_actions.js';
+
+//--------------------------------------------------------------------//
 
 class CodeAuthScreen extends React.Component {
   render() {
@@ -16,5 +20,7 @@ class CodeAuthScreen extends React.Component {
     )
   }
 }
+
+//--------------------------------------------------------------------//
 
 export default CodeAuthScreen;
