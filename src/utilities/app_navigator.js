@@ -1,15 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { BackHandler } from "react-native";
-import { addNavigationHelpers, StackNavigator, NavigationActions } from 'react-navigation';
+// Library Imports
+import React                                                        from 'react';
+import PropTypes                                                    from 'prop-types';
+import { connect }                                                  from 'react-redux';
+import { BackHandler }                                              from "react-native";
+import { addNavigationHelpers, StackNavigator, NavigationActions }  from 'react-navigation';
 
-import LoginScreen from '../components/screens/login_screen.js';
-import CodeAuthScreen from '../components/screens/codeauth_screen.js';
-import PostsScreen from  '../components/screens/posts_screen.js';
-import NewPostScreen from  '../components/screens/newpost_screen.js';
-import { toBackScreen } from '../actions/navigation_actions.js';
+// Local Imports
+import LoginScreen                                                  from '../components/screens/login_screen.js';
+import CodeAuthScreen                                               from '../components/screens/codeauth_screen.js';
+import PostsScreen                                                  from  '../components/screens/posts_screen.js';
+import NewPostScreen                                                from  '../components/screens/newpost_screen.js';
+import { toBackScreen }                                             from '../actions/navigation_actions.js';
 
+//--------------------------------------------------------------------//
 
 export const AppNavigator = StackNavigator({
   LoginScreen: { screen: LoginScreen },
@@ -26,7 +29,7 @@ class AppWithNavigationState extends React.Component {
   componentWillUnmount() {
     BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
   }
-  
+
   onBackPress = () => {
     const { dispatch, nav } = this.props;
     if (nav.index === 0) {
@@ -55,5 +58,7 @@ AppWithNavigationState.propTypes = {
 const mapStateToProps = state => ({
   nav: state.nav,
 });
+
+//--------------------------------------------------------------------//
 
 export default connect(mapStateToProps)(AppWithNavigationState);
