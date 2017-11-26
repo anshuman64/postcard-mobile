@@ -12,6 +12,9 @@ import countryCodes from '../../resources/country_codes.js';
 const scaleFactor = PixelRatio.get();
 const formatter = new asYouType('US');
 
+
+
+
 class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -21,8 +24,9 @@ class LoginScreen extends React.Component {
       selectedCountry: 'United States',
       unformattedPhoneNumber: '',
       formattedPhoneNumber: '',
-      isPhoneInputFocused: styles.unhighlightBorder,
-      isCountryButtonPressed: styles.unhighlightBorder
+      isPhoneInputFocused: styles.border,
+      isCountryButtonPressed: styles.border,
+      isCancelButtonPressed: styles.text,
     };
   }
 
@@ -30,10 +34,6 @@ class LoginScreen extends React.Component {
     tabBarVisible: false,
     header: null
   };
-
-  onPressInCountryButton(bool) {
-    bool ? this.setState({ isCountryButtonPressed: styles.highlightBorder })  : this.setState({ isCountryButtonPressed: styles.unhighlightBorder });
-  }
 
   onPressCountryButton(bool) {
       this.setState({ isModalVisible: bool });
@@ -52,6 +52,10 @@ class LoginScreen extends React.Component {
 
   }
 
+  selectCountry(country) {
+    this.setState({ selectedCountry: country });
+  }
+
   onChangePhoneInput(value) {
     if (value.length < this.state.formattedPhoneNumber.length) {
       this.setState({unformattedPhoneNumber: this.state.unformattedPhoneNumber.slice(0, -1).trim()}, () => this.setFormattedPhoneNumber());
@@ -65,25 +69,18 @@ class LoginScreen extends React.Component {
     this.setState({formattedPhoneNumber: formatter.input(this.state.unformattedPhoneNumber)});
   }
 
-  onPhoneInputFocus(bool) {
-    bool ? this.setState({ isPhoneInputFocused: styles.highlightBorder }) : this.setState({ isPhoneInputFocused: styles.unhighlightBorder });
-  }
-
   renderCountryList(item) {
       return (
-        <TouchableHighlight
-          onPress={() => this.makeSelection(item.country_name)}
-          style={{height: 30}}
-        >
-          <View style={[styles.countryListItem]}>
-            <Text style={[styles.flex, styles.text]}>
-              {item.country_name}
-            </Text>
-            <Text style={[styles.flex, styles.text]}>
-              {item.dialing_code}
-            </Text>
-          </View>
-        </TouchableHighlight>
+        <View style={[styles.countryListItems]}>
+          <Text
+            style={[styles.text, styles.countryListText]}
+          >
+            {item.country_name}
+          </Text>
+          <Text style={[styles.text, styles.countryListText]}>
+            {item.dialing_code}
+          </Text>
+        </View>
       )
   }
 
@@ -108,8 +105,8 @@ class LoginScreen extends React.Component {
 
             {/* CountryPicker */}
             <TouchableWithoutFeedback
-              onPressIn={() => this.onPressInCountryButton(true)}
-              onPress={() => this.onPressCountryButton(true)}
+              onPressIn={() => this.setState(this.state.isCountryButtonPressed: styles.borderHighlighted)}
+              onPress={() => this.setState(this.state.isCountryButtonPressed: styles.border)}
             >
               <View style={[styles.componentSize, this.state.isCountryButtonPressed]}>
                 <Text style={[styles.flex, styles.componentSize, styles.text]}>
@@ -129,8 +126,8 @@ class LoginScreen extends React.Component {
               placeholder='Phone Number'
               placeholderTextColor='#bdbdbd'
               underlineColorAndroid={'transparent'}
-              onFocus={() => this.onPhoneInputFocus(true)}
-              onEndEditing={() => this.onPhoneInputFocus(false)}
+              onFocus={() => this.setState(this.state.isPhoneInputFocused: styles.borderHighlighted)}
+              onEndEditing={() => this.setState(this.state.isPhoneInputFocused: styles.border)}
             />
 
           <View style={{flex: 2}} />
@@ -142,19 +139,36 @@ class LoginScreen extends React.Component {
           <View style={{flex: 3}} />
         </View>
 
-        {/* Modal dialog with CountryList*/}
+        {/* Modal dialog with CountryList */}
         <View style={[styles.flex, styles.modalContainer]}>
+
+          {/* Choose Country Text */}
           <View style={[styles.flex, styles.chooseCountryText]}>
             <Text style={[styles.flex, styles.chooseCountryText, styles.text]}>
-              Choose a country
+              Select Country
             </Text>
           </View>
+
+          {/* Country List*/}
           <FlatList
             data={countryCodes}
-            style={{paddingLeft: 20, paddingRight: 20}}
             keyExtractor={(item, index) => index}
             renderItem={({item}) => this.renderCountryList(item)}
+            style={[styles.container]}
           />
+
+          {/* Cancel Button */}
+          <TouchableWithoutFeedback
+            onPressIn={() => this.setState({isCancelButtonPressed: styles.textHighlighted})}
+            onPress={() => this.setState({isCancelButtonPressed: ''})}
+          >
+            <View style={[styles.flex, styles.chooseCountryText]}>
+              <Text style={[styles.flex, styles.chooseCountryText, styles.text, this.state.isCancelButtonPressed]}>
+                Cancel
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+
         </View>
 
       </View>
@@ -192,12 +206,12 @@ const styles = StyleSheet.create({
       width: 100 * scaleFactor,
       height: 16 * scaleFactor
   },
-  highlightBorder: {
+  borderHighlighted: {
     borderBottomColor: '#007aff',
     borderBottomWidth: 0.6 * scaleFactor
   },
-  unhighlightBorder: {
-    borderBottomColor: '#333333',
+  border: {
+    borderBottomColor: '#212121',
     borderBottomWidth: 0.3 * scaleFactor,
   },
   text: {
@@ -205,7 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 7.4 * scaleFactor,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#333333'
+    color: '#212121'
   },
   nextButton: {
     color: '#ffffff',
@@ -223,13 +237,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
   },
   chooseCountryText: {
-    height: 40 * scaleFactor,
+    width: '100%',
+    height: 20 * scaleFactor,
+    elevation: 1,
+    backgroundColor: '#fafafa'
   },
-  countryListItem: {
+  countryListItems: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    height: 17 * scaleFactor,
+    marginLeft: 10 * scaleFactor,
+    marginRight: 10 * scaleFactor,
     borderBottomWidth: 1,
-    borderBottomColor: 'grey'
+    borderBottomColor: '#e0e0e0'
+  },
+  countryListText: {
+    fontSize: 6 * scaleFactor,
+    textAlign: 'left',
+    textAlignVertical: 'center',
+    color: '#212121'
+  },
+  textHighlighted: {
+    fontWeight: 'bold',
+    color: '#007aff'
   }
 
 });
@@ -264,3 +294,20 @@ export default LoginScreen;
 //       <View style={{justifyContent: 'center', alignItems: 'center', height: 40}}><Text>Cancel</Text></View>
 //     </TouchableWithoutFeedback>
 //   </View>
+
+// class MyListItem extends React.PureComponent {
+//   render() {
+//     return (
+//       <View style={[styles.countryListItems]}>
+//         <Text
+//           style={[styles.text, styles.countryListText]}
+//         >
+//           {this.props.country_name}
+//         </Text>
+//         <Text style={[styles.text, styles.countryListText]}>
+//           {this.props.dialing_code}
+//         </Text>
+//       </View>
+//     )
+//   }
+// }
