@@ -21,7 +21,8 @@ class LoginScreen extends React.Component {
       selectedCountry: 'United States',
       unformattedPhoneNumber: '',
       formattedPhoneNumber: '',
-      isPhoneInputFocused: styles.phoneNumberInputUnfocused
+      isPhoneInputFocused: styles.unhighlightBorder,
+      isCountryButtonPressed: styles.unhighlightBorder
     };
   }
 
@@ -30,8 +31,12 @@ class LoginScreen extends React.Component {
     header: null
   };
 
-  setModalVisible(bool) {
-    this.setState({ modalVisible: bool });
+  onPressInCountryButton(bool) {
+    bool ? this.setState({ isCountryButtonPressed: styles.highlightBorder })  : this.setState({ isCountryButtonPressed: styles.unhighlightBorder });
+  }
+
+  onPressCountryButton(bool) {
+      this.setState({ modalVisible: bool });
   }
 
   makeSelection(country) {
@@ -60,6 +65,10 @@ class LoginScreen extends React.Component {
     this.setState({formattedPhoneNumber: formatter.input(this.state.unformattedPhoneNumber)});
   }
 
+  onPhoneInputFocus(bool) {
+    bool ? this.setState({ isPhoneInputFocused: styles.highlightBorder }) : this.setState({ isPhoneInputFocused: styles.unhighlightBorder });
+  }
+
   render() {
     const {navigation} = this.props;
 
@@ -73,33 +82,35 @@ class LoginScreen extends React.Component {
           />
         </View>
         <View style={styles.bottomView}>
-          <TouchableHighlight
-            style={styles.countryPickerButton}
-            onPress={() => this.setModalVisible(true)}
-            underlayColor='grey'
-          >
-            <Text style={styles.text}>
-              {this.state.selectedCountry}
+          <View style={{flex: 1}} />
+            <TouchableWithoutFeedback
+              onPressIn={() => this.onPressInCountryButton(true)}
+              onPress={() => this.onPressCountryButton(true)}
+            >
+              <View style={this.state.isCountryButtonPressed}>
+                <Text style={[styles.text, styles.countryText]}>
+                  {this.state.selectedCountry}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+          <View style={{height: 5 * scaleFactor}} />
+            <TextInput
+              style={[this.state.isPhoneInputFocused, styles.text]}
+              keyboardType='phone-pad'
+              onChangeText={(value) => this.onChangePhoneInput(value)}
+              value={this.state.formattedPhoneNumber}
+              placeholder='Phone Number'
+              placeholderTextColor='#bdbdbd'
+              underlineColorAndroid={'transparent'}
+              onFocus={() => this.onPhoneInputFocus(true)}
+              onEndEditing={() => this.onPhoneInputFocus(false)}
+            />
+          <View style={{flex: 2}} />
+            <Text style={[styles.text, styles.nextButton]}
+            >
+              Next
             </Text>
-          </TouchableHighlight>
-          <TextInput
-            style={[this.state.isPhoneInputFocused, styles.text]}
-            keyboardType='phone-pad'
-            onChangeText={(value) => this.onChangePhoneInput(value)}
-            value={this.state.formattedPhoneNumber}
-            placeholder='Phone Number'
-            placeholderTextColor='#bdbdbd'
-            underlineColorAndroid={'transparent'}
-            onFocus={() => this.setState({ isPhoneInputFocused: styles.phoneNumberInputFocused })}
-            onEndEditing={() => this.setState({ isPhoneInputFocused: styles.phoneNumberInputUnfocused })}
-          />
-          <TouchableHighlight
-            style={{justifyContent: 'center', height: 40}}
-            onPress={() => this.props.navigation.navigate('ConfirmCode')}
-            underlayColor='grey'
-          >
-            <Text style={[styles.button, styles.text]}>Next</Text>
-          </TouchableHighlight>
+          <View style={{flex: 3}} />
         </View>
       </View>
     )
@@ -133,32 +144,35 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%'
   },
-  countryPickerButton: {
-    justifyContent: 'flex-end',
-    height: 60,
-    width: '80%',
-    marginTop: 60,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1
-  },
-  phoneNumberInputFocused: {
-    width: '80%',
+  highlightBorder: {
+    width: 100 * scaleFactor,
     height: 16 * scaleFactor,
     borderBottomColor: '#007aff',
-    borderBottomWidth: 2
+    borderBottomWidth: 0.6 * scaleFactor
   },
-  phoneNumberInputUnfocused: {
-    width: '80%',
+  unhighlightBorder: {
+    width: 100 * scaleFactor,
     height: 16 * scaleFactor,
     borderBottomColor: '#333333',
-    borderBottomWidth: 1
+    borderBottomWidth: 0.3 * scaleFactor
+  },
+  countryText: {
+    width: 100 * scaleFactor,
+    height: 16 * scaleFactor,
+    textAlignVertical: 'center'
   },
   text: {
     fontFamily: 'Roboto',
-    fontSize: 7.2 * scaleFactor
+    fontSize: 7.4 * scaleFactor,
+    textAlign: 'center',
+    color: '#333333'
   },
-  button: {
-    width: 7.2 * scaleFactor,
+  nextButton: {
+    width: 100 * scaleFactor,
+    height: 15 * scaleFactor,
+    color: '#ffffff',
+    textAlignVertical: 'center',
+    borderRadius: 5,
     backgroundColor: '#007aff'
   }
 });
