@@ -11,9 +11,9 @@ const DEFAULT_STATE = {
   myPosts:  []
 };
 
-const PostsReducer = (state = {}, action) => {
+const PostsReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
-  let newState = _.merge(DEFAULT_STATE, state);
+  let newState = _.merge({}, state);
 
   switch(action.type) {
     case RECEIVE_POSTS:
