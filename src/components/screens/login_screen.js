@@ -18,7 +18,8 @@ class LoginScreen extends React.Component {
     this.state = {
       modalVisible: false,
       selectedCountry: 'United States',
-      phoneNumber: '',
+      unformattedPhoneNumber: '',
+      formattedPhoneNumber: '',
       isPhoneInputFocused: styles.phoneNumberInputUnfocused
     };
   }
@@ -33,8 +34,8 @@ class LoginScreen extends React.Component {
   }
 
   makeSelection(country) {
-    this.setState({ selectedCountry: country })
-    this.setModalVisible(false)
+    this.setState({ selectedCountry: country });
+    this.setModalVisible(false);
 
     for (var i=0; i < countryCodes.length; i++) {
         if (countryCodes[i].country_name === country) {
@@ -45,10 +46,17 @@ class LoginScreen extends React.Component {
 
   }
 
-  textOnChange(value) {
+  onChangePhoneInput(value) {
+    if (value.length < this.state.formattedPhoneNumber.length) {
+      this.setState({unformattedPhoneNumber: this.state.unformattedPhoneNumber.slice(0, -1)}, () => this.setFormattedPhoneNumber());
+    } else {
+      this.setState({unformattedPhoneNumber: value.match(/\d+/g).join('')}, () => this.setFormattedPhoneNumber());
+    }
+  }
+
+  setFormattedPhoneNumber() {
     formatter.reset();
-    let number = formatter.input(value.toString());
-    this.setState({phoneNumber: number});
+    this.setState({formattedPhoneNumber: formatter.input(this.state.unformattedPhoneNumber)});
   }
 
   render() {
@@ -76,8 +84,8 @@ class LoginScreen extends React.Component {
           <TextInput
             style={[this.state.isPhoneInputFocused, styles.text]}
             keyboardType='phone-pad'
-            onChangeText={(input) => this.textOnChange(input)}
-            value={this.state.phoneNumber}
+            onChangeText={(value) => this.onChangePhoneInput(value)}
+            value={this.state.formattedPhoneNumber}
             placeholder='Phone Number'
             placeholderTextColor='#bdbdbd'
             underlineColorAndroid={'transparent'}
@@ -89,7 +97,7 @@ class LoginScreen extends React.Component {
             onPress={() => this.props.navigation.navigate('ConfirmCode')}
             underlayColor='grey'
           >
-            <Text style={styles.text}>Next</Text>
+            <Text style={[styles.button, styles.text]}>Next</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -148,6 +156,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontSize: 7.2 * scaleFactor
   },
+  button: {
+    width: 7.2 * scaleFactor,
+    backgroundColor: '#007aff'
+  }
 });
 
 export default LoginScreen;
