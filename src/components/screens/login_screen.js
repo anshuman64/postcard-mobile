@@ -1,6 +1,6 @@
 // Library Imports
 import React from 'react';
-import { Platform, PixelRatio, StyleSheet, View, Text, ScrollView, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput } from 'react-native';
+import { Platform, PixelRatio, StyleSheet, View, Text, FlatList, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput } from 'react-native';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import * as _ from 'lodash';
 
@@ -14,17 +14,237 @@ const scaleFactor = PixelRatio.get();
 const formatter = new asYouType('US');
 
 
+class CountryListItem extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isPressed: ''
+    };
+  }
+
+  setStateInAnimationFrame(state) {
+    requestAnimationFrame(() => {this.setState(state)})
+  }
+
+  _onPressOut = () => {
+    this.setStateInAnimationFrame({isPressed: ''});
+  }
+
+  _onPressIn = () => {
+    this.setStateInAnimationFrame({isPressed: styles.textHighlighted});
+  }
+
+  render() {
+    return(
+      <TouchableWithoutFeedback
+        onPressIn={this._onPressIn}
+        onPressOut={this._onPressOut}
+        >
+        <View style={[styles.countryListItems]}>
+          <Text style={[styles.text, styles.countryListText, this.state.isPressed]}>
+            {this.props.item.country_name}
+          </Text>
+          <Text style={[styles.text, styles.countryListText, this.state.isPressed]}>
+            {this.props.item.dialing_code}
+          </Text>
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
+}
+
+class CountryListScrollView extends React.PureComponent {
+  _renderItem = (item) => {
+    return (
+      <CountryListItem item={item} />
+    )
+  }
+
+  render() {
+    return(
+      <FlatList
+        data={countryCodes}
+        style={{paddingLeft: 20, paddingRight: 20}}
+        keyExtractor={(item, index) => index}
+        renderItem={this._renderItem}
+        />
+    )
+  }
+}
+
+class CountryListModal extends React.PureComponent {
+
+  render() {
+    return(
+        <View style={[styles.flex, styles.modalContainer]}>
+
+          {/* Choose Country Text */}
+          <View style={[styles.flex, styles.chooseCountryText]}>
+            <Text style={[styles.flex, styles.chooseCountryText, styles.text]}>
+              Select Country
+            </Text>
+          </View>
+
+          <CountryListScrollView />
+          <CancelButton />
+        </View>
+    )
+  }
+}
+
+class CancelButton extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isModalVisible: false,
+      isPressed: ''
+    };
+  }
+
+  setStateInAnimationFrame(state) {
+    requestAnimationFrame(() => {this.setState(state)})
+  }
+
+  _onPressOut = () => {
+    this.setStateInAnimationFrame({isPressed: ''});
+  }
+
+  _onPressIn = () => {
+    this.setStateInAnimationFrame({isPressed: styles.textHighlighted});
+  }
+
+  render () {
+    return(
+      <TouchableWithoutFeedback
+        onPressIn={this._onPressIn}
+        onPressOut={this._onPressOut}
+      >
+        <View style={[styles.flex, styles.chooseCountryText]}>
+          <Text style={[styles.flex, styles.chooseCountryText, styles.text, this.state.isPressed]}>
+            Cancel
+          </Text>
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
+}
+
+class CountrySelector extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedCountry: 'United States',
+      isPressed: styles.border
+    };
+  }
+
+
+
+  setStateInAnimationFrame(state) {
+    requestAnimationFrame(() => {this.setState(state)})
+  }
+
+  _onPressOut = () => {
+    this.setStateInAnimationFrame({isPressed: styles.border}, this.props.setModalVisible());
+  }
+
+  _onPressIn = () => {
+    this.setStateInAnimationFrame({isPressed: styles.borderHighlighted});
+  }
+
+  render() {
+    // console.warn('Render CountrySelector')
+    return (
+      <TouchableWithoutFeedback
+        onPressIn={this._onPressIn}
+        onPress={this._onPressOut}
+      >
+        <View style={[styles.componentSize, this.state.isPressed]}>
+          <Text style={[styles.flex, styles.componentSize, styles.text]}>
+            {this.state.selectedCountry}
+          </Text>
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
+}
+
+class PhoneNumberInput extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedCountry: 'United States',
+      unformattedPhoneNumber: '',
+      formattedPhoneNumber: '',
+      isFocused: styles.border
+    };
+  }
+
+  setStateInAnimationFrame(state) {
+    requestAnimationFrame(() => {this.setState(state)})
+  }
+
+  _onFocus = () => {
+    this.setStateInAnimationFrame({isFocused: styles.borderHighlighted})
+  }
+
+  _onEndEditing = () => {
+    this.setStateInAnimationFrame({isFocused: styles.border})
+  }
+
+  _onChangeText(value) {
+    if (value.length < this.state.formattedPhoneNumber.length) {
+      this.setState({unformattedPhoneNumber: this.state.unformattedPhoneNumber.slice(0, -1).trim()}, () => this.setFormattedPhoneNumber());
+    } else {
+      this.setState({unformattedPhoneNumber: value.match(/\d+/g).join('')}, () => this.setFormattedPhoneNumber());
+    }
+  }
+
+  setFormattedPhoneNumber() {
+    formatter.reset();
+    this.setState({formattedPhoneNumber: formatter.input(this.state.unformattedPhoneNumber)});
+  }
+
+  render() {
+    // console.warn('Render PhoneNumberInput')
+    return (
+      <TextInput
+        style={[styles.componentSize, this.state.isFocused, styles.text]}
+        keyboardType='phone-pad'
+        onChangeText={(value) => this._onChangeText(value)}
+        value={this.state.formattedPhoneNumber}
+        placeholder='Phone Number'
+        placeholderTextColor='#bdbdbd'
+        underlineColorAndroid={'transparent'}
+        onFocus={this._onFocus}
+        onEndEditing={this._onEndEditing}
+      />
+    )
+  }
+}
+
+class NextButton extends React.PureComponent {
+  render() {
+    // console.warn('Render NextButton')
+    return(
+      <Text style={[styles.flex, styles.componentSize, styles.text, styles.nextButton]}>
+        Next
+      </Text>
+    )
+  }
+}
+
+
 class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       isModalVisible: false,
-      selectedCountry: 'United States',
-      unformattedPhoneNumber: '',
-      formattedPhoneNumber: '',
-      isPhoneInputFocused: styles.border,
-      isCountryButtonPressed: styles.border,
       isCancelButtonPressed: styles.text,
     };
   }
@@ -55,65 +275,14 @@ class LoginScreen extends React.Component {
     this.setState({ selectedCountry: country });
   }
 
-  onChangePhoneInput(value) {
-    if (value.length < this.state.formattedPhoneNumber.length) {
-      this.setState({unformattedPhoneNumber: this.state.unformattedPhoneNumber.slice(0, -1).trim()}, () => this.setFormattedPhoneNumber());
-    } else {
-      this.setState({unformattedPhoneNumber: value.match(/./g).join('')}, () => this.setFormattedPhoneNumber());
-    }
+
+
+  setModalVisible = () => {
+    this.setState({isModalVisible: true});
   }
 
-  setFormattedPhoneNumber() {
-    formatter.reset();
-    this.setState({formattedPhoneNumber: formatter.input(this.state.unformattedPhoneNumber)});
-  }
-
-  renderCountryList(data) {
-    console.warn('hello')
-    return (data.map((item, index) => { return(
-      <View key={index} style={[styles.countryListItems]}>
-        <Text
-          style={[styles.text, styles.countryListText]}
-        >
-          {item.country_name}
-        </Text>
-        <Text style={[styles.text, styles.countryListText]}>
-          {item.dialing_code}
-        </Text>
-      </View>
-    )}))
-  }
-
-  renderCountryListModal() {
-    return(
-      <View style={[styles.flex, styles.modalContainer]}>
-
-        {/* Choose Country Text */}
-        <View style={[styles.flex, styles.chooseCountryText]}>
-          <Text style={[styles.flex, styles.chooseCountryText, styles.text]}>
-            Select Country
-          </Text>
-        </View>
-
-        {/* Country List */}
-        <ScrollView style={[styles.container]}>
-          {this.renderCountryList(countryCodes)}
-        </ScrollView>
-asdfas
-        {/* Cancel Button */}
-        <TouchableWithoutFeedback
-          onPressIn={() => this.setState({isCancelButtonPressed: styles.textHighlighted})}
-          onPress={() => this.setState({isCancelButtonPressed: ''})}
-        >
-          <View style={[styles.flex, styles.chooseCountryText]}>
-            <Text style={[styles.flex, styles.chooseCountryText, styles.text, this.state.isCancelButtonPressed]}>
-              Cancel
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-
-      </View>
-    )
+  _onRequestClose = () => {
+    this.setState({isModalVisible: false});
   }
 
   // Helper function to improve performance of setState in onPress: https://facebook.github.io/react-native/docs/performance.html
@@ -122,9 +291,9 @@ asdfas
   }
 
   render() {
-    const {navigation} = this.props;
+    // console.warn('Render LoginScreen')
 
-      console.warn('renderme')
+    const {navigation} = this.props;
     return (
       <View style={[styles.flex, styles.container]}>
         {/* Top section of view with Insiya logo */}
@@ -136,49 +305,28 @@ asdfas
           />
         </View>
 
-        {/* Bottom section of view with CountryPicker, PhoneNumberInput, and NextButton */}
+        {/* Bottom section of view with CountrySelector, PhoneNumberInput, and NextButton */}
         <View style={[styles.flex, styles.container, styles.bottomView]}>
           <View style={{flex: 1}} />
-
-            {/* CountryPicker */}
-            <TouchableWithoutFeedback
-              onPressIn={() => this.setStateInAnimationFrame({isCountryButtonPressed: styles.borderHighlighted})}
-              onPress={() => {
-                this.renderCountryListModal();
-              }}
-            >
-              <View style={[styles.componentSize, this.state.isCountryButtonPressed]}>
-                <Text style={[styles.flex, styles.componentSize, styles.text]}>
-                  {this.state.selectedCountry}
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
-
+            <CountrySelector setModalVisible={this.setModalVisible} />
           <View style={{height: 5 * scaleFactor}} />
-
-            {/* PhoneNumberInput */}
-            <TextInput
-              style={[styles.componentSize, this.state.isPhoneInputFocused, styles.text]}
-              keyboardType='phone-pad'
-              onChangeText={(value) => this.onChangePhoneInput(value)}
-              value={this.state.formattedPhoneNumber}
-              placeholder='Phone Number'
-              placeholderTextColor='#bdbdbd'
-              underlineColorAndroid={'transparent'}
-              onFocus={() => this.setStateInAnimationFrame({isPhoneInputFocused: styles.borderHighlighted})}
-              onEndEditing={() => this.setStateInAnimationFrame({isPhoneInputFocused: styles.border})}
-            />
-
+            <PhoneNumberInput />
           <View style={{flex: 2}} />
-
-            {/* NextButton */}
-            <Text style={[styles.flex, styles.componentSize, styles.text, styles.nextButton]}>
-              Next
-            </Text>
+            <NextButton />
           <View style={{flex: 3}} />
         </View>
 
-
+        <Modal
+          visible={this.state.isModalVisible}
+          onRequestClose={this._onRequestClose}
+          transparent={true}
+          >
+          <View style={{height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+           <View style={{height: '90%', width: '90%', backgroundColor: 'white', flexDirection: 'column'}}>
+           <CountryListModal />
+           </View>
+           </View>
+        </Modal>
 
       </View>
     )
