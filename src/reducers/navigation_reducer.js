@@ -1,10 +1,10 @@
 // Library Imports
-import * as _ from 'lodash';
-import { NavigationActions } from 'react-navigation';
+import * as _                                                                                   from 'lodash';
+import { NavigationActions }                                                                    from 'react-navigation';
 
 // Local Imports
-import { AppNavigator } from '../utilities/app_navigator.js';
-import { TO_LOGIN_SCREEN, TO_CODEAUTH_SCREEN, TO_POSTS_SCREEN, TO_NEWPOST_SCREEN, BACK_SCREEN } from '../actions/navigation_actions.js';
+import { AppNavigator }                                                                         from '../utilities/app_navigator.js';
+import { TO_LOGIN_SCREEN, TO_CODE_AUTH_SCREEN, TO_POSTS_SCREEN, TO_NEW_POST_SCREEN, BACK_SCREEN } from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -22,7 +22,7 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-    case TO_CODEAUTH_SCREEN:
+    case TO_CODE_AUTH_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'CodeAuthScreen' }),
         state
@@ -36,7 +36,7 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-    case TO_NEWPOST_SCREEN:
+    case TO_NEW_POST_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'NewPostScreen' }),
         state

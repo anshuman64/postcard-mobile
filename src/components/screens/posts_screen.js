@@ -1,9 +1,12 @@
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+// Library Imports
+import React                                from 'react';
+import { Button, StyleSheet, Text, View }   from 'react-native';
+import { connect }                          from 'react-redux';
 
-import { toNewPostScreen } from '../../actions/navigation_actions.js';
+// Local Imports
+import { toNewPostScreen }                  from '../../actions/navigation_actions.js';
 
+//--------------------------------------------------------------------//
 
 class PostsScreen extends React.Component {
   render() {
@@ -17,5 +20,7 @@ class PostsScreen extends React.Component {
     )
   }
 }
+
+//--------------------------------------------------------------------//
 
 export default PostsScreen;
