@@ -8,6 +8,7 @@ target 'Insiya' do
   # Pods for Insiya
 
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'
 
   target 'InsiyaTests' do
     inherit! :search_paths
