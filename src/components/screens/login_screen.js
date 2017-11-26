@@ -17,7 +17,7 @@ class LoginScreen extends React.Component {
     super(props);
 
     this.state = {
-      modalVisible: false,
+      isModalVisible: false,
       selectedCountry: 'United States',
       unformattedPhoneNumber: '',
       formattedPhoneNumber: '',
@@ -36,7 +36,7 @@ class LoginScreen extends React.Component {
   }
 
   onPressCountryButton(bool) {
-      this.setState({ modalVisible: bool });
+      this.setState({ isModalVisible: bool });
   }
 
   makeSelection(country) {
@@ -54,9 +54,9 @@ class LoginScreen extends React.Component {
 
   onChangePhoneInput(value) {
     if (value.length < this.state.formattedPhoneNumber.length) {
-      this.setState({unformattedPhoneNumber: this.state.unformattedPhoneNumber.slice(0, -1)}, () => this.setFormattedPhoneNumber());
+      this.setState({unformattedPhoneNumber: this.state.unformattedPhoneNumber.slice(0, -1).trim()}, () => this.setFormattedPhoneNumber());
     } else {
-      this.setState({unformattedPhoneNumber: value.match(/\d+/g).join('')}, () => this.setFormattedPhoneNumber());
+      this.setState({unformattedPhoneNumber: value.match(/./g).join('')}, () => this.setFormattedPhoneNumber());
     }
   }
 
@@ -69,33 +69,60 @@ class LoginScreen extends React.Component {
     bool ? this.setState({ isPhoneInputFocused: styles.highlightBorder }) : this.setState({ isPhoneInputFocused: styles.unhighlightBorder });
   }
 
+  renderCountryList(item) {
+      return (
+        <TouchableHighlight
+          onPress={() => this.makeSelection(item.country_name)}
+          style={{height: 30}}
+        >
+          <View style={[styles.countryListItem]}>
+            <Text style={[styles.flex, styles.text]}>
+              {item.country_name}
+            </Text>
+            <Text style={[styles.flex, styles.text]}>
+              {item.dialing_code}
+            </Text>
+          </View>
+        </TouchableHighlight>
+      )
+  }
+
   render() {
     const {navigation} = this.props;
 
     return (
-      <View style={styles.container}>
-        <View style={styles.topView}>
+      <View style={[styles.flex, styles.container]}>
+
+        {/* Top section of view with Insiya logo */}
+        <View style={[styles.flex, styles.container, styles.topView]}>
           <Image
             style={styles.logo}
             source={Logo}
             resizeMode='contain'
           />
         </View>
-        <View style={styles.bottomView}>
+
+        {/* Bottom section of view with CountryPicker, PhoneNumberInput, and NextButton */}
+        <View style={[styles.flex, styles.container, styles.bottomView]}>
           <View style={{flex: 1}} />
+
+            {/* CountryPicker */}
             <TouchableWithoutFeedback
               onPressIn={() => this.onPressInCountryButton(true)}
               onPress={() => this.onPressCountryButton(true)}
             >
-              <View style={this.state.isCountryButtonPressed}>
-                <Text style={[styles.text, styles.countryText]}>
+              <View style={[styles.componentSize, this.state.isCountryButtonPressed]}>
+                <Text style={[styles.flex, styles.componentSize, styles.text]}>
                   {this.state.selectedCountry}
                 </Text>
               </View>
             </TouchableWithoutFeedback>
+
           <View style={{height: 5 * scaleFactor}} />
+
+            {/* PhoneNumberInput */}
             <TextInput
-              style={[this.state.isPhoneInputFocused, styles.text]}
+              style={[styles.componentSize, this.state.isPhoneInputFocused, styles.text]}
               keyboardType='phone-pad'
               onChangeText={(value) => this.onChangePhoneInput(value)}
               value={this.state.formattedPhoneNumber}
@@ -105,109 +132,135 @@ class LoginScreen extends React.Component {
               onFocus={() => this.onPhoneInputFocus(true)}
               onEndEditing={() => this.onPhoneInputFocus(false)}
             />
+
           <View style={{flex: 2}} />
-            <Text style={[styles.text, styles.nextButton]}
-            >
+
+            {/* NextButton */}
+            <Text style={[styles.flex, styles.componentSize, styles.text, styles.nextButton]}>
               Next
             </Text>
           <View style={{flex: 3}} />
         </View>
+
+        {/* Modal dialog with CountryList*/}
+        <View style={[styles.flex, styles.modalContainer]}>
+          <View style={[styles.flex, styles.chooseCountryText]}>
+            <Text style={[styles.flex, styles.chooseCountryText, styles.text]}>
+              Choose a country
+            </Text>
+          </View>
+          <FlatList
+            data={countryCodes}
+            style={{paddingLeft: 20, paddingRight: 20}}
+            keyExtractor={(item, index) => index}
+            renderItem={({item}) => this.renderCountryList(item)}
+          />
+        </View>
+
       </View>
     )
   }
 }
 
+//
+// StyleSheet
+// ---------------------------------------------------
+
 const styles = StyleSheet.create({
-  container: {
+  flex: {
     flexDirection: 'column',
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  container: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#fafafa'
+    backgroundColor: '#fafafa',
+    zIndex: 0
   },
   topView: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%'
   },
   logo: {
     width: 70 * scaleFactor
   },
   bottomView: {
     flex: 2,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%'
+    justifyContent: 'flex-start'
+  },
+  componentSize: {
+      width: 100 * scaleFactor,
+      height: 16 * scaleFactor
   },
   highlightBorder: {
-    width: 100 * scaleFactor,
-    height: 16 * scaleFactor,
     borderBottomColor: '#007aff',
     borderBottomWidth: 0.6 * scaleFactor
   },
   unhighlightBorder: {
-    width: 100 * scaleFactor,
-    height: 16 * scaleFactor,
     borderBottomColor: '#333333',
-    borderBottomWidth: 0.3 * scaleFactor
-  },
-  countryText: {
-    width: 100 * scaleFactor,
-    height: 16 * scaleFactor,
-    textAlignVertical: 'center'
+    borderBottomWidth: 0.3 * scaleFactor,
   },
   text: {
     fontFamily: 'Roboto',
     fontSize: 7.4 * scaleFactor,
     textAlign: 'center',
+    textAlignVertical: 'center',
     color: '#333333'
   },
   nextButton: {
-    width: 100 * scaleFactor,
-    height: 15 * scaleFactor,
     color: '#ffffff',
     textAlignVertical: 'center',
     borderRadius: 5,
-    backgroundColor: '#007aff'
+    backgroundColor: '#007aff',
+
+  },
+  modalContainer: {
+    width: '90%',
+    height: '90%',
+    zIndex: 1,
+    elevation: 50,
+    position: 'absolute',
+    backgroundColor: '#fafafa',
+  },
+  chooseCountryText: {
+    height: 40 * scaleFactor,
+  },
+  countryListItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: 'grey'
   }
+
 });
+
+// --------------------------------------------------------------------
 
 export default LoginScreen;
 
-// <Modal
-//   animationType="fade"
-//   transparent={true}
-//   visible={this.state.modalVisible}
-//   onRequestClose={() => {alert("Modal has been closed.")}}>
-//   <View style={{height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-//      <View style={{height: '90%', width: '90%', backgroundColor: 'white', flexDirection: 'column'}}>
-//         <View style={{justifyContent: 'center', alignItems: 'center', height: 40}}>
-//           <Text>Choose a country</Text>
-//         </View>
-//           <FlatList
-//             data={countryCodes}
-//             style={{paddingLeft: 20, paddingRight: 20}}
-//             keyExtractor={(item, index) => index}
-//             renderItem={({item}) =>
-//               <TouchableHighlight onPress={() => this.makeSelection(item.country_name)} style={{height: 30}}>
-//                 <View style={{flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: 'grey'}}>
-//                   <Text>
-//                     {item.country_name}
-//                   </Text>
-//                   <Text>
-//                     {item.dialing_code}
-//                   </Text>
-//                 </View>
-//               </TouchableHighlight>} />
+
+
+//  <View style={{height: '90%', width: '90%', backgroundColor: 'white', flexDirection: 'column'}}>
+//     <View style={{justifyContent: 'center', alignItems: 'center', height: 40}}>
+//       <Text>Choose a country</Text>
+//     </View>
+//       <FlatList
+//         data={countryCodes}
+//         style={{paddingLeft: 20, paddingRight: 20}}
+//         keyExtractor={(item, index) => index}
+//         renderItem={({item}) =>
+//           <TouchableHighlight onPress={() => this.makeSelection(item.country_name)} style={{height: 30}}>
+//             <View style={{flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: 'grey'}}>
+//               <Text>
+//                 {item.country_name}
+//               </Text>
+//               <Text>
+//                 {item.dialing_code}
+//               </Text>
+//             </View>
+//           </TouchableHighlight>} />
 //
-//         <TouchableWithoutFeedback onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
-//           <View style={{justifyContent: 'center', alignItems: 'center', height: 40}}><Text>Cancel</Text></View>
-//         </TouchableWithoutFeedback>
-//       </View>
+//     <TouchableWithoutFeedback onPress={() => { this.setModalVisible(!this.state.isModalVisible) }}>
+//       <View style={{justifyContent: 'center', alignItems: 'center', height: 40}}><Text>Cancel</Text></View>
+//     </TouchableWithoutFeedback>
 //   </View>
-// </Modal>
