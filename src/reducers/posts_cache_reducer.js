@@ -7,8 +7,9 @@ import { RECEIVE_LIKE, REMOVE_LIKE }                from '../actions/like_action
 
 //--------------------------------------------------------------------//
 
+const DEFAULT_STATE = {};
 
-const PostsCacheReducer = (state = {}, action) => {
+const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
   let newState = _.merge({}, state);
 
