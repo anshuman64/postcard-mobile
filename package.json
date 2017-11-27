@@ -7,7 +7,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"libphonenumber-js": "^0.4.40",
+		"google-libphonenumber": "^3.0.9",
 		"lodash": "^4.17.4",
 		"react": "16.0.0",
 		"react-native": "0.50.3",
