@@ -1,6 +1,6 @@
 // Library Imports
 import React from 'react';
-import { Platform, PixelRatio, StyleSheet, View, Text, FlatList, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput } from 'react-native';
+import { Platform, PixelRatio, StyleSheet, View, Text, ListView, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput } from 'react-native';
 import { parse, format, asYouType } from 'libphonenumber-js';
 import * as _ from 'lodash';
 
@@ -56,29 +56,31 @@ class CountryListItem extends React.PureComponent {
 }
 
 class CountryListScrollView extends React.PureComponent {
-  _renderItem(item, index) {
-    return (
-      <CountryListItem key={index} item={item} />
-    )
+  constructor(props) {
+    super(props);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(countryCodes),
+    };
   }
+
+  _renderItem = (item) => {
+        return ( <CountryListItem item={item} /> )
+      }
 
   render() {
     console.log('Render CountryListScrollView')
     return(
-      <FlatList
-        data={countryCodes}
+      <ListView
+        dataSource={this.state.dataSource}
         style={[styles.container]}
-        keyExtractor={(item, index) => index}
-        renderItem={({item, index}) => this._renderItem(item, index)}
-        getItemLayout={(data, index) => ({offset: 17 * scaleFactor * index, length: 17 * scaleFactor, index})}
-        removeClippedSubviews={false}
-        initialNumToRender={75}
-        maxToRenderPerBatch={100}
-        windowSize={100}
-        />
+        renderRow={this._renderItem}
+        initialListSize={countryCodes.length}
+      />
     )
   }
 }
+
 
 class CountryListModal extends React.PureComponent {
 
@@ -102,6 +104,26 @@ class CountryListModal extends React.PureComponent {
 }
 
 class CancelButton extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isPressed: ''
+    };
+  }
+
+  setStateInAnimationFrame(state) {
+    requestAnimationFrame(() => {this.setState(state)})
+  }
+
+  _onPressOut = () => {
+    this.setStateInAnimationFrame({isPressed: ''});
+  }
+
+  _onPressIn() {
+    return( () => this.setStateInAnimationFrame({isPressed: styles.textHighlighted}))
+  }
+
   _onPress = () => {
     this.props.setModalInvisible();
   }
@@ -110,10 +132,12 @@ class CancelButton extends React.PureComponent {
     console.log('Render CancelButton')
     return(
       <TouchableWithoutFeedback
+        onPressIn={this._onPressIn()}
+        onPressOut={this._onPressOut}
         onPress={this._onPress}
       >
         <View style={[styles.flex, styles.chooseCountryText]}>
-          <Text style={[styles.flex, styles.chooseCountryText, styles.text]}>
+          <Text style={[styles.flex, styles.chooseCountryText, styles.text, this.state.isPressed]}>
             Cancel
           </Text>
         </View>
