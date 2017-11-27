@@ -1,8 +1,8 @@
 // Library Imports
 import React from 'react';
 import { Platform, PixelRatio, StyleSheet, View, Text, ListView, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput } from 'react-native';
-import { parse, format, asYouType } from 'libphonenumber-js';
 import * as _ from 'lodash';
+import { AsYouTypeFormatter } from 'google-libphonenumber';
 
 import { toCodeAuthScreen } from '../../actions/navigation_actions.js';
 import Logo from '../../resources/Logo_ExactFit_807x285.png';
@@ -11,7 +11,6 @@ import countryCodes from '../../resources/country_codes.js';
 //--------------------------------------------------------------------//
 
 const scaleFactor = PixelRatio.get();
-const formatter = new asYouType('US');
 
 
 class CountryListItem extends React.PureComponent {
@@ -189,9 +188,14 @@ class CountrySelector extends React.PureComponent {
   }
 }
 
+
+var formatter = new AsYouTypeFormatter('IN');
+
+
 class PhoneNumberInput extends React.PureComponent {
   constructor(props) {
     super(props);
+
 
     this.state = {
       selectedCountry: 'United States',
@@ -214,16 +218,20 @@ class PhoneNumberInput extends React.PureComponent {
   }
 
   _onChangeText(value) {
-    if (value.length < this.state.formattedPhoneNumber.length) {
-      this.setState({unformattedPhoneNumber: this.state.unformattedPhoneNumber.slice(0, -1).trim()}, () => this.setFormattedPhoneNumber());
-    } else {
-      this.setState({unformattedPhoneNumber: value.match(/\d+/g).join('')}, () => this.setFormattedPhoneNumber());
-    }
+    this.setState({formattedPhoneNumber: formatter.inputDigit(value.substr(value.length - 1))});
+
+    // if (value.length < this.state.formattedPhoneNumber.length) {
+    //   this.setState({unformattedPhoneNumber: this.state.unformattedPhoneNumber.slice(0, -1).trim()}, () => this.setFormattedPhoneNumber());
+    // } else {
+    //   this.setState({unformattedPhoneNumber: value.match(/\d+/g).join('')}, () => this.setFormattedPhoneNumber());
+    // }
   }
 
   setFormattedPhoneNumber() {
-    formatter.reset();
-    this.setState({formattedPhoneNumber: formatter.input(this.state.unformattedPhoneNumber)});
+
+        console.error(formatter.inputDigit('6'));
+        this.setState({formattedPhoneNumber: formatter.inputDigit(this.state.unformattedPhoneNumber)});
+
   }
 
   render() {
