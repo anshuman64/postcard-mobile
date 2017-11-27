@@ -36,6 +36,7 @@ class CountryListItem extends React.PureComponent {
   }
 
   render() {
+    console.log('Render CountryListItem')
     return(
       <TouchableWithoutFeedback
         onPressIn={this._onPressIn}
@@ -55,19 +56,25 @@ class CountryListItem extends React.PureComponent {
 }
 
 class CountryListScrollView extends React.PureComponent {
-  _renderItem = (item) => {
+  _renderItem(item, index) {
     return (
-      <CountryListItem item={item} />
+      <CountryListItem key={index} item={item} />
     )
   }
 
   render() {
+    console.log('Render CountryListScrollView')
     return(
       <FlatList
         data={countryCodes}
-        style={{paddingLeft: 20, paddingRight: 20}}
+        style={[styles.container]}
         keyExtractor={(item, index) => index}
-        renderItem={this._renderItem}
+        renderItem={({item, index}) => this._renderItem(item, index)}
+        getItemLayout={(data, index) => ({offset: 17 * scaleFactor * index, length: 17 * scaleFactor, index})}
+        removeClippedSubviews={false}
+        initialNumToRender={75}
+        maxToRenderPerBatch={100}
+        windowSize={100}
         />
     )
   }
@@ -76,6 +83,7 @@ class CountryListScrollView extends React.PureComponent {
 class CountryListModal extends React.PureComponent {
 
   render() {
+    console.log('Render CountryListModal')
     return(
         <View style={[styles.flex, styles.modalContainer]}>
 
@@ -87,42 +95,25 @@ class CountryListModal extends React.PureComponent {
           </View>
 
           <CountryListScrollView />
-          <CancelButton />
+          <CancelButton setModalInvisible={this.props.setModalInvisible} />
         </View>
     )
   }
 }
 
 class CancelButton extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isModalVisible: false,
-      isPressed: ''
-    };
-  }
-
-  setStateInAnimationFrame(state) {
-    requestAnimationFrame(() => {this.setState(state)})
-  }
-
-  _onPressOut = () => {
-    this.setStateInAnimationFrame({isPressed: ''});
-  }
-
-  _onPressIn = () => {
-    this.setStateInAnimationFrame({isPressed: styles.textHighlighted});
+  _onPress = () => {
+    this.props.setModalInvisible();
   }
 
   render () {
+    console.log('Render CancelButton')
     return(
       <TouchableWithoutFeedback
-        onPressIn={this._onPressIn}
-        onPressOut={this._onPressOut}
+        onPress={this._onPress}
       >
         <View style={[styles.flex, styles.chooseCountryText]}>
-          <Text style={[styles.flex, styles.chooseCountryText, styles.text, this.state.isPressed]}>
+          <Text style={[styles.flex, styles.chooseCountryText, styles.text]}>
             Cancel
           </Text>
         </View>
@@ -136,19 +127,20 @@ class CountrySelector extends React.PureComponent {
     super(props);
 
     this.state = {
-      selectedCountry: 'United States',
       isPressed: styles.border
     };
   }
-
-
 
   setStateInAnimationFrame(state) {
     requestAnimationFrame(() => {this.setState(state)})
   }
 
+  _onPress = () => {
+    this.props.setModalVisible();
+  }
+
   _onPressOut = () => {
-    this.setStateInAnimationFrame({isPressed: styles.border}, this.props.setModalVisible());
+    this.setStateInAnimationFrame({isPressed: styles.border});
   }
 
   _onPressIn = () => {
@@ -156,15 +148,16 @@ class CountrySelector extends React.PureComponent {
   }
 
   render() {
-    // console.warn('Render CountrySelector')
+    console.log('Render CountrySelector')
     return (
       <TouchableWithoutFeedback
+        onPress={this._onPress}
         onPressIn={this._onPressIn}
-        onPress={this._onPressOut}
-      >
+        onPressOut={this._onPressOut}
+        >
         <View style={[styles.componentSize, this.state.isPressed]}>
           <Text style={[styles.flex, styles.componentSize, styles.text]}>
-            {this.state.selectedCountry}
+            {this.props.selectedCountry}
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -210,7 +203,7 @@ class PhoneNumberInput extends React.PureComponent {
   }
 
   render() {
-    // console.warn('Render PhoneNumberInput')
+    console.log('Render PhoneNumberInput')
     return (
       <TextInput
         style={[styles.componentSize, this.state.isFocused, styles.text]}
@@ -229,7 +222,7 @@ class PhoneNumberInput extends React.PureComponent {
 
 class NextButton extends React.PureComponent {
   render() {
-    // console.warn('Render NextButton')
+    console.log('Render NextButton')
     return(
       <Text style={[styles.flex, styles.componentSize, styles.text, styles.nextButton]}>
         Next
@@ -246,6 +239,7 @@ class LoginScreen extends React.Component {
     this.state = {
       isModalVisible: false,
       isCancelButtonPressed: styles.text,
+      selectedCountry: 'United States',
     };
   }
 
@@ -254,13 +248,21 @@ class LoginScreen extends React.Component {
     header: null
   };
 
-  onPressCountryButton(bool) {
-      this.setState({ isModalVisible: bool });
+  setParentState = (state) => {
+    this.setState(state);
   }
 
-  makeSelection(country) {
+  setModalVisible = () => {
+    this.setState({ isModalVisible: true});
+  }
+
+  setModalInvisible = () => {
+    this.setState({ isModalVisible: false});
+  }
+
+  setCountry = () => {
     this.setState({ selectedCountry: country });
-    this.setModalVisible(false);
+    this.setState({ isModalVisible: false });
 
     for (var i=0; i < countryCodes.length; i++) {
         if (countryCodes[i].country_name === country) {
@@ -268,30 +270,10 @@ class LoginScreen extends React.Component {
             this.setState({phoneNumber: formatter.input(this.state.phoneNumber)})
         }
     }
-
-  }
-
-  selectCountry(country) {
-    this.setState({ selectedCountry: country });
-  }
-
-
-
-  setModalVisible = () => {
-    this.setState({isModalVisible: true});
-  }
-
-  _onRequestClose = () => {
-    this.setState({isModalVisible: false});
-  }
-
-  // Helper function to improve performance of setState in onPress: https://facebook.github.io/react-native/docs/performance.html
-  setStateInAnimationFrame(state) {
-    requestAnimationFrame(() => {this.setState(state)})
   }
 
   render() {
-    // console.warn('Render LoginScreen')
+    console.log('Render LoginScreen')
 
     const {navigation} = this.props;
     return (
@@ -308,7 +290,7 @@ class LoginScreen extends React.Component {
         {/* Bottom section of view with CountrySelector, PhoneNumberInput, and NextButton */}
         <View style={[styles.flex, styles.container, styles.bottomView]}>
           <View style={{flex: 1}} />
-            <CountrySelector setModalVisible={this.setModalVisible} />
+            <CountrySelector selectedCountry={this.state.selectedCountry} setModalVisible={this.setModalVisible} />
           <View style={{height: 5 * scaleFactor}} />
             <PhoneNumberInput />
           <View style={{flex: 2}} />
@@ -318,14 +300,12 @@ class LoginScreen extends React.Component {
 
         <Modal
           visible={this.state.isModalVisible}
-          onRequestClose={this._onRequestClose}
-          transparent={true}
+          onRequestClose={this.setModalInvisible}
+          transparent={false}
           >
-          <View style={{height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-           <View style={{height: '90%', width: '90%', backgroundColor: 'white', flexDirection: 'column'}}>
-           <CountryListModal />
-           </View>
-           </View>
+          <View style={[styles.flex, styles.container]}>
+            <CountryListModal setModalInvisible={this.setModalInvisible} />
+          </View>
         </Modal>
 
       </View>
@@ -346,8 +326,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#fafafa',
-    zIndex: 0
+    backgroundColor: '#fafafa'
   },
   topView: {
     flex: 1,
@@ -388,9 +367,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: '90%',
     height: '90%',
-    zIndex: 1,
     elevation: 50,
-    position: 'absolute',
     backgroundColor: '#fafafa',
   },
   chooseCountryText: {
