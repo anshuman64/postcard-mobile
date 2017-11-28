@@ -18,7 +18,7 @@ class CountryListItem extends React.PureComponent {
     super(props);
 
     this.state = {
-      textStyle: ''
+      isTextHighlighted: false
     };
   }
 
@@ -32,15 +32,15 @@ class CountryListItem extends React.PureComponent {
     console.log('Render CountryListItem')
     return(
       <TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({textStyle: styles.textHighlighted})}
-        onPressOut={this._setStateInAnimationFrame({textStyle: ''})}
+        onPressIn={this._setStateInAnimationFrame({isTextHighlighted: true})}
+        onPressOut={this._setStateInAnimationFrame({isTextHighlighted: false})}
         onPress={this.props.setCountry(this.props.countryIndex)}
         >
         <View style={[styles.countryListItems]}>
-          <Text style={[styles.text, styles.countryListText, this.state.textStyle]}>
+          <Text style={[styles.text, styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
             {this.props.item.country_name}
           </Text>
-          <Text style={[styles.text, styles.countryListText, this.state.textStyle]}>
+          <Text style={[styles.text, styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
             {this.props.item.dialing_code}
           </Text>
         </View>
@@ -55,7 +55,7 @@ class CountryListModal extends React.PureComponent {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: ds.cloneWithRows(countryCodes),
-      cancelTextStyle: ''
+      isTextHighlighted: false
     };
   }
 
@@ -99,12 +99,12 @@ class CountryListModal extends React.PureComponent {
 
           {/* CancelButton */}
           <TouchableWithoutFeedback
-            onPressIn={this._setStateInAnimationFrame({ cancelTextStyle: styles.textHighlighted})}
-            onPressOut={this._setStateInAnimationFrame({ cancelTextStyle: ''})}
+            onPressIn={this._setStateInAnimationFrame({ isTextHighlighted: true})}
+            onPressOut={this._setStateInAnimationFrame({ isTextHighlighted: false})}
             onPress={this.props.setParentState({ isModalVisible: false })}
           >
             <View style={[styles.flex, styles.chooseCountryText]}>
-              <Text style={[styles.flex, styles.chooseCountryText, styles.text, this.state.cancelTextStyle]}>
+              <Text style={[styles.flex, styles.chooseCountryText, styles.text, this.state.isTextHighlighted && styles.textHighlighted]}>
                 Cancel
               </Text>
             </View>
@@ -121,12 +121,12 @@ class LoginScreen extends React.Component {
 
     this.state = {
       countryIndex: 220, // hard-coded to United STates
-      countrySelectorBorderStyle: styles.border,
-      phoneInputBorderStyle: styles.border,
+      isCountrySelectorPressed: false,
+      isPhoneInputFocused: false,
       unformattedPhoneNumber: '',
       formattedPhoneNumber: '',
       isModalVisible: false,
-      isNextButtonDisabled: false
+      isNextButtonDisabled: true
     };
 
     this.formatter = new AsYouTypeFormatter(countryCodes[this.state.countryIndex].country_code);
@@ -150,11 +150,10 @@ class LoginScreen extends React.Component {
     )
   }
 
-  _onChangeText(value) {
-    let unformatted, formatted, phoneUtilNumber;
+  _onPhoneInputChangeText(value) {
+    let formatted;
 
     if (value.length >= this.state.formattedPhoneNumber.length) {
-      unformatted = this.state.unformattedPhoneNumber + value[value.length - 1];
       formatted = this.formatter.inputDigit(value[value.length - 1]);
     }
     // Condition if delete key was pressed
@@ -165,20 +164,32 @@ class LoginScreen extends React.Component {
       this.formatter.clear();
       // Loop through formatted string and add digits to formatter one by one
       _.forEach(formatted, (char) => formatted = this.formatter.inputDigit(char));
-
-      try {
-        // Convert formatted number to unformatted number with last char deleted
-        unformatted = formatted.match(/\d+/g).join('');
-      } catch (e) {
-        // If null, set unformatted to ''
-        unformatted = '';
-      }
     }
 
-    this.setState({unformattedPhoneNumber: unformatted, formattedPhoneNumber: formatted});
+    this.setState({formattedPhoneNumber: formatted}, () => this.checkNextButtonEnable());
+
+
+  }
+
+  setCountry = (index) => {
+    return(
+      () => {
+        let tempFormatted = '';
+        try {
+          tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+          this.formatter = new AsYouTypeFormatter(countryCodes[index].country_code);
+          _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
+        } catch (e) {}
+        this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this.checkNextButtonEnable());
+      }
+    )
+  }
+
+  checkNextButtonEnable() {
+    let phoneUtilNumber;
 
     try {
-      phoneUtilNumber = this.phoneUtil.parse(formatted, countryCodes[this.state.countryIndex].country_code);
+      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, countryCodes[this.state.countryIndex].country_code);
 
       if (this.phoneUtil.isPossibleNumber(phoneUtilNumber)) {
         this.setState({isNextButtonDisabled: false});
@@ -188,13 +199,14 @@ class LoginScreen extends React.Component {
     } catch (e) {}
   }
 
-  setCountry = (index) => {
+  _onNextButtonPress = () => {
     return(
       () => {
-        let tempFormatted = this.state.unformattedPhoneNumber;
-        this.formatter = new AsYouTypeFormatter(countryCodes[index].country_code);
-        _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
-        this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false });
+        let number = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+        if (number[0] != '+') {
+          number = countryCodes[this.state.countryIndex].dialing_code + number;
+        }
+        this.setState({unformattedPhoneNumber: number})
       }
     )
   }
@@ -221,10 +233,10 @@ class LoginScreen extends React.Component {
           {/* CountrySelector */}
           <TouchableWithoutFeedback
             onPress={this._setState({ isModalVisible: true})}
-            onPressIn={this._setStateInAnimationFrame({ countrySelectorBorderStyle: styles.borderHighlighted})}
-            onPressOut={this._setStateInAnimationFrame({ countrySelectorBorderStyle: styles.border})}
+            onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
+            onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
             >
-            <View style={[styles.componentSize, this.state.countrySelectorBorderStyle]}>
+            <View style={[styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
               <Text style={[styles.componentSize, styles.text]}>
                 {countryCodes[this.state.countryIndex].country_name}
               </Text>
@@ -242,15 +254,15 @@ class LoginScreen extends React.Component {
 
               {/* PhoneNumberInput */}
               <TextInput
-                style={[styles.phoneNumberInput, this.state.phoneInputBorderStyle, styles.text]}
+                style={[styles.phoneNumberInput, styles.text, styles.border, this.state.isPhoneInputFocused && styles.borderHighlighted]}
                 keyboardType='phone-pad'
-                onChangeText={(value) => this._onChangeText(value)}
+                onChangeText={(value) => this._onPhoneInputChangeText(value)}
                 value={this.state.formattedPhoneNumber}
                 placeholder='Phone Number'
                 placeholderTextColor='#bdbdbd'
                 underlineColorAndroid={'transparent'}
-                onFocus={this._setStateInAnimationFrame({ phoneInputBorderStyle: styles.borderHighlighted})}
-                onEndEditing={this._setStateInAnimationFrame({ phoneInputBorderStyle: styles.border})}
+                onFocus={this._setStateInAnimationFrame({ isPhoneInputFocused: true})}
+                onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
               />
             </View>
 
@@ -258,12 +270,12 @@ class LoginScreen extends React.Component {
 
             {/* NextButton */}
             <TouchableHighlight
-              style={[styles.flex, styles.componentSize, styles.nextButtonBackgroundDisabled, this.state.isNextButtonDisabled ? this.state.nextButtonBackgroundStyle : '']}
-              onPress={() => (console.error('y'))}
-              underlayColor='blue'
+              style={[styles.flex, styles.componentSize, styles.nextButtonBackgroundDisabled, !this.state.isNextButtonDisabled && styles.nextButtonBackgroundEnabled]}
+              onPress={this._onNextButtonPress()}
+              underlayColor='#0050a7'
               disabled={this.state.isNextButtonDisabled}
               >
-              <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, this.state.isNextButtonDisabled ? this.state.nextButtonTextStyle : '']}>
+              <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
                 Next
               </Text>
             </TouchableHighlight>
