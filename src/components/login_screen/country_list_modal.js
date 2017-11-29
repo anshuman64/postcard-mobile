@@ -3,7 +3,7 @@ import React                                                         from 'react
 import { Platform, View, Text, ListView, TouchableWithoutFeedback }  from 'react-native';
 
 // Local Imports
-import { loginScreenStyles, scaleFactor } from './login_screen_styles.js';
+import { styles, scaleFactor } from './login_screen_styles.js';
 import CountryListItem                    from './country_list_item.js';
 
 
@@ -38,11 +38,11 @@ class CountryListModal extends React.PureComponent {
 
   render() {
     return(
-        <View style={[loginScreenStyles.flex, loginScreenStyles.modalContainer]}>
+        <View style={[styles.flex, styles.modalContainer]}>
 
           {/* Choose Country Text */}
-          <View style={[loginScreenStyles.flex, loginScreenStyles.chooseCountryText]}>
-            <Text style={[loginScreenStyles.flex, loginScreenStyles.chooseCountryText, loginScreenStyles.text]}>
+          <View style={[styles.flex, styles.chooseCountryText]}>
+            <Text style={[styles.flex, styles.chooseCountryText, styles.text]}>
               Select Country
             </Text>
           </View>
@@ -51,7 +51,7 @@ class CountryListModal extends React.PureComponent {
           <ListView
             ref={(ref) => this.listView = ref}
             dataSource={this.state.dataSource}
-            style={[loginScreenStyles.container]}
+            style={[styles.container]}
             renderRow={this._renderItem()}
             initialListSize={countryCodes.length}
             onContentSizeChange={this._onListViewContentSizeChange}
@@ -63,8 +63,8 @@ class CountryListModal extends React.PureComponent {
             onPressOut={this._setStateInAnimationFrame({ isTextHighlighted: false})}
             onPress={this.props.setParentState({ isModalVisible: false })}
           >
-            <View style={[loginScreenStyles.chooseCountryText]}>
-              <Text style={[loginScreenStyles.chooseCountryText, loginScreenStyles.text, this.state.isTextHighlighted && loginScreenStyles.textHighlighted]}>
+            <View style={[styles.chooseCountryText]}>
+              <Text style={[styles.chooseCountryText, styles.text, this.state.isTextHighlighted && styles.textHighlighted]}>
                 Cancel
               </Text>
             </View>

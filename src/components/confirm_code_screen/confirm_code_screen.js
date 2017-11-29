@@ -1,12 +1,15 @@
-//Library Imports
+// Library Imports
 import React                                from 'react';
 import { Button, StyleSheet, Text, View }   from 'react-native';
 import { connect }                          from 'react-redux';
 
 // Local Imports
-import { toPostsScreen }                    from '../../actions/navigation_actions.js';
+import { styles, scaleFactor }  from './confirm_code_screen_styles.js';
+import { toPostsScreen }        from '../../actions/navigation_actions.js';
+
 
 //--------------------------------------------------------------------//
+
 
 class ConfirmCodeScreen extends React.Component {
   render() {
@@ -21,6 +24,8 @@ class ConfirmCodeScreen extends React.Component {
   }
 }
 
+
 //--------------------------------------------------------------------//
+
 
 export default ConfirmCodeScreen;

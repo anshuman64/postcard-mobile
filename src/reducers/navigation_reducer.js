@@ -8,7 +8,7 @@ import { TO_LOGIN_SCREEN, TO_CODE_AUTH_SCREEN, TO_POSTS_SCREEN, TO_NEW_POST_SCRE
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_STATE = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('LoginScreen'));
+const DEFAULT_STATE = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('ConfirmCodeScreen')); // Changed from LoginScreen to ConfirmCodeScreen for debugging
 
 const NavigationReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
