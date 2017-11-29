@@ -6,11 +6,11 @@ import { BackHandler }                                              from "react-
 import { addNavigationHelpers, StackNavigator, NavigationActions }  from 'react-navigation';
 
 // Local Imports
-import LoginScreen                                                  from '../components/login_screen/login_screen.js';
-import ConfirmCodeScreen                                            from '../components/screens/confirm_code_screen.js';
-import PostsScreen                                                  from  '../components/screens/posts_screen.js';
-import NewPostScreen                                                from  '../components/screens/newpost_screen.js';
-import { toBackScreen }                                             from '../actions/navigation_actions.js';
+import LoginScreen        from '../components/login_screen/login_screen.js';
+import ConfirmCodeScreen  from '../components/confirm_code_screen/confirm_code_screen.js';
+import PostsScreen        from '../components/screens/posts_screen.js';
+import NewPostScreen      from '../components/screens/newpost_screen.js';
+import { toBackScreen }   from '../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//

@@ -6,7 +6,7 @@ import { PhoneNumberUtil, AsYouTypeFormatter }                                  
 import firebase                                                                                                     from 'react-native-firebase';
 
 // Local Imports
-import { loginScreenStyles, scaleFactor }   from './login_screen_styles.js';
+import { styles, scaleFactor }   from './login_screen_styles.js';
 import CountryListModal                     from './country_list_modal.js';
 import { toConfirmCodeScreen }              from '../../actions/navigation_actions.js';
 import Logo                                 from '../../resources/Logo_ExactFit_807x285.png';
@@ -92,8 +92,6 @@ class LoginScreen extends React.Component {
     }
 
     this.setState({formattedPhoneNumber: formatted}, () => this.checkNextButtonEnable());
-
-
   }
 
   setCountry = (index) => {
@@ -144,18 +142,18 @@ class LoginScreen extends React.Component {
     const {navigation} = this.props;
 
     return (
-      <View style={[loginScreenStyles.flex, loginScreenStyles.container]}>
+      <View style={[styles.flex, styles.container]}>
         {/* Top section of view with Insiya logo */}
-        <View style={[loginScreenStyles.flex, loginScreenStyles.topView]}>
+        <View style={[styles.flex, styles.topView]}>
           <Image
-            style={loginScreenStyles.logo}
+            style={styles.logo}
             source={Logo}
             resizeMode='contain'
           />
         </View>
 
         {/* Bottom section of view with CountrySelector, PhoneNumberInput, and NextButton */}
-        <View style={[loginScreenStyles.bottomView]}>
+        <View style={[styles.bottomView]}>
           <View style={{flex: 1}} />
 
           {/* CountrySelector */}
@@ -164,8 +162,8 @@ class LoginScreen extends React.Component {
             onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
             onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
             >
-            <View style={[loginScreenStyles.componentSize, loginScreenStyles.border, this.state.isCountrySelectorPressed && loginScreenStyles.borderHighlighted]}>
-              <Text style={[loginScreenStyles.componentSize, loginScreenStyles.text]}>
+            <View style={[styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
+              <Text style={[styles.componentSize, styles.text]}>
                 {countryCodes[this.state.countryIndex].country_name}
               </Text>
             </View>
@@ -174,15 +172,15 @@ class LoginScreen extends React.Component {
           <View style={{height: 5 * scaleFactor}} />
 
             {/* PhoneNumber */}
-            <View style={[loginScreenStyles.componentSize, loginScreenStyles.phoneNumberView]}>
+            <View style={[styles.componentSize, styles.phoneNumberView]}>
               {/* PhoneNumberCountryCode */}
-              <Text style={[loginScreenStyles.phoneNumberCountryCode, loginScreenStyles.text, loginScreenStyles.border]}>
+              <Text style={[styles.phoneNumberCountryCode, styles.text, styles.border]}>
                 {countryCodes[this.state.countryIndex].dialing_code}
               </Text>
 
               {/* PhoneNumberInput */}
               <TextInput
-                style={[loginScreenStyles.phoneNumberInput, loginScreenStyles.text, loginScreenStyles.border, this.state.isPhoneInputFocused && loginScreenStyles.borderHighlighted]}
+                style={[styles.phoneNumberInput, styles.text, styles.border, this.state.isPhoneInputFocused && styles.borderHighlighted]}
                 keyboardType='phone-pad'
                 onChangeText={(value) => this._onPhoneInputChangeText(value)}
                 value={this.state.formattedPhoneNumber}
@@ -198,18 +196,18 @@ class LoginScreen extends React.Component {
 
             {/* NextButton */}
             <TouchableHighlight
-              style={[loginScreenStyles.componentSize, loginScreenStyles.nextButtonBackgroundEnabled]}
+              style={[styles.componentSize, styles.nextButtonBackgroundEnabled]}
               onPress={this._onNextButtonPress()}
               underlayColor='#0050a7'
               disabled={this.state.isNextButtonDisabled}
               >
-              <Text style={[loginScreenStyles.componentSize, loginScreenStyles.text, loginScreenStyles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && loginScreenStyles.nextButtonTextEnabled]}>
+              <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
                 Next
               </Text>
             </TouchableHighlight>
 
             {/* SMS Notice */}
-            <Text style={[loginScreenStyles.componentSize, loginScreenStyles.text, loginScreenStyles.smsNoticeText]}>
+            <Text style={[styles.componentSize, styles.text, styles.smsNoticeText]}>
               {"We'll send an SMS message to verify your phone number"}
             </Text>
 
@@ -221,7 +219,7 @@ class LoginScreen extends React.Component {
           onRequestClose={this._setState({ isModalVisible: false })}
           transparent={false}
           >
-          <View style={[loginScreenStyles.flex, loginScreenStyles.container]}>
+          <View style={[styles.flex, styles.container]}>
             <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
           </View>
         </Modal>

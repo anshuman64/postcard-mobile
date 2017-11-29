@@ -1,9 +1,9 @@
-//Library Imports
+// Library Imports
 import React                                              from 'react';
 import { Platform, View, Text, TouchableWithoutFeedback}  from 'react-native';
 
 // Local Imports
-import { loginScreenStyles, scaleFactor } from './login_screen_styles.js';
+import { styles, scaleFactor } from './login_screen_styles.js';
 
 
 //--------------------------------------------------------------------//
@@ -31,11 +31,11 @@ class CountryListItem extends React.PureComponent {
         onPressOut={this._setStateInAnimationFrame({isTextHighlighted: false})}
         onPress={this.props.setCountry(this.props.countryIndex)}
         >
-        <View style={[loginScreenStyles.countryListItems]}>
-          <Text style={[loginScreenStyles.text, loginScreenStyles.countryListText, this.state.isTextHighlighted && loginScreenStyles.textHighlighted]}>
+        <View style={[styles.countryListItems]}>
+          <Text style={[styles.text, styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
             {this.props.item.country_name}
           </Text>
-          <Text style={[loginScreenStyles.text, loginScreenStyles.countryListText, this.state.isTextHighlighted && loginScreenStyles.textHighlighted]}>
+          <Text style={[styles.text, styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
             {this.props.item.dialing_code}
           </Text>
         </View>
