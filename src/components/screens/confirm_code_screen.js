@@ -8,7 +8,7 @@ import { toPostsScreen }                    from '../../actions/navigation_actio
 
 //--------------------------------------------------------------------//
 
-class CodeAuthScreen extends React.Component {
+class ConfirmCodeScreen extends React.Component {
   render() {
     const {navigation} = this.props;
 
@@ -23,4 +23,4 @@ class CodeAuthScreen extends React.Component {
 
 //--------------------------------------------------------------------//
 
-export default CodeAuthScreen;
+export default ConfirmCodeScreen;
