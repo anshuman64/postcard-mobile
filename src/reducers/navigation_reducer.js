@@ -24,7 +24,7 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case TO_CODE_AUTH_SCREEN:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'CodeAuthScreen' }),
+        NavigationActions.navigate({ routeName: 'ConfirmCodeScreen' }),
         state
       );
 
