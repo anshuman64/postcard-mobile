@@ -68,6 +68,8 @@ export const loginScreenStyles = StyleSheet.create({
     backgroundColor: '#007aff7f',
   },
   nextButtonBackgroundEnabled: {
+    textAlignVertical: 'center',
+    borderRadius: 5,
     backgroundColor: '#007aff'
   },
   nextButtonTextEnabled: {
@@ -75,6 +77,12 @@ export const loginScreenStyles = StyleSheet.create({
   },
   nextButtonTextDisabled: {
     color: '#ffffff7f',
+  },
+  smsNoticeText: {
+    fontSize: 6 * scaleFactor,
+    color: '#757575',
+    textAlign: 'left',
+    marginTop: '3%'
   },
   modalContainer: {
     width: '90%',
