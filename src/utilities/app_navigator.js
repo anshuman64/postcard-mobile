@@ -20,7 +20,12 @@ export const AppNavigator = StackNavigator({
   LoginScreen: { screen: LoginScreen },
   ConfirmCodeScreen: { screen: ConfirmCodeScreen },
   PostsScreen: { screen: PostsScreen },
-  NewPostScreen: { screen: NewPostScreen }
+  NewPostScreen: { screen: NewPostScreen },
+}, {
+  navigationOptions: {
+    tabBarVisible: false,
+    header: null
+  }
 });
 
 class AppWithNavigationState extends React.Component {

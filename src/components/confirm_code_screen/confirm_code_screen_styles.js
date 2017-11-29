@@ -9,106 +9,65 @@ import { StyleSheet, PixelRatio }  from 'react-native';
 export const scaleFactor = PixelRatio.get();
 
 export const styles = StyleSheet.create({
-  flex: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   container: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     width: '100%',
     height: '100%',
     backgroundColor: '#fafafa'
   },
-  topView: {
-    flex: 1,
+  headerView: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 22 * scaleFactor,
+    backgroundColor: '#ffffff',
+    elevation: 2,
   },
-  logo: {
-    width: 70 * scaleFactor
+  backText: {
+    textAlign: 'left',
+    textAlignVertical: 'center',
   },
-  bottomView: {
-    flex: 2,
-    justifyContent: 'flex-start'
+  headerTitleText: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
   },
-  componentSize: {
-    width: 100 * scaleFactor,
-    height: 16 * scaleFactor
-  },
-  border: {
-    borderBottomColor: '#212121',
-    borderBottomWidth: 0.3 * scaleFactor,
-  },
-  borderHighlighted: {
-    borderBottomColor: '#007aff',
-    borderBottomWidth: 0.6 * scaleFactor
-  },
-  text: {
+  titleText: {
     fontFamily: 'System',
     fontSize: 7.4 * scaleFactor,
+    fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#212121'
   },
-  textHighlighted: {
-    color: '#007aff'
-  },
-  phoneNumberView: {
-    flexDirection: 'row'
-  },
-  phoneNumberCountryCode: {
-    width: '20%',
-    height: 16 * scaleFactor,
-    marginRight: '3%'
-  },
-  phoneNumberInput: {
-    width: '75%'
-  },
-  nextButtonBackgroundDisabled: {
-    textAlignVertical: 'center',
-    borderRadius: 5,
-    backgroundColor: '#007aff7f',
-  },
-  nextButtonBackgroundEnabled: {
-    textAlignVertical: 'center',
-    borderRadius: 5,
-    backgroundColor: '#007aff'
-  },
-  nextButtonTextEnabled: {
-    color: '#ffffff',
-  },
-  nextButtonTextDisabled: {
-    color: '#ffffff7f',
-  },
-  smsNoticeText: {
+  subtitleText: {
+    fontFamily: 'System',
     fontSize: 6 * scaleFactor,
-    color: '#757575',
-    textAlign: 'left',
-    marginTop: '3%'
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#212121',
+    marginTop: '1%'
   },
-  modalContainer: {
-    width: '90%',
-    height: '90%',
-    elevation: 50,
-    backgroundColor: '#fafafa',
+  codeInput: {
+    width: 60 * scaleFactor,
+    textAlign: 'center',
+    fontSize: 10 * scaleFactor,
+    borderBottomColor: '#212121',
+    borderBottomWidth: 0.3 * scaleFactor,
   },
-  chooseCountryText: {
-    width: '100%',
-    height: 20 * scaleFactor,
-    elevation: 1,
-    backgroundColor: '#fafafa'
-  },
-  countryListItems: {
+  resendSMSView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 17 * scaleFactor,
-    marginLeft: 10 * scaleFactor,
-    marginRight: 10 * scaleFactor,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0'
+    width: 120 * scaleFactor,
+    height: 15 * scaleFactor,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderBottomColor: '#212121',
+    borderBottomWidth: 0.3 * scaleFactor,
   },
-  countryListText: {
-    fontSize: 6 * scaleFactor,
-    textAlign: 'left',
-    textAlignVertical: 'center',
-    color: '#212121'
-  },
+  resendSMSText: {
+    height: 15 * scaleFactor,
+    fontSize: 7 * scaleFactor,
+    color: '#bdbdbd',
+  }
 });

@@ -38,11 +38,6 @@ class LoginScreen extends React.Component {
     this.phoneUtil = PhoneNumberUtil.getInstance();
   }
 
-  static navigationOptions = {
-    tabBarVisible: false,
-    header: null
-  };
-
   componentDidMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
