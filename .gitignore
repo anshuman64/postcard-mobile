@@ -56,3 +56,4 @@ buck-out/
 
 # Internal Tools
 tools/
+process-palette.json
