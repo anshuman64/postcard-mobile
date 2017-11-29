@@ -51,8 +51,6 @@ class LoginScreen extends React.Component {
         // User has been signed out, reset the state
         this.setState({
           user: null,
-          message: '',
-          codeInput: '',
           confirmationCode: null,
         });
       }
@@ -136,7 +134,8 @@ class LoginScreen extends React.Component {
 
         this.setState({unformattedPhoneNumber: number})
         firebase.auth().signInWithPhoneNumber(number)
-          .then((confirmationCode) => this.setState({ confirmationCode: confirmationCode }));
+          .then((confirmationCode) => this.setState({ confirmationCode: confirmationCode }))
+          .catch();
       }
     )
   }
@@ -208,6 +207,11 @@ class LoginScreen extends React.Component {
                 Next
               </Text>
             </TouchableHighlight>
+
+            {/* SMS Notice */}
+            <Text style={[loginScreenStyles.componentSize, loginScreenStyles.text, loginScreenStyles.smsNoticeText]}>
+              {"We'll send an SMS message to verify your phone number"}
+            </Text>
 
           <View style={{flex: 3}} />
         </View>
