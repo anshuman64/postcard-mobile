@@ -6,14 +6,14 @@ import { PhoneNumberUtil, AsYouTypeFormatter }                                  
 import firebase                                                                                                     from 'react-native-firebase';
 
 // Local Imports
-import { loginScreenStyles, scaleFactor } from './login_screen_styles.js';
-import CountryListModal from './country_list_modal.js';
-import { toConfirmCodeScreen } from '../../actions/navigation_actions.js';
-import Logo from '../../resources/Logo_ExactFit_807x285.png';
-import countryCodes from '../../resources/country_codes.js';
+import { loginScreenStyles, scaleFactor }   from './login_screen_styles.js';
+import CountryListModal                     from './country_list_modal.js';
+import { toConfirmCodeScreen }              from '../../actions/navigation_actions.js';
+import Logo                                 from '../../resources/Logo_ExactFit_807x285.png';
+import countryCodes                         from '../../resources/country_codes.js';
+
 
 //--------------------------------------------------------------------//
-
 
 
 class LoginScreen extends React.Component {
@@ -24,7 +24,7 @@ class LoginScreen extends React.Component {
     this.state = {
       user: null,
       confirmationCode: '',
-      countryIndex: 220, // hard-coded to United STates
+      countryIndex: 220, // hard-coded to United States
       isCountrySelectorPressed: false,
       isPhoneInputFocused: false,
       unformattedPhoneNumber: '',
@@ -142,9 +142,8 @@ class LoginScreen extends React.Component {
   }
 
   render() {
-    console.log('Render LoginScreen')
-
     const {navigation} = this.props;
+
     return (
       <View style={[loginScreenStyles.flex, loginScreenStyles.container]}>
         {/* Top section of view with Insiya logo */}
@@ -230,5 +229,6 @@ class LoginScreen extends React.Component {
 
 
 // --------------------------------------------------------------------
+
 
 export default LoginScreen;

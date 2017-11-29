@@ -2,7 +2,9 @@
 import React                       from 'react';
 import { StyleSheet, PixelRatio }  from 'react-native';
 
+
 //--------------------------------------------------------------------//
+
 
 export const scaleFactor = PixelRatio.get();
 

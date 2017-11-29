@@ -6,7 +6,9 @@ import { Platform, View, Text, ListView, TouchableWithoutFeedback }  from 'react
 import { loginScreenStyles, scaleFactor } from './login_screen_styles.js';
 import CountryListItem                    from './country_list_item.js';
 
+
 //--------------------------------------------------------------------//
+
 
 class CountryListModal extends React.PureComponent {
   constructor(props) {
@@ -72,6 +74,8 @@ class CountryListModal extends React.PureComponent {
   }
 }
 
+
 //--------------------------------------------------------------------//
+
 
 export default CountryListModal;

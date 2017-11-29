@@ -9,7 +9,9 @@ import configureStore           from './store/store.js'
 import RootReducer              from './reducers/root_reducer.js';
 import AppWithNavigationState   from './utilities/app_navigator.js';
 
+
 //--------------------------------------------------------------------//
+
 
 class App extends React.Component {
   store = configureStore();
@@ -23,6 +25,8 @@ class App extends React.Component {
   }
 }
 
+
 //--------------------------------------------------------------------//
+
 
 export default App;
