@@ -7,12 +7,14 @@ import { addNavigationHelpers, StackNavigator, NavigationActions }  from 'react-
 
 // Local Imports
 import LoginScreen                                                  from '../components/login_screen/login_screen.js';
-import ConfirmCodeScreen                                               from '../components/screens/confirm_code_screen.js';
+import ConfirmCodeScreen                                            from '../components/screens/confirm_code_screen.js';
 import PostsScreen                                                  from  '../components/screens/posts_screen.js';
 import NewPostScreen                                                from  '../components/screens/newpost_screen.js';
 import { toBackScreen }                                             from '../actions/navigation_actions.js';
 
+
 //--------------------------------------------------------------------//
+
 
 export const AppNavigator = StackNavigator({
   LoginScreen: { screen: LoginScreen },
@@ -59,6 +61,8 @@ const mapStateToProps = state => ({
   nav: state.nav,
 });
 
+
 //--------------------------------------------------------------------//
+
 
 export default connect(mapStateToProps)(AppWithNavigationState);

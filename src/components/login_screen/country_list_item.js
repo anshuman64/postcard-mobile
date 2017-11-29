@@ -5,7 +5,9 @@ import { Platform, View, Text, TouchableWithoutFeedback}  from 'react-native';
 // Local Imports
 import { loginScreenStyles, scaleFactor } from './login_screen_styles.js';
 
+
 //--------------------------------------------------------------------//
+
 
 class CountryListItem extends React.PureComponent {
   constructor(props) {
@@ -42,6 +44,8 @@ class CountryListItem extends React.PureComponent {
   }
 }
 
+
 //--------------------------------------------------------------------//
+
 
 export default CountryListItem;
