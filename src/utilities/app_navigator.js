@@ -38,19 +38,17 @@ class AppWithNavigationState extends React.Component {
   }
 
   onBackPress = () => {
-    const { dispatch, nav } = this.props;
-    if (nav.index === 0) {
+    if (this.props.nav.index === 0) {
       return false;
     }
-    dispatch(toBackScreen());
+    this.props.dispatch(toBackScreen());
     return true;
   };
 
   render() {
-    const { dispatch, nav } = this.props;
     const navigation = addNavigationHelpers({
-      dispatch,
-      state: nav
+      dispatch: this.props.dispatch,
+      state: this.props.nav
     });
 
     return <AppNavigator navigation={navigation} />;
@@ -62,12 +60,14 @@ AppWithNavigationState.propTypes = {
   nav: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  nav: state.nav,
+const mapStateToProps = (state) => ({
+  nav: state.nav
 });
 
 
 //--------------------------------------------------------------------//
 
 
-export default connect(mapStateToProps)(AppWithNavigationState);
+export default connect(
+  mapStateToProps
+)(AppWithNavigationState);

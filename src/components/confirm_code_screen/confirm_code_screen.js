@@ -18,6 +18,8 @@ class ConfirmCodeScreen extends React.Component {
     this.state = {
       isCodeInputFocused: '',
     };
+
+    this._codeInputOnChangeText = this._codeInputOnChangeText.bind(this);
   }
 
   _setStateInAnimationFrame = (state) => {
@@ -27,15 +29,12 @@ class ConfirmCodeScreen extends React.Component {
   }
 
   _codeInputOnChangeText(value) {
-    console.error(this.props.confirmationCodeObj)
     if (value.length === 6) {
-      this.props.confirmationCodeObj.confirm(value).then(this.props.navigation.dispatch(toPostsScreen()));
+      this.props.confirmCode(this.props.confirmationCodeObj, value);
     }
   }
 
   render() {
-    const {navigation} = this.props;
-
     return (
       <View style={[styles.container]}>
 
