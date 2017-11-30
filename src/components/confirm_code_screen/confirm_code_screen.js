@@ -16,8 +16,6 @@ class ConfirmCodeScreen extends React.Component {
     super(props);
 
     this.state = {
-      phoneNumber: '+14083060059',
-      confirmCodeObj: null,
       inputtedCode: '',
       isCodeInputFocused: '',
     };
@@ -106,33 +104,3 @@ class ConfirmCodeScreen extends React.Component {
 
 
 export default ConfirmCodeScreen;
-
-
-
-// <TextInput
-//   style={[]}
-//   keyboardType='numeric'
-//   onChangeText={(value) => this._onPhoneInputChangeText(value)}
-//   value={this.state.formattedPhoneNumber}
-//   placeholder='Phone Number'
-//   placeholderTextColor='#bdbdbd'
-//   underlineColorAndroid={'transparent'}
-//   onFocus={this._setStateInAnimationFrame({ isPhoneInputFocused: true})}
-//   onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
-// />
-//
-// {/* Resend SMS */}
-// <TouchableWithoutFeedback
-//   onPressIn={this._setStateInAnimationFrame({isTextHighlighted: true})}
-//   onPressOut={this._setStateInAnimationFrame({isTextHighlighted: false})}
-//   onPress={this.props.setCountry(this.props.countryIndex)}
-//   >
-//   <View style={[]}>
-//     <Text style={[]}>
-//       {this.props.item.country_name}
-//     </Text>
-//     <Text style={[]}>
-//       {this.props.item.dialing_code}
-//     </Text>
-//   </View>
-// </TouchableWithoutFeedback>

@@ -22,12 +22,9 @@ class LoginScreen extends React.Component {
     super(props);
 
     this.state = {
-      user: null,
-      confirmCodeObj: '',
       countryIndex: 220, // hard-coded to United States
       isCountrySelectorPressed: false,
       isPhoneInputFocused: false,
-      unformattedPhoneNumber: '',
       formattedPhoneNumber: '',
       isModalVisible: false,
       isNextButtonDisabled: true
@@ -125,11 +122,7 @@ class LoginScreen extends React.Component {
           number = countryCodes[this.state.countryIndex].dialing_code + number;
         }
 
-        this.setState({unformattedPhoneNumber: number})
-        this.props.signInUserWithPhoneNumber(number);
-        // firebase.auth().signInWithPhoneNumber(number)
-        //   .then((confirmCodeObj) => this.setState({ confirmCodeObj: confirmCodeObj }))
-        //   .catch();
+        this.props.signInWithPhoneNumber(number);
       }
     )
   }
@@ -198,7 +191,7 @@ class LoginScreen extends React.Component {
               disabled={this.state.isNextButtonDisabled}
               >
               <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
-                {this.props.phone}
+                Next
               </Text>
             </TouchableHighlight>
 

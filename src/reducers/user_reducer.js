@@ -2,7 +2,7 @@
 import * as _ from 'lodash';
 
 // Local Imports
-import { SIGN_IN_WITH_PHONE_NUMBER } from '../actions/user_actions.js';
+import { SIGN_IN } from '../actions/user_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -18,11 +18,10 @@ const UserReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    case SIGN_IN_WITH_PHONE_NUMBER:
-      newState = {
-        phoneNumber: action.phoneNumber,
-        confirmationCodeObj: action.confirmationCodeObj
-      }
+    case SIGN_IN:
+      _.forEach(action.data, (data) => {
+        newState.data = data;
+      });
 
       return newState;
     default:

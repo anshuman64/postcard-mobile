@@ -4,7 +4,7 @@ import { NavigationActions }                                                    
 
 // Local Imports
 import { AppNavigator }                                                                         from '../utilities/app_navigator.js';
-import { TO_LOGIN_SCREEN, TO_CODE_AUTH_SCREEN, TO_POSTS_SCREEN, TO_NEW_POST_SCREEN, BACK_SCREEN } from '../actions/navigation_actions.js';
+import { TO_LOGIN_SCREEN, TO_CONFIRM_CODE_SCREEN, TO_POSTS_SCREEN, TO_NEW_POST_SCREEN, BACK_SCREEN } from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -22,7 +22,7 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-    case TO_CODE_AUTH_SCREEN:
+    case TO_CONFIRM_CODE_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'ConfirmCodeScreen' }),
         state
