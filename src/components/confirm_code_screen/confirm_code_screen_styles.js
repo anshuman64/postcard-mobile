@@ -73,5 +73,11 @@ export const styles = StyleSheet.create({
     height: 15 * scaleFactor,
     fontSize: 7 * scaleFactor,
     color: '#bdbdbd',
-  }
+  },
+  smsTextActive: {
+    color: '#212121',
+  },
+ smsTextHighlighted: {
+   color: '#007aff',
+ },
 });
