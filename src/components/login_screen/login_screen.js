@@ -122,8 +122,13 @@ class LoginScreen extends React.Component {
           number = countryCodes[this.state.countryIndex].dialing_code + number;
         }
 
+        // Debug test
         this.props.debugGetConfirmationCode(number);
+
+        // Real Firebase API
         // this.props.getConfirmationCode(number);
+
+        this.props.navigation.dispatch(toConfirmCodeScreen());
       }
     )
   }

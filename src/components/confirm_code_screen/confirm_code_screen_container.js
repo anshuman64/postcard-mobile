@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import ConfirmCodeScreen from './confirm_code_screen.js';
-import { confirmCode } from '../../actions/user_actions.js';
+import { getConfirmationCode, confirmCode, debugGetConfirmationCode } from '../../actions/user_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -15,7 +15,9 @@ const mapStateToProps = ({ user }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  confirmCode: (confirmationCodeObj, inputtedCode) => dispatch(confirmCode(confirmationCodeObj, inputtedCode))
+  getConfirmationCode: (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),
+  confirmCode: (confirmationCodeObj, inputtedCode) => dispatch(confirmCode(confirmationCodeObj, inputtedCode)),
+  debugGetConfirmationCode: (phoneNumber) => dispatch(debugGetConfirmationCode(phoneNumber))
 });
 
 export default connect(

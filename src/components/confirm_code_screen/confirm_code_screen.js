@@ -16,10 +16,43 @@ class ConfirmCodeScreen extends React.Component {
     super(props);
 
     this.state = {
-      isCodeInputFocused: '',
+      isCodeInputFocused: false,
+      isCodeIncorrect: false,
+      isResendSMSDisabled: true,
+      isResendSMSPressed: false,
+      secsRemaining: 0
     };
 
+    this.timer = null;
+
     this._codeInputOnChangeText = this._codeInputOnChangeText.bind(this);
+    this.tick = this.tick.bind(this);
+  }
+
+  componentDidMount() {
+    this.startTimer();
+  }
+
+  componentWillUnmount() {
+    this.stopTimer();
+  }
+
+  startTimer() {
+    this.timer = setInterval(this.tick, 1000);
+    this.setState({isResendSMSDisabled: true, secsRemaining: 3})
+  }
+
+  stopTimer() {
+    clearInterval(this.timer);
+  }
+
+  tick() {
+    this.setState({ secsRemaining: this.state.secsRemaining - 1 }, () => {
+      if (this.state.secsRemaining <= 0) {
+        this.stopTimer();
+        this.setState({ isResendSMSDisabled: false })
+      }
+    });
   }
 
   _setStateInAnimationFrame = (state) => {
@@ -29,9 +62,29 @@ class ConfirmCodeScreen extends React.Component {
   }
 
   _codeInputOnChangeText(value) {
+    // Debug test
     if (value.length === 6) {
-      this.props.confirmCode(this.props.confirmationCodeObj, value);
+      if (value === this.props.confirmationCodeObj) {
+        console.error('SMS Code Verification Successful!');
+      } else {
+        this.setState({ isCodeIncorrect: true });
+      }
     }
+
+    // Real Firebase API
+    // if (value.length === 6) {
+    //   this.props.confirmCode(this.props.confirmationCodeObj, value);
+    // }
+  }
+
+  _onResendSMSPress() {
+    // Debug test
+    this.props.debugGetConfirmationCode(this.props.phoneNumber);
+
+    // Real Firebase API
+    // this.props.getConfirmationCode(this.props.phoneNumber);
+
+    this.startTimer();
   }
 
   render() {
@@ -81,13 +134,17 @@ class ConfirmCodeScreen extends React.Component {
 
         {/* Resend SMS */}
         <TouchableWithoutFeedback
+          onPressIn={this._setStateInAnimationFrame({ isResendSMSPressed: true})}
+          onPressOut={this._setStateInAnimationFrame({ isResendSMSPressed: false})}
+          onPress={() => this._onResendSMSPress()}
+          disabled={this.state.isResendSMSDisabled}
           >
-          <View style={[styles.resendSMSView]}>
-            <Text style={[styles.subtitleText, styles.resendSMSText]}>
+          <View style={[styles.resendSMSView, this.state.isResendSMSPressed && styles.borderHighlighted]}>
+            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.smsTextHighlighted]}>
               Resend SMS
             </Text>
-            <Text style={[styles.subtitleText, styles.resendSMSText]}>
-              00:59
+            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.smsTextHighlighted]}>
+              {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
             </Text>
           </View>
         </TouchableWithoutFeedback>
