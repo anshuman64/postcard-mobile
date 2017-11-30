@@ -6,7 +6,7 @@ import { PhoneNumberUtil, AsYouTypeFormatter }                                  
 import firebase                                                                                                     from 'react-native-firebase';
 
 // Local Imports
-import { styles, scaleFactor }   from './login_screen_styles.js';
+import { styles, scaleFactor }              from './login_screen_styles.js';
 import CountryListModal                     from './country_list_modal.js';
 import { toConfirmCodeScreen }              from '../../actions/navigation_actions.js';
 import Logo                                 from '../../resources/Logo_ExactFit_807x285.png';
@@ -23,7 +23,7 @@ class LoginScreen extends React.Component {
 
     this.state = {
       user: null,
-      confirmationCode: '',
+      confirmCodeObj: '',
       countryIndex: 220, // hard-coded to United States
       isCountrySelectorPressed: false,
       isPhoneInputFocused: false,
@@ -46,7 +46,7 @@ class LoginScreen extends React.Component {
         // User has been signed out, reset the state
         this.setState({
           user: null,
-          confirmationCode: null,
+          confirmCodeObj: null,
         });
       }
     });
@@ -126,9 +126,10 @@ class LoginScreen extends React.Component {
         }
 
         this.setState({unformattedPhoneNumber: number})
-        firebase.auth().signInWithPhoneNumber(number)
-          .then((confirmationCode) => this.setState({ confirmationCode: confirmationCode }))
-          .catch();
+        this.props.signInUserWithPhoneNumber(number);
+        // firebase.auth().signInWithPhoneNumber(number)
+        //   .then((confirmCodeObj) => this.setState({ confirmCodeObj: confirmCodeObj }))
+        //   .catch();
       }
     )
   }
@@ -197,7 +198,7 @@ class LoginScreen extends React.Component {
               disabled={this.state.isNextButtonDisabled}
               >
               <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
-                Next
+                {this.props.phone}
               </Text>
             </TouchableHighlight>
 
