@@ -19,10 +19,11 @@ const UserReducer = (state = DEFAULT_STATE, action) => {
 
   switch(action.type) {
     case SIGN_IN:
-      _.forEach(action.data, (data) => {
-        newState.data = data;
-      });
-
+      newState = {
+        phoneNumber: action.data.phoneNumber,
+        confirmationCodeObj: action.data.confirmationCodeObj
+      }
+      
       return newState;
     default:
       return state;

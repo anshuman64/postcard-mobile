@@ -31,7 +31,8 @@ export const signIn = (data) => {
 export const signInWithPhoneNumber = (phoneNumber) => (dispatch) => {
   return UserAPI.signInWithPhoneNumber(phoneNumber)
     .then((confirmationCodeObj) => {
-      dispatch(signIn(phoneNumber, confirmationCodeObj));
+      dispatch(signIn({phoneNumber, confirmationCodeObj}));
       dispatch(toConfirmCodeScreen());
-    });
+    })
+    .catch((error) => console.error(error))
 };
