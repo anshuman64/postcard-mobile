@@ -55,6 +55,10 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#212121',
     borderBottomWidth: 0.3 * scaleFactor,
   },
+  borderHighlighted: {
+    borderBottomColor: '#007aff',
+    borderBottomWidth: 0.6 * scaleFactor
+  },
   resendSMSView: {
     flexDirection: 'row',
     justifyContent: 'space-between',

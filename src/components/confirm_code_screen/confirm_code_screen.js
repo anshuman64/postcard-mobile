@@ -17,7 +17,7 @@ class ConfirmCodeScreen extends React.Component {
 
     this.state = {
       phoneNumber: '+14083060059',
-      confirmationCode: '',
+      confirmCodeObj: null,
       inputtedCode: '',
       isCodeInputFocused: '',
     };
@@ -27,6 +27,12 @@ class ConfirmCodeScreen extends React.Component {
     return(
       () => (requestAnimationFrame(() => {this.setState(state)}))
     )
+  }
+
+  _codeInputOnChangeText(value) {
+    if (value.length === 6) {
+
+    }
   }
 
   render() {
@@ -60,11 +66,13 @@ class ConfirmCodeScreen extends React.Component {
 
         {/* Code Input */}
         <TextInput
-          style={[styles.codeInput]}
+          style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted]}
           keyboardType='numeric'
           onChangeText={(value) => this.setState({inputtedCode: value})}
           value={this.state.inputtedCode}
           placeholder='-  -  -  -  -  -'
+          autoFocus={true}
+          maxLength={6}
           placeholderTextColor='#bdbdbd'
           underlineColorAndroid={'transparent'}
           onFocus={this._setStateInAnimationFrame({ isCodeInputFocused: true})}
