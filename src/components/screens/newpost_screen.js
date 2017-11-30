@@ -10,12 +10,10 @@ import { toBackScreen }                     from '../../actions/navigation_actio
 
 class NewPostScreen extends React.Component {
   render() {
-    const {navigation} = this.props;
-
     return (
       <View>
         <Text>NewPost Screen</Text>
-        <Button title={'Go Back'} onPress={() => navigation.dispatch(toBackScreen())} />
+        <Button title={'Go Back'} onPress={() => this.props.navigation.dispatch(toBackScreen())} />
       </View>
     )
   }

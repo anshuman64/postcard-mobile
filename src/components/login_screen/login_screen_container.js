@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import LoginScreen from './login_screen.js';
-import { signInWithPhoneNumber } from '../../actions/user_actions.js';
+import { getConfirmationCode, debugSignInWithPhoneNumber } from '../../actions/user_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -15,7 +15,8 @@ const mapStateToProps = ({ user }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  signInWithPhoneNumber: (phoneNumber) => dispatch(signInWithPhoneNumber(phoneNumber))
+  getConfirmationCode: (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),
+  debugSignInWithPhoneNumber: (phoneNumber) => dispatch(debugSignInWithPhoneNumber(phoneNumber))
 });
 
 export default connect(

@@ -9,6 +9,6 @@ import firebase from 'react-native-firebase';
 //--------------------------------------------------------------------//
 
 
-export const signInWithPhoneNumber = (payload) => {
+export const getConfirmationCode = (payload) => {
   return firebase.auth().signInWithPhoneNumber(payload);
 };

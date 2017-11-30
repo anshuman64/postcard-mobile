@@ -122,7 +122,8 @@ class LoginScreen extends React.Component {
           number = countryCodes[this.state.countryIndex].dialing_code + number;
         }
 
-        this.props.signInWithPhoneNumber(number);
+        this.props.debugGetConfirmationCode(number);
+        // this.props.getConfirmationCode(number);
       }
     )
   }

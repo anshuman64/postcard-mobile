@@ -2,7 +2,7 @@
 import * as _ from 'lodash';
 
 // Local Imports
-import { SIGN_IN } from '../actions/user_actions.js';
+import { RECEIVE_CONFIRMATION_CODE, RECEIVE_USER } from '../actions/user_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -10,7 +10,8 @@ import { SIGN_IN } from '../actions/user_actions.js';
 
 const DEFAULT_STATE = {
   phoneNumber: '',
-  confirmationCodeObj:  null
+  confirmationCodeObj:  null,
+  firebaseUserObj: null
 };
 
 const UserReducer = (state = DEFAULT_STATE, action) => {
@@ -18,12 +19,14 @@ const UserReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    case SIGN_IN:
-      newState = {
-        phoneNumber: action.data.phoneNumber,
-        confirmationCodeObj: action.data.confirmationCodeObj
-      }
-      
+    case RECEIVE_CONFIRMATION_CODE:
+      newState.phoneNumber = action.data.phoneNumber;
+      newState.confirmationCodeObj = action.data.confirmationCodeObj;
+
+      return newState;
+    case RECEIVE_USER:
+      newState.firebaseUserObj = action.data.firebaseUserObj;
+
       return newState;
     default:
       return state;
