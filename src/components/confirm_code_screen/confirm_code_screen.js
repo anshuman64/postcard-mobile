@@ -16,7 +16,6 @@ class ConfirmCodeScreen extends React.Component {
     super(props);
 
     this.state = {
-      inputtedCode: '',
       isCodeInputFocused: '',
     };
   }
@@ -28,8 +27,9 @@ class ConfirmCodeScreen extends React.Component {
   }
 
   _codeInputOnChangeText(value) {
+    console.error(this.props.confirmationCodeObj)
     if (value.length === 6) {
-
+      this.props.confirmationCodeObj.confirm(value).then(this.props.navigation.dispatch(toPostsScreen()));
     }
   }
 
@@ -56,7 +56,7 @@ class ConfirmCodeScreen extends React.Component {
           Enter Confirmation Code
         </Text>
         <Text style={[styles.subtitleText]}>
-          Sent to {this.state.phoneNumber}
+          Sent to {this.props.phoneNumber}
         </Text>
 
 
@@ -66,7 +66,7 @@ class ConfirmCodeScreen extends React.Component {
         <TextInput
           style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted]}
           keyboardType='numeric'
-          onChangeText={(value) => this.setState({inputtedCode: value})}
+          onChangeText={this._codeInputOnChangeText}
           value={this.state.inputtedCode}
           placeholder='-  -  -  -  -  -'
           autoFocus={true}

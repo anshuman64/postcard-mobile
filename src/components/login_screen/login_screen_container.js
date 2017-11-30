@@ -9,9 +9,9 @@ import { signInWithPhoneNumber } from '../../actions/user_actions.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ phoneNumber, confirmationCodeObj }, ownProps) => ({
-  phoneNumber: phoneNumber,
-  confirmationCodeObj: confirmationCodeObj
+const mapStateToProps = ({ user }, ownProps) => ({
+  phoneNumber: user.phoneNumber,
+  confirmationCodeObj: user.confirmationCodeObj
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

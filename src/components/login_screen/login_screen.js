@@ -41,10 +41,10 @@ class LoginScreen extends React.Component {
         this.setState({ user: user.toJSON() });
       } else {
         // User has been signed out, reset the state
-        this.setState({
-          user: null,
-          confirmCodeObj: null,
-        });
+        // this.setState({
+        //   user: null,
+        //   confirmCodeObj: null,
+        // });
       }
     });
   }
