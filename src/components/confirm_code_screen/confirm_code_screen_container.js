@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import LoginScreen from './login_screen.js';
+import ConfirmCodeScreen from './confirm_code_screen.js';
 import { signInWithPhoneNumber } from '../../actions/user_actions.js';
 
 
@@ -21,4 +21,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginScreen);
+)(ConfirmCodeScreen);
