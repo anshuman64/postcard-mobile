@@ -32,6 +32,10 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#007aff',
     borderBottomWidth: 0.6 * scaleFactor
   },
+  borderRed: {
+    borderBottomColor: '#ff313a',
+    borderBottomWidth: 0.6 * scaleFactor
+  },
   text: {
     fontFamily: 'System',
     fontSize: 7.4 * scaleFactor,
@@ -75,6 +79,14 @@ export const styles = StyleSheet.create({
   },
   phoneNumberInput: {
     width: '75%'
+  },
+  invalidNumberText: {
+    width: '75%',
+    height: 10 * scaleFactor,
+    fontSize: 6 * scaleFactor,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#ff313a'
   },
   nextButtonBackgroundDisabled: {
     borderRadius: 5,
