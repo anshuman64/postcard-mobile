@@ -45,7 +45,7 @@ class ConfirmCodeScreen extends React.Component {
 
   startTimer() {
     this.timer = setInterval(this.tick, 1000);
-    this.setState({isResendSMSDisabled: true, secsRemaining: 3})
+    this.setState({isResendSMSDisabled: true, secsRemaining: 59})
   }
 
   stopTimer() {
@@ -119,7 +119,7 @@ class ConfirmCodeScreen extends React.Component {
           Enter Confirmation Code
         </Text>
         <Text style={[styles.subtitleText]}>
-          Sent to {this.props.phoneNumber} {/* this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
+          Sent to { this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) }
         </Text>
 
 
