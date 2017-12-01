@@ -38,7 +38,7 @@ class LoginScreen extends React.Component {
   componentDidMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user: user.toJSON() });
+        this.setState({ user: user });
       } else {
         // User has been signed out, reset the state
         // this.setState({
@@ -90,9 +90,9 @@ class LoginScreen extends React.Component {
     return(
       () => {
         let tempFormatted = '';
+        this.formatter = new AsYouTypeFormatter(countryCodes[index].country_code);
         try {
           tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
-          this.formatter = new AsYouTypeFormatter(countryCodes[index].country_code);
           _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
         } catch (e) {}
         this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this.checkNextButtonEnable());
