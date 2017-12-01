@@ -60,6 +60,18 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#007aff',
     borderBottomWidth: 0.6 * scaleFactor
   },
+  borderRed: {
+    borderBottomColor: '#ff313a',
+    borderBottomWidth: 0.6 * scaleFactor
+  },
+  invalidCodeText: {
+    height: 12 * scaleFactor,
+    width: 60 * scaleFactor,
+    fontSize: 6 * scaleFactor,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#ff313a'
+  },
   resendSMSView: {
     flexDirection: 'row',
     justifyContent: 'space-between',

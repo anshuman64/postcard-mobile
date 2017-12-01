@@ -23,7 +23,8 @@ class ConfirmCodeScreen extends React.Component {
       isCodeIncorrect: false,
       isResendSMSDisabled: true,
       isResendSMSPressed: false,
-      secsRemaining: 0
+      secsRemaining: 0,
+      isCodeInvalid: false,
     };
 
     this.timer = null;
@@ -125,7 +126,7 @@ class ConfirmCodeScreen extends React.Component {
 
         {/* Code Input */}
         <TextInput
-          style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted]}
+          style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeInvalid && styles.borderRed]}
           keyboardType='numeric'
           onChangeText={this._codeInputOnChangeText}
           value={this.state.inputtedCode}
@@ -138,8 +139,14 @@ class ConfirmCodeScreen extends React.Component {
           onEndEditing={this._setStateInAnimationFrame({ isCodeInputFocused: false})}
         />
 
+        {/* Invalid Code Text */}
+        {this.state.isCodeInvalid &&
+          <Text style={[styles.invalidCodeText]}>
+            Invalid Code
+          </Text>
+        }
 
-        <View style={{flex: 3}} />
+        <View style={{flex: 5}} />
 
         {/* Resend SMS */}
         <TouchableWithoutFeedback

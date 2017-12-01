@@ -27,7 +27,8 @@ class LoginScreen extends React.Component {
       isPhoneInputFocused: false,
       formattedPhoneNumber: '',
       isModalVisible: false,
-      isNextButtonDisabled: true
+      isNextButtonDisabled: true,
+      isPhoneNumberInvalid: false,
     };
 
     this.unsubscribe = null;
@@ -174,7 +175,7 @@ class LoginScreen extends React.Component {
 
               {/* PhoneNumberInput */}
               <TextInput
-                style={[styles.phoneNumberInput, styles.text, styles.border, this.state.isPhoneInputFocused && styles.borderHighlighted]}
+                style={[styles.phoneNumberInput, styles.text, styles.border, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
                 keyboardType='phone-pad'
                 onChangeText={(value) => this._onPhoneInputChangeText(value)}
                 value={this.state.formattedPhoneNumber}
@@ -185,6 +186,19 @@ class LoginScreen extends React.Component {
                 onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
               />
             </View>
+
+            {/* Invalid Number Text */}
+            {this.state.isPhoneNumberInvalid &&
+              <View style={[styles.componentSize, styles.phoneNumberView]}>
+                <View style={{width: '25%'}} />
+                <Text style={[styles.invalidNumberText]}>
+                  Invalid Number
+                </Text>
+              </View>
+            }
+
+
+
 
           <View style={{flex: 2}} />
 
