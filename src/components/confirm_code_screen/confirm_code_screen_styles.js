@@ -21,16 +21,17 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     height: 22 * scaleFactor,
-    backgroundColor: '#ffffff',
-    elevation: 2,
+    // backgroundColor: '#ffffff',
+    // elevation: 2,
   },
-  backText: {
+  backIcon: {
+    height: 22 * scaleFactor,
+    width: 22 * scaleFactor,
+    fontSize: 18 * scaleFactor,
     textAlign: 'left',
     textAlignVertical: 'center',
-  },
-  headerTitleText: {
-    textAlign: 'center',
-    textAlignVertical: 'center',
+    marginLeft: 6 * scaleFactor,
+    color: '#212121',
   },
   titleText: {
     fontFamily: 'System',
@@ -77,7 +78,7 @@ export const styles = StyleSheet.create({
   smsTextActive: {
     color: '#212121',
   },
- smsTextHighlighted: {
+  textHighlighted: {
    color: '#007aff',
  },
 });

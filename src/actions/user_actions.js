@@ -41,7 +41,7 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
     });
 };
 
-export const confirmCode = (confirmationCodeObj, inputtedCode) => (dispatch) => {
+export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (dispatch) => {
   return confirmationCodeObj.confirm(inputtedCode)
     .then((firebaseUserObj) => {
       dispatch(receiveUser({firebaseUserObj: firebaseUserObj}));

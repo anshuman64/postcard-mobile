@@ -58,7 +58,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   dropdownIcon: {
-    backgroundColor: '#black',
     position: 'absolute',
     left: 90 * scaleFactor,
     height: 16 * scaleFactor,
@@ -78,12 +77,10 @@ export const styles = StyleSheet.create({
     width: '75%'
   },
   nextButtonBackgroundDisabled: {
-    textAlignVertical: 'center',
     borderRadius: 5,
     backgroundColor: '#007aff7f',
   },
   nextButtonBackgroundEnabled: {
-    textAlignVertical: 'center',
     borderRadius: 5,
     backgroundColor: '#007aff'
   },

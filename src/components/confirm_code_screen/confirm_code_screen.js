@@ -3,10 +3,11 @@ import React                                from 'react';
 import { Button, StyleSheet, Text, View, TextInput, TouchableWithoutFeedback }   from 'react-native';
 import { connect }                          from 'react-redux';
 import { PhoneNumberUtil, PhoneNumberFormat }                from 'google-libphonenumber';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 // Local Imports
 import { styles, scaleFactor }  from './confirm_code_screen_styles.js';
-import { toPostsScreen }        from '../../actions/navigation_actions.js';
+import { toPostsScreen, toBackScreen }        from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -17,6 +18,7 @@ class ConfirmCodeScreen extends React.Component {
     super(props);
 
     this.state = {
+      isBackIconPressed: false,
       isCodeInputFocused: false,
       isCodeIncorrect: false,
       isResendSMSDisabled: true,
@@ -75,8 +77,12 @@ class ConfirmCodeScreen extends React.Component {
 
     // Real Firebase API
     // if (value.length === 6) {
-    //   this.props.confirmCode(this.props.confirmationCodeObj, value);
+    //   this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value);
     // }
+  }
+
+  _onBackIconPress() {
+    this.props.navigation.dispatch(toBackScreen());
   }
 
   _onResendSMSPress() {
@@ -95,13 +101,14 @@ class ConfirmCodeScreen extends React.Component {
 
         {/* Header */}
         <View style={[styles.headerView]}>
-          <Text style={[styles.backText]}>
-            Back
-          </Text>
-          <Text style={[styles.headerTitleText]}>
-            Confirm Code
-          </Text>
-        </View>
+          <TouchableWithoutFeedback
+            onPressIn={this._setStateInAnimationFrame({ isBackIconPressed: true})}
+            onPressOut={this._setStateInAnimationFrame({ isBackIconPressed: false})}
+            onPress={() => this._onBackIconPress()}
+            >
+             <Icon name='ios-arrow-round-back-outline' style={[styles.backIcon, this.state.isBackIconPressed && styles.textHighlighted]} />
+         </TouchableWithoutFeedback>
+       </View>
 
         <View style={{flex: 3}} />
 
@@ -110,7 +117,7 @@ class ConfirmCodeScreen extends React.Component {
           Enter Confirmation Code
         </Text>
         <Text style={[styles.subtitleText]}>
-          Sent to {this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL)}
+          Sent to {/* this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
         </Text>
 
 
@@ -141,11 +148,11 @@ class ConfirmCodeScreen extends React.Component {
           onPress={() => this._onResendSMSPress()}
           disabled={this.state.isResendSMSDisabled}
           >
-          <View style={[styles.resendSMSView, this.state.isResendSMSPressed && styles.borderHighlighted]}>
-            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.smsTextHighlighted]}>
+          <View style={[styles.resendSMSView]}>
+            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
               Resend SMS
             </Text>
-            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.smsTextHighlighted]}>
+            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
               {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
             </Text>
           </View>
