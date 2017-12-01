@@ -9,6 +9,7 @@ import { StyleSheet, PixelRatio }  from 'react-native';
 export const scaleFactor = PixelRatio.get();
 
 export const styles = StyleSheet.create({
+  // Shared styles
   flex: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -18,16 +19,6 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: '#fafafa'
-  },
-  topView: {
-    flex: 1,
-  },
-  logo: {
-    width: 70 * scaleFactor
-  },
-  bottomView: {
-    flex: 2,
-    justifyContent: 'flex-start'
   },
   componentSize: {
     width: 100 * scaleFactor,
@@ -50,6 +41,30 @@ export const styles = StyleSheet.create({
   },
   textHighlighted: {
     color: '#007aff'
+  },
+
+  // Component-specific styles
+  topView: {
+    flex: 1,
+  },
+  logo: {
+    width: 70 * scaleFactor
+  },
+  bottomView: {
+    flex: 2,
+    justifyContent: 'flex-start'
+  },
+  countrySelectorView: {
+    flexDirection: 'row',
+  },
+  dropdownIcon: {
+    backgroundColor: '#black',
+    position: 'absolute',
+    left: 90 * scaleFactor,
+    height: 16 * scaleFactor,
+    fontSize: 8 * scaleFactor,
+    textAlignVertical: 'center',
+    color: '#212121'
   },
   phoneNumberView: {
     flexDirection: 'row'
@@ -85,6 +100,7 @@ export const styles = StyleSheet.create({
     marginTop: '3%'
   },
   modalContainer: {
+    justifyContent: 'space-between',
     width: '90%',
     height: '90%',
     elevation: 50,

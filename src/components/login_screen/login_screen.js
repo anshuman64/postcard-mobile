@@ -4,6 +4,7 @@ import { Platform, PixelRatio, View, Text, TouchableHighlight, Modal, Image, Tou
 import * as _                                                                                                       from 'lodash';
 import { PhoneNumberUtil, AsYouTypeFormatter }                                                                      from 'google-libphonenumber';
 import firebase                                                                                                     from 'react-native-firebase';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 // Local Imports
 import { styles, scaleFactor }              from './login_screen_styles.js';
@@ -154,10 +155,11 @@ class LoginScreen extends React.Component {
             onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
             onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
             >
-            <View style={[styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
+            <View style={[styles.countrySelectorView, styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
               <Text style={[styles.componentSize, styles.text]}>
                 {countryCodes[this.state.countryIndex].country_name}
               </Text>
+              <Icon name='md-arrow-dropdown' style={[styles.dropdownIcon]} />
             </View>
           </TouchableWithoutFeedback>
 
