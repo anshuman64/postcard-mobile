@@ -16,8 +16,13 @@ class CountryListModal extends React.PureComponent {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: ds.cloneWithRows(countryCodes),
-      isTextHighlighted: false
+      isTextHighlighted: false,
+      modalHasMounted: false,
     };
+  }
+
+  componentDidMount() {
+    this.setState({ modalHasMounted: true });
   }
 
   _onListViewContentSizeChange = () => {
@@ -48,14 +53,14 @@ class CountryListModal extends React.PureComponent {
           </View>
 
           {/* CountryListView */}
-          <ListView
+          { this.state.modalHasMounted && <ListView
             ref={(ref) => this.listView = ref}
             dataSource={this.state.dataSource}
             style={[styles.container]}
             renderRow={this._renderItem()}
             initialListSize={countryCodes.length}
             onContentSizeChange={this._onListViewContentSizeChange}
-          />
+          /> }
 
           {/* CancelButton */}
           <TouchableWithoutFeedback

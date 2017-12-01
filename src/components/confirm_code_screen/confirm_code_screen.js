@@ -2,6 +2,7 @@
 import React                                from 'react';
 import { Button, StyleSheet, Text, View, TextInput, TouchableWithoutFeedback }   from 'react-native';
 import { connect }                          from 'react-redux';
+import { PhoneNumberUtil, PhoneNumberFormat }                from 'google-libphonenumber';
 
 // Local Imports
 import { styles, scaleFactor }  from './confirm_code_screen_styles.js';
@@ -24,6 +25,7 @@ class ConfirmCodeScreen extends React.Component {
     };
 
     this.timer = null;
+    this.phoneUtil = PhoneNumberUtil.getInstance();
 
     this._codeInputOnChangeText = this._codeInputOnChangeText.bind(this);
     this.tick = this.tick.bind(this);
@@ -108,7 +110,7 @@ class ConfirmCodeScreen extends React.Component {
           Enter Confirmation Code
         </Text>
         <Text style={[styles.subtitleText]}>
-          Sent to {this.props.phoneNumber}
+          Sent to {this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL)}
         </Text>
 
 

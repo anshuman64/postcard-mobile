@@ -9,7 +9,6 @@ import firebase                                                                 
 import { styles, scaleFactor }              from './login_screen_styles.js';
 import CountryListModal                     from './country_list_modal.js';
 import { toConfirmCodeScreen }              from '../../actions/navigation_actions.js';
-import Logo                                 from '../../resources/Logo_ExactFit_807x285.png';
 import countryCodes                         from '../../resources/country_codes.js';
 
 
@@ -134,15 +133,13 @@ class LoginScreen extends React.Component {
   }
 
   render() {
-    const {navigation} = this.props;
-
     return (
       <View style={[styles.flex, styles.container]}>
         {/* Top section of view with Insiya logo */}
         <View style={[styles.flex, styles.topView]}>
           <Image
             style={styles.logo}
-            source={Logo}
+            source={require('../../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
             resizeMode='contain'
           />
         </View>
@@ -213,6 +210,7 @@ class LoginScreen extends React.Component {
           visible={this.state.isModalVisible}
           onRequestClose={this._setState({ isModalVisible: false })}
           transparent={false}
+          animationType={'none'}
           >
           <View style={[styles.flex, styles.container]}>
             <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
