@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import LoginScreen from './login_screen.js';
-import { getConfirmationCode, debugGetConfirmationCode } from '../../actions/user_actions.js';
+import LoginScreen                                        from './login_screen.js';
+import { getConfirmationCode, debugGetConfirmationCode }  from '../../actions/user_actions.js';
 
 
 //--------------------------------------------------------------------//

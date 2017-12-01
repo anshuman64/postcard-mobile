@@ -3,8 +3,8 @@ import React                                                         from 'react
 import { Platform, View, Text, ListView, TouchableWithoutFeedback }  from 'react-native';
 
 // Local Imports
-import { styles, scaleFactor } from './login_screen_styles.js';
-import CountryListItem                    from './country_list_item.js';
+import { styles, scaleFactor }  from './login_screen_styles.js';
+import CountryListItem          from './country_list_item.js';
 
 
 //--------------------------------------------------------------------//
