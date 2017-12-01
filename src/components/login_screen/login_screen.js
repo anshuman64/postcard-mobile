@@ -32,10 +32,11 @@ class LoginScreen extends React.Component {
     };
 
     this.unsubscribe = null;
-    this.formatter = new AsYouTypeFormatter(countryCodes[this.state.countryIndex].country_code);
-    this.phoneUtil = PhoneNumberUtil.getInstance();
+    this.formatter = new AsYouTypeFormatter(countryCodes[this.state.countryIndex].country_code); // libphonenumber object that formats phone numbers by country as each character is typed
+    this.phoneUtil = PhoneNumberUtil.getInstance(); // libphonenumber object used to parse phone numbers
   }
 
+  // TODO: implement onAuthStateChanged user login using Redux
   // componentDidMount() {
   //   this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
   //     if (user) {
@@ -56,22 +57,27 @@ class LoginScreen extends React.Component {
   //   }
   // }
 
+  // Callback function for setting state
   _setState = (state) => {
     return(
       () => (this.setState(state))
     )
   }
 
+  // Callback function for setting state in animation frame; recommended by React Native docs for animations
   _setStateInAnimationFrame = (state) => {
     return(
       () => (requestAnimationFrame(() => {this.setState(state)}))
     )
   }
 
+  // Callback function for formatting phone number on each character typed
+  // TODO: handle error callback if phone number is invalid
   _onPhoneInputChangeText(value) {
     let formatted;
 
     if (value.length >= this.state.formattedPhoneNumber.length) {
+      // Adds only the last last character to libphonenumber formatter; formatter object saves previous characters
       formatted = this.formatter.inputDigit(value[value.length - 1]);
     }
     // Condition if delete key was pressed
@@ -87,20 +93,25 @@ class LoginScreen extends React.Component {
     this.setState({formattedPhoneNumber: formatted}, () => this.checkNextButtonEnable());
   }
 
+  // Callback function for setting country selector and updating phone number formatting
   setCountry = (index) => {
     return(
       () => {
         let tempFormatted = '';
+        // Create new libphonenumber formatter for new country
         this.formatter = new AsYouTypeFormatter(countryCodes[index].country_code);
+        // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
         try {
           tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
           _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
         } catch (e) {}
+
         this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this.checkNextButtonEnable());
       }
     )
   }
 
+  // Enables Next button only when libphonenumber believes phone number is "possible"
   checkNextButtonEnable() {
     let phoneUtilNumber;
 
@@ -115,6 +126,7 @@ class LoginScreen extends React.Component {
     } catch (e) {}
   }
 
+  // Callback function that extracts raw numbers from phone number, adds country code, and sends to Firebase API
   _onNextButtonPress = () => {
     return(
       () => {
@@ -188,7 +200,7 @@ class LoginScreen extends React.Component {
             {/* Invalid Number Text */}
             {this.state.isPhoneNumberInvalid &&
               <View style={[styles.componentSize, styles.phoneNumberView]}>
-                <View style={{width: '25%'}} />
+                <View style={{width: '25%'}} /> {/* Equal to PhoneNumberCountryCode width */}
                 <Text style={[styles.invalidNumberText]}>
                   Invalid Number
                 </Text>

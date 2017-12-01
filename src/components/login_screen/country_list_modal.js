@@ -21,10 +21,12 @@ class CountryListModal extends React.PureComponent {
     };
   }
 
+  // Renders the ListView after other modal contents are mounted for performance
   componentDidMount() {
     this.setState({ isModalMounted: true });
   }
 
+  // Scrolls directly to the currently selected country when ListView is opened
   _onListViewContentSizeChange = () => {
     this.listView.scrollTo({x: 0, y: this.props.countryIndex * 17 * scaleFactor - 2, animated: true})
   }
@@ -35,6 +37,7 @@ class CountryListModal extends React.PureComponent {
     )
   }
 
+  // Renders ListView items
   _renderItem = () => {
     return (
       (rowData, sectionID, rowID) => ( <CountryListItem item={rowData} countryIndex={rowID} setCountry={this.props.setCountry} /> )
