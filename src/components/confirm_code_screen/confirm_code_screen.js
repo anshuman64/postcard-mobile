@@ -1,13 +1,13 @@
 // Library Imports
-import React                                from 'react';
-import { Button, StyleSheet, Text, View, TextInput, TouchableWithoutFeedback }   from 'react-native';
-import { connect }                          from 'react-redux';
-import { PhoneNumberUtil, PhoneNumberFormat }                from 'google-libphonenumber';
-import Icon from 'react-native-vector-icons/Ionicons'
+import React                                                                    from 'react';
+import { Button, StyleSheet, Text, View, TextInput, TouchableWithoutFeedback }  from 'react-native';
+import { connect }                                                              from 'react-redux';
+import { PhoneNumberUtil, PhoneNumberFormat }                                   from 'google-libphonenumber';
+import Icon                                                                     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }  from './confirm_code_screen_styles.js';
-import { toPostsScreen, toBackScreen }        from '../../actions/navigation_actions.js';
+import { styles, scaleFactor }          from './confirm_code_screen_styles.js';
+import { toPostsScreen, toBackScreen }  from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -32,6 +32,7 @@ class ConfirmCodeScreen extends React.Component {
 
     this._codeInputOnChangeText = this._codeInputOnChangeText.bind(this);
     this.tick = this.tick.bind(this);
+    this.render = this.render.bind(this);
   }
 
   componentDidMount() {
@@ -68,18 +69,18 @@ class ConfirmCodeScreen extends React.Component {
 
   _codeInputOnChangeText(value) {
     // Debug test
-    if (value.length === 6) {
-      if (value === this.props.confirmationCodeObj) {
-        console.error('SMS Code Verification Successful!');
-      } else {
-        this.setState({ isCodeIncorrect: true });
-      }
-    }
+    // if (value.length === 6) {
+    //   if (value === this.props.confirmationCodeObj) {
+    //     console.error('SMS Code Verification Successful!');
+    //   } else {
+    //     this.setState({ isCodeIncorrect: true });
+    //   }
+    // }
 
     // Real Firebase API
-    // if (value.length === 6) {
-    //   this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value);
-    // }
+    if (value.length === 6) {
+      this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value);
+    }
   }
 
   _onBackIconPress() {
@@ -88,10 +89,10 @@ class ConfirmCodeScreen extends React.Component {
 
   _onResendSMSPress() {
     // Debug test
-    this.props.debugGetConfirmationCode(this.props.phoneNumber);
+    // this.props.debugGetConfirmationCode(this.props.phoneNumber);
 
     // Real Firebase API
-    // this.props.getConfirmationCode(this.props.phoneNumber);
+    this.props.getConfirmationCode(this.props.phoneNumber);
 
     this.startTimer();
   }
@@ -118,7 +119,7 @@ class ConfirmCodeScreen extends React.Component {
           Enter Confirmation Code
         </Text>
         <Text style={[styles.subtitleText]}>
-          Sent to {/* this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
+          Sent to {this.props.phoneNumber} {/* this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
         </Text>
 
 

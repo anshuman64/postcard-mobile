@@ -4,13 +4,13 @@ import { Platform, PixelRatio, View, Text, TouchableHighlight, Modal, Image, Tou
 import * as _                                                                                                       from 'lodash';
 import { PhoneNumberUtil, AsYouTypeFormatter }                                                                      from 'google-libphonenumber';
 import firebase                                                                                                     from 'react-native-firebase';
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon                                                                                                         from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }              from './login_screen_styles.js';
-import CountryListModal                     from './country_list_modal.js';
-import { toConfirmCodeScreen }              from '../../actions/navigation_actions.js';
-import countryCodes                         from '../../resources/country_codes.js';
+import { styles, scaleFactor }  from './login_screen_styles.js';
+import CountryListModal         from './country_list_modal.js';
+import countryCodes             from '../../resources/country_codes.js';
+import { toConfirmCodeScreen }  from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -36,25 +36,25 @@ class LoginScreen extends React.Component {
     this.phoneUtil = PhoneNumberUtil.getInstance();
   }
 
-  componentDidMount() {
-    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ user: user });
-      } else {
-        // User has been signed out, reset the state
-        // this.setState({
-        //   user: null,
-        //   confirmCodeObj: null,
-        // });
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
+  // componentDidMount() {
+  //   this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       this.setState({ user: user });
+  //     } else {
+  //       User has been signed out, reset the state
+  //       this.setState({
+  //         user: null,
+  //         confirmCodeObj: null,
+  //       });
+  //     }
+  //   });
+  // }
+  //
+  // componentWillUnmount() {
+  //   if (this.unsubscribe) {
+  //     this.unsubscribe();
+  //   }
+  // }
 
   _setState = (state) => {
     return(
@@ -124,10 +124,10 @@ class LoginScreen extends React.Component {
         }
 
         // Debug test
-        this.props.debugGetConfirmationCode(number);
+        // this.props.debugGetConfirmationCode(number);
 
         // Real Firebase API
-        // this.props.getConfirmationCode(number);
+        this.props.getConfirmationCode(number);
 
         this.props.navigation.dispatch(toConfirmCodeScreen());
       }
@@ -196,9 +196,6 @@ class LoginScreen extends React.Component {
                 </Text>
               </View>
             }
-
-
-
 
           <View style={{flex: 2}} />
 

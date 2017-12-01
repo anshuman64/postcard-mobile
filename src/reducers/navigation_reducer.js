@@ -1,10 +1,10 @@
 // Library Imports
-import * as _                                                                                   from 'lodash';
-import { NavigationActions }                                                                    from 'react-navigation';
+import * as _                 from 'lodash';
+import { NavigationActions }  from 'react-navigation';
 
 // Local Imports
-import { AppNavigator }                                                                         from '../utilities/app_navigator.js';
-import { TO_LOGIN_SCREEN, TO_CONFIRM_CODE_SCREEN, TO_POSTS_SCREEN, TO_NEW_POST_SCREEN, BACK_SCREEN } from '../actions/navigation_actions.js';
+import { AppNavigator }                                                                               from '../utilities/app_navigator.js';
+import { TO_LOGIN_SCREEN, TO_CONFIRM_CODE_SCREEN, TO_POSTS_SCREEN, TO_NEW_POST_SCREEN, BACK_SCREEN }  from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 

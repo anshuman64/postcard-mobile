@@ -8,9 +8,9 @@ import { addNavigationHelpers, StackNavigator, NavigationActions }  from 'react-
 // Local Imports
 import LoginScreenContainer        from '../components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer  from '../components/confirm_code_screen/confirm_code_screen_container.js';
-import PostsScreen        from '../components/screens/posts_screen.js';
-import NewPostScreen      from '../components/screens/newpost_screen.js';
-import { toBackScreen }   from '../actions/navigation_actions.js';
+import PostsScreen                 from '../components/screens/posts_screen.js';
+import NewPostScreen               from '../components/screens/newpost_screen.js';
+import { toBackScreen }            from '../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//

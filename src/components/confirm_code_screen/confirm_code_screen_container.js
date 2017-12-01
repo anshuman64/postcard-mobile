@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import ConfirmCodeScreen from './confirm_code_screen.js';
+import ConfirmCodeScreen                                                         from './confirm_code_screen.js';
 import { getConfirmationCode, verifyConfirmationCode, debugGetConfirmationCode } from '../../actions/user_actions.js';
 
 
