@@ -30,10 +30,12 @@ export const receiveUser = (data) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
+// LoginScreen: Updates global state with inputted phone number and made up confirmation code (as a string)
 export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
     dispatch(receiveConfirmationCode({phoneNumber: phoneNumber, confirmationCodeObj: '123456'}));
 };
 
+// LoginScreen: Sends inputted phone number to Firebase API to retrieve confirmation code; updates global store with inputted phone number and confirmationCodeObj; transitions to ConfirmCodeScreen
 export const getConfirmationCodeAndChangeScreens = (phoneNumber) => (dispatch) => {
   return UserAPI.getConfirmationCode(phoneNumber)
     .then((confirmationCodeObj) => {
@@ -42,6 +44,7 @@ export const getConfirmationCodeAndChangeScreens = (phoneNumber) => (dispatch) =
     });
 };
 
+// LoginScreen: Same as getConfirmationCodeAndChangeScreens, without transition to ConfirmationCodeScreen; used for Resend SMS button on ConfirmationCodeScreen
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {
   return UserAPI.getConfirmationCode(phoneNumber)
     .then((confirmationCodeObj) => {
@@ -49,6 +52,7 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
     });
 };
 
+// ConfirmCodeScreen: Verifies inputted confirmation code and updates global store with returned firebaseUserObj; transitions to PostsScreen
 export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (dispatch) => {
   return confirmationCodeObj.confirm(inputtedCode)
     .then((firebaseUserObj) => {
