@@ -1,5 +1,5 @@
 // Local Imports
-import * as UserAPI             from '../api/user_api.js';
+import * as UserAPI                            from '../api/user_api.js';
 import { toConfirmCodeScreen, toPostsScreen }  from './navigation_actions.js';
 
 //--------------------------------------------------------------------//
@@ -32,6 +32,14 @@ export const receiveUser = (data) => {
 
 export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
     dispatch(receiveConfirmationCode({phoneNumber: phoneNumber, confirmationCodeObj: '123456'}));
+};
+
+export const getConfirmationCodeAndChangeScreens = (phoneNumber) => (dispatch) => {
+  return UserAPI.getConfirmationCode(phoneNumber)
+    .then((confirmationCodeObj) => {
+      dispatch(receiveConfirmationCode({phoneNumber: phoneNumber, confirmationCodeObj: confirmationCodeObj}));
+      dispatch(toConfirmCodeScreen());
+    });
 };
 
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {
