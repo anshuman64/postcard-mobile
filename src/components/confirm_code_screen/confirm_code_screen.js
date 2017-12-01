@@ -23,7 +23,7 @@ class ConfirmCodeScreen extends React.Component {
       isCodeIncorrect: false,
       isResendSMSDisabled: true,
       isResendSMSPressed: false,
-      secsRemaining: 0,
+      secsRemaining: 0, // set to 59 seconds in startTimer()
       isCodeInvalid: false,
     };
 
@@ -43,15 +43,18 @@ class ConfirmCodeScreen extends React.Component {
     this.stopTimer();
   }
 
+  // Starts Resend SMS timer
   startTimer() {
     this.timer = setInterval(this.tick, 1000);
     this.setState({isResendSMSDisabled: true, secsRemaining: 59})
   }
 
+  // Stops Resend SMS timer
   stopTimer() {
     clearInterval(this.timer);
   }
 
+  // Updates Resend SMS timer every second
   tick() {
     this.setState({ secsRemaining: this.state.secsRemaining - 1 }, () => {
       if (this.state.secsRemaining <= 0) {
@@ -67,6 +70,8 @@ class ConfirmCodeScreen extends React.Component {
     )
   }
 
+  // Sends code to Firebase API as soon as user has inputted six digits
+  // TODO: handle error callback if code is invalid
   _codeInputOnChangeText(value) {
     // Debug test
     // if (value.length === 6) {
@@ -83,10 +88,12 @@ class ConfirmCodeScreen extends React.Component {
     }
   }
 
+  // Callback function to return to login screen
   _onBackIconPress() {
     this.props.navigation.dispatch(toBackScreen());
   }
 
+  // Callback function to resend confirmation code via SMS and restart timer
   _onResendSMSPress() {
     // Debug test
     // this.props.debugGetConfirmationCode(this.props.phoneNumber);
@@ -119,6 +126,7 @@ class ConfirmCodeScreen extends React.Component {
           Enter Confirmation Code
         </Text>
         <Text style={[styles.subtitleText]}>
+          {/* Displays phone number in clean format */}
           Sent to { this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) }
         </Text>
 
@@ -161,6 +169,7 @@ class ConfirmCodeScreen extends React.Component {
               Resend SMS
             </Text>
             <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+              {/* Displays countdown timer in clean format */}
               {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
             </Text>
           </View>
