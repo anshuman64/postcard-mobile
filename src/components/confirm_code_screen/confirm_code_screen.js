@@ -74,18 +74,18 @@ class ConfirmCodeScreen extends React.Component {
   // TODO: handle error callback if code is invalid
   _codeInputOnChangeText(value) {
     // Debug test
-    // if (value.length === 6) {
-    //   if (value === this.props.confirmationCodeObj) {
-    //     console.error('SMS Code Verification Successful!');
-    //   } else {
-    //     this.setState({ isCodeIncorrect: true });
-    //   }
-    // }
+    if (value.length === 6) {
+      if (value === this.props.confirmationCodeObj) {
+        this.props.navigation.dispatch(toPostsScreen());
+      } else {
+        this.setState({ isCodeIncorrect: true });
+      }
+    }
 
     // Real Firebase API
-    if (value.length === 6) {
-      this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value);
-    }
+    // if (value.length === 6) {
+    //   this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value);
+    // }
   }
 
   // Callback function to return to login screen
@@ -96,10 +96,10 @@ class ConfirmCodeScreen extends React.Component {
   // Callback function to resend confirmation code via SMS and restart timer
   _onResendSMSPress() {
     // Debug test
-    // this.props.debugGetConfirmationCode(this.props.phoneNumber);
+    this.props.debugGetConfirmationCode(this.props.phoneNumber);
 
     // Real Firebase API
-    this.props.getConfirmationCode(this.props.phoneNumber);
+    // this.props.getConfirmationCode(this.props.phoneNumber);
 
     this.startTimer();
   }

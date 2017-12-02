@@ -33,6 +33,7 @@ export const receiveUser = (data) => {
 // LoginScreen: Updates global state with inputted phone number and made up confirmation code (as a string)
 export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
     dispatch(receiveConfirmationCode({phoneNumber: phoneNumber, confirmationCodeObj: '123456'}));
+    dispatch(toConfirmCodeScreen());
 };
 
 // LoginScreen: Sends inputted phone number to Firebase API to retrieve confirmation code; updates global store with inputted phone number and confirmationCodeObj; transitions to ConfirmCodeScreen

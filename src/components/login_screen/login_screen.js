@@ -136,10 +136,10 @@ class LoginScreen extends React.Component {
         }
 
         // Debug test
-        // this.props.debugGetConfirmationCode(number);
+        this.props.debugGetConfirmationCode(number);
 
         // Real Firebase API
-        this.props.getConfirmationCodeAndChangeScreens(number);
+        // this.props.getConfirmationCodeAndChangeScreens(number);
       }
     )
   }
