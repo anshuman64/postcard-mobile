@@ -51,5 +51,6 @@ export const styles = StyleSheet.create({
     width: '100%',
     textAlignVertical: 'top',
     fontSize: 8 * scaleFactor,
+    padding: 7 * scaleFactor,
   },
 });

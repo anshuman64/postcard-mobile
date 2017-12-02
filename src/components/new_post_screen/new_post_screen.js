@@ -16,9 +16,13 @@ class NewPostScreen extends React.Component {
 
     this.state = {
       isBackIconPressed: false,
+      postText: '',
     };
+
+    this._onPressShare = this._onPressShare.bind(this);
   }
 
+  // Callback function for setting state in animation frame; recommended by React Native docs for animations
   _setStateInAnimationFrame = (state) => {
     return(
       () => (requestAnimationFrame(() => {this.setState(state)}))
@@ -28,6 +32,14 @@ class NewPostScreen extends React.Component {
   // Callback function to return to login screen
   _onBackIconPress() {
     this.props.navigation.dispatch(toBackScreen());
+  }
+
+  _onChangeText(value) {
+    this.setState({ postText: value })
+  }
+
+  _onPressShare() {
+    this.props.createPost(this.state.postText);
   }
 
   render() {
@@ -54,6 +66,7 @@ class NewPostScreen extends React.Component {
           style={[styles.textInput]}
           placeholderTextColor={'#bdbdbd'}
           placeholder={'What are you thankful for today?'}
+          onChangeText={(value) => this._onChangeText(value)}
           autoFocus={true}
           multiline={true}
           returnKeyType={'done'}
