@@ -8,8 +8,9 @@ import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }
 // Local Imports
 import LoginScreenContainer        from '../components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer  from '../components/confirm_code_screen/confirm_code_screen_container.js';
-import AllPostsScreen              from '../components/posts_screen/all_posts_screen.js';
-import MyPostsScreen               from '../components/posts_screen/my_posts_screen.js';
+import AllPostsTab                 from '../components/posts_screen/all_posts_tab.js';
+import MyPostsTab                  from '../components/posts_screen/my_posts_tab.js';
+import MenuTab                     from '../components/posts_screen/menu_tab.js';
 import NewPostScreenContainer      from '../components/new_post_screen/new_post_screen_container.js';
 import { toBackScreen }            from '../actions/navigation_actions.js';
 
@@ -17,8 +18,9 @@ import { toBackScreen }            from '../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 export const PostNavigator = TabNavigator({
-  AllPostsScreen: { screen: AllPostsScreen },
-  MyPostsScreen: { screen: MyPostsScreen },
+  MenuTab: { screen: MenuTab },
+  AllPostsTab: { screen: AllPostsTab },
+  MyPostsTab: { screen: MyPostsTab },
 })
 
 export const AppNavigator = StackNavigator({
