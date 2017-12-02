@@ -1,12 +1,12 @@
 // Library Imports
-import React                                from 'react';
+import React                                                                     from 'react';
 import { Button, StyleSheet, Text, View, TouchableWithoutFeedback, TextInput }   from 'react-native';
-import { connect }                          from 'react-redux';
-import Icon                                                                     from 'react-native-vector-icons/Ionicons';
+import { connect }                                                               from 'react-redux';
+import Icon                                                                      from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }              from './new_post_screen_styles.js';
-import { toBackScreen }                     from '../../actions/navigation_actions.js';
+import { styles, scaleFactor }  from './new_post_screen_styles.js';
+import { toBackScreen }         from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -34,10 +34,12 @@ class NewPostScreen extends React.Component {
     this.props.navigation.dispatch(toBackScreen());
   }
 
+  // Callback function when text is inputted
   _onChangeText(value) {
     this.setState({ postText: value })
   }
 
+  // TODO: Callback function when "Share" button is pressed
   _onPressShare() {
     this.props.createPost(this.state.postText);
   }
@@ -45,8 +47,8 @@ class NewPostScreen extends React.Component {
   render() {
     return (
       <View style={[styles.container]}>
-        {/* Header */}
         <View style={[styles.headerView]}>
+          {/* Back Button */}
           <TouchableWithoutFeedback
             onPressIn={this._setStateInAnimationFrame({ isBackIconPressed: true})}
             onPressOut={this._setStateInAnimationFrame({ isBackIconPressed: false})}
@@ -54,6 +56,8 @@ class NewPostScreen extends React.Component {
             >
              <Icon name='ios-arrow-round-back-outline' style={[styles.backIcon, this.state.isBackIconPressed && styles.textHighlighted]} />
          </TouchableWithoutFeedback>
+
+         {/* Share Button */}
           <Text
             onPress={() => this._onBackIconPress()}
             style={[styles.postButtonText]}
@@ -61,6 +65,7 @@ class NewPostScreen extends React.Component {
             Share
           </Text>
        </View>
+       
         {/* Text Input */}
         <TextInput
           style={[styles.textInput]}
