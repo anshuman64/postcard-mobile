@@ -8,11 +8,11 @@ import { toNewPostScreen }                  from '../../actions/navigation_actio
 
 //--------------------------------------------------------------------//
 
-class MyPostsScreen extends React.Component {
+class AllPostsTab extends React.Component {
   render() {
     return (
       <View>
-        <Text>My Posts Screen</Text>
+        <Text>Posts Screen</Text>
         <Button title={'To NewPost Screen'} onPress={() => this.props.navigation.dispatch(toNewPostScreen())} />
       </View>
     )
@@ -21,4 +21,4 @@ class MyPostsScreen extends React.Component {
 
 //--------------------------------------------------------------------//
 
-export default MyPostsScreen;
+export default AllPostsTab;

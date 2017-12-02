@@ -22,6 +22,11 @@ class NewPostScreen extends React.Component {
     this._onPressShare = this._onPressShare.bind(this);
   }
 
+  // Debug Test
+  componentDidMount() {
+    this.props.navigation.dispatch(toPostsScreen());
+  }
+
   // Callback function for setting state in animation frame; recommended by React Native docs for animations
   _setStateInAnimationFrame = (state) => {
     return(
