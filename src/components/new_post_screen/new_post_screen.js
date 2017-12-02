@@ -1,7 +1,8 @@
 // Library Imports
 import React                                from 'react';
-import { Button, StyleSheet, Text, View }   from 'react-native';
+import { Button, StyleSheet, Text, View, TouchableWithoutFeedback, TextInput }   from 'react-native';
 import { connect }                          from 'react-redux';
+import Icon                                                                     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles, scaleFactor }              from './new_post_screen_styles.js';
@@ -18,16 +19,47 @@ class NewPostScreen extends React.Component {
     };
   }
 
+  _setStateInAnimationFrame = (state) => {
+    return(
+      () => (requestAnimationFrame(() => {this.setState(state)}))
+    )
+  }
+
+  // Callback function to return to login screen
+  _onBackIconPress() {
+    this.props.navigation.dispatch(toBackScreen());
+  }
+
   render() {
     return (
       <View style={[styles.container]}>
         {/* Header */}
-
+        <View style={[styles.headerView]}>
+          <TouchableWithoutFeedback
+            onPressIn={this._setStateInAnimationFrame({ isBackIconPressed: true})}
+            onPressOut={this._setStateInAnimationFrame({ isBackIconPressed: false})}
+            onPress={() => this._onBackIconPress()}
+            >
+             <Icon name='ios-arrow-round-back-outline' style={[styles.backIcon, this.state.isBackIconPressed && styles.textHighlighted]} />
+         </TouchableWithoutFeedback>
+          <Text
+            onPress={() => this._onBackIconPress()}
+            style={[styles.postButtonText]}
+            >
+            Share
+          </Text>
+       </View>
         {/* Text Input */}
-        <View>
-          <Text>NewPost Screen</Text>
-          <Button title={'Go Back'} onPress={() => this.props.navigation.dispatch(toBackScreen())} />
-        </View>
+        <TextInput
+          style={[styles.textInput]}
+          placeholderTextColor={'#bdbdbd'}
+          placeholder={'What are you thankful for today?'}
+          autoFocus={true}
+          multiline={true}
+          returnKeyType={'done'}
+          underlineColorAndroid={'transparent'}
+          style={[styles.textInput]}
+          />
       </View>
     )
   }
