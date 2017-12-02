@@ -19,10 +19,11 @@ export const styles = StyleSheet.create({
   },
   headerView: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     width: '100%',
     height: 22 * scaleFactor,
-    // backgroundColor: '#ffffff',
-    // elevation: 2,
+    backgroundColor: '#ffffff',
+    elevation: 2,
   },
   backIcon: {
     height: 22 * scaleFactor,
@@ -33,64 +34,22 @@ export const styles = StyleSheet.create({
     marginLeft: 6 * scaleFactor,
     color: '#212121',
   },
-  titleText: {
-    fontFamily: 'System',
-    fontSize: 7.4 * scaleFactor,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: '#212121'
-  },
-  subtitleText: {
-    fontFamily: 'System',
-    fontSize: 6 * scaleFactor,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: '#212121',
-    marginTop: '1%'
-  },
-  codeInput: {
-    width: 60 * scaleFactor,
-    textAlign: 'center',
-    fontSize: 10 * scaleFactor,
-    borderBottomColor: '#212121',
-    borderBottomWidth: 0.3 * scaleFactor,
-  },
-  borderHighlighted: {
-    borderBottomColor: '#007aff',
-    borderBottomWidth: 0.6 * scaleFactor
-  },
-  borderRed: {
-    borderBottomColor: '#ff313a',
-    borderBottomWidth: 0.6 * scaleFactor
-  },
-  invalidCodeText: {
-    height: 12 * scaleFactor,
-    width: 60 * scaleFactor,
-    fontSize: 6 * scaleFactor,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: '#ff313a'
-  },
-  resendSMSView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 120 * scaleFactor,
-    height: 15 * scaleFactor,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderBottomColor: '#212121',
-    borderBottomWidth: 0.3 * scaleFactor,
-  },
-  resendSMSText: {
-    height: 15 * scaleFactor,
-    fontSize: 7 * scaleFactor,
-    color: '#bdbdbd',
-  },
-  smsTextActive: {
-    color: '#212121',
-  },
   textHighlighted: {
    color: '#007aff',
  },
+  postButtonText: {
+    height: 22 * scaleFactor,
+    width: 22 * scaleFactor,
+    fontSize: 6 * scaleFactor,
+    textAlign: 'right',
+    textAlignVertical: 'center',
+    marginRight: 8 * scaleFactor,
+    color: '#007aff',
+  },
+  textInput: {
+    flex: 1,
+    width: '100%',
+    textAlignVertical: 'top',
+    fontSize: 8 * scaleFactor,
+  },
 });
