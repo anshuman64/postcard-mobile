@@ -6,7 +6,7 @@ import Icon                                                                     
 
 // Local Imports
 import { styles, scaleFactor }              from './new_post_screen_styles.js';
-import { toBackScreen }                     from '../../actions/navigation_actions.js';
+import { toBackScreen, toPostsScreen }                     from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -31,7 +31,11 @@ class NewPostScreen extends React.Component {
 
   // Callback function to return to login screen
   _onBackIconPress() {
-    this.props.navigation.dispatch(toBackScreen());
+    //Debug test
+    this.props.navigation.dispatch(toPostsScreen());
+
+    // Real
+    // this.props.navigation.dispatch(toBackScreen());
   }
 
   _onChangeText(value) {

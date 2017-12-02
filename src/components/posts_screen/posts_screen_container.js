@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import NewPostScreen   from './new_post_screen.js';
-import { createPost }  from '../../actions/post_actions.js';
+import PostsScreen   from './posts_screen.js';
+import { getPosts }  from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -15,10 +15,10 @@ import { createPost }  from '../../actions/post_actions.js';
 // });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createPost: (post) => dispatch(createPost(post))
+  getPosts: (post) => dispatch(getPosts(post))
 });
 
 export default connect(
   // mapStateToProps,
   mapDispatchToProps
-)(NewPostScreen);
+)(PostsScreen);
