@@ -3,23 +3,22 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import NewPostScreen                                                      from './new_post_screen.js';
-import { getConfirmationCodeAndChangeScreens, debugGetConfirmationCode }  from '../../actions/user_actions.js';
+import { createPost }  from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user }, ownProps) => ({
-  phoneNumber: user.phoneNumber,
-  confirmationCodeObj: user.confirmationCodeObj
-});
+// const mapStateToProps = ({ user }, ownProps) => ({
+//   phoneNumber: user.phoneNumber,
+//   confirmationCodeObj: user.confirmationCodeObj
+// });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getConfirmationCodeAndChangeScreens: (phoneNumber) => dispatch(getConfirmationCodeAndChangeScreens(phoneNumber)),
-  debugGetConfirmationCode: (phoneNumber) => dispatch(debugGetConfirmationCode(phoneNumber))
+  createPost: (post) => dispatch(createPost(post))
 });
 
 export default connect(
-  mapStateToProps,
+  // mapStateToProps,
   mapDispatchToProps
 )(NewPostScreen);
