@@ -2,12 +2,13 @@
 import React                                                        from 'react';
 import PropTypes                                                    from 'prop-types';
 import { connect }                                                  from 'react-redux';
-import { BackHandler }                                              from "react-native";
+import { BackHandler, View, Text }                                              from "react-native";
 import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }  from 'react-navigation';
 
 // Local Imports
 import LoginScreenContainer        from '../components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer  from '../components/confirm_code_screen/confirm_code_screen_container.js';
+import TabNavigatorHeader          from '../components/posts_screen/tab_navigator_header.js';
 import AllPostsTab                 from '../components/posts_screen/all_posts_tab.js';
 import MyPostsTab                  from '../components/posts_screen/my_posts_tab.js';
 import MenuTab                     from '../components/posts_screen/menu_tab.js';
@@ -21,6 +22,8 @@ export const PostNavigator = TabNavigator({
   MenuTab: { screen: MenuTab },
   AllPostsTab: { screen: AllPostsTab },
   MyPostsTab: { screen: MyPostsTab },
+}, {
+  tabBarComponent: TabNavigatorHeader,
 })
 
 export const AppNavigator = StackNavigator({

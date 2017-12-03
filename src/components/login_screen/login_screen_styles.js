@@ -1,6 +1,6 @@
 // Library Imports
 import React                       from 'react';
-import { StyleSheet, PixelRatio }  from 'react-native';
+import { Platform, StyleSheet, PixelRatio }  from 'react-native';
 
 
 //--------------------------------------------------------------------//
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 0.6 * scaleFactor
   },
   text: {
-    fontFamily: 'System',
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: 7.4 * scaleFactor,
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -106,7 +106,7 @@ export const styles = StyleSheet.create({
     fontSize: 6 * scaleFactor,
     color: '#757575',
     textAlign: 'left',
-    marginTop: '3%'
+    marginTop: '3%',
   },
   modalContainer: {
     justifyContent: 'space-between',
