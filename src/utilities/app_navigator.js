@@ -8,29 +8,32 @@ import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }
 // Local Imports
 import LoginScreenContainer        from '../components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer  from '../components/confirm_code_screen/confirm_code_screen_container.js';
-import TabNavigatorHeader          from '../components/posts_screen/tab_navigator_header.js';
-import AllPostsTab                 from '../components/posts_screen/all_posts_tab.js';
-import MyPostsTab                  from '../components/posts_screen/my_posts_tab.js';
-import MenuTab                     from '../components/posts_screen/menu_tab.js';
+import HomeScreen                  from '../components/home_screen/home_screen.js';
+import MyPostsTab                  from '../components/user_screen/my_posts_tab.js';
+import MyLikesTab                  from '../components/user_screen/my_likes_tab.js';
 import NewPostScreenContainer      from '../components/new_post_screen/new_post_screen_container.js';
+import MenuScreen                  from '../components/menu_screen/menu_screen.js';
+import TabNavigatorHeader          from './tab_navigator_header.js';
 import { toBackScreen }            from '../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
 
-export const PostNavigator = TabNavigator({
-  MenuTab: { screen: MenuTab },
-  AllPostsTab: { screen: AllPostsTab },
+export const UserScreen = TabNavigator({
   MyPostsTab: { screen: MyPostsTab },
+  MyLikesTab: { screen: MyLikesTab },
 }, {
   tabBarComponent: TabNavigatorHeader,
+  tabBarPosition: 'bottom'
 })
 
 export const AppNavigator = StackNavigator({
   LoginScreen: { screen: LoginScreenContainer },
   ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
-  PostsScreen: { screen: PostNavigator },
+  HomeScreen: { screen: HomeScreen },
+  UserScreen: { screen: UserScreen },
   NewPostScreen: { screen: NewPostScreenContainer },
+  MenuScreen: { screen: MenuScreen },
 }, {
   navigationOptions: {
     tabBarVisible: false,
