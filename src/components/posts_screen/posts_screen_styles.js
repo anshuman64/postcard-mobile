@@ -44,5 +44,34 @@ export const styles = StyleSheet.create({
   },
   highlight: {
     color: '#007aff'
-  }
+  },
+
+  headerView: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 22 * scaleFactor,
+    backgroundColor: '#ffffff',
+    elevation: 2,
+  },
+  headerIcon: {
+    height: 22 * scaleFactor,
+    fontSize: 8 * scaleFactor,
+    textAlignVertical: 'center',
+    color: '#212121',
+  },
+  headerIconPeople: {
+    width: '38%',
+    textAlign: 'center',
+    marginLeft: '3%',
+  },
+  headerIconUser: {
+    width: '38%',
+    textAlign: 'center',
+  },
+  headerIconMenu: {
+    width: '8%',
+    textAlign: 'center',
+    marginRight: '3%',
+    marginLeft: '3%',
+  },
 });
