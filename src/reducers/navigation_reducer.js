@@ -3,12 +3,12 @@ import * as _                 from 'lodash';
 import { NavigationActions }  from 'react-navigation';
 
 // Local Imports
-import { AppNavigator, PostNavigator }                                                                               from '../utilities/app_navigator.js';
-import { TO_LOGIN_SCREEN, TO_CONFIRM_CODE_SCREEN, TO_POSTS_SCREEN, TO_ALL_POSTS_TAB, TO_MY_POSTS_TAB, TO_MENU_TAB, TO_NEW_POST_SCREEN, BACK_SCREEN }  from '../actions/navigation_actions.js';
+import { AppNavigator, PostNavigator }                                                                                                                 from '../utilities/app_navigator.js';
+import { TO_LOGIN_SCREEN, TO_CONFIRM_CODE_SCREEN, TO_HOME_SCREEN, TO_MY_POSTS_TAB, TO_MY_LIKES_TAB, TO_MENU_SCREEN, TO_NEW_POST_SCREEN, BACK_SCREEN }  from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_STATE = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('LoginScreen'));
+const DEFAULT_STATE = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('HomeScreen'));
 
 const NavigationReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
@@ -29,30 +29,23 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-    case TO_POSTS_SCREEN:
+    case TO_HOME_SCREEN:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'PostsScreen' }),
-        state
-      );
-
-      return newState;
-    case TO_ALL_POSTS_TAB:
-      newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'AllPostsTab' }),
+        NavigationActions.navigate({ routeName: 'HomeScreen' }),
         state
       );
 
       return newState;
     case TO_MY_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'NewPostScreen' }),
+        NavigationActions.navigate({ routeName: 'MyPostsTab' }),
         state
       );
 
       return newState;
-    case TO_MENU_TAB:
+    case TO_MY_LIKES_TAB:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'NewPostScreen' }),
+        NavigationActions.navigate({ routeName: 'MyLikesTab' }),
         state
       );
 
@@ -60,6 +53,13 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
     case TO_NEW_POST_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'NewPostScreen' }),
+        state
+      );
+
+      return newState;
+    case TO_MENU_SCREEN:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'MenuScreen' }),
         state
       );
 

@@ -60,13 +60,14 @@ export const styles = StyleSheet.create({
     color: '#212121',
   },
   headerIconPeople: {
-    width: '38%',
+    width: '46%',
     textAlign: 'center',
-    marginLeft: '3%',
+    marginLeft: '2.5%'
   },
   headerIconUser: {
-    width: '38%',
+    width: '46%',
     textAlign: 'center',
+    marginRight: '2.5%'
   },
   headerIconMenu: {
     width: '8%',

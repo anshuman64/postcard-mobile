@@ -5,12 +5,12 @@ import { connect }                          from 'react-redux';
 import Icon                                                           from 'react-native-vector-icons/MaterialIcons';
 
 // Local Imports
-import { styles, scaleFactor }  from './posts_screen_styles.js';
+import { styles, scaleFactor }  from './menu_screen_styles.js';
 import { toNewPostScreen, toAllPostsTab }                  from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
-class MenuTab extends React.Component {
+class MenuScreen extends React.Component {
     constructor(props) {
       super(props);
 
@@ -100,4 +100,4 @@ class MenuTab extends React.Component {
 
 //--------------------------------------------------------------------//
 
-export default MenuTab;
+export default MenuScreen;

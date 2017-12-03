@@ -8,7 +8,7 @@ import { toNewPostScreen }                  from '../../actions/navigation_actio
 
 //--------------------------------------------------------------------//
 
-class AllPostsTab extends React.Component {
+class HomeScreen extends React.Component {
   render() {
     return (
       <View>
@@ -21,4 +21,4 @@ class AllPostsTab extends React.Component {
 
 //--------------------------------------------------------------------//
 
-export default AllPostsTab;
+export default HomeScreen;
