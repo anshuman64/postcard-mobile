@@ -1,6 +1,6 @@
 // Library Imports
 import React                       from 'react';
-import { StyleSheet, PixelRatio }  from 'react-native';
+import { Platform, StyleSheet, PixelRatio }  from 'react-native';
 
 
 //--------------------------------------------------------------------//
@@ -13,35 +13,45 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    paddingLeft: 5 * scaleFactor,
-    paddingRight: 5 * scaleFactor,
-    paddingTop: 5 * scaleFactor,
+    paddingLeft: 2 * scaleFactor,
+    paddingRight: 2 * scaleFactor,
+    paddingTop: 2 * scaleFactor,
     backgroundColor: '#fafafa',
   },
   body: {
     width: '100%',
-    padding: 5 * scaleFactor,
+    padding: 8 * scaleFactor,
     backgroundColor: '#ffffff',
     // borderColor: '#656565',
     // borderWidth: 0.1 * scaleFactor,
   },
-  text: {
-    width: '100%',
+  dateText: {
+    alignSelf: 'flex-end',
     textAlign: 'left',
     textAlignVertical: 'center',
+    marginBottom: 5 * scaleFactor
+  },
+  bodyText: {
+    width: '100%',
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: 6 * scaleFactor,
+    textAlign: 'left',
+    textAlignVertical: 'center',
+    marginBottom: 5 * scaleFactor
+  },
+  largeBodyText: {
+    fontSize: 8 * scaleFactor,
   },
   detailsView: {
     flexDirection: 'row',
     width: '100%'
   },
-  icon: {
-    fontSize: 7 * scaleFactor,
+  heartIcon: {
+    fontSize: 9 * scaleFactor,
+    marginRight: 4 * scaleFactor,
   },
   likeCountText: {
-    textAlign: 'left',
-    textAlignVertical: 'center',
-  },
-  dateText: {
+    fontSize: 6 * scaleFactor,
     textAlign: 'left',
     textAlignVertical: 'center',
   }
