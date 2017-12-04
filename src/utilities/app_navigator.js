@@ -74,6 +74,7 @@ class AppWithNavigationState extends React.Component {
   }
 
   onBackPress = () => {
+    console.log(this.props.nav)
     // Exit app if on LoginScreen or on HomeScreen
     if ( (this.props.nav.routes[0].routes.length === 1) ||
         (this.props.nav.routes.length === 2 && this.props.nav.routes[1].routes[0].routes.length === 1) ) {
