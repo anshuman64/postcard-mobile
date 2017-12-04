@@ -9,6 +9,7 @@ import { toNewPostScreen }                  from '../../actions/navigation_actio
 //--------------------------------------------------------------------//
 
 class MyPostsTab extends React.Component {
+
   render() {
     return (
       <View>

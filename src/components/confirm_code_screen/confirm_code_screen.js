@@ -1,13 +1,13 @@
 // Library Imports
 import React                                                                    from 'react';
-import { Button, StyleSheet, Text, View, TextInput, TouchableWithoutFeedback }  from 'react-native';
+import { Keyboard, Button, StyleSheet, Text, View, TextInput, TouchableWithoutFeedback }  from 'react-native';
 import { connect }                                                              from 'react-redux';
 import { PhoneNumberUtil, PhoneNumberFormat }                                   from 'google-libphonenumber';
 import Icon                                                                     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles, scaleFactor }          from './confirm_code_screen_styles.js';
-import { toPostsScreen, toBackScreen }  from '../../actions/navigation_actions.js';
+import { toHomeScreen, toBackScreen }  from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -76,7 +76,8 @@ class ConfirmCodeScreen extends React.Component {
     // Debug test
     if (value.length === 6) {
       if (value === this.props.confirmationCodeObj) {
-        this.props.navigation.dispatch(toPostsScreen());
+        this.props.navigation.dispatch(toHomeScreen());
+        Keyboard.dismiss();
       } else {
         this.setState({ isCodeIncorrect: true });
       }

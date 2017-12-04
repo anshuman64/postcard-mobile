@@ -12,7 +12,7 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View>
-        <Text>Posts Screen</Text>
+        <Text>Home Screen</Text>
         <Button title={'To NewPost Screen'} onPress={() => this.props.navigation.dispatch(toNewPostScreen())} />
       </View>
     )

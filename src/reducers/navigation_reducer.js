@@ -8,7 +8,8 @@ import { TO_LOGIN_SCREEN, TO_CONFIRM_CODE_SCREEN, TO_HOME_SCREEN, TO_MY_POSTS_TA
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_STATE = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('HomeScreen'));
+
+const DEFAULT_STATE = AppNavigator.router.getStateForAction(NavigationActions.init());
 
 const NavigationReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
@@ -31,14 +32,14 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case TO_HOME_SCREEN:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'HomeScreen' }),
+        NavigationActions.navigate({ routeName: 'HomeStackNavigator' }),
         state
       );
 
       return newState;
     case TO_MY_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'MyPostsTab' }),
+        NavigationActions.navigate({ routeName: 'UserStackNavigator' }),
         state
       );
 
