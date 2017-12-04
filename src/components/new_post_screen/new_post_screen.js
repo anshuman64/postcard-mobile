@@ -1,12 +1,12 @@
 // Library Imports
 import React                                from 'react';
-import { Button, StyleSheet, Text, View, TouchableWithoutFeedback, TextInput }   from 'react-native';
+import { Keyboard, Button, StyleSheet, Text, View, TouchableWithoutFeedback, TextInput }   from 'react-native';
 import { connect }                          from 'react-redux';
 import Icon                                                                     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles, scaleFactor }              from './new_post_screen_styles.js';
-import { toBackScreen, toPostsScreen }                     from '../../actions/navigation_actions.js';
+import { toBackScreen }                     from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -22,11 +22,6 @@ class NewPostScreen extends React.Component {
     this._onPressShare = this._onPressShare.bind(this);
   }
 
-  // Debug Test
-  componentDidMount() {
-    this.props.navigation.dispatch(toPostsScreen());
-  }
-
   // Callback function for setting state in animation frame; recommended by React Native docs for animations
   _setStateInAnimationFrame = (state) => {
     return(
@@ -37,7 +32,7 @@ class NewPostScreen extends React.Component {
   // Callback function to return to login screen
   _onBackIconPress() {
     //Debug test
-    this.props.navigation.dispatch(toPostsScreen());
+    this.props.navigation.dispatch(toBackScreen());
 
     // Real
     // this.props.navigation.dispatch(toBackScreen());

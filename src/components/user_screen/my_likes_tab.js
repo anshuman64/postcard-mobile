@@ -9,6 +9,7 @@ import { toNewPostScreen }                  from '../../actions/navigation_actio
 //--------------------------------------------------------------------//
 
 class MyLikesTab extends React.Component {
+
   render() {
     return (
       <View>

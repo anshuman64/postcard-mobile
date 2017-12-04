@@ -1,6 +1,6 @@
 // Library Imports
 import React                                                                                                        from 'react';
-import { Platform, PixelRatio, View, Text, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput }  from 'react-native';
+import { Platform, BackHandler, Keyboard, PixelRatio, View, Text, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput }  from 'react-native';
 import * as _                                                                                                       from 'lodash';
 import { PhoneNumberUtil, AsYouTypeFormatter }                                                                      from 'google-libphonenumber';
 import firebase                                                                                                     from 'react-native-firebase';
@@ -137,7 +137,6 @@ class LoginScreen extends React.Component {
 
         // Debug test
         this.props.debugGetConfirmationCode(number);
-
         // Real Firebase API
         // this.props.getConfirmationCodeAndChangeScreens(number);
       }

@@ -19,26 +19,49 @@ import { toBackScreen }            from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
-export const UserScreen = TabNavigator({
+export const UserTabNavigator = TabNavigator({
   MyPostsTab: { screen: MyPostsTab },
   MyLikesTab: { screen: MyLikesTab },
-}, {
-  tabBarComponent: TabNavigatorHeader,
-  tabBarPosition: 'bottom'
-})
+});
 
-export const AppNavigator = StackNavigator({
-  LoginScreen: { screen: LoginScreenContainer },
-  ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
-  HomeScreen: { screen: HomeScreen },
-  UserScreen: { screen: UserScreen },
+const UserStackNavigator = StackNavigator({
+  UserTabNavigator: { screen: UserTabNavigator },
   NewPostScreen: { screen: NewPostScreenContainer },
   MenuScreen: { screen: MenuScreen },
 }, {
-  navigationOptions: {
-    tabBarVisible: false,
-    header: null
-  }
+  headerMode: 'none'
+});
+
+const HomeStackNavigator = StackNavigator({
+  HomeScreen: { screen: HomeScreen },
+  NewPostScreen: { screen: NewPostScreenContainer}
+}, {
+  headerMode: 'none'
+});
+
+const MainNavigator = TabNavigator({
+  HomeStackNavigator: { screen: HomeStackNavigator },
+  UserStackNavigator: { screen: UserStackNavigator }
+}, {
+  tabBarComponent: TabNavigatorHeader,
+  tabBarPosition: 'bottom',
+  swipeEnabled: false,
+  animationEnabled: false,
+  lazy: true
+});
+
+const LoginNavigator = StackNavigator({
+  LoginScreen: { screen: LoginScreenContainer },
+  ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
+}, {
+  headerMode: 'none'
+});
+
+export const AppNavigator = StackNavigator({
+  // LoginNavigator: { screen: LoginNavigator },
+  MainNavigator: { screen: MainNavigator }
+}, {
+  headerMode: 'none'
 });
 
 class AppWithNavigationState extends React.Component {
@@ -51,7 +74,9 @@ class AppWithNavigationState extends React.Component {
   }
 
   onBackPress = () => {
-    if (this.props.nav.index === 0 || this.props.nav.index === 2) {
+    // Exit app if on LoginScreen or on HomeScreen
+    if ( (this.props.nav.routes[0].routes.length === 1) ||
+        (this.props.nav.routes.length === 2 && this.props.nav.routes[1].routes[0].routes.length === 1) ) {
       return false;
     }
     this.props.dispatch(toBackScreen());

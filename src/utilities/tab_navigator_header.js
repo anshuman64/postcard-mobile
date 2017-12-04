@@ -5,17 +5,53 @@ import { connect }                          from 'react-redux';
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
 
 // Local Imports
+import { toHomeScreen, toMyPostsTab }  from '../actions/navigation_actions.js';
+
 
 //--------------------------------------------------------------------//
 
 class TabNavigatorHeader extends React.Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      isHomeIconPressed: false,
+      isUserIconPressed: false,
+    };
+  }
+
+  // Callback function for setting state in animation frame; recommended by React Native docs for animations
+  _setStateInAnimationFrame = (state) => {
+    return(
+      () => (requestAnimationFrame(() => {this.setState(state)}))
+    )
+  }
+
+  _onPressHome() {
+    this.props.navigation.dispatch(toHomeScreen());
+  }
+
+  _onPressUser() {
+    this.props.navigation.dispatch(toMyPostsTab());
+  }
 
   render() {
     return (
       <View style={[styles.headerView]}>
-        <Icon name='home' style={[styles.headerIcon, styles.headerIconPeople]} />
-        <Icon name='user' style={[styles.headerIcon, styles.headerIconUser]} />
+        <TouchableWithoutFeedback
+          onPressIn={this._setStateInAnimationFrame({ isHomeIconPressed: true})}
+          onPressOut={this._setStateInAnimationFrame({ isHomeIconPressed: false})}
+          onPress={() => this._onPressHome()}
+          >
+          <Icon name='home' style={[styles.headerIcon, styles.headerIconPeople]} />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPressIn={this._setStateInAnimationFrame({ isUserIconPressed: true})}
+          onPressOut={this._setStateInAnimationFrame({ isUserIconPressed: false})}
+          onPress={() => this._onPressUser()}
+          >
+          <Icon name='user' style={[styles.headerIcon, styles.headerIconUser]} />
+        </TouchableWithoutFeedback>
       </View>
     )
   }
