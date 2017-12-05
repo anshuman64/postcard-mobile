@@ -1,12 +1,11 @@
 // Library Imports
 import React                                from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
-import ViewMoreText                         from 'react-native-view-more-text';
 import Icon                                 from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles, scaleFactor }  from './post_list_item_styles.js';
-import { monthNames, dayNames } from '../resources/date_names.js';
+import { styles, scaleFactor }  from './post_list_styles.js';
+import { monthNames, dayNames } from '../../resources/date_names.js';
 
 
 //--------------------------------------------------------------------//
@@ -72,21 +71,14 @@ class PostListItem extends React.PureComponent {
 
   render() {
     return(
-      <View style={[styles.container]}>
+      <View style={[styles.itemContainer]}>
         <View style={[styles.body]}>
           <Text style={[styles.dateText]}>
             {this._renderDate(this.props.item.created_at)}
           </Text>
-          <ViewMoreText
-            numberOfLines={6}
-            renderViewMore={this.renderViewMore}
-            renderViewLess={this.renderViewLess}
-            textStyle={[styles.bodyText]}
-            >
-            <Text>
-              {this.props.item.body}
-            </Text>
-          </ViewMoreText>
+          <Text style={[styles.bodyText]}>
+            {this.props.item.body}
+          </Text>
           <View style={[styles.detailsView]}>
             <Icon name='heart' style={[styles.heartIcon]} />
             <Text style={[styles.likeCountText]}>

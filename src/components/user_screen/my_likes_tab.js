@@ -4,18 +4,17 @@ import { Button, StyleSheet, Text, View }   from 'react-native';
 import { connect }                          from 'react-redux';
 
 // Local Imports
-import { toNewPostScreen }                  from '../../actions/navigation_actions.js';
+import samplePosts from '../../resources/sample_posts.js';
+import PostList from '../post_list/post_list.js';
 
 //--------------------------------------------------------------------//
+
 
 class MyLikesTab extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text>My Likes Screen</Text>
-        <Button title={'To NewPost Screen'} onPress={() => this.props.navigation.dispatch(toNewPostScreen())} />
-      </View>
+      <PostList data={samplePosts} />
     )
   }
 }
