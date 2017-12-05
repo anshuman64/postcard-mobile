@@ -1,7 +1,7 @@
 export default samplePosts = [
   {
     "id": 1,
-    "body": "hey!",
+    "body": "@@@@@@@@@@@@@@@@@@@@@@@@@@@",
     "author_id": 1,
     "created_at": "2017-12-02T02:53:33.000Z",
     "updated_at": "2017-12-02T02:53:33.000Z",
@@ -9,7 +9,7 @@ export default samplePosts = [
   },
   {
     "id": 2,
-    "body": "hey!",
+    "body": "WWWWWWWWWWWWWWWWWWWWWWWWWW",
     "author_id": 1,
     "created_at": "2017-12-03T18:53:33.000Z",
     "updated_at": "2017-12-03T18:53:33.000Z",

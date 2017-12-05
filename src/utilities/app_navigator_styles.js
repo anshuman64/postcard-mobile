@@ -14,12 +14,50 @@ export var userTabNavigatorStyles = StyleSheet.create({
     backgroundColor: '#ffffff'
   },
   indicatorStyle: {
-    backgroundColor: '#212121'
+    backgroundColor: '#007aff'
   },
   labelStyle: {
     fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    color: '#212121'
   },
+})
+
+export var homeStackNavigatorStyles = StyleSheet.create({
+  headerTitle: {
+    alignSelf: 'center',
+    width: 100,
+  },
+  optionsIcon: {
+    height: '100%',
+    width: 20 * scaleFactor,
+    fontSize: 7 * scaleFactor,
+    textAlign: 'center',
+    textAlignVertical: 'center'
+  },
+  noteIcon: {
+    height: '100%',
+    width: 22 * scaleFactor,
+    fontSize: 8 * scaleFactor,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#007aff',
+  },
+  backIcon: {
+    height: '100%',
+    width: 22 * scaleFactor,
+    fontSize: 15 * scaleFactor,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#212121',
+  },
+   shareButtonText: {
+     height: '100%',
+     width: 32 * scaleFactor,
+     fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+     fontSize: 6 * scaleFactor,
+     textAlign: 'center',
+     textAlignVertical: 'center',
+     color: '#007aff',
+   },
 })
 
 export var mainNavigatorStyles = StyleSheet.create({
@@ -30,6 +68,9 @@ export var mainNavigatorStyles = StyleSheet.create({
   },
   iconStyle: {
     fontSize: 8 * scaleFactor,
-    color: '#222222',
+    color: '#212121',
+  },
+  iconFocused: {
+    color: '#007aff'
   }
 })

@@ -108,7 +108,7 @@ class ConfirmCodeScreen extends React.Component {
     return (
       <View style={[styles.container]}>
 
-        {/* Header */}
+        {/* Header
         <View style={[styles.headerView]}>
           <TouchableWithoutFeedback
             onPressIn={this._setStateInAnimationFrame({ isBackIconPressed: true})}
@@ -118,9 +118,9 @@ class ConfirmCodeScreen extends React.Component {
              <Icon name='ios-arrow-round-back-outline' style={[styles.backIcon, this.state.isBackIconPressed && styles.textHighlighted]} />
          </TouchableWithoutFeedback>
        </View>
+       */}
 
         <View style={{flex: 3}} />
-
         {/* Top Text */}
         <Text style={[styles.titleText]}>
           Enter Confirmation Code

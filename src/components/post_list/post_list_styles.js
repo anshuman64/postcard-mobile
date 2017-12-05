@@ -57,6 +57,7 @@ export const styles = StyleSheet.create({
   heartIcon: {
     fontSize: 9 * scaleFactor,
     marginRight: 4 * scaleFactor,
+    color: '#007aff'
   },
   likeCountText: {
     fontSize: 6 * scaleFactor,

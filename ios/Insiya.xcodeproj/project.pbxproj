@@ -77,6 +77,7 @@
 		2C8D63F50A8B4D9887B23A89 /* SourceSansPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20384E729BD6485EA5849AD7 /* SourceSansPro-Regular.ttf */; };
 		BAFD3744A44C460D894C708B /* SourceSansPro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BB202AEB9B6417796CFE0B8 /* SourceSansPro-SemiBold.ttf */; };
 		30BC5EE22F2944D799BB2218 /* SourceSansPro-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58530920ECDC4C6C9510D860 /* SourceSansPro-SemiBoldItalic.ttf */; };
+		EB358151E23B440882BEE025 /* simple-line-icons-filled.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BBEA25DF1504717876659A6 /* simple-line-icons-filled.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -424,6 +425,7 @@
 		20384E729BD6485EA5849AD7 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; name = "SourceSansPro-Regular.ttf"; path = "../src/resources/fonts/SourceSansPro-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		7BB202AEB9B6417796CFE0B8 /* SourceSansPro-SemiBold.ttf */ = {isa = PBXFileReference; name = "SourceSansPro-SemiBold.ttf"; path = "../src/resources/fonts/SourceSansPro-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		58530920ECDC4C6C9510D860 /* SourceSansPro-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "SourceSansPro-SemiBoldItalic.ttf"; path = "../src/resources/fonts/SourceSansPro-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3BBEA25DF1504717876659A6 /* simple-line-icons-filled.ttf */ = {isa = PBXFileReference; name = "simple-line-icons-filled.ttf"; path = "../src/resources/fonts/simple-line-icons-filled.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -764,6 +766,7 @@
 				20384E729BD6485EA5849AD7 /* SourceSansPro-Regular.ttf */,
 				7BB202AEB9B6417796CFE0B8 /* SourceSansPro-SemiBold.ttf */,
 				58530920ECDC4C6C9510D860 /* SourceSansPro-SemiBoldItalic.ttf */,
+				3BBEA25DF1504717876659A6 /* simple-line-icons-filled.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1260,6 +1263,7 @@
 				2C8D63F50A8B4D9887B23A89 /* SourceSansPro-Regular.ttf in Resources */,
 				BAFD3744A44C460D894C708B /* SourceSansPro-SemiBold.ttf in Resources */,
 				30BC5EE22F2944D799BB2218 /* SourceSansPro-SemiBoldItalic.ttf in Resources */,
+				EB358151E23B440882BEE025 /* simple-line-icons-filled.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

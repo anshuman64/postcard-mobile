@@ -2,78 +2,105 @@
 import React                                                                      from 'react';
 import PropTypes                                                                  from 'prop-types';
 import { connect }                                                                from 'react-redux';
-import { BackHandler, View, Text }                                                from "react-native";
+import { BackHandler, View, Text, Image, TouchableHighlight }                     from "react-native";
 import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }  from 'react-navigation';
+// import { createIconSetFromFontello }                                           from 'react-native-vector-icons';
 import Icon                                                                       from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon                                                                    from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import store                                            from '../store/store.js'
-import LoginScreenContainer                             from '../components/login_screen/login_screen_container.js';
-import ConfirmCodeScreenContainer                       from '../components/confirm_code_screen/confirm_code_screen_container.js';
-import HomeScreen                                       from '../components/home_screen/home_screen.js';
-import MyPostsTab                                       from '../components/user_screen/my_posts_tab.js';
-import MyLikesTab                                       from '../components/user_screen/my_likes_tab.js';
-import NewPostScreenContainer                           from '../components/new_post_screen/new_post_screen_container.js';
-import MenuScreen                                       from '../components/menu_screen/menu_screen.js';
-import * as NavigationActionCreators                    from '../actions/navigation_actions.js';
-import { userTabNavigatorStyles, mainNavigatorStyles }  from './app_navigator_styles.js';
+import LoginScreenContainer                                                       from '../components/login_screen/login_screen_container.js';
+import ConfirmCodeScreenContainer                                                 from '../components/confirm_code_screen/confirm_code_screen_container.js';
+import HomeScreen                                                                 from '../components/home_screen/home_screen.js';
+import MyPostsTab                                                                 from '../components/user_screen/my_posts_tab.js';
+import MyLikesTab                                                                 from '../components/user_screen/my_likes_tab.js';
+import NewPostScreenContainer                                                     from '../components/new_post_screen/new_post_screen_container.js';
+import MenuScreen                                                                 from '../components/menu_screen/menu_screen.js';
+import * as NavigationActionCreators                                              from '../actions/navigation_actions.js';
+// import fontelloConfig                                                          from '../resources/fonts/config.json';
+import { userTabNavigatorStyles, homeStackNavigatorStyles, mainNavigatorStyles }  from './app_navigator_styles.js';
 
 
 //--------------------------------------------------------------------//
 
 
+// const IconFilled = createIconSetFromFontello(fontelloConfig);
+
 export const UserTabNavigator = TabNavigator({
   MyPostsTab: {
     screen: MyPostsTab,
-    navigationOptions: {
+    navigationOptions: ({navigation}) => ({
       tabBarLabel: 'Posts',
-      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(NavigationActionCreators.toMyPostsTab())}}
-    }
+      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyPostsTab())}}
+    })
   },
   MyLikesTab: {
     screen: MyLikesTab,
-    navigationOptions: {
+    navigationOptions: ({navigation}) => ({
       tabBarLabel: 'Likes',
-      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(NavigationActionCreators.toMyLikesTab())}}
-    }
+      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyLikesTab())}}
+    })
   },
 }, {
   tabBarOptions: {
     indicatorStyle: userTabNavigatorStyles.indicatorStyle,
     labelStyle: userTabNavigatorStyles.labelStyle,
-    style: userTabNavigatorStyles.style
+    style: userTabNavigatorStyles.style,
+    activeTintColor: '#007aff',
+    inactiveTintColor: '#212121'
   }
 });
 
 const UserStackNavigator = StackNavigator({
   UserTabNavigator: { screen: UserTabNavigator },
   NewPostScreen: { screen: NewPostScreenContainer },
-  MenuScreen: { screen: MenuScreen },
 }, {
   headerMode: 'none'
 });
 
 const HomeStackNavigator = StackNavigator({
-  HomeScreen: { screen: HomeScreen },
-  NewPostScreen: { screen: NewPostScreenContainer}
-}, {
-  headerMode: 'none'
+  HomeScreen: {
+    screen: HomeScreen,
+    navigationOptions: ({navigation}) => ({
+      headerTitle: <Image
+        style={homeStackNavigatorStyles.headerTitle}
+        source={require('../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+        resizeMode='contain'
+      />,
+      headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
+      headerLeft: <Icon name='note' onPress={() => navigation.dispatch(NavigationActionCreators.toNewPostScreen())} style={homeStackNavigatorStyles.noteIcon} />,
+    })
+   },
+  NewPostScreen: {
+    screen: NewPostScreenContainer,
+    navigationOptions: ({navigation}) => ({
+      headerRight: <Text style={homeStackNavigatorStyles.shareButtonText}>Share</Text>,
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
+    }),
+  },
+  MenuScreen: {
+    screen: MenuScreen,
+    navigationOptions: ({navigation}) => ({
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
+    }),
+  }
 });
+
 
 const MainNavigator = TabNavigator({
   HomeStackNavigator: {
     screen: HomeStackNavigator,
-    navigationOptions: {
-      tabBarIcon: ({ focused, tintColor }) => <Icon name='home' style={mainNavigatorStyles.iconStyle} />,
-      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(NavigationActionCreators.toHomeStackNavigator())}}
-    }
+    navigationOptions: ({navigation}) => ({
+      tabBarIcon: ({ focused, tintColor }) => <Icon name='home' style={[mainNavigatorStyles.iconStyle, focused && mainNavigatorStyles.iconFocused]} /> ,
+      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toHomeStackNavigator())}}
+    })
   },
   UserStackNavigator: {
     screen: UserStackNavigator,
-    navigationOptions: {
-      tabBarIcon: ({ focused, tintColor }) => <Icon name='user' style={mainNavigatorStyles.iconStyle} />,
-      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(NavigationActionCreators.toUserStackNavigator())}}
-    }
+    navigationOptions: ({navigation}) => ({
+      tabBarIcon: ({ focused, tintColor }) => <Icon name='user' style={[mainNavigatorStyles.iconStyle, focused && mainNavigatorStyles.iconFocused]} />,
+      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toUserStackNavigator())}}
+    })
 },
 }, {
   tabBarPosition: 'bottom',
@@ -84,18 +111,27 @@ const MainNavigator = TabNavigator({
     showLabel: false,
     showIcon: true,
     style: mainNavigatorStyles.style,
+    indicatorStyle: {backgroundColor: 'transparent'},
   }
 });
 
 const LoginNavigator = StackNavigator({
-  LoginScreen: { screen: LoginScreenContainer },
-  ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
-}, {
-  headerMode: 'none'
+  LoginScreen: {
+    screen: LoginScreenContainer,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  ConfirmCodeScreen: {
+    screen: ConfirmCodeScreenContainer,
+    navigationOptions: ({navigation}) => ({
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
+    }),
+  },
 });
 
 export const AppNavigator = StackNavigator({
-  // LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
+  LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
   MainNavigator: { screen: MainNavigator }
 }, {
   headerMode: 'none'
