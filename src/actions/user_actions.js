@@ -9,8 +9,8 @@ import { toConfirmCodeScreen, toPostsScreen }  from './navigation_actions.js';
 // Constants
 //--------------------------------------------------------------------//
 
-export const RECEIVE_CONFIRMATION_CODE = 'RECEIVE_CONFIRMATION_CODE';
-export const RECEIVE_USER = 'RECEIVE_USER';
+export const RECEIVE_CONFIRMATION_CODE  = 'RECEIVE_CONFIRMATION_CODE';
+export const RECEIVE_USER               = 'RECEIVE_USER';
 
 
 //--------------------------------------------------------------------//

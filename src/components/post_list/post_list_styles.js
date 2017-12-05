@@ -1,5 +1,5 @@
 // Library Imports
-import React                       from 'react';
+import React                                 from 'react';
 import { Platform, StyleSheet, PixelRatio }  from 'react-native';
 
 

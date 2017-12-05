@@ -1,12 +1,10 @@
 // Library Imports
-import React                                from 'react';
-import { Button, StyleSheet, Text, View, TouchableWithoutFeedback, Linking }   from 'react-native';
-import { connect }                          from 'react-redux';
-import Icon                                                           from 'react-native-vector-icons/MaterialIcons';
+import React                                              from 'react';
+import { View, Text, TouchableWithoutFeedback, Linking }  from 'react-native';
+import Icon                                               from 'react-native-vector-icons/MaterialIcons';
 
 // Local Imports
 import { styles, scaleFactor }  from './menu_screen_styles.js';
-import { toNewPostScreen, toAllPostsTab }                  from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -36,7 +34,7 @@ class MenuScreen extends React.Component {
   }
 
   _onPressAbout() {
-    this.props.navigation.dispatch(toNewPostScreen())
+
   }
 
   render() {
