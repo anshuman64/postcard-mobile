@@ -1,39 +1,40 @@
 // Library Imports
-import React                                                        from 'react';
-import PropTypes                                                    from 'prop-types';
-import { connect }                                                  from 'react-redux';
-import { Platform, BackHandler, View, Text }                                              from "react-native";
+import React                                                                      from 'react';
+import PropTypes                                                                  from 'prop-types';
+import { connect }                                                                from 'react-redux';
+import { BackHandler, View, Text }                                                from "react-native";
 import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }  from 'react-navigation';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import Icon                                                                       from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import store from '../store/store.js'
-import LoginScreenContainer        from '../components/login_screen/login_screen_container.js';
-import ConfirmCodeScreenContainer  from '../components/confirm_code_screen/confirm_code_screen_container.js';
-import HomeScreen                  from '../components/home_screen/home_screen.js';
-import MyPostsTab                  from '../components/user_screen/my_posts_tab.js';
-import MyLikesTab                  from '../components/user_screen/my_likes_tab.js';
-import NewPostScreenContainer      from '../components/new_post_screen/new_post_screen_container.js';
-import MenuScreen                  from '../components/menu_screen/menu_screen.js';
-import { userTabNavigatorStyles, mainNavigatorStyles }          from './app_navigator_styles.js';
-import { toBackScreen, toHomeScreen, toMyPostsTab, toMyLikesTab, toNewPostScreen }            from '../actions/navigation_actions.js';
+import store                                            from '../store/store.js'
+import LoginScreenContainer                             from '../components/login_screen/login_screen_container.js';
+import ConfirmCodeScreenContainer                       from '../components/confirm_code_screen/confirm_code_screen_container.js';
+import HomeScreen                                       from '../components/home_screen/home_screen.js';
+import MyPostsTab                                       from '../components/user_screen/my_posts_tab.js';
+import MyLikesTab                                       from '../components/user_screen/my_likes_tab.js';
+import NewPostScreenContainer                           from '../components/new_post_screen/new_post_screen_container.js';
+import MenuScreen                                       from '../components/menu_screen/menu_screen.js';
+import * as NavigationActionCreators                    from '../actions/navigation_actions.js';
+import { userTabNavigatorStyles, mainNavigatorStyles }  from './app_navigator_styles.js';
 
 
 //--------------------------------------------------------------------//
+
 
 export const UserTabNavigator = TabNavigator({
   MyPostsTab: {
     screen: MyPostsTab,
     navigationOptions: {
       tabBarLabel: 'Posts',
-      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(toNewPostScreen())}}
+      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(NavigationActionCreators.toMyPostsTab())}}
     }
   },
   MyLikesTab: {
     screen: MyLikesTab,
     navigationOptions: {
       tabBarLabel: 'Likes',
-      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(toMyLikesTab())}}
+      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(NavigationActionCreators.toMyLikesTab())}}
     }
   },
 }, {
@@ -64,14 +65,14 @@ const MainNavigator = TabNavigator({
     screen: HomeStackNavigator,
     navigationOptions: {
       tabBarIcon: ({ focused, tintColor }) => <Icon name='home' style={mainNavigatorStyles.iconStyle} />,
-      tabBarOnPress: () => store.dispatch(toHomeScreen())
+      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(NavigationActionCreators.toHomeStackNavigator())}}
     }
   },
   UserStackNavigator: {
     screen: UserStackNavigator,
     navigationOptions: {
       tabBarIcon: ({ focused, tintColor }) => <Icon name='user' style={mainNavigatorStyles.iconStyle} />,
-      tabBarOnPress: () => store.dispatch(toMyPostsTab())
+      tabBarOnPress: (scene) => {if(!scene.focused) {store.dispatch(NavigationActionCreators.toUserStackNavigator())}}
     }
 },
 }, {
@@ -94,7 +95,7 @@ const LoginNavigator = StackNavigator({
 });
 
 export const AppNavigator = StackNavigator({
-  // LoginNavigator: { screen: LoginNavigator },
+  // LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
   MainNavigator: { screen: MainNavigator }
 }, {
   headerMode: 'none'
@@ -120,7 +121,7 @@ class AppWithNavigationState extends React.Component {
         (this.props.nav.routes.length === 2 && this.props.nav.routes[1].routes[0].routes.length === 1) ) {
       return false;
     }
-    this.props.dispatch(toBackScreen());
+    this.props.dispatch(NavigationActionCreators.toBackScreen());
     return true;
   };
 

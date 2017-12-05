@@ -1,6 +1,6 @@
 // Library Imports
-import React                                              from 'react';
-import { Platform, View, Text, TouchableWithoutFeedback}  from 'react-native';
+import React                                    from 'react';
+import { View, Text, TouchableWithoutFeedback}  from 'react-native';
 
 // Local Imports
 import { styles, scaleFactor } from './login_screen_styles.js';

@@ -3,8 +3,8 @@ import * as _                 from 'lodash';
 import { NavigationActions }  from 'react-navigation';
 
 // Local Imports
-import { AppNavigator, PostNavigator }                                                                                                                 from '../utilities/app_navigator.js';
-import { TO_LOGIN_SCREEN, TO_CONFIRM_CODE_SCREEN, TO_HOME_SCREEN, TO_MY_POSTS_TAB, TO_MY_LIKES_TAB, TO_MENU_SCREEN, TO_NEW_POST_SCREEN, BACK_SCREEN }  from '../actions/navigation_actions.js';
+import { AppNavigator }                from '../utilities/app_navigator.js';
+import * as NavigationActionConstants  from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -16,57 +16,93 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    case TO_LOGIN_SCREEN:
+    // Login Navigator
+    case NavigationActionConstants.TO_LOGIN_NAVIGATOR:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'LoginNavigator' }),
+        state
+      );
+
+      return newState;
+    case NavigationActionConstants.TO_LOGIN_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'LoginScreen' }),
         state
       );
 
       return newState;
-    case TO_CONFIRM_CODE_SCREEN:
+    case NavigationActionConstants.TO_CONFIRM_CODE_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'ConfirmCodeScreen' }),
         state
       );
 
       return newState;
-    case TO_HOME_SCREEN:
+
+    // Main Navigator
+    case NavigationActionConstants.TO_MAIN_NAVIGATOR:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'MainNavigator' }),
+        state
+      );
+
+      return newState;
+    case NavigationActionConstants.TO_HOME_STACK_NAVIGATOR:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'HomeStackNavigator' }),
         state
       );
 
       return newState;
-    case TO_MY_POSTS_TAB:
+    case NavigationActionConstants.TO_USER_STACK_NAVIGATOR:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'UserStackNavigator' }),
         state
       );
-      console.warn(state);
 
       return newState;
-    case TO_MY_LIKES_TAB:
+
+    // Home StackNavigator
+    case NavigationActionConstants.TO_HOME_SCREEN:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'MyLikesTab' }),
+        NavigationActions.navigate({ routeName: 'HomeScreen' }),
         state
       );
 
       return newState;
-    case TO_NEW_POST_SCREEN:
+    case NavigationActionConstants.TO_NEW_POST_SCREEN:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'NewPostScreen' }),
+        state
+      );
+
+      return newState;
+
+    // User StackNavigator
+    case NavigationActionConstants.TO_MY_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'MyPostsTab' }),
         state
       );
 
       return newState;
-    case TO_MENU_SCREEN:
+    case NavigationActionConstants.TO_MY_LIKES_TAB:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'MyLikesTab' }),
+        state
+      );
+
+      return newState;
+
+    // Common
+    case NavigationActionConstants.TO_MENU_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'MenuScreen' }),
         state
       );
 
       return newState;
-    case BACK_SCREEN:
+    case NavigationActionConstants.BACK_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.back(),
         state

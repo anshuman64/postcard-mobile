@@ -1,10 +1,10 @@
 // Library Imports
-import React                                                                                                        from 'react';
-import { Platform, BackHandler, Keyboard, PixelRatio, View, Text, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput }  from 'react-native';
-import * as _                                                                                                       from 'lodash';
-import { PhoneNumberUtil, AsYouTypeFormatter }                                                                      from 'google-libphonenumber';
-import firebase                                                                                                     from 'react-native-firebase';
-import Icon                                                                                                         from 'react-native-vector-icons/Ionicons';
+import React                                                                                            from 'react';
+import { Keyboard, View, Text, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput }  from 'react-native';
+import * as _                                                                                           from 'lodash';
+import { PhoneNumberUtil, AsYouTypeFormatter }                                                          from 'google-libphonenumber';
+import firebase                                                                                         from 'react-native-firebase';
+import Icon                                                                                             from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles, scaleFactor }  from './login_screen_styles.js';

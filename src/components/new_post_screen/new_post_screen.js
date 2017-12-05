@@ -1,12 +1,11 @@
 // Library Imports
-import React                                from 'react';
-import { Keyboard, Button, StyleSheet, Text, View, TouchableWithoutFeedback, TextInput }   from 'react-native';
-import { connect }                          from 'react-redux';
-import Icon                                                                     from 'react-native-vector-icons/Ionicons';
+import React                                                            from 'react';
+import { StyleSheet, View, Text, TouchableWithoutFeedback, TextInput }  from 'react-native';
+import Icon                                                             from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }              from './new_post_screen_styles.js';
-import { toBackScreen }                     from '../../actions/navigation_actions.js';
+import { styles, scaleFactor }  from './new_post_screen_styles.js';
+import { toBackScreen }         from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 

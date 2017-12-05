@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default countryCodes = [{
 			"country_code": "AF",
 			"country_name": "Afghanistan",

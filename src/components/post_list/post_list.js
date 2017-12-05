@@ -1,11 +1,10 @@
 // Library Imports
-import React                                from 'react';
-import { Button, StyleSheet, Text, View, FlatList }   from 'react-native';
+import React                      from 'react';
+import { View, Text, FlatList }   from 'react-native';
 
 // Local Imports
 import { styles, scaleFactor }  from './post_list_styles.js';
-import PostListItem from './post_list_item.js';
-import { toNewPostScreen }                  from '../../actions/navigation_actions.js';
+import PostListItem             from './post_list_item.js';
 
 //--------------------------------------------------------------------//
 
