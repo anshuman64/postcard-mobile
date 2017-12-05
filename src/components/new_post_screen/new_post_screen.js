@@ -48,22 +48,6 @@ class NewPostScreen extends React.Component {
   render() {
     return (
       <View style={[styles.container]}>
-        {/* Header */}
-        <View style={[styles.headerView]}>
-          <TouchableWithoutFeedback
-            onPressIn={this._setStateInAnimationFrame({ isBackIconPressed: true})}
-            onPressOut={this._setStateInAnimationFrame({ isBackIconPressed: false})}
-            onPress={() => this._onBackIconPress()}
-            >
-             <Icon name='ios-arrow-round-back-outline' style={[styles.backIcon, this.state.isBackIconPressed && styles.textHighlighted]} />
-         </TouchableWithoutFeedback>
-          <Text
-            onPress={() => this._onBackIconPress()}
-            style={[styles.postButtonText]}
-            >
-            Share
-          </Text>
-       </View>
         {/* Text Input */}
         <TextInput
           style={[styles.textInput]}

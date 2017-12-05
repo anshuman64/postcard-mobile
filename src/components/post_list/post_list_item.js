@@ -80,7 +80,7 @@ class PostListItem extends React.PureComponent {
             {this.props.item.body}
           </Text>
           <View style={[styles.detailsView]}>
-            <Icon name='heart' style={[styles.heartIcon]} />
+            <Icon name='heart' style={[styles.heartIcon]} / >
             <Text style={[styles.likeCountText]}>
               {this._renderLikesCount(this.props.item.num_likes)}
             </Text>
