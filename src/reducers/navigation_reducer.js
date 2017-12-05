@@ -42,6 +42,7 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         NavigationActions.navigate({ routeName: 'UserStackNavigator' }),
         state
       );
+      console.warn(state);
 
       return newState;
     case TO_MY_LIKES_TAB:
@@ -53,7 +54,7 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case TO_NEW_POST_SCREEN:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'NewPostScreen' }),
+        NavigationActions.navigate({ routeName: 'MyPostsTab' }),
         state
       );
 
