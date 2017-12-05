@@ -63,5 +63,9 @@ export const styles = StyleSheet.create({
     fontSize: 6 * scaleFactor,
     textAlign: 'left',
     textAlignVertical: 'center',
+  },
+  activityIndicator: {
+    marginTop: 8 * scaleFactor,
+    marginBottom: 8 * scaleFactor,
   }
 });

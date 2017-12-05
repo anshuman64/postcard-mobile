@@ -52,10 +52,20 @@ export const UserTabNavigator = TabNavigator({
 });
 
 const UserStackNavigator = StackNavigator({
-  UserTabNavigator: { screen: UserTabNavigator },
+  UserTabNavigator: {
+    screen: UserTabNavigator,
+    navigationOptions: ({navigation}) => ({
+      headerTitle: <Image
+        style={homeStackNavigatorStyles.headerTitle}
+        source={require('../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+        resizeMode='contain'
+      />,
+      headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
+      headerLeft: <Icon name='note' onPress={() => navigation.dispatch(NavigationActionCreators.toNewPostScreen())} style={homeStackNavigatorStyles.noteIcon} />,
+      headerStyle: {elevation: 0}
+    })
+  },
   NewPostScreen: { screen: NewPostScreenContainer },
-}, {
-  headerMode: 'none'
 });
 
 const HomeStackNavigator = StackNavigator({
@@ -131,7 +141,7 @@ const LoginNavigator = StackNavigator({
 });
 
 export const AppNavigator = StackNavigator({
-  LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
+  // LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
   MainNavigator: { screen: MainNavigator }
 }, {
   headerMode: 'none'
