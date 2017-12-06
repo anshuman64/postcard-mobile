@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   },
   menuItemIcon: {
     height: 20 * scaleFactor,
-    fontSize: 12 * scaleFactor,
+    fontSize: 10 * scaleFactor,
     textAlignVertical: 'center',
     marginRight: '7%',
     color: '#212121'
@@ -38,41 +38,7 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'center',
     color: '#212121'
   },
-  logo: {
-    width: 70 * scaleFactor,
-    height: 70 * scaleFactor
-  },
   highlight: {
     color: '#007aff'
-  },
-
-  headerView: {
-    flexDirection: 'row',
-    width: '100%',
-    height: 22 * scaleFactor,
-    backgroundColor: '#ffffff',
-    elevation: 2,
-  },
-  headerIcon: {
-    height: 22 * scaleFactor,
-    fontSize: 8 * scaleFactor,
-    textAlignVertical: 'center',
-    color: '#212121',
-  },
-  headerIconPeople: {
-    width: '46%',
-    textAlign: 'center',
-    marginLeft: '2.5%'
-  },
-  headerIconUser: {
-    width: '46%',
-    textAlign: 'center',
-    marginRight: '2.5%'
-  },
-  headerIconMenu: {
-    width: '8%',
-    textAlign: 'center',
-    marginRight: '3%',
-    marginLeft: '3%',
   },
 });
