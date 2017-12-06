@@ -1,7 +1,7 @@
 // Library Imports
 import React                                              from 'react';
 import { View, Text, TouchableWithoutFeedback, Linking }  from 'react-native';
-import Icon                                               from 'react-native-vector-icons/MaterialIcons';
+import Icon                                               from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import { styles, scaleFactor }  from './menu_screen_styles.js';
@@ -49,7 +49,7 @@ class MenuScreen extends React.Component {
           >
           <View style={[styles.menuItemView]}>
             <Icon
-              name='email'
+              name='envelope'
               style={[styles.menuItemIcon, this.state.isSupportPressed && styles.highlight]}
               />
             <Text style={[styles.menuItemText, this.state.isSupportPressed && styles.highlight]}>
@@ -66,7 +66,7 @@ class MenuScreen extends React.Component {
          >
          <View style={[styles.menuItemView]}>
            <Icon
-             name='feedback'
+             name='speech'
              style={[styles.menuItemIcon, this.state.isFeedbackPressed && styles.highlight]}
              />
            <Text style={[styles.menuItemText, this.state.isFeedbackPressed && styles.highlight]}>
@@ -83,7 +83,7 @@ class MenuScreen extends React.Component {
         >
         <View style={[styles.menuItemView]}>
           <Icon
-            name='help'
+            name='question'
             style={[styles.menuItemIcon, this.state.isAboutPressed && styles.highlight]}
             />
           <Text style={[styles.menuItemText, this.state.isAboutPressed && styles.highlight]}>

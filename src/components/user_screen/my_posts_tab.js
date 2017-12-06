@@ -1,5 +1,5 @@
 // Library Imports
-import React                                from 'react';
+import React  from 'react';
 
 // Local Imports
 import PostList     from '../post_list/post_list.js';
