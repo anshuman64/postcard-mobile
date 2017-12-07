@@ -1,25 +1,155 @@
 // Library Imports
-import React                                                        from 'react';
-import PropTypes                                                    from 'prop-types';
-import { connect }                                                  from 'react-redux';
-import { BackHandler }                                              from "react-native";
-import { addNavigationHelpers, StackNavigator, NavigationActions }  from 'react-navigation';
+import React                                                                      from 'react';
+import PropTypes                                                                  from 'prop-types';
+import { connect }                                                                from 'react-redux';
+import { BackHandler, View, Text, Image, TouchableHighlight }                     from "react-native";
+import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }  from 'react-navigation';
+// import { createIconSetFromFontello }                                           from 'react-native-vector-icons';
+import Icon                                                                       from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon                                                                    from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import LoginScreen                                                  from '../components/screens/login_screen.js';
-import CodeAuthScreen                                               from '../components/screens/codeauth_screen.js';
-import PostsScreen                                                  from  '../components/screens/posts_screen.js';
-import NewPostScreen                                                from  '../components/screens/newpost_screen.js';
-import { toBackScreen }                                             from '../actions/navigation_actions.js';
+import LoginScreenContainer                                                       from '../components/login_screen/login_screen_container.js';
+import ConfirmCodeScreenContainer                                                 from '../components/confirm_code_screen/confirm_code_screen_container.js';
+import HomeScreen                                                                 from '../components/home_screen/home_screen.js';
+import MyPostsTab                                                                 from '../components/user_screen/my_posts_tab.js';
+import MyLikesTab                                                                 from '../components/user_screen/my_likes_tab.js';
+import NewPostScreenContainer                                                     from '../components/new_post_screen/new_post_screen_container.js';
+import MenuScreen                                                                 from '../components/menu_screen/menu_screen.js';
+import * as NavigationActionCreators                                              from '../actions/navigation_actions.js';
+// import fontelloConfig                                                          from '../resources/fonts/config.json';
+import { userTabNavigatorStyles, homeStackNavigatorStyles, mainNavigatorStyles }  from './app_navigator_styles.js';
+
 
 //--------------------------------------------------------------------//
 
-export const AppNavigator = StackNavigator({
-  LoginScreen: { screen: LoginScreen },
-  CodeAuthScreen: { screen: CodeAuthScreen },
-  PostsScreen: { screen: PostsScreen },
-  NewPostScreen: { screen: NewPostScreen }
+
+// const IconFilled = createIconSetFromFontello(fontelloConfig);
+
+export const UserTabNavigator = TabNavigator({
+  MyPostsTab: {
+    screen: MyPostsTab,
+    navigationOptions: ({navigation}) => ({
+      tabBarLabel: 'Posts',
+      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyPostsTab())}}
+    })
+  },
+  MyLikesTab: {
+    screen: MyLikesTab,
+    navigationOptions: ({navigation}) => ({
+      tabBarLabel: 'Likes',
+      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyLikesTab())}}
+    })
+  },
+}, {
+  tabBarOptions: {
+    indicatorStyle: userTabNavigatorStyles.indicatorStyle,
+    labelStyle: userTabNavigatorStyles.labelStyle,
+    style: userTabNavigatorStyles.style,
+    activeTintColor: '#007aff',
+    inactiveTintColor: '#212121'
+  }
 });
+
+const UserStackNavigator = StackNavigator({
+  UserTabNavigator: {
+    screen: UserTabNavigator,
+    navigationOptions: ({navigation}) => ({
+      headerTitle: <Image
+        style={homeStackNavigatorStyles.headerTitle}
+        source={require('../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+        resizeMode='contain'
+      />,
+      headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
+      headerLeft: <Icon name='note' onPress={() => navigation.dispatch(NavigationActionCreators.toNewPostScreen())} style={homeStackNavigatorStyles.noteIcon} />,
+      headerStyle: {elevation: 0}
+    })
+  },
+  NewPostScreen: { screen: NewPostScreenContainer },
+});
+
+const HomeStackNavigator = StackNavigator({
+  HomeScreen: {
+    screen: HomeScreen,
+    navigationOptions: ({navigation}) => ({
+      headerTitle: <Image
+        style={homeStackNavigatorStyles.headerTitle}
+        source={require('../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+        resizeMode='contain'
+      />,
+      headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
+      headerLeft: <Icon name='note' onPress={() => navigation.dispatch(NavigationActionCreators.toNewPostScreen())} style={homeStackNavigatorStyles.noteIcon} />,
+    })
+   },
+  NewPostScreen: {
+    screen: NewPostScreenContainer,
+    navigationOptions: ({navigation}) => ({
+      headerRight: <Text style={homeStackNavigatorStyles.shareButtonText}>Share</Text>,
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
+    }),
+  },
+  MenuScreen: {
+    screen: MenuScreen,
+    navigationOptions: ({navigation}) => ({
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
+    }),
+  }
+});
+
+
+const MainNavigator = TabNavigator({
+  HomeStackNavigator: {
+    screen: HomeStackNavigator,
+    navigationOptions: ({navigation}) => ({
+      tabBarIcon: ({ focused, tintColor }) => <Icon name='home' style={[mainNavigatorStyles.iconStyle, focused && mainNavigatorStyles.iconFocused]} /> ,
+      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toHomeStackNavigator())}}
+    })
+  },
+  UserStackNavigator: {
+    screen: UserStackNavigator,
+    navigationOptions: ({navigation}) => ({
+      tabBarIcon: ({ focused, tintColor }) => <Icon name='user' style={[mainNavigatorStyles.iconStyle, focused && mainNavigatorStyles.iconFocused]} />,
+      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toUserStackNavigator())}}
+    })
+},
+}, {
+  tabBarPosition: 'bottom',
+  swipeEnabled: false,
+  animationEnabled: false,
+  lazy: true,
+  tabBarOptions: {
+    showLabel: false,
+    showIcon: true,
+    style: mainNavigatorStyles.style,
+    indicatorStyle: {backgroundColor: 'transparent'},
+  }
+});
+
+const LoginNavigator = StackNavigator({
+  LoginScreen: {
+    screen: LoginScreenContainer,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  ConfirmCodeScreen: {
+    screen: ConfirmCodeScreenContainer,
+    navigationOptions: ({navigation}) => ({
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
+    }),
+  },
+});
+
+export const AppNavigator = StackNavigator({
+  // LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
+  MainNavigator: { screen: MainNavigator }
+}, {
+  headerMode: 'none'
+});
+
+
+//--------------------------------------------------------------------//
+
 
 class AppWithNavigationState extends React.Component {
   componentDidMount() {
@@ -31,19 +161,20 @@ class AppWithNavigationState extends React.Component {
   }
 
   onBackPress = () => {
-    const { dispatch, nav } = this.props;
-    if (nav.index === 0) {
+    console.log(this.props.nav)
+    // Exit app if on LoginScreen or on HomeScreen
+    if ( (this.props.nav.routes[0].routes.length === 1) ||
+        (this.props.nav.routes.length === 2 && this.props.nav.routes[1].routes[0].routes.length === 1) ) {
       return false;
     }
-    dispatch(toBackScreen());
+    this.props.dispatch(NavigationActionCreators.toBackScreen());
     return true;
   };
 
   render() {
-    const { dispatch, nav } = this.props;
     const navigation = addNavigationHelpers({
-      dispatch,
-      state: nav
+      dispatch: this.props.dispatch,
+      state: this.props.nav
     });
 
     return <AppNavigator navigation={navigation} />;
@@ -55,10 +186,14 @@ AppWithNavigationState.propTypes = {
   nav: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  nav: state.nav,
+const mapStateToProps = (state) => ({
+  nav: state.nav
 });
+
 
 //--------------------------------------------------------------------//
 
-export default connect(mapStateToProps)(AppWithNavigationState);
+
+export default connect(
+  mapStateToProps
+)(AppWithNavigationState);
