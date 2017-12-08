@@ -9,9 +9,10 @@ import Icon                                                                     
 import Ionicon                                                                    from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
+import LoadingScreenContainer                                                     from '../components/loading_screen/loading_screen_container.js';
 import LoginScreenContainer                                                       from '../components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer                                                 from '../components/confirm_code_screen/confirm_code_screen_container.js';
-import HomeScreen                                                                 from '../components/home_screen/home_screen.js';
+import HomeScreenContainer                                                        from '../components/home_screen/home_screen_container.js';
 import MyPostsTab                                                                 from '../components/user_screen/my_posts_tab.js';
 import MyLikesTab                                                                 from '../components/user_screen/my_likes_tab.js';
 import NewPostScreenContainer                                                     from '../components/new_post_screen/new_post_screen_container.js';
@@ -70,7 +71,7 @@ const UserStackNavigator = StackNavigator({
 
 const HomeStackNavigator = StackNavigator({
   HomeScreen: {
-    screen: HomeScreen,
+    screen: HomeScreenContainer,
     navigationOptions: ({navigation}) => ({
       headerTitle: <Image
         style={homeStackNavigatorStyles.headerTitle}
@@ -126,6 +127,12 @@ const MainNavigator = TabNavigator({
 });
 
 const LoginNavigator = StackNavigator({
+  LoadingScreen: {
+    screen: LoadingScreenContainer,
+    navigationOptions: {
+      header: null,
+    }
+ },
   LoginScreen: {
     screen: LoginScreenContainer,
     navigationOptions: {
@@ -141,7 +148,7 @@ const LoginNavigator = StackNavigator({
 });
 
 export const AppNavigator = StackNavigator({
-  // LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
+  LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
   MainNavigator: { screen: MainNavigator }
 }, {
   headerMode: 'none'
@@ -161,7 +168,6 @@ class AppWithNavigationState extends React.Component {
   }
 
   onBackPress = () => {
-    console.log(this.props.nav)
     // Exit app if on LoginScreen or on HomeScreen
     if ( (this.props.nav.routes[0].routes.length === 1) ||
         (this.props.nav.routes.length === 2 && this.props.nav.routes[1].routes[0].routes.length === 1) ) {

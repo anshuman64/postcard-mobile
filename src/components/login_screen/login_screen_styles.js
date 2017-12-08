@@ -102,6 +102,9 @@ export const styles = StyleSheet.create({
   nextButtonTextDisabled: {
     color: '#ffffff7f',
   },
+  activityIndicator: {
+    // alignSelf: 'center'
+  },
   smsNoticeText: {
     fontSize: 6 * scaleFactor,
     color: '#757575',

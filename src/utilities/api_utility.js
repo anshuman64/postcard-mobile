@@ -1,9 +1,11 @@
+import * as _ from 'lodash';
+
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
 
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://192.168.2.14:3000/api';
 const HEADERS  = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
@@ -43,47 +45,73 @@ let checkStatus = (response) => {
 //--------------------------------------------------------------------//
 
 
-export const get = (path, queryParams) => {
+export const get = (path, queryParams, authToken) => {
   let url = BASE_URL + path;
+  let headers = HEADERS;
 
   if (queryParams) {
     url += getQueryString(queryParams);
   }
 
-  return fetch(url).then((response) => {
+  if (authToken) {
+    headers['Authorization'] = 'Bearer ' + authToken;
+  }
+  
+  return fetch(url, {
+    method: 'GET',
+    headers: headers
+  }).then((response) => {
     return checkStatus(response);
   });
 };
 
-export const post = (path, payload) => {
+export const post = (path, payload, authToken) => {
   let url = BASE_URL + path;
+  let headers = HEADERS;
+
+  if (authToken) {
+    headers['Authorization'] = 'Bearer ' + authToken;
+  }
+
+  // debugger;
 
   return fetch(url, {
     method:  'POST',
-    headers: HEADERS,
+    headers: headers,
     body:    JSON.stringify(payload)
   }).then((response) => {
     return checkStatus(response);
   });
 };
 
-export const put = (path, payload) => {
+export const put = (path, payload, authToken) => {
   let url = BASE_URL + path;
+  let headers = HEADERS;
+
+  if (authToken) {
+    headers['Authorization'] = 'Bearer ' + authToken;
+  }
 
   return fetch(url, {
     method:  'PUT',
-    headers: HEADERS,
+    headers: headers,
     body:    JSON.stringify(payload)
   }).then((response) => {
     return checkStatus(response);
   });
 };
 
-export const del = (path) => {
+export const del = (path, authToken) => {
   let url = BASE_URL + path;
+  let headers = HEADERS;
+
+  if (authToken) {
+    headers['Authorization'] = 'Bearer ' + authToken;
+  }
 
   return fetch(url, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: headers
   }).then((response) => {
     return checkStatus(response);
   });

@@ -1,8 +1,8 @@
 // Library Imports
-import React                                                          from 'react';
-import { Keyboard, View, Text, TextInput, TouchableWithoutFeedback }  from 'react-native';
-import { PhoneNumberUtil, PhoneNumberFormat }                         from 'google-libphonenumber';
-import Icon                                                           from 'react-native-vector-icons/Ionicons';
+import React                                                                             from 'react';
+import { Keyboard, View, Text, TextInput, TouchableWithoutFeedback, ActivityIndicator }  from 'react-native';
+import { PhoneNumberUtil, PhoneNumberFormat }                                            from 'google-libphonenumber';
+import Icon                                                                              from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles, scaleFactor }            from './confirm_code_screen_styles.js';
@@ -23,6 +23,7 @@ class ConfirmCodeScreen extends React.Component {
       isResendSMSDisabled: true,
       isResendSMSPressed: false,
       secsRemaining: 0, // set to 59 seconds in startTimer()
+      isLoading: false,
       isCodeInvalid: false,
     };
 
@@ -75,17 +76,25 @@ class ConfirmCodeScreen extends React.Component {
     // Debug test
     if (value.length === 6) {
       if (value === this.props.confirmationCodeObj) {
-        this.props.navigation.dispatch(toMainNavigator());
-        Keyboard.dismiss();
+        this.setState({ isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()));
       } else {
         this.setState({ isCodeIncorrect: true });
       }
     }
 
     // Real Firebase API
-    // if (value.length === 6) {
-    //   this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value);
-    // }
+    if (value.length === 6) {
+      this.setState({ isLoading: true }, () => {
+      this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value).then(() => {
+         this.props.getAuthToken(this.props.firebaseUserObj).then(() => {
+           this.props.createUser(this.props.phoneNumber, this.props.authToken).then(() => {
+             this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()))
+           })
+         })
+       })
+       .catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
+      })
+    }
   }
 
   // Callback function to return to login screen
@@ -127,7 +136,7 @@ class ConfirmCodeScreen extends React.Component {
         </Text>
         <Text style={[styles.subtitleText]}>
           {/* Displays phone number in clean format */}
-          Sent to { this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) }
+          Sent to { this.props.phoneNumber /*this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
         </Text>
 
 
@@ -135,7 +144,7 @@ class ConfirmCodeScreen extends React.Component {
 
         {/* Code Input */}
         <TextInput
-          style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeInvalid && styles.borderRed]}
+          style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeIncorrect && styles.borderRed]}
           keyboardType='numeric'
           onChangeText={this._codeInputOnChangeText}
           value={this.state.inputtedCode}
@@ -149,7 +158,9 @@ class ConfirmCodeScreen extends React.Component {
         />
 
         {/* Invalid Code Text */}
-        {this.state.isCodeInvalid &&
+        {this.state.isLoading ?
+          <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
+          this.state.isCodeIncorrect &&
           <Text style={[styles.invalidCodeText]}>
             Invalid Code
           </Text>
