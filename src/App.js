@@ -31,8 +31,8 @@ class App extends React.Component {
   }
 
   getToken() {
-    firebase.auth().currentUser.getIdToken(false)
-      .then( (idToken) => {this.setState( {idToken: idToken})})
+    firebase.auth().currentUser.getIdToken(true)
+      .then( (idToken) => {this.setState( {idToken: idToken}, console.log(idToken))})
       .catch( (error) => {this.setState( {idToken: 'bye'})})
   }
 
