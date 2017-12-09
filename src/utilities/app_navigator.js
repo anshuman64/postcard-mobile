@@ -6,19 +6,26 @@ import { BackHandler }                                              from "react-
 import { addNavigationHelpers, StackNavigator, NavigationActions }  from 'react-navigation';
 
 // Local Imports
-import LoginScreen                                                  from '../components/screens/login_screen.js';
-import CodeAuthScreen                                               from '../components/screens/codeauth_screen.js';
-import PostsScreen                                                  from  '../components/screens/posts_screen.js';
-import NewPostScreen                                                from  '../components/screens/newpost_screen.js';
-import { toBackScreen }                                             from '../actions/navigation_actions.js';
+import LoginScreenContainer        from '../components/login_screen/login_screen_container.js';
+import ConfirmCodeScreenContainer  from '../components/confirm_code_screen/confirm_code_screen_container.js';
+import PostsScreen                 from '../components/screens/posts_screen.js';
+import NewPostScreen               from '../components/new_post_screen/new_post_screen.js';
+import { toBackScreen }            from '../actions/navigation_actions.js';
+
 
 //--------------------------------------------------------------------//
 
+
 export const AppNavigator = StackNavigator({
-  LoginScreen: { screen: LoginScreen },
-  CodeAuthScreen: { screen: CodeAuthScreen },
+  LoginScreen: { screen: LoginScreenContainer },
+  ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
   PostsScreen: { screen: PostsScreen },
-  NewPostScreen: { screen: NewPostScreen }
+  NewPostScreen: { screen: NewPostScreen },
+}, {
+  navigationOptions: {
+    tabBarVisible: false,
+    header: null
+  }
 });
 
 class AppWithNavigationState extends React.Component {
@@ -31,19 +38,17 @@ class AppWithNavigationState extends React.Component {
   }
 
   onBackPress = () => {
-    const { dispatch, nav } = this.props;
-    if (nav.index === 0) {
+    if (this.props.nav.index === 0) {
       return false;
     }
-    dispatch(toBackScreen());
+    this.props.dispatch(toBackScreen());
     return true;
   };
 
   render() {
-    const { dispatch, nav } = this.props;
     const navigation = addNavigationHelpers({
-      dispatch,
-      state: nav
+      dispatch: this.props.dispatch,
+      state: this.props.nav
     });
 
     return <AppNavigator navigation={navigation} />;
@@ -55,10 +60,14 @@ AppWithNavigationState.propTypes = {
   nav: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  nav: state.nav,
+const mapStateToProps = (state) => ({
+  nav: state.nav
 });
+
 
 //--------------------------------------------------------------------//
 
-export default connect(mapStateToProps)(AppWithNavigationState);
+
+export default connect(
+  mapStateToProps
+)(AppWithNavigationState);

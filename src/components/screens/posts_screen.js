@@ -10,12 +10,10 @@ import { toNewPostScreen }                  from '../../actions/navigation_actio
 
 class PostsScreen extends React.Component {
   render() {
-    const {navigation} = this.props;
-
     return (
       <View>
         <Text>Posts Screen</Text>
-        <Button title={'To NewPost Screen'} onPress={() => navigation.dispatch(toNewPostScreen())} />
+        <Button title={'To NewPost Screen'} onPress={() => this.props.navigation.dispatch(toNewPostScreen())} />
       </View>
     )
   }
