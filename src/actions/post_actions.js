@@ -37,20 +37,21 @@ export const removePost = (data) => {
 //--------------------------------------------------------------------//
 
 
-export const getPosts = (queryParams) => (dispatch) => {
-  return PostAPI.getPosts(queryParams).then((posts) => {
+export const getPosts = (queryParams, authToken) => (dispatch) => {
+  return PostAPI.getPosts(queryParams, authToken).then((posts) => {
+    console.log(posts);
     dispatch(receivePosts(posts));
   });
 };
 
-export const createPost = (post) => (dispatch) => {
-  return PostAPI.createPost(post).then((newPost) => {
+export const createPost = (post, authToken) => (dispatch) => {
+  return PostAPI.createPost(post, authToken).then((newPost) => {
     dispatch(receivePost(newPost));
   });
 };
 
-export const deletePost = (postId) => (dispatch) => {
-  return PostAPI.deletePost(postId).then((deletedPost) => {
+export const deletePost = (postId, authToken) => (dispatch) => {
+  return PostAPI.deletePost(postId, authToken).then((deletedPost) => {
     dispatch(removePost(deletedPost));
   });
 };
