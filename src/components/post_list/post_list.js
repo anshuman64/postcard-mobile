@@ -1,6 +1,6 @@
 // Library Imports
 import React                                                         from 'react';
-import * as RN from 'react-native';
+import RN from 'react-native';
 
 // Local Imports
 import { styles, scaleFactor }  from './post_list_styles.js';

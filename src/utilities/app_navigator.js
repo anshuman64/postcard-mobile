@@ -2,7 +2,7 @@
 import React                                                                      from 'react';
 import PropTypes                                                                  from 'prop-types';
 import { connect }                                                                from 'react-redux';
-import * as RN from 'react-native';
+import RN from 'react-native';
 import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }  from 'react-navigation';
 // import { createIconSetFromFontello }                                           from 'react-native-vector-icons';
 import Icon                                                                       from 'react-native-vector-icons/SimpleLineIcons';

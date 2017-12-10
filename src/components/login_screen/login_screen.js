@@ -1,6 +1,6 @@
 // Library Imports
 import React                                                                                                               from 'react';
-import * as RN from 'react-native';
+import RN from 'react-native';
 import * as _                                                                                                              from 'lodash';
 import { PhoneNumberUtil, AsYouTypeFormatter }                                                                             from 'google-libphonenumber';
 import firebase                                                                                                            from 'react-native-firebase';
