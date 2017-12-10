@@ -83,18 +83,18 @@ class ConfirmCodeScreen extends React.Component {
     }
 
     // Real Firebase API
-    if (value.length === 6) {
-      this.setState({ isLoading: true }, () => {
-      this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value).then(() => {
-         this.props.getAuthToken(this.props.firebaseUserObj).then(() => {
-           this.props.createUser(this.props.phoneNumber, this.props.authToken).then(() => {
-             this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()))
-           })
-         })
-       })
-       .catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
-      })
-    }
+    // if (value.length === 6) {
+    //   this.setState({ isLoading: true }, () => {
+    //   this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value).then(() => {
+    //      this.props.getAuthToken(this.props.firebaseUserObj).then(() => {
+    //        this.props.createUser(this.props.phoneNumber, this.props.authToken).then(() => {
+    //          this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()))
+    //        })
+    //      })
+    //    })
+    //    .catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
+    //   })
+    // }
   }
 
   // Callback function to return to login screen

@@ -104,7 +104,7 @@ class MenuScreen extends React.Component {
   render() {
     return (
       <View style={[styles.container]}>
-        {this.renderSupportButton()}
+        {this._renderSupportButton()}
         {this._renderFeedbackButton()}
         {this._renderAboutButton()}
      </View>

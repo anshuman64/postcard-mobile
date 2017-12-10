@@ -72,7 +72,7 @@ class PostList extends React.Component {
   render() {
     return (
       <View style={[styles.container]}>
-        {this.renderPostList()}
+        {this._renderPostList()}
       </View>
     )
   }
