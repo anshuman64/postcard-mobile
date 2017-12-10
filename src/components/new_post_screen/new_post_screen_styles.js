@@ -1,12 +1,13 @@
 // Library Imports
 import React                       from 'react';
-import { StyleSheet, PixelRatio }  from 'react-native';
+import { StyleSheet }  from 'react-native';
+
+// Local Imports
+import { scale, scaleFont } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
 
-
-export const scaleFactor = PixelRatio.get();
 
 export const styles = StyleSheet.create({
   container: {
@@ -21,7 +22,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     textAlignVertical: 'top',
-    fontSize: 8 * scaleFactor,
-    padding: 7 * scaleFactor,
+    fontSize: scaleFont(8),
+    padding: scale(7),
   },
 });

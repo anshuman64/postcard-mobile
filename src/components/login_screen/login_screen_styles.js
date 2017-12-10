@@ -1,12 +1,12 @@
 // Library Imports
-import React                                 from 'react';
-import { Platform, StyleSheet, PixelRatio }  from 'react-native';
+import React                     from 'react';
+import { Platform, StyleSheet }  from 'react-native';
 
+// Local Imports
+import { scale, scaleFont } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-
-export const scaleFactor = PixelRatio.get();
 
 export const styles = StyleSheet.create({
   // Shared styles
@@ -21,24 +21,24 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fafafa'
   },
   componentSize: {
-    width: 100 * scaleFactor,
-    height: 16 * scaleFactor
+    width: scale(100),
+    height: scale(16)
   },
   border: {
     borderBottomColor: '#212121',
-    borderBottomWidth: 0.3 * scaleFactor,
+    borderBottomWidth: scale(0.3),
   },
   borderHighlighted: {
     borderBottomColor: '#007aff',
-    borderBottomWidth: 0.6 * scaleFactor
+    borderBottomWidth: scale(0.6)
   },
   borderRed: {
     borderBottomColor: '#ff313a',
-    borderBottomWidth: 0.6 * scaleFactor
+    borderBottomWidth: scale(0.6)
   },
   text: {
     fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: 7.4 * scaleFactor,
+    fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#212121'
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    width: 70 * scaleFactor
+    width: scale(70)
   },
   bottomView: {
     flex: 2,
@@ -63,9 +63,9 @@ export const styles = StyleSheet.create({
   },
   dropdownIcon: {
     position: 'absolute',
-    left: 90 * scaleFactor,
-    height: 16 * scaleFactor,
-    fontSize: 8 * scaleFactor,
+    left: scale(90),
+    height: scale(16),
+    fontSize: scaleFont(8),
     textAlignVertical: 'center',
     color: '#212121'
   },
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
   },
   phoneNumberCountryCode: {
     width: '20%',
-    height: 16 * scaleFactor,
+    height: scale(16),
     marginRight: '3%'
   },
   phoneNumberInput: {
@@ -82,18 +82,18 @@ export const styles = StyleSheet.create({
   },
   invalidNumberText: {
     width: '75%',
-    height: 10 * scaleFactor,
-    fontSize: 6 * scaleFactor,
+    height: scale(10),
+    fontSize: scaleFont(6),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#ff313a'
   },
   nextButtonBackgroundDisabled: {
-    borderRadius: 5,
+    borderRadius: scale(5),
     backgroundColor: '#007aff7f',
   },
   nextButtonBackgroundEnabled: {
-    borderRadius: 5,
+    borderRadius: scale(5),
     backgroundColor: '#007aff'
   },
   nextButtonTextEnabled: {
@@ -106,7 +106,7 @@ export const styles = StyleSheet.create({
     // alignSelf: 'center'
   },
   smsNoticeText: {
-    fontSize: 6 * scaleFactor,
+    fontSize: scaleFont(6),
     color: '#757575',
     textAlign: 'left',
     marginTop: '3%',
@@ -120,21 +120,21 @@ export const styles = StyleSheet.create({
   },
   chooseCountryText: {
     width: '100%',
-    height: 20 * scaleFactor,
+    height: scale(20),
     elevation: 1,
     backgroundColor: '#fafafa'
   },
   countryListItems: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 17 * scaleFactor,
-    marginLeft: 10 * scaleFactor,
-    marginRight: 10 * scaleFactor,
-    borderBottomWidth: 1,
+    height: scale(17),
+    marginLeft: scale(10),
+    marginRight: scale(10),
+    borderBottomWidth: scale(1),
     borderBottomColor: '#e0e0e0'
   },
   countryListText: {
-    fontSize: 6 * scaleFactor,
+    fontSize: scaleFont(6),
     textAlign: 'left',
     textAlignVertical: 'center',
     color: '#212121'
