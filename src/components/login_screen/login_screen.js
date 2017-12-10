@@ -130,105 +130,132 @@ class LoginScreen extends React.Component {
     // })
   }
 
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _renderLogo() {
+    return (
+      <View style={[styles.flex, styles.topView]}>
+        <Image
+          style={styles.logo}
+          source={require('../../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+          resizeMode='contain'
+        />
+      </View>
+    )
+  }
+
+  _renderCountrySelector() {
+    return (
+      <TouchableWithoutFeedback
+        onPress={this._setState({ isModalVisible: true})}
+        onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
+        onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
+        >
+        <View style={[styles.countrySelectorView, styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
+          <Text style={[styles.componentSize, styles.text]}>
+            {countryCodes[this.state.countryIndex].country_name}
+          </Text>
+          <Icon name='md-arrow-dropdown' style={[styles.dropdownIcon]} />
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
+
+  _renderPhoneNumberInput() {
+    return (
+      <View style={[styles.componentSize, styles.phoneNumberView]}>
+        {/* PhoneNumberCountryCode */}
+        <Text style={[styles.phoneNumberCountryCode, styles.text, styles.border]}>
+          {countryCodes[this.state.countryIndex].dialing_code}
+        </Text>
+
+        {/* PhoneNumberInput */}
+        <TextInput
+          style={[styles.phoneNumberInput, styles.text, styles.border, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
+          keyboardType='phone-pad'
+          onChangeText={(value) => this._onPhoneInputChangeText(value)}
+          value={this.state.formattedPhoneNumber}
+          placeholder='Phone Number'
+          placeholderTextColor='#bdbdbd'
+          underlineColorAndroid={'transparent'}
+          onFocus={this._setStateInAnimationFrame({ isPhoneInputFocused: true})}
+          onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
+        />
+      </View>
+    )
+  }
+
+  _renderInvalidNumberText() {
+    if (this.state.isPhoneNumberInvalid) {
+      return (
+        <View style={[styles.componentSize, styles.phoneNumberView]}>
+          <View style={{width: '25%'}} />
+          <Text style={[styles.invalidNumberText]}>
+            Invalid Number
+          </Text>
+        </View>
+      )
+    }
+  }
+
+  _renderNextButton() {
+    return (
+      <TouchableHighlight
+        style={[styles.componentSize, styles.nextButtonBackgroundEnabled]}
+        onPress={() => this._onNextButtonPress()}
+        underlayColor='#0050a7'
+        disabled={this.state.isNextButtonDisabled && this.state.isLoading}
+        >
+        { this.state.isLoading ?
+          <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
+          <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
+            Next
+          </Text>
+        }
+      </TouchableHighlight>
+    )
+  }
+
+  _renderSMSNoticeText() {
+    return (
+      <Text style={[styles.componentSize, styles.text, styles.smsNoticeText]}>
+        {"We'll send an SMS message to verify your phone number"}
+      </Text>
+    )
+  }
+
+  _renderModal() {
+    return (
+      <Modal
+        visible={this.state.isModalVisible}
+        onRequestClose={this._setState({ isModalVisible: false })}
+        transparent={false}
+        animationType={'none'}
+        >
+        <View style={[styles.flex, styles.container]}>
+          <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
+        </View>
+      </Modal>
+    )
+  }
+
   render() {
     return (
       <View style={[styles.flex, styles.container]}>
-        {/* Top section of view with Insiya logo */}
-        <View style={[styles.flex, styles.topView]}>
-          <Image
-            style={styles.logo}
-            source={require('../../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
-            resizeMode='contain'
-          />
-        </View>
-
-        {/* Bottom section of view with CountrySelector, PhoneNumberInput, and NextButton */}
+        {this._renderLogo()}
         <View style={[styles.bottomView]}>
           <View style={{flex: 1}} />
-
-          {/* CountrySelector */}
-          <TouchableWithoutFeedback
-            onPress={this._setState({ isModalVisible: true})}
-            onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
-            onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
-            >
-            <View style={[styles.countrySelectorView, styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
-              <Text style={[styles.componentSize, styles.text]}>
-                {countryCodes[this.state.countryIndex].country_name}
-              </Text>
-              <Icon name='md-arrow-dropdown' style={[styles.dropdownIcon]} />
-            </View>
-          </TouchableWithoutFeedback>
-
+            {this._renderCountrySelector()}
           <View style={{height: 5 * scaleFactor}} />
-
-            {/* PhoneNumber */}
-            <View style={[styles.componentSize, styles.phoneNumberView]}>
-              {/* PhoneNumberCountryCode */}
-              <Text style={[styles.phoneNumberCountryCode, styles.text, styles.border]}>
-                {countryCodes[this.state.countryIndex].dialing_code}
-              </Text>
-
-              {/* PhoneNumberInput */}
-              <TextInput
-                style={[styles.phoneNumberInput, styles.text, styles.border, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
-                keyboardType='phone-pad'
-                onChangeText={(value) => this._onPhoneInputChangeText(value)}
-                value={this.state.formattedPhoneNumber}
-                placeholder='Phone Number'
-                placeholderTextColor='#bdbdbd'
-                underlineColorAndroid={'transparent'}
-                onFocus={this._setStateInAnimationFrame({ isPhoneInputFocused: true})}
-                onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
-              />
-            </View>
-
-            {/* Invalid Number Text */}
-            {this.state.isPhoneNumberInvalid &&
-              <View style={[styles.componentSize, styles.phoneNumberView]}>
-                <View style={{width: '25%'}} />
-                <Text style={[styles.invalidNumberText]}>
-                  Invalid Number
-                </Text>
-              </View>
-            }
-
+            {this._renderPhoneNumberInput()}
+            {this._renderInvalidNumberText()}
           <View style={{flex: 2}} />
-
-            {/* NextButton */}
-            <TouchableHighlight
-              style={[styles.componentSize, styles.nextButtonBackgroundEnabled]}
-              onPress={() => this._onNextButtonPress()}
-              underlayColor='#0050a7'
-              disabled={this.state.isNextButtonDisabled && this.state.isLoading}
-              >
-              { this.state.isLoading ?
-                <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
-                <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
-                  Next
-                </Text>
-              }
-            </TouchableHighlight>
-
-            {/* SMS Notice */}
-            <Text style={[styles.componentSize, styles.text, styles.smsNoticeText]}>
-              {"We'll send an SMS message to verify your phone number"}
-            </Text>
-
+            {this._renderNextButton()}
+            {this._renderSMSNoticeText()}
           <View style={{flex: 3}} />
         </View>
-
-        <Modal
-          visible={this.state.isModalVisible}
-          onRequestClose={this._setState({ isModalVisible: false })}
-          transparent={false}
-          animationType={'none'}
-          >
-          <View style={[styles.flex, styles.container]}>
-            <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
-          </View>
-        </Modal>
-
       </View>
     )
   }

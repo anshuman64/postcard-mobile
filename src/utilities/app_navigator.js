@@ -127,12 +127,12 @@ const MainNavigator = TabNavigator({
 });
 
 const LoginNavigator = StackNavigator({
-  LoadingScreen: {
-    screen: LoadingScreenContainer,
-    navigationOptions: {
-      header: null,
-    }
- },
+ //  LoadingScreen: {
+ //    screen: LoadingScreenContainer,
+ //    navigationOptions: {
+ //      header: null,
+ //    }
+ // },
   LoginScreen: {
     screen: LoginScreenContainer,
     navigationOptions: {

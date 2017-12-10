@@ -45,21 +45,30 @@ class NewPostScreen extends React.Component {
     this.props.createPost(this.state.postText);
   }
 
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _renderTextInput() {
+    return (
+      <TextInput
+        style={[styles.textInput]}
+        placeholderTextColor={'#bdbdbd'}
+        placeholder={'What are you thankful for today?'}
+        onChangeText={(value) => this._onChangeText(value)}
+        autoFocus={true}
+        multiline={true}
+        returnKeyType={'done'}
+        underlineColorAndroid={'transparent'}
+        style={[styles.textInput]}
+        />
+    )
+  }
+
   render() {
     return (
       <View style={[styles.container]}>
-        {/* Text Input */}
-        <TextInput
-          style={[styles.textInput]}
-          placeholderTextColor={'#bdbdbd'}
-          placeholder={'What are you thankful for today?'}
-          onChangeText={(value) => this._onChangeText(value)}
-          autoFocus={true}
-          multiline={true}
-          returnKeyType={'done'}
-          underlineColorAndroid={'transparent'}
-          style={[styles.textInput]}
-          />
+        {this._renderTextInput()}
       </View>
     )
   }

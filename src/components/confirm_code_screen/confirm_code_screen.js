@@ -113,79 +113,88 @@ class ConfirmCodeScreen extends React.Component {
     this.startTimer();
   }
 
+//--------------------------------------------------------------------//
+// Render Methods
+//--------------------------------------------------------------------//
+
+  _renderTitle() {
+    return (
+      <Text style={[styles.titleText]}>
+        Enter Confirmation Code
+      </Text>
+    )
+  }
+
+  _renderSubtitle() {
+    return (
+      <Text style={[styles.subtitleText]}>
+        Sent to { this.props.phoneNumber /*this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
+      </Text>
+    )
+  }
+
+  _renderCodeInput() {
+    return (
+      <TextInput
+        style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeIncorrect && styles.borderRed]}
+        keyboardType='numeric'
+        onChangeText={this._codeInputOnChangeText}
+        value={this.state.inputtedCode}
+        placeholder='-  -  -  -  -  -'
+        autoFocus={true}
+        maxLength={6}
+        placeholderTextColor='#bdbdbd'
+        underlineColorAndroid={'transparent'}
+        onFocus={this._setStateInAnimationFrame({ isCodeInputFocused: true})}
+        onEndEditing={this._setStateInAnimationFrame({ isCodeInputFocused: false})}
+      />
+    )
+  }
+
+  _renderInvalidCodeText() {
+    if (this.state.isLoading) {
+      return <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} />
+    } else if (this.state.isCodeIncorrect) {
+      return (
+        <Text style={[styles.invalidCodeText]}>
+          Invalid Code
+        </Text>
+      )
+    }
+  }
+
+  _renderResendSMS() {
+    return (
+      <TouchableWithoutFeedback
+        onPressIn={this._setStateInAnimationFrame({ isResendSMSPressed: true})}
+        onPressOut={this._setStateInAnimationFrame({ isResendSMSPressed: false})}
+        onPress={() => this._onResendSMSPress()}
+        disabled={this.state.isResendSMSDisabled}
+        >
+        <View style={[styles.resendSMSView]}>
+          <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+            Resend SMS
+          </Text>
+          <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+            {/* Displays countdown timer in clean format */}
+            {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
+          </Text>
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
+
   render() {
     return (
       <View style={[styles.container]}>
-
-        {/* Header
-        <View style={[styles.headerView]}>
-          <TouchableWithoutFeedback
-            onPressIn={this._setStateInAnimationFrame({ isBackIconPressed: true})}
-            onPressOut={this._setStateInAnimationFrame({ isBackIconPressed: false})}
-            onPress={() => this._onBackIconPress()}
-            >
-             <Icon name='ios-arrow-round-back-outline' style={[styles.backIcon, this.state.isBackIconPressed && styles.textHighlighted]} />
-         </TouchableWithoutFeedback>
-       </View>
-       */}
-
         <View style={{flex: 3}} />
-        {/* Top Text */}
-        <Text style={[styles.titleText]}>
-          Enter Confirmation Code
-        </Text>
-        <Text style={[styles.subtitleText]}>
-          {/* Displays phone number in clean format */}
-          Sent to { this.props.phoneNumber /*this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
-        </Text>
-
-
+          {this._renderTitle()}
+          {this._renderSubtitle()}
         <View style={{flex: 1.5}} />
-
-        {/* Code Input */}
-        <TextInput
-          style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeIncorrect && styles.borderRed]}
-          keyboardType='numeric'
-          onChangeText={this._codeInputOnChangeText}
-          value={this.state.inputtedCode}
-          placeholder='-  -  -  -  -  -'
-          autoFocus={true}
-          maxLength={6}
-          placeholderTextColor='#bdbdbd'
-          underlineColorAndroid={'transparent'}
-          onFocus={this._setStateInAnimationFrame({ isCodeInputFocused: true})}
-          onEndEditing={this._setStateInAnimationFrame({ isCodeInputFocused: false})}
-        />
-
-        {/* Invalid Code Text */}
-        {this.state.isLoading ?
-          <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
-          this.state.isCodeIncorrect &&
-          <Text style={[styles.invalidCodeText]}>
-            Invalid Code
-          </Text>
-        }
-
+          {this._renderCodeInput()}
+          {this._renderInvalidCodeText()}
         <View style={{flex: 5}} />
-
-        {/* Resend SMS */}
-        <TouchableWithoutFeedback
-          onPressIn={this._setStateInAnimationFrame({ isResendSMSPressed: true})}
-          onPressOut={this._setStateInAnimationFrame({ isResendSMSPressed: false})}
-          onPress={() => this._onResendSMSPress()}
-          disabled={this.state.isResendSMSDisabled}
-          >
-          <View style={[styles.resendSMSView]}>
-            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
-              Resend SMS
-            </Text>
-            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
-              {/* Displays countdown timer in clean format */}
-              {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-
+          {this._renderResendSMS()}
         <View style={{flex: 18}} />
       </View>
     )
