@@ -44,19 +44,18 @@ let checkStatus = (response) => {
 // Interface
 //--------------------------------------------------------------------//
 
+// TODO: Update all header shit
 
-export const get = (path, queryParams, authToken) => {
+export const get = (authToken, path, queryParams) => {
   let url = BASE_URL + path;
   let headers = HEADERS;
+
+  headers['Authorization'] = 'Bearer ' + authToken;
 
   if (queryParams) {
     url += getQueryString(queryParams);
   }
 
-  if (authToken) {
-    headers['Authorization'] = 'Bearer ' + authToken;
-  }
-  
   return fetch(url, {
     method: 'GET',
     headers: headers
@@ -72,8 +71,6 @@ export const post = (path, payload, authToken) => {
   if (authToken) {
     headers['Authorization'] = 'Bearer ' + authToken;
   }
-
-  // debugger;
 
   return fetch(url, {
     method:  'POST',

@@ -5,7 +5,7 @@ import { Platform, StyleSheet, PixelRatio }  from 'react-native';
 
 //--------------------------------------------------------------------//
 
-
+// TODO: move post_list_item styles
 export const scaleFactor = PixelRatio.get();
 
 export const styles = StyleSheet.create({

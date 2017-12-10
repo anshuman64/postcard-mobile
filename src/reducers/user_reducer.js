@@ -7,7 +7,7 @@ import { RECEIVE_PHONE_NUMBER, RECEIVE_CONFIRMATION_CODE, RECEIVE_FIREBASE_USER_
 
 //--------------------------------------------------------------------//
 
-
+// TODO: line up colons
 const DEFAULT_STATE = {
   phoneNumber: '',
   confirmationCodeObj:  null,

@@ -23,7 +23,7 @@ export const TO_MY_LIKES_TAB          = 'TO_MY_LIKES_TAB';
 
 // Common
 export const TO_MENU_SCREEN           = 'TO_MENU_SCREEN';
-export const BACK_SCREEN              = 'BACK_SCREEN';
+export const BACK_SCREEN              = 'BACK_SCREEN'; // TODO: change name to GO_BACK
 
 
 //--------------------------------------------------------------------//
