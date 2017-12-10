@@ -1,6 +1,6 @@
 // Library Imports
 import React                                                         from 'react';
-import { View, Text, FlatList, RefreshControl, ActivityIndicator }   from 'react-native';
+import RN from 'react-native';
 
 // Local Imports
 import { styles, scaleFactor }  from './post_list_styles.js';
@@ -35,14 +35,14 @@ class PostList extends React.Component {
 
   renderFooter = () => {
     return (
-      <ActivityIndicator size='small' color='#bdbdbd' style={styles.activityIndicator} />
+      <RN.ActivityIndicator size='small' color='#bdbdbd' style={styles.activityIndicator} />
     );
   };
 
   render() {
     return (
-      <View style={[styles.container]}>
-        <FlatList
+      <RN.View style={[styles.container]}>
+        <RN.FlatList
           data={this.props.data}
           renderItem={this._renderItem}
           keyExtractor={(item, index) => index}
@@ -50,14 +50,14 @@ class PostList extends React.Component {
           initialNumToRender={10}
           maxToRenderPerBatch={10}
           showsVerticalScrollIndicator={false}
-          refreshControl={<RefreshControl
+          refreshControl={<RN.RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh.bind(this)}
             color='#bdbdbd'
             />}
           ListFooterComponent={this.renderFooter}
           />
-      </View>
+      </RN.View>
     )
   }
 }

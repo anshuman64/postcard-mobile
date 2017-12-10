@@ -1,15 +1,15 @@
 // Library Imports
 import React                                 from 'react';
-import { Platform, StyleSheet, PixelRatio }  from 'react-native';
+import RN from 'react-native';
 
 
 //--------------------------------------------------------------------//
 
 
-export const scaleFactor = PixelRatio.get();
+export const scaleFactor = RN.PixelRatio.get();
 
 
-export var userTabNavigatorStyles = StyleSheet.create({
+export var userTabNavigatorStyles = RN.StyleSheet.create({
   style: {
     backgroundColor: '#ffffff'
   },
@@ -17,11 +17,11 @@ export var userTabNavigatorStyles = StyleSheet.create({
     backgroundColor: '#007aff'
   },
   labelStyle: {
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
   },
 })
 
-export var homeStackNavigatorStyles = StyleSheet.create({
+export var homeStackNavigatorStyles = RN.StyleSheet.create({
   headerTitle: {
     alignSelf: 'center',
     width: 100,
@@ -52,7 +52,7 @@ export var homeStackNavigatorStyles = StyleSheet.create({
    shareButtonText: {
      height: '100%',
      width: 32 * scaleFactor,
-     fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
      fontSize: 6 * scaleFactor,
      textAlign: 'center',
      textAlignVertical: 'center',
@@ -60,7 +60,7 @@ export var homeStackNavigatorStyles = StyleSheet.create({
    },
 })
 
-export var mainNavigatorStyles = StyleSheet.create({
+export var mainNavigatorStyles = RN.StyleSheet.create({
   style: {
     paddingLeft: '2.5%',
     paddingRight: '2.5%',

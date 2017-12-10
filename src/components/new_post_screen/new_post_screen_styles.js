@@ -1,14 +1,14 @@
 // Library Imports
 import React                       from 'react';
-import { StyleSheet, PixelRatio }  from 'react-native';
+import RN from 'react-native';
 
 
 //--------------------------------------------------------------------//
 
 
-export const scaleFactor = PixelRatio.get();
+export const scaleFactor = RN.PixelRatio.get();
 
-export const styles = StyleSheet.create({
+export const styles = RN.StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
