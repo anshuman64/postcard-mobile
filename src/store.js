@@ -2,8 +2,8 @@
 import { createStore, applyMiddleware } from 'redux';
 
 // Local Imports
-import { thunk }   from '../middleware/thunk';
-import RootReducer from '../reducers/root_reducer';
+import { thunk }   from './middleware/thunk';
+import RootReducer from './reducers/root_reducer';
 
 //--------------------------------------------------------------------//
 
