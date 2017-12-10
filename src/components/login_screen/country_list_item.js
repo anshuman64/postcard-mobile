@@ -17,7 +17,7 @@ class CountryListItem extends React.PureComponent {
       isTextHighlighted: false
     };
   }
-
+  // TODO: make into utility method
   _setStateInAnimationFrame = (state) => {
     return(
       () => (requestAnimationFrame(() => {this.setState(state)}))

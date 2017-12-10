@@ -24,7 +24,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[action.data.id] = action.data;
 
       return newState;
-    case REMOVE_POST:
+    case REMOVE_POST: // TODO: remove this
       delete newState[action.data.id];
 
       return newState;

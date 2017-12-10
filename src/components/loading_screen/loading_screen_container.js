@@ -8,7 +8,7 @@ import { getUserOnAuthStateChange, receivePhoneNumber, receiveFirebaseUserObj, g
 
 //--------------------------------------------------------------------//
 
-
+// TODO: what is ownProps?
 const mapStateToProps = ({ user }, ownProps) => ({
   phoneNumber: user.phoneNumber,
   firebaseUserObj: user.firebaseUserObj,

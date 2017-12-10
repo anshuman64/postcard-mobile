@@ -6,11 +6,14 @@ import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../actions/post_action
 
 //--------------------------------------------------------------------//
 
+// TODO: add lastUpdated
 const DEFAULT_STATE = {
   allPosts: [],
-  myPosts:  []
+  myPosts:  [], // TODO: rename to authored posts
+  likedPosts: []
 };
 
+// TODO: add actions for new routes
 const PostsReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
   let newState = _.merge({}, state);

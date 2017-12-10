@@ -1,6 +1,5 @@
 // Local Imports
 import * as UserAPI                            from '../api/user_api.js';
-import { toConfirmCodeScreen, toPostsScreen }  from './navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -9,6 +8,14 @@ import { toConfirmCodeScreen, toPostsScreen }  from './navigation_actions.js';
 // Constants
 //--------------------------------------------------------------------//
 
+// TODO: uncomment this code and change in all action files
+// export const ActionTypes = {
+//   RECEIVE_PHONE_NUMBER:      'RECEIVE_PHONE_NUMBER',
+//   RECEIVE_CONFIRMATION_CODE: 'RECEIVE_CONFIRMATION_CODE',
+//   RECEIVE_FIREBASE_USER_OBJ: 'RECEIVE_FIREBASE_USER_OBJ',
+//   RECEIVE_AUTH_TOKEN:        'RECEIVE_AUTH_TOKEN',
+//   RECEIVE_USER:              'RECEIVE_USER'
+// }
 export const RECEIVE_PHONE_NUMBER       = 'RECEIVE_PHONE_NUMBER';
 export const RECEIVE_CONFIRMATION_CODE  = 'RECEIVE_CONFIRMATION_CODE';
 export const RECEIVE_FIREBASE_USER_OBJ  = 'RECEIVE_FIREBASE_USER_OBJ';
@@ -82,6 +89,7 @@ export const createUser = (phoneNumber, authToken) => (dispatch) => {
 }
 
 // LoadingScreen: Tries to auto log in user
+// TODO: Move "receive" logic from loading screen to here
 export const getUserOnAuthStateChange = (callback) => (dispatch) => {
   return UserAPI.getUserOnAuthStateChange(callback)
 }

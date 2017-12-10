@@ -36,7 +36,7 @@ export const removePost = (data) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-
+//TODO: move API stuff here
 export const getPosts = (queryParams, authToken) => (dispatch) => {
   return PostAPI.getPosts(queryParams, authToken).then((posts) => {
     console.log(posts);

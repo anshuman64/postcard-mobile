@@ -1,5 +1,5 @@
 // Library Imports
-import firebase from 'react-native-firebase';
+import Firebase from 'react-native-firebase';
 
 // Local Imports
 import * as APIUtility from '../utilities/api_utility';
@@ -12,9 +12,10 @@ import * as APIUtility from '../utilities/api_utility';
 // Interface
 //--------------------------------------------------------------------//
 
+// TODO: Change order of arguments
 // Takes phone number and returns confirmationCodeObj via Firebase API
 export const getConfirmationCode = (payload) => {
-  return firebase.auth().signInWithPhoneNumber(payload);
+  return Firebase.auth().signInWithPhoneNumber(payload);
 };
 
 export const createUser = (payload, authToken) => {
@@ -22,5 +23,5 @@ export const createUser = (payload, authToken) => {
 }
 
 export const getUserOnAuthStateChange = (payload) => {
-  return firebase.auth().onAuthStateChanged(payload);
+  return Firebase.auth().onAuthStateChanged(payload);
 }

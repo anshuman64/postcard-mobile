@@ -5,7 +5,10 @@ import { Platform, StyleSheet, PixelRatio }  from 'react-native';
 
 //--------------------------------------------------------------------//
 
+// TODO: split country list styles
 
+// TODO: multiply all fontSizes with PixelRatio.getFontSize()
+// TODO: change all pixel sizes to PixelRatio.getPixelSizeforLayoutSize(xx)
 export const scaleFactor = PixelRatio.get();
 
 export const styles = StyleSheet.create({

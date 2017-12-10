@@ -55,7 +55,7 @@ class CountryListModal extends React.PureComponent {
             </Text>
           </View>
 
-          {/* CountryListView */}
+          {/* CountryListView TODO: render spinner */}
           { this.state.isModalMounted && <ListView
             ref={(ref) => this.listView = ref}
             dataSource={this.state.dataSource}

@@ -8,7 +8,7 @@ import samplePosts  from '../../resources/sample_posts.js';
 
 //--------------------------------------------------------------------//
 
-
+// TODO: rename to authored posts
 class MyPostsTab extends React.Component {
 
   render() {

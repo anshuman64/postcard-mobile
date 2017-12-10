@@ -13,7 +13,7 @@ import samplePosts              from '../../resources/sample_posts.js';
 
 class HomeScreen extends React.Component {
   componentWillMount() {
-    this.props.getPosts(null, this.props.authToken)
+    this.props.getPosts(null, this.props.authToken) // TODO: implement posts
   }
 
   render() {

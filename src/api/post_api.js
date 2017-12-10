@@ -8,7 +8,7 @@ import * as APIUtility from '../utilities/api_utility';
 // Interface
 //--------------------------------------------------------------------//
 
-
+// TODO: Add new endpoints for liked/authored
 export const getPosts = (queryParams, authToken) => {
   return APIUtility.get('/posts', queryParams, authToken);
 };

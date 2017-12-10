@@ -4,7 +4,6 @@ import PropTypes                                                                
 import { connect }                                                                from 'react-redux';
 import { BackHandler, View, Text, Image, TouchableHighlight }                     from "react-native";
 import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }  from 'react-navigation';
-// import { createIconSetFromFontello }                                           from 'react-native-vector-icons';
 import Icon                                                                       from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon                                                                    from 'react-native-vector-icons/Ionicons';
 
@@ -18,15 +17,12 @@ import MyLikesTab                                                               
 import NewPostScreenContainer                                                     from '../components/new_post_screen/new_post_screen_container.js';
 import MenuScreen                                                                 from '../components/menu_screen/menu_screen.js';
 import * as NavigationActionCreators                                              from '../actions/navigation_actions.js';
-// import fontelloConfig                                                          from '../resources/fonts/config.json';
 import { userTabNavigatorStyles, homeStackNavigatorStyles, mainNavigatorStyles }  from './app_navigator_styles.js';
 
 
 //--------------------------------------------------------------------//
 
-
-// const IconFilled = createIconSetFromFontello(fontelloConfig);
-
+// TODO: Organize all navigators into separate files
 export const UserTabNavigator = TabNavigator({
   MyPostsTab: {
     screen: MyPostsTab,
@@ -126,6 +122,7 @@ const MainNavigator = TabNavigator({
   }
 });
 
+// TODO: Move login nav into the app level nav
 const LoginNavigator = StackNavigator({
   LoadingScreen: {
     screen: LoadingScreenContainer,
@@ -167,12 +164,13 @@ class AppWithNavigationState extends React.Component {
     BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
   }
 
+  // TODO: Fix this
   onBackPress = () => {
     // Exit app if on LoginScreen or on HomeScreen
-    if ( (this.props.nav.routes[0].routes.length === 1) ||
-        (this.props.nav.routes.length === 2 && this.props.nav.routes[1].routes[0].routes.length === 1) ) {
+    if ((this.props.nav.routes[0].routes.length === 1) || (this.props.nav.routes.length === 2 && this.props.nav.routes[1].routes[0].routes.length === 1)) {
       return false;
     }
+
     this.props.dispatch(NavigationActionCreators.toBackScreen());
     return true;
   };
@@ -180,18 +178,15 @@ class AppWithNavigationState extends React.Component {
   render() {
     const navigation = addNavigationHelpers({
       dispatch: this.props.dispatch,
-      state: this.props.nav
+      state:    this.props.nav
     });
 
-    return <AppNavigator navigation={navigation} />;
+    return <AppNavigator navigation={ navigation } />;
   }
 }
 
-AppWithNavigationState.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  nav: PropTypes.object.isRequired,
-};
 
+// TODO: try moving this to another file
 const mapStateToProps = (state) => ({
   nav: state.nav
 });
