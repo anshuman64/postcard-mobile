@@ -1,12 +1,13 @@
 // Library Imports
-import React                                 from 'react';
-import { Platform, StyleSheet, PixelRatio }  from 'react-native';
+import React                     from 'react';
+import { Platform, StyleSheet }  from 'react-native';
+
+// Local Imports
+import { scale, scaleFont } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
 
-
-export const scaleFactor = PixelRatio.get();
 
 export const styles = StyleSheet.create({
   container: {
@@ -21,14 +22,14 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    paddingLeft: 2 * scaleFactor,
-    paddingRight: 2 * scaleFactor,
-    paddingTop: 2 * scaleFactor,
+    paddingLeft: scale(2),
+    paddingRight: scale(2),
+    paddingTop: scale(2),
     backgroundColor: '#fafafa',
   },
   body: {
     width: '100%',
-    padding: 8 * scaleFactor,
+    padding: scale(8),
     backgroundColor: '#ffffff',
     // borderColor: '#656565',
     // borderWidth: 0.1 * scaleFactor,
@@ -37,35 +38,35 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     textAlign: 'left',
     textAlignVertical: 'center',
-    marginBottom: 5 * scaleFactor
+    marginBottom: scale(5)
   },
   bodyText: {
     width: '100%',
     fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: 6 * scaleFactor,
+    fontSize: scaleFont(6),
     textAlign: 'left',
     textAlignVertical: 'center',
-    marginBottom: 5 * scaleFactor
+    marginBottom: scale(5)
   },
   largeBodyText: {
-    fontSize: 8 * scaleFactor,
+    fontSize: scaleFont(8),
   },
   detailsView: {
     flexDirection: 'row',
     width: '100%'
   },
   heartIcon: {
-    fontSize: 9 * scaleFactor,
-    marginRight: 4 * scaleFactor,
+    fontSize: scaleFont(9),
+    marginRight: scale(4),
     color: '#007aff'
   },
   likeCountText: {
-    fontSize: 6 * scaleFactor,
+    fontSize: scaleFont(6),
     textAlign: 'left',
     textAlignVertical: 'center',
   },
   activityIndicator: {
-    marginTop: 8 * scaleFactor,
-    marginBottom: 8 * scaleFactor,
+    marginTop: scale(8),
+    marginBottom: scale(8),
   }
 });
