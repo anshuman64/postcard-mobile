@@ -1,6 +1,8 @@
 import * as _ from 'lodash';
 
 //--------------------------------------------------------------------//
+
+//--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
 
@@ -45,18 +47,16 @@ let checkStatus = (response) => {
 //--------------------------------------------------------------------//
 
 
-export const get = (path, queryParams, authToken) => {
-  let url = BASE_URL + path;
-  let headers = HEADERS;
+export const get = (authToken, path, queryParams) => {
+  let url     = BASE_URL + path;
+  let headers = _.merge({}, HEADERS);
+
+  headers['Authorization'] = 'Bearer ' + authToken;
 
   if (queryParams) {
     url += getQueryString(queryParams);
   }
 
-  if (authToken) {
-    headers['Authorization'] = 'Bearer ' + authToken;
-  }
-  
   return fetch(url, {
     method: 'GET',
     headers: headers
@@ -65,15 +65,11 @@ export const get = (path, queryParams, authToken) => {
   });
 };
 
-export const post = (path, payload, authToken) => {
-  let url = BASE_URL + path;
-  let headers = HEADERS;
+export const post = (authToken, path, payload) => {
+  let url     = BASE_URL + path;
+  let headers = _.merge({}, HEADERS);
 
-  if (authToken) {
-    headers['Authorization'] = 'Bearer ' + authToken;
-  }
-
-  // debugger;
+  headers['Authorization'] = 'Bearer ' + authToken;
 
   return fetch(url, {
     method:  'POST',
@@ -84,13 +80,11 @@ export const post = (path, payload, authToken) => {
   });
 };
 
-export const put = (path, payload, authToken) => {
-  let url = BASE_URL + path;
-  let headers = HEADERS;
+export const put = (authToken, path, payload) => {
+  let url     = BASE_URL + path;
+  let headers = _.merge({}, HEADERS);
 
-  if (authToken) {
-    headers['Authorization'] = 'Bearer ' + authToken;
-  }
+  headers['Authorization'] = 'Bearer ' + authToken;
 
   return fetch(url, {
     method:  'PUT',
@@ -101,13 +95,11 @@ export const put = (path, payload, authToken) => {
   });
 };
 
-export const del = (path, authToken) => {
-  let url = BASE_URL + path;
-  let headers = HEADERS;
+export const del = (authToken, path) => {
+  let url     = BASE_URL + path;
+  let headers = _.merge({}, HEADERS);
 
-  if (authToken) {
-    headers['Authorization'] = 'Bearer ' + authToken;
-  }
+  headers['Authorization'] = 'Bearer ' + authToken;
 
   return fetch(url, {
     method: 'DELETE',
