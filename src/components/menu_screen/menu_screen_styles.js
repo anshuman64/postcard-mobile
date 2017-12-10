@@ -1,12 +1,13 @@
 // Library Imports
 import React                       from 'react';
-import { StyleSheet, PixelRatio }  from 'react-native';
+import { StyleSheet }  from 'react-native';
+
+// Local Imports
+import { scale, scaleFont } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
 
-
-export const scaleFactor = PixelRatio.get();
 
 export const styles = StyleSheet.create({
   container: {
@@ -23,18 +24,18 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     width: '100%',
-    height: 20 * scaleFactor,
+    height: scale(20),
   },
   menuItemIcon: {
-    height: 20 * scaleFactor,
-    fontSize: 10 * scaleFactor,
+    height: scale(20),
+    fontSize: scaleFont(10),
     textAlignVertical: 'center',
     marginRight: '7%',
     color: '#212121'
   },
   menuItemText: {
-    height: 20 * scaleFactor,
-    fontSize: 6.5 * scaleFactor,
+    height: scale(20),
+    fontSize: scaleFont(6.5),
     textAlignVertical: 'center',
     color: '#212121'
   },

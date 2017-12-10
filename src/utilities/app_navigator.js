@@ -133,12 +133,12 @@ const LoginNavigator = StackNavigator({
  //      header: null,
  //    }
  // },
-  LoginScreen: {
-    screen: LoginScreenContainer,
-    navigationOptions: {
-      header: null,
-    }
-  },
+  // LoginScreen: {
+  //   screen: LoginScreenContainer,
+  //   navigationOptions: {
+  //     header: null,
+  //   }
+  // },
   ConfirmCodeScreen: {
     screen: ConfirmCodeScreenContainer,
     navigationOptions: ({navigation}) => ({

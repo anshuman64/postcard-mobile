@@ -1,12 +1,12 @@
 // Library Imports
 import React                                 from 'react';
-import { Platform, StyleSheet, PixelRatio }  from 'react-native';
+import { Platform, StyleSheet }  from 'react-native';
+
+// Local Imports
+import { scale, scaleFont } from './style_utility.js';
 
 
 //--------------------------------------------------------------------//
-
-
-export const scaleFactor = PixelRatio.get();
 
 
 export var userTabNavigatorStyles = StyleSheet.create({
@@ -24,36 +24,36 @@ export var userTabNavigatorStyles = StyleSheet.create({
 export var homeStackNavigatorStyles = StyleSheet.create({
   headerTitle: {
     alignSelf: 'center',
-    width: 100,
+    width: scale(100),
   },
   optionsIcon: {
     height: '100%',
-    width: 20 * scaleFactor,
-    fontSize: 7 * scaleFactor,
+    width: scale(20),
+    fontSize: scaleFont(7),
     textAlign: 'center',
     textAlignVertical: 'center'
   },
   noteIcon: {
     height: '100%',
-    width: 22 * scaleFactor,
-    fontSize: 8 * scaleFactor,
+    width: scale(22),
+    fontSize: scaleFont(8),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#007aff',
   },
   backIcon: {
     height: '100%',
-    width: 22 * scaleFactor,
-    fontSize: 15 * scaleFactor,
+    width: scale(22),
+    fontSize: scaleFont(15),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#212121',
   },
    shareButtonText: {
      height: '100%',
-     width: 32 * scaleFactor,
+     width: scale(32),
      fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-     fontSize: 6 * scaleFactor,
+     fontSize: scaleFont(6),
      textAlign: 'center',
      textAlignVertical: 'center',
      color: '#007aff',
@@ -67,7 +67,7 @@ export var mainNavigatorStyles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   iconStyle: {
-    fontSize: 8 * scaleFactor,
+    fontSize: scaleFont(8),
     color: '#212121',
   },
   iconFocused: {
