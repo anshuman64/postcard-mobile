@@ -1,6 +1,6 @@
 // Library Imports
 import React                                                                             from 'react';
-import { Keyboard, View, Text, TextInput, TouchableWithoutFeedback, ActivityIndicator }  from 'react-native';
+import * as RN from 'react-native';
 import { PhoneNumberUtil, PhoneNumberFormat }                                            from 'google-libphonenumber';
 import Icon                                                                              from 'react-native-vector-icons/Ionicons';
 
@@ -115,35 +115,35 @@ class ConfirmCodeScreen extends React.Component {
 
   render() {
     return (
-      <View style={[styles.container]}>
+      <RN.View style={[styles.container]}>
 
         {/* Header
-        <View style={[styles.headerView]}>
-          <TouchableWithoutFeedback
+        <RN.View style={[styles.headerView]}>
+          <RN.TouchableWithoutFeedback
             onPressIn={this._setStateInAnimationFrame({ isBackIconPressed: true})}
             onPressOut={this._setStateInAnimationFrame({ isBackIconPressed: false})}
             onPress={() => this._onBackIconPress()}
             >
              <Icon name='ios-arrow-round-back-outline' style={[styles.backIcon, this.state.isBackIconPressed && styles.textHighlighted]} />
-         </TouchableWithoutFeedback>
-       </View>
+         </RN.TouchableWithoutFeedback>
+       </RN.View>
        */}
 
-        <View style={{flex: 3}} />
-        {/* Top Text */}
-        <Text style={[styles.titleText]}>
+        <RN.View style={{flex: 3}} />
+        {/* Top RN.Text */}
+        <RN.Text style={[styles.titleText]}>
           Enter Confirmation Code
-        </Text>
-        <Text style={[styles.subtitleText]}>
+        </RN.Text>
+        <RN.Text style={[styles.subtitleText]}>
           {/* Displays phone number in clean format */}
           Sent to { this.props.phoneNumber /*this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
-        </Text>
+        </RN.Text>
 
 
-        <View style={{flex: 1.5}} />
+        <RN.View style={{flex: 1.5}} />
 
         {/* Code Input */}
-        <TextInput
+        <RN.TextInput
           style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeIncorrect && styles.borderRed]}
           keyboardType='numeric'
           onChangeText={this._codeInputOnChangeText}
@@ -157,37 +157,37 @@ class ConfirmCodeScreen extends React.Component {
           onEndEditing={this._setStateInAnimationFrame({ isCodeInputFocused: false})}
         />
 
-        {/* Invalid Code Text */}
+        {/* Invalid Code RN.Text */}
         {this.state.isLoading ?
-          <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
+          <RN.ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
           this.state.isCodeIncorrect &&
-          <Text style={[styles.invalidCodeText]}>
+          <RN.Text style={[styles.invalidCodeText]}>
             Invalid Code
-          </Text>
+          </RN.Text>
         }
 
-        <View style={{flex: 5}} />
+        <RN.View style={{flex: 5}} />
 
         {/* Resend SMS */}
-        <TouchableWithoutFeedback
+        <RN.TouchableWithoutFeedback
           onPressIn={this._setStateInAnimationFrame({ isResendSMSPressed: true})}
           onPressOut={this._setStateInAnimationFrame({ isResendSMSPressed: false})}
           onPress={() => this._onResendSMSPress()}
           disabled={this.state.isResendSMSDisabled}
           >
-          <View style={[styles.resendSMSView]}>
-            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+          <RN.View style={[styles.resendSMSView]}>
+            <RN.Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
               Resend SMS
-            </Text>
-            <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+            </RN.Text>
+            <RN.Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
               {/* Displays countdown timer in clean format */}
               {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
+            </RN.Text>
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
 
-        <View style={{flex: 18}} />
-      </View>
+        <RN.View style={{flex: 18}} />
+      </RN.View>
     )
   }
 }

@@ -1,14 +1,14 @@
 // Library Imports
 import React                                 from 'react';
-import { Platform, StyleSheet, PixelRatio }  from 'react-native';
+import * as RN from 'react-native';
 
 
 //--------------------------------------------------------------------//
 
 
-export const scaleFactor = PixelRatio.get();
+export const scaleFactor = RN.PixelRatio.get();
 
-export const styles = StyleSheet.create({
+export const styles = RN.StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
   },
   bodyText: {
     width: '100%',
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: 6 * scaleFactor,
     textAlign: 'left',
     textAlignVertical: 'center',

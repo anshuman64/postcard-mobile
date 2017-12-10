@@ -1,6 +1,6 @@
 // Library Imports
 import React                      from 'react';
-import { View, Text, FlatList }   from 'react-native';
+import * as RN from 'react-native';
 
 // Local Imports
 import { styles, scaleFactor }  from './home_screen_styles.js';

@@ -1,6 +1,6 @@
 // Library Imports
 import React                                               from 'react';
-import { View, Text, ListView, TouchableWithoutFeedback }  from 'react-native';
+import * as RN from 'react-native';
 
 // Local Imports
 import { styles, scaleFactor }  from './login_screen_styles.js';
@@ -13,7 +13,7 @@ import CountryListItem          from './country_list_item.js';
 class CountryListModal extends React.PureComponent {
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: ds.cloneWithRows(countryCodes),
       isTextHighlighted: false,
@@ -21,12 +21,12 @@ class CountryListModal extends React.PureComponent {
     };
   }
 
-  // Renders the ListView after other modal contents are mounted for performance
+  // Renders the RN.ListView after other modal contents are mounted for performance
   componentDidMount() {
     this.setState({ isModalMounted: true });
   }
 
-  // Scrolls directly to the currently selected country when ListView is opened
+  // Scrolls directly to the currently selected country when RN.ListView is opened
   _onListViewContentSizeChange = () => {
     this.listView.scrollTo({x: 0, y: this.props.countryIndex * 17 * scaleFactor - 2, animated: true})
   }
@@ -37,7 +37,7 @@ class CountryListModal extends React.PureComponent {
     )
   }
 
-  // Renders ListView items
+  // Renders RN.ListView items
   _renderItem = () => {
     return (
       (rowData, sectionID, rowID) => ( <CountryListItem item={rowData} countryIndex={rowID} setCountry={this.props.setCountry} /> )
@@ -46,17 +46,17 @@ class CountryListModal extends React.PureComponent {
 
   render() {
     return(
-        <View style={[styles.flex, styles.modalContainer]}>
+        <RN.View style={[styles.flex, styles.modalContainer]}>
 
-          {/* Choose Country Text */}
-          <View style={[styles.flex, styles.chooseCountryText]}>
-            <Text style={[styles.flex, styles.chooseCountryText, styles.text]}>
+          {/* Choose Country RN.Text */}
+          <RN.View style={[styles.flex, styles.chooseCountryText]}>
+            <RN.Text style={[styles.flex, styles.chooseCountryText, styles.text]}>
               Select Country
-            </Text>
-          </View>
+            </RN.Text>
+          </RN.View>
 
           {/* CountryListView */}
-          { this.state.isModalMounted && <ListView
+          { this.state.isModalMounted && <RN.ListView
             ref={(ref) => this.listView = ref}
             dataSource={this.state.dataSource}
             style={[styles.container]}
@@ -66,18 +66,18 @@ class CountryListModal extends React.PureComponent {
           /> }
 
           {/* CancelButton */}
-          <TouchableWithoutFeedback
+          <RN.TouchableWithoutFeedback
             onPressIn={this._setStateInAnimationFrame({ isTextHighlighted: true})}
             onPressOut={this._setStateInAnimationFrame({ isTextHighlighted: false})}
             onPress={this.props.setParentState({ isModalVisible: false })}
           >
-            <View style={[styles.chooseCountryText]}>
-              <Text style={[styles.chooseCountryText, styles.text, this.state.isTextHighlighted && styles.textHighlighted]}>
+            <RN.View style={[styles.chooseCountryText]}>
+              <RN.Text style={[styles.chooseCountryText, styles.text, this.state.isTextHighlighted && styles.textHighlighted]}>
                 Cancel
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+              </RN.Text>
+            </RN.View>
+          </RN.TouchableWithoutFeedback>
+        </RN.View>
     )
   }
 }

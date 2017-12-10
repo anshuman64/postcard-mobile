@@ -1,6 +1,6 @@
 // Library Imports
 import React                                                                                                               from 'react';
-import { Keyboard, View, Text, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput, ActivityIndicator }  from 'react-native';
+import * as RN from 'react-native';
 import * as _                                                                                                              from 'lodash';
 import { PhoneNumberUtil, AsYouTypeFormatter }                                                                             from 'google-libphonenumber';
 import firebase                                                                                                            from 'react-native-firebase';
@@ -132,45 +132,45 @@ class LoginScreen extends React.Component {
 
   render() {
     return (
-      <View style={[styles.flex, styles.container]}>
+      <RN.View style={[styles.flex, styles.container]}>
         {/* Top section of view with Insiya logo */}
-        <View style={[styles.flex, styles.topView]}>
-          <Image
+        <RN.View style={[styles.flex, styles.topView]}>
+          <RN.Image
             style={styles.logo}
             source={require('../../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
             resizeMode='contain'
           />
-        </View>
+        </RN.View>
 
         {/* Bottom section of view with CountrySelector, PhoneNumberInput, and NextButton */}
-        <View style={[styles.bottomView]}>
-          <View style={{flex: 1}} />
+        <RN.View style={[styles.bottomView]}>
+          <RN.View style={{flex: 1}} />
 
           {/* CountrySelector */}
-          <TouchableWithoutFeedback
+          <RN.TouchableWithoutFeedback
             onPress={this._setState({ isModalVisible: true})}
             onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
             onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
             >
-            <View style={[styles.countrySelectorView, styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
-              <Text style={[styles.componentSize, styles.text]}>
+            <RN.View style={[styles.countrySelectorView, styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
+              <RN.Text style={[styles.componentSize, styles.text]}>
                 {countryCodes[this.state.countryIndex].country_name}
-              </Text>
+              </RN.Text>
               <Icon name='md-arrow-dropdown' style={[styles.dropdownIcon]} />
-            </View>
-          </TouchableWithoutFeedback>
+            </RN.View>
+          </RN.TouchableWithoutFeedback>
 
-          <View style={{height: 5 * scaleFactor}} />
+          <RN.View style={{height: 5 * scaleFactor}} />
 
             {/* PhoneNumber */}
-            <View style={[styles.componentSize, styles.phoneNumberView]}>
+            <RN.View style={[styles.componentSize, styles.phoneNumberView]}>
               {/* PhoneNumberCountryCode */}
-              <Text style={[styles.phoneNumberCountryCode, styles.text, styles.border]}>
+              <RN.Text style={[styles.phoneNumberCountryCode, styles.text, styles.border]}>
                 {countryCodes[this.state.countryIndex].dialing_code}
-              </Text>
+              </RN.Text>
 
               {/* PhoneNumberInput */}
-              <TextInput
+              <RN.TextInput
                 style={[styles.phoneNumberInput, styles.text, styles.border, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
                 keyboardType='phone-pad'
                 onChangeText={(value) => this._onPhoneInputChangeText(value)}
@@ -181,55 +181,55 @@ class LoginScreen extends React.Component {
                 onFocus={this._setStateInAnimationFrame({ isPhoneInputFocused: true})}
                 onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
               />
-            </View>
+            </RN.View>
 
-            {/* Invalid Number Text */}
+            {/* Invalid Number RN.Text */}
             {this.state.isPhoneNumberInvalid &&
-              <View style={[styles.componentSize, styles.phoneNumberView]}>
-                <View style={{width: '25%'}} />
-                <Text style={[styles.invalidNumberText]}>
+              <RN.View style={[styles.componentSize, styles.phoneNumberView]}>
+                <RN.View style={{width: '25%'}} />
+                <RN.Text style={[styles.invalidNumberText]}>
                   Invalid Number
-                </Text>
-              </View>
+                </RN.Text>
+              </RN.View>
             }
 
-          <View style={{flex: 2}} />
+          <RN.View style={{flex: 2}} />
 
             {/* NextButton */}
-            <TouchableHighlight
+            <RN.TouchableHighlight
               style={[styles.componentSize, styles.nextButtonBackgroundEnabled]}
               onPress={() => this._onNextButtonPress()}
               underlayColor='#0050a7'
               disabled={this.state.isNextButtonDisabled && this.state.isLoading}
               >
               { this.state.isLoading ?
-                <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
-                <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
+                <RN.ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
+                <RN.Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
                   Next
-                </Text>
+                </RN.Text>
               }
-            </TouchableHighlight>
+            </RN.TouchableHighlight>
 
             {/* SMS Notice */}
-            <Text style={[styles.componentSize, styles.text, styles.smsNoticeText]}>
+            <RN.Text style={[styles.componentSize, styles.text, styles.smsNoticeText]}>
               {"We'll send an SMS message to verify your phone number"}
-            </Text>
+            </RN.Text>
 
-          <View style={{flex: 3}} />
-        </View>
+          <RN.View style={{flex: 3}} />
+        </RN.View>
 
-        <Modal
+        <RN.Modal
           visible={this.state.isModalVisible}
           onRequestClose={this._setState({ isModalVisible: false })}
           transparent={false}
           animationType={'none'}
           >
-          <View style={[styles.flex, styles.container]}>
+          <RN.View style={[styles.flex, styles.container]}>
             <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
-          </View>
-        </Modal>
+          </RN.View>
+        </RN.Modal>
 
-      </View>
+      </RN.View>
     )
   }
 }

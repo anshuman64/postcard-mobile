@@ -1,14 +1,14 @@
 // Library Imports
 import React                                 from 'react';
-import { Platform, StyleSheet, PixelRatio }  from 'react-native';
+import * as RN from 'react-native';
 
 
 //--------------------------------------------------------------------//
 
 
-export const scaleFactor = PixelRatio.get();
+export const scaleFactor = RN.PixelRatio.get();
 
-export const styles = StyleSheet.create({
+export const styles = RN.StyleSheet.create({
   // Shared styles
   flex: {
     flexDirection: 'column',
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 0.6 * scaleFactor
   },
   text: {
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: 7.4 * scaleFactor,
     textAlign: 'center',
     textAlignVertical: 'center',
