@@ -1,8 +1,7 @@
 // Library Imports
 import React                                                                      from 'react';
-import PropTypes                                                                  from 'prop-types';
+import RN                                                                         from 'react-native';
 import { connect }                                                                from 'react-redux';
-import { BackHandler, View, Text, Image, TouchableHighlight }                     from "react-native";
 import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions }  from 'react-navigation';
 import Icon                                                                       from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon                                                                    from 'react-native-vector-icons/Ionicons';
@@ -52,7 +51,7 @@ const UserStackNavigator = StackNavigator({
   UserTabNavigator: {
     screen: UserTabNavigator,
     navigationOptions: ({navigation}) => ({
-      headerTitle: <Image
+      headerTitle: <RN.Image
         style={homeStackNavigatorStyles.headerTitle}
         source={require('../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
         resizeMode='contain'
@@ -69,7 +68,7 @@ const HomeStackNavigator = StackNavigator({
   HomeScreen: {
     screen: HomeScreenContainer,
     navigationOptions: ({navigation}) => ({
-      headerTitle: <Image
+      headerTitle: <RN.Image
         style={homeStackNavigatorStyles.headerTitle}
         source={require('../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
         resizeMode='contain'
@@ -81,7 +80,7 @@ const HomeStackNavigator = StackNavigator({
   NewPostScreen: {
     screen: NewPostScreenContainer,
     navigationOptions: ({navigation}) => ({
-      headerRight: <Text style={homeStackNavigatorStyles.shareButtonText}>Share</Text>,
+      headerRight: <RN.Text style={homeStackNavigatorStyles.shareButtonText}>Share</RN.Text>,
       headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
     }),
   },
@@ -157,11 +156,11 @@ export const AppNavigator = StackNavigator({
 
 class AppWithNavigationState extends React.Component {
   componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    RN.BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    RN.BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
   }
 
   // TODO: Fix this

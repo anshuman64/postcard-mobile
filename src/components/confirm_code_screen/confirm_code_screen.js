@@ -1,11 +1,11 @@
 // Library Imports
-import React                                                                             from 'react';
-import { Keyboard, View, Text, TextInput, TouchableWithoutFeedback, ActivityIndicator }  from 'react-native';
-import { PhoneNumberUtil, PhoneNumberFormat }                                            from 'google-libphonenumber';
-import Icon                                                                              from 'react-native-vector-icons/Ionicons';
+import React                                   from 'react';
+import RN                                      from 'react-native';
+import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
+import Icon                                    from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }            from './confirm_code_screen_styles.js';
+import { styles }                         from './confirm_code_screen_styles.js';
 import { toMainNavigator, toBackScreen }  from '../../actions/navigation_actions.js';
 
 
@@ -119,23 +119,23 @@ class ConfirmCodeScreen extends React.Component {
 
   _renderTitle() {
     return (
-      <Text style={styles.titleText}>
+      <RN.Text style={styles.titleText}>
         Enter Confirmation Code
-      </Text>
+      </RN.Text>
     )
   }
 
   _renderSubtitle() {
     return (
-      <Text style={styles.subtitleText}>
+      <RN.Text style={styles.subtitleText}>
         Sent to { this.props.phoneNumber /*this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
-      </Text>
+      </RN.Text>
     )
   }
 
   _renderCodeInput() {
     return (
-      <TextInput
+      <RN.TextInput
         style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeIncorrect && styles.borderRed]}
         keyboardType='numeric'
         onChangeText={this._codeInputOnChangeText}
@@ -153,50 +153,50 @@ class ConfirmCodeScreen extends React.Component {
 
   _renderInvalidCodeText() {
     if (this.state.isLoading) {
-      return <ActivityIndicator size='small' color='#bdbdbd' />
+      return <RN.ActivityIndicator size='small' color='#bdbdbd' />
     } else if (this.state.isCodeIncorrect) {
       return (
-        <Text style={styles.invalidCodeText}>
+        <RN.Text style={styles.invalidCodeText}>
           Invalid Code
-        </Text>
+        </RN.Text>
       )
     }
   }
 
   _renderResendSMS() {
     return (
-      <TouchableWithoutFeedback
+      <RN.TouchableWithoutFeedback
         onPressIn={this._setStateInAnimationFrame({ isResendSMSPressed: true})}
         onPressOut={this._setStateInAnimationFrame({ isResendSMSPressed: false})}
         onPress={() => this._onResendSMSPress()}
         disabled={this.state.isResendSMSDisabled}
         >
-        <View style={styles.resendSMSView}>
-          <Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+        <RN.View style={styles.resendSMSView}>
+          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
             Resend SMS
-          </Text>
-          <Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+          </RN.Text>
+          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
             {/* Displays countdown timer in clean format */}
             {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
-          </Text>
-        </View>
-      </TouchableWithoutFeedback>
+          </RN.Text>
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
     )
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={{flex: 3}} />
+      <RN.View style={styles.container}>
+        <RN.View style={{flex: 3}} />
           {this._renderTitle()}
           {this._renderSubtitle()}
-        <View style={{flex: 1.5}} />
+        <RN.View style={{flex: 1.5}} />
           {this._renderCodeInput()}
           {this._renderInvalidCodeText()}
-        <View style={{flex: 5}} />
+        <RN.View style={{flex: 5}} />
           {this._renderResendSMS()}
-        <View style={{flex: 18}} />
-      </View>
+        <RN.View style={{flex: 18}} />
+      </RN.View>
     )
   }
 }

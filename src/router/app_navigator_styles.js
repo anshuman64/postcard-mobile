@@ -1,6 +1,6 @@
 // Library Imports
-import React                                 from 'react';
-import { Platform, StyleSheet }  from 'react-native';
+import React  from 'react';
+import RN     from 'react-native';
 
 // Local Imports
 import { scale, scaleFont } from '../utilities/style_utility.js';
@@ -9,7 +9,7 @@ import { scale, scaleFont } from '../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 
-export var userTabNavigatorStyles = StyleSheet.create({
+export var userTabNavigatorStyles = RN.StyleSheet.create({
   style: {
     backgroundColor: '#ffffff'
   },
@@ -17,11 +17,11 @@ export var userTabNavigatorStyles = StyleSheet.create({
     backgroundColor: '#007aff'
   },
   labelStyle: {
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
   },
 })
 
-export var homeStackNavigatorStyles = StyleSheet.create({
+export var homeStackNavigatorStyles = RN.StyleSheet.create({
   headerTitle: {
     alignSelf: 'center',
     width: scale(100),
@@ -52,7 +52,7 @@ export var homeStackNavigatorStyles = StyleSheet.create({
    shareButtonText: {
      height: '100%',
      width: scale(32),
-     fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
      fontSize: scaleFont(6),
      textAlign: 'center',
      textAlignVertical: 'center',
@@ -60,7 +60,7 @@ export var homeStackNavigatorStyles = StyleSheet.create({
    },
 })
 
-export var mainNavigatorStyles = StyleSheet.create({
+export var mainNavigatorStyles = RN.StyleSheet.create({
   style: {
     paddingLeft: '2.5%',
     paddingRight: '2.5%',
