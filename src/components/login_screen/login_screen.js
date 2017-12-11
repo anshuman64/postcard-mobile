@@ -229,7 +229,6 @@ class LoginScreen extends React.Component {
     )
   }
 
-  // TODO: change into if() statement
   _renderModal() {
     return (
       <RN.Modal

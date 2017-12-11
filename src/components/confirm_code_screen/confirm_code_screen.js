@@ -6,7 +6,7 @@ import Icon                                    from 'react-native-vector-icons/I
 
 // Local Imports
 import { styles }                         from './confirm_code_screen_styles.js';
-import { toMainNavigator, toBackScreen }  from '../../actions/navigation_actions.js';
+import { toMainNavigator, goBack }  from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -99,7 +99,7 @@ class ConfirmCodeScreen extends React.Component {
 
   // Callback function to return to login screen
   _onBackIconPress() {
-    this.props.navigation.dispatch(toBackScreen());
+    this.props.navigation.dispatch(goBack());
   }
 
   // Callback function to resend confirmation code via SMS and restart timer
