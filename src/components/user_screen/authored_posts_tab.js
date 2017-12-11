@@ -8,7 +8,6 @@ import samplePosts  from '../../test_data/sample_posts.js';
 
 //--------------------------------------------------------------------//
 
-// TODO: rename to authored posts
 class AuthoredPostsTab extends React.Component {
 
   render() {

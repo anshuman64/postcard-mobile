@@ -7,13 +7,13 @@ import { RECEIVE_PHONE_NUMBER, RECEIVE_CONFIRMATION_CODE, RECEIVE_FIREBASE_USER_
 
 //--------------------------------------------------------------------//
 
-// TODO: line up colons
+
 const DEFAULT_STATE = {
-  phoneNumber: '',
+  phoneNumber:          '',
   confirmationCodeObj:  null,
-  firebaseUserObj: null,
-  authToken: '',
-  user: null
+  firebaseUserObj:      null,
+  authToken:            '',
+  user:                 null
 };
 
 const UserReducer = (state = DEFAULT_STATE, action) => {

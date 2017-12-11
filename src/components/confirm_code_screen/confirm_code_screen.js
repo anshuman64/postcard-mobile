@@ -18,14 +18,14 @@ class ConfirmCodeScreen extends React.Component {
     super(props);
 
     this.state = {
-      isBackIconPressed: false,
-      isCodeInputFocused: false,
-      isCodeIncorrect: false,
-      isResendSMSDisabled: true,
-      isResendSMSPressed: false,
-      secsRemaining: 0, // set to 59 seconds in _startTimer()
-      isLoading: false,
-      isCodeInvalid: false,
+      isBackIconPressed:    false,
+      isCodeInputFocused:   false,
+      isCodeIncorrect:      false,
+      isResendSMSDisabled:  true,
+      isResendSMSPressed:   false,
+      secsRemaining:        0, // set to 59 seconds in _startTimer()
+      isLoading:            false,
+      isCodeInvalid:        false,
     };
 
     this.timer = null;
