@@ -144,7 +144,7 @@ const LoginNavigator = StackNavigator({
 });
 
 export const AppNavigator = StackNavigator({
-  // LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
+  LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
   MainNavigator: { screen: MainNavigator }
 }, {
   headerMode: 'none'

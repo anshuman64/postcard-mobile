@@ -7,10 +7,11 @@ import firebase                                 from 'react-native-firebase';
 import Icon                                     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }               from './login_screen_styles.js';
-import CountryListModal         from './country_list_modal.js';
-import { COUNTRY_CODES }        from '../../utilities/country_utility.js';
-import { toConfirmCodeScreen }  from '../../actions/navigation_actions.js';
+import { styles }                                      from './login_screen_styles.js';
+import CountryListModal                                from './country_list_modal.js';
+import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
+import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { toConfirmCodeScreen }                         from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -35,20 +36,6 @@ class LoginScreen extends React.Component {
     this.unsubscribe = null;
     this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[this.state.countryIndex].country_code); // libphonenumber object that formats phone numbers by country as each character is typed
     this.phoneUtil = PhoneNumberUtil.getInstance(); // libphonenumber object used to parse phone numbers
-  }
-
-  // Callback function for setting state
-  _setState = (state) => {
-    return(
-      () => (this.setState(state))
-    )
-  }
-
-  // Callback function for setting state in animation frame; recommended by React Native docs for animations
-  _setStateInAnimationFrame = (state) => {
-    return(
-      () => (requestAnimationFrame(() => {this.setState(state)}))
-    )
   }
 
   // Callback function for formatting phone number on each character typed
@@ -152,9 +139,9 @@ class LoginScreen extends React.Component {
   _renderCountrySelector() {
     return (
       <RN.TouchableWithoutFeedback
-        onPress={this._setState({ isModalVisible: true})}
-        onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
-        onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
+        onPress={setStateCallback(this, { isModalVisible: true})}
+        onPressIn={setStateInAnimationFrame(this, { isCountrySelectorPressed: true})}
+        onPressOut={setStateInAnimationFrame(this, { isCountrySelectorPressed: false})}
         >
         <RN.View style={[styles.countrySelectorView, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
           <RN.Text style={ styles.countrySelectorText }>
@@ -183,8 +170,8 @@ class LoginScreen extends React.Component {
           placeholder='Phone Number'
           placeholderTextColor='#bdbdbd'
           underlineColorAndroid={'transparent'}
-          onFocus={this._setStateInAnimationFrame({ isPhoneInputFocused: true})}
-          onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
+          onFocus={setStateInAnimationFrame(this, { isPhoneInputFocused: true})}
+          onEndEditing={setStateInAnimationFrame(this, { isPhoneInputFocused: false})}
         />
       </RN.View>
     )
@@ -233,7 +220,7 @@ class LoginScreen extends React.Component {
     return (
       <RN.Modal
         visible={this.state.isModalVisible}
-        onRequestClose={this._setState({ isModalVisible: false })}
+        onRequestClose={setStateCallback(this, { isModalVisible: false })}
         transparent={false}
         animationType={'none'}
         >

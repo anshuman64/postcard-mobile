@@ -4,7 +4,8 @@ import RN     from 'react-native';
 import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }  from './menu_screen_styles.js';
+import { styles }                    from './menu_screen_styles.js';
+import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -18,12 +19,6 @@ class MenuScreen extends React.Component {
         isAboutPressed: false,
       };
     }
-
-  _setStateInAnimationFrame = (state) => {
-    return(
-      () => (requestAnimationFrame(() => {this.setState(state)}))
-    )
-  }
 
   _onPressSupport() {
     RN.Linking.openURL('mailto:support@insiya.io');
@@ -44,8 +39,8 @@ class MenuScreen extends React.Component {
   _renderSupportButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({ isSupportPressed: true})}
-        onPressOut={this._setStateInAnimationFrame({ isSupportPressed: false})}
+        onPressIn={setStateInAnimationFrame(this, { isSupportPressed: true})}
+        onPressOut={setStateInAnimationFrame(this, { isSupportPressed: false})}
         onPress={() => this._onPressSupport()}
         >
         <RN.View style={ styles.menuItemView }>
@@ -64,8 +59,8 @@ class MenuScreen extends React.Component {
   _renderFeedbackButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({ isFeedbackPressed: true})}
-        onPressOut={this._setStateInAnimationFrame({ isFeedbackPressed: false})}
+        onPressIn={setStateInAnimationFrame(this, { isFeedbackPressed: true})}
+        onPressOut={setStateInAnimationFrame(this, { isFeedbackPressed: false})}
         onPress={() => this._onPressFeedback()}
         >
         <RN.View style={ styles.menuItemView }>
@@ -84,8 +79,8 @@ class MenuScreen extends React.Component {
   _renderAboutButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({ isAboutPressed: true})}
-        onPressOut={this._setStateInAnimationFrame({ isAboutPressed: false})}
+        onPressIn={setStateInAnimationFrame(this, { isAboutPressed: true})}
+        onPressOut={setStateInAnimationFrame(this, { isAboutPressed: false})}
         onPress={() => this._onPressAbout()}
         >
         <RN.View style={ styles.menuItemView }>
