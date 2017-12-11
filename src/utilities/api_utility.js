@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 //--------------------------------------------------------------------//
 
 
-const BASE_URL         = 'http://localhost:3000/api';
+const BASE_URL         = 'http://192.168.2.2:3000/api';
 const DEFAULT_HEADERS  = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
@@ -37,7 +37,7 @@ let getQueryString = (params) => {
 
 let checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
-    return response;
+    return response._bodyText;
   } else {
     let error = new Error(response.statusText);
     error.response = response;

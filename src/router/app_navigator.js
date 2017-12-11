@@ -6,6 +6,7 @@ import Icon                                                 from 'react-native-v
 import Ionicon                                              from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
+import DebugLoginScreenContainer      from '../components/debug_login_screen/debug_login_screen_container.js';
 import LoadingScreenContainer         from '../components/loading_screen/loading_screen_container.js';
 import LoginScreenContainer           from '../components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer     from '../components/confirm_code_screen/confirm_code_screen_container.js';
@@ -20,12 +21,18 @@ import { styles }                     from './app_navigator_styles.js';
 
 
 export const AppNavigator = StackNavigator({
-  // LoadingScreen: {
-  //   screen: LoadingScreenContainer,
-  //   navigationOptions: {
-  //     header: null,
-  //   }
-  // },
+  LoadingScreen: {
+    screen: LoadingScreenContainer,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  DebugLoginScreen: {
+    screen: DebugLoginScreenContainer,
+    navigationOptions: {
+      header: null,
+    }
+  },
   LoginScreen: {
     screen: LoginScreenContainer,
     navigationOptions: {
