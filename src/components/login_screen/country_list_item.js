@@ -3,7 +3,7 @@ import React                                    from 'react';
 import { View, Text, TouchableWithoutFeedback}  from 'react-native';
 
 // Local Imports
-import { styles } from './login_screen_styles.js';
+import { styles } from './country_list_item_styles.js';
 
 
 //--------------------------------------------------------------------//

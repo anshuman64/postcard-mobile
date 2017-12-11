@@ -4,8 +4,8 @@ import { View, Text }   from 'react-native';
 import Icon             from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }  from './post_list_styles.js';
-import { monthNames, dayNames, renderDate } from '../../resources/date_names.js';
+import { styles }      from './post_list_item_styles.js';
+import { renderDate }  from '../../utilities/date_time_utility.js';
 
 
 //--------------------------------------------------------------------//

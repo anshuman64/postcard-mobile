@@ -3,7 +3,7 @@ import React  from 'react';
 
 // Local Imports
 import PostList     from '../post_list/post_list.js';
-import samplePosts  from '../../resources/sample_posts.js';
+import samplePosts  from '../../test_data/sample_posts.js';
 
 //--------------------------------------------------------------------//
 
