@@ -2,7 +2,7 @@
 import * as _ from 'lodash';
 
 // Local Imports
-import { RECEIVE_PHONE_NUMBER, RECEIVE_CONFIRMATION_CODE, RECEIVE_FIREBASE_USER_OBJ, RECEIVE_AUTH_TOKEN, RECEIVE_USER } from '../actions/user_actions.js';
+import { USER_ACTION_TYPES } from '../actions/user_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -21,24 +21,24 @@ const UserReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    case RECEIVE_PHONE_NUMBER:
-      newState.phoneNumber = action.data.phoneNumber;
+    case USER_ACTION_TYPES.RECEIVE_PHONE_NUMBER:
+      newState.phoneNumber = action.data;
 
       return newState;
-    case RECEIVE_CONFIRMATION_CODE:
-      newState.confirmationCodeObj = action.data.confirmationCodeObj;
+    case USER_ACTION_TYPES.RECEIVE_CONFIRMATION_CODE_OBJ:
+      newState.confirmationCodeObj = action.data;
 
       return newState;
-    case RECEIVE_FIREBASE_USER_OBJ:
-      newState.firebaseUserObj = action.data.firebaseUserObj;
+    case USER_ACTION_TYPES.RECEIVE_FIREBASE_USER_OBJ:
+      newState.firebaseUserObj = action.data;
 
       return newState;
-    case RECEIVE_AUTH_TOKEN:
-      newState.authToken = action.data.authToken;
+    case USER_ACTION_TYPES.RECEIVE_AUTH_TOKEN:
+      newState.authToken = action.data;
 
       return newState;
-    case RECEIVE_USER:
-      newState.user = action.data.user;
+    case USER_ACTION_TYPES.RECEIVE_USER:
+      newState.user = action.data;
 
       return newState;
     default:

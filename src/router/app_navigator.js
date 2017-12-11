@@ -26,18 +26,18 @@ export const AppNavigator = StackNavigator({
   //     header: null,
   //   }
   // },
-  // LoginScreen: {
-  //   screen: LoginScreenContainer,
-  //   navigationOptions: {
-  //     header: null,
-  //   }
-  // },
-  // ConfirmCodeScreen: {
-  //   screen: ConfirmCodeScreenContainer,
-  //   navigationOptions: ({navigation}) => ({
-  //     headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={styles.backIcon}/>
-  //   }),
-  // },
+  LoginScreen: {
+    screen: LoginScreenContainer,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  ConfirmCodeScreen: {
+    screen: ConfirmCodeScreenContainer,
+    navigationOptions: ({navigation}) => ({
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={styles.backIcon}/>
+    }),
+  },
   MainTabNavigator: {
     screen: MainTabNavigator,
     navigationOptions: ({navigation}) => ({
