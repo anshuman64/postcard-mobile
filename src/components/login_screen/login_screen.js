@@ -7,7 +7,7 @@ import firebase                                                                 
 import Icon                                                                                                                from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }  from './login_screen_styles.js';
+import { styles }               from './login_screen_styles.js';
 import CountryListModal         from './country_list_modal.js';
 import countryCodes             from '../../resources/country_codes.js';
 import { toConfirmCodeScreen }  from '../../actions/navigation_actions.js';

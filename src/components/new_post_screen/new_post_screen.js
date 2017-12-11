@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TouchableWithoutFeedback, TextInput }  from 're
 import Icon                                                             from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }  from './new_post_screen_styles.js';
+import { styles }  from './new_post_screen_styles.js';
 import { toBackScreen }         from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//

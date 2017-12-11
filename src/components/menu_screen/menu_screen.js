@@ -4,7 +4,7 @@ import { View, Text, TouchableWithoutFeedback, Linking }  from 'react-native';
 import Icon                                               from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles, scaleFactor }  from './menu_screen_styles.js';
+import { styles }  from './menu_screen_styles.js';
 
 //--------------------------------------------------------------------//
 
