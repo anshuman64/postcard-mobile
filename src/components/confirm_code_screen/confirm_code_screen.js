@@ -5,7 +5,7 @@ import { PhoneNumberUtil, PhoneNumberFormat }                                   
 import Icon                                                                              from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }            from './confirm_code_screen_styles.js';
+import { styles }            from './confirm_code_screen_styles.js';
 import { toMainNavigator, toBackScreen }  from '../../actions/navigation_actions.js';
 
 
@@ -119,7 +119,7 @@ class ConfirmCodeScreen extends React.Component {
 
   _renderTitle() {
     return (
-      <Text style={[styles.titleText]}>
+      <Text style={styles.titleText}>
         Enter Confirmation Code
       </Text>
     )
@@ -127,7 +127,7 @@ class ConfirmCodeScreen extends React.Component {
 
   _renderSubtitle() {
     return (
-      <Text style={[styles.subtitleText]}>
+      <Text style={styles.subtitleText}>
         Sent to { this.props.phoneNumber /*this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
       </Text>
     )
@@ -153,10 +153,10 @@ class ConfirmCodeScreen extends React.Component {
 
   _renderInvalidCodeText() {
     if (this.state.isLoading) {
-      return <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} />
+      return <ActivityIndicator size='small' color='#bdbdbd' />
     } else if (this.state.isCodeIncorrect) {
       return (
-        <Text style={[styles.invalidCodeText]}>
+        <Text style={styles.invalidCodeText}>
           Invalid Code
         </Text>
       )
@@ -171,11 +171,11 @@ class ConfirmCodeScreen extends React.Component {
         onPress={() => this._onResendSMSPress()}
         disabled={this.state.isResendSMSDisabled}
         >
-        <View style={[styles.resendSMSView]}>
-          <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+        <View style={styles.resendSMSView}>
+          <Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
             Resend SMS
           </Text>
-          <Text style={[styles.subtitleText, styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+          <Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
             {/* Displays countdown timer in clean format */}
             {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
           </Text>
@@ -186,7 +186,7 @@ class ConfirmCodeScreen extends React.Component {
 
   render() {
     return (
-      <View style={[styles.container]}>
+      <View style={styles.container}>
         <View style={{flex: 3}} />
           {this._renderTitle()}
           {this._renderSubtitle()}

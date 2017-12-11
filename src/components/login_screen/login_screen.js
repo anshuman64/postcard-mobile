@@ -7,7 +7,7 @@ import firebase                                                                 
 import Icon                                                                                                                from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }  from './login_screen_styles.js';
+import { styles }               from './login_screen_styles.js';
 import CountryListModal         from './country_list_modal.js';
 import countryCodes             from '../../resources/country_codes.js';
 import { toConfirmCodeScreen }  from '../../actions/navigation_actions.js';
@@ -136,9 +136,9 @@ class LoginScreen extends React.Component {
 
   _renderLogo() {
     return (
-      <View style={[styles.flex, styles.topView]}>
+      <View style={ styles.topView }>
         <Image
-          style={styles.logo}
+          style={ styles.logo }
           source={require('../../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
           resizeMode='contain'
         />
@@ -153,11 +153,11 @@ class LoginScreen extends React.Component {
         onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
         onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
         >
-        <View style={[styles.countrySelectorView, styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
-          <Text style={[styles.componentSize, styles.text]}>
+        <View style={[styles.countrySelectorView, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
+          <Text style={ styles.countrySelectorText }>
             {countryCodes[this.state.countryIndex].country_name}
           </Text>
-          <Icon name='md-arrow-dropdown' style={[styles.dropdownIcon]} />
+          <Icon name='md-arrow-dropdown' style={ styles.dropdownIcon } />
         </View>
       </TouchableWithoutFeedback>
     )
@@ -165,15 +165,15 @@ class LoginScreen extends React.Component {
 
   _renderPhoneNumberInput() {
     return (
-      <View style={[styles.componentSize, styles.phoneNumberView]}>
+      <View style={ styles.phoneNumberView }>
         {/* PhoneNumberCountryCode */}
-        <Text style={[styles.phoneNumberCountryCode, styles.text, styles.border]}>
+        <Text style={ styles.countryCodeText }>
           {countryCodes[this.state.countryIndex].dialing_code}
         </Text>
 
         {/* PhoneNumberInput */}
         <TextInput
-          style={[styles.phoneNumberInput, styles.text, styles.border, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
+          style={[styles.phoneNumberInput, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
           keyboardType='phone-pad'
           onChangeText={(value) => this._onPhoneInputChangeText(value)}
           value={this.state.formattedPhoneNumber}
@@ -190,7 +190,7 @@ class LoginScreen extends React.Component {
   _renderInvalidNumberText() {
     if (this.state.isPhoneNumberInvalid) {
       return (
-        <View style={[styles.componentSize, styles.phoneNumberView]}>
+        <View style={ styles.phoneNumberView }>
           <View style={{width: '25%'}} />
           <Text style={[styles.invalidNumberText]}>
             Invalid Number
@@ -203,14 +203,14 @@ class LoginScreen extends React.Component {
   _renderNextButton() {
     return (
       <TouchableHighlight
-        style={[styles.componentSize, styles.nextButtonBackgroundEnabled]}
+        style={ styles.nextButtonBackground }
         onPress={() => this._onNextButtonPress()}
         underlayColor='#0050a7'
         disabled={this.state.isNextButtonDisabled && this.state.isLoading}
         >
         { this.state.isLoading ?
-          <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
-          <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
+          <ActivityIndicator size='small' color='#bdbdbd' /> :
+          <Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
             Next
           </Text>
         }
@@ -220,7 +220,7 @@ class LoginScreen extends React.Component {
 
   _renderSMSNoticeText() {
     return (
-      <Text style={[styles.componentSize, styles.text, styles.smsNoticeText]}>
+      <Text style={ styles.smsNoticeText }>
         {"We'll send an SMS message to verify your phone number"}
       </Text>
     )
@@ -234,7 +234,7 @@ class LoginScreen extends React.Component {
         transparent={false}
         animationType={'none'}
         >
-        <View style={[styles.flex, styles.container]}>
+        <View style={ styles.container }>
           <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
         </View>
       </Modal>
@@ -243,12 +243,12 @@ class LoginScreen extends React.Component {
 
   render() {
     return (
-      <View style={[styles.flex, styles.container]}>
+      <View style={ styles.container }>
         {this._renderLogo()}
-        <View style={[styles.bottomView]}>
+        <View style={ styles.bottomView }>
           <View style={{flex: 1}} />
             {this._renderCountrySelector()}
-          <View style={{height: 5 * scaleFactor}} />
+          <View style={{height: 5}} />
             {this._renderPhoneNumberInput()}
             {this._renderInvalidNumberText()}
           <View style={{flex: 2}} />

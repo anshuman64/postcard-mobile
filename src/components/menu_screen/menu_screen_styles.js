@@ -1,6 +1,6 @@
 // Library Imports
-import React                       from 'react';
-import { StyleSheet }  from 'react-native';
+import React                     from 'react';
+import { Platform, StyleSheet }  from 'react-native';
 
 // Local Imports
 import { scale, scaleFont } from '../../utilities/style_utility.js';
