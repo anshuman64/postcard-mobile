@@ -114,20 +114,20 @@ class LoginScreen extends React.Component {
     }
 
     // Debug test
-    if (number === '+14088888888') {
-      this.setState({isPhoneNumberInvalid: true});
-    } else {
-      this.setState({isLoading: true});
-      this.props.debugGetConfirmationCode(number)
-        .then(this.setState({isLoading: false, isPhoneNumberInvalid: false}, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
-    }
+    // if (number === '+14088888888') {
+    //   this.setState({isPhoneNumberInvalid: true});
+    // } else {
+    //   this.setState({isLoading: true});
+    //   this.props.debugGetConfirmationCode(number)
+    //     .then(this.setState({isLoading: false, isPhoneNumberInvalid: false}, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
+    // }
 
     // Real Firebase API
-    // this.setState({isLoading: true}, () => {
-    // this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
-    //  .then(() => this.setState({ isLoading: false, isPhoneNumberInvalid: false }, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
-    //  .catch(() => this.setState({ isLoading: false, isPhoneNumberInvalid: true }))
-    // })
+    this.setState({isLoading: true}, () => {
+    this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
+     .then(() => this.setState({ isLoading: false, isPhoneNumberInvalid: false }, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
+     .catch(() => this.setState({ isLoading: false, isPhoneNumberInvalid: true }))
+    })
   }
 
   //--------------------------------------------------------------------//
