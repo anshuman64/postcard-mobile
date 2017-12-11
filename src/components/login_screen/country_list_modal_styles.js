@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from '../../utilities/style_utility.js';
+import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -16,12 +16,12 @@ export const styles = RN.StyleSheet.create({
     width: '90%',
     height: '90%',
     elevation: 50,
-    backgroundColor: '#fafafa',
+    backgroundColor: COLORS.grey50,
   },
   countryListView: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#fafafa'
+    backgroundColor: COLORS.grey50
   },
   chooseCountryView: {
     flexDirection: 'column',
@@ -30,7 +30,7 @@ export const styles = RN.StyleSheet.create({
     width: '100%',
     height: scale(20),
     elevation: 1,
-    backgroundColor: '#fafafa'
+    backgroundColor: COLORS.grey50
   },
   chooseCountryText: {
     flexDirection: 'column',
@@ -42,11 +42,11 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#212121',
+    color: COLORS.grey900,
     elevation: 1,
-    backgroundColor: '#fafafa'
+    backgroundColor: COLORS.grey50
   },
   textHighlighted: {
-    color: '#007aff'
+    color: COLORS.appleBlue
   },
 });

@@ -8,6 +8,7 @@ import Icon                                    from 'react-native-vector-icons/I
 import { styles }                   from './confirm_code_screen_styles.js';
 import { setStateInAnimationFrame } from '../../utilities/component_utility.js';
 import { toMainNavigator, goBack }  from '../../actions/navigation_actions.js';
+import { COLORS }                   from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -146,7 +147,7 @@ class ConfirmCodeScreen extends React.Component {
         placeholder='-  -  -  -  -  -'
         autoFocus={true}
         maxLength={6}
-        placeholderTextColor='#bdbdbd'
+        placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
         onFocus={setStateInAnimationFrame(this, { isCodeInputFocused: true})}
         onEndEditing={setStateInAnimationFrame(this, { isCodeInputFocused: false})}
@@ -156,7 +157,7 @@ class ConfirmCodeScreen extends React.Component {
 
   _renderInvalidCodeText() {
     if (this.state.isLoading) {
-      return <RN.ActivityIndicator size='small' color='#bdbdbd' />
+      return <RN.ActivityIndicator size='small' color={COLORS.grey400} />
     } else if (this.state.isCodeIncorrect) {
       return (
         <RN.Text style={styles.invalidCodeText}>

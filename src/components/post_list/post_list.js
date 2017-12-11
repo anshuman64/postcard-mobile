@@ -5,6 +5,7 @@ import RN     from 'react-native';
 // Local Imports
 import { styles }    from './post_list_styles.js';
 import PostListItem  from './post_list_item.js';
+import { COLORS }    from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -62,14 +63,14 @@ class PostList extends React.Component {
       <RN.RefreshControl
         refreshing={this.state.refreshing}
         onRefresh={this._onRefresh.bind(this)}
-        color='#bdbdbd'
+        color={COLORS.grey400}
         />
     )
   }
 
   _renderFooter = () => {
     return (
-      <RN.ActivityIndicator size='small' color='#bdbdbd' style={styles.activityIndicator} />
+      <RN.ActivityIndicator size='small' color={COLORS.grey400} style={styles.activityIndicator} />
     );
   };
 
