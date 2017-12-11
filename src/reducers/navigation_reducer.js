@@ -3,8 +3,8 @@ import * as _                 from 'lodash';
 import { NavigationActions }  from 'react-navigation';
 
 // Local Imports
-import { AppNavigator }                from '../router/app_navigator.js';
-import * as NavigationActionConstants  from '../actions/navigation_actions.js';
+import { AppNavigator }             from '../router/app_navigator.js';
+import { NAVIGATION_ACTION_TYPES }  from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -16,22 +16,23 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    // Login Navigator
-    case NavigationActionConstants.TO_LOGIN_NAVIGATOR:
+    case NAVIGATION_ACTION_TYPES.TO_LOADING_SCREEN:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'LoginNavigator' }),
+        NavigationActions.navigate({ routeName: 'LoadingScreen' }),
         state
       );
 
       return newState;
-    case NavigationActionConstants.TO_LOGIN_SCREEN:
+
+    case NAVIGATION_ACTION_TYPES.TO_LOGIN_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'LoginScreen' }),
         state
       );
 
       return newState;
-    case NavigationActionConstants.TO_CONFIRM_CODE_SCREEN:
+
+    case NAVIGATION_ACTION_TYPES.TO_CONFIRM_CODE_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'ConfirmCodeScreen' }),
         state
@@ -39,54 +40,23 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
-    // Main Navigator
-    case NavigationActionConstants.TO_MAIN_NAVIGATOR:
-      newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'MainNavigator' }),
-        state
-      );
-
-      return newState;
-    case NavigationActionConstants.TO_HOME_STACK_NAVIGATOR:
-      newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'HomeStackNavigator' }),
-        state
-      );
-
-      return newState;
-    case NavigationActionConstants.TO_USER_STACK_NAVIGATOR:
-      newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'UserStackNavigator' }),
-        state
-      );
-
-      return newState;
-
-    // Home StackNavigator
-    case NavigationActionConstants.TO_HOME_SCREEN:
+    case NAVIGATION_ACTION_TYPES.TO_HOME_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'HomeScreen' }),
         state
       );
 
       return newState;
-    case NavigationActionConstants.TO_NEW_POST_SCREEN:
-      newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'NewPostScreen' }),
-        state
-      );
 
-      return newState;
-
-    // User StackNavigator
-    case NavigationActionConstants.TO_MY_POSTS_TAB:
+    case NAVIGATION_ACTION_TYPES.TO_AUTHORED_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'AuthoredPostsTab' }),
         state
       );
 
       return newState;
-    case NavigationActionConstants.TO_MY_LIKES_TAB:
+
+    case NAVIGATION_ACTION_TYPES.TO_LIKED_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'LikedPostsTab' }),
         state
@@ -94,21 +64,30 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
-    // Common
-    case NavigationActionConstants.TO_MENU_SCREEN:
+    case NAVIGATION_ACTION_TYPES.TO_NEW_POST_SCREEN:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'NewPostScreen' }),
+        state
+      );
+
+      return newState;
+
+    case NAVIGATION_ACTION_TYPES.TO_MENU_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'MenuScreen' }),
         state
       );
 
       return newState;
-    case NavigationActionConstants.GO_BACK:
+
+    case NAVIGATION_ACTION_TYPES.GO_BACK:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.back(),
         state
       );
 
       return newState;
+
     default:
       return state;
   }
