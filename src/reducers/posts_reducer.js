@@ -8,9 +8,9 @@ import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../actions/post_action
 
 // TODO: add lastUpdated
 const DEFAULT_STATE = {
-  allPosts: [],
+  allPosts:       [],
   authoredPosts:  [],
-  likedPosts: []
+  likedPosts:     []
 };
 
 // TODO: add actions for new routes

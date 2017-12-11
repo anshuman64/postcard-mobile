@@ -23,14 +23,14 @@ class LoginScreen extends React.Component {
     super(props);
 
     this.state = {
-      countryIndex: 220, // hard-coded to United States
+      countryIndex:             220, // hard-coded to United States
       isCountrySelectorPressed: false,
-      isPhoneInputFocused: false,
-      formattedPhoneNumber: '',
-      isModalVisible: false,
-      isNextButtonDisabled: true,
-      isLoading: false,
-      isPhoneNumberInvalid: false,
+      isPhoneInputFocused:      false,
+      formattedPhoneNumber:     '',
+      isModalVisible:           false,
+      isNextButtonDisabled:     true,
+      isLoading:                false,
+      isPhoneNumberInvalid:     false,
     };
 
     this.unsubscribe = null;

@@ -14,8 +14,8 @@ class NewPostScreen extends React.Component {
     super(props);
 
     this.state = {
-      isBackIconPressed: false,
-      postText: '',
+      isBackIconPressed:  false,
+      postText:           '',
     };
 
     this._onPressShare = this._onPressShare.bind(this);

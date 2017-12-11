@@ -57,7 +57,6 @@ let callApi = (url, requestConfig) => {
 // Interface
 //--------------------------------------------------------------------//
 
-// TODO: Update all header shit
 
 export const get = (authToken, path, queryParams) => {
   let requestConfig = {

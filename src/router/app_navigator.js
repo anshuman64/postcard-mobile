@@ -26,24 +26,24 @@ export const UserTabNavigator = TabNavigator({
   AuthoredPostsTab: {
     screen: AuthoredPostsTab,
     navigationOptions: ({navigation}) => ({
-      tabBarLabel: 'Posts',
-      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyPostsTab())}}
+      tabBarLabel:    'Posts',
+      tabBarOnPress:  (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyPostsTab())}}
     })
   },
   LikedPostsTab: {
     screen: LikedPostsTab,
     navigationOptions: ({navigation}) => ({
-      tabBarLabel: 'Likes',
-      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyLikesTab())}}
+      tabBarLabel:    'Likes',
+      tabBarOnPress:  (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyLikesTab())}}
     })
   },
 }, {
   tabBarOptions: {
-    indicatorStyle: userTabNavigatorStyles.indicatorStyle,
-    labelStyle: userTabNavigatorStyles.labelStyle,
-    style: userTabNavigatorStyles.style,
-    activeTintColor: '#007aff',
-    inactiveTintColor: '#212121'
+    indicatorStyle:     userTabNavigatorStyles.indicatorStyle,
+    labelStyle:         userTabNavigatorStyles.labelStyle,
+    style:              userTabNavigatorStyles.style,
+    activeTintColor:    '#007aff',
+    inactiveTintColor:  '#212121'
   }
 });
 
@@ -56,9 +56,9 @@ const UserStackNavigator = StackNavigator({
         source={require('../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
         resizeMode='contain'
       />,
-      headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
-      headerLeft: <Icon name='note' onPress={() => navigation.dispatch(NavigationActionCreators.toNewPostScreen())} style={homeStackNavigatorStyles.noteIcon} />,
-      headerStyle: {elevation: 0}
+      headerRight:  <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
+      headerLeft:   <Icon name='note' onPress={() => navigation.dispatch(NavigationActionCreators.toNewPostScreen())} style={homeStackNavigatorStyles.noteIcon} />,
+      headerStyle:  {elevation: 0}
     })
   },
   NewPostScreen: { screen: NewPostScreenContainer },
@@ -80,8 +80,8 @@ const HomeStackNavigator = StackNavigator({
   NewPostScreen: {
     screen: NewPostScreenContainer,
     navigationOptions: ({navigation}) => ({
-      headerRight: <RN.Text style={homeStackNavigatorStyles.shareButtonText}>Share</RN.Text>,
-      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={homeStackNavigatorStyles.backIcon}/>
+      headerRight:  <RN.Text style={homeStackNavigatorStyles.shareButtonText}>Share</RN.Text>,
+      headerLeft:   <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={homeStackNavigatorStyles.backIcon}/>
     }),
   },
   MenuScreen: {
@@ -97,26 +97,26 @@ const MainNavigator = TabNavigator({
   HomeStackNavigator: {
     screen: HomeStackNavigator,
     navigationOptions: ({navigation}) => ({
-      tabBarIcon: ({ focused, tintColor }) => <Icon name='home' style={[mainNavigatorStyles.iconStyle, focused && mainNavigatorStyles.iconFocused]} /> ,
-      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toHomeStackNavigator())}}
+      tabBarIcon:     ({ focused, tintColor }) => <Icon name='home' style={[mainNavigatorStyles.iconStyle, focused && mainNavigatorStyles.iconFocused]} /> ,
+      tabBarOnPress:  (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toHomeStackNavigator())}}
     })
   },
   UserStackNavigator: {
     screen: UserStackNavigator,
     navigationOptions: ({navigation}) => ({
-      tabBarIcon: ({ focused, tintColor }) => <Icon name='user' style={[mainNavigatorStyles.iconStyle, focused && mainNavigatorStyles.iconFocused]} />,
-      tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toUserStackNavigator())}}
+      tabBarIcon:     ({ focused, tintColor }) => <Icon name='user' style={[mainNavigatorStyles.iconStyle, focused && mainNavigatorStyles.iconFocused]} />,
+      tabBarOnPress:  (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toUserStackNavigator())}}
     })
 },
 }, {
-  tabBarPosition: 'bottom',
-  swipeEnabled: false,
+  tabBarPosition:   'bottom',
+  swipeEnabled:     false,
   animationEnabled: false,
-  lazy: true,
+  lazy:             true,
   tabBarOptions: {
-    showLabel: false,
-    showIcon: true,
-    style: mainNavigatorStyles.style,
+    showLabel:      false,
+    showIcon:       true,
+    style:          mainNavigatorStyles.style,
     indicatorStyle: {backgroundColor: 'transparent'},
   }
 });
@@ -144,7 +144,7 @@ const LoginNavigator = StackNavigator({
 });
 
 export const AppNavigator = StackNavigator({
-  LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
+  // LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
   MainNavigator: { screen: MainNavigator }
 }, {
   headerMode: 'none'

@@ -14,9 +14,9 @@ class MenuScreen extends React.Component {
       super(props);
 
       this.state = {
-        isSupportPressed: false,
-        isFeedbackPressed: false,
-        isAboutPressed: false,
+        isSupportPressed:   false,
+        isFeedbackPressed:  false,
+        isAboutPressed:     false,
       };
     }
 

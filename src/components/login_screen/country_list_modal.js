@@ -18,9 +18,9 @@ class CountryListModal extends React.PureComponent {
     super(props);
     const ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows(COUNTRY_CODES),
-      isTextHighlighted: false,
-      isModalMounted: false,
+      dataSource:         ds.cloneWithRows(COUNTRY_CODES),
+      isTextHighlighted:  false,
+      isModalMounted:     false,
     };
   }
 
