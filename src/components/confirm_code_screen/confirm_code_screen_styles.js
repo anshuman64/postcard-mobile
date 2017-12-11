@@ -67,8 +67,12 @@ export const styles = StyleSheet.create({
     borderBottomWidth: scale(0.3),
   },
   resendSMSText: {
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     height: scale(15),
     fontSize: scaleFont(18),
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    marginTop: '1%',
     color: '#bdbdbd',
   },
   smsTextActive: {

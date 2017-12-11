@@ -52,7 +52,7 @@ class NewPostScreen extends React.Component {
   _renderTextInput() {
     return (
       <TextInput
-        style={[styles.textInput]}
+        style={ styles.textInput }
         placeholderTextColor={'#bdbdbd'}
         placeholder={'What are you thankful for today?'}
         onChangeText={(value) => this._onChangeText(value)}
@@ -60,14 +60,13 @@ class NewPostScreen extends React.Component {
         multiline={true}
         returnKeyType={'done'}
         underlineColorAndroid={'transparent'}
-        style={[styles.textInput]}
         />
     )
   }
 
   render() {
     return (
-      <View style={[styles.container]}>
+      <View style={ styles.container }>
         {this._renderTextInput()}
       </View>
     )

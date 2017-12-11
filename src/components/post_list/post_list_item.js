@@ -71,17 +71,17 @@ class PostListItem extends React.PureComponent {
 
   render() {
     return(
-      <View style={[styles.itemContainer]}>
-        <View style={[styles.body]}>
-          <Text style={[styles.dateText]}>
+      <View style={ styles.container }>
+        <View style={ styles.body }>
+          <Text style={ styles.dateText }>
             {this._renderDate(this.props.item.created_at)}
           </Text>
-          <Text style={[styles.bodyText]}>
+          <Text style={ styles.bodyText }>
             {this.props.item.body}
           </Text>
-          <View style={[styles.detailsView]}>
-            <Icon name='heart' style={[styles.heartIcon]} / >
-            <Text style={[styles.likeCountText]}>
+          <View style={ styles.detailsView }>
+            <Icon name='heart' style={ styles.heartIcon } / >
+            <Text style={ styles.likeCountText }>
               {this._renderLikesCount(this.props.item.num_likes)}
             </Text>
           </View>
