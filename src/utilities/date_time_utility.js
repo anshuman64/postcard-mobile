@@ -9,7 +9,7 @@ export const MONTH_NAMES = ["January", "February", "March", "April", "May",
 
 export const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-export default renderDate(date) {
+export function renderDate(date) {
   let todayDate = new Date(); // current date-time
   let postDate = new Date(date); // post's date-time
   let diff = todayDate - postDate; // time difference in milliseconds
@@ -34,9 +34,9 @@ export default renderDate(date) {
     return 'Yesterday at ' + hour + ':' + postDate.getMinutes() + m;
   // If postDate was within the last week, return format '[dayName] at xx:xx AM'
   } else if (diff < 604800000) {
-    return dayNames[postDate.getDay()]+ ' at ' + hour + ':' + postDate.getMinutes() + m;
+    return DAY_NAMES[postDate.getDay()]+ ' at ' + hour + ':' + postDate.getMinutes() + m;
   // Else, return format '[monthName] [date] at xx:xx AM'
   } else {
-    return monthNames[postDate.getMonth()] + ' ' + postDate.getDate() + ' at ' + hour + ':' + postDate.getMinutes() + m;
+    return MONTH_NAMES[postDate.getMonth()] + ' ' + postDate.getDate() + ' at ' + hour + ':' + postDate.getMinutes() + m;
   }
 }

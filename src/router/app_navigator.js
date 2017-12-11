@@ -18,7 +18,7 @@ import MyLikesTab                                                               
 import NewPostScreenContainer                                                     from '../components/new_post_screen/new_post_screen_container.js';
 import MenuScreen                                                                 from '../components/menu_screen/menu_screen.js';
 import * as NavigationActionCreators                                              from '../actions/navigation_actions.js';
-// import fontelloConfig                                                          from '../resources/fonts/config.json';
+// import fontelloConfig                                                          from '../assets/fonts/config.json';
 import { userTabNavigatorStyles, homeStackNavigatorStyles, mainNavigatorStyles }  from './app_navigator_styles.js';
 
 
@@ -58,7 +58,7 @@ const UserStackNavigator = StackNavigator({
     navigationOptions: ({navigation}) => ({
       headerTitle: <Image
         style={homeStackNavigatorStyles.headerTitle}
-        source={require('../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+        source={require('../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
         resizeMode='contain'
       />,
       headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
@@ -75,7 +75,7 @@ const HomeStackNavigator = StackNavigator({
     navigationOptions: ({navigation}) => ({
       headerTitle: <Image
         style={homeStackNavigatorStyles.headerTitle}
-        source={require('../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+        source={require('../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
         resizeMode='contain'
       />,
       headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
@@ -133,12 +133,12 @@ const LoginNavigator = StackNavigator({
  //      header: null,
  //    }
  // },
-  // LoginScreen: {
-  //   screen: LoginScreenContainer,
-  //   navigationOptions: {
-  //     header: null,
-  //   }
-  // },
+  LoginScreen: {
+    screen: LoginScreenContainer,
+    navigationOptions: {
+      header: null,
+    }
+  },
   ConfirmCodeScreen: {
     screen: ConfirmCodeScreenContainer,
     navigationOptions: ({navigation}) => ({
@@ -148,7 +148,7 @@ const LoginNavigator = StackNavigator({
 });
 
 export const AppNavigator = StackNavigator({
-  LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
+  // LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
   MainNavigator: { screen: MainNavigator }
 }, {
   headerMode: 'none'

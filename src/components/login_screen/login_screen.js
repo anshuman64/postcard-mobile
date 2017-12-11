@@ -9,7 +9,7 @@ import Icon                                                                     
 // Local Imports
 import { styles }               from './login_screen_styles.js';
 import CountryListModal         from './country_list_modal.js';
-import countryCodes             from '../../resources/country_codes.js';
+import { COUNTRY_CODES }        from '../../utilities/country_utility.js';
 import { toConfirmCodeScreen }  from '../../actions/navigation_actions.js';
 
 
@@ -33,7 +33,7 @@ class LoginScreen extends React.Component {
     };
 
     this.unsubscribe = null;
-    this.formatter = new AsYouTypeFormatter(countryCodes[this.state.countryIndex].country_code); // libphonenumber object that formats phone numbers by country as each character is typed
+    this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[this.state.countryIndex].country_code); // libphonenumber object that formats phone numbers by country as each character is typed
     this.phoneUtil = PhoneNumberUtil.getInstance(); // libphonenumber object used to parse phone numbers
   }
 
@@ -79,7 +79,7 @@ class LoginScreen extends React.Component {
       () => {
         let tempFormatted = '';
         // Create new libphonenumber formatter for new country
-        this.formatter = new AsYouTypeFormatter(countryCodes[index].country_code);
+        this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[index].country_code);
         // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
         try {
           tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
@@ -96,7 +96,7 @@ class LoginScreen extends React.Component {
     let phoneUtilNumber;
 
     try {
-      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, countryCodes[this.state.countryIndex].country_code);
+      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, COUNTRY_CODES[this.state.countryIndex].country_code);
 
       if (this.phoneUtil.isPossibleNumber(phoneUtilNumber)) {
         this.setState({isNextButtonDisabled: false});
@@ -110,7 +110,7 @@ class LoginScreen extends React.Component {
   _onNextButtonPress() {
     let number = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
     if (number[0] != '+') {
-      number = countryCodes[this.state.countryIndex].dialing_code + number;
+      number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
     }
 
     // Debug test
@@ -139,7 +139,7 @@ class LoginScreen extends React.Component {
       <View style={ styles.topView }>
         <Image
           style={ styles.logo }
-          source={require('../../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+          source={require('../../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
           resizeMode='contain'
         />
       </View>
@@ -155,7 +155,7 @@ class LoginScreen extends React.Component {
         >
         <View style={[styles.countrySelectorView, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
           <Text style={ styles.countrySelectorText }>
-            {countryCodes[this.state.countryIndex].country_name}
+            {COUNTRY_CODES[this.state.countryIndex].country_name}
           </Text>
           <Icon name='md-arrow-dropdown' style={ styles.dropdownIcon } />
         </View>
@@ -168,7 +168,7 @@ class LoginScreen extends React.Component {
       <View style={ styles.phoneNumberView }>
         {/* PhoneNumberCountryCode */}
         <Text style={ styles.countryCodeText }>
-          {countryCodes[this.state.countryIndex].dialing_code}
+          {COUNTRY_CODES[this.state.countryIndex].dialing_code}
         </Text>
 
         {/* PhoneNumberInput */}
@@ -206,7 +206,7 @@ class LoginScreen extends React.Component {
         style={ styles.nextButtonBackground }
         onPress={() => this._onNextButtonPress()}
         underlayColor='#0050a7'
-        disabled={this.state.isNextButtonDisabled && this.state.isLoading}
+        disabled={this.state.isNextButtonDisabled && !this.state.isLoading}
         >
         { this.state.isLoading ?
           <ActivityIndicator size='small' color='#bdbdbd' /> :
@@ -255,6 +255,7 @@ class LoginScreen extends React.Component {
             {this._renderNextButton()}
             {this._renderSMSNoticeText()}
           <View style={{flex: 3}} />
+            {this._renderModal()}
         </View>
       </View>
     )
