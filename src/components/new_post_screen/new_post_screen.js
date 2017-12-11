@@ -5,7 +5,7 @@ import Icon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }  from './new_post_screen_styles.js';
-import { toBackScreen }         from '../../actions/navigation_actions.js';
+import { goBack }         from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -31,10 +31,10 @@ class NewPostScreen extends React.Component {
   // Callback function to return to login screen
   _onBackIconPress() {
     //Debug test
-    this.props.navigation.dispatch(toBackScreen());
+    this.props.navigation.dispatch(goBack());
 
     // Real
-    // this.props.navigation.dispatch(toBackScreen());
+    // this.props.navigation.dispatch(goBack());
   }
 
   _onChangeText(value) {

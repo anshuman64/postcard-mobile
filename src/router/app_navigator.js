@@ -81,13 +81,13 @@ const HomeStackNavigator = StackNavigator({
     screen: NewPostScreenContainer,
     navigationOptions: ({navigation}) => ({
       headerRight: <RN.Text style={homeStackNavigatorStyles.shareButtonText}>Share</RN.Text>,
-      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={homeStackNavigatorStyles.backIcon}/>
     }),
   },
   MenuScreen: {
     screen: MenuScreen,
     navigationOptions: ({navigation}) => ({
-      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={homeStackNavigatorStyles.backIcon}/>
     }),
   }
 });
@@ -138,7 +138,7 @@ const LoginNavigator = StackNavigator({
   ConfirmCodeScreen: {
     screen: ConfirmCodeScreenContainer,
     navigationOptions: ({navigation}) => ({
-      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.toBackScreen())} style={homeStackNavigatorStyles.backIcon}/>
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={homeStackNavigatorStyles.backIcon}/>
     }),
   },
 });
@@ -170,7 +170,7 @@ class AppWithNavigationState extends React.Component {
       return false;
     }
 
-    this.props.dispatch(NavigationActionCreators.toBackScreen());
+    this.props.dispatch(NavigationActionCreators.goBack());
     return true;
   };
 

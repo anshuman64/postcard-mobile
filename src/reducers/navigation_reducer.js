@@ -102,7 +102,7 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-    case NavigationActionConstants.BACK_SCREEN:
+    case NavigationActionConstants.GO_BACK:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.back(),
         state
