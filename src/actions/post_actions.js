@@ -1,17 +1,20 @@
 // Local Imports
-import * as PostAPI from '../api/post_api';
+import * as APIUtility from '../utilities/api_utility';
 
 //--------------------------------------------------------------------//
-
 
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
 
 
-export const RECEIVE_POSTS = 'RECEIVE_POSTS';
-export const RECEIVE_POST  = 'RECEIVE_POST';
-export const REMOVE_POST   = 'REMOVE_POST';
+export const POST_ACTION_TYPES = {
+  RECEIVE_ALL_POSTS:      'RECEIVE_ALL_POSTS',
+  RECEIVE_AUTHORED_POSTS: 'RECEIVE_AUTHORED_POSTS',
+  RECEIVE_LIKED_POSTS:    'RECEIVE_LIKED_POSTS',
+  RECEIVE_POST:           'RECEIVE_POST',
+  REMOVE_POST:            'REMOVE_POST'
+};
 
 
 //--------------------------------------------------------------------//
@@ -19,39 +22,63 @@ export const REMOVE_POST   = 'REMOVE_POST';
 //--------------------------------------------------------------------//
 
 
-export const receivePosts = (data) => {
-  return { type: RECEIVE_POSTS, data: data };
+export const receiveAllPosts = (data) => {
+  return { type: POST_ACTION_TYPES.RECEIVE_ALL_POSTS, data: data };
+};
+
+export const receiveAuthoredPosts = (data) => {
+  return { type: POST_ACTION_TYPES.RECEIVE_AUTHORED_POSTS, data: data };
+};
+
+export const receiveLikedPosts = (data) => {
+  return { type: POST_ACTION_TYPES.RECEIVE_LIKED_POSTS, data: data };
 };
 
 export const receivePost = (data) => {
-  return { type: RECEIVE_POST, data: data };
+  return { type: POST_ACTION_TYPES.RECEIVE_POST, data: data };
 };
 
 export const removePost = (data) => {
-  return { type: REMOVE_POST, data: data };
+  return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
 };
 
 
 //--------------------------------------------------------------------//
-// Asynchronous Actions
+// API Calls
 //--------------------------------------------------------------------//
 
-//TODO: move API stuff here
-export const getPosts = (queryParams, authToken) => (dispatch) => {
-  return PostAPI.getPosts(queryParams, authToken).then((posts) => {
-    console.log(posts);
-    dispatch(receivePosts(posts));
-  });
+
+export const getAllPosts = (authToken, queryParams) => (dispatch) => {
+  return APIUtility.get(authToken, '/posts', queryParams)
+    .then((posts) => {
+      dispatch(receiveAllPosts(posts));
+    });
 };
 
-export const createPost = (post, authToken) => (dispatch) => {
-  return PostAPI.createPost(post, authToken).then((newPost) => {
-    dispatch(receivePost(newPost));
-  });
+export const getAuthoredPosts = (authToken, queryParams) => (dispatch) => {
+  return APIUtility.get(authToken, '/posts/authored', queryParams)
+    .then((posts) => {
+      dispatch(receiveAuthoredPosts(posts));
+    });
 };
 
-export const deletePost = (postId, authToken) => (dispatch) => {
-  return PostAPI.deletePost(postId, authToken).then((deletedPost) => {
-    dispatch(removePost(deletedPost));
-  });
+export const getLikedPosts = (authToken, queryParams) => (dispatch) => {
+  return APIUtility.get(authToken, '/posts/liked', queryParams)
+    .then((posts) => {
+      dispatch(receiveLikedPosts(posts));
+    });
+};
+
+export const createPost = (authToken, postObj) => (dispatch) => {
+  return APIUtility.post(authToken, '/posts', postObj)
+    .then((newPost) => {
+      dispatch(receivePost(newPost));
+    });
+};
+
+export const deletePost = (authToken, postId) => (dispatch) => {
+  return APIUtility.del(authToken, '/posts/' + postId)
+    .then((deletedPost) => {
+      dispatch(removePost(deletedPost));
+    });
 };

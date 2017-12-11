@@ -7,9 +7,9 @@ import firebase                                                                 
 import Icon                                                                                                                from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }  from './login_screen_styles.js';
+import { styles }               from './login_screen_styles.js';
 import CountryListModal         from './country_list_modal.js';
-import countryCodes             from '../../resources/country_codes.js';
+import { COUNTRY_CODES }        from '../../utilities/country_utility.js';
 import { toConfirmCodeScreen }  from '../../actions/navigation_actions.js';
 
 
@@ -33,7 +33,7 @@ class LoginScreen extends React.Component {
     };
 
     this.unsubscribe = null;
-    this.formatter = new AsYouTypeFormatter(countryCodes[this.state.countryIndex].country_code); // libphonenumber object that formats phone numbers by country as each character is typed
+    this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[this.state.countryIndex].country_code); // libphonenumber object that formats phone numbers by country as each character is typed
     this.phoneUtil = PhoneNumberUtil.getInstance(); // libphonenumber object used to parse phone numbers
   }
 
@@ -81,7 +81,7 @@ class LoginScreen extends React.Component {
       () => {
         let tempFormatted = '';
         // Create new libphonenumber formatter for new country
-        this.formatter = new AsYouTypeFormatter(countryCodes[index].country_code);
+        this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[index].country_code);
         // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
         try {
           tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
@@ -99,7 +99,7 @@ class LoginScreen extends React.Component {
     let phoneUtilNumber;
 
     try {
-      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, countryCodes[this.state.countryIndex].country_code);
+      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, COUNTRY_CODES[this.state.countryIndex].country_code);
 
       if (this.phoneUtil.isPossibleNumber(phoneUtilNumber)) {
         this.setState({isNextButtonDisabled: false});
@@ -113,7 +113,7 @@ class LoginScreen extends React.Component {
   _onNextButtonPress() {
     let number = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
     if (number[0] != '+') {
-      number = countryCodes[this.state.countryIndex].dialing_code + number;
+      number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
     }
 
     // Debug test
@@ -132,107 +132,135 @@ class LoginScreen extends React.Component {
      .catch(() => this.setState({ isLoading: false, isPhoneNumberInvalid: true }))
     })
   }
-  // TODO: combine styles into one
-  // TODO: break into different render methods
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _renderLogo() {
+    return (
+      <View style={ styles.topView }>
+        <Image
+          style={ styles.logo }
+          source={require('../../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+          resizeMode='contain'
+        />
+      </View>
+    )
+  }
+
+  _renderCountrySelector() {
+    return (
+      <TouchableWithoutFeedback
+        onPress={this._setState({ isModalVisible: true})}
+        onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
+        onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
+        >
+        <View style={[styles.countrySelectorView, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
+          <Text style={ styles.countrySelectorText }>
+            {COUNTRY_CODES[this.state.countryIndex].country_name}
+          </Text>
+          <Icon name='md-arrow-dropdown' style={ styles.dropdownIcon } />
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
+
+  _renderPhoneNumberInput() {
+    return (
+      <View style={ styles.phoneNumberView }>
+        {/* PhoneNumberCountryCode */}
+        <Text style={ styles.countryCodeText }>
+          {COUNTRY_CODES[this.state.countryIndex].dialing_code}
+        </Text>
+
+        {/* PhoneNumberInput */}
+        <TextInput
+          style={[styles.phoneNumberInput, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
+          keyboardType='phone-pad'
+          onChangeText={(value) => this._onPhoneInputChangeText(value)}
+          value={this.state.formattedPhoneNumber}
+          placeholder='Phone Number'
+          placeholderTextColor='#bdbdbd'
+          underlineColorAndroid={'transparent'}
+          onFocus={this._setStateInAnimationFrame({ isPhoneInputFocused: true})}
+          onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
+        />
+      </View>
+    )
+  }
+
+  _renderInvalidNumberText() {
+    if (this.state.isPhoneNumberInvalid) {
+      return (
+        <View style={ styles.phoneNumberView }>
+          <View style={{width: '25%'}} />
+          <Text style={[styles.invalidNumberText]}>
+            Invalid Number
+          </Text>
+        </View>
+      )
+    }
+  }
+
+  _renderNextButton() {
+    return (
+      <TouchableHighlight
+        style={ styles.nextButtonBackground }
+        onPress={() => this._onNextButtonPress()}
+        underlayColor='#0050a7'
+        disabled={this.state.isNextButtonDisabled && !this.state.isLoading}
+        >
+        { this.state.isLoading ?
+          <ActivityIndicator size='small' color='#bdbdbd' /> :
+          <Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
+            Next
+          </Text>
+        }
+      </TouchableHighlight>
+    )
+  }
+
+  _renderSMSNoticeText() {
+    return (
+      <Text style={ styles.smsNoticeText }>
+        {"We'll send an SMS message to verify your phone number"}
+      </Text>
+    )
+  }
+
+  // TODO: change into if() statement
+  _renderModal() {
+    return (
+      <Modal
+        visible={this.state.isModalVisible}
+        onRequestClose={this._setState({ isModalVisible: false })}
+        transparent={false}
+        animationType={'none'}
+        >
+        <View style={ styles.container }>
+          <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
+        </View>
+      </Modal>
+    )
+  }
+
   render() {
     return (
-      <View style={[styles.flex, styles.container]}>
-        {/* Top section of view with Insiya logo */}
-        <View style={[styles.flex, styles.topView]}>
-          <Image
-            style={styles.logo}
-            source={require('../../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
-            resizeMode='contain'
-          />
-        </View>
-
-        {/* Bottom section of view with CountrySelector, PhoneNumberInput, and NextButton */}
-        <View style={[styles.bottomView]}>
+      <View style={ styles.container }>
+        {this._renderLogo()}
+        <View style={ styles.bottomView }>
           <View style={{flex: 1}} />
-
-          {/* CountrySelector */}
-          <TouchableWithoutFeedback
-            onPress={this._setState({ isModalVisible: true})}
-            onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
-            onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
-            >
-            <View style={[styles.countrySelectorView, styles.componentSize, styles.border, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
-              <Text style={[styles.componentSize, styles.text]}>
-                {countryCodes[this.state.countryIndex].country_name}
-              </Text>
-              <Icon name='md-arrow-dropdown' style={[styles.dropdownIcon]} />
-            </View>
-          </TouchableWithoutFeedback>
-
-          <View style={{height: 5 * scaleFactor}} />
-
-            {/* PhoneNumber */}
-            <View style={[styles.componentSize, styles.phoneNumberView]}>
-              {/* PhoneNumberCountryCode */}
-              <Text style={[styles.phoneNumberCountryCode, styles.text, styles.border]}>
-                {countryCodes[this.state.countryIndex].dialing_code}
-              </Text>
-
-              {/* PhoneNumberInput */}
-              <TextInput
-                style={[styles.phoneNumberInput, styles.text, styles.border, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
-                keyboardType='phone-pad'
-                onChangeText={(value) => this._onPhoneInputChangeText(value)}
-                value={this.state.formattedPhoneNumber}
-                placeholder='Phone Number'
-                placeholderTextColor='#bdbdbd'
-                underlineColorAndroid={'transparent'}
-                onFocus={this._setStateInAnimationFrame({ isPhoneInputFocused: true})}
-                onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
-              />
-            </View>
-
-            {/* Invalid Number Text TODO: change into if() statement */}
-            {this.state.isPhoneNumberInvalid &&
-              <View style={[styles.componentSize, styles.phoneNumberView]}>
-                <View style={{width: '25%'}} />
-                <Text style={[styles.invalidNumberText]}>
-                  Invalid Number
-                </Text>
-              </View>
-            }
-
+            {this._renderCountrySelector()}
+          <View style={{height: 5}} />
+            {this._renderPhoneNumberInput()}
+            {this._renderInvalidNumberText()}
           <View style={{flex: 2}} />
-
-            {/* NextButton */}
-            <TouchableHighlight
-              style={[styles.componentSize, styles.nextButtonBackgroundEnabled]}
-              onPress={() => this._onNextButtonPress()}
-              underlayColor='#0050a7'
-              disabled={this.state.isNextButtonDisabled && this.state.isLoading}
-              >
-              { this.state.isLoading ?
-                <ActivityIndicator size='small' color='#bdbdbd' style={[styles.activityIndicator]} /> :
-                <Text style={[styles.componentSize, styles.text, styles.nextButtonTextDisabled, !this.state.isNextButtonDisabled && styles.nextButtonTextEnabled]}>
-                  Next
-                </Text>
-              }
-            </TouchableHighlight>
-
-            {/* SMS Notice */}
-            <Text style={[styles.componentSize, styles.text, styles.smsNoticeText]}>
-              {"We'll send an SMS message to verify your phone number"}
-            </Text>
-
+            {this._renderNextButton()}
+            {this._renderSMSNoticeText()}
           <View style={{flex: 3}} />
+            {this._renderModal()}
         </View>
-
-        <Modal
-          visible={this.state.isModalVisible /*TODO: change to if statement */}
-          onRequestClose={this._setState({ isModalVisible: false })}
-          transparent={false}
-          animationType={'none'}
-          >
-          <View style={[styles.flex, styles.container]}>
-            <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState /*TODO: remove this */} setCountry={this.setCountry} />
-          </View>
-        </Modal>
-
       </View>
     )
   }

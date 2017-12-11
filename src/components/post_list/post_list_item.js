@@ -4,8 +4,8 @@ import { View, Text }   from 'react-native';
 import Icon             from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles, scaleFactor }  from './post_list_styles.js';
-import { monthNames, dayNames } from '../../resources/date_names.js';
+import { styles }      from './post_list_item_styles.js';
+import { renderDate }  from '../../utilities/date_time_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -25,38 +25,6 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  _renderDate(date) {
-    let todayDate = new Date(); // current date-time
-    let postDate = new Date(date); // post's date-time
-    let diff = todayDate - postDate; // time difference in milliseconds
-    let hoursDiff = diff / (1000 * 3600); // time difference in hours
-
-    let hour = postDate.getHours();
-    let m = 'AM';
-    // If postDate is at 00:xx, change to 12:xx
-    if (hour === 0) {
-      hour = 12;
-    // If postDate is after noon, change to 12:xx PM
-    } else if (hour >= 12) {
-      m = 'PM';
-      hour = hour % 12;
-    }
-
-    // If postDate was < 20 hours ago, return format 'xx hours ago'
-    if (hoursDiff < 20) {
-      return Math.floor(hoursDiff) + ' hours ago';
-    // If postDate was within 48 hours ago and the day was 1 day ago, return format 'Yesterday at xx:xx AM'
-    } else if (diff < 172800000 && todayDate.getDate() - postDate.getDate() === 1) {
-      return 'Yesterday at ' + hour + ':' + postDate.getMinutes() + m;
-    // If postDate was within the last week, return format '[dayName] at xx:xx AM'
-    } else if (diff < 604800000) {
-      return dayNames[postDate.getDay()]+ ' at ' + hour + ':' + postDate.getMinutes() + m;
-    // Else, return format '[monthName] [date] at xx:xx AM'
-    } else {
-      return monthNames[postDate.getMonth()] + ' ' + postDate.getDate() + ' at ' + hour + ':' + postDate.getMinutes() + m;
-    }
-  }
-
   renderViewMore(onPress){
       return(
         <Text onPress={onPress}>See More</Text>
@@ -71,17 +39,17 @@ class PostListItem extends React.PureComponent {
 
   render() {
     return(
-      <View style={[styles.itemContainer]}>
-        <View style={[styles.body]}>
-          <Text style={[styles.dateText]}>
-            {this._renderDate(this.props.item.created_at)}
+      <View style={ styles.container }>
+        <View style={ styles.body }>
+          <Text style={ styles.dateText }>
+            {renderDate(this.props.item.created_at)}
           </Text>
-          <Text style={[styles.bodyText]}>
+          <Text style={ styles.bodyText }>
             {this.props.item.body}
           </Text>
-          <View style={[styles.detailsView]}>
-            <Icon name='heart' style={[styles.heartIcon]} / >
-            <Text style={[styles.likeCountText]}>
+          <View style={ styles.detailsView }>
+            <Icon name='heart' style={ styles.heartIcon } / >
+            <Text style={ styles.likeCountText }>
               {this._renderLikesCount(this.props.item.num_likes)}
             </Text>
           </View>

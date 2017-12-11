@@ -1,12 +1,13 @@
 // Library Imports
-import React                                 from 'react';
-import { Platform, StyleSheet, PixelRatio }  from 'react-native';
+import React                     from 'react';
+import { Platform, StyleSheet }  from 'react-native';
+
+// Local Imports
+import { scale, scaleFont } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
 
-
-export const scaleFactor = PixelRatio.get();
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,56 +18,40 @@ export const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#fafafa'
   },
-  headerView: {
-    flexDirection: 'row',
-    width: '100%',
-    height: 22 * scaleFactor,
-    // backgroundColor: '#ffffff',
-    // elevation: 2,
-  },
-  backIcon: {
-    height: 22 * scaleFactor,
-    width: 22 * scaleFactor,
-    fontSize: 18 * scaleFactor,
-    textAlign: 'left',
-    textAlignVertical: 'center',
-    marginLeft: 6 * scaleFactor,
-    color: '#212121',
-  },
   titleText: {
     fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
-    fontSize: 7.4 * scaleFactor,
+    fontSize: scaleFont(18),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#212121'
   },
   subtitleText: {
     fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: 6 * scaleFactor,
+    fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#212121',
     marginTop: '1%'
   },
   codeInput: {
-    width: 60 * scaleFactor,
+    width: scale(60),
     textAlign: 'center',
-    fontSize: 10 * scaleFactor,
+    fontSize: scaleFont(24),
     borderBottomColor: '#212121',
-    borderBottomWidth: 0.3 * scaleFactor,
+    borderBottomWidth: scale(0.3),
   },
   borderHighlighted: {
     borderBottomColor: '#007aff',
-    borderBottomWidth: 0.6 * scaleFactor
+    borderBottomWidth: scale(0.6)
   },
   borderRed: {
     borderBottomColor: '#ff313a',
-    borderBottomWidth: 0.6 * scaleFactor
+    borderBottomWidth: scale(0.6)
   },
   invalidCodeText: {
-    height: 12 * scaleFactor,
-    width: 60 * scaleFactor,
-    fontSize: 6 * scaleFactor,
+    height: scale(12),
+    width: scale(60),
+    fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#ff313a'
@@ -74,16 +59,20 @@ export const styles = StyleSheet.create({
   resendSMSView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: 120 * scaleFactor,
-    height: 15 * scaleFactor,
-    paddingLeft: 10,
-    paddingRight: 10,
+    width: scale(120),
+    height: scale(15),
+    paddingLeft: scale(10),
+    paddingRight: scale(10),
     borderBottomColor: '#212121',
-    borderBottomWidth: 0.3 * scaleFactor,
+    borderBottomWidth: scale(0.3),
   },
   resendSMSText: {
-    height: 15 * scaleFactor,
-    fontSize: 7 * scaleFactor,
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    height: scale(15),
+    fontSize: scaleFont(18),
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    marginTop: '1%',
     color: '#bdbdbd',
   },
   smsTextActive: {

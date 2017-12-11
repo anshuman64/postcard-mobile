@@ -1,145 +1,128 @@
 // Library Imports
-import React                                 from 'react';
-import { Platform, StyleSheet, PixelRatio }  from 'react-native';
+import React                     from 'react';
+import { Platform, StyleSheet }  from 'react-native';
 
+// Local Imports
+import { scale, scaleFont } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-// TODO: split country list styles
-
-// TODO: multiply all fontSizes with PixelRatio.getFontSize()
-// TODO: change all pixel sizes to PixelRatio.getPixelSizeforLayoutSize(xx)
-export const scaleFactor = PixelRatio.get();
-
 export const styles = StyleSheet.create({
-  // Shared styles
-  flex: {
+  container: {
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  container: {
+    alignItems: 'center',
     width: '100%',
     height: '100%',
     backgroundColor: '#fafafa'
   },
-  componentSize: {
-    width: 100 * scaleFactor,
-    height: 16 * scaleFactor
-  },
-  border: {
-    borderBottomColor: '#212121',
-    borderBottomWidth: 0.3 * scaleFactor,
-  },
-  borderHighlighted: {
-    borderBottomColor: '#007aff',
-    borderBottomWidth: 0.6 * scaleFactor
-  },
-  borderRed: {
-    borderBottomColor: '#ff313a',
-    borderBottomWidth: 0.6 * scaleFactor
-  },
-  text: {
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: 7.4 * scaleFactor,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: '#212121'
-  },
-  textHighlighted: {
-    color: '#007aff'
-  },
-
-  // Component-specific styles
   topView: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
   },
   logo: {
-    width: 70 * scaleFactor
-  },
-  bottomView: {
-    flex: 2,
-    justifyContent: 'flex-start'
+    width: scale(70),
   },
   countrySelectorView: {
     flexDirection: 'row',
+    width: scale(100),
+    height: scale(16),
+    borderBottomColor: '#212121',
+    borderBottomWidth: scale(0.3),
+  },
+  borderHighlighted: {
+    borderBottomColor: '#007aff',
+    borderBottomWidth: scale(0.6),
+  },
+  countrySelectorText: {
+    width: scale(100),
+    height: scale(16),
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: scaleFont(7.4),
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#212121',
   },
   dropdownIcon: {
     position: 'absolute',
-    left: 90 * scaleFactor,
-    height: 16 * scaleFactor,
-    fontSize: 8 * scaleFactor,
+    left: scale(90),
+    height: scale(16),
+    fontSize: scaleFont(8),
     textAlignVertical: 'center',
     color: '#212121'
   },
   phoneNumberView: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    width: scale(100),
+    height: scale(16),
   },
-  phoneNumberCountryCode: {
+  countryCodeText: {
     width: '20%',
-    height: 16 * scaleFactor,
-    marginRight: '3%'
+    height: scale(16),
+    marginRight: '3%',
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: scaleFont(7.4),
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#212121',
+    borderBottomColor: '#212121',
+    borderBottomWidth: scale(0.3),
   },
   phoneNumberInput: {
-    width: '75%'
+    width: '75%',
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: scaleFont(7.4),
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#212121',
+    borderBottomColor: '#212121',
+    borderBottomWidth: scale(0.3),
+  },
+  borderRed: {
+    borderBottomColor: '#ff313a',
+    borderBottomWidth: scale(0.6)
   },
   invalidNumberText: {
     width: '75%',
-    height: 10 * scaleFactor,
-    fontSize: 6 * scaleFactor,
+    height: scale(10),
+    fontSize: scaleFont(6),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#ff313a'
   },
-  nextButtonBackgroundDisabled: {
-    borderRadius: 5,
-    backgroundColor: '#007aff7f',
-  },
-  nextButtonBackgroundEnabled: {
-    borderRadius: 5,
+  nextButtonBackground: {
+    width: scale(100),
+    height: scale(16),
+    borderRadius: scale(5),
     backgroundColor: '#007aff'
   },
-  nextButtonTextEnabled: {
+  nextButtonBackgroundDisabled: {
+    borderRadius: scale(5),
+    backgroundColor: '#007aff7f',
+  },
+  nextButtonText: {
+    width: scale(100),
+    height: scale(16),
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: scaleFont(7.4),
+    textAlign: 'center',
+    textAlignVertical: 'center',
     color: '#ffffff',
   },
   nextButtonTextDisabled: {
     color: '#ffffff7f',
   },
-  activityIndicator: {
-    // alignSelf: 'center'
-  },
   smsNoticeText: {
-    fontSize: 6 * scaleFactor,
+    width: scale(100),
+    height: scale(16),
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: scaleFont(7.4),
+    textAlign: 'center',
+    textAlignVertical: 'center',
     color: '#757575',
     textAlign: 'left',
     marginTop: '3%',
-  },
-  modalContainer: {
-    justifyContent: 'space-between',
-    width: '90%',
-    height: '90%',
-    elevation: 50,
-    backgroundColor: '#fafafa',
-  },
-  chooseCountryText: {
-    width: '100%',
-    height: 20 * scaleFactor,
-    elevation: 1,
-    backgroundColor: '#fafafa'
-  },
-  countryListItems: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: 17 * scaleFactor,
-    marginLeft: 10 * scaleFactor,
-    marginRight: 10 * scaleFactor,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0'
-  },
-  countryListText: {
-    fontSize: 6 * scaleFactor,
-    textAlign: 'left',
-    textAlignVertical: 'center',
-    color: '#212121'
   },
 });

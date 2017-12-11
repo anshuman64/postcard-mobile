@@ -54,7 +54,7 @@ const UserStackNavigator = StackNavigator({
     navigationOptions: ({navigation}) => ({
       headerTitle: <Image
         style={homeStackNavigatorStyles.headerTitle}
-        source={require('../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+        source={require('../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
         resizeMode='contain'
       />,
       headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
@@ -71,7 +71,7 @@ const HomeStackNavigator = StackNavigator({
     navigationOptions: ({navigation}) => ({
       headerTitle: <Image
         style={homeStackNavigatorStyles.headerTitle}
-        source={require('../resources/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+        source={require('../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
         resizeMode='contain'
       />,
       headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(NavigationActionCreators.toMenuScreen())} style={homeStackNavigatorStyles.optionsIcon} />,
@@ -124,12 +124,12 @@ const MainNavigator = TabNavigator({
 
 // TODO: Move login nav into the app level nav
 const LoginNavigator = StackNavigator({
-  LoadingScreen: {
-    screen: LoadingScreenContainer,
-    navigationOptions: {
-      header: null,
-    }
- },
+ //  LoadingScreen: {
+ //    screen: LoadingScreenContainer,
+ //    navigationOptions: {
+ //      header: null,
+ //    }
+ // },
   LoginScreen: {
     screen: LoginScreenContainer,
     navigationOptions: {
@@ -145,7 +145,7 @@ const LoginNavigator = StackNavigator({
 });
 
 export const AppNavigator = StackNavigator({
-  LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
+  // LoginNavigator: { screen: LoginNavigator }, // Debug Test: comment line to start app at HomeScreen
   MainNavigator: { screen: MainNavigator }
 }, {
   headerMode: 'none'
