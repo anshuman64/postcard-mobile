@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { toMainNavigator, toLoginScreen }  from '../../actions/navigation_actions.js';
+import { toHomeScreen, toLoginScreen }  from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -11,9 +11,9 @@ import { toMainNavigator, toLoginScreen }  from '../../actions/navigation_action
 class LoadingScreen extends React.Component {
   componentDidMount() {
     this.unsubscribe = this.props.attemptToLoginUser()
-      // .then(() => {
-      //   this.props.navigation.dispatch(toMainNavigator());
-      // }).catch(this.props.navigation.dispatch(toLoginScreen()))
+      .then(() => {
+        this.props.navigation.dispatch(toHomeScreen());
+      }).catch(this.props.navigation.dispatch(toLoginScreen()))
   }
 
   componentWillUnmount() {
