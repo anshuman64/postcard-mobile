@@ -9,7 +9,7 @@ import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../actions/post_action
 // TODO: add lastUpdated
 const DEFAULT_STATE = {
   allPosts: [],
-  myPosts:  [], // TODO: rename to authored posts
+  authoredPosts:  [],
   likedPosts: []
 };
 
@@ -24,13 +24,13 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
         newState.allPosts.push(post.id);
       });
 
-      // TODO: figure out how to add it to "myPosts"
+      // TODO: figure out how to add it to "authoredPosts"
 
       return newState;
     case RECEIVE_POST:
       newState.allPosts.unshift(action.data.id);
 
-      // TODO: figure out how to add it to "myPosts"
+      // TODO: figure out how to add it to "authoredPosts"
 
       return newState;
     case REMOVE_POST:
@@ -38,7 +38,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
         return postId === action.data.id;
       });
 
-      _.remove(newState.myPosts, (postId) => {
+      _.remove(newState.authoredPosts, (postId) => {
         return postId === action.data.id;
       });
 

@@ -81,14 +81,14 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
     // User StackNavigator
     case NavigationActionConstants.TO_MY_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'MyPostsTab' }),
+        NavigationActions.navigate({ routeName: 'AuthoredPostsTab' }),
         state
       );
 
       return newState;
     case NavigationActionConstants.TO_MY_LIKES_TAB:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'MyLikesTab' }),
+        NavigationActions.navigate({ routeName: 'LikedPostsTab' }),
         state
       );
 
