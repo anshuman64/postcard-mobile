@@ -5,7 +5,8 @@ import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
 import Icon                                    from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }                         from './confirm_code_screen_styles.js';
+import { styles }                   from './confirm_code_screen_styles.js';
+import { setStateInAnimationFrame } from '../../utilities/component_utility.js';
 import { toMainNavigator, goBack }  from '../../actions/navigation_actions.js';
 
 
@@ -62,12 +63,6 @@ class ConfirmCodeScreen extends React.Component {
         this.setState({ isResendSMSDisabled: false })
       }
     });
-  }
-
-  _setStateInAnimationFrame = (state) => {
-    return(
-      () => (requestAnimationFrame(() => {this.setState(state)}))
-    )
   }
 
   // Sends code to Firebase API as soon as user has inputted six digits
@@ -145,8 +140,8 @@ class ConfirmCodeScreen extends React.Component {
         maxLength={6}
         placeholderTextColor='#bdbdbd'
         underlineColorAndroid={'transparent'}
-        onFocus={this._setStateInAnimationFrame({ isCodeInputFocused: true})}
-        onEndEditing={this._setStateInAnimationFrame({ isCodeInputFocused: false})}
+        onFocus={setStateInAnimationFrame(this, { isCodeInputFocused: true})}
+        onEndEditing={setStateInAnimationFrame(this, { isCodeInputFocused: false})}
       />
     )
   }
@@ -166,8 +161,8 @@ class ConfirmCodeScreen extends React.Component {
   _renderResendSMS() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({ isResendSMSPressed: true})}
-        onPressOut={this._setStateInAnimationFrame({ isResendSMSPressed: false})}
+        onPressIn={setStateInAnimationFrame(this, { isResendSMSPressed: true})}
+        onPressOut={setStateInAnimationFrame(this, { isResendSMSPressed: false})}
         onPress={() => this._onResendSMSPress()}
         disabled={this.state.isResendSMSDisabled}
         >

@@ -3,10 +3,11 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles }         from './country_list_modal_styles.js';
-import CountryListItem    from './country_list_item.js';
-import { scale }          from '../../utilities/style_utility.js';
-import { COUNTRY_CODES }  from '../../utilities/country_utility.js';
+import { styles }                    from './country_list_modal_styles.js';
+import CountryListItem               from './country_list_item.js';
+import { scale }                     from '../../utilities/style_utility.js';
+import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { COUNTRY_CODES }             from '../../utilities/country_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -31,12 +32,6 @@ class CountryListModal extends React.PureComponent {
   // Scrolls directly to the currently selected country when RN.ListView is opened
   _onListViewContentSizeChange = () => {
     this.listView.scrollTo({x: 0, y: scale(this.props.countryIndex * 17) - 2, animated: true})
-  }
-
-  _setStateInAnimationFrame = (state) => {
-    return(
-      () => (requestAnimationFrame(() => {this.setState(state)}))
-    )
   }
 
   //--------------------------------------------------------------------//
@@ -72,8 +67,8 @@ class CountryListModal extends React.PureComponent {
   _renderCancelButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({ isTextHighlighted: true})}
-        onPressOut={this._setStateInAnimationFrame({ isTextHighlighted: false})}
+        onPressIn={setStateInAnimationFrame(this, { isTextHighlighted: true})}
+        onPressOut={setStateInAnimationFrame(this, { isTextHighlighted: false})}
         onPress={this.props.setParentState({ isModalVisible: false })}
       >
         <RN.View style={ styles.chooseCountryView }>

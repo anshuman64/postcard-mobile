@@ -3,7 +3,8 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles } from './country_list_item_styles.js';
+import { styles }                    from './country_list_item_styles.js';
+import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -17,18 +18,12 @@ class CountryListItem extends React.PureComponent {
       isTextHighlighted: false
     };
   }
-  // TODO: make into utility method
-  _setStateInAnimationFrame = (state) => {
-    return(
-      () => (requestAnimationFrame(() => {this.setState(state)}))
-    )
-  }
 
   render() {
     return(
       <RN.TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({isTextHighlighted: true})}
-        onPressOut={this._setStateInAnimationFrame({isTextHighlighted: false})}
+        onPressIn={setStateInAnimationFrame(this, {isTextHighlighted: true})}
+        onPressOut={setStateInAnimationFrame(this, {isTextHighlighted: false})}
         onPress={this.props.setCountry(this.props.countryIndex)}
         >
         <RN.View style={[styles.countryListItems]}>
