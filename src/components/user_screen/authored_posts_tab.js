@@ -9,7 +9,7 @@ import samplePosts  from '../../test_data/sample_posts.js';
 //--------------------------------------------------------------------//
 
 // TODO: rename to authored posts
-class MyPostsTab extends React.Component {
+class AuthoredPostsTab extends React.Component {
 
   render() {
     return (
@@ -20,4 +20,4 @@ class MyPostsTab extends React.Component {
 
 //--------------------------------------------------------------------//
 
-export default MyPostsTab;
+export default AuthoredPostsTab;

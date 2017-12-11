@@ -11,8 +11,8 @@ import LoadingScreenContainer                                                   
 import LoginScreenContainer                                                       from '../components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer                                                 from '../components/confirm_code_screen/confirm_code_screen_container.js';
 import HomeScreenContainer                                                        from '../components/home_screen/home_screen_container.js';
-import MyPostsTab                                                                 from '../components/user_screen/my_posts_tab.js';
-import MyLikesTab                                                                 from '../components/user_screen/my_likes_tab.js';
+import AuthoredPostsTab                                                                 from '../components/user_screen/authored_posts_tab.js';
+import LikedPostsTab                                                                 from '../components/user_screen/liked_posts_tab.js';
 import NewPostScreenContainer                                                     from '../components/new_post_screen/new_post_screen_container.js';
 import MenuScreen                                                                 from '../components/menu_screen/menu_screen.js';
 import * as NavigationActionCreators                                              from '../actions/navigation_actions.js';
@@ -23,15 +23,15 @@ import { userTabNavigatorStyles, homeStackNavigatorStyles, mainNavigatorStyles }
 
 // TODO: Organize all navigators into separate files
 export const UserTabNavigator = TabNavigator({
-  MyPostsTab: {
-    screen: MyPostsTab,
+  AuthoredPostsTab: {
+    screen: AuthoredPostsTab,
     navigationOptions: ({navigation}) => ({
       tabBarLabel: 'Posts',
       tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyPostsTab())}}
     })
   },
-  MyLikesTab: {
-    screen: MyLikesTab,
+  LikedPostsTab: {
+    screen: LikedPostsTab,
     navigationOptions: ({navigation}) => ({
       tabBarLabel: 'Likes',
       tabBarOnPress: (scene) => {if(!scene.focused) {navigation.dispatch(NavigationActionCreators.toMyLikesTab())}}

@@ -8,7 +8,7 @@ import samplePosts  from '../../test_data/sample_posts.js';
 //--------------------------------------------------------------------//
 
 
-class MyLikesTab extends React.Component {
+class LikedPostsTab extends React.Component {
 
   render() {
     return (
@@ -19,4 +19,4 @@ class MyLikesTab extends React.Component {
 
 //--------------------------------------------------------------------//
 
-export default MyLikesTab;
+export default LikedPostsTab;
