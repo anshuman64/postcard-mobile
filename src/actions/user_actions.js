@@ -52,9 +52,9 @@ export const receiveUser = (data) => {
 
 
 // LoginScreen: Updates global state with inputted phone number and made up confirmation code (as a string)
-export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
-    return new Promise(() => dispatch(receiveConfirmationCodeObj({phoneNumber: phoneNumber, confirmationCodeObj: '123456'})));
-};
+// export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
+//     return new Promise(() => dispatch(receiveConfirmationCodeObj({phoneNumber: phoneNumber, confirmationCodeObj: '123456'})));
+// };
 
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {
   return Firebase.auth().signInWithPhoneNumber(phoneNumber)
@@ -89,6 +89,23 @@ export const verifyConfirmationCode = (phoneNumber, confirmationCodeObj, inputte
     }).then(handleExistingUser, handleNewUser);
 };
 
-export const getUserOnAuthStateChange = (callback) => (dispatch) => {
-  return Firebase.auth().onAuthStateChanged(callback);
+export const attemptToLoginUser = () => (dispatch) => {
+  let listener = (firebaserUserObj) => {
+    if (firebaseUserObj) {
+      dispatch(receivePhoneNumber(firebaseUserObj._user.phoneNumber));
+      dispatch(receiveFirebaseUserObj(firebaseUserObj));
+
+      return firebaseUserObj.getIdToken(true)
+        .then((authToken) => {
+          dispatch(receiveAuthToken(authToken));
+          return APIUtility.get(authToken, '/users');
+        }).then((user) => {
+          dispatch(receiveUser(user));
+        });
+    } else {
+      return Promise.reject();
+    }
+  };
+
+  return Firebase.auth().onAuthStateChanged(listener);
 };
