@@ -33,14 +33,16 @@ export const removeLike = (data) => {
 //--------------------------------------------------------------------//
 
 
-export const createLike = (authToken, like) => (dispatch) => {
-  return APIUtility.post(authToken, '/likes', like).then((newLike) => {
-    dispatch(receiveLike(newLike));
-  });
+export const createLike = (authToken, likeObj) => (dispatch) => {
+  return APIUtility.post(authToken, '/likes', likeObj)
+    .then((newLike) => {
+      dispatch(receiveLike(newLike));
+    });
 };
 
 export const deleteLike = (authToken, postId) => (dispatch) => {
-  return APIUtility.del(authToken, '/likes/' + postId).then((deletedLike) => {
-    dispatch(removeLike(deletedLike));
-  });
+  return APIUtility.del(authToken, '/likes/' + postId)
+    .then((deletedLike) => {
+      dispatch(removeLike(deletedLike));
+    });
 };

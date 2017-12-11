@@ -49,31 +49,36 @@ export const removePost = (data) => {
 
 
 export const getAllPosts = (authToken, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts', queryParams).then((posts) => {
-    dispatch(receiveAllPosts(posts));
-  });
+  return APIUtility.get(authToken, '/posts', queryParams)
+    .then((posts) => {
+      dispatch(receiveAllPosts(posts));
+    });
 };
 
 export const getAuthoredPosts = (authToken, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts/authored', queryParams).then((posts) => {
-    dispatch(receiveAuthoredPosts(posts));
-  });
+  return APIUtility.get(authToken, '/posts/authored', queryParams)
+    .then((posts) => {
+      dispatch(receiveAuthoredPosts(posts));
+    });
 };
 
 export const getLikedPosts = (authToken, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts/liked', queryParams).then((posts) => {
-    dispatch(receiveLikedPosts(posts));
-  });
+  return APIUtility.get(authToken, '/posts/liked', queryParams)
+    .then((posts) => {
+      dispatch(receiveLikedPosts(posts));
+    });
 };
 
-export const createPost = (authToken, post) => (dispatch) => {
-  return APIUtility.post(authToken, '/posts', payload).then((newPost) => {
-    dispatch(receivePost(newPost));
-  });
+export const createPost = (authToken, postObj) => (dispatch) => {
+  return APIUtility.post(authToken, '/posts', postObj)
+    .then((newPost) => {
+      dispatch(receivePost(newPost));
+    });
 };
 
 export const deletePost = (authToken, postId) => (dispatch) => {
-  return APIUtility.del(authToken, '/posts/' + postId).then((deletedPost) => {
-    dispatch(removePost(deletedPost));
-  });
+  return APIUtility.del(authToken, '/posts/' + postId)
+    .then((deletedPost) => {
+      dispatch(removePost(deletedPost));
+    });
 };
