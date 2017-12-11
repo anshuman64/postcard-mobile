@@ -2,7 +2,7 @@
 import * as _ from 'lodash';
 
 // Local Imports
-import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../actions/post_actions';
+import { RECEIVE_POSTS, RECEIVE_POST } from '../actions/post_actions';
 import { RECEIVE_LIKE, REMOVE_LIKE }                from '../actions/like_actions';
 
 //--------------------------------------------------------------------//
@@ -22,10 +22,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case RECEIVE_POST:
       newState[action.data.id] = action.data;
-
-      return newState;
-    case REMOVE_POST:
-      delete newState[action.data.id];
 
       return newState;
     case RECEIVE_LIKE:

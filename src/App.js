@@ -1,24 +1,21 @@
 // Library Imports
-import React                    from 'react';
-import { AppRegistry }          from 'react-native';
-import { Provider }             from 'react-redux';
-import { createStore }          from 'redux';
+import React        from 'react';
+import { Provider } from 'react-redux';
 
 // Local Imports
-import configureStore           from './store/store.js'
-import RootReducer              from './reducers/root_reducer.js';
-import AppWithNavigationState   from './utilities/app_navigator.js';
-
+import configureStore                  from './store';
+import AppWithNavigationStateContainer from './router/app_with_navigation_state_container.js';
 
 //--------------------------------------------------------------------//
+
 
 class App extends React.Component {
   store = configureStore();
 
   render() {
     return (
-      <Provider store={this.store}>
-        <AppWithNavigationState />
+      <Provider store={ this.store }>
+        <AppWithNavigationStateContainer />
       </Provider>
     );
   }
@@ -26,6 +23,5 @@ class App extends React.Component {
 
 
 //--------------------------------------------------------------------//
-
 
 export default App;

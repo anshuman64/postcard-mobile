@@ -1,16 +1,17 @@
 // Local Imports
-import * as LikeAPI from '../api/like_api';
+import * as APIUtility from '../utilities/api_utility';
 
 //--------------------------------------------------------------------//
-
 
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
 
 
-export const RECEIVE_LIKE = 'RECEIVE_LIKE';
-export const REMOVE_LIKE  = 'REMOVE_LIKE';
+export const LIKE_ACTION_TYPES = {
+  RECEIVE_LIKE: 'RECEIVE_LIKE',
+  REMOVE_LIKE:  'REMOVE_LIKE'
+};
 
 
 //--------------------------------------------------------------------//
@@ -19,11 +20,11 @@ export const REMOVE_LIKE  = 'REMOVE_LIKE';
 
 
 export const receiveLike = (data) => {
-  return { type: RECEIVE_LIKE, data: data };
+  return { type: LIKE_ACTION_TYPES.RECEIVE_LIKE, data: data };
 };
 
 export const removeLike = (data) => {
-  return { type: REMOVE_LIKE, data: data };
+  return { type: LIKE_ACTION_TYPES.REMOVE_LIKE, data: data };
 };
 
 
@@ -32,14 +33,16 @@ export const removeLike = (data) => {
 //--------------------------------------------------------------------//
 
 
-export const createLike = (like) => (dispatch) => {
-  return LikeAPI.createLike(like).then((newLike) => {
-    dispatch(receiveLike(newLike));
-  });
+export const createLike = (authToken, likeObj) => (dispatch) => {
+  return APIUtility.post(authToken, '/likes', likeObj)
+    .then((newLike) => {
+      dispatch(receiveLike(newLike));
+    });
 };
 
-export const deleteLike = (userId, postId) => (dispatch) => {
-  return LikeAPI.deleteLike(userId, postId).then((deletedLike) => {
-    dispatch(removeLike(deletedLike));
-  });
+export const deleteLike = (authToken, postId) => (dispatch) => {
+  return APIUtility.del(authToken, '/likes/' + postId)
+    .then((deletedLike) => {
+      dispatch(removeLike(deletedLike));
+    });
 };
