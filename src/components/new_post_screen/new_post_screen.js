@@ -1,7 +1,7 @@
 // Library Imports
-import React                                                            from 'react';
-import { StyleSheet, View, Text, TouchableWithoutFeedback, TextInput }  from 'react-native';
-import Icon                                                             from 'react-native-vector-icons/Ionicons';
+import React  from 'react';
+import RN     from 'react-native';
+import Icon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }  from './new_post_screen_styles.js';
@@ -51,7 +51,7 @@ class NewPostScreen extends React.Component {
 
   _renderTextInput() {
     return (
-      <TextInput
+      <RN.TextInput
         style={ styles.textInput }
         placeholderTextColor={'#bdbdbd'}
         placeholder={'What are you thankful for today?'}
@@ -66,9 +66,9 @@ class NewPostScreen extends React.Component {
 
   render() {
     return (
-      <View style={ styles.container }>
+      <RN.View style={ styles.container }>
         {this._renderTextInput()}
-      </View>
+      </RN.View>
     )
   }
 }

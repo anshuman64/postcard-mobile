@@ -1,6 +1,6 @@
 // Library Imports
-import React                     from 'react';
-import { Platform, StyleSheet }  from 'react-native';
+import React  from 'react';
+import RN     from 'react-native';
 
 // Local Imports
 import { scale, scaleFont } from '../../utilities/style_utility.js';
@@ -9,7 +9,7 @@ import { scale, scaleFont } from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 
-export const styles = StyleSheet.create({
+export const styles = RN.StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   },
   bodyText: {
     width: '100%',
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(6),
     textAlign: 'left',
     textAlignVertical: 'center',
