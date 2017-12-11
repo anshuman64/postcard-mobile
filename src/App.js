@@ -3,8 +3,8 @@ import React        from 'react';
 import { Provider } from 'react-redux';
 
 // Local Imports
-import configureStore         from './store'
-import AppWithNavigationState from './router/app_navigator';
+import configureStore                  from './store';
+import AppWithNavigationStateContainer from './router/app_with_navigation_state_container.js';
 
 //--------------------------------------------------------------------//
 
@@ -15,7 +15,7 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={ this.store }>
-        <AppWithNavigationState />
+        <AppWithNavigationStateContainer />
       </Provider>
     );
   }

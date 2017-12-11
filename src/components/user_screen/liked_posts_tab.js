@@ -5,11 +5,10 @@ import React  from 'react';
 import PostList     from '../post_list/post_list.js';
 import samplePosts  from '../../test_data/sample_posts.js';
 
-
 //--------------------------------------------------------------------//
 
 
-class MyPostsTab extends React.Component {
+class LikedPostsTab extends React.Component {
 
   render() {
     return (
@@ -20,4 +19,4 @@ class MyPostsTab extends React.Component {
 
 //--------------------------------------------------------------------//
 
-export default MyPostsTab;
+export default LikedPostsTab;

@@ -1,9 +1,10 @@
 // Library Imports
-import React                                    from 'react';
-import { View, Text, TouchableWithoutFeedback}  from 'react-native';
+import React  from 'react';
+import RN     from 'react-native';
 
 // Local Imports
-import { styles } from './country_list_item_styles.js';
+import { styles }                    from './country_list_item_styles.js';
+import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -18,28 +19,22 @@ class CountryListItem extends React.PureComponent {
     };
   }
 
-  _setStateInAnimationFrame = (state) => {
-    return(
-      () => (requestAnimationFrame(() => {this.setState(state)}))
-    )
-  }
-
   render() {
     return(
-      <TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({isTextHighlighted: true})}
-        onPressOut={this._setStateInAnimationFrame({isTextHighlighted: false})}
+      <RN.TouchableWithoutFeedback
+        onPressIn={setStateInAnimationFrame(this, {isTextHighlighted: true})}
+        onPressOut={setStateInAnimationFrame(this, {isTextHighlighted: false})}
         onPress={this.props.setCountry(this.props.countryIndex)}
         >
-        <View style={[styles.countryListItems]}>
-          <Text style={[styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
+        <RN.View style={[styles.countryListItems]}>
+          <RN.Text style={[styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
             {this.props.item.country_name}
-          </Text>
-          <Text style={[styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
+          </RN.Text>
+          <RN.Text style={[styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
             {this.props.item.dialing_code}
-          </Text>
-        </View>
-      </TouchableWithoutFeedback>
+          </RN.Text>
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
     )
   }
 }

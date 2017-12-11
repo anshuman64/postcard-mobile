@@ -1,14 +1,13 @@
 // Library Imports
-import React                     from 'react';
-import { Platform, StyleSheet }  from 'react-native';
+import React  from 'react';
+import RN     from 'react-native';
 
 // Local Imports
 import { scale, scaleFont } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-
-export const styles = StyleSheet.create({
+export const styles = RN.StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -40,7 +39,7 @@ export const styles = StyleSheet.create({
   countrySelectorText: {
     width: scale(100),
     height: scale(16),
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -63,7 +62,7 @@ export const styles = StyleSheet.create({
     width: '20%',
     height: scale(16),
     marginRight: '3%',
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -73,7 +72,7 @@ export const styles = StyleSheet.create({
   },
   phoneNumberInput: {
     width: '75%',
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -106,7 +105,7 @@ export const styles = StyleSheet.create({
   nextButtonText: {
     width: scale(100),
     height: scale(16),
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -118,7 +117,7 @@ export const styles = StyleSheet.create({
   smsNoticeText: {
     width: scale(100),
     height: scale(16),
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',

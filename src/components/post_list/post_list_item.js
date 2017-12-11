@@ -1,7 +1,7 @@
 // Library Imports
-import React            from 'react';
-import { View, Text }   from 'react-native';
-import Icon             from 'react-native-vector-icons/SimpleLineIcons';
+import React  from 'react';
+import RN     from 'react-native';
+import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import { styles }      from './post_list_item_styles.js';
@@ -25,36 +25,24 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  renderViewMore(onPress){
-      return(
-        <Text onPress={onPress}>See More</Text>
-      )
-    }
-
-    renderViewLess(onPress){
-      return(
-        <Text onPress={onPress}>See Less</Text>
-      )
-    }
-
   render() {
     return(
-      <View style={ styles.container }>
-        <View style={ styles.body }>
-          <Text style={ styles.dateText }>
+      <RN.View style={ styles.container }>
+        <RN.View style={ styles.body }>
+          <RN.Text style={ styles.dateText }>
             {renderDate(this.props.item.created_at)}
-          </Text>
-          <Text style={ styles.bodyText }>
+          </RN.Text>
+          <RN.Text style={ styles.bodyText }>
             {this.props.item.body}
-          </Text>
-          <View style={ styles.detailsView }>
+          </RN.Text>
+          <RN.View style={ styles.detailsView }>
             <Icon name='heart' style={ styles.heartIcon } / >
-            <Text style={ styles.likeCountText }>
+            <RN.Text style={ styles.likeCountText }>
               {this._renderLikesCount(this.props.item.num_likes)}
-            </Text>
-          </View>
-        </View>
-      </View>
+            </RN.Text>
+          </RN.View>
+        </RN.View>
+      </RN.View>
     )
   }
 }

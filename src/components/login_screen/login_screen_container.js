@@ -10,13 +10,13 @@ import { getConfirmationCode, debugGetConfirmationCode }  from '../../actions/us
 
 
 const mapStateToProps = ({ user }, ownProps) => ({
-  phoneNumber: user.phoneNumber,
-  confirmationCodeObj: user.confirmationCodeObj
+  phoneNumber:          user.phoneNumber,
+  confirmationCodeObj:  user.confirmationCodeObj
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getConfirmationCode: (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),
-  debugGetConfirmationCode: (phoneNumber) => dispatch(debugGetConfirmationCode(phoneNumber))
+  getConfirmationCode:       (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),
+  debugGetConfirmationCode:  (phoneNumber) => dispatch(debugGetConfirmationCode(phoneNumber))
 });
 
 export default connect(

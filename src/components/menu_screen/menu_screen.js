@@ -1,10 +1,11 @@
 // Library Imports
-import React                                              from 'react';
-import { View, Text, TouchableWithoutFeedback, Linking }  from 'react-native';
-import Icon                                               from 'react-native-vector-icons/SimpleLineIcons';
+import React  from 'react';
+import RN     from 'react-native';
+import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }  from './menu_screen_styles.js';
+import { styles }                    from './menu_screen_styles.js';
+import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -13,24 +14,22 @@ class MenuScreen extends React.Component {
       super(props);
 
       this.state = {
-        isSupportPressed: false,
-        isFeedbackPressed: false,
-        isAboutPressed: false,
+        isSupportPressed:   false,
+        isFeedbackPressed:  false,
+        isAboutPressed:     false,
       };
     }
 
-  _setStateInAnimationFrame = (state) => {
-    return(
-      () => (requestAnimationFrame(() => {this.setState(state)}))
-    )
-  }
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
 
   _onPressSupport() {
-    Linking.openURL('mailto:support@insiya.io');
+    RN.Linking.openURL('mailto:support@insiya.io');
   }
 
   _onPressFeedback() {
-    Linking.openURL('mailto:feedback@insiya.io');
+    RN.Linking.openURL('mailto:feedback@insiya.io');
   }
 
   _onPressAbout() {
@@ -43,71 +42,71 @@ class MenuScreen extends React.Component {
 
   _renderSupportButton() {
     return (
-      <TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({ isSupportPressed: true})}
-        onPressOut={this._setStateInAnimationFrame({ isSupportPressed: false})}
+      <RN.TouchableWithoutFeedback
+        onPressIn={setStateInAnimationFrame(this, { isSupportPressed: true})}
+        onPressOut={setStateInAnimationFrame(this, { isSupportPressed: false})}
         onPress={() => this._onPressSupport()}
         >
-        <View style={ styles.menuItemView }>
+        <RN.View style={ styles.menuItemView }>
           <Icon
             name='envelope'
             style={[styles.menuItemIcon, this.state.isSupportPressed && styles.highlight]}
             />
-          <Text style={[styles.menuItemText, this.state.isSupportPressed && styles.highlight]}>
+          <RN.Text style={[styles.menuItemText, this.state.isSupportPressed && styles.highlight]}>
             Support
-          </Text>
-        </View>
-     </TouchableWithoutFeedback>
+          </RN.Text>
+        </RN.View>
+     </RN.TouchableWithoutFeedback>
     )
   }
 
   _renderFeedbackButton() {
     return (
-      <TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({ isFeedbackPressed: true})}
-        onPressOut={this._setStateInAnimationFrame({ isFeedbackPressed: false})}
+      <RN.TouchableWithoutFeedback
+        onPressIn={setStateInAnimationFrame(this, { isFeedbackPressed: true})}
+        onPressOut={setStateInAnimationFrame(this, { isFeedbackPressed: false})}
         onPress={() => this._onPressFeedback()}
         >
-        <View style={ styles.menuItemView }>
+        <RN.View style={ styles.menuItemView }>
           <Icon
             name='speech'
             style={[styles.menuItemIcon, this.state.isFeedbackPressed && styles.highlight]}
             />
-          <Text style={[styles.menuItemText, this.state.isFeedbackPressed && styles.highlight]}>
+          <RN.Text style={[styles.menuItemText, this.state.isFeedbackPressed && styles.highlight]}>
             Feedback
-          </Text>
-        </View>
-     </TouchableWithoutFeedback>
+          </RN.Text>
+        </RN.View>
+     </RN.TouchableWithoutFeedback>
     )
   }
 
   _renderAboutButton() {
     return (
-      <TouchableWithoutFeedback
-        onPressIn={this._setStateInAnimationFrame({ isAboutPressed: true})}
-        onPressOut={this._setStateInAnimationFrame({ isAboutPressed: false})}
+      <RN.TouchableWithoutFeedback
+        onPressIn={setStateInAnimationFrame(this, { isAboutPressed: true})}
+        onPressOut={setStateInAnimationFrame(this, { isAboutPressed: false})}
         onPress={() => this._onPressAbout()}
         >
-        <View style={ styles.menuItemView }>
+        <RN.View style={ styles.menuItemView }>
           <Icon
             name='question'
             style={[styles.menuItemIcon, this.state.isAboutPressed && styles.highlight]}
             />
-          <Text style={[styles.menuItemText, this.state.isAboutPressed && styles.highlight]}>
+          <RN.Text style={[styles.menuItemText, this.state.isAboutPressed && styles.highlight]}>
             About
-          </Text>
-        </View>
-     </TouchableWithoutFeedback>
+          </RN.Text>
+        </RN.View>
+     </RN.TouchableWithoutFeedback>
     )
   }
 
   render() {
     return (
-      <View style={ styles.container }>
+      <RN.View style={ styles.container }>
         {this._renderSupportButton()}
         {this._renderFeedbackButton()}
         {this._renderAboutButton()}
-     </View>
+     </RN.View>
     )
   }
 }
