@@ -3,7 +3,7 @@ import React                                    from 'react';
 import { View, Text, TouchableWithoutFeedback}  from 'react-native';
 
 // Local Imports
-import { styles, scaleFactor } from './login_screen_styles.js';
+import { styles } from './country_list_item_styles.js';
 
 
 //--------------------------------------------------------------------//
@@ -32,10 +32,10 @@ class CountryListItem extends React.PureComponent {
         onPress={this.props.setCountry(this.props.countryIndex)}
         >
         <View style={[styles.countryListItems]}>
-          <Text style={[styles.text, styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
+          <Text style={[styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
             {this.props.item.country_name}
           </Text>
-          <Text style={[styles.text, styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
+          <Text style={[styles.countryListText, this.state.isTextHighlighted && styles.textHighlighted]}>
             {this.props.item.dialing_code}
           </Text>
         </View>

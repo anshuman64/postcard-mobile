@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TouchableWithoutFeedback, TextInput }  from 're
 import Icon                                                             from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles, scaleFactor }  from './new_post_screen_styles.js';
+import { styles }  from './new_post_screen_styles.js';
 import { toBackScreen }         from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
@@ -45,21 +45,29 @@ class NewPostScreen extends React.Component {
     this.props.createPost(this.state.postText);
   }
 
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _renderTextInput() {
+    return (
+      <TextInput
+        style={ styles.textInput }
+        placeholderTextColor={'#bdbdbd'}
+        placeholder={'What are you thankful for today?'}
+        onChangeText={(value) => this._onChangeText(value)}
+        autoFocus={true}
+        multiline={true}
+        returnKeyType={'done'}
+        underlineColorAndroid={'transparent'}
+        />
+    )
+  }
+
   render() {
     return (
-      <View style={[styles.container]}>
-        {/* Text Input */}
-        <TextInput
-          style={[styles.textInput]}
-          placeholderTextColor={'#bdbdbd'}
-          placeholder={'What are you thankful for today?'}
-          onChangeText={(value) => this._onChangeText(value)}
-          autoFocus={true}
-          multiline={true}
-          returnKeyType={'done'}
-          underlineColorAndroid={'transparent'}
-          style={[styles.textInput]}
-          />
+      <View style={ styles.container }>
+        {this._renderTextInput()}
       </View>
     )
   }

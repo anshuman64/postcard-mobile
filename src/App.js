@@ -3,8 +3,8 @@ import React        from 'react';
 import { Provider } from 'react-redux';
 
 // Local Imports
-import configureStore         from './store/store.js'
-import AppWithNavigationState from './utilities/app_navigator.js';
+import configureStore         from './store';
+import AppWithNavigationState from './router/app_navigator';
 
 //--------------------------------------------------------------------//
 
@@ -23,6 +23,5 @@ class App extends React.Component {
 
 
 //--------------------------------------------------------------------//
-
 
 export default App;
