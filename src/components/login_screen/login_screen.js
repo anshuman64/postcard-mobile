@@ -38,6 +38,52 @@ class LoginScreen extends React.Component {
     this.phoneUtil = PhoneNumberUtil.getInstance(); // libphonenumber object used to parse phone numbers
   }
 
+  //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
+  // Callback function for setting country selector and updating phone number formatting
+  setCountry = (index) => {
+    return (
+      () => {
+        let tempFormatted = '';
+        // Create new libphonenumber formatter for new country
+        this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[index].country_code);
+        // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
+        try {
+          tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+          _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
+        } catch (e) {}
+
+        this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this._checkNextButtonEnable());
+      }
+    )
+  }
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  // Enables Next button only when libphonenumber believes phone number is "possible"
+  // TODO: figure out better logic for this
+  _checkNextButtonEnable() {
+    let phoneUtilNumber;
+
+    try {
+      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, COUNTRY_CODES[this.state.countryIndex].country_code);
+
+      if (this.phoneUtil.isPossibleNumber(phoneUtilNumber)) {
+        this.setState({isNextButtonDisabled: false});
+      } else {
+        this.setState({isNextButtonDisabled: true});
+      }
+    } catch (e) {}
+  }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
   // Callback function for formatting phone number on each character typed
   // TODO: handle error callback if phone number is invalid
   _onPhoneInputChangeText(value) {
@@ -57,43 +103,7 @@ class LoginScreen extends React.Component {
       _.forEach(formatted, (char) => formatted = this.formatter.inputDigit(char));
     }
 
-    this.setState({ formattedPhoneNumber: formatted }, () => this.checkNextButtonEnable());
-  }
-
-  // Callback function for setting country selector and updating phone number formatting
-  // TODO: make sure all _methods are private; separate for readability
-  setCountry = (index) => {
-    // TODO: delete parentheses
-    return(
-      () => {
-        let tempFormatted = '';
-        // Create new libphonenumber formatter for new country
-        this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[index].country_code);
-        // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
-        try {
-          tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
-          _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
-        } catch (e) {}
-
-        this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this.checkNextButtonEnable());
-      }
-    )
-  }
-
-  // Enables Next button only when libphonenumber believes phone number is "possible"
-  // TODO: figure out better logic for this
-  checkNextButtonEnable() {
-    let phoneUtilNumber;
-
-    try {
-      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, COUNTRY_CODES[this.state.countryIndex].country_code);
-
-      if (this.phoneUtil.isPossibleNumber(phoneUtilNumber)) {
-        this.setState({isNextButtonDisabled: false});
-      } else {
-        this.setState({isNextButtonDisabled: true});
-      }
-    } catch (e) {}
+    this.setState({ formattedPhoneNumber: formatted }, () => this._checkNextButtonEnable());
   }
 
   // Callback function that extracts raw numbers from phone number, adds country code, and sends to Firebase API

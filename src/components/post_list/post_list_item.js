@@ -25,18 +25,6 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  renderViewMore(onPress){
-      return(
-        <RN.Text onPress={onPress}>See More</RN.Text>
-      )
-    }
-
-    renderViewLess(onPress){
-      return(
-        <RN.Text onPress={onPress}>See Less</RN.Text>
-      )
-    }
-
   render() {
     return(
       <RN.View style={ styles.container }>

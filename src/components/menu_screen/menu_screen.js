@@ -20,6 +20,10 @@ class MenuScreen extends React.Component {
       };
     }
 
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
   _onPressSupport() {
     RN.Linking.openURL('mailto:support@insiya.io');
   }

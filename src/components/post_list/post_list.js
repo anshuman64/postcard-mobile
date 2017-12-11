@@ -19,6 +19,10 @@ class PostList extends React.Component {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
   _onRefresh() {
     this.setState({refreshing: true}, () => this.setState({refreshing: false}));
   }

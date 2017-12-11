@@ -29,6 +29,10 @@ class CountryListModal extends React.PureComponent {
     this.setState({ isModalMounted: true });
   }
 
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
   // Scrolls directly to the currently selected country when RN.ListView is opened
   _onListViewContentSizeChange = () => {
     this.listView.scrollTo({x: 0, y: scale(this.props.countryIndex * 17) - 2, animated: true})
