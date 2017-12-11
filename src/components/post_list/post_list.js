@@ -1,10 +1,10 @@
 // Library Imports
-import React                                                         from 'react';
-import { View, Text, FlatList, RefreshControl, ActivityIndicator }   from 'react-native';
+import React  from 'react';
+import RN     from 'react-native';
 
 // Local Imports
-import { styles, scaleFactor }  from './post_list_styles.js';
-import PostListItem             from './post_list_item.js';
+import { styles }    from './post_list_styles.js';
+import PostListItem  from './post_list_item.js';
 
 //--------------------------------------------------------------------//
 
@@ -15,9 +15,13 @@ class PostList extends React.Component {
 
     this.state = {
       refreshing: false,
-      loading: false,
+      loading:    false,
     };
   }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
 
   _onRefresh() {
     this.setState({refreshing: true}, () => this.setState({refreshing: false}));
@@ -33,11 +37,11 @@ class PostList extends React.Component {
 
   _renderPostList() {
     return (
-      <FlatList
+      <RN.FlatList
         data={this.props.data}
-        renderItem={this._renderItem}
+        renderItem={ this._renderItem }
         keyExtractor={(item, index) => index}
-        style={{width: '100%', height: '100%'}}
+        style={ styles.postList }
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
@@ -55,7 +59,7 @@ class PostList extends React.Component {
 
   _renderRefreshControl() {
     return (
-      <RefreshControl
+      <RN.RefreshControl
         refreshing={this.state.refreshing}
         onRefresh={this._onRefresh.bind(this)}
         color='#bdbdbd'
@@ -65,15 +69,15 @@ class PostList extends React.Component {
 
   _renderFooter = () => {
     return (
-      <ActivityIndicator size='small' color='#bdbdbd' style={styles.activityIndicator} />
+      <RN.ActivityIndicator size='small' color='#bdbdbd' style={styles.activityIndicator} />
     );
   };
 
   render() {
     return (
-      <View style={[styles.container]}>
+      <RN.View style={ styles.container }>
         {this._renderPostList()}
-      </View>
+      </RN.View>
     )
   }
 }

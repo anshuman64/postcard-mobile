@@ -1,6 +1,6 @@
 // Library Imports
-import React                     from 'react';
-import { Platform, StyleSheet }  from 'react-native';
+import React  from 'react';
+import RN     from 'react-native';
 
 // Local Imports
 import { scale, scaleFont } from '../../utilities/style_utility.js';
@@ -9,7 +9,7 @@ import { scale, scaleFont } from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 
-export const styles = StyleSheet.create({
+export const styles = RN.StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -19,14 +19,14 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fafafa'
   },
   titleText: {
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
     fontSize: scaleFont(18),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#212121'
   },
   subtitleText: {
-    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -67,8 +67,12 @@ export const styles = StyleSheet.create({
     borderBottomWidth: scale(0.3),
   },
   resendSMSText: {
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     height: scale(15),
     fontSize: scaleFont(18),
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    marginTop: '1%',
     color: '#bdbdbd',
   },
   smsTextActive: {

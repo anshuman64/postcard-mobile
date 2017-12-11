@@ -1,87 +1,111 @@
+// Library Imports
+import Firebase from 'react-native-firebase';
+
 // Local Imports
-import * as UserAPI                            from '../api/user_api.js';
-import { toConfirmCodeScreen, toPostsScreen }  from './navigation_actions.js';
+import * as APIUtility from '../utilities/api_utility';
 
 //--------------------------------------------------------------------//
-
 
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
 
-export const RECEIVE_PHONE_NUMBER       = 'RECEIVE_PHONE_NUMBER';
-export const RECEIVE_CONFIRMATION_CODE  = 'RECEIVE_CONFIRMATION_CODE';
-export const RECEIVE_FIREBASE_USER_OBJ  = 'RECEIVE_FIREBASE_USER_OBJ';
-export const RECEIVE_AUTH_TOKEN         = 'RECEIVE_AUTH_TOKEN';
-export const RECEIVE_USER               = 'RECEIVE_USER';
+
+export const USER_ACTION_TYPES = {
+  RECEIVE_PHONE_NUMBER:          'RECEIVE_PHONE_NUMBER',
+  RECEIVE_CONFIRMATION_CODE_OBJ: 'RECEIVE_CONFIRMATION_CODE_OBJ',
+  RECEIVE_FIREBASE_USER_OBJ:     'RECEIVE_FIREBASE_USER_OBJ',
+  RECEIVE_AUTH_TOKEN:            'RECEIVE_AUTH_TOKEN',
+  RECEIVE_USER:                  'RECEIVE_USER'
+};
 
 
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
 
-export const receivePhoneNumber = (data) => {
-  return { type: RECEIVE_PHONE_NUMBER, data: data };
-}
 
-export const receiveConfirmationCode = (data) => {
-  return { type: RECEIVE_CONFIRMATION_CODE, data: data };
+export const receivePhoneNumber = (data) => {
+  return { type: USER_ACTION_TYPES.RECEIVE_PHONE_NUMBER, data: data };
+};
+
+export const receiveConfirmationCodeObj = (data) => {
+  return { type: USER_ACTION_TYPES.RECEIVE_CONFIRMATION_CODE_OBJ, data: data };
 };
 
 export const receiveFirebaseUserObj = (data) => {
-  return { type: RECEIVE_FIREBASE_USER_OBJ, data: data };
+  return { type: USER_ACTION_TYPES.RECEIVE_FIREBASE_USER_OBJ, data: data };
+};
+
+export const receiveAuthToken = (data) => {
+  return { type: USER_ACTION_TYPES.RECEIVE_AUTH_TOKEN, data: data }
 };
 
 export const receiveUser = (data) => {
-  return { type: RECEIVE_USER, data: data}
-}
-
-export const receiveAuthToken = (data) => {
-  return { type: RECEIVE_AUTH_TOKEN, data: data }
-}
+  return { type: USER_ACTION_TYPES.RECEIVE_USER, data: data }
+};
 
 
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-// LoginScreen: Updates global state with inputted phone number and made up confirmation code (as a string)
-export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
-    return new Promise(() => dispatch(receiveConfirmationCode({phoneNumber: phoneNumber, confirmationCodeObj: '123456'})));
-};
 
-// LoginScreen: Same as getConfirmationCodeAndChangeScreens, without transition to ConfirmationCodeScreen; used for Resend SMS button on ConfirmationCodeScreen
+// LoginScreen: Updates global state with inputted phone number and made up confirmation code (as a string)
+// export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
+//     return new Promise(() => dispatch(receiveConfirmationCodeObj({phoneNumber: phoneNumber, confirmationCodeObj: '123456'})));
+// };
+
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {
-  return UserAPI.getConfirmationCode(phoneNumber)
+  return Firebase.auth().signInWithPhoneNumber(phoneNumber)
     .then((confirmationCodeObj) => {
-      dispatch(receivePhoneNumber({phoneNumber: phoneNumber}));
-      dispatch(receiveConfirmationCode({confirmationCodeObj: confirmationCodeObj}));
+      dispatch(receivePhoneNumber(phoneNumber));
+      dispatch(receiveConfirmationCodeObj(confirmationCodeObj));
     });
 };
 
-// ConfirmCodeScreen: Verifies inputted confirmation code and updates global store with returned firebaseUserObj; transitions to PostsScreen
-export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (dispatch) => {
+export const verifyConfirmationCode = (phoneNumber, confirmationCodeObj, inputtedCode) => (dispatch) => {
+  let handleExistingUser = () => {
+    return APIUtility.get(authToken, '/users')
+      .then((user) => {
+        dispatch(receiveUser(user));
+      });
+  };
+
+  let handleNewUser = () => {
+    return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
+      .then((newUser) => {
+        dispatch(receiveUser(newUser));
+      });
+  };
+
   return confirmationCodeObj.confirm(inputtedCode)
     .then((firebaseUserObj) => {
-      dispatch(receiveFirebaseUserObj({firebaseUserObj: firebaseUserObj}));
-    });
+      dispatch(receiveFirebaseUserObj(firebaseUserObj));
+      return firebaseUserObj.getIdToken(true);
+    }).then((authToken) => {
+      dispatch(receiveAuthToken(authToken));
+      return Firebase.auth().verifyPhoneNumber(phoneNumber);
+    }).then(handleExistingUser, handleNewUser);
 };
 
-export const getAuthToken = (firebaseUserObj) => (dispatch) => {
-  return firebaseUserObj.getIdToken(true)
-    .then((authToken) => {
-      dispatch(receiveAuthToken({authToken: authToken}));
-    })
-}
+export const attemptToLoginUser = () => (dispatch) => {
+  let listener = (firebaserUserObj) => {
+    if (firebaseUserObj) {
+      dispatch(receivePhoneNumber(firebaseUserObj._user.phoneNumber));
+      dispatch(receiveFirebaseUserObj(firebaseUserObj));
 
-export const createUser = (phoneNumber, authToken) => (dispatch) => {
-  return UserAPI.createUser({phoneNumber: phoneNumber}, authToken)
-    .then((user) => {
-      dispatch(receiveUser({user: user}));
-    })
-}
+      return firebaseUserObj.getIdToken(true)
+        .then((authToken) => {
+          dispatch(receiveAuthToken(authToken));
+          return APIUtility.get(authToken, '/users');
+        }).then((user) => {
+          dispatch(receiveUser(user));
+        });
+    } else {
+      return Promise.reject();
+    }
+  };
 
-// LoadingScreen: Tries to auto log in user
-export const getUserOnAuthStateChange = (callback) => (dispatch) => {
-  return UserAPI.getUserOnAuthStateChange(callback)
-}
+  return Firebase.auth().onAuthStateChanged(listener);
+};

@@ -1,7 +1,6 @@
 // Library Imports
-import React                        from 'react';
-import { View, ActivityIndicator }  from 'react-native';
-import firebase                     from 'react-native-firebase';
+import React  from 'react';
+import RN     from 'react-native';
 
 // Local Imports
 import { toMainNavigator, toLoginScreen }  from '../../actions/navigation_actions.js';
@@ -35,9 +34,9 @@ class LoadingScreen extends React.Component {
 
   render() {
     return (
-      <View>
-        <ActivityIndicator size='large' color='#bdbdbd' />
-      </View>
+      <RN.View>
+        <RN.ActivityIndicator size='large' color='#bdbdbd' />
+      </RN.View>
     )
   }
 }
