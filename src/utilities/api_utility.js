@@ -7,8 +7,8 @@ import * as _ from 'lodash';
 //--------------------------------------------------------------------//
 
 
-const BASE_URL = 'http://192.168.2.14:3000/api';
-const HEADERS  = {
+const BASE_URL         = 'http://192.168.2.14:3000/api';
+const DEFAULT_HEADERS  = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
 };
@@ -20,6 +20,10 @@ const HEADERS  = {
 
 
 let getQueryString = (params) => {
+  if (!params) {
+    return '';
+  }
+
   let paramList = [];
 
   for (let i in params) {
@@ -41,6 +45,13 @@ let checkStatus = (response) => {
   }
 };
 
+let callApi = (url, requestConfig) => {
+  return fetch(url, requestConfig)
+    .then((response) => {
+      return checkStatus(response);
+    });
+};
+
 
 //--------------------------------------------------------------------//
 // Interface
@@ -48,63 +59,39 @@ let checkStatus = (response) => {
 
 
 export const get = (authToken, path, queryParams) => {
-  let url     = BASE_URL + path;
-  let headers = _.merge({}, HEADERS);
+  let requestConfig = {
+    method:  'GET',
+    headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
+  };
 
-  headers['Authorization'] = 'Bearer ' + authToken;
-
-  if (queryParams) {
-    url += getQueryString(queryParams);
-  }
-
-  return fetch(url, {
-    method: 'GET',
-    headers: headers
-  }).then((response) => {
-    return checkStatus(response);
-  });
+  return callApi(BASE_URL + path + getQueryString(queryParams), requestConfig);
 };
 
 export const post = (authToken, path, payload) => {
-  let url     = BASE_URL + path;
-  let headers = _.merge({}, HEADERS);
-
-  headers['Authorization'] = 'Bearer ' + authToken;
-
-  return fetch(url, {
+  let requestConfig = {
     method:  'POST',
-    headers: headers,
+    headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS),
     body:    JSON.stringify(payload)
-  }).then((response) => {
-    return checkStatus(response);
-  });
+  };
+
+  return callApi(BASE_URL + path, requestConfig);
 };
 
 export const put = (authToken, path, payload) => {
-  let url     = BASE_URL + path;
-  let headers = _.merge({}, HEADERS);
-
-  headers['Authorization'] = 'Bearer ' + authToken;
-
-  return fetch(url, {
+  let requestConfig = {
     method:  'PUT',
-    headers: headers,
+    headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS),
     body:    JSON.stringify(payload)
-  }).then((response) => {
-    return checkStatus(response);
-  });
+  };
+
+  return callApi(BASE_URL + path, requestConfig);
 };
 
 export const del = (authToken, path) => {
-  let url     = BASE_URL + path;
-  let headers = _.merge({}, HEADERS);
+  let requestConfig = {
+    method:  'DELETE',
+    headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
+  };
 
-  headers['Authorization'] = 'Bearer ' + authToken;
-
-  return fetch(url, {
-    method: 'DELETE',
-    headers: headers
-  }).then((response) => {
-    return checkStatus(response);
-  });
+  return callApi(BASE_URL + path, requestConfig);
 };

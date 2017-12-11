@@ -1,9 +1,11 @@
+// Library Imports
+import Firebase from 'react-native-firebase';
+
 // Local Imports
-import * as UserAPI                            from '../api/user_api.js';
+import * as APIUtility                         from '../utilities/api_utility';
 import { toConfirmCodeScreen, toPostsScreen }  from './navigation_actions.js';
 
 //--------------------------------------------------------------------//
-
 
 //--------------------------------------------------------------------//
 // Constants
@@ -52,7 +54,7 @@ export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
 
 // LoginScreen: Same as getConfirmationCodeAndChangeScreens, without transition to ConfirmationCodeScreen; used for Resend SMS button on ConfirmationCodeScreen
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {
-  return UserAPI.getConfirmationCode(phoneNumber)
+  return Firebase.auth().signInWithPhoneNumber(phoneNumber)
     .then((confirmationCodeObj) => {
       dispatch(receivePhoneNumber({phoneNumber: phoneNumber}));
       dispatch(receiveConfirmationCode({confirmationCodeObj: confirmationCodeObj}));
@@ -75,7 +77,7 @@ export const getAuthToken = (firebaseUserObj) => (dispatch) => {
 }
 
 export const createUser = (phoneNumber, authToken) => (dispatch) => {
-  return UserAPI.createUser({phoneNumber: phoneNumber}, authToken)
+  return APIUtility.post('/users', payload, authToken)
     .then((user) => {
       dispatch(receiveUser({user: user}));
     })
@@ -83,5 +85,5 @@ export const createUser = (phoneNumber, authToken) => (dispatch) => {
 
 // LoadingScreen: Tries to auto log in user
 export const getUserOnAuthStateChange = (callback) => (dispatch) => {
-  return UserAPI.getUserOnAuthStateChange(callback)
+  return Firebase.auth().onAuthStateChanged(callback);
 }
