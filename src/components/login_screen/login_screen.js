@@ -1,16 +1,17 @@
 // Library Imports
-import React                                                                                                               from 'react';
-import { Keyboard, View, Text, TouchableHighlight, Modal, Image, TouchableWithoutFeedback, TextInput, ActivityIndicator }  from 'react-native';
-import * as _                                                                                                              from 'lodash';
-import { PhoneNumberUtil, AsYouTypeFormatter }                                                                             from 'google-libphonenumber';
-import firebase                                                                                                            from 'react-native-firebase';
-import Icon                                                                                                                from 'react-native-vector-icons/Ionicons';
+import React                                    from 'react';
+import RN                                       from 'react-native';
+import * as _                                   from 'lodash';
+import { PhoneNumberUtil, AsYouTypeFormatter }  from 'google-libphonenumber';
+import firebase                                 from 'react-native-firebase';
+import Icon                                     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }               from './login_screen_styles.js';
-import CountryListModal         from './country_list_modal.js';
-import { COUNTRY_CODES }        from '../../utilities/country_utility.js';
-import { toConfirmCodeScreen }  from '../../actions/navigation_actions.js';
+import { styles }                                      from './login_screen_styles.js';
+import CountryListModal                                from './country_list_modal.js';
+import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
+import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { toConfirmCodeScreen }                         from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -22,14 +23,14 @@ class LoginScreen extends React.Component {
     super(props);
 
     this.state = {
-      countryIndex: 220, // hard-coded to United States
+      countryIndex:             220, // hard-coded to United States
       isCountrySelectorPressed: false,
-      isPhoneInputFocused: false,
-      formattedPhoneNumber: '',
-      isModalVisible: false,
-      isNextButtonDisabled: true,
-      isLoading: false,
-      isPhoneNumberInvalid: false,
+      isPhoneInputFocused:      false,
+      formattedPhoneNumber:     '',
+      isModalVisible:           false,
+      isNextButtonDisabled:     true,
+      isLoading:                false,
+      isPhoneNumberInvalid:     false,
     };
 
     this.unsubscribe = null;
@@ -37,19 +38,51 @@ class LoginScreen extends React.Component {
     this.phoneUtil = PhoneNumberUtil.getInstance(); // libphonenumber object used to parse phone numbers
   }
 
-  // Callback function for setting state
-  _setState = (state) => {
-    return(
-      () => (this.setState(state))
+  //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
+  // Callback function for setting country selector and updating phone number formatting
+  setCountry = (index) => {
+    return (
+      () => {
+        let tempFormatted = '';
+        // Create new libphonenumber formatter for new country
+        this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[index].country_code);
+        // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
+        try {
+          tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+          _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
+        } catch (e) {}
+
+        this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this._checkNextButtonEnable());
+      }
     )
   }
 
-  // Callback function for setting state in animation frame; recommended by React Native docs for animations
-  _setStateInAnimationFrame = (state) => {
-    return(
-      () => (requestAnimationFrame(() => {this.setState(state)}))
-    )
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  // Enables Next button only when libphonenumber believes phone number is "possible"
+  // TODO: figure out better logic for this
+  _checkNextButtonEnable() {
+    let phoneUtilNumber;
+
+    try {
+      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, COUNTRY_CODES[this.state.countryIndex].country_code);
+
+      if (this.phoneUtil.isPossibleNumber(phoneUtilNumber)) {
+        this.setState({isNextButtonDisabled: false});
+      } else {
+        this.setState({isNextButtonDisabled: true});
+      }
+    } catch (e) {}
   }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
 
   // Callback function for formatting phone number on each character typed
   // TODO: handle error callback if phone number is invalid
@@ -70,40 +103,7 @@ class LoginScreen extends React.Component {
       _.forEach(formatted, (char) => formatted = this.formatter.inputDigit(char));
     }
 
-    this.setState({formattedPhoneNumber: formatted}, () => this.checkNextButtonEnable());
-  }
-
-  // Callback function for setting country selector and updating phone number formatting
-  setCountry = (index) => {
-    return(
-      () => {
-        let tempFormatted = '';
-        // Create new libphonenumber formatter for new country
-        this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[index].country_code);
-        // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
-        try {
-          tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
-          _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
-        } catch (e) {}
-
-        this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this.checkNextButtonEnable());
-      }
-    )
-  }
-
-  // Enables Next button only when libphonenumber believes phone number is "possible"
-  checkNextButtonEnable() {
-    let phoneUtilNumber;
-
-    try {
-      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, COUNTRY_CODES[this.state.countryIndex].country_code);
-
-      if (this.phoneUtil.isPossibleNumber(phoneUtilNumber)) {
-        this.setState({isNextButtonDisabled: false});
-      } else {
-        this.setState({isNextButtonDisabled: true});
-      }
-    } catch (e) {}
+    this.setState({ formattedPhoneNumber: formatted }, () => this._checkNextButtonEnable());
   }
 
   // Callback function that extracts raw numbers from phone number, adds country code, and sends to Firebase API
@@ -124,9 +124,9 @@ class LoginScreen extends React.Component {
 
     // Real Firebase API
     // this.setState({isLoading: true}, () => {
-    // this.props.getConfirmationCode(number)
-    //  .then(() => this.setState({isLoading: false, isPhoneNumberInvalid: false}, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
-    //  .catch(() => this.setState({isLoading: false, isPhoneNumberInvalid: true}))
+    // this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
+    //  .then(() => this.setState({ isLoading: false, isPhoneNumberInvalid: false }, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
+    //  .catch(() => this.setState({ isLoading: false, isPhoneNumberInvalid: true }))
     // })
   }
 
@@ -136,43 +136,43 @@ class LoginScreen extends React.Component {
 
   _renderLogo() {
     return (
-      <View style={ styles.topView }>
-        <Image
+      <RN.View style={ styles.topView }>
+        <RN.Image
           style={ styles.logo }
           source={require('../../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
           resizeMode='contain'
         />
-      </View>
+      </RN.View>
     )
   }
 
   _renderCountrySelector() {
     return (
-      <TouchableWithoutFeedback
-        onPress={this._setState({ isModalVisible: true})}
-        onPressIn={this._setStateInAnimationFrame({ isCountrySelectorPressed: true})}
-        onPressOut={this._setStateInAnimationFrame({ isCountrySelectorPressed: false})}
+      <RN.TouchableWithoutFeedback
+        onPress={setStateCallback(this, { isModalVisible: true})}
+        onPressIn={setStateInAnimationFrame(this, { isCountrySelectorPressed: true})}
+        onPressOut={setStateInAnimationFrame(this, { isCountrySelectorPressed: false})}
         >
-        <View style={[styles.countrySelectorView, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
-          <Text style={ styles.countrySelectorText }>
+        <RN.View style={[styles.countrySelectorView, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
+          <RN.Text style={ styles.countrySelectorText }>
             {COUNTRY_CODES[this.state.countryIndex].country_name}
-          </Text>
+          </RN.Text>
           <Icon name='md-arrow-dropdown' style={ styles.dropdownIcon } />
-        </View>
-      </TouchableWithoutFeedback>
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
     )
   }
 
   _renderPhoneNumberInput() {
     return (
-      <View style={ styles.phoneNumberView }>
+      <RN.View style={ styles.phoneNumberView }>
         {/* PhoneNumberCountryCode */}
-        <Text style={ styles.countryCodeText }>
+        <RN.Text style={ styles.countryCodeText }>
           {COUNTRY_CODES[this.state.countryIndex].dialing_code}
-        </Text>
+        </RN.Text>
 
         {/* PhoneNumberInput */}
-        <TextInput
+        <RN.TextInput
           style={[styles.phoneNumberInput, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
           keyboardType='phone-pad'
           onChangeText={(value) => this._onPhoneInputChangeText(value)}
@@ -180,84 +180,84 @@ class LoginScreen extends React.Component {
           placeholder='Phone Number'
           placeholderTextColor='#bdbdbd'
           underlineColorAndroid={'transparent'}
-          onFocus={this._setStateInAnimationFrame({ isPhoneInputFocused: true})}
-          onEndEditing={this._setStateInAnimationFrame({ isPhoneInputFocused: false})}
+          onFocus={setStateInAnimationFrame(this, { isPhoneInputFocused: true})}
+          onEndEditing={setStateInAnimationFrame(this, { isPhoneInputFocused: false})}
         />
-      </View>
+      </RN.View>
     )
   }
 
   _renderInvalidNumberText() {
     if (this.state.isPhoneNumberInvalid) {
       return (
-        <View style={ styles.phoneNumberView }>
-          <View style={{width: '25%'}} />
-          <Text style={[styles.invalidNumberText]}>
+        <RN.View style={ styles.phoneNumberView }>
+          <RN.View style={{width: '25%'}} />
+          <RN.Text style={[styles.invalidNumberText]}>
             Invalid Number
-          </Text>
-        </View>
+          </RN.Text>
+        </RN.View>
       )
     }
   }
 
   _renderNextButton() {
     return (
-      <TouchableHighlight
+      <RN.TouchableHighlight
         style={ styles.nextButtonBackground }
         onPress={() => this._onNextButtonPress()}
         underlayColor='#0050a7'
         disabled={this.state.isNextButtonDisabled && !this.state.isLoading}
         >
         { this.state.isLoading ?
-          <ActivityIndicator size='small' color='#bdbdbd' /> :
-          <Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
+          <RN.ActivityIndicator size='small' color='#bdbdbd' /> :
+          <RN.Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
             Next
-          </Text>
+          </RN.Text>
         }
-      </TouchableHighlight>
+      </RN.TouchableHighlight>
     )
   }
 
   _renderSMSNoticeText() {
     return (
-      <Text style={ styles.smsNoticeText }>
+      <RN.Text style={ styles.smsNoticeText }>
         {"We'll send an SMS message to verify your phone number"}
-      </Text>
+      </RN.Text>
     )
   }
 
   _renderModal() {
     return (
-      <Modal
+      <RN.Modal
         visible={this.state.isModalVisible}
-        onRequestClose={this._setState({ isModalVisible: false })}
+        onRequestClose={setStateCallback(this, { isModalVisible: false })}
         transparent={false}
         animationType={'none'}
         >
-        <View style={ styles.container }>
+        <RN.View style={ styles.container }>
           <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
-        </View>
-      </Modal>
+        </RN.View>
+      </RN.Modal>
     )
   }
 
   render() {
     return (
-      <View style={ styles.container }>
+      <RN.View style={ styles.container }>
         {this._renderLogo()}
-        <View style={ styles.bottomView }>
-          <View style={{flex: 1}} />
+        <RN.View style={ styles.bottomView }>
+          <RN.View style={{flex: 1}} />
             {this._renderCountrySelector()}
-          <View style={{height: 5}} />
+          <RN.View style={{height: 5}} />
             {this._renderPhoneNumberInput()}
             {this._renderInvalidNumberText()}
-          <View style={{flex: 2}} />
+          <RN.View style={{flex: 2}} />
             {this._renderNextButton()}
             {this._renderSMSNoticeText()}
-          <View style={{flex: 3}} />
+          <RN.View style={{flex: 3}} />
             {this._renderModal()}
-        </View>
-      </View>
+        </RN.View>
+      </RN.View>
     )
   }
 }
