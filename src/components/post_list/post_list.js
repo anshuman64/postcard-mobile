@@ -3,8 +3,8 @@ import React                                                         from 'react
 import { View, Text, FlatList, RefreshControl, ActivityIndicator }   from 'react-native';
 
 // Local Imports
-import { styles, scaleFactor }  from './post_list_styles.js';
-import PostListItem             from './post_list_item.js';
+import { styles }    from './post_list_styles.js';
+import PostListItem  from './post_list_item.js';
 
 //--------------------------------------------------------------------//
 
@@ -35,9 +35,9 @@ class PostList extends React.Component {
     return (
       <FlatList
         data={this.props.data}
-        renderItem={this._renderItem}
+        renderItem={ this._renderItem }
         keyExtractor={(item, index) => index}
-        style={{width: '100%', height: '100%'}}
+        style={ styles.postList }
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
@@ -71,7 +71,7 @@ class PostList extends React.Component {
 
   render() {
     return (
-      <View style={[styles.container]}>
+      <View style={ styles.container }>
         {this._renderPostList()}
       </View>
     )

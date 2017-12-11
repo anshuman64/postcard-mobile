@@ -9,57 +9,42 @@ import { scale, scaleFont } from '../../utilities/style_utility.js';
 
 
 export const styles = StyleSheet.create({
-  // Shared styles
-  flex: {
+  container: {
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  container: {
+    alignItems: 'center',
     width: '100%',
     height: '100%',
     backgroundColor: '#fafafa'
   },
-  componentSize: {
-    width: scale(100),
-    height: scale(16)
+  topView: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
   },
-  border: {
+  logo: {
+    width: scale(70),
+  },
+  countrySelectorView: {
+    flexDirection: 'row',
+    width: scale(100),
+    height: scale(16),
     borderBottomColor: '#212121',
     borderBottomWidth: scale(0.3),
   },
   borderHighlighted: {
     borderBottomColor: '#007aff',
-    borderBottomWidth: scale(0.6)
+    borderBottomWidth: scale(0.6),
   },
-  borderRed: {
-    borderBottomColor: '#ff313a',
-    borderBottomWidth: scale(0.6)
-  },
-  text: {
+  countrySelectorText: {
+    width: scale(100),
+    height: scale(16),
     fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#212121'
-  },
-  textHighlighted: {
-    color: '#007aff'
-  },
-
-  // Component-specific styles
-  topView: {
-    flex: 1,
-  },
-  logo: {
-    width: scale(70)
-  },
-  bottomView: {
-    flex: 2,
-    justifyContent: 'flex-start'
-  },
-  countrySelectorView: {
-    flexDirection: 'row',
+    color: '#212121',
   },
   dropdownIcon: {
     position: 'absolute',
@@ -70,15 +55,35 @@ export const styles = StyleSheet.create({
     color: '#212121'
   },
   phoneNumberView: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    width: scale(100),
+    height: scale(16),
   },
-  phoneNumberCountryCode: {
+  countryCodeText: {
     width: '20%',
     height: scale(16),
-    marginRight: '3%'
+    marginRight: '3%',
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: scaleFont(7.4),
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#212121',
+    borderBottomColor: '#212121',
+    borderBottomWidth: scale(0.3),
   },
   phoneNumberInput: {
-    width: '75%'
+    width: '75%',
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: scaleFont(7.4),
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#212121',
+    borderBottomColor: '#212121',
+    borderBottomWidth: scale(0.3),
+  },
+  borderRed: {
+    borderBottomColor: '#ff313a',
+    borderBottomWidth: scale(0.6)
   },
   invalidNumberText: {
     width: '75%',
@@ -88,55 +93,37 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'center',
     color: '#ff313a'
   },
+  nextButtonBackground: {
+    width: scale(100),
+    height: scale(16),
+    borderRadius: scale(5),
+    backgroundColor: '#007aff'
+  },
   nextButtonBackgroundDisabled: {
     borderRadius: scale(5),
     backgroundColor: '#007aff7f',
   },
-  nextButtonBackgroundEnabled: {
-    borderRadius: scale(5),
-    backgroundColor: '#007aff'
-  },
-  nextButtonTextEnabled: {
+  nextButtonText: {
+    width: scale(100),
+    height: scale(16),
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: scaleFont(7.4),
+    textAlign: 'center',
+    textAlignVertical: 'center',
     color: '#ffffff',
   },
   nextButtonTextDisabled: {
     color: '#ffffff7f',
   },
-  activityIndicator: {
-    // alignSelf: 'center'
-  },
   smsNoticeText: {
-    fontSize: scaleFont(6),
+    width: scale(100),
+    height: scale(16),
+    fontFamily: (Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: scaleFont(7.4),
+    textAlign: 'center',
+    textAlignVertical: 'center',
     color: '#757575',
     textAlign: 'left',
     marginTop: '3%',
-  },
-  modalContainer: {
-    justifyContent: 'space-between',
-    width: '90%',
-    height: '90%',
-    elevation: 50,
-    backgroundColor: '#fafafa',
-  },
-  chooseCountryText: {
-    width: '100%',
-    height: scale(20),
-    elevation: 1,
-    backgroundColor: '#fafafa'
-  },
-  countryListItems: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: scale(17),
-    marginLeft: scale(10),
-    marginRight: scale(10),
-    borderBottomWidth: scale(1),
-    borderBottomColor: '#e0e0e0'
-  },
-  countryListText: {
-    fontSize: scaleFont(6),
-    textAlign: 'left',
-    textAlignVertical: 'center',
-    color: '#212121'
   },
 });
