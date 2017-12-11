@@ -23,7 +23,7 @@ class ConfirmCodeScreen extends React.Component {
       isCodeIncorrect: false,
       isResendSMSDisabled: true,
       isResendSMSPressed: false,
-      secsRemaining: 0, // set to 59 seconds in startTimer()
+      secsRemaining: 0, // set to 59 seconds in _startTimer()
       isLoading: false,
       isCodeInvalid: false,
     };
@@ -32,38 +32,46 @@ class ConfirmCodeScreen extends React.Component {
     this.phoneUtil = PhoneNumberUtil.getInstance();
 
     this._codeInputOnChangeText = this._codeInputOnChangeText.bind(this);
-    this.tick = this.tick.bind(this);
+    this._tick = this._tick.bind(this);
     this.render = this.render.bind(this);
   }
 
   componentDidMount() {
-    this.startTimer();
+    this._startTimer();
   }
 
   componentWillUnmount() {
-    this.stopTimer();
+    this._stopTimer();
   }
 
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
   // Starts Resend SMS timer
-  startTimer() {
-    this.timer = setInterval(this.tick, 1000);
+  _startTimer() {
+    this.timer = setInterval(this._tick, 1000);
     this.setState({isResendSMSDisabled: true, secsRemaining: 59})
   }
 
   // Stops Resend SMS timer
-  stopTimer() {
+  _stopTimer() {
     clearInterval(this.timer);
   }
 
   // Updates Resend SMS timer every second
-  tick() {
+  _tick() {
     this.setState({ secsRemaining: this.state.secsRemaining - 1 }, () => {
       if (this.state.secsRemaining <= 0) {
-        this.stopTimer();
+        this._stopTimer();
         this.setState({ isResendSMSDisabled: false })
       }
     });
   }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
 
   // Sends code to Firebase API as soon as user has inputted six digits
   // TODO: handle error callback if code is invalid
@@ -105,7 +113,7 @@ class ConfirmCodeScreen extends React.Component {
     // Real Firebase API
     // this.props.getConfirmationCode(this.props.phoneNumber);
 
-    this.startTimer();
+    this._startTimer();
   }
 
 //--------------------------------------------------------------------//
