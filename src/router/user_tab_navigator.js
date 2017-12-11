@@ -6,6 +6,7 @@ import { TabNavigator }  from 'react-navigation';
 import AuthoredPostsTab               from '../components/user_screen/authored_posts_tab.js';
 import LikedPostsTab                  from '../components/user_screen/liked_posts_tab.js';
 import { styles }                     from './user_tab_navigator_styles.js';
+import { COLORS }                     from '../utilities/style_utility.js';
 import * as NavigationActionCreators  from '../actions/navigation_actions.js';
 
 
@@ -31,7 +32,7 @@ export const UserTabNavigator = TabNavigator({
     indicatorStyle:     styles.indicatorStyle,
     labelStyle:         styles.labelStyle,
     style:              styles.style,
-    activeTintColor:    '#007aff',
-    inactiveTintColor:  '#212121'
+    activeTintColor:    COLORS.appleBlue,
+    inactiveTintColor:  COLORS.grey900
   }
 });

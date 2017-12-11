@@ -5,7 +5,8 @@ import Icon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }  from './new_post_screen_styles.js';
-import { goBack }         from '../../actions/navigation_actions.js';
+import { COLORS }  from '../../utilities/style_utility.js';
+import { goBack }  from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -50,7 +51,7 @@ class NewPostScreen extends React.Component {
     return (
       <RN.TextInput
         style={ styles.textInput }
-        placeholderTextColor={'#bdbdbd'}
+        placeholderTextColor={COLORS.grey400}
         placeholder={'What are you thankful for today?'}
         onChangeText={(value) => this._onChangeText(value)}
         autoFocus={true}
