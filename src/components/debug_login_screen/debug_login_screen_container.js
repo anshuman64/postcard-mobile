@@ -2,25 +2,23 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import LoadingScreen           from './loading_screen.js';
-import { attemptToLoginUser }  from '../../actions/user_actions.js';
+import DebugLoginScreen   from './debug_login_screen.js';
+import { debugSignIn }    from '../../actions/user_actions.js';
 
 
 //--------------------------------------------------------------------//
 
-// TODO: what is ownProps?
+
 const mapStateToProps = ({ user }, ownProps) => ({
   phoneNumber:      user.phoneNumber,
-  firebaseUserObj:  user.firebaseUserObj,
-  authToken:        user.authToken,
-  user:             user.user,
+  firebaseUserObj:  user.firebaseUserObj
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  attemptToLoginUser:  () => dispatch(attemptToLoginUser()),
+  debugSignIn:  (email, password) => dispatch(debugSignIn(email, password)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoadingScreen);
+)(DebugLoginScreen);
