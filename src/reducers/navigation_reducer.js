@@ -3,7 +3,7 @@ import * as _                 from 'lodash';
 import { NavigationActions }  from 'react-navigation';
 
 // Local Imports
-import { AppNavigator }                from '../utilities/app_navigator.js';
+import { AppNavigator }                from '../router/app_navigator.js';
 import * as NavigationActionConstants  from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//

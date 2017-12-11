@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 // Local Imports
 import configureStore         from './store'
-import AppWithNavigationState from './utilities/app_navigator';
+import AppWithNavigationState from './router/app_navigator';
 
 //--------------------------------------------------------------------//
 

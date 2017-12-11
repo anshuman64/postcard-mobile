@@ -18,6 +18,11 @@ export const styles = StyleSheet.create({
     elevation: 50,
     backgroundColor: '#fafafa',
   },
+  countryListView: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#fafafa'
+  },
   chooseCountryView: {
     flexDirection: 'column',
     justifyContent: 'center',
