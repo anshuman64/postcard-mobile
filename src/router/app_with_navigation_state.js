@@ -2,8 +2,6 @@
 import React                     from 'react';
 import RN                        from 'react-native';
 import { addNavigationHelpers }  from 'react-navigation';
-import Icon                      from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon                   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { AppNavigator } from './app_navigator.js';
