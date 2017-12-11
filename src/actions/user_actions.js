@@ -50,9 +50,9 @@ export const receiveAuthToken = (data) => {
 //--------------------------------------------------------------------//
 
 // LoginScreen: Updates global state with inputted phone number and made up confirmation code (as a string)
-// export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
-//     return new Promise(() => dispatch(receiveConfirmationCodeObj({phoneNumber: phoneNumber, confirmationCodeObj: '123456'})));
-// };
+export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
+    return new Promise(() => dispatch(receiveConfirmationCodeObj({phoneNumber: phoneNumber, confirmationCodeObj: '123456'})));
+};
 
 // LoginScreen: Same as getConfirmationCodeAndChangeScreens, without transition to ConfirmationCodeScreen; used for Resend SMS button on ConfirmationCodeScreen
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {

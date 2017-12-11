@@ -3,7 +3,7 @@ import React                                 from 'react';
 import { Platform, StyleSheet }  from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from './style_utility.js';
+import { scale, scaleFont } from '../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
