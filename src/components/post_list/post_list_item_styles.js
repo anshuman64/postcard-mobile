@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from '../../utilities/style_utility.js';
+import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -17,12 +17,12 @@ export const styles = RN.StyleSheet.create({
     paddingLeft: scale(2),
     paddingRight: scale(2),
     paddingTop: scale(2),
-    backgroundColor: '#fafafa',
+    backgroundColor: COLORS.grey50,
   },
   body: {
     width: '100%',
     padding: scale(8),
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
     // borderColor: '#656565',
     // borderWidth: 0.1 * scaleFactor,
   },
@@ -50,7 +50,7 @@ export const styles = RN.StyleSheet.create({
   heartIcon: {
     fontSize: scaleFont(9),
     marginRight: scale(4),
-    color: '#007aff'
+    color: COLORS.appleBlue
   },
   likeCountText: {
     fontSize: scaleFont(6),
