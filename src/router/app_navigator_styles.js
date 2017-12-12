@@ -10,6 +10,10 @@ import { scale, scaleFont } from '../utilities/style_utility.js';
 
 
 export var styles = RN.StyleSheet.create({
+  headerTitle: {
+    height: '100%'
+
+  },
   backIcon: {
     height: '100%',
     width: scale(22),
@@ -21,14 +25,14 @@ export var styles = RN.StyleSheet.create({
   optionsIcon: {
     height: '100%',
     width: scale(20),
-    fontSize: scaleFont(7),
+    fontSize: scaleFont(14),
     textAlign: 'center',
     textAlignVertical: 'center'
   },
   noteIcon: {
     height: '100%',
     width: scale(22),
-    fontSize: scaleFont(8),
+    fontSize: scaleFont(14),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#007aff',
