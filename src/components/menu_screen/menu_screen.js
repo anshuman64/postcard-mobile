@@ -12,9 +12,9 @@ import { goBack } from '../../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 class MenuScreen extends React.Component {
-  static navigationOptions = ({navigation}) => ({
-    headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(goBack())} style={styles.backIcon}/>
-  })
+  static navigationOptions = {
+    header: null,
+  }
 
   constructor(props) {
     super(props);
@@ -45,6 +45,15 @@ class MenuScreen extends React.Component {
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
+
+  _renderHeader() {
+    return (
+      <RN.View style={styles.header}>
+        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
+        <RN.Text style={styles.shareButtonText} onPress={() => this._onPressShare()}>Share</RN.Text>
+      </RN.View>
+    )
+  }
 
   _renderSupportButton() {
     return (
@@ -109,6 +118,7 @@ class MenuScreen extends React.Component {
   render() {
     return (
       <RN.View style={ styles.container }>
+        {this._renderHeader()}
         {this._renderSupportButton()}
         {this._renderFeedbackButton()}
         {this._renderAboutButton()}

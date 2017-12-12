@@ -20,6 +20,13 @@ export const styles = RN.StyleSheet.create({
     paddingLeft: '8%',
     paddingTop: '1%'
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '10%',
+    width: '100%'
+  },
   menuItemView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',

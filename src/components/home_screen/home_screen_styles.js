@@ -3,17 +3,17 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from '../utilities/style_utility.js';
+import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
 export const styles = RN.StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: scale(100),
-    backgroundColor: '#fafafa'
+    height: '100%',
+    backgroundColor: COLORS.grey50
   },
 });

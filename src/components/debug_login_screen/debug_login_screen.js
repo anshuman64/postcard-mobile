@@ -24,7 +24,7 @@ class DebugLoginScreen extends React.Component {
     this.state = {
       emailInput:     'insiya@debug.io',
       passwordInput:  'password',
-      isLoading: false,
+      isLoading:      false,
     };
   }
 
@@ -39,7 +39,7 @@ class DebugLoginScreen extends React.Component {
       .then(() => {
         this.setState({ isLoading: false }, () => this.props.navigation.dispatch(toHomeScreen()));
       }).catch((error) => {
-        debugger
+        console.error(error);
       });
     })
   }
