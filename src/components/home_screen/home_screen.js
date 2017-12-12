@@ -11,9 +11,15 @@ import samplePosts  from '../../test_data/sample_posts.js';
 
 
 class HomeScreen extends React.Component {
+
+  componentDidMount() {
+    // this.props.getAllPosts(this.props.authToken);
+    // debugger;
+  }
+
   render() {
     return (
-      <PostList data={samplePosts} />
+      <PostList data={this.props.postsCache} />
     )
   }
 }

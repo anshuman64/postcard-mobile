@@ -2,19 +2,21 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import HomeScreen    from './home_screen.js';
-import { getPosts }  from '../../actions/post_actions.js';
+import HomeScreen       from './home_screen.js';
+import { getAllPosts }  from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user }, ownProps) => ({
+const mapStateToProps = ({ user, posts, postsCache }, ownProps) => ({
   authToken: user.authToken,
+  allPosts: posts.allPosts,
+  postsCache: postsCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getPosts: (queryParams, authToken) => dispatch(getPosts(queryParams, authToken)),
+  getAllPosts: (queryParams, authToken) => dispatch(getAllPosts(queryParams, authToken)),
 });
 
 export default connect(
