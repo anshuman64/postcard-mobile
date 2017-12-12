@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from '../utilities/style_utility.js';
+import { scale, scaleFont, COLORS } from '../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -20,7 +20,7 @@ export var styles = RN.StyleSheet.create({
     fontSize: scaleFont(15),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#212121',
+    color: COLORS.grey900,
   },
   optionsIcon: {
     height: '100%',
@@ -35,6 +35,6 @@ export var styles = RN.StyleSheet.create({
     fontSize: scaleFont(14),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#007aff',
+    color: COLORS.appleBlue,
   },
 })
