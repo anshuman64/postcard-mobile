@@ -54,10 +54,10 @@ class NewPostScreen extends React.Component {
 
   _renderHeader() {
     return (
-      <View style={styles.header}>
+      <RN.View style={styles.header}>
         <RN.Text style={styles.shareButtonText} onPress={() => this._onPressShare()}>Share</RN.Text>,
         <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
-      </View>
+      </RN.View>
     )
   }
 
