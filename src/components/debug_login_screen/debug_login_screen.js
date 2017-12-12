@@ -14,6 +14,9 @@ import { toHomeScreen }                                from '../../actions/navig
 
 
 class DebugLoginScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  }
 
   constructor(props) {
     super(props);
@@ -72,6 +75,7 @@ class DebugLoginScreen extends React.Component {
         onChangeText={(value) => setState({ emailInput: value })}
         value={this.state.passwordInput}
         underlineColorAndroid={'transparent'}
+        secureTextEntry={true}
       />
     )
   }

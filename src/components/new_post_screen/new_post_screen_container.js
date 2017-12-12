@@ -9,10 +9,9 @@ import { createPost }  from '../../actions/post_actions.js';
 //--------------------------------------------------------------------//
 
 
-// const mapStateToProps = ({ user }, ownProps) => ({
-//   phoneNumber: user.phoneNumber,
-//   confirmationCodeObj: user.confirmationCodeObj
-// });
+const mapStateToProps = ({ user }, ownProps) => ({
+  authToken: user.authToken,
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   createPost: (post) => dispatch(createPost(post))

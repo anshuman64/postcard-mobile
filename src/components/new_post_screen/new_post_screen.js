@@ -1,15 +1,24 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
-import Icon   from 'react-native-vector-icons/Ionicons';
+import React     from 'react';
+import RN        from 'react-native';
+import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }  from './new_post_screen_styles.js';
-import { goBack }         from '../../actions/navigation_actions.js';
+import { goBack }  from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
 class NewPostScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state
+
+    return {
+      headerRight: <RN.Text style={styles.shareButtonText} onPress={() => params.onPressShare}>Share</RN.Text>,
+      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(goBack())} style={styles.backIcon}/>
+    }
+  }
+
   constructor(props) {
     super(props);
 
@@ -19,6 +28,10 @@ class NewPostScreen extends React.Component {
     };
 
     this._onPressShare = this._onPressShare.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({ onPressShare: this._onPressShare });
   }
 
   //--------------------------------------------------------------------//
@@ -39,7 +52,7 @@ class NewPostScreen extends React.Component {
   }
 
   _onPressShare() {
-    this.props.createPost(this.state.postText);
+    this.props.createPost(this.props.authToken, this.state.postText);
   }
 
   //--------------------------------------------------------------------//
