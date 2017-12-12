@@ -2,24 +2,24 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import HomeScreen       from './home_screen.js';
-import { getAllPosts }  from '../../actions/post_actions.js';
+import LikedPostsTab      from './liked_posts_tab.js';
+import { getLikedPosts }  from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
 const mapStateToProps = ({ user, posts, postsCache }, ownProps) => ({
-  authToken: user.authToken,
-  allPosts: posts.allPosts,
-  postsCache: postsCache
+  authToken:   user.authToken,
+  likedPosts:  posts.likedPosts,
+  postsCache:  postsCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getAllPosts: (authToken, queryParams) => dispatch(getAllPosts(authToken, queryParams)),
+  getLikedPosts: (authToken, queryParams) => dispatch(getLikedPosts(authToken, queryParams)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomeScreen);
+)(LikedPostsTab);

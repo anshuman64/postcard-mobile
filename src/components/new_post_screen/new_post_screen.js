@@ -4,9 +4,9 @@ import RN        from 'react-native';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }  from './new_post_screen_styles.js';
-import { COLORS }  from '../../utilities/style_utility.js';
-import { goBack }  from '../../actions/navigation_actions.js';
+import { styles }        from './new_post_screen_styles.js';
+import { COLORS }        from '../../utilities/style_utility.js';
+import { toHomeScreen }  from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -42,7 +42,7 @@ class NewPostScreen extends React.Component {
   _onPressShare = () => {
     this.props.createPost(this.props.authToken, { body: this.state.postText })
       .then(() => {
-        this.props.navigation.dispatch(goBack());
+        this.props.navigation.dispatch(toHomeScreen());
       })
   }
 

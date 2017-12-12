@@ -3,8 +3,8 @@ import React             from 'react';
 import { TabNavigator }  from 'react-navigation';
 
 // Local Imports
-import AuthoredPostsTab                         from '../../../components/user_screen/authored_posts_tab.js';
-import LikedPostsTab                            from '../../../components/user_screen/liked_posts_tab.js';
+import AuthoredPostsTabContainer                from '../../../components/user_screen/authored_posts_tab_container.js';
+import LikedPostsTabContainer                   from '../../../components/user_screen/liked_posts_tab_container.js';
 import { styles }                               from './user_tab_navigator_styles.js';
 import { COLORS }                               from '../../../utilities/style_utility.js';
 import { toAuthoredPostsTab, toLikedPostsTab }  from '../../../actions/navigation_actions.js';
@@ -14,14 +14,14 @@ import { toAuthoredPostsTab, toLikedPostsTab }  from '../../../actions/navigatio
 
 export const UserTabNavigator = TabNavigator({
   AuthoredPostsTab: {
-    screen: AuthoredPostsTab,
+    screen: AuthoredPostsTabContainer,
     navigationOptions:  ({navigation}) => ({
       tabBarLabel:      'Posts',
       tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toAuthoredPostsTab())}}
     })
   },
   LikedPostsTab: {
-    screen: LikedPostsTab,
+    screen: LikedPostsTabContainer,
     navigationOptions:  ({navigation}) => ({
       tabBarLabel:      'Likes',
       tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toLikedPostsTab())}}
