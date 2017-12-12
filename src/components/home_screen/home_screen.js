@@ -17,6 +17,18 @@ class HomeScreen extends React.Component {
     // debugger;
   }
 
+  // _renderHeader() {
+  //   return (
+  //     // <RN.Image
+  //     //   style={styles.headerTitle}
+  //     //   source={require('../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+  //     //   resizeMode='contain'
+  //     // />,
+  //     // <Icon name='options-vertical' onPress={() => navigation.dispatch(toMenuScreen())} style={styles.optionsIcon} />,
+  //     // <Icon name='note' onPress={() => navigation.dispatch(toNewPostScreen())} style={styles.noteIcon} />,
+  //   )
+  // }
+
   render() {
     return (
       <PostList data={samplePosts} />
