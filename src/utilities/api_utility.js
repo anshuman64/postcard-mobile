@@ -64,7 +64,9 @@ export const get = (authToken, path, queryParams) => {
     headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
   };
 
-  return callApi(BASE_URL + path + getQueryString(queryParams), requestConfig);
+  let url = BASE_URL + path + getQueryString(queryParams);
+
+  return callApi(url, requestConfig);
 };
 
 export const post = (authToken, path, payload) => {
@@ -74,7 +76,9 @@ export const post = (authToken, path, payload) => {
     body:    JSON.stringify(payload)
   };
 
-  return callApi(BASE_URL + path, requestConfig);
+  let url = BASE_URL + path;
+
+  return callApi(url, requestConfig);
 };
 
 export const put = (authToken, path, payload) => {
@@ -84,7 +88,9 @@ export const put = (authToken, path, payload) => {
     body:    JSON.stringify(payload)
   };
 
-  return callApi(BASE_URL + path, requestConfig);
+  let url = BASE_URL + path;
+
+  return callApi(url, requestConfig);
 };
 
 export const del = (authToken, path) => {
@@ -93,5 +99,7 @@ export const del = (authToken, path) => {
     headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
   };
 
-  return callApi(BASE_URL + path, requestConfig);
+  let url = BASE_URL + path;
+
+  return callApi(url, requestConfig);
 };

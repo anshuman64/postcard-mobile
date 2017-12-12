@@ -2,7 +2,6 @@
 import React  from 'react';
 import RN     from 'react-native';
 import * as _ from 'lodash';
-import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import PostList     from '../post_list/post_list.js';
@@ -23,7 +22,7 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getAllPosts(this.props.authToken, { limit: 1, offset: 1 })
+    this.props.getAllPosts(this.props.authToken, { limit: 10, offset: this.state.allPostsData.length })
       .then(() => {
         _.forEach(this.props.allPosts, (id) => {
           this.state.allPostsData.push(this.props.postsCache[id])
