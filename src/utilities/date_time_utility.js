@@ -13,6 +13,7 @@ export function renderDate(date) {
   let todayDate = new Date(); // current date-time
   let postDate = new Date(date); // post's date-time
   let diff = todayDate - postDate; // time difference in milliseconds
+  let minsDiff = diff / (1000 * 60); // time difference in hours
   let hoursDiff = diff / (1000 * 3600); // time difference in hours
 
   let hour = postDate.getHours();
@@ -26,8 +27,14 @@ export function renderDate(date) {
     hour = hour % 12;
   }
 
+  // If postDate was < 60 mins ago, return format 'xx hours ago'
+  if (minsDiff < 1) {
+    return 'Just now';
   // If postDate was < 20 hours ago, return format 'xx hours ago'
-  if (hoursDiff < 20) {
+} else if (minsDiff < 60) {
+    return Math.floor(minsDiff) + ' mins ago';
+  // If postDate was within 48 hours ago and the day was 1 day ago, return format 'Yesterday at xx:xx AM'
+  } else if (hoursDiff < 20) {
     return Math.floor(hoursDiff) + ' hours ago';
   // If postDate was within 48 hours ago and the day was 1 day ago, return format 'Yesterday at xx:xx AM'
   } else if (diff < 172800000 && todayDate.getDate() - postDate.getDate() === 1) {
