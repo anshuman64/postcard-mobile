@@ -17,7 +17,7 @@ const mapStateToProps = ({ user }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  attemptToLoginUser:  () => dispatch(attemptToLoginUser()),
+  attemptToLoginUser: (successCallback, errorCallback) => dispatch(attemptToLoginUser(successCallback, errorCallback)),
 });
 
 export default connect(
