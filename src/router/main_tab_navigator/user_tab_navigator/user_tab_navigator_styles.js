@@ -3,20 +3,20 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from '../utilities/style_utility.js';
+import { scale, scaleFont } from '../../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
+
 
 export var styles = RN.StyleSheet.create({
   style: {
     backgroundColor: '#ffffff'
   },
-  icon: {
-    fontSize: scaleFont(8),
-    color: '#212121',
+  indicatorStyle: {
+    backgroundColor: '#007aff'
   },
-  iconFocused: {
-    color: '#007aff'
-  }
+  labelStyle: {
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+  },
 })
