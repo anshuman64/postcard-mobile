@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from '../../utilities/style_utility.js';
+import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -14,7 +14,7 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: '#fafafa'
+    backgroundColor: COLORS.grey50
   },
   topView: {
     flexDirection: 'column',
@@ -37,15 +37,15 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(18),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#212121',
-    borderBottomColor: '#212121',
+    color: COLORS.grey900,
+    borderBottomColor: COLORS.grey900,
     borderBottomWidth: scale(0.3),
   },
   nextButtonBackground: {
     width: scale(100),
     height: scale(16),
     borderRadius: scale(5),
-    backgroundColor: '#007aff',
+    backgroundColor: COLORS.appleBlue,
     marginTop: '5%'
   },
   nextButtonText: {
@@ -55,6 +55,6 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(14),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#ffffff',
+    color: 'white',
   },
 });

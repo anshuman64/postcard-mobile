@@ -11,6 +11,9 @@ import { goBack }  from '../../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 class NewPostScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  }
 
   constructor(props) {
     super(props);
@@ -21,10 +24,6 @@ class NewPostScreen extends React.Component {
     };
 
     this._onPressShare = this._onPressShare.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.navigation.setParams({ onPressShare: this._onPressShare });
   }
 
   //--------------------------------------------------------------------//
@@ -41,12 +40,10 @@ class NewPostScreen extends React.Component {
   }
 
   _onPressShare = () => {
-    console.log('hey')
-    this.props.createPost(this.props.authToken, this.state.postText)
-      // .then(() => {
-      //   debugger;
-      //   this.props.navigation.dispatch(goBack());
-      // })
+    this.props.createPost(this.props.authToken, { body: this.state.postText })
+      .then(() => {
+        this.props.navigation.dispatch(goBack());
+      })
   }
 
   //--------------------------------------------------------------------//
@@ -56,8 +53,8 @@ class NewPostScreen extends React.Component {
   _renderHeader() {
     return (
       <RN.View style={styles.header}>
-        <RN.Text style={styles.shareButtonText} onPress={() => this._onPressShare()}>Share</RN.Text>,
         <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
+        <RN.Text style={styles.shareButtonText} onPress={() => this._onPressShare()}>Share</RN.Text>
       </RN.View>
     )
   }

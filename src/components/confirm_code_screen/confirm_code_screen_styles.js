@@ -18,6 +18,13 @@ export const styles = RN.StyleSheet.create({
     height: '100%',
     backgroundColor: COLORS.grey50
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '10%',
+    width: '100%'
+  },
   titleText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
     fontSize: scaleFont(18),
