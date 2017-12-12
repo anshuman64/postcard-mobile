@@ -3,7 +3,6 @@ import React                                                from 'react';
 import RN                                                   from 'react-native';
 import { StackNavigator, TabNavigator, NavigationActions }  from 'react-navigation';
 import Icon                                                 from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon                                              from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import DebugLoginScreenContainer      from '../components/debug_login_screen/debug_login_screen_container.js';
@@ -21,30 +20,10 @@ import { styles }                     from './app_navigator_styles.js';
 
 
 export const AppNavigator = StackNavigator({
-  LoadingScreen: {
-    screen: LoadingScreenContainer,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  DebugLoginScreen: {
-    screen: DebugLoginScreenContainer,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  LoginScreen: {
-    screen: LoginScreenContainer,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  ConfirmCodeScreen: {
-    screen: ConfirmCodeScreenContainer,
-    navigationOptions: ({navigation}) => ({
-      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={styles.backIcon}/>
-    }),
-  },
+  // LoadingScreen: { screen: LoadingScreenContainer },
+  DebugLoginScreen: { screen: DebugLoginScreenContainer },
+  LoginScreen: { screen: LoginScreenContainer },
+  ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
   MainTabNavigator: {
     screen: MainTabNavigator,
     navigationOptions: ({navigation}) => ({
@@ -57,19 +36,8 @@ export const AppNavigator = StackNavigator({
       headerLeft:  <Icon name='note' onPress={() => navigation.dispatch(NavigationActionCreators.toNewPostScreen())} style={styles.noteIcon} />,
     })
    },
-  NewPostScreen: {
-   screen: NewPostScreenContainer,
-   navigationOptions: ({navigation}) => ({
-     headerRight:  <RN.Text style={styles.shareButtonText}>Share</RN.Text>,
-     headerLeft:   <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={styles.backIcon}/>
-   }),
-  },
-  MenuScreen: {
-   screen: MenuScreen,
-   navigationOptions: ({navigation}) => ({
-     headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(NavigationActionCreators.goBack())} style={styles.backIcon}/>
-   }),
-  }
+  NewPostScreen: { screen: NewPostScreenContainer },
+  MenuScreen: { screen: MenuScreen }
 });
 
 

@@ -2,17 +2,20 @@
 import React                                   from 'react';
 import RN                                      from 'react-native';
 import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
-import Icon                                    from 'react-native-vector-icons/Ionicons';
+import Ionicon                                 from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }                   from './confirm_code_screen_styles.js';
 import { setStateInAnimationFrame } from '../../utilities/component_utility.js';
-import { toMainNavigator, goBack }  from '../../actions/navigation_actions.js';
+import { toHomeScreen, goBack }     from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 class ConfirmCodeScreen extends React.Component {
+  static navigationOptions = ({navigation}) => ({
+    headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(goBack())} style={styles.backIcon}/>
+  })
 
   constructor(props) {
     super(props);
@@ -89,7 +92,7 @@ class ConfirmCodeScreen extends React.Component {
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
       this.props.verifyConfirmationCode(this.props.phoneNumber, this.props.confirmationCodeObj, value).then(() => {
-        this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()))
+        this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toHomeScreen()))
       }).catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
       })
     }

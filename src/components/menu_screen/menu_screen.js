@@ -1,24 +1,30 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
-import Icon   from 'react-native-vector-icons/SimpleLineIcons';
+import React     from 'react';
+import RN        from 'react-native';
+import Icon      from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }                    from './menu_screen_styles.js';
 import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { goBack } from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
 class MenuScreen extends React.Component {
-    constructor(props) {
-      super(props);
+  static navigationOptions = ({navigation}) => ({
+    headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(goBack())} style={styles.backIcon}/>
+  })
 
-      this.state = {
-        isSupportPressed:   false,
-        isFeedbackPressed:  false,
-        isAboutPressed:     false,
-      };
-    }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isSupportPressed:   false,
+      isFeedbackPressed:  false,
+      isAboutPressed:     false,
+    };
+  }
 
   //--------------------------------------------------------------------//
   // Callback Methods

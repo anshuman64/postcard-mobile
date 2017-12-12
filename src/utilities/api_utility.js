@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 //--------------------------------------------------------------------//
 
 
-const BASE_URL         = 'http://192.168.2.2:3000/api';
+const BASE_URL         = 'http://192.168.2.5:3000/api';
 const DEFAULT_HEADERS  = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
