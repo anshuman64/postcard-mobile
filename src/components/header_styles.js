@@ -5,18 +5,15 @@ import RN     from 'react-native';
 // Local Imports
 import { scale, scaleFont } from '../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
 
-
-export var styles = RN.StyleSheet.create({
-  style: {
-    backgroundColor: '#ffffff'
+export const styles = RN.StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    height: scale(100),
+    backgroundColor: '#fafafa'
   },
-  indicatorStyle: {
-    backgroundColor: '#007aff'
-  },
-  labelStyle: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-  },
-})
+});

@@ -9,7 +9,7 @@ import DebugLoginScreenContainer          from '../components/debug_login_screen
 import LoadingScreenContainer             from '../components/loading_screen/loading_screen_container.js';
 import LoginScreenContainer               from '../components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer         from '../components/confirm_code_screen/confirm_code_screen_container.js';
-import { MainTabNavigator }               from './main_tab_navigator.js';
+import { MainTabNavigator }               from './main_tab_navigator/main_tab_navigator.js';
 import NewPostScreenContainer             from '../components/new_post_screen/new_post_screen_container.js';
 import MenuScreen                         from '../components/menu_screen/menu_screen.js';
 import { toMenuScreen, toNewPostScreen }  from '../actions/navigation_actions.js';
@@ -38,8 +38,6 @@ export const AppNavigator = StackNavigator({
    },
   NewPostScreen: { screen: NewPostScreenContainer },
   MenuScreen: { screen: MenuScreen }
-}, {
-  headerMode: 'none'
 });
 
 
