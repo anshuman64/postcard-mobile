@@ -20,7 +20,7 @@ import { styles }                         from './app_navigator_styles.js';
 
 
 export const AppNavigator = StackNavigator({
-  // LoadingScreen: { screen: LoadingScreenContainer },
+  LoadingScreen: { screen: LoadingScreenContainer },
   DebugLoginScreen: { screen: DebugLoginScreenContainer },
   LoginScreen: { screen: LoginScreenContainer },
   ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
