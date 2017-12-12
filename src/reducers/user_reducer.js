@@ -39,7 +39,7 @@ const UserReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case USER_ACTION_TYPES.RECEIVE_USER:
       newState.user = action.data;
-
+      
       return newState;
     default:
       return state;

@@ -18,7 +18,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       _.forEach(action.data, (post) => {
         newState[post.id] = post;
       });
-
+      
       return newState;
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState[action.data.id] = action.data;

@@ -14,9 +14,9 @@ import { COLORS }                   from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 class ConfirmCodeScreen extends React.Component {
-  static navigationOptions = ({navigation}) => ({
-    headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(goBack())} style={styles.backIcon}/>
-  })
+  static navigationOptions = {
+    header: null,
+  }
 
   constructor(props) {
     super(props);
@@ -119,6 +119,14 @@ class ConfirmCodeScreen extends React.Component {
 // Render Methods
 //--------------------------------------------------------------------//
 
+  _renderHeader() {
+    return (
+      <RN.View style={styles.header}>
+        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
+      </RN.View>
+    )
+  }
+
   _renderTitle() {
     return (
       <RN.Text style={styles.titleText}>
@@ -189,6 +197,7 @@ class ConfirmCodeScreen extends React.Component {
   render() {
     return (
       <RN.View style={styles.container}>
+        {this._renderHeader()}
         <RN.View style={{flex: 3}} />
           {this._renderTitle()}
           {this._renderSubtitle()}

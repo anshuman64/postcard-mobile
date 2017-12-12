@@ -1,37 +1,41 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
+import * as _ from 'lodash';
+import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import PostList     from '../post_list/post_list.js';
 import samplePosts  from '../../test_data/sample_posts.js';
+import { styles }   from './home_screen_styles.js';
 
 
 //--------------------------------------------------------------------//
 
 
 class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    this.props.getAllPosts(this.props.authToken);
-    // debugger;
+    this.state = {
+      allPostsData: [],
+    };
   }
 
-  // _renderHeader() {
-  //   return (
-  //     // <RN.Image
-  //     //   style={styles.headerTitle}
-  //     //   source={require('../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
-  //     //   resizeMode='contain'
-  //     // />,
-  //     // <Icon name='options-vertical' onPress={() => navigation.dispatch(toMenuScreen())} style={styles.optionsIcon} />,
-  //     // <Icon name='note' onPress={() => navigation.dispatch(toNewPostScreen())} style={styles.noteIcon} />,
-  //   )
-  // }
+  componentDidMount() {
+    this.props.getAllPosts(this.props.authToken, { limit: 1, offset: 1 })
+      .then(() => {
+        _.forEach(this.props.allPosts, (id) => {
+          this.state.allPostsData.push(this.props.postsCache[id])
+        })
+      })
+  }
 
   render() {
     return (
-      <PostList data={samplePosts} />
+      <RN.View style={styles.container} >
+        <PostList data={this.state.allPostsData} />
+      </RN.View>
     )
   }
 }
