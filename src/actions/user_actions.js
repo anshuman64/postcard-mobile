@@ -53,15 +53,13 @@ export const receiveUser = (data) => {
 
 export const debugSignIn = (email, password) => (dispatch) => {
   let handleExistingUser = (authToken) => {
-    console.log('handleExisting')
     return APIUtility.get(authToken, '/users')
       .then((user) => {
         dispatch(receiveUser(user));
-      }/*, handleNewUser(authToken)*/);
+      }, handleNewUser.bind(this, authToken));
   };
 
   let handleNewUser = (authToken) => {
-    console.log('handleNew')
     return APIUtility.post(authToken, '/users', { phone_number: email })
       .then((newUser) => {
         dispatch(receiveUser(newUser));
@@ -89,21 +87,17 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
 
 export const verifyConfirmationCode = (phoneNumber, confirmationCodeObj, inputtedCode) => (dispatch) => {
   let handleExistingUser = (authToken) => {
-    console.log('handleExisting')
     return APIUtility.get(authToken, '/users')
       .then((user) => {
-        debugger;
         dispatch(receiveUser(user));
-      }, handleNewUser(authToken));
+      }, handleNewUser.bind(this, authToken));
   };
 
   let handleNewUser = (authToken) => {
-    console.log('handleNew')
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
       .then((newUser) => {
-        debugger;
         dispatch(receiveUser(newUser));
-      }, (error) => console.error(error));
+      });
   };
 
   return confirmationCodeObj.confirm(inputtedCode)
