@@ -14,10 +14,15 @@ class LoadingScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = this.props.attemptToLoginUser()
-      .then(() => {
-        this.props.navigation.dispatch(toHomeScreen());
-      }).catch(this.props.navigation.dispatch(toLoginScreen()))
+    let successCallback = () => {
+      this.props.navigation.dispatch(toHomeScreen());
+    };
+
+    let errorCallback = () => {
+      this.props.navigation.dispatch(toLoginScreen());
+    };
+
+    this.unsubscribe = this.props.attemptToLoginUser(successCallback, errorCallback);
   }
 
   componentWillUnmount() {
