@@ -110,21 +110,22 @@ export const verifyConfirmationCode = (phoneNumber, confirmationCodeObj, inputte
     });
 };
 
-export const attemptToLoginUser = () => (dispatch) => {
+export const attemptToLoginUser = (successCallback, errorCallback) => (dispatch) => {
   let listener = (firebaseUserObj) => {
     if (firebaseUserObj) {
       dispatch(receivePhoneNumber(firebaseUserObj._user.phoneNumber));
       dispatch(receiveFirebaseUserObj(firebaseUserObj));
 
-      return firebaseUserObj.getIdToken(true)
+      firebaseUserObj.getIdToken(true)
         .then((authToken) => {
           dispatch(receiveAuthToken(authToken));
           return APIUtility.get(authToken, '/users');
         }).then((user) => {
           dispatch(receiveUser(user));
+          successCallback();
         });
     } else {
-      return Promise.reject();
+      errorCallback();
     }
   };
 
