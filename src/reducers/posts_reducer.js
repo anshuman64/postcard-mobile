@@ -2,7 +2,7 @@
 import * as _ from 'lodash';
 
 // Local Imports
-import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../actions/post_actions';
+import { POST_ACTION_TYPES } from '../actions/post_actions';
 
 //--------------------------------------------------------------------//
 
@@ -19,21 +19,29 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    case RECEIVE_POSTS:
+    case POST_ACTION_TYPES.RECEIVE_ALL_POSTS:
       _.forEach(action.data, (post) => {
         newState.allPosts.push(post.id);
       });
 
-      // TODO: figure out how to add it to "authoredPosts"
+      return newState;
+    case POST_ACTION_TYPES.RECEIVE_AUTHORED_POSTS:
+      _.forEach(action.data, (post) => {
+        newState.authoredPosts.push(post.id);
+      });
 
       return newState;
-    case RECEIVE_POST:
+    case POST_ACTION_TYPES.RECEIVE_LIKED_POSTS:
+      _.forEach(action.data, (post) => {
+        newState.likedPosts.push(post.id);
+      });
+
+      return newState;
+    case POST_ACTION_TYPES.RECEIVE_POST:
       newState.allPosts.unshift(action.data.id);
 
-      // TODO: figure out how to add it to "authoredPosts"
-
       return newState;
-    case REMOVE_POST:
+    case POST_ACTION_TYPES.REMOVE_POST:
       _.remove(newState.allPosts, (postId) => {
         return postId === action.data.id;
       });
