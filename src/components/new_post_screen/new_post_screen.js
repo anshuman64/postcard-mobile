@@ -10,14 +10,6 @@ import { goBack }  from '../../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 class NewPostScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state
-
-    return {
-      headerRight: <RN.Text style={styles.shareButtonText} onPress={() => params.onPressShare}>Share</RN.Text>,
-      headerLeft: <Ionicon name='ios-arrow-round-back' onPress={() => navigation.dispatch(goBack())} style={styles.backIcon}/>
-    }
-  }
 
   constructor(props) {
     super(props);
@@ -40,24 +32,34 @@ class NewPostScreen extends React.Component {
 
   // Callback function to return to login screen
   _onBackIconPress() {
-    //Debug test
     this.props.navigation.dispatch(goBack());
-
-    // Real
-    // this.props.navigation.dispatch(goBack());
   }
 
   _onChangeText(value) {
     this.setState({ postText: value })
   }
 
-  _onPressShare() {
-    this.props.createPost(this.props.authToken, this.state.postText);
+  _onPressShare = () => {
+    console.log('hey')
+    this.props.createPost(this.props.authToken, this.state.postText)
+      // .then(() => {
+      //   debugger;
+      //   this.props.navigation.dispatch(goBack());
+      // })
   }
 
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
+
+  _renderHeader() {
+    return (
+      <View style={styles.header}>
+        <RN.Text style={styles.shareButtonText} onPress={() => this._onPressShare()}>Share</RN.Text>,
+        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
+      </View>
+    )
+  }
 
   _renderTextInput() {
     return (
@@ -77,6 +79,7 @@ class NewPostScreen extends React.Component {
   render() {
     return (
       <RN.View style={ styles.container }>
+        {this._renderHeader()}
         {this._renderTextInput()}
       </RN.View>
     )
