@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from '../../utilities/style_utility.js';
+import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -14,7 +14,7 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: '#fafafa'
+    backgroundColor: COLORS.grey50
   },
   topView: {
     flexDirection: 'column',
@@ -29,11 +29,11 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'row',
     width: scale(100),
     height: scale(16),
-    borderBottomColor: '#212121',
+    borderBottomColor: COLORS.grey900,
     borderBottomWidth: scale(0.3),
   },
   borderHighlighted: {
-    borderBottomColor: '#007aff',
+    borderBottomColor: COLORS.appleBlue,
     borderBottomWidth: scale(0.6),
   },
   countrySelectorText: {
@@ -43,7 +43,7 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#212121',
+    color: COLORS.grey900,
   },
   dropdownIcon: {
     position: 'absolute',
@@ -51,7 +51,7 @@ export const styles = RN.StyleSheet.create({
     height: scale(16),
     fontSize: scaleFont(8),
     textAlignVertical: 'center',
-    color: '#212121'
+    color: COLORS.grey900
   },
   phoneNumberView: {
     flexDirection: 'row',
@@ -66,8 +66,8 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#212121',
-    borderBottomColor: '#212121',
+    color: COLORS.grey900,
+    borderBottomColor: COLORS.grey900,
     borderBottomWidth: scale(0.3),
   },
   phoneNumberInput: {
@@ -76,12 +76,12 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#212121',
-    borderBottomColor: '#212121',
+    color: COLORS.grey900,
+    borderBottomColor: COLORS.grey900,
     borderBottomWidth: scale(0.3),
   },
   borderRed: {
-    borderBottomColor: '#ff313a',
+    borderBottomColor: COLORS.appleRed,
     borderBottomWidth: scale(0.6)
   },
   invalidNumberText: {
@@ -90,17 +90,17 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(6),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#ff313a'
+    color: COLORS.appleRed
   },
   nextButtonBackground: {
     width: scale(100),
     height: scale(16),
     borderRadius: scale(5),
-    backgroundColor: '#007aff'
+    backgroundColor: COLORS.appleBlue
   },
   nextButtonBackgroundDisabled: {
     borderRadius: scale(5),
-    backgroundColor: '#007aff7f',
+    backgroundColor: COLORS.appleBlue + '7f',
   },
   nextButtonText: {
     width: scale(100),
@@ -109,7 +109,7 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#ffffff',
+    color: 'white',
   },
   nextButtonTextDisabled: {
     color: '#ffffff7f',
@@ -121,7 +121,7 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(7.4),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#757575',
+    color: COLORS.grey600,
     textAlign: 'left',
     marginTop: '3%',
   },

@@ -11,6 +11,7 @@ import { styles }                                      from './login_screen_styl
 import CountryListModal                                from './country_list_modal.js';
 import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
 import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { COLORS }                                      from '../../utilities/style_utility.js';
 import { toConfirmCodeScreen }                         from '../../actions/navigation_actions.js';
 
 
@@ -181,7 +182,7 @@ class LoginScreen extends React.Component {
           onChangeText={(value) => this._onPhoneInputChangeText(value)}
           value={this.state.formattedPhoneNumber}
           placeholder='Phone Number'
-          placeholderTextColor='#bdbdbd'
+          placeholderTextColor={COLORS.grey400}
           underlineColorAndroid={'transparent'}
           onFocus={setStateInAnimationFrame(this, { isPhoneInputFocused: true})}
           onEndEditing={setStateInAnimationFrame(this, { isPhoneInputFocused: false})}
@@ -212,7 +213,7 @@ class LoginScreen extends React.Component {
         disabled={this.state.isNextButtonDisabled && !this.state.isLoading}
         >
         { this.state.isLoading ?
-          <RN.ActivityIndicator size='small' color='#bdbdbd' /> :
+          <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
           <RN.Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
             Next
           </RN.Text>
