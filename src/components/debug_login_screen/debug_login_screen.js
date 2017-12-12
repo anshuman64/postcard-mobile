@@ -36,8 +36,11 @@ class DebugLoginScreen extends React.Component {
     // Real Firebase API
     this.setState({isLoading: true}, () => {
     this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
-     .then(() => this.setState({ isLoading: false }, () => this.props.navigation.dispatch(toHomeScreen())))
-     // .catch((error) => console.error(error))
+      .then(() => {
+        this.setState({ isLoading: false }, () => this.props.navigation.dispatch(toHomeScreen()));
+      }).catch((error) => {
+        debugger
+      });
     })
   }
 
