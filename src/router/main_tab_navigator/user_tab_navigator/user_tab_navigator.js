@@ -3,10 +3,10 @@ import React             from 'react';
 import { TabNavigator }  from 'react-navigation';
 
 // Local Imports
-import AuthoredPostsTab                         from '../components/user_screen/authored_posts_tab.js';
-import LikedPostsTab                            from '../components/user_screen/liked_posts_tab.js';
+import AuthoredPostsTab                         from '../../../components/user_screen/authored_posts_tab.js';
+import LikedPostsTab                            from '../../../components/user_screen/liked_posts_tab.js';
 import { styles }                               from './user_tab_navigator_styles.js';
-import { COLORS }                               from '../utilities/style_utility.js';
+import { COLORS }                               from '../../../utilities/style_utility.js';
 import { toAuthoredPostsTab, toLikedPostsTab }  from '../../../actions/navigation_actions.js';
 
 
