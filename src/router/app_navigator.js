@@ -38,6 +38,8 @@ export const AppNavigator = StackNavigator({
    },
   NewPostScreen: { screen: NewPostScreenContainer },
   MenuScreen: { screen: MenuScreen }
+}, {
+  headerMode: 'none'
 });
 
 

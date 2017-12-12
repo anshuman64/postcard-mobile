@@ -18,6 +18,13 @@ export const styles = RN.StyleSheet.create({
     height: '100%',
     backgroundColor: '#fafafa'
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '10%',
+    width: '100%'
+  },
   textInput: {
     flex: 1,
     width: '100%',
