@@ -12,7 +12,6 @@ import { scale, scaleFont, COLORS } from '../utilities/style_utility.js';
 export var styles = RN.StyleSheet.create({
   headerTitle: {
     height: '100%'
-
   },
   backIcon: {
     height: '100%',

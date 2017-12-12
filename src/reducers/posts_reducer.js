@@ -23,7 +23,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       _.forEach(action.data, (post) => {
         newState.allPosts.push(post.id);
       });
-
+      
       return newState;
     case POST_ACTION_TYPES.RECEIVE_AUTHORED_POSTS:
       _.forEach(action.data, (post) => {
