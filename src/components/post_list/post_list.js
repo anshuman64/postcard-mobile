@@ -38,15 +38,15 @@ class PostList extends React.Component {
   _renderPostList() {
     return (
       <RN.FlatList
-        data={this.props.data}
+        data={ this.props.data }
         renderItem={ this._renderItem }
         keyExtractor={(item, index) => index}
         style={ styles.postList }
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
-        refreshControl={this._renderRefreshControl()}
-        ListFooterComponent={this._renderFooter}
+        refreshControl={ this._renderRefreshControl() }
+        ListFooterComponent={ this._renderFooter }
         />
     )
   }
