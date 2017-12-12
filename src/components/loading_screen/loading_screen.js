@@ -9,6 +9,10 @@ import { toHomeScreen, toLoginScreen }  from '../../actions/navigation_actions.j
 
 
 class LoadingScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  }
+
   componentDidMount() {
     this.unsubscribe = this.props.attemptToLoginUser()
       .then(() => {
