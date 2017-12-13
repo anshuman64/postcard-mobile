@@ -35,11 +35,12 @@ const UserReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case USER_ACTION_TYPES.RECEIVE_AUTH_TOKEN:
       newState.authToken = action.data;
+      console.log(action.data) // Debug Test
 
       return newState;
     case USER_ACTION_TYPES.RECEIVE_USER:
       newState.user = action.data;
-      
+
       return newState;
     default:
       return state;
