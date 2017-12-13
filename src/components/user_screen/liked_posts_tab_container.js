@@ -16,7 +16,7 @@ const mapStateToProps = ({ user, posts, postsCache }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getLikedPosts: (authToken, queryParams) => dispatch(getLikedPosts(authToken, queryParams)),
+  getLikedPosts: (authToken, isRefresh, queryParams) => dispatch(getLikedPosts(authToken, isRefresh, queryParams)),
 });
 
 export default connect(

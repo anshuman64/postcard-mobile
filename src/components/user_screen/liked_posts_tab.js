@@ -29,15 +29,14 @@ class LikedPostsTab extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.likedPostsData.length != 0 ) {
-      if (!(nextProps.likedPosts.data[0] < this.state.likedPostsData[this.state.likedPostsData.length-1].id)) {
-        this.state.likedPostsData = [];
-      }
-    }
+    if (!_.isEqual(this.props.likedPosts.data, nextProps.likedPosts.data)) {
+      let postsArray = [];
+      _.forEach(nextProps.likedPosts.data, (id) => {
+        postsArray.push(nextProps.postsCache[id])
+      })
 
-    _.forEach(nextProps.likedPosts.data, (id) => {
-      this.state.likedPostsData.push(nextProps.postsCache[id])
-    })
+      this.state.likedPostsData = postsArray;
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -47,7 +46,7 @@ class LikedPostsTab extends React.Component {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostList data={this.state.likedPostsData} />
+        <PostList data={this.state.likedPostsData} authToken={this.props.authToken} getPosts={this.props.getLikedPosts} isNew={this.props.likedPosts.isNew} isEnd={this.props.likedPosts.isEnd}/>
       </RN.View>
     )
   }
