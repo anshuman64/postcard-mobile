@@ -20,6 +20,10 @@ class LikedPostsTab extends React.Component {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentDidMount() {
     this.props.getLikedPosts(this.props.authToken, { limit: 3, offset: this.state.likedPostsData.length })
       .then(() => {
@@ -28,6 +32,10 @@ class LikedPostsTab extends React.Component {
         })
       })
   }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
 
   render() {
     return (
