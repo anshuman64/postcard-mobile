@@ -31,17 +31,12 @@ class HomeScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.allPostsData.length != 0 ) {
-      // If loading more posts, first id of allPosts should be less than last id of allPostsData
-      // If that's not the case, must be refreshing so reset allPostsData
-      if (!(nextProps.allPosts.data[0] < this.state.allPostsData[this.state.allPostsData.length-1].id)) {
-        this.state.allPostsData = [];
-      }
-    }
-
+    let postsArray = [];
     _.forEach(nextProps.allPosts.data, (id) => {
-      this.state.allPostsData.push(nextProps.postsCache[id])
+      postsArray.push(nextProps.postsCache[id])
     })
+
+    this.state.allPostsData = postsArray;
   }
 
 
