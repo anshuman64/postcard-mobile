@@ -29,15 +29,14 @@ class AuthoredPostsTab extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.authoredPostsData.length != 0 ) {
-      if (!(nextProps.authoredPosts.data[0] < this.state.authoredPostsData[this.state.authoredPostsData.length-1].id)) {
-        this.state.authoredPostsData = [];
-      }
-    }
+    if (!_.isEqual(this.props.authoredPosts.data, nextProps.authoredPosts.data)) {
+      let postsArray = [];
+      _.forEach(nextProps.authoredPosts.data, (id) => {
+        postsArray.push(nextProps.postsCache[id])
+      })
 
-    _.forEach(nextProps.authoredPosts.data, (id) => {
-      this.state.authoredPostsData.push(nextProps.postsCache[id])
-    })
+      this.state.authoredPostsData = postsArray;
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -47,7 +46,7 @@ class AuthoredPostsTab extends React.Component {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostList data={this.state.authoredPostsData} />
+        <PostList data={this.state.authoredPostsData} authToken={this.props.authToken} getPosts={this.props.getAuthoredPosts} isNew={this.props.authoredPosts.isNew} isEnd={this.props.authoredPosts.isEnd}/>
       </RN.View>
     )
   }

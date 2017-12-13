@@ -16,7 +16,7 @@ const mapStateToProps = ({ user, posts, postsCache }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getAuthoredPosts: (authToken, queryParams) => dispatch(getAuthoredPosts(authToken, queryParams)),
+  getAuthoredPosts: (authToken, isRefresh, queryParams) => dispatch(getAuthoredPosts(authToken, isRefresh, queryParams)),
 });
 
 export default connect(
