@@ -22,7 +22,7 @@ class LoginScreen extends React.Component {
   static navigationOptions = {
     header: null,
   }
-  
+
   constructor(props) {
     super(props);
 
@@ -239,7 +239,7 @@ class LoginScreen extends React.Component {
         animationType={'none'}
         >
         <RN.View style={ styles.container }>
-          <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
+          <CountryListModal countryIndex={this.state.countryIndex} setParentState={setStateCallback} setCountry={this.setCountry} />
         </RN.View>
       </RN.Modal>
     )

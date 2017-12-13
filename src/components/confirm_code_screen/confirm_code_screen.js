@@ -40,6 +40,10 @@ class ConfirmCodeScreen extends React.Component {
     this.render = this.render.bind(this);
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentDidMount() {
     this._startTimer();
   }

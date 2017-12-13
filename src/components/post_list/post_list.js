@@ -16,7 +16,6 @@ class PostList extends React.Component {
 
     this.state = {
       refreshing: false,
-      loading:    false,
     };
   }
 

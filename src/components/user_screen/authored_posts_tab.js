@@ -20,6 +20,10 @@ class AuthoredPostsTab extends React.Component {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentDidMount() {
     this.props.getAuthoredPosts(this.props.authToken, { limit: 3, offset: this.state.authoredPostsData.length })
       .then(() => {
