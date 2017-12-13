@@ -14,11 +14,12 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
+    case POST_ACTION_TYPES.REFRESH_ALL_POSTS:
     case POST_ACTION_TYPES.RECEIVE_ALL_POSTS:
       _.forEach(action.data, (post) => {
         newState[post.id] = post;
       });
-      
+
       return newState;
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState[action.data.id] = action.data;
