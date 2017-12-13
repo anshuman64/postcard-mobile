@@ -15,6 +15,11 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
   switch(action.type) {
     case POST_ACTION_TYPES.RECEIVE_ALL_POSTS:
+    case POST_ACTION_TYPES.REFRESH_ALL_POSTS:
+    case POST_ACTION_TYPES.RECEIVE_AUTHORED_POSTS:
+    case POST_ACTION_TYPES.REFRESH_AUTHORED_POSTS:
+    case POST_ACTION_TYPES.RECEIVE_LIKED_POSTS:
+    case POST_ACTION_TYPES.REFRESH_LIKED_POSTS:
       _.forEach(action.data, (post) => {
         newState[post.id] = post;
       });
@@ -26,10 +31,12 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
       newState[action.data.post_id].num_likes++;
+      newState[action.data.post_id].is_liked_by_user = true;
 
       return newState;
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
       newState[action.data.post_id].num_likes--;
+      newState[action.data.post_id].is_liked_by_user = false;
 
       return newState;
     default:

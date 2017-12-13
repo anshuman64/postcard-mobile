@@ -17,6 +17,8 @@ class PostList extends React.Component {
     this.state = {
       refreshing: false,
     };
+
+    this.onEndReachedCalledDuringMomentum = false;
   }
 
   //--------------------------------------------------------------------//
@@ -24,11 +26,20 @@ class PostList extends React.Component {
   //--------------------------------------------------------------------//
 
   _onRefresh() {
-    this.setState({refreshing: true}, () => this.setState({refreshing: false}));
+    this.setState({refreshing: true}, () => {
+      this.props.getPosts(this.props.authToken, true, {limit: 5}).then(() => {
+        this.setState({refreshing: false})
+      })
+    })
   }
 
   _onEndReached() {
-
+    if (!this.onEndReachedCalledDuringMomentum && this.props.data.length != 0 ) {
+      let lastPostId = this.props.data[this.props.data.length-1].id;
+      this.props.getPosts(this.props.authToken, false, {start_at: lastPostId, limit: 5}).then(() => {
+        this.onEndReachedCalledDuringMomentum = true;
+      })
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -45,6 +56,8 @@ class PostList extends React.Component {
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
+        onMomentumScrollBegin={() => {this.onEndReachedCalledDuringMomentum = false}}
+        onEndReached={() => this._onEndReached()}
         refreshControl={ this._renderRefreshControl() }
         ListFooterComponent={ this._renderFooter }
         />
