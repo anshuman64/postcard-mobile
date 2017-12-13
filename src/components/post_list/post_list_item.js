@@ -12,6 +12,10 @@ import { renderDate }  from '../../utilities/date_time_utility.js';
 
 
 class PostListItem extends React.PureComponent {
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
   _renderLikesCount(count) {
     // If likes < 1000, render the number as-is
     if (count < 1000) {
@@ -24,6 +28,10 @@ class PostListItem extends React.PureComponent {
       return (Math.floor(count / 100000) / 10).toFixed(1) + 'M';
     }
   }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
 
   render() {
     return(
