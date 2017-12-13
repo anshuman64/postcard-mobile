@@ -28,46 +28,40 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    case POST_ACTION_TYPES.REFRESH_ALL_POSTS:
-      newState.allPosts.data = [];
-      newState.allPosts.lastUpdated = new Date();
-
-      _.forEach(action.data, (post) => {
-        newState.allPosts.data.push(post.id);
-      });
-
-      return newState;
-    case POST_ACTION_TYPES.REFRESH_AUTHORED_POSTS:
-      newState.authoredPosts.data = [];
-      newState.authoredPosts.lastUpdated = new Date();
-
-      _.forEach(action.data, (post) => {
-        newState.authoredPosts.data.push(post.id);
-      });
-
-      return newState;
-    case POST_ACTION_TYPES.REFRESH_LIKED_POSTS:
-      newState.likedPosts.data = [];
-      newState.likedPosts.lastUpdated = new Date();
-
-      _.forEach(action.data, (post) => {
-        newState.likedPosts.data.push(post.id);
-      });
-
-      return newState;
     case POST_ACTION_TYPES.RECEIVE_ALL_POSTS:
+      if (newState.allPosts.data.length === 0) {
+        newState.allPosts.lastUpdated = new Date();
+      } else if (!(action.data[0].id < newState.allPosts.data[newState.allPosts.data.length-1])) {
+        newState.allPosts.data = [];
+        newState.allPosts.lastUpdated = new Date();
+      }
+
       _.forEach(action.data, (post) => {
         newState.allPosts.data.push(post.id);
       });
 
       return newState;
     case POST_ACTION_TYPES.RECEIVE_AUTHORED_POSTS:
+      if (newState.authoredPosts.data.length === 0) {
+        newState.authoredPosts.lastUpdated = new Date();
+      } else if (!(action.data[0].id < newState.authoredPosts.data[newState.authoredPosts.data.length-1])) {
+        newState.authoredPosts.data = [];
+        newState.authoredPosts.lastUpdated = new Date();
+      }
+
       _.forEach(action.data, (post) => {
         newState.authoredPosts.data.push(post.id);
       });
 
       return newState;
     case POST_ACTION_TYPES.RECEIVE_LIKED_POSTS:
+      if (newState.likedPosts.data.length === 0) {
+        newState.likedPosts.lastUpdated = new Date();
+      } else if (!(action.data[0].id < newState.likedPosts.data[newState.likedPosts.data.length-1])) {
+        newState.likedPosts.data = [];
+        newState.likedPosts.lastUpdated = new Date();
+      }
+
       _.forEach(action.data, (post) => {
         newState.likedPosts.data.push(post.id);
       });
@@ -75,6 +69,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState.allPosts.data.unshift(action.data.id);
+      newState.authoredPosts.data.unshift(action.data.id);
 
       return newState;
     case POST_ACTION_TYPES.REMOVE_POST:
