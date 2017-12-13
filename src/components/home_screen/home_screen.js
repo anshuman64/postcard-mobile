@@ -22,12 +22,62 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getAllPosts(this.props.authToken, { limit: 10, offset: this.state.allPostsData.length })
-      .then(() => {
-        _.forEach(this.props.allPosts, (id) => {
-          this.state.allPostsData.push(this.props.postsCache[id])
-        })
+    this.getPostData(null, 1);
+  }
+
+  getPostData(startAt, limit) {
+    let queryParams = {};
+
+    if (startAt) {
+      _.merge(queryParams, { start_at: startAt })
+    }
+
+    if (limit) {
+      _.merge(queryParams, { limit: limit })
+    }
+
+    if (queryParams != {}) {
+      this.props.getAllPosts(this.props.authToken, queryParams)
+    } else {
+      this.props.getAllPosts(this.props.authToken)
+    }
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.allPosts.data.length === 0) {
+      return;
+    }
+
+    if (this.state.allPostsData.length === 0) {
+      _.forEach(nextProps.allPosts.data, (id) => {
+        this.state.allPostsData.push(nextProps.postsCache[id])
       })
+
+      return;
+    }
+
+    // If refreshing, first id of allPosts should be greater than first id of allPostsData
+    if (nextProps.allPosts.data[0] > this.state.allPostsData[0].id) {
+      // Add elements to start of allPostsData until known post is reached
+      for (i = nextProps.allPosts.data.length-1; i >= 0; i--) {
+        if (nextProps.allPosts.data[i] > this.state.allPostsData[0].id) {
+          this.state.allPostsData.unshift(nextProps.postsCache[nextProps.allPosts.data[i]])
+        }
+      }
+
+      return;
+    }
+
+    // If loading more posts, last id of allPosts should be less than last id of allPostsData
+    if (nextProps.allPosts.data[nextProps.allPosts.data.length] < this.state.allPostsData[this.state.allPostsData.length].id) {
+      // Add elements to
+      _.forEach(nextProps.allPosts.data, (id) => {
+        this.state.allPostsData.push(nextProps.postsCache[id])
+      })
+
+      return;
+    }
   }
 
   render() {
