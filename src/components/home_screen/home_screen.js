@@ -4,7 +4,7 @@ import RN     from 'react-native';
 import * as _ from 'lodash';
 
 // Local Imports
-import PostListContainer     from '../post_list/post_list_container.js';
+import PostList              from '../post_list/post_list.js';
 import samplePosts           from '../../test_data/sample_posts.js';
 import { styles }            from './home_screen_styles.js';
 import { setStateCallback }  from '../../utilities/component_utility.js';
@@ -39,12 +39,14 @@ class HomeScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let postsArray = [];
-    _.forEach(nextProps.allPosts.data, (id) => {
-      postsArray.push(nextProps.postsCache[id])
-    })
+    if (!_.isEqual(this.props.allPosts.data, nextProps.allPosts.data)) {
+      let postsArray = [];
+      _.forEach(nextProps.allPosts.data, (id) => {
+        postsArray.push(nextProps.postsCache[id])
+      })
 
-    this.state.allPostsData = postsArray;
+      this.state.allPostsData = postsArray;
+    }
   }
 
 
@@ -55,7 +57,7 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostListContainer data={this.state.allPostsData} getPosts={this.props.getAllPosts} />
+        <PostList data={this.state.allPostsData} authToken={this.props.authToken} getPosts={this.props.getAllPosts} isNew={this.props.allPosts.isNew} isEnd={this.props.allPosts.isEnd}/>
       </RN.View>
     )
   }
