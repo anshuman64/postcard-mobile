@@ -25,12 +25,19 @@ class LikedPostsTab extends React.Component {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this.props.getLikedPosts(this.props.authToken, { limit: 3, offset: this.state.likedPostsData.length })
-      .then(() => {
-        _.forEach(this.props.likedPosts, (id) => {
-          this.state.likedPostsData.push(this.props.postsCache[id])
-        })
-      })
+    this.props.getLikedPosts(this.props.authToken)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.likedPostsData.length != 0 ) {
+      if (!(nextProps.likedPosts.data[0] < this.state.likedPostsData[this.state.likedPostsData.length-1].id)) {
+        this.state.likedPostsData = [];
+      }
+    }
+
+    _.forEach(nextProps.likedPosts.data, (id) => {
+      this.state.likedPostsData.push(nextProps.postsCache[id])
+    })
   }
 
   //--------------------------------------------------------------------//

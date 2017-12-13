@@ -25,13 +25,24 @@ class AuthoredPostsTab extends React.Component {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this.props.getAuthoredPosts(this.props.authToken, { limit: 3, offset: this.state.authoredPostsData.length })
-      .then(() => {
-        _.forEach(this.props.authoredPosts, (id) => {
-          this.state.authoredPostsData.push(this.props.postsCache[id])
-        })
-      })
+    this.props.getAuthoredPosts(this.props.authToken, {limit: 1})
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.authoredPostsData.length != 0 ) {
+      if (!(nextProps.authoredPosts.data[0] < this.state.authoredPostsData[this.state.authoredPostsData.length-1].id)) {
+        this.state.authoredPostsData = [];
+      }
+    }
+
+    _.forEach(nextProps.authoredPosts.data, (id) => {
+      this.state.authoredPostsData.push(nextProps.postsCache[id])
+    })
+  }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
 
   render() {
     return (
