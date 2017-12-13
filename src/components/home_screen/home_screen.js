@@ -4,7 +4,7 @@ import RN     from 'react-native';
 import * as _ from 'lodash';
 
 // Local Imports
-import PostList              from '../post_list/post_list.js';
+import PostListContainer     from '../post_list/post_list_container.js';
 import samplePosts           from '../../test_data/sample_posts.js';
 import { styles }            from './home_screen_styles.js';
 import { setStateCallback }  from '../../utilities/component_utility.js';
@@ -27,7 +27,15 @@ class HomeScreen extends React.Component {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this.props.getAllPosts(this.props.authToken, {limit: 5})
+    if (!this.props.allPosts.lastUpdated) {
+      this.props.getAllPosts(this.props.authToken, true, {limit: 5})
+      return;
+    }
+
+    let minsDiff = (Date() - this.props.allPosts.lastUpdated) / (1000 * 60)
+    if (minsDiff > 1) {
+      this.props.getAllPosts(this.props.authToken, true, {limit: 5})
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,7 +55,7 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostList data={this.state.allPostsData} />
+        <PostListContainer data={this.state.allPostsData} getPosts={this.props.getAllPosts} />
       </RN.View>
     )
   }
