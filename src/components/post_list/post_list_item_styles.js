@@ -21,7 +21,7 @@ export const styles = RN.StyleSheet.create({
   },
   body: {
     width: '100%',
-    height: scale(300),
+    height: scale(200),
     padding: scale(8),
     backgroundColor: 'white',
     // borderColor: '#656565',
@@ -36,7 +36,7 @@ export const styles = RN.StyleSheet.create({
   bodyText: {
     width: '100%',
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(6),
+    fontSize: scaleFont(15),
     textAlign: 'left',
     textAlignVertical: 'center',
     marginBottom: scale(5)
@@ -49,12 +49,12 @@ export const styles = RN.StyleSheet.create({
     width: '100%'
   },
   heartIcon: {
-    fontSize: scaleFont(9),
+    fontSize: scaleFont(18),
     marginRight: scale(4),
     color: COLORS.appleBlue
   },
   likeCountText: {
-    fontSize: scaleFont(6),
+    fontSize: scaleFont(15),
     textAlign: 'left',
     textAlignVertical: 'center',
   },

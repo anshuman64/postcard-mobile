@@ -28,6 +28,7 @@ export const UserTabNavigator = TabNavigator({
     })
   },
 }, {
+  lazy: true,
   tabBarOptions: {
     indicatorStyle:     styles.indicatorStyle,
     labelStyle:         styles.labelStyle,
