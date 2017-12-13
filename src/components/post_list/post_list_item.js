@@ -3,6 +3,7 @@ import React      from 'react';
 import RN         from 'react-native';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import Icon       from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcons  from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import { styles }      from './post_list_item_styles.js';
@@ -20,7 +21,7 @@ class PostListItem extends React.PureComponent {
     super(props);
 
     this.state = {
-      isLiked: false,
+      isLiked: this.props.item.is_liked_by_user,
     };
   }
 
@@ -42,6 +43,10 @@ class PostListItem extends React.PureComponent {
     }
   }
 
+  _onPressDelete() {
+    this.props.deletePost(this.props.authToken, this.props.item.id);
+  }
+
   _renderLikesCount(count) {
     // If likes < 1000, render the number as-is
     if (count < 1000) {
@@ -59,29 +64,53 @@ class PostListItem extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _renderPostHeader() {
+    return (
+      <RN.View style={ styles.headerView }>
+        {this.props.user.id === this.props.item.author_id ?
+          <RN.TouchableWithoutFeedback onPressIn={() => this._onPressDelete()}>
+            <EvilIcons name='close' style={ styles.closeIcon }/>
+          </RN.TouchableWithoutFeedback>
+          : null
+        }
+        <RN.Text style={ styles.dateText }>
+          {renderDate(this.props.item.created_at)}
+        </RN.Text>
+      </RN.View>
+    )
+  }
+
+  _renderPostBody() {
+    return (
+      <RN.Text style={ styles.bodyText }>
+        {this.props.item.body}
+      </RN.Text>
+    )
+  }
+
+  _renderPostFooter() {
+    return (
+      <RN.View style={ styles.footerView }>
+        <RN.TouchableWithoutFeedback onPressIn={() => this._onPressLike()}>
+          {this.state.isLiked ?
+            <IconFilled name='heart-filled' style={ styles.heartIcon } /> :
+            <Icon name='heart' style={ styles.heartIcon } />
+          }
+        </RN.TouchableWithoutFeedback>
+        <RN.Text style={ styles.likeCountText }>
+          {this._renderLikesCount(this.props.item.num_likes)}
+        </RN.Text>
+      </RN.View>
+    )
+  }
+
   render() {
     return(
       <RN.View style={ styles.container }>
-        <RN.View style={ styles.body }>
-          <RN.Text style={ styles.dateText }>
-            {renderDate(this.props.item.created_at)}
-          </RN.Text>
-          <RN.Text style={ styles.bodyText }>
-            {this.props.item.body}
-          </RN.Text>
-          <RN.View style={ styles.detailsView }>
-            <RN.TouchableWithoutFeedback
-              onPressIn={() => this._onPressLike()}
-              >
-              {this.state.isLiked ?
-                <IconFilled name='heart-filled' style={ styles.heartIcon } /> :
-                <Icon name='heart' style={ styles.heartIcon } />
-              }
-            </RN.TouchableWithoutFeedback>
-            <RN.Text style={ styles.likeCountText }>
-              {this._renderLikesCount(this.props.item.num_likes)}
-            </RN.Text>
-          </RN.View>
+        <RN.View style={ styles.post }>
+          {this._renderPostHeader()}
+          {this._renderPostBody()}
+          {this._renderPostFooter()}
         </RN.View>
       </RN.View>
     )
