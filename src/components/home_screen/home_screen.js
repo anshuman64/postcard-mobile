@@ -4,9 +4,10 @@ import RN     from 'react-native';
 import * as _ from 'lodash';
 
 // Local Imports
-import PostList     from '../post_list/post_list.js';
-import samplePosts  from '../../test_data/sample_posts.js';
-import { styles }   from './home_screen_styles.js';
+import PostList              from '../post_list/post_list.js';
+import samplePosts           from '../../test_data/sample_posts.js';
+import { styles }            from './home_screen_styles.js';
+import { setStateCallback }  from '../../utilities/component_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -21,27 +22,12 @@ class HomeScreen extends React.Component {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentDidMount() {
-    this.getPostData(null, 1);
-  }
-
-  getPostData(startAt, limit) {
-    let queryParams = {};
-
-    if (startAt) {
-      _.merge(queryParams, { start_at: startAt })
-    }
-
-    if (limit) {
-      _.merge(queryParams, { limit: limit })
-    }
-
-    if (queryParams != {}) {
-      this.props.getAllPosts(this.props.authToken, queryParams)
-    } else {
-      this.props.getAllPosts(this.props.authToken)
-    }
-
+    this._getPostData(true, null, 1);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,8 +43,22 @@ class HomeScreen extends React.Component {
       return;
     }
 
+    // If there was no change in postData, return
+    if (_.isEqual(this.props.allPosts.data, nextProps.allPosts.data)) {
+      return;
+    }
+
+    // If loading more posts, last id of allPosts should be less than last id of allPostsData
+    if (nextProps.allPosts.data[nextProps.allPosts.data.length] < this.state.allPostsData[this.state.allPostsData.length].id) {
+      _.forEach(nextProps.allPosts.data, (id) => {
+        this.state.allPostsData.push(nextProps.postsCache[id])
+      })
+
+      return;
+    }
+
     // If refreshing, first id of allPosts should be greater than first id of allPostsData
-    if (nextProps.allPosts.data[0] > this.state.allPostsData[0].id) {
+    if (!_.isEqual(this.props.allPosts.data, nextProps.allPosts.data)) {
       // Add elements to start of allPostsData until known post is reached
       for (i = nextProps.allPosts.data.length-1; i >= 0; i--) {
         if (nextProps.allPosts.data[i] > this.state.allPostsData[0].id) {
@@ -68,22 +68,38 @@ class HomeScreen extends React.Component {
 
       return;
     }
+  }
 
-    // If loading more posts, last id of allPosts should be less than last id of allPostsData
-    if (nextProps.allPosts.data[nextProps.allPosts.data.length] < this.state.allPostsData[this.state.allPostsData.length].id) {
-      // Add elements to
-      _.forEach(nextProps.allPosts.data, (id) => {
-        this.state.allPostsData.push(nextProps.postsCache[id])
-      })
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
 
-      return;
+  _getPostData(isRefresh, startAt, limit) {
+    let queryParams = {};
+
+    if (startAt) {
+      _.merge(queryParams, { start_at: startAt })
+    }
+
+    if (limit) {
+      _.merge(queryParams, { limit: limit })
+    }
+
+    if (queryParams != {}) {
+      this.props.getAllPosts(this.props.authToken, isRefresh, queryParams)
+    } else {
+      this.props.getAllPosts(this.props.authToken, isRefresh)
     }
   }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
 
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostList data={this.state.allPostsData} />
+        <PostList data={this.state.allPostsData} isRefreshing={this.state.isRefreshing} onRefresh={this.onRefresh} />
       </RN.View>
     )
   }

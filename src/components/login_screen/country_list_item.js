@@ -19,6 +19,10 @@ class CountryListItem extends React.PureComponent {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
   render() {
     return(
       <RN.TouchableWithoutFeedback

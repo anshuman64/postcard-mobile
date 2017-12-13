@@ -24,6 +24,10 @@ class CountryListModal extends React.PureComponent {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   // Renders the RN.ListView after other modal contents are mounted for performance
   componentDidMount() {
     this.setState({ isModalMounted: true });

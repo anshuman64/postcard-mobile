@@ -14,6 +14,10 @@ class LoadingScreen extends React.Component {
     header: null,
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentDidMount() {
     let successCallback = () => {
       this.props.navigation.dispatch(toHomeScreen());
@@ -31,6 +35,10 @@ class LoadingScreen extends React.Component {
       this.unsubscribe();
     }
   }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
 
   render() {
     return (
