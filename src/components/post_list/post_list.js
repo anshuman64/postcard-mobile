@@ -3,9 +3,9 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles }    from './post_list_styles.js';
-import PostListItem  from './post_list_item.js';
-import { COLORS }    from '../../utilities/style_utility.js';
+import { styles }             from './post_list_styles.js';
+import PostListItemContainer  from './post_list_item_container.js';
+import { COLORS }             from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -40,7 +40,7 @@ class PostList extends React.Component {
       <RN.FlatList
         data={ this.props.data }
         renderItem={ this._renderItem }
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item) => item.id}
         style={ styles.postList }
         initialNumToRender={10}
         maxToRenderPerBatch={10}
@@ -53,7 +53,7 @@ class PostList extends React.Component {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItem item={item} />
+      <PostListItemContainer item={item} />
     )
   }
 
