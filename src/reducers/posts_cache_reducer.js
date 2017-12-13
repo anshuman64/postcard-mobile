@@ -25,10 +25,18 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       });
 
       return newState;
+
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState[action.data.id] = action.data;
 
       return newState;
+    case POST_ACTION_TYPES.REMOVE_POST:
+      _.remove(newState, (postId) => {
+        return postId === action.data.id;
+      });
+
+      return newState;
+
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
       newState[action.data.post_id].num_likes++;
       newState[action.data.post_id].is_liked_by_user = true;
