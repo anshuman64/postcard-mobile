@@ -19,13 +19,21 @@ export const styles = RN.StyleSheet.create({
     paddingTop: scale(2),
     backgroundColor: COLORS.grey50,
   },
-  body: {
+  post: {
     width: '100%',
     height: scale(200),
     padding: scale(8),
     backgroundColor: 'white',
     // borderColor: '#656565',
     // borderWidth: 0.1 * scaleFactor,
+  },
+  headerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  closeIcon: {
+    fontSize: scaleFont(24),
   },
   dateText: {
     alignSelf: 'flex-end',
@@ -44,7 +52,7 @@ export const styles = RN.StyleSheet.create({
   largeBodyText: {
     fontSize: scaleFont(8),
   },
-  detailsView: {
+  footerView: {
     flexDirection: 'row',
     width: '100%'
   },
