@@ -12,6 +12,9 @@ export const POST_ACTION_TYPES = {
   RECEIVE_ALL_POSTS:      'RECEIVE_ALL_POSTS',
   RECEIVE_AUTHORED_POSTS: 'RECEIVE_AUTHORED_POSTS',
   RECEIVE_LIKED_POSTS:    'RECEIVE_LIKED_POSTS',
+  REFRESH_ALL_POSTS:      'REFRESH_ALL_POSTS',
+  REFRESH_AUTHORED_POSTS: 'REFRESH_AUTHORED_POSTS',
+  REFRESH_LIKED_POSTS:    'REFRESH_LIKED_POSTS',
   RECEIVE_POST:           'RECEIVE_POST',
   REMOVE_POST:            'REMOVE_POST'
 };
@@ -33,6 +36,18 @@ export const receiveLikedPosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_LIKED_POSTS, data: data };
 };
 
+export const refreshAllPosts = (data) => {
+  return { type: POST_ACTION_TYPES.REFRESH_ALL_POSTS, data: data };
+};
+
+export const refreshAuthoredPosts = (data) => {
+  return { type: POST_ACTION_TYPES.REFRESH_AUTHORED_POSTS, data: data };
+};
+
+export const refreshLikedPosts = (data) => {
+  return { type: POST_ACTION_TYPES.REFRESH_LIKED_POSTS, data: data };
+};
+
 export const receivePost = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POST, data: data };
 };
@@ -47,24 +62,36 @@ export const removePost = (data) => {
 //--------------------------------------------------------------------//
 
 
-export const getAllPosts = (authToken, queryParams) => (dispatch) => {
+export const getAllPosts = (authToken, isRefresh, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts', queryParams)
     .then((posts) => {
-      dispatch(receiveAllPosts(posts));
+      if (isRefresh) {
+        dispatch(refreshAllPosts(posts));
+      } else {
+        dispatch(receiveAllPosts(posts));
+      }
     });
 };
 
-export const getAuthoredPosts = (authToken, queryParams) => (dispatch) => {
+export const getAuthoredPosts = (authToken, isRefresh, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts/authored', queryParams)
     .then((posts) => {
-      dispatch(receiveAuthoredPosts(posts));
+      if (isRefresh) {
+        dispatch(refreshAuthoredPosts(posts));
+      } else {
+        dispatch(receiveAuthoredPosts(posts));
+      }
     });
 };
 
-export const getLikedPosts = (authToken, queryParams) => (dispatch) => {
+export const getLikedPosts = (authToken, isRefresh, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts/liked', queryParams)
     .then((posts) => {
-      dispatch(receiveLikedPosts(posts));
+      if (isRefresh) {
+        dispatch(refreshLikedPosts(posts));
+      } else {
+        dispatch(receiveLikedPosts(posts));
+      }
     });
 };
 
