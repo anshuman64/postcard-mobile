@@ -59,6 +59,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       }
 
       return newState;
+    // TODO: improve refresh behavior
     case POST_ACTION_TYPES.REFRESH_POSTS:
       switch (action.data.postType) {
         case POST_TYPES.ALL:
