@@ -59,7 +59,6 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       }
 
       return newState;
-
     case POST_ACTION_TYPES.REFRESH_POSTS:
       switch (action.data.postType) {
         case POST_TYPES.ALL:
@@ -77,7 +76,6 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       }
 
       return newState;
-
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState.allPosts.data.unshift(action.data.id);
       newState.authoredPosts.data.unshift(action.data.id);
