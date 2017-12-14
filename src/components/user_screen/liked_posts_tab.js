@@ -3,9 +3,9 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import PostList       from '../post_list/post_list.js';
-import { styles }     from '../home_screen/home_screen_styles.js';
-import { POST_TYPES } from '../../actions/post_actions.js';
+import PostListContainer  from '../post_list/post_list_container.js';
+import { styles }         from '../home_screen/home_screen_styles.js';
+import { POST_TYPES }     from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
