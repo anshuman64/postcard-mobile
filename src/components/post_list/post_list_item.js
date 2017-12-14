@@ -23,10 +23,10 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressLike() {
-    if (!this.props.item.is_liked_by_user) {
-      this.props.createLike(this.props.authToken, { post_id: this.props.item.id })
-    } else {
+    if (this.props.item.is_liked_by_user) {
       this.props.deleteLike(this.props.authToken, this.props.item.id)
+    } else {
+      this.props.createLike(this.props.authToken, { post_id: this.props.item.id })
     }
   }
 

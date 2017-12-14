@@ -29,7 +29,7 @@ export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
 };
 
-export const refreshPosts = (data) => {
+export const clearPosts = (data) => {
   return { type: POST_ACTION_TYPES.REFRESH_POSTS, data: data };
 };
 
@@ -65,8 +65,8 @@ export const getPosts = (authToken, postType, queryParams) => (dispatch) => {
     });
 };
 
-export const refreshAndGetPosts = (authToken, postType, queryParams) => (dispatch) => {
-  dispatch(refreshPosts({postType: postType}));
+export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => {
+  dispatch(clearPosts({postType: postType}));
   dispatch(getPosts(authToken, postType, queryParams));
 };
 

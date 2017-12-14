@@ -2,22 +2,20 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import LikedPostsTab                     from './liked_posts_tab.js';
-import { getPosts, refreshAndGetPosts }  from '../../actions/post_actions.js';
+import LikedPostsTab               from './liked_posts_tab.js';
+import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, posts, postsCache }, ownProps) => ({
+const mapStateToProps = ({ user, posts }, ownProps) => ({
   authToken:   user.authToken,
-  likedPosts:  posts.likedPosts,
-  postsCache:  postsCache
+  likedPosts:  posts.likedPosts
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getPosts:           (authToken, postType, queryParams) => dispatch(getPosts(authToken, postType, queryParams)),
-  refreshAndGetPosts: (authToken, postType, queryParams) => dispatch(refreshAndGetPosts(authToken, postType, queryParams)),
+  refreshPosts: (authToken, postType, queryParams) => dispatch(refreshPosts(authToken, postType, queryParams)),
 });
 
 export default connect(
