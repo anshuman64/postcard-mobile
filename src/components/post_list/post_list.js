@@ -4,6 +4,7 @@ import RN     from 'react-native';
 
 // Local Imports
 import { styles }             from './post_list_styles.js';
+import { POST_TYPES }        from '../../actions/post_actions.js';
 import PostListItemContainer  from './post_list_item_container.js';
 import { COLORS }             from '../../utilities/style_utility.js';
 
@@ -17,6 +18,8 @@ class PostList extends React.Component {
     this.state = {
       isRefreshing: false,
     };
+
+    this._renderItem = this._renderItem.bind(this);
   }
 
 
@@ -27,26 +30,26 @@ class PostList extends React.Component {
 
   _onRefresh() {
     this.setState({isRefreshing: true}, () => {
-      this.props.getPosts(this.props.authToken, true, {limit: 5}).then(() => {
+      this.props.refreshAndGetPosts(this.props.authToken, this.props.postType, {limit: 5}).then(() => {
         this.setState({isRefreshing: false})
       })
     })
   }
 
   _onEndReached() {
-    if (this.props.data.length === 0 || this.props.isEnd) {
+    if (this.props.posts.data.length === 0 || this.props.posts.isEnd) {
       return;
     }
 
-    let lastPostId = this.props.data[this.props.data.length-1].id;
-    this.props.getPosts(this.props.authToken, false, {start_at: lastPostId, limit: 5})
+    let lastPostId = this.props.posts.data[this.props.posts.data.length-1];
+    this.props.getPosts(this.props.authToken, this.props.postType, {start_at: lastPostId, limit: 5})
   }
 
-  _onContentSizeChange = () => {
-    if (this.props.isNew) {
-      this.flatList.scrollToOffset({x: 0, y: 0, animated: true})
-    }
-  }
+  // _onContentSizeChange = () => {
+  //   if (this.props.isNew) {
+  //     this.flatList.scrollToOffset({x: 0, y: 0, animated: true})
+  //   }
+  // }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -56,9 +59,9 @@ class PostList extends React.Component {
     return (
       <RN.FlatList
         ref={(ref) => this.flatList = ref}
-        data={ this.props.data }
+        data={ this.props.posts.data }
         renderItem={ this._renderItem }
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => this.props.postsCache[item].id}
         style={ styles.postList }
         initialNumToRender={10}
         maxToRenderPerBatch={10}
@@ -73,7 +76,7 @@ class PostList extends React.Component {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer item={item} />
+      <PostListItemContainer item={this.props.postsCache[item]} />
     )
   }
 
@@ -88,7 +91,7 @@ class PostList extends React.Component {
   }
 
   _renderFooter = () => {
-    if (this.props.isEnd) {
+    if (this.props.posts.isEnd) {
       return (
         <RN.Text>
           No More Posts

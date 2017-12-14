@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 
 // Local Imports
 import { styles }   from '../home_screen/home_screen_styles.js';
+import { POST_TYPES }        from '../../actions/post_actions.js';
 import PostList     from '../post_list/post_list.js';
 import samplePosts  from '../../test_data/sample_posts.js';
 
@@ -12,30 +13,20 @@ import samplePosts  from '../../test_data/sample_posts.js';
 //--------------------------------------------------------------------//
 
 class LikedPostsTab extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      likedPostsData: [],
-    };
-  }
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this.props.getLikedPosts(this.props.authToken)
-  }
+    if (!this.props.likedPosts.lastUpdated) {
+      this.props.refreshAndGetPosts(this.props.authToken, POST_TYPES.AUTHORED, {limit: 5})
+      return;
+    }
 
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(this.props.likedPosts.data, nextProps.likedPosts.data)) {
-      let postsArray = [];
-      _.forEach(nextProps.likedPosts.data, (id) => {
-        postsArray.push(nextProps.postsCache[id])
-      })
-
-      this.state.likedPostsData = postsArray;
+    let minsDiff = (Date() - this.props.likedPosts.lastUpdated) / (1000 * 60)
+    if (minsDiff > 1) {
+      this.props.refreshAndGetPosts(this.props.authToken, POST_TYPES.AUTHORED, {limit: 5})
     }
   }
 
@@ -46,7 +37,7 @@ class LikedPostsTab extends React.Component {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostList data={this.state.likedPostsData} authToken={this.props.authToken} getPosts={this.props.getLikedPosts} isNew={this.props.likedPosts.isNew} isEnd={this.props.likedPosts.isEnd}/>
+        <PostListContainer postType={POST_TYPES.LIKED} />
       </RN.View>
     )
   }
