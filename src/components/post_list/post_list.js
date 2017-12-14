@@ -3,9 +3,9 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
+import PostListItemContainer  from './post_list_item_container.js';
 import { styles }             from './post_list_styles.js';
 import { POST_TYPES }        from '../../actions/post_actions.js';
-import PostListItemContainer  from './post_list_item_container.js';
 import { COLORS }             from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
@@ -18,21 +18,18 @@ class PostList extends React.Component {
     this.state = {
       isRefreshing: false,
     };
-
-    this._renderItem = this._renderItem.bind(this);
   }
-
 
 
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
+  // TODO: make refreshPost a promise
   _onRefresh() {
     this.setState({isRefreshing: true}, () => {
-      this.props.refreshAndGetPosts(this.props.authToken, this.props.postType, {limit: 5}).then(() => {
-        this.setState({isRefreshing: false})
-      })
+      this.props.refreshPosts(this.props.authToken, this.props.postType, {limit: 5});
+      this.setState({isRefreshing: false});
     })
   }
 
@@ -45,6 +42,7 @@ class PostList extends React.Component {
     this.props.getPosts(this.props.authToken, this.props.postType, {start_at: lastPostId, limit: 5})
   }
 
+  // TODO: slide flatlist when newPost is created
   // _onContentSizeChange = () => {
   //   if (this.props.isNew) {
   //     this.flatList.scrollToOffset({x: 0, y: 0, animated: true})
@@ -60,7 +58,7 @@ class PostList extends React.Component {
       <RN.FlatList
         ref={(ref) => this.flatList = ref}
         data={ this.props.posts.data }
-        renderItem={ this._renderItem }
+        renderItem={ this._renderItem.bind(this) }
         keyExtractor={(item) => this.props.postsCache[item].id}
         style={ styles.postList }
         initialNumToRender={10}
