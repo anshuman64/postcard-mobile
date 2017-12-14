@@ -2,23 +2,23 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import NewPostScreen   from './new_post_screen.js';
-import { createPost }  from '../../actions/post_actions.js';
-import { goBack }      from '../../actions/navigation_actions.js';
+import DebugLoginScreen   from './debug_login_screen.js';
+import { debugSignIn }    from '../../actions/user_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
 const mapStateToProps = ({ user }, ownProps) => ({
-  authToken: user.authToken,
+  phoneNumber:      user.phoneNumber,
+  firebaseUserObj:  user.firebaseUserObj
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createPost: (authToken, postObj) => dispatch(createPost(authToken, postObj))
+  debugSignIn:  (email, password) => dispatch(debugSignIn(email, password)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewPostScreen);
+)(DebugLoginScreen);

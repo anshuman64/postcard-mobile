@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from '../../utilities/style_utility.js';
+import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -17,14 +17,23 @@ export const styles = RN.StyleSheet.create({
     paddingLeft: scale(2),
     paddingRight: scale(2),
     paddingTop: scale(2),
-    backgroundColor: '#fafafa',
+    backgroundColor: COLORS.grey50,
   },
-  body: {
+  post: {
     width: '100%',
+    height: scale(200),
     padding: scale(8),
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
     // borderColor: '#656565',
     // borderWidth: 0.1 * scaleFactor,
+  },
+  headerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  closeIcon: {
+    fontSize: scaleFont(24),
   },
   dateText: {
     alignSelf: 'flex-end',
@@ -35,7 +44,7 @@ export const styles = RN.StyleSheet.create({
   bodyText: {
     width: '100%',
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(6),
+    fontSize: scaleFont(15),
     textAlign: 'left',
     textAlignVertical: 'center',
     marginBottom: scale(5)
@@ -43,17 +52,17 @@ export const styles = RN.StyleSheet.create({
   largeBodyText: {
     fontSize: scaleFont(8),
   },
-  detailsView: {
+  footerView: {
     flexDirection: 'row',
     width: '100%'
   },
   heartIcon: {
-    fontSize: scaleFont(9),
+    fontSize: scaleFont(18),
     marginRight: scale(4),
-    color: '#007aff'
+    color: COLORS.appleBlue
   },
   likeCountText: {
-    fontSize: scaleFont(6),
+    fontSize: scaleFont(15),
     textAlign: 'left',
     textAlignVertical: 'center',
   },

@@ -11,6 +11,7 @@ import { styles }                                      from './login_screen_styl
 import CountryListModal                                from './country_list_modal.js';
 import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
 import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { COLORS }                                      from '../../utilities/style_utility.js';
 import { toConfirmCodeScreen }                         from '../../actions/navigation_actions.js';
 
 
@@ -18,6 +19,9 @@ import { toConfirmCodeScreen }                         from '../../actions/navig
 
 
 class LoginScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  }
 
   constructor(props) {
     super(props);
@@ -114,20 +118,20 @@ class LoginScreen extends React.Component {
     }
 
     // Debug test
-    if (number === '+14088888888') {
-      this.setState({isPhoneNumberInvalid: true});
-    } else {
-      this.setState({isLoading: true});
-      this.props.debugGetConfirmationCode(number)
-        .then(this.setState({isLoading: false, isPhoneNumberInvalid: false}, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
-    }
+    // if (number === '+14088888888') {
+    //   this.setState({isPhoneNumberInvalid: true});
+    // } else {
+    //   this.setState({isLoading: true});
+    //   this.props.debugGetConfirmationCode(number)
+    //     .then(this.setState({isLoading: false, isPhoneNumberInvalid: false}, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
+    // }
 
     // Real Firebase API
-    // this.setState({isLoading: true}, () => {
-    // this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
-    //  .then(() => this.setState({ isLoading: false, isPhoneNumberInvalid: false }, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
-    //  .catch(() => this.setState({ isLoading: false, isPhoneNumberInvalid: true }))
-    // })
+    this.setState({isLoading: true}, () => {
+    this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
+     .then(() => this.setState({ isLoading: false, isPhoneNumberInvalid: false }, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
+     .catch(() => this.setState({ isLoading: false, isPhoneNumberInvalid: true }))
+    })
   }
 
   //--------------------------------------------------------------------//
@@ -178,7 +182,7 @@ class LoginScreen extends React.Component {
           onChangeText={(value) => this._onPhoneInputChangeText(value)}
           value={this.state.formattedPhoneNumber}
           placeholder='Phone Number'
-          placeholderTextColor='#bdbdbd'
+          placeholderTextColor={COLORS.grey400}
           underlineColorAndroid={'transparent'}
           onFocus={setStateInAnimationFrame(this, { isPhoneInputFocused: true})}
           onEndEditing={setStateInAnimationFrame(this, { isPhoneInputFocused: false})}
@@ -209,7 +213,7 @@ class LoginScreen extends React.Component {
         disabled={this.state.isNextButtonDisabled && !this.state.isLoading}
         >
         { this.state.isLoading ?
-          <RN.ActivityIndicator size='small' color='#bdbdbd' /> :
+          <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
           <RN.Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
             Next
           </RN.Text>
@@ -235,7 +239,7 @@ class LoginScreen extends React.Component {
         animationType={'none'}
         >
         <RN.View style={ styles.container }>
-          <CountryListModal countryIndex={this.state.countryIndex} setParentState={this._setState} setCountry={this.setCountry} />
+          <CountryListModal countryIndex={this.state.countryIndex} setParentState={setStateCallback} setCountry={this.setCountry} />
         </RN.View>
       </RN.Modal>
     )
