@@ -15,3 +15,11 @@ export const setStateInAnimationFrame = (component, state) => {
     () => (requestAnimationFrame(() => {component.setState(state)}))
   )
 }
+
+export const getCurrentRoute = (state) => {
+  if (state.index !== undefined) {
+    return getCurrentRoute(state.routes[state.index])
+  } else {
+    return state.routeName
+  }
+}

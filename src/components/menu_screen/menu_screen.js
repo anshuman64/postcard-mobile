@@ -1,24 +1,30 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
-import Icon   from 'react-native-vector-icons/SimpleLineIcons';
+import React     from 'react';
+import RN        from 'react-native';
+import Icon      from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }                    from './menu_screen_styles.js';
 import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { goBack } from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
 class MenuScreen extends React.Component {
-    constructor(props) {
-      super(props);
+  static navigationOptions = {
+    header: null,
+  }
 
-      this.state = {
-        isSupportPressed:   false,
-        isFeedbackPressed:  false,
-        isAboutPressed:     false,
-      };
-    }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isSupportPressed:   false,
+      isFeedbackPressed:  false,
+      isAboutPressed:     false,
+    };
+  }
 
   //--------------------------------------------------------------------//
   // Callback Methods
@@ -39,6 +45,15 @@ class MenuScreen extends React.Component {
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
+
+  _renderHeader() {
+    return (
+      <RN.View style={styles.header}>
+        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
+        <RN.Text style={styles.shareButtonText} onPress={() => this._onPressShare()}>Share</RN.Text>
+      </RN.View>
+    )
+  }
 
   _renderSupportButton() {
     return (
@@ -103,6 +118,7 @@ class MenuScreen extends React.Component {
   render() {
     return (
       <RN.View style={ styles.container }>
+        {this._renderHeader()}
         {this._renderSupportButton()}
         {this._renderFeedbackButton()}
         {this._renderAboutButton()}

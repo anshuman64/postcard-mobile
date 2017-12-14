@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 //--------------------------------------------------------------------//
 
 
-const BASE_URL         = 'http://192.168.2.14:3000/api';
+const BASE_URL         = 'http://192.168.2.36:3000/api';
 const DEFAULT_HEADERS  = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
@@ -37,7 +37,7 @@ let getQueryString = (params) => {
 
 let checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
-    return response;
+    return JSON.parse(response._bodyText);
   } else {
     let error = new Error(response.statusText);
     error.response = response;
@@ -64,7 +64,9 @@ export const get = (authToken, path, queryParams) => {
     headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
   };
 
-  return callApi(BASE_URL + path + getQueryString(queryParams), requestConfig);
+  let url = BASE_URL + path + getQueryString(queryParams);
+
+  return callApi(url, requestConfig);
 };
 
 export const post = (authToken, path, payload) => {
@@ -74,7 +76,9 @@ export const post = (authToken, path, payload) => {
     body:    JSON.stringify(payload)
   };
 
-  return callApi(BASE_URL + path, requestConfig);
+  let url = BASE_URL + path;
+
+  return callApi(url, requestConfig);
 };
 
 export const put = (authToken, path, payload) => {
@@ -84,7 +88,9 @@ export const put = (authToken, path, payload) => {
     body:    JSON.stringify(payload)
   };
 
-  return callApi(BASE_URL + path, requestConfig);
+  let url = BASE_URL + path;
+
+  return callApi(url, requestConfig);
 };
 
 export const del = (authToken, path) => {
@@ -93,5 +99,7 @@ export const del = (authToken, path) => {
     headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
   };
 
-  return callApi(BASE_URL + path, requestConfig);
+  let url = BASE_URL + path;
+
+  return callApi(url, requestConfig);
 };
