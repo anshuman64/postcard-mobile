@@ -14,18 +14,12 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    case POST_ACTION_TYPES.RECEIVE_ALL_POSTS:
-    case POST_ACTION_TYPES.REFRESH_ALL_POSTS:
-    case POST_ACTION_TYPES.RECEIVE_AUTHORED_POSTS:
-    case POST_ACTION_TYPES.REFRESH_AUTHORED_POSTS:
-    case POST_ACTION_TYPES.RECEIVE_LIKED_POSTS:
-    case POST_ACTION_TYPES.REFRESH_LIKED_POSTS:
-      _.forEach(action.data, (post) => {
+    case POST_ACTION_TYPES.RECEIVE_POSTS:
+      _.forEach(action.data.posts, (post) => {
         newState[post.id] = post;
       });
 
       return newState;
-
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState[action.data.id] = action.data;
 
@@ -36,7 +30,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       });
 
       return newState;
-
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
       newState[action.data.post_id].num_likes++;
       newState[action.data.post_id].is_liked_by_user = true;

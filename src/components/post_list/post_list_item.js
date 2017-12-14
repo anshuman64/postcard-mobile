@@ -17,13 +17,6 @@ const IconFilled = createIconSetFromFontello(fontelloConfig);
 
 
 class PostListItem extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLiked: this.props.item.is_liked_by_user,
-    };
-  }
 
   //--------------------------------------------------------------------//
   // Private Methods
