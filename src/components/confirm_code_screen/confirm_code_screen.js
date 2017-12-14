@@ -2,17 +2,21 @@
 import React                                   from 'react';
 import RN                                      from 'react-native';
 import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
-import Icon                                    from 'react-native-vector-icons/Ionicons';
+import Ionicon                                 from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }                   from './confirm_code_screen_styles.js';
 import { setStateInAnimationFrame } from '../../utilities/component_utility.js';
-import { toMainNavigator, goBack }  from '../../actions/navigation_actions.js';
+import { toHomeScreen, goBack }     from '../../actions/navigation_actions.js';
+import { COLORS }                   from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
 
 class ConfirmCodeScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  }
 
   constructor(props) {
     super(props);
@@ -35,6 +39,10 @@ class ConfirmCodeScreen extends React.Component {
     this._tick = this._tick.bind(this);
     this.render = this.render.bind(this);
   }
+
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
 
   componentDidMount() {
     this._startTimer();
@@ -77,27 +85,22 @@ class ConfirmCodeScreen extends React.Component {
   // TODO: handle error callback if code is invalid
   _codeInputOnChangeText(value) {
     // Debug test
-    if (value.length === 6) {
-      if (value === this.props.confirmationCodeObj) {
-        this.setState({ isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()));
-      } else {
-        this.setState({ isCodeIncorrect: true });
-      }
-    }
+    // if (value.length === 6) {
+    //   if (value === this.props.confirmationCodeObj) {
+    //     this.setState({ isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()));
+    //   } else {
+    //     this.setState({ isCodeIncorrect: true });
+    //   }
+    // }
 
     // Real Firebase API
-    // if (value.length === 6) {
-    //   this.setState({ isLoading: true }, () => {
-    //   this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value).then(() => {
-    //      this.props.getAuthToken(this.props.firebaseUserObj).then(() => {
-    //        this.props.createUser(this.props.phoneNumber, this.props.authToken).then(() => {
-    //          this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()))
-    //        })
-    //      })
-    //    })
-    //    .catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
-    //   })
-    // }
+    if (value.length === 6) {
+      this.setState({ isLoading: true }, () => {
+      this.props.verifyConfirmationCode(this.props.phoneNumber, this.props.confirmationCodeObj, value).then(() => {
+        this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toHomeScreen()))
+      }).catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
+      })
+    }
   }
 
   // Callback function to return to login screen
@@ -119,6 +122,14 @@ class ConfirmCodeScreen extends React.Component {
 //--------------------------------------------------------------------//
 // Render Methods
 //--------------------------------------------------------------------//
+
+  _renderHeader() {
+    return (
+      <RN.View style={styles.header}>
+        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
+      </RN.View>
+    )
+  }
 
   _renderTitle() {
     return (
@@ -146,7 +157,7 @@ class ConfirmCodeScreen extends React.Component {
         placeholder='-  -  -  -  -  -'
         autoFocus={true}
         maxLength={6}
-        placeholderTextColor='#bdbdbd'
+        placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
         onFocus={setStateInAnimationFrame(this, { isCodeInputFocused: true})}
         onEndEditing={setStateInAnimationFrame(this, { isCodeInputFocused: false})}
@@ -156,7 +167,7 @@ class ConfirmCodeScreen extends React.Component {
 
   _renderInvalidCodeText() {
     if (this.state.isLoading) {
-      return <RN.ActivityIndicator size='small' color='#bdbdbd' />
+      return <RN.ActivityIndicator size='small' color={COLORS.grey400} />
     } else if (this.state.isCodeIncorrect) {
       return (
         <RN.Text style={styles.invalidCodeText}>
@@ -190,6 +201,7 @@ class ConfirmCodeScreen extends React.Component {
   render() {
     return (
       <RN.View style={styles.container}>
+        {this._renderHeader()}
         <RN.View style={{flex: 3}} />
           {this._renderTitle()}
           {this._renderSubtitle()}

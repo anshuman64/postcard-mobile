@@ -3,27 +3,31 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { toMainNavigator, toLoginScreen }  from '../../actions/navigation_actions.js';
+import { COLORS }                          from '../../utilities/style_utility.js';
+import { toHomeScreen, toLoginScreen }     from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
 
 class LoadingScreen extends React.Component {
-  componentDidMount() {
-    this.unsubscribe = this.props.getUserOnAuthStateChange((firebaseUserObj) => {
-      if (firebaseUserObj) {
-        this.props.receivePhoneNumber({phoneNumber: firebaseUserObj._user.phoneNumber})
-        this.props.receiveFirebaseUserObj({firebaseUserObj: firebaseUserObj});
+  static navigationOptions = {
+    header: null,
+  }
 
-        this.props.getAuthToken(firebaseUserObj).then(() => {
-          this.props.createUser(this.props.phoneNumber, this.props.authToken).then(() => {
-            this.props.navigation.dispatch(toMainNavigator());
-          })
-        })
-      } else {
-        this.props.navigation.dispatch(toLoginScreen());
-      }
-    })
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
+  componentDidMount() {
+    let successCallback = () => {
+      this.props.navigation.dispatch(toHomeScreen());
+    };
+
+    let errorCallback = () => {
+      this.props.navigation.dispatch(toLoginScreen());
+    };
+
+    this.unsubscribe = this.props.attemptToLoginUser(successCallback, errorCallback);
   }
 
   componentWillUnmount() {
@@ -32,10 +36,14 @@ class LoadingScreen extends React.Component {
     }
   }
 
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
   render() {
     return (
       <RN.View>
-        <RN.ActivityIndicator size='large' color='#bdbdbd' />
+        <RN.ActivityIndicator size='large' color={COLORS.grey400} />
       </RN.View>
     )
   }

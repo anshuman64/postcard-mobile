@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import LoadingScreen                                                                                       from './loading_screen.js';
-import { getUserOnAuthStateChange, receivePhoneNumber, receiveFirebaseUserObj, getAuthToken, createUser }  from '../../actions/user_actions.js';
+import LoadingScreen           from './loading_screen.js';
+import { attemptToLoginUser }  from '../../actions/user_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -17,11 +17,7 @@ const mapStateToProps = ({ user }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getUserOnAuthStateChange:  (callback) => dispatch(getUserOnAuthStateChange(callback)),
-  receivePhoneNumber:        (phoneNumber) => dispatch(receivePhoneNumber(phoneNumber)),
-  receiveFirebaseUserObj:    (user) => dispatch(receiveFirebaseUserObj(user)),
-  getAuthToken:              (firebaseUserObj) => dispatch(getAuthToken(firebaseUserObj)),
-  createUser:                (phoneNumber, authToken) => dispatch(createUser(phoneNumber, authToken)),
+  attemptToLoginUser: (successCallback, errorCallback) => dispatch(attemptToLoginUser(successCallback, errorCallback)),
 });
 
 export default connect(

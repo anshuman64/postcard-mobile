@@ -51,10 +51,31 @@ export const receiveUser = (data) => {
 //--------------------------------------------------------------------//
 
 
-// LoginScreen: Updates global state with inputted phone number and made up confirmation code (as a string)
-// export const debugGetConfirmationCode = (phoneNumber) => (dispatch) => {
-//     return new Promise(() => dispatch(receiveConfirmationCodeObj({phoneNumber: phoneNumber, confirmationCodeObj: '123456'})));
-// };
+export const debugSignIn = (email, password) => (dispatch) => {
+  let handleExistingUser = (authToken) => {
+    return APIUtility.get(authToken, '/users')
+      .then((user) => {
+        dispatch(receiveUser(user));
+      }, handleNewUser.bind(this, authToken));
+  };
+
+  let handleNewUser = (authToken) => {
+    return APIUtility.post(authToken, '/users', { phone_number: email })
+      .then((newUser) => {
+        dispatch(receiveUser(newUser));
+      });
+  };
+
+  return Firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((firebaseUserObj) => {
+      dispatch(receivePhoneNumber(firebaseUserObj._user.email));
+      dispatch(receiveFirebaseUserObj(firebaseUserObj));
+      return firebaseUserObj.getIdToken(true);
+    }).then((authToken) => {
+      dispatch(receiveAuthToken(authToken));
+      return handleExistingUser(authToken);
+    });
+}
 
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {
   return Firebase.auth().signInWithPhoneNumber(phoneNumber)
@@ -65,14 +86,14 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
 };
 
 export const verifyConfirmationCode = (phoneNumber, confirmationCodeObj, inputtedCode) => (dispatch) => {
-  let handleExistingUser = () => {
+  let handleExistingUser = (authToken) => {
     return APIUtility.get(authToken, '/users')
       .then((user) => {
         dispatch(receiveUser(user));
-      });
+      }, handleNewUser.bind(this, authToken));
   };
 
-  let handleNewUser = () => {
+  let handleNewUser = (authToken) => {
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
       .then((newUser) => {
         dispatch(receiveUser(newUser));
@@ -85,25 +106,26 @@ export const verifyConfirmationCode = (phoneNumber, confirmationCodeObj, inputte
       return firebaseUserObj.getIdToken(true);
     }).then((authToken) => {
       dispatch(receiveAuthToken(authToken));
-      return Firebase.auth().verifyPhoneNumber(phoneNumber);
-    }).then(handleExistingUser, handleNewUser);
+      return handleExistingUser(authToken);
+    });
 };
 
-export const attemptToLoginUser = () => (dispatch) => {
-  let listener = (firebaserUserObj) => {
+export const attemptToLoginUser = (successCallback, errorCallback) => (dispatch) => {
+  let listener = (firebaseUserObj) => {
     if (firebaseUserObj) {
       dispatch(receivePhoneNumber(firebaseUserObj._user.phoneNumber));
       dispatch(receiveFirebaseUserObj(firebaseUserObj));
 
-      return firebaseUserObj.getIdToken(true)
+      firebaseUserObj.getIdToken(true)
         .then((authToken) => {
           dispatch(receiveAuthToken(authToken));
           return APIUtility.get(authToken, '/users');
         }).then((user) => {
           dispatch(receiveUser(user));
+          successCallback();
         });
     } else {
-      return Promise.reject();
+      errorCallback();
     }
   };
 

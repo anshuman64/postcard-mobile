@@ -19,10 +19,7 @@ const mapStateToProps = ({ user }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getConfirmationCode:       (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),
-  verifyConfirmationCode:    (confirmationCodeObj, inputtedCode) => dispatch(verifyConfirmationCode(confirmationCodeObj, inputtedCode)),
-  getAuthToken:              (firebaseUserObj) => dispatch(getAuthToken(firebaseUserObj)),
-  createUser:                (phoneNumber, authToken) => dispatch(createUser(phoneNumber, authToken)),
-  debugGetConfirmationCode:  (phoneNumber) => dispatch(debugGetConfirmationCode(phoneNumber))
+  verifyConfirmationCode:    (phoneNumber, confirmationCodeObj, inputtedCode) => dispatch(verifyConfirmationCode(phoneNumber, confirmationCodeObj, inputtedCode)),
 });
 
 export default connect(

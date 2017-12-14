@@ -13,7 +13,7 @@ import { COUNTRY_CODES }             from '../../utilities/country_utility.js';
 //--------------------------------------------------------------------//
 
 
-class CountryListModal extends React.PureComponent {
+class CountryListModal extends React.Component {
   constructor(props) {
     super(props);
     const ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -23,6 +23,10 @@ class CountryListModal extends React.PureComponent {
       isModalMounted:     false,
     };
   }
+
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
 
   // Renders the RN.ListView after other modal contents are mounted for performance
   componentDidMount() {

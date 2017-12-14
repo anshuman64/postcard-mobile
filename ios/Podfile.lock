@@ -33,10 +33,20 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - React (0.11.0):
+    - React/Core (= 0.11.0)
+  - React/Core (0.11.0)
+  - RNVectorIcons (4.4.2):
+    - React
 
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+
+EXTERNAL SOURCES:
+  RNVectorIcons:
+    :path: ../node_modules/react-native-vector-icons
 
 SPEC CHECKSUMS:
   Firebase: dbfb98ccec2dcfcd21ab9cc1b4981a3f3c8c5e26
@@ -47,6 +57,8 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
+  RNVectorIcons: c1821d56c775cc5a3bca66c77dfc8cb4a90d27e2
 
 PODFILE CHECKSUM: 605a84f962e005d2212bfcac8fab2ea89514e035
 

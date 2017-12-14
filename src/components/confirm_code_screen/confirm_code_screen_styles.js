@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont } from '../../utilities/style_utility.js';
+import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -16,36 +16,43 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: '#fafafa'
+    backgroundColor: COLORS.grey50
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '10%',
+    width: '100%'
   },
   titleText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
     fontSize: scaleFont(18),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#212121'
+    color: COLORS.grey900
   },
   subtitleText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#212121',
+    color: COLORS.grey900,
     marginTop: '1%'
   },
   codeInput: {
     width: scale(60),
     textAlign: 'center',
     fontSize: scaleFont(24),
-    borderBottomColor: '#212121',
+    borderBottomColor: COLORS.grey900,
     borderBottomWidth: scale(0.3),
   },
   borderHighlighted: {
-    borderBottomColor: '#007aff',
+    borderBottomColor: COLORS.appleBlue,
     borderBottomWidth: scale(0.6)
   },
   borderRed: {
-    borderBottomColor: '#ff313a',
+    borderBottomColor: COLORS.appleRed,
     borderBottomWidth: scale(0.6)
   },
   invalidCodeText: {
@@ -54,7 +61,7 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#ff313a'
+    color: COLORS.appleRed
   },
   resendSMSView: {
     flexDirection: 'row',
@@ -63,7 +70,7 @@ export const styles = RN.StyleSheet.create({
     height: scale(15),
     paddingLeft: scale(10),
     paddingRight: scale(10),
-    borderBottomColor: '#212121',
+    borderBottomColor: COLORS.grey900,
     borderBottomWidth: scale(0.3),
   },
   resendSMSText: {
@@ -73,12 +80,12 @@ export const styles = RN.StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     marginTop: '1%',
-    color: '#bdbdbd',
+    color: COLORS.grey400,
   },
   smsTextActive: {
-    color: '#212121',
+    color: COLORS.grey900,
   },
   textHighlighted: {
-   color: '#007aff',
+   color: COLORS.appleBlue,
  },
 });
