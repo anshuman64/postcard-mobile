@@ -30,16 +30,10 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressLike() {
-    if (!this.state.isLiked) {
+    if (!this.props.item.is_liked_by_user) {
       this.props.createLike(this.props.authToken, { post_id: this.props.item.id })
-        .then(() => {
-          this.setState({ isLiked: true })
-      })
     } else {
       this.props.deleteLike(this.props.authToken, this.props.item.id)
-        .then(() => {
-          this.setState({ isLiked: false })
-      })
     }
   }
 
@@ -92,7 +86,7 @@ class PostListItem extends React.PureComponent {
     return (
       <RN.View style={ styles.footerView }>
         <RN.TouchableWithoutFeedback onPressIn={() => this._onPressLike()}>
-          {this.state.isLiked ?
+          {this.props.item.is_liked_by_user ?
             <IconFilled name='heart-filled' style={ styles.heartIcon } /> :
             <Icon name='heart' style={ styles.heartIcon } />
           }
