@@ -3,6 +3,7 @@
 // Constants
 //--------------------------------------------------------------------//
 
+
 export const NAVIGATION_ACTION_TYPES = {
   TO_LOADING_SCREEN:      'TO_LOADING_SCREEN',
   TO_LOGIN_SCREEN:        'TO_LOGIN_SCREEN',

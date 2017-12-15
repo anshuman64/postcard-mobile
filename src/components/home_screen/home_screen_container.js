@@ -13,7 +13,8 @@ import { getCurrentRoute }  from '../../utilities/function_utility.js';
 const mapStateToProps = ({ user, posts, nav }, ownProps) => ({
   authToken:    user.authToken,
   allPosts:     posts.allPosts,
-  currentRoute: getCurrentRoute(nav),
+  currentScreen: getCurrentRoute(nav),
+  lastScreen: nav.lastScreen,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
