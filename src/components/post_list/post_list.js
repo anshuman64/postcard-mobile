@@ -27,7 +27,7 @@ class PostList extends React.PureComponent {
 
   _onRefresh() {
     this.setState({isRefreshing: true}, () => {
-      this.props.refreshPosts(this.props.authToken, this.props.postType).then(() => {
+      this.props.refreshPosts(this.props.authToken, this.props.postType, {limit: 5}).then(() => {
         this.setState({isRefreshing: false});
       })
     })
@@ -39,7 +39,7 @@ class PostList extends React.PureComponent {
     }
 
     let lastPostId = this.props.posts.data[this.props.posts.data.length-1];
-    this.props.getPosts(this.props.authToken, this.props.postType, {start_at: lastPostId})
+    this.props.getPosts(this.props.authToken, this.props.postType, {start_at: lastPostId, limit: 5})
   }
 
   // TODO: slide flatlist when newPost is created
