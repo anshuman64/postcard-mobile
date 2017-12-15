@@ -2,8 +2,8 @@
 import * as _ from 'lodash';
 
 // Local Imports
-import { POST_ACTION_TYPES } from '../actions/post_actions';
-import { LIKE_ACTION_TYPES } from '../actions/like_actions';
+import { POST_ACTION_TYPES } from '../actions/post_actions.js';
+import { LIKE_ACTION_TYPES } from '../actions/like_actions.js';
 
 //--------------------------------------------------------------------//
 

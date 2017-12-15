@@ -11,13 +11,6 @@ import { styles }         from '../home_screen/home_screen_styles.js';
 //--------------------------------------------------------------------//
 
 class AuthoredPostsTab extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      authoredPostsData: [],
-    };
-  }
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods

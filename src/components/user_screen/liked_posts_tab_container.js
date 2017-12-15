@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import LikedPostsTab               from './liked_posts_tab.js';
-import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
+import LikedPostsTab     from './liked_posts_tab.js';
+import { refreshPosts }  from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
