@@ -9,10 +9,9 @@ import { refreshPosts }  from '../../actions/post_actions.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, posts, nav }, ownProps) => ({
+const mapStateToProps = ({ user, posts }, ownProps) => ({
   authToken:            user.authToken,
-  likedPosts:           posts.likedPosts,
-  isUserScreenFocused:  nav.isUserScreenFocused
+  likedPosts:           posts.likedPosts
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
