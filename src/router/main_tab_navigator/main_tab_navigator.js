@@ -16,14 +16,14 @@ export const MainTabNavigator = TabNavigator({
     screen: HomeScreenContainer,
     navigationOptions:  ({navigation}) => ({
       tabBarIcon:       ({ focused, tintColor }) => <Icon name='home' style={[styles.icon, focused && styles.iconFocused]} /> ,
-      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toHomeScreen())}}
+      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toHomeScreen(Date()))}}
     })
   },
   UserTabNavigator: {
     screen: UserTabNavigator,
     navigationOptions:  ({navigation}) => ({
       tabBarIcon:       ({ focused, tintColor }) => <Icon name='user' style={[styles.icon, focused && styles.iconFocused]} />,
-      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toAuthoredPostsTab())}}
+      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toAuthoredPostsTab(Date()))}}
     })
   },
 }, {
