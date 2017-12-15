@@ -11,23 +11,41 @@ import { styles }            from './home_screen_styles.js';
 //--------------------------------------------------------------------//
 
 
-class HomeScreen extends React.PureComponent {
+class HomeScreen extends React.Component {
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // TODO: fix lastUpdated to work with react navigation
   componentDidMount() {
-    if (!this.props.allPosts.lastUpdated) {
-      this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL, {limit: 5})
-      return;
-    }
+    this._refreshPosts();
+    this._startTimer();
+  }
 
-    let minsDiff = (Date() - this.props.allPosts.lastUpdated) / (1000 * 60)
-    if (minsDiff > 1) {
-      this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL, {limit: 5})
-    }
+  componentWillUnmount() {
+    this._stopTimer();
+  }
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  _refreshPosts() {
+    this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL);
+  }
+
+  _startTimer() {
+    this.timer = setInterval(this._tick.bind(this), 1000 * 60);
+  }
+
+  _stopTimer() {
+    clearInterval(this.timer);
+  }
+
+  _tick() {
+    this._stopTimer();
+    this._refreshPosts();
+    this._startTimer();
   }
 
 
@@ -36,6 +54,7 @@ class HomeScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
+    console.log('hi')
     return (
       <RN.View style={styles.container} >
         <PostListContainer posts={this.props.allPosts} postType={POST_TYPES.ALL} />

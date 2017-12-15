@@ -17,15 +17,34 @@ class AuthoredPostsTab extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    if (!this.props.authoredPosts.lastUpdated) {
-      this.props.refreshPosts(this.props.authToken, POST_TYPES.AUTHORED, {limit: 5})
-      return;
-    }
+    this._refreshPosts();
+    this._startTimer();
+  }
 
-    let minsDiff = (Date() - this.props.authoredPosts.lastUpdated) / (1000 * 60)
-    if (minsDiff > 1) {
-      this.props.refreshPosts(this.props.authToken, POST_TYPES.AUTHORED, {limit: 5})
-    }
+  componentWillUnmount() {
+    this._stopTimer();
+  }
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  _refreshPosts() {
+    this.props.refreshPosts(this.props.authToken, POST_TYPES.AUTHORED);
+  }
+
+  _startTimer() {
+    this.timer = setInterval(this._tick.bind(this), 1000 * 60);
+  }
+
+  _stopTimer() {
+    clearInterval(this.timer);
+  }
+
+  _tick() {
+    this._stopTimer();
+    this._refreshPosts();
+    this._startTimer();
   }
 
   //--------------------------------------------------------------------//
