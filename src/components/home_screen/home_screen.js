@@ -54,7 +54,6 @@ class HomeScreen extends React.Component {
   //--------------------------------------------------------------------//
 
   render() {
-    console.log('hi')
     return (
       <RN.View style={styles.container} >
         <PostListContainer posts={this.props.allPosts} postType={POST_TYPES.ALL} />

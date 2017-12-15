@@ -7,7 +7,7 @@ import Ionicon   from 'react-native-vector-icons/Ionicons';
 // Local Imports
 import { styles }                    from './menu_screen_styles.js';
 import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
-import { goBack } from '../../actions/navigation_actions.js';
+import { goBack }                    from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
