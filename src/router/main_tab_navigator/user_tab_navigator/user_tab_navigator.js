@@ -8,7 +8,6 @@ import LikedPostsTabContainer                   from '../../../components/user_s
 import { styles }                               from './user_tab_navigator_styles.js';
 import { COLORS }                               from '../../../utilities/style_utility.js';
 import { toAuthoredPostsTab, toLikedPostsTab }  from '../../../actions/navigation_actions.js';
-import { getCurrentRoute }  from '../../../utilities/function_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -18,14 +17,14 @@ export const UserTabNavigator = TabNavigator({
     screen: AuthoredPostsTabContainer,
     navigationOptions:  ({navigation}) => ({
       tabBarLabel:      'Posts',
-      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toAuthoredPostsTab(getCurrentRoute(navigation.state)))}}
+      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toAuthoredPostsTab())}}
     })
   },
   LikedPostsTab: {
     screen: LikedPostsTabContainer,
     navigationOptions:  ({navigation}) => ({
       tabBarLabel:      'Likes',
-      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toLikedPostsTab(getCurrentRoute(navigation.state)))}}
+      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toLikedPostsTab())}}
     })
   },
 }, {

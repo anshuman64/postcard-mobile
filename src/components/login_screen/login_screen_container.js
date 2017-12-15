@@ -4,17 +4,14 @@ import { connect } from 'react-redux';
 // Local Imports
 import LoginScreen                                        from './login_screen.js';
 import { getConfirmationCode, debugGetConfirmationCode }  from '../../actions/user_actions.js';
-import { getCurrentRoute }  from '../../utilities/function_utility.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, nav }, ownProps) => ({
+const mapStateToProps = ({ user }, ownProps) => ({
   phoneNumber:          user.phoneNumber,
-  confirmationCodeObj:  user.confirmationCodeObj,
-  currentScreen: getCurrentRoute(nav),
-  lastScreen: nav.lastScreen,
+  confirmationCodeObj:  user.confirmationCodeObj
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

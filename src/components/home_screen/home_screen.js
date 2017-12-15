@@ -30,10 +30,6 @@ class HomeScreen extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps.lastScreen);
-  }
-
 
   //--------------------------------------------------------------------//
   // Render Methods
