@@ -4,7 +4,7 @@ import RN     from 'react-native';
 
 // Local Imports
 import { styles }                    from './country_list_item_styles.js';
-import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
 
 
 //--------------------------------------------------------------------//

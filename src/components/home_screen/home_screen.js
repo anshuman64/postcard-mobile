@@ -5,7 +5,7 @@ import RN     from 'react-native';
 // Local Imports
 import PostListContainer     from '../post_list/post_list_container.js';
 import { POST_TYPES }        from '../../actions/post_actions.js';
-import { setStateCallback }  from '../../utilities/component_utility.js';
+import { setStateCallback }  from '../../utilities/function_utility.js';
 import { styles }            from './home_screen_styles.js';
 
 //--------------------------------------------------------------------//

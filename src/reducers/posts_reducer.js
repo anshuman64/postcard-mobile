@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 // Local Imports
 import { POST_ACTION_TYPES, POST_TYPES } from '../actions/post_actions.js';
 import { LIKE_ACTION_TYPES }             from '../actions/like_actions.js';
+import { mergeSorted }                   from '../utilities/function_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -24,38 +25,6 @@ const DEFAULT_STATE = {
     isEnd:        false,
   },
 };
-
-function mergeSorted(arrayA, arrayB) {
-  var i = 0;
-  var j = 0;
-  var m = arrayA.length;
-  var n = arrayB.length;
-  var arrayC = [];
-
-    while (i < m && j < n){
-      if (arrayA[i] > arrayB[j]){
-        arrayC.push(arrayA[i])
-        i += 1
-      } else if (arrayB[j] > arrayA[i]) {
-        arrayC.push(arrayB[j])
-        j+= 1
-      } else {
-        arrayC.push(arrayB[j])
-        j += 1
-        i += 1
-      }
-    }
-    while (i < m){
-      arrayC.push(arrayA[i])
-      i += 1
-    }
-    while (j < n) {
-      arrayC.push(arrayB[j])
-      j += 1
-    }
-
-  return arrayC;
-}
 
 
 const PostsReducer = (state = DEFAULT_STATE, action) => {
@@ -104,7 +73,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       }
 
       return newState;
-    // TODO: improve refresh behavior
+
     case POST_ACTION_TYPES.REFRESH_POSTS:
       switch (action.data.postType) {
         case POST_TYPES.ALL:
