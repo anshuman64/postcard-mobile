@@ -25,6 +25,39 @@ const DEFAULT_STATE = {
   },
 };
 
+function mergeSorted(arrayA, arrayB) {
+  var i = 0;
+  var j = 0;
+  var m = arrayA.length;
+  var n = arrayB.length;
+  var arrayC = [];
+
+    while (i < m && j < n){
+      if (arrayA[i] > arrayB[j]){
+        arrayC.push(arrayA[i])
+        i += 1
+      } else if (arrayB[j] > arrayA[i]) {
+        arrayC.push(arrayB[j])
+        j+= 1
+      } else {
+        arrayC.push(arrayB[j])
+        j += 1
+        i += 1
+      }
+    }
+    while (i < m){
+      arrayC.push(arrayA[i])
+      i += 1
+    }
+    while (j < n) {
+      arrayC.push(arrayB[j])
+      j += 1
+    }
+
+  return arrayC;
+}
+
+
 const PostsReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
   let newState = _.merge({}, state);
@@ -75,17 +108,32 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.REFRESH_POSTS:
       switch (action.data.postType) {
         case POST_TYPES.ALL:
-          newState.allPosts.data = [];
+          if (action.data.posts.length === 0) {
+            newState.allPosts.isEnd = true;
+            break;
+          }
+
+          newState.allPosts.data = mergeSorted(newState.allPosts.data, action.data.posts.map(post => post.id));
           newState.allPosts.lastUpdated = new Date();
           newState.allPosts.isEnd = false;
           break;
         case POST_TYPES.AUTHORED:
-          newState.authoredPosts.data = [];
+          if (action.data.posts.length === 0) {
+            newState.authoredPosts.isEnd = true;
+            break;
+          }
+
+          newState.authoredPosts.data = mergeSorted(newState.authoredPosts.data, action.data.posts.map(post => post.id));
           newState.authoredPosts.lastUpdated = new Date();
           newState.authoredPosts.isEnd = false;
           break;
         case POST_TYPES.LIKED:
-          newState.likedPosts.data = [];
+          if (action.data.posts.length === 0) {
+            newState.likedPosts.isEnd = true;
+            break;
+          }
+
+          newState.likedPosts.data = mergeSorted(newState.likedPosts.data, action.data.posts.map(post => post.id));
           newState.likedPosts.lastUpdated = new Date();
           newState.likedPosts.isEnd = false;
           break;

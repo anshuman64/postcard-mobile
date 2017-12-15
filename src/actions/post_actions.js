@@ -65,8 +65,21 @@ export const getPosts = (authToken, postType, queryParams) => (dispatch) => {
 };
 
 export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => {
-  dispatch(clearPosts({postType: postType}));
-  return dispatch(getPosts(authToken, postType, queryParams));
+  let getRouteForPostType = (postType) => {
+    switch(postType) {
+      case POST_TYPES.ALL:
+        return '';
+      case POST_TYPES.AUTHORED:
+        return '/authored';
+      case POST_TYPES.LIKED:
+        return '/liked';
+    }
+  }
+
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
+    .then((posts) => {
+      dispatch(clearPosts({posts: posts, postType: postType}));
+    });
 };
 
 export const createPost = (authToken, postObj) => (dispatch) => {
