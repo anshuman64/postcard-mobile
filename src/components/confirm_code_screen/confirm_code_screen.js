@@ -5,10 +5,10 @@ import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
 import Ionicon                                 from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }                                    from './confirm_code_screen_styles.js';
-import { setStateInAnimationFrame }                  from '../../utilities/function_utility.js';
-import { toHomeScreen, goBack }  from '../../actions/navigation_actions.js';
-import { COLORS }                                    from '../../utilities/style_utility.js';
+import { styles }                   from './confirm_code_screen_styles.js';
+import { setStateInAnimationFrame } from '../../utilities/function_utility.js';
+import { toHomeScreen, goBack }     from '../../actions/navigation_actions.js';
+import { COLORS }                   from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -97,7 +97,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
       this.props.verifyConfirmationCode(this.props.phoneNumber, this.props.confirmationCodeObj, value).then(() => {
-        this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toHomeScreen(this.props.currentScreen)))
+        this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toHomeScreen()))
       }).catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
       })
     }
@@ -105,7 +105,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   // Callback function to return to login screen
   _onBackIconPress() {
-    this.props.navigation.dispatch(goBack(this.props.currentScreen));
+    this.props.navigation.dispatch(goBack());
   }
 
   // Callback function to resend confirmation code via SMS and restart timer
@@ -126,7 +126,7 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderHeader() {
     return (
       <RN.View style={styles.header}>
-        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack(this.props.currentScreen))} style={styles.backIcon}/>
+        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
       </RN.View>
     )
   }
