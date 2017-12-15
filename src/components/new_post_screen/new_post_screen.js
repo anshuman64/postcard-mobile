@@ -10,7 +10,7 @@ import { goBack }  from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
-class NewPostScreen extends React.Component {
+class NewPostScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
   }

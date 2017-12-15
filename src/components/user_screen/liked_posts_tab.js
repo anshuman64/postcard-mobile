@@ -10,7 +10,7 @@ import { POST_TYPES }     from '../../actions/post_actions.js';
 
 //--------------------------------------------------------------------//
 
-class LikedPostsTab extends React.Component {
+class LikedPostsTab extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
