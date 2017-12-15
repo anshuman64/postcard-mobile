@@ -10,9 +10,9 @@ import { refreshPosts }     from '../../actions/post_actions.js';
 
 
 const mapStateToProps = ({ user, posts, nav }, ownProps) => ({
-  authToken:       user.authToken,
-  allPosts:        posts.allPosts,
-  homeScreenDate:  nav.homeScreenDate
+  authToken:            user.authToken,
+  allPosts:             posts.allPosts,
+  isHomeScreenFocused:  nav.isHomeScreenFocused
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

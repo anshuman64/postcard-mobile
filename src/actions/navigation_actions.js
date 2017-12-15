@@ -4,15 +4,17 @@
 //--------------------------------------------------------------------//
 
 export const NAVIGATION_ACTION_TYPES = {
-  TO_LOADING_SCREEN:      'TO_LOADING_SCREEN',
-  TO_LOGIN_SCREEN:        'TO_LOGIN_SCREEN',
-  TO_CONFIRM_CODE_SCREEN: 'TO_CONFIRM_CODE_SCREEN',
-  TO_HOME_SCREEN:         'TO_HOME_SCREEN',
-  TO_AUTHORED_POSTS_TAB:  'TO_AUTHORED_POSTS_TAB',
-  TO_LIKED_POSTS_TAB:     'TO_LIKED_POSTS_TAB',
-  TO_NEW_POST_SCREEN:     'TO_NEW_POST_SCREEN',
-  TO_MENU_SCREEN:         'TO_MENU_SCREEN',
-  GO_BACK:                'GO_BACK',
+  TO_LOADING_SCREEN:            'TO_LOADING_SCREEN',
+  TO_LOGIN_SCREEN:              'TO_LOGIN_SCREEN',
+  TO_CONFIRM_CODE_SCREEN:       'TO_CONFIRM_CODE_SCREEN',
+  TO_HOME_SCREEN:               'TO_HOME_SCREEN',
+  TO_AUTHORED_POSTS_TAB:        'TO_AUTHORED_POSTS_TAB',
+  TO_LIKED_POSTS_TAB:           'TO_LIKED_POSTS_TAB',
+  TO_NEW_POST_SCREEN:           'TO_NEW_POST_SCREEN',
+  TO_MENU_SCREEN:               'TO_MENU_SCREEN',
+  GO_BACK:                      'GO_BACK',
+  HOME_SCREEN_IS_FOCUSED_FALSE: 'HOME_SCREEN_IS_FOCUSED_FALSE',
+  USER_SCREEN_IS_FOCUSED_FALSE: 'USER_SCREEN_IS_FOCUSED_FALSE'
 };
 
 //--------------------------------------------------------------------//
@@ -54,3 +56,11 @@ export const toMenuScreen = (data) => {
 export const goBack = (data) => {
   return { type: NAVIGATION_ACTION_TYPES.GO_BACK, data: data };
 };
+
+export const homeScreenIsFocusedFalse = data => {
+  return { type: NAVIGATION_ACTION_TYPES.HOME_SCREEN_IS_FOCUSED_FALSE, data: data };
+}
+
+export const userScreenIsFocusedFalse = data => {
+  return { type: NAVIGATION_ACTION_TYPES.USER_SCREEN_IS_FOCUSED_FALSE, data: data };
+}

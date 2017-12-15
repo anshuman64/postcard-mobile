@@ -18,16 +18,19 @@ class HomeScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL, {limit: 5})
+    this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL)
   }
 
   componentWillUpdate() {
-    let currentTime = new Date();
-    let lastUpdate = this.props.allPosts.lastUpdated;
-    let minsDiff = (currentTime - lastUpdate) / (1000 * 60)
+    if (this.props.isHomeScreenFocused) {
+      let currentTime = new Date();
+      let lastUpdate = this.props.allPosts.lastUpdated;
+      let minsDiff = (currentTime - lastUpdate) / (1000 * 5)
+      console.log('hey')
 
-    if (minsDiff > 1) {
-      this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL, {limit: 5})
+      if (minsDiff > 1) {
+        this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL)
+      }
     }
   }
 

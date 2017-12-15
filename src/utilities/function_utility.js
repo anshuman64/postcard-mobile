@@ -50,5 +50,7 @@ export const mergeSorted = (arrayA, arrayB) => {
     j += 1
   }
 
+  console.log(arrayC)
+
   return arrayC;
 }
