@@ -70,7 +70,7 @@ class PostListItem extends React.PureComponent {
   _renderPostBody() {
     return (
       <RN.Text style={ styles.bodyText }>
-        {this.props.item.body}
+        {this.props.item.id}
       </RN.Text>
     )
   }
