@@ -13,7 +13,7 @@ import { COLORS }                   from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-class ConfirmCodeScreen extends React.Component {
+class ConfirmCodeScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
   }

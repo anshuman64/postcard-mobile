@@ -13,7 +13,7 @@ import { toHomeScreen }                                from '../../actions/navig
 //--------------------------------------------------------------------//
 
 
-class DebugLoginScreen extends React.Component {
+class DebugLoginScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
   }
