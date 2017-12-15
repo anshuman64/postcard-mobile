@@ -8,6 +8,7 @@ import HomeScreenContainer                   from '../../components/home_screen/
 import { UserTabNavigator }                  from './user_tab_navigator/user_tab_navigator.js';
 import { styles }                            from './main_tab_navigator_styles.js';
 import { toHomeScreen, toAuthoredPostsTab }  from '../../actions/navigation_actions.js';
+import { getCurrentRoute }  from '../../utilities/function_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -16,14 +17,14 @@ export const MainTabNavigator = TabNavigator({
     screen: HomeScreenContainer,
     navigationOptions:  ({navigation}) => ({
       tabBarIcon:       ({ focused, tintColor }) => <Icon name='home' style={[styles.icon, focused && styles.iconFocused]} /> ,
-      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toHomeScreen())}}
+      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toHomeScreen(getCurrentRoute(navigation.state)))}}
     })
   },
   UserTabNavigator: {
     screen: UserTabNavigator,
     navigationOptions:  ({navigation}) => ({
       tabBarIcon:       ({ focused, tintColor }) => <Icon name='user' style={[styles.icon, focused && styles.iconFocused]} />,
-      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toAuthoredPostsTab())}}
+      tabBarOnPress:    (scene) => {if(!scene.focused) {navigation.dispatch(toAuthoredPostsTab(getCurrentRoute(navigation.state)))}}
     })
   },
 }, {

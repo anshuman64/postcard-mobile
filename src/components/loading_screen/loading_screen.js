@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { COLORS }                          from '../../utilities/style_utility.js';
+import { COLORS }                                              from '../../utilities/style_utility.js';
 import { toHomeScreen, toLoginScreen }     from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
@@ -20,11 +20,11 @@ class LoadingScreen extends React.PureComponent {
 
   componentDidMount() {
     let successCallback = () => {
-      this.props.navigation.dispatch(toHomeScreen());
+      this.props.navigation.dispatch(toHomeScreen(this.props.currentScreen));
     };
 
     let errorCallback = () => {
-      this.props.navigation.dispatch(toLoginScreen());
+      this.props.navigation.dispatch(toLoginScreen(this.props.currentScreen));
     };
 
     this.unsubscribe = this.props.attemptToLoginUser(successCallback, errorCallback);
