@@ -4,17 +4,14 @@ import { connect } from 'react-redux';
 // Local Imports
 import DebugLoginScreen   from './debug_login_screen.js';
 import { debugSignIn }    from '../../actions/user_actions.js';
-import { getCurrentRoute }  from '../../utilities/function_utility.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, nav }, ownProps) => ({
+const mapStateToProps = ({ user }, ownProps) => ({
   phoneNumber:      user.phoneNumber,
-  firebaseUserObj:  user.firebaseUserObj,
-  currentScreen:      getCurrentRoute(nav),
-  lastScreen: nav.lastScreen,
+  firebaseUserObj:  user.firebaseUserObj
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
