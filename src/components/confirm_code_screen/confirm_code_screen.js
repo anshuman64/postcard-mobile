@@ -35,8 +35,6 @@ class ConfirmCodeScreen extends React.PureComponent {
     this.timer = null;
     this.phoneUtil = PhoneNumberUtil.getInstance();
 
-    this._codeInputOnChangeText = this._codeInputOnChangeText.bind(this);
-    this._tick = this._tick.bind(this);
     this.render = this.render.bind(this);
   }
 
@@ -58,7 +56,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   // Starts Resend SMS timer
   _startTimer() {
-    this.timer = setInterval(this._tick, 1000);
+    this.timer = setInterval(this._tick.bind(this), 1000);
     this.setState({isResendSMSDisabled: true, secsRemaining: 59})
   }
 
@@ -152,7 +150,7 @@ class ConfirmCodeScreen extends React.PureComponent {
       <RN.TextInput
         style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeIncorrect && styles.borderRed]}
         keyboardType='numeric'
-        onChangeText={this._codeInputOnChangeText}
+        onChangeText={this._codeInputOnChangeText.bind(this)}
         value={this.state.inputtedCode}
         placeholder='-  -  -  -  -  -'
         autoFocus={true}
