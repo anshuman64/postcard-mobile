@@ -11,7 +11,7 @@ import { COLORS }             from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 
-class PostList extends React.Component {
+class PostList extends React.PureComponent {
   constructor(props) {
     super(props);
 

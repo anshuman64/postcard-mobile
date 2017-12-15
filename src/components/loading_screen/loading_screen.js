@@ -9,7 +9,7 @@ import { toHomeScreen, toLoginScreen }     from '../../actions/navigation_action
 //--------------------------------------------------------------------//
 
 
-class LoadingScreen extends React.Component {
+class LoadingScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
   }

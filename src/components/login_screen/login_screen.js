@@ -18,7 +18,7 @@ import { toConfirmCodeScreen }                         from '../../actions/navig
 //--------------------------------------------------------------------//
 
 
-class LoginScreen extends React.Component {
+class LoginScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
   }
