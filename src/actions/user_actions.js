@@ -2,7 +2,7 @@
 import Firebase from 'react-native-firebase';
 
 // Local Imports
-import * as APIUtility from '../utilities/api_utility';
+import * as APIUtility from '../utilities/api_utility.js';
 
 //--------------------------------------------------------------------//
 
