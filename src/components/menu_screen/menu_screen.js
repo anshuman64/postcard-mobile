@@ -5,8 +5,8 @@ import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }                     from './menu_screen_styles.js';
-import { setStateInAnimationFrame }   from '../../utilities/function_utility.js';
+import { styles }                    from './menu_screen_styles.js';
+import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
 import { goBack } from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
@@ -49,7 +49,7 @@ class MenuScreen extends React.PureComponent {
   _renderHeader() {
     return (
       <RN.View style={styles.header}>
-        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack(this.props.currentScreen))} style={styles.backIcon}/>
+        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
         <RN.Text style={styles.shareButtonText} onPress={() => this._onPressShare()}>Share</RN.Text>
       </RN.View>
     )
