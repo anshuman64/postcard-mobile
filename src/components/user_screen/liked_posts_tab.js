@@ -18,13 +18,13 @@ class LikedPostsTab extends React.PureComponent {
 
   componentDidMount() {
     if (!this.props.likedPosts.lastUpdated) {
-      this.props.refreshPosts(this.props.authToken, POST_TYPES.AUTHORED, {limit: 5})
+      this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED, {limit: 5})
       return;
     }
 
     let minsDiff = (Date() - this.props.likedPosts.lastUpdated) / (1000 * 60)
     if (minsDiff > 1) {
-      this.props.refreshPosts(this.props.authToken, POST_TYPES.AUTHORED, {limit: 5})
+      this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED, {limit: 5})
     }
   }
 
