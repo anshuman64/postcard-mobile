@@ -24,6 +24,7 @@ const DEFAULT_STATE = {
     lastUpdated:  Date(),
     isEnd:        false,
   },
+  scrollToTop: false,
 };
 
 
@@ -117,6 +118,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState.allPosts.data.unshift(action.data.id);
       newState.authoredPosts.data.unshift(action.data.id);
+      newState.scrollToTop = true;
 
       return newState;
     case POST_ACTION_TYPES.REMOVE_POST:
@@ -142,6 +144,15 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       _.remove(newState.likedPosts.data, (postId) => {
         return postId === action.data.post_id;
       });
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Other Actions
+    //--------------------------------------------------------------------//
+    
+    case POST_ACTION_TYPES.STOP_SCROLL_TO_TOP:
+      newState.scrollToTop = false;
 
       return newState;
     default:
