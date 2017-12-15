@@ -9,7 +9,7 @@ import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, posts, postsCache }, ownProps) => ({
+const mapStateToProps = ({ user, postsCache }, ownProps) => ({
   authToken:  user.authToken,
   postsCache: postsCache,
 });

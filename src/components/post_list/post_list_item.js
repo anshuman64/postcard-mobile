@@ -1,9 +1,9 @@
 // Library Imports
-import React      from 'react';
-import RN         from 'react-native';
+import React                         from 'react';
+import RN                            from 'react-native';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
-import Icon       from 'react-native-vector-icons/SimpleLineIcons';
-import EvilIcons  from 'react-native-vector-icons/EvilIcons';
+import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import { styles }      from './post_list_item_styles.js';
@@ -11,10 +11,10 @@ import { renderDate }  from '../../utilities/date_time_utility.js';
 import fontelloConfig  from '../../assets/fonts/config.json';
 
 
-const IconFilled = createIconSetFromFontello(fontelloConfig);
-
 //--------------------------------------------------------------------//
 
+
+const IconFilled = createIconSetFromFontello(fontelloConfig);
 
 class PostListItem extends React.PureComponent {
 
