@@ -20,18 +20,6 @@ class LikedPostsTab extends React.PureComponent {
     this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED)
   }
 
-  componentWillUpdate() {
-    if (this.props.isUserScreenFocused) {
-      let currentTime = new Date();
-      let lastUpdate = this.props.likedPosts.lastUpdated;
-      let minsDiff = (currentTime - lastUpdate) / (1000 * 5)
-
-      if (minsDiff > 1) {
-        this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED)
-      }
-    }
-  }
-
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
