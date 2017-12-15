@@ -11,7 +11,7 @@ import { styles }            from './home_screen_styles.js';
 //--------------------------------------------------------------------//
 
 
-class HomeScreen extends React.Component {
+class HomeScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods

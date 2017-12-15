@@ -11,7 +11,7 @@ import { goBack } from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
-class MenuScreen extends React.Component {
+class MenuScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
   }
