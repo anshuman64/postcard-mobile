@@ -1,7 +1,6 @@
 // Local Imports
-import * as APIUtility from '../utilities/api_utility';
+import * as APIUtility from '../utilities/api_utility.js';
 
-//--------------------------------------------------------------------//
 
 //--------------------------------------------------------------------//
 // Constants
@@ -67,7 +66,7 @@ export const getPosts = (authToken, postType, queryParams) => (dispatch) => {
 
 export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => {
   dispatch(clearPosts({postType: postType}));
-  dispatch(getPosts(authToken, postType, queryParams));
+  return dispatch(getPosts(authToken, postType, queryParams));
 };
 
 export const createPost = (authToken, postObj) => (dispatch) => {

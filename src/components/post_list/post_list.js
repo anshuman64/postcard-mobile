@@ -5,7 +5,7 @@ import RN     from 'react-native';
 // Local Imports
 import PostListItemContainer  from './post_list_item_container.js';
 import { styles }             from './post_list_styles.js';
-import { POST_TYPES }        from '../../actions/post_actions.js';
+import { POST_TYPES }         from '../../actions/post_actions.js';
 import { COLORS }             from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
@@ -25,11 +25,11 @@ class PostList extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  // TODO: make refreshPost a promise
   _onRefresh() {
     this.setState({isRefreshing: true}, () => {
-      this.props.refreshPosts(this.props.authToken, this.props.postType, {limit: 5});
-      this.setState({isRefreshing: false});
+      this.props.refreshPosts(this.props.authToken, this.props.postType, {limit: 5}).then(() => {
+        this.setState({isRefreshing: false});
+      })
     })
   }
 
