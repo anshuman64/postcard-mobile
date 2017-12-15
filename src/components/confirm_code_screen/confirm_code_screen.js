@@ -6,7 +6,7 @@ import Ionicon                                 from 'react-native-vector-icons/I
 
 // Local Imports
 import { styles }                   from './confirm_code_screen_styles.js';
-import { setStateInAnimationFrame } from '../../utilities/component_utility.js';
+import { setStateInAnimationFrame } from '../../utilities/function_utility.js';
 import { toHomeScreen, goBack }     from '../../actions/navigation_actions.js';
 import { COLORS }                   from '../../utilities/style_utility.js';
 

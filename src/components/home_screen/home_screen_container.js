@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // Local Imports
 import HomeScreen           from './home_screen.js';
 import { refreshPosts }     from '../../actions/post_actions.js';
-import { getCurrentRoute }  from '../../utilities/component_utility.js';
+import { getCurrentRoute }  from '../../utilities/function_utility.js';
 
 
 //--------------------------------------------------------------------//
