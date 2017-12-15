@@ -9,7 +9,7 @@ import { NAVIGATION_ACTION_TYPES }  from '../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 
-const DEFAULT_STATE = AppNavigator.router.getStateForAction(NavigationActions.init());
+const DEFAULT_STATE = _.merge(AppNavigator.router.getStateForAction(NavigationActions.init()), {homeScreenDate: Date(), userScreenDate: Date()});
 
 const NavigationReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
@@ -46,6 +46,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         state
       );
 
+      if (action.data) {
+        newState.homeScreenDate = action.data;
+      }
+
       return newState;
 
     case NAVIGATION_ACTION_TYPES.TO_AUTHORED_POSTS_TAB:
@@ -53,6 +57,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         NavigationActions.navigate({ routeName: 'AuthoredPostsTab' }),
         state
       );
+
+      if (action.data) {
+        newState.userScreenDate = action.data;
+      }
 
       return newState;
 

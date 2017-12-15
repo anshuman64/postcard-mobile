@@ -11,17 +11,17 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 const DEFAULT_STATE = {
   allPosts: {
     data:         [],
-    lastUpdated:  null,
+    lastUpdated:  Date(),
     isEnd:        false,
   },
   authoredPosts: {
     data:         [],
-    lastUpdated:  null,
+    lastUpdated:  Date(),
     isEnd:        false,
   },
   likedPosts: {
     data:         [],
-    lastUpdated:  null,
+    lastUpdated:  Date(),
     isEnd:        false,
   },
 };

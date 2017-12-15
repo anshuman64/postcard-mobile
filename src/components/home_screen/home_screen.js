@@ -17,14 +17,15 @@ class HomeScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // TODO: fix lastUpdated to work with react navigation
   componentDidMount() {
-    if (!this.props.allPosts.lastUpdated) {
-      this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL, {limit: 5})
-      return;
-    }
+    this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL, {limit: 5})
+  }
 
-    let minsDiff = (Date() - this.props.allPosts.lastUpdated) / (1000 * 60)
+  componentWillUpdate() {
+    let currentTime = new Date();
+    let lastUpdate = this.props.allPosts.lastUpdated;
+    let minsDiff = (currentTime - lastUpdate) / (1000 * 60)
+
     if (minsDiff > 1) {
       this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL, {limit: 5})
     }
