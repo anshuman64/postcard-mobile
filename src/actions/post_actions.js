@@ -28,7 +28,7 @@ export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
 };
 
-export const clearPosts = (data) => {
+export const refreshAndReceivePosts = (data) => {
   return { type: POST_ACTION_TYPES.REFRESH_POSTS, data: data };
 };
 
@@ -78,7 +78,7 @@ export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => 
 
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
-      dispatch(clearPosts({posts: posts, postType: postType}));
+      dispatch(refreshAndReceivePosts({posts: posts, postType: postType}));
     });
 };
 
