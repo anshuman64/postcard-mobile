@@ -88,15 +88,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
-    case NAVIGATION_ACTION_TYPES.HOME_SCREEN_IS_FOCUSED_FALSE:
-      newState.isHomeScreenFocused = false;
-
-      return newState;
-    case NAVIGATION_ACTION_TYPES.USER_SCREEN_IS_FOCUSED_FALSE:
-      newState.isUserScreenFocused = false;
-
-      return newState;
-
     default:
       return state;
   }
