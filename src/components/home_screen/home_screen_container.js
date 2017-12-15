@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 // Local Imports
 import HomeScreen           from './home_screen.js';
 import { refreshPosts }     from '../../actions/post_actions.js';
-import { getCurrentRoute }  from '../../utilities/function_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -13,7 +12,6 @@ import { getCurrentRoute }  from '../../utilities/function_utility.js';
 const mapStateToProps = ({ user, posts, nav }, ownProps) => ({
   authToken:    user.authToken,
   allPosts:     posts.allPosts,
-  currentRoute: getCurrentRoute(nav),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
