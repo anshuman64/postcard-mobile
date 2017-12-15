@@ -4,14 +4,17 @@ import { connect } from 'react-redux';
 // Local Imports
 import AuthoredPostsTab  from './authored_posts_tab.js';
 import { refreshPosts }  from '../../actions/post_actions.js';
+import { getCurrentRoute }  from '../../utilities/function_utility.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, posts }, ownProps) => ({
+const mapStateToProps = ({ user, posts, nav }, ownProps) => ({
   authToken:     user.authToken,
-  authoredPosts: posts.authoredPosts
+  authoredPosts: posts.authoredPosts,
+  currentScreen: getCurrentRoute(nav),
+  lastScreen: nav.lastScreen,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

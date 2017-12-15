@@ -9,7 +9,7 @@ import { NAVIGATION_ACTION_TYPES }  from '../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 
-const DEFAULT_STATE = AppNavigator.router.getStateForAction(NavigationActions.init());
+const DEFAULT_STATE = _.merge(AppNavigator.router.getStateForAction(NavigationActions.init()), {lastScreen: null});
 
 const NavigationReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
@@ -22,6 +22,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         state
       );
 
+      if (action.data) {
+        newState.lastScreen = action.data;
+      }
+
       return newState;
 
     case NAVIGATION_ACTION_TYPES.TO_LOGIN_SCREEN:
@@ -29,6 +33,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         NavigationActions.navigate({ routeName: 'LoginScreen' }),
         state
       );
+
+      if (action.data) {
+        newState.lastScreen = action.data;
+      }
 
       return newState;
 
@@ -38,6 +46,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         state
       );
 
+      if (action.data) {
+        newState.lastScreen = action.data;
+      }
+
       return newState;
 
     case NAVIGATION_ACTION_TYPES.TO_HOME_SCREEN:
@@ -45,6 +57,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         NavigationActions.navigate({ routeName: 'HomeScreen' }),
         state
       );
+
+      if (action.data) {
+        newState.lastScreen = action.data;
+      }
 
       return newState;
 
@@ -54,6 +70,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         state
       );
 
+      if (action.data) {
+        newState.lastScreen = action.data;
+      }
+
       return newState;
 
     case NAVIGATION_ACTION_TYPES.TO_LIKED_POSTS_TAB:
@@ -61,6 +81,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         NavigationActions.navigate({ routeName: 'LikedPostsTab' }),
         state
       );
+
+      if (action.data) {
+        newState.lastScreen = action.data;
+      }
 
       return newState;
 
@@ -70,6 +94,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         state
       );
 
+      if (action.data) {
+        newState.lastScreen = action.data;
+      }
+
       return newState;
 
     case NAVIGATION_ACTION_TYPES.TO_MENU_SCREEN:
@@ -78,6 +106,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         state
       );
 
+      if (action.data) {
+        newState.lastScreen = action.data;
+      }
+
       return newState;
 
     case NAVIGATION_ACTION_TYPES.GO_BACK:
@@ -85,6 +117,10 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         NavigationActions.back(),
         state
       );
+
+      if (action.data) {
+        newState.lastScreen = action.data;
+      }
 
       return newState;
 
