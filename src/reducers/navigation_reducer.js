@@ -9,7 +9,7 @@ import { NAVIGATION_ACTION_TYPES }  from '../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 
-const DEFAULT_STATE = _.merge(AppNavigator.router.getStateForAction(NavigationActions.init()), {homeScreenDate: Date(), userScreenDate: Date()});
+const DEFAULT_STATE = _.merge(AppNavigator.router.getStateForAction(NavigationActions.init()), {isHomeScreenFocused: false, isUserScreenFocused: false});
 
 const NavigationReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
@@ -23,7 +23,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_LOGIN_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'LoginScreen' }),
@@ -31,7 +30,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_CONFIRM_CODE_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'ConfirmCodeScreen' }),
@@ -39,7 +37,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_HOME_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'HomeScreen' }),
@@ -51,7 +48,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       }
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_AUTHORED_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'AuthoredPostsTab' }),
@@ -63,7 +59,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       }
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_LIKED_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'LikedPostsTab' }),
@@ -71,7 +66,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_NEW_POST_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'NewPostScreen' }),
@@ -79,7 +73,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_MENU_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'MenuScreen' }),
@@ -87,12 +80,20 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.GO_BACK:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.back(),
         state
       );
+
+      return newState;
+
+    case NAVIGATION_ACTION_TYPES.HOME_SCREEN_IS_FOCUSED_FALSE:
+      newState.isHomeScreenFocused = false;
+
+      return newState;
+    case NAVIGATION_ACTION_TYPES.USER_SCREEN_IS_FOCUSED_FALSE:
+      newState.isUserScreenFocused = false;
 
       return newState;
 

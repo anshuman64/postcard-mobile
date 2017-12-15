@@ -13,10 +13,11 @@ export const POST_TYPES = {
 }
 
 export const POST_ACTION_TYPES = {
-  RECEIVE_POSTS: 'RECEIVE_POSTS',
-  REFRESH_POSTS: 'REFRESH_POSTS',
-  RECEIVE_POST:  'RECEIVE_POST',
-  REMOVE_POST:   'REMOVE_POST'
+  RECEIVE_POSTS:      'RECEIVE_POSTS',
+  REFRESH_POSTS:      'REFRESH_POSTS',
+  RECEIVE_POST:       'RECEIVE_POST',
+  REMOVE_POST:        'REMOVE_POST',
+  STOP_SCROLL_TO_TOP: 'STOP_SCROLL_TO_TOP'
 };
 
 
@@ -39,6 +40,10 @@ export const receivePost = (data) => {
 export const removePost = (data) => {
   return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
 };
+
+export const stopScrollToTop = (data) => {
+  return { type: POST_ACTION_TYPES.STOP_SCROLL_TO_TOP, data: data };
+}
 
 
 //--------------------------------------------------------------------//
