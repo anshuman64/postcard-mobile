@@ -6,6 +6,7 @@ import { addNavigationHelpers }  from 'react-navigation';
 // Local Imports
 import { AppNavigator } from './app_navigator.js';
 import { goBack }       from '../actions/navigation_actions.js';
+import { getCurrentRoute }  from '../utilities/function_utility.js';
 
 
 class AppWithNavigationState extends React.Component {
@@ -24,7 +25,7 @@ class AppWithNavigationState extends React.Component {
     //   return false;
     // }
 
-    this.props.dispatch(goBack());
+    this.props.dispatch(goBack(getCurrentRoute(this.props.nav)));
     return true;
   };
 
