@@ -6,7 +6,7 @@ import RN     from 'react-native';
 import { styles }                    from './country_list_modal_styles.js';
 import CountryListItem               from './country_list_item.js';
 import { scale }                     from '../../utilities/style_utility.js';
-import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
 import { COUNTRY_CODES }             from '../../utilities/country_utility.js';
 
 
