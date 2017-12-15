@@ -18,6 +18,8 @@ class PostList extends React.PureComponent {
     this.state = {
       isRefreshing: false,
     };
+
+    this.onEndReachedCalledDuringMomentum = true;
   }
 
 
@@ -44,9 +46,10 @@ class PostList extends React.PureComponent {
 
   // TODO: slide flatlist when newPost is created
   _onContentSizeChange = () => {
-    if (this.props.scrollToTop) {
+    if (!this.onEndReachedCalledDuringMomentum && this.props.scrollToTop) {
       this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
       this.props.stopScrollToTop();
+      this.onEndReachedCalledDuringMomentum = true;
     }
   }
 
@@ -69,6 +72,8 @@ class PostList extends React.PureComponent {
         refreshControl={ this._renderRefreshControl() }
         ListFooterComponent={ this._renderFooter }
         onContentSizeChange={this._onContentSizeChange}
+        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+        onEndReachedThreshold={0.01}
         />
     )
   }
