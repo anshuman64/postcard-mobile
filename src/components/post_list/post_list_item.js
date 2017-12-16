@@ -1,9 +1,9 @@
 // Library Imports
-import React      from 'react';
-import RN         from 'react-native';
+import React                         from 'react';
+import RN                            from 'react-native';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
-import Icon       from 'react-native-vector-icons/SimpleLineIcons';
-import EvilIcons  from 'react-native-vector-icons/EvilIcons';
+import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import { styles }      from './post_list_item_styles.js';
@@ -11,35 +11,22 @@ import { renderDate }  from '../../utilities/date_time_utility.js';
 import fontelloConfig  from '../../assets/fonts/config.json';
 
 
-const IconFilled = createIconSetFromFontello(fontelloConfig);
-
 //--------------------------------------------------------------------//
 
 
-class PostListItem extends React.PureComponent {
-  constructor(props) {
-    super(props);
+const IconFilled = createIconSetFromFontello(fontelloConfig);
 
-    this.state = {
-      isLiked: this.props.item.is_liked_by_user,
-    };
-  }
+class PostListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
   _onPressLike() {
-    if (!this.state.isLiked) {
-      this.props.createLike(this.props.authToken, { post_id: this.props.item.id })
-        .then(() => {
-          this.setState({ isLiked: true })
-      })
-    } else {
+    if (this.props.item.is_liked_by_user) {
       this.props.deleteLike(this.props.authToken, this.props.item.id)
-        .then(() => {
-          this.setState({ isLiked: false })
-      })
+    } else {
+      this.props.createLike(this.props.authToken, { post_id: this.props.item.id })
     }
   }
 
@@ -83,7 +70,7 @@ class PostListItem extends React.PureComponent {
   _renderPostBody() {
     return (
       <RN.Text style={ styles.bodyText }>
-        {this.props.item.body}
+        {this.props.item.id}
       </RN.Text>
     )
   }
@@ -92,7 +79,7 @@ class PostListItem extends React.PureComponent {
     return (
       <RN.View style={ styles.footerView }>
         <RN.TouchableWithoutFeedback onPressIn={() => this._onPressLike()}>
-          {this.state.isLiked ?
+          {this.props.item.is_liked_by_user ?
             <IconFilled name='heart-filled' style={ styles.heartIcon } /> :
             <Icon name='heart' style={ styles.heartIcon } />
           }

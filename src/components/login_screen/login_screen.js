@@ -10,7 +10,7 @@ import Icon                                     from 'react-native-vector-icons/
 import { styles }                                      from './login_screen_styles.js';
 import CountryListModal                                from './country_list_modal.js';
 import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
-import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/function_utility.js';
 import { COLORS }                                      from '../../utilities/style_utility.js';
 import { toConfirmCodeScreen }                         from '../../actions/navigation_actions.js';
 
@@ -18,7 +18,7 @@ import { toConfirmCodeScreen }                         from '../../actions/navig
 //--------------------------------------------------------------------//
 
 
-class LoginScreen extends React.Component {
+class LoginScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
   }
