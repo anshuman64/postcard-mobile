@@ -10,6 +10,8 @@ target 'Insiya' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
 
+  pod 'Amplitude-iOS', '~> 4.0.4'
+
   # pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'InsiyaTests' do

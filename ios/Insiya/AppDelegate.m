@@ -13,6 +13,7 @@
 #import <React/RCTRootView.h>
 
 #import <Firebase.h>
+#import "Amplitude.h"
 
 @implementation AppDelegate
 
@@ -28,6 +29,7 @@
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  [[Amplitude instance] initializeApiKey:@"fa9aded0e5b7590482fffff78b2bd85c"];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
