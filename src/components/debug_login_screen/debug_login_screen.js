@@ -6,14 +6,14 @@ import Firebase                                 from 'react-native-firebase';
 
 // Local Imports
 import { styles }                                      from './debug_login_screen_styles.js';
-import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/function_utility.js';
 import { toHomeScreen }                                from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-class DebugLoginScreen extends React.Component {
+class DebugLoginScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
   }
