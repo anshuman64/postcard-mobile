@@ -27,7 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNAmplitudeSDKPackage(),
+            new RNAmplitudeSDKPackage(MainApplication.this),
             new VectorIconsPackage(),
           new RNFirebasePackage(),
           new RNFirebaseAuthPackage()
