@@ -6,14 +6,14 @@ import Ionicon                                 from 'react-native-vector-icons/I
 
 // Local Imports
 import { styles }                   from './confirm_code_screen_styles.js';
-import { setStateInAnimationFrame } from '../../utilities/component_utility.js';
+import { setStateInAnimationFrame } from '../../utilities/function_utility.js';
 import { toHomeScreen, goBack }     from '../../actions/navigation_actions.js';
 import { COLORS }                   from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
 
-class ConfirmCodeScreen extends React.Component {
+class ConfirmCodeScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
   }
@@ -35,8 +35,6 @@ class ConfirmCodeScreen extends React.Component {
     this.timer = null;
     this.phoneUtil = PhoneNumberUtil.getInstance();
 
-    this._codeInputOnChangeText = this._codeInputOnChangeText.bind(this);
-    this._tick = this._tick.bind(this);
     this.render = this.render.bind(this);
   }
 
@@ -58,7 +56,7 @@ class ConfirmCodeScreen extends React.Component {
 
   // Starts Resend SMS timer
   _startTimer() {
-    this.timer = setInterval(this._tick, 1000);
+    this.timer = setInterval(this._tick.bind(this), 1000);
     this.setState({isResendSMSDisabled: true, secsRemaining: 59})
   }
 
@@ -152,7 +150,7 @@ class ConfirmCodeScreen extends React.Component {
       <RN.TextInput
         style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeIncorrect && styles.borderRed]}
         keyboardType='numeric'
-        onChangeText={this._codeInputOnChangeText}
+        onChangeText={this._codeInputOnChangeText.bind(this)}
         value={this.state.inputtedCode}
         placeholder='-  -  -  -  -  -'
         autoFocus={true}
