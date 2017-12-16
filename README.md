@@ -20,7 +20,7 @@ cd ios && pod install && cd ..
 
 2.
 ````
-open ./node_modules/react-native/React/Base/RCTBridgeModule.h. 
+open ./node_modules/react-native/React/Base/RCTBridgeModule.h.
 ````
 Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 
@@ -32,5 +32,4 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 8. Add ````"$(PODS_ROOT)/../../node_modules/react-native/React/"````
 9. Set as "Recursive"
 
-![Alt text](./XCode_Amplitude_Header_Config.png)
-
+![Alt text](./screenshots/XCode_Amplitude_Header_Config.png)
