@@ -19,7 +19,7 @@ class App extends React.Component {
      const amplitude = new RNAmplitute('fa9aded0e5b7590482fffff78b2bd85c');
 
      // log an event with data
-     amplitude.logEvent('hhahahahaa');
+     amplitude.logEvent('InitializeApp');
   }
 
   render() {
