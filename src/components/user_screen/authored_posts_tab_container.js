@@ -2,21 +2,20 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import AuthoredPostsTab      from './authored_posts_tab.js';
-import { getAuthoredPosts }  from '../../actions/post_actions.js';
+import AuthoredPostsTab  from './authored_posts_tab.js';
+import { refreshPosts }  from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, posts, postsCache }, ownProps) => ({
-  authToken:     user.authToken,
-  authoredPosts: posts.authoredPosts,
-  postsCache:    postsCache
+const mapStateToProps = ({ user, posts }, ownProps) => ({
+  authToken:            user.authToken,
+  authoredPosts:        posts.authoredPosts,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getAuthoredPosts: (authToken, isRefresh, queryParams) => dispatch(getAuthoredPosts(authToken, isRefresh, queryParams)),
+  refreshPosts: (authToken, postType, queryParams) => dispatch(refreshPosts(authToken, postType, queryParams)),
 });
 
 export default connect(

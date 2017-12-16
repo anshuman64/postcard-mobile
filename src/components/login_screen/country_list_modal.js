@@ -6,14 +6,14 @@ import RN     from 'react-native';
 import { styles }                    from './country_list_modal_styles.js';
 import CountryListItem               from './country_list_item.js';
 import { scale }                     from '../../utilities/style_utility.js';
-import { setStateInAnimationFrame }  from '../../utilities/component_utility.js';
+import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
 import { COUNTRY_CODES }             from '../../utilities/country_utility.js';
 
 
 //--------------------------------------------------------------------//
 
 
-class CountryListModal extends React.Component {
+class CountryListModal extends React.PureComponent {
   constructor(props) {
     super(props);
     const ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});

@@ -9,7 +9,7 @@ import { NAVIGATION_ACTION_TYPES }  from '../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 
-const DEFAULT_STATE = AppNavigator.router.getStateForAction(NavigationActions.init());
+const DEFAULT_STATE = _.merge(AppNavigator.router.getStateForAction(NavigationActions.init()), {isHomeScreenFocused: false, isUserScreenFocused: false});
 
 const NavigationReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
@@ -23,7 +23,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_LOGIN_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'LoginScreen' }),
@@ -31,7 +30,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_CONFIRM_CODE_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'ConfirmCodeScreen' }),
@@ -39,23 +37,28 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_HOME_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'HomeScreen' }),
         state
       );
 
-      return newState;
+      if (action.data) {
+        newState.homeScreenDate = action.data;
+      }
 
+      return newState;
     case NAVIGATION_ACTION_TYPES.TO_AUTHORED_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'AuthoredPostsTab' }),
         state
       );
 
-      return newState;
+      if (action.data) {
+        newState.userScreenDate = action.data;
+      }
 
+      return newState;
     case NAVIGATION_ACTION_TYPES.TO_LIKED_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'LikedPostsTab' }),
@@ -63,7 +66,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_NEW_POST_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'NewPostScreen' }),
@@ -71,7 +73,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.TO_MENU_SCREEN:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'MenuScreen' }),
@@ -79,7 +80,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     case NAVIGATION_ACTION_TYPES.GO_BACK:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.back(),

@@ -21,7 +21,7 @@ export const styles = RN.StyleSheet.create({
   },
   post: {
     width: '100%',
-    height: scale(200),
+    height: scale(50),
     padding: scale(8),
     backgroundColor: 'white',
     // borderColor: '#656565',

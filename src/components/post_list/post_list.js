@@ -3,22 +3,24 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles }             from './post_list_styles.js';
 import PostListItemContainer  from './post_list_item_container.js';
+import { styles }             from './post_list_styles.js';
+import { POST_TYPES }         from '../../actions/post_actions.js';
 import { COLORS }             from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
 
-class PostList extends React.Component {
+class PostList extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
       isRefreshing: false,
     };
-  }
 
+    this.onEndReachedCalledDuringMomentum = true;
+  }
 
 
   //--------------------------------------------------------------------//
@@ -27,24 +29,27 @@ class PostList extends React.Component {
 
   _onRefresh() {
     this.setState({isRefreshing: true}, () => {
-      this.props.getPosts(this.props.authToken, true, {limit: 5}).then(() => {
-        this.setState({isRefreshing: false})
+      this.props.refreshPosts(this.props.authToken, this.props.postType).then(() => {
+        this.setState({isRefreshing: false});
       })
     })
   }
 
   _onEndReached() {
-    if (this.props.data.length === 0 || this.props.isEnd) {
+    if (this.props.posts.data.length === 0 || this.props.posts.isEnd) {
       return;
     }
 
-    let lastPostId = this.props.data[this.props.data.length-1].id;
-    this.props.getPosts(this.props.authToken, false, {start_at: lastPostId, limit: 5})
+    let lastPostId = this.props.posts.data[this.props.posts.data.length-1];
+    this.props.getPosts(this.props.authToken, this.props.postType, {start_at: lastPostId})
   }
 
+  // TODO: slide flatlist when newPost is created
   _onContentSizeChange = () => {
-    if (this.props.isNew) {
-      this.flatList.scrollToOffset({x: 0, y: 0, animated: true})
+    if (!this.onEndReachedCalledDuringMomentum && this.props.scrollToTop) {
+      this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
+      this.props.stopScrollToTop();
+      this.onEndReachedCalledDuringMomentum = true;
     }
   }
 
@@ -56,9 +61,9 @@ class PostList extends React.Component {
     return (
       <RN.FlatList
         ref={(ref) => this.flatList = ref}
-        data={ this.props.data }
-        renderItem={ this._renderItem }
-        keyExtractor={(item) => item.id}
+        data={ this.props.posts.data }
+        renderItem={ this._renderItem.bind(this) }
+        keyExtractor={(item) => this.props.postsCache[item].id}
         style={ styles.postList }
         initialNumToRender={10}
         maxToRenderPerBatch={10}
@@ -67,13 +72,15 @@ class PostList extends React.Component {
         refreshControl={ this._renderRefreshControl() }
         ListFooterComponent={ this._renderFooter }
         onContentSizeChange={this._onContentSizeChange}
+        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+        onEndReachedThreshold={0.01}
         />
     )
   }
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer item={item} />
+      <PostListItemContainer item={this.props.postsCache[item]} />
     )
   }
 
@@ -88,7 +95,7 @@ class PostList extends React.Component {
   }
 
   _renderFooter = () => {
-    if (this.props.isEnd) {
+    if (this.props.posts.isEnd) {
       return (
         <RN.Text>
           No More Posts
