@@ -32,4 +32,4 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 8. Add ````"$(PODS_ROOT)/../../node_modules/react-native/React/"````
 9. Set as "Recursive"
 
-![Alt text](./screenshots/XCode_Amplitude_Header_Config.png)
+![Alt text](https://s3.amazonaws.com/insiya-public/XCode_Amplitude_Header_Config.png)
