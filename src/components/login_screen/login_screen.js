@@ -291,7 +291,7 @@ class LoginScreen extends React.PureComponent {
           resizeMode='contain'
           animation={'fadeIn'}
           duration={2000}
-          delay={2000}
+          delay={3000}
           onAnimationEnd={setStateInAnimationFrame(this, {isLogoFading: false, isIconAnimatedVisible: false})}
           />
       )
@@ -304,6 +304,7 @@ class LoginScreen extends React.PureComponent {
           resizeMode='contain'
           animation={Animations.fadeInLogo}
           duration={2000}
+          delay={1000}
           />
       )
     }
@@ -318,6 +319,7 @@ class LoginScreen extends React.PureComponent {
           resizeMode='contain'
           animation={Animations.fadeInIcon}
           duration={2000}
+          delay={1000}
           />
       )
     }
