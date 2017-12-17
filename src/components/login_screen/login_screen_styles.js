@@ -16,19 +16,22 @@ export const styles = RN.StyleSheet.create({
     height: '100%',
     backgroundColor: COLORS.grey50
   },
-  text: {
+
+  icon: {
+    width: scale(20),
+    position: 'absolute'
+  },
+  animationText: {
     fontFamily: 'SourceSansPro-ExtraLight',
     fontSize: scaleFont(18),
     color: COLORS.grey900
   },
-  topView: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
+
+
   logo: {
     width: scale(70),
+    height: '40%',
+    position: 'absolute'
   },
   countrySelectorView: {
     flexDirection: 'row',
@@ -45,7 +48,7 @@ export const styles = RN.StyleSheet.create({
     width: scale(100),
     height: scale(16),
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: COLORS.grey900,
@@ -54,7 +57,7 @@ export const styles = RN.StyleSheet.create({
     position: 'absolute',
     left: scale(90),
     height: scale(16),
-    fontSize: scaleFont(8),
+    fontSize: scaleFont(14),
     textAlignVertical: 'center',
     color: COLORS.grey900
   },
@@ -68,7 +71,7 @@ export const styles = RN.StyleSheet.create({
     height: scale(16),
     marginRight: '3%',
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: COLORS.grey900,
@@ -78,7 +81,7 @@ export const styles = RN.StyleSheet.create({
   phoneNumberInput: {
     width: '75%',
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: COLORS.grey900,
@@ -92,7 +95,7 @@ export const styles = RN.StyleSheet.create({
   invalidNumberText: {
     width: '75%',
     height: scale(10),
-    fontSize: scaleFont(6),
+    fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: COLORS.appleRed
@@ -110,8 +113,9 @@ export const styles = RN.StyleSheet.create({
   nextButtonText: {
     width: scale(100),
     height: scale(16),
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontFamily: 'System',
+    fontSize: scaleFont(16),
+    fontWeight: '100',
     textAlign: 'center',
     textAlignVertical: 'center',
     color: 'white',
@@ -123,7 +127,7 @@ export const styles = RN.StyleSheet.create({
     width: scale(100),
     height: scale(16),
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: COLORS.grey600,
