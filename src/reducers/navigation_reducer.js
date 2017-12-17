@@ -1,15 +1,18 @@
 // Library Imports
-import * as _                 from 'lodash';
-import { NavigationActions }  from 'react-navigation';
+import * as _                from 'lodash';
+import { NavigationActions } from 'react-navigation';
 
 // Local Imports
-import { AppNavigator }             from '../router/app_navigator.js';
-import { NAVIGATION_ACTION_TYPES }  from '../actions/navigation_actions.js';
+import { AppNavigator }            from '../router/app_navigator.js';
+import { NAVIGATION_ACTION_TYPES } from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
 
-const DEFAULT_STATE = _.merge(AppNavigator.router.getStateForAction(NavigationActions.init()), {isHomeScreenFocused: false, isUserScreenFocused: false});
+const DEFAULT_STATE = _.merge(
+  AppNavigator.router.getStateForAction(NavigationActions.init()),
+  { isHomeScreenFocused: false, isUserScreenFocused: false }
+);
 
 const NavigationReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
@@ -43,20 +46,12 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
         state
       );
 
-      if (action.data) {
-        newState.homeScreenDate = action.data;
-      }
-
       return newState;
     case NAVIGATION_ACTION_TYPES.TO_AUTHORED_POSTS_TAB:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'AuthoredPostsTab' }),
         state
       );
-
-      if (action.data) {
-        newState.userScreenDate = action.data;
-      }
 
       return newState;
     case NAVIGATION_ACTION_TYPES.TO_LIKED_POSTS_TAB:
@@ -87,7 +82,6 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
       );
 
       return newState;
-
     default:
       return state;
   }
