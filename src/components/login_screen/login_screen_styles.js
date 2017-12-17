@@ -16,6 +16,11 @@ export const styles = RN.StyleSheet.create({
     height: '100%',
     backgroundColor: COLORS.grey50
   },
+  text: {
+    fontFamily: 'SourceSansPro-ExtraLight',
+    fontSize: scaleFont(18),
+    color: COLORS.grey900
+  },
   topView: {
     flexDirection: 'column',
     justifyContent: 'center',
