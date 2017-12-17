@@ -8,25 +8,13 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_STATE = {
-  allPosts: {
-    data:         [],
-    lastUpdated:  Date(),
-    isEnd:        false,
-  },
-  authoredPosts: {
-    data:         [],
-    lastUpdated:  Date(),
-    isEnd:        false,
-  },
-  likedPosts: {
-    data:         [],
-    lastUpdated:  Date(),
-    isEnd:        false,
-  },
-  scrollToTop: false,
-};
 
+const DEFAULT_STATE = {
+  allPosts:      { data: [], lastUpdated: Date(), isEnd: false },
+  authoredPosts: { data: [], lastUpdated: Date(), isEnd: false },
+  likedPosts:    { data: [], lastUpdated: Date(), isEnd: false },
+  scrollToTop:   false
+};
 
 const PostsReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
@@ -39,73 +27,49 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case POST_ACTION_TYPES.RECEIVE_POSTS:
-      if (action.data.posts.length === 0) {
-        switch (action.data.postType) {
-          case POST_TYPES.ALL:
-            newState.allPosts.isEnd = true;
-            break;
-          case POST_TYPES.AUTHORED:
-            newState.authoredPosts.isEnd = true;
-            break;
-          case POST_TYPES.LIKED:
-            newState.likedPosts.isEnd = true;
-            break;
+      let handleReceivePosts = (type) => {
+        if (action.data.posts.length === 0) {
+          newState[type].isEnd = true;
+        } else {
+          _.forEach(action.data.posts, (post) => {
+            newState[type].data.push(post.id);
+          });
         }
-
-        return newState;
-      }
+      };
 
       switch (action.data.postType) {
         case POST_TYPES.ALL:
-          _.forEach(action.data.posts, (post) => {
-            newState.allPosts.data.push(post.id);
-          });
+          handleReceivePosts('allPosts');
           break;
         case POST_TYPES.AUTHORED:
-          _.forEach(action.data.posts, (post) => {
-            newState.authoredPosts.data.push(post.id);
-          });
+          handleReceivePosts('authoredPosts');
           break;
         case POST_TYPES.LIKED:
-          _.forEach(action.data.posts, (post) => {
-            newState.likedPosts.data.push(post.id);
-          });
+          handleReceivePosts('likedPosts');
           break;
       }
 
       return newState;
-
     case POST_ACTION_TYPES.REFRESH_POSTS:
+      let handleRefreshPosts = (type) => {
+        if (action.data.posts.length === 0) {
+          newState[type].isEnd = true;
+        } else {
+          newState[type].data        = mergeSorted(newState[type].data, action.data.posts.map(post => post.id));
+          newState[type].lastUpdated = new Date();
+          newState[type].isEnd       = false;
+        }
+      };
+
       switch (action.data.postType) {
         case POST_TYPES.ALL:
-          if (action.data.posts.length === 0) {
-            newState.allPosts.isEnd = true;
-            break;
-          }
-
-          newState.allPosts.data = mergeSorted(newState.allPosts.data, action.data.posts.map(post => post.id));
-          newState.allPosts.lastUpdated = new Date();
-          newState.allPosts.isEnd = false;
+          handleRefreshPosts('allPosts');
           break;
         case POST_TYPES.AUTHORED:
-          if (action.data.posts.length === 0) {
-            newState.authoredPosts.isEnd = true;
-            break;
-          }
-
-          newState.authoredPosts.data = mergeSorted(newState.authoredPosts.data, action.data.posts.map(post => post.id));
-          newState.authoredPosts.lastUpdated = new Date();
-          newState.authoredPosts.isEnd = false;
+          handleRefreshPosts('authoredPosts');
           break;
         case POST_TYPES.LIKED:
-          if (action.data.posts.length === 0) {
-            newState.likedPosts.isEnd = true;
-            break;
-          }
-
-          newState.likedPosts.data = mergeSorted(newState.likedPosts.data, action.data.posts.map(post => post.id));
-          newState.likedPosts.lastUpdated = new Date();
-          newState.likedPosts.isEnd = false;
+          handleRefreshPosts('likedPosts');
           break;
       }
 
@@ -116,12 +80,14 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case POST_ACTION_TYPES.RECEIVE_POST:
+      // assumes that this case is only hit when the current user creates a post
       newState.allPosts.data.unshift(action.data.id);
       newState.authoredPosts.data.unshift(action.data.id);
       newState.scrollToTop = true;
 
       return newState;
     case POST_ACTION_TYPES.REMOVE_POST:
+    // assumes that this case is only hit when the current user removes their own post
       _.remove(newState.allPosts.data, (postId) => {
         return postId === action.data.id;
       });
@@ -150,7 +116,8 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
     // Other Actions
     //--------------------------------------------------------------------//
-    
+
+    // TODO: move this to async storage (local storage)
     case POST_ACTION_TYPES.STOP_SCROLL_TO_TOP:
       newState.scrollToTop = false;
 
