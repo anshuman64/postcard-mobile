@@ -1,3 +1,12 @@
+export const fadeInIcon = {
+  0: {
+    translateX: 0,
+  },
+  1: {
+    translateX: -50
+  }
+}
+
 export const pulseIcon = {
   from: {
     opacity: 0.5,
