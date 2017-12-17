@@ -2,6 +2,7 @@
 // Interface
 //--------------------------------------------------------------------//
 
+
 // Callback function for setting state
 export const setStateCallback = (state) => {
   return () => (setState(state));

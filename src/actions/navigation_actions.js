@@ -1,23 +1,25 @@
-
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
 
+
 export const NAVIGATION_ACTION_TYPES = {
-  TO_LOADING_SCREEN:            'TO_LOADING_SCREEN',
-  TO_LOGIN_SCREEN:              'TO_LOGIN_SCREEN',
-  TO_CONFIRM_CODE_SCREEN:       'TO_CONFIRM_CODE_SCREEN',
-  TO_HOME_SCREEN:               'TO_HOME_SCREEN',
-  TO_AUTHORED_POSTS_TAB:        'TO_AUTHORED_POSTS_TAB',
-  TO_LIKED_POSTS_TAB:           'TO_LIKED_POSTS_TAB',
-  TO_NEW_POST_SCREEN:           'TO_NEW_POST_SCREEN',
-  TO_MENU_SCREEN:               'TO_MENU_SCREEN',
-  GO_BACK:                      'GO_BACK',
+  TO_LOADING_SCREEN:      'TO_LOADING_SCREEN',
+  TO_LOGIN_SCREEN:        'TO_LOGIN_SCREEN',
+  TO_CONFIRM_CODE_SCREEN: 'TO_CONFIRM_CODE_SCREEN',
+  TO_HOME_SCREEN:         'TO_HOME_SCREEN',
+  TO_AUTHORED_POSTS_TAB:  'TO_AUTHORED_POSTS_TAB',
+  TO_LIKED_POSTS_TAB:     'TO_LIKED_POSTS_TAB',
+  TO_NEW_POST_SCREEN:     'TO_NEW_POST_SCREEN',
+  TO_MENU_SCREEN:         'TO_MENU_SCREEN',
+  GO_BACK:                'GO_BACK'
 };
+
 
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
+
 
 export const toLoadingScreen = (data) => {
   return { type: NAVIGATION_ACTION_TYPES.TO_LOADING_SCREEN, data: data };
