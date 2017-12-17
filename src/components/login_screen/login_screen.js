@@ -138,12 +138,27 @@ class LoginScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _renderStartAnimation() {
+    return (
+      <Animatable.Text
+        style={Style.styles.text}
+        animation={Style.fadeText}
+        easing='ease-out'
+        iterationCount='infinite'
+        direction='normal'
+        duration={5000}
+        >
+        Be a member of humanity
+      </Animatable.Text>
+    )
+  }
+
   _renderLogo() {
     return (
       <RN.View style={ styles.topView }>
         <RN.Image
           style={ styles.logo }
-          source={require('../../assets/images/login_screen_logo/Logo_ExactFit_807x285.png')}
+          source={require('../../assets/images/logo/Logo_ExactFit_807x285.png')}
           resizeMode='contain'
         />
       </RN.View>
