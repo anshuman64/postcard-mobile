@@ -5,9 +5,11 @@ import * as _                                   from 'lodash';
 import { PhoneNumberUtil, AsYouTypeFormatter }  from 'google-libphonenumber';
 import firebase                                 from 'react-native-firebase';
 import Icon                                     from 'react-native-vector-icons/Ionicons';
+import * as Animatable                          from 'react-native-animatable';
 
 // Local Imports
 import { styles }                                      from './login_screen_styles.js';
+import * as Animations                                 from './login_screen_animations.js';
 import CountryListModal                                from './country_list_modal.js';
 import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
 import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/function_utility.js';
@@ -27,6 +29,8 @@ class LoginScreen extends React.PureComponent {
     super(props);
 
     this.state = {
+      isIconAnimatedVisible:    true,
+      isLogoFading:             true,
       countryIndex:             220, // hard-coded to United States
       isCountrySelectorPressed: false,
       isPhoneInputFocused:      false,
@@ -138,30 +142,13 @@ class LoginScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderStartAnimation() {
-    return (
-      <Animatable.Text
-        style={Style.styles.text}
-        animation={Style.fadeText}
-        easing='ease-out'
-        iterationCount='infinite'
-        direction='normal'
-        duration={5000}
-        >
-        Be a member of humanity
-      </Animatable.Text>
-    )
-  }
-
   _renderLogo() {
     return (
-      <RN.View style={ styles.topView }>
-        <RN.Image
-          style={ styles.logo }
-          source={require('../../assets/images/logo/Logo_ExactFit_807x285.png')}
-          resizeMode='contain'
+      <RN.Image
+        style={ styles.logo }
+        source={require('../../assets/images/logo/Logo_ExactFit_807x285.png')}
+        resizeMode='contain'
         />
-      </RN.View>
     )
   }
 
@@ -260,22 +247,89 @@ class LoginScreen extends React.PureComponent {
     )
   }
 
+  _renderLoginScreen() {
+    return (
+      <Animatable.View
+        animation={'fadeIn'}
+        delay={6000}
+        >
+        {this._renderCountrySelector()}
+        {this._renderPhoneNumberInput()}
+        {this._renderInvalidNumberText()}
+        {this._renderNextButton()}
+        {this._renderSMSNoticeText()}
+        {this._renderModal()}
+      </Animatable.View>
+    )
+
+  }
+
+  _renderBeYourself() {
+    return (
+      <Animatable.Text
+        style={styles.icon}
+        source={require('../../assets/images/icon/Icon_ExactFit_200x200.png')}
+        resizeMode='contain'
+        animation={Animations.pulseIcon}
+        easing='ease-out'
+        iterationCount='infinite'
+        direction='alternate'
+        duration={2000}
+        >
+        Be Yourself
+        </Animatable.Text>
+    )
+  }
+
+  _renderLogoAnimation() {
+    if (this.state.isLogoFading) {
+      return (
+        <Animatable.Image
+          ref={'logoAnimation'}
+          style={styles.logo}
+          source={require('../../assets/images/logo/Logo_ExactFit_807x285.png')}
+          resizeMode='contain'
+          animation={'fadeIn'}
+          duration={2000}
+          delay={2000}
+          onAnimationEnd={setStateInAnimationFrame(this, {isLogoFading: false, isIconAnimatedVisible: false})}
+          />
+      )
+    } else {
+      return (
+        <Animatable.Image
+          ref={'logoAnimation'}
+          style={styles.logo}
+          source={require('../../assets/images/logo/Logo_ExactFit_807x285.png')}
+          resizeMode='contain'
+          animation={Animations.fadeInLogo}
+          duration={2000}
+          />
+      )
+    }
+  }
+
+  _renderIconAnimation() {
+    if (this.state.isIconAnimatedVisible) {
+      return (
+        <Animatable.Image
+          style={styles.icon}
+          source={require('../../assets/images/icon/Icon_ExactFit_200x200.png')}
+          resizeMode='contain'
+          animation={Animations.fadeInIcon}
+          duration={2000}
+          />
+      )
+    }
+  }
+
+
   render() {
     return (
       <RN.View style={ styles.container }>
-        {this._renderLogo()}
-        <RN.View style={ styles.bottomView }>
-          <RN.View style={{flex: 1}} />
-            {this._renderCountrySelector()}
-          <RN.View style={{height: 5}} />
-            {this._renderPhoneNumberInput()}
-            {this._renderInvalidNumberText()}
-          <RN.View style={{flex: 2}} />
-            {this._renderNextButton()}
-            {this._renderSMSNoticeText()}
-          <RN.View style={{flex: 3}} />
-            {this._renderModal()}
-        </RN.View>
+        {this._renderIconAnimation()}
+        {this._renderLogoAnimation()}
+        {this._renderLoginScreen()}
       </RN.View>
     )
   }
