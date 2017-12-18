@@ -16,22 +16,7 @@ export const styles = RN.StyleSheet.create({
     height: '100%',
     backgroundColor: 'white'
   },
-
-
   icon: {
     width: 45,
-    position: 'absolute'
-  },
-  animationText: {
-    fontFamily: 'SourceSansPro-ExtraLight',
-    fontSize: scaleFont(18),
-    color: COLORS.grey900
-  },
-
-
-  logo: {
-    width: scale(70),
-    height: '40%',
-    position: 'absolute'
   },
 });

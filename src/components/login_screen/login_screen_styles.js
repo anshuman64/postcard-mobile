@@ -16,22 +16,20 @@ export const styles = RN.StyleSheet.create({
     height: '100%',
     backgroundColor: COLORS.grey50
   },
-
   icon: {
-    width: scale(20),
+    width: 40,
     position: 'absolute'
   },
-  animationText: {
-    fontFamily: 'SourceSansPro-ExtraLight',
-    fontSize: scaleFont(18),
-    color: COLORS.grey900
+  iconTranslated: {
+    width: 40,
+    position: 'absolute',
   },
-
-
   logo: {
-    width: scale(70),
-    height: '40%',
-    position: 'absolute'
+    fontFamily: 'SourceSansPro-Light',
+    fontSize: scaleFont(40),
+    position: 'absolute',
+    transform: [{translateX: 25}],
+    color: COLORS.grey800
   },
   countrySelectorView: {
     flexDirection: 'row',

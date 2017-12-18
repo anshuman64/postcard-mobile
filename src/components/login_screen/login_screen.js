@@ -29,7 +29,6 @@ class LoginScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      isIconAnimatedVisible:    true,
       isLogoFading:             true,
       countryIndex:             220, // hard-coded to United States
       isCountrySelectorPressed: false,
@@ -248,70 +247,56 @@ class LoginScreen extends React.PureComponent {
   }
 
   _renderLoginScreen() {
-    return (
-      <Animatable.View
-        animation={'fadeIn'}
-        delay={6000}
-        >
-        {this._renderCountrySelector()}
-        {this._renderPhoneNumberInput()}
-        {this._renderInvalidNumberText()}
-        {this._renderNextButton()}
-        {this._renderSMSNoticeText()}
-        {this._renderModal()}
-      </Animatable.View>
-    )
-
-  }
-
-  _renderBeYourself() {
-    return (
-      <Animatable.Text
-        style={styles.icon}
-        source={require('../../assets/images/icon/icon.png')}
-        resizeMode='contain'
-        animation={Animations.pulseIcon}
-        easing='ease-out'
-        iterationCount='infinite'
-        direction='alternate'
-        duration={2000}
-        >
-        Be Yourself
-        </Animatable.Text>
-    )
+    if (!this.state.isLogoFading) {
+      return (
+        <Animatable.View
+          animation={'fadeIn'}
+          duration={2000}
+          delay={600}
+          >
+          {this._renderCountrySelector()}
+          {this._renderPhoneNumberInput()}
+          {this._renderInvalidNumberText()}
+          {this._renderNextButton()}
+          {this._renderSMSNoticeText()}
+          {this._renderModal()}
+        </Animatable.View>
+      )
+    }
   }
 
   _renderLogoAnimation() {
     if (this.state.isLogoFading) {
       return (
-        <Animatable.Image
-          ref={'logoAnimation'}
+        <Animatable.Text
           style={styles.logo}
           source={require('../../assets/images/logo/logo.png')}
           resizeMode='contain'
           animation={'fadeIn'}
-          duration={2000}
+          duration={1800}
           delay={3000}
-          onAnimationEnd={setStateInAnimationFrame(this, {isLogoFading: false, isIconAnimatedVisible: false})}
-          />
+          onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
+          >
+          Insiya
+        </Animatable.Text>
       )
     } else {
       return (
-        <Animatable.Image
-          ref={'logoAnimation'}
+        <Animatable.Text
           style={styles.logo}
           source={require('../../assets/images/logo/logo.png')}
           resizeMode='contain'
-          animation={Animations.fadeInLogo}
+          animation={Animations.translateLogo}
           duration={2000}
-          delay={1000}
-          />
+          >
+          Insiya
+        </Animatable.Text>
       )
     }
   }
 
   _renderIconAnimation() {
-    if (this.state.isIconAnimatedVisible) {
+    if (this.state.isLogoFading) {
       return (
         <Animatable.Image
           style={styles.icon}
@@ -320,6 +305,16 @@ class LoginScreen extends React.PureComponent {
           animation={Animations.fadeInIcon}
           duration={2000}
           delay={1000}
+          />
+      )
+    } else {
+      return (
+        <Animatable.Image
+          style={styles.iconTranslated}
+          source={require('../../assets/images/icon/icon.png')}
+          resizeMode='contain'
+          animation={Animations.translateIcon}
+          duration={2000}
           />
       )
     }
@@ -336,8 +331,10 @@ class LoginScreen extends React.PureComponent {
     )
   }
 }
+// onAnimationEnd={setStateInAnimationFrame(this, {isLogoFading: false, isIconAnimatedVisible: false})}
 
 
+// {this._renderLoginScreen()}
 // --------------------------------------------------------------------
 
 
