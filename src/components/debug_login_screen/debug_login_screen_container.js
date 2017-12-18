@@ -15,7 +15,7 @@ const mapStateToProps = ({ user }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  debugSignIn:  (email, password) => dispatch(debugSignIn(email, password)),
+  debugSignIn: (email, password) => dispatch(debugSignIn(email, password)),
 });
 
 export default connect(
