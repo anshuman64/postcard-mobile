@@ -48,6 +48,7 @@ export const styles = RN.StyleSheet.create({
     width: scale(100),
     height: scale(16),
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontWeight: '200',
     fontSize: scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -103,8 +104,10 @@ export const styles = RN.StyleSheet.create({
   nextButtonBackground: {
     width: scale(100),
     height: scale(16),
-    borderRadius: scale(5),
-    backgroundColor: COLORS.appleBlue
+    borderRadius: 3,
+    marginTop: scale(15),
+    backgroundColor: COLORS.appleBlue + '5f',
+    // elevation: 2,
   },
   nextButtonBackgroundDisabled: {
     borderRadius: scale(5),

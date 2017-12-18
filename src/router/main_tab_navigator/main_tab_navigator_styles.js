@@ -13,7 +13,7 @@ export var styles = RN.StyleSheet.create({
     backgroundColor: 'white'
   },
   icon: {
-    fontSize: scaleFont(8),
+    fontSize: scaleFont(16),
     color: COLORS.grey900,
   },
   iconFocused: {
