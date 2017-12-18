@@ -19,7 +19,7 @@ export const styles = RN.StyleSheet.create({
 
 
   icon: {
-    width: scale(20),
+    width: 45,
     position: 'absolute'
   },
   animationText: {
