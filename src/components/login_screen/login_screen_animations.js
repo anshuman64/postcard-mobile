@@ -3,6 +3,7 @@ export const fadeInIcon = {
   0: {
     opacity: 0,
     translateX: 0,
+    translateY: -4
   },
   0.5: {
     opacity: 1,
@@ -10,37 +11,29 @@ export const fadeInIcon = {
   },
   1: {
     opacity: 1,
-    translateX: -50
+    translateX: -48,
+    translateY: -4
   }
 }
 
-export const fadeInLogo = {
+export const translateIcon = {
+  0: {
+    translateY: -4,
+    translateX: -48,
+  },
+  1: {
+    translateY: -204,
+    translateX: -48,
+  }
+}
+
+export const translateLogo = {
   0: {
     translateY: 0,
+    translateX: 25,
   },
   1: {
-    translateY: -200
+    translateY: -200,
+    translateX: 25,
   }
 }
-
-export const fadeText = {
-  0: {
-    opacity: 0.1,
-    translateX: 50,
-  },
-  0.2: {
-    opacity: 0.5,
-  },
-  0.5: {
-    opacity: 1,
-    translateX: 0,
-  },
-  0.8: {
-    opacity: 0.8,
-    translateX: -25,
-  },
-  1: {
-    opacity: 0.3,
-    translateX: -50,
-  },
-};
