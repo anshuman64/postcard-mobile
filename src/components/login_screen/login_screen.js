@@ -146,7 +146,7 @@ class LoginScreen extends React.PureComponent {
     return (
       <RN.Image
         style={ styles.logo }
-        source={require('../../assets/images/logo/Logo_ExactFit_807x285.png')}
+        source={require('../../assets/images/logo/logo.png')}
         resizeMode='contain'
         />
     )
@@ -268,7 +268,7 @@ class LoginScreen extends React.PureComponent {
     return (
       <Animatable.Text
         style={styles.icon}
-        source={require('../../assets/images/icon/Icon_ExactFit_200x200.png')}
+        source={require('../../assets/images/icon/icon.png')}
         resizeMode='contain'
         animation={Animations.pulseIcon}
         easing='ease-out'
@@ -287,7 +287,7 @@ class LoginScreen extends React.PureComponent {
         <Animatable.Image
           ref={'logoAnimation'}
           style={styles.logo}
-          source={require('../../assets/images/logo/Logo_ExactFit_807x285.png')}
+          source={require('../../assets/images/logo/logo.png')}
           resizeMode='contain'
           animation={'fadeIn'}
           duration={2000}
@@ -300,7 +300,7 @@ class LoginScreen extends React.PureComponent {
         <Animatable.Image
           ref={'logoAnimation'}
           style={styles.logo}
-          source={require('../../assets/images/logo/Logo_ExactFit_807x285.png')}
+          source={require('../../assets/images/logo/logo.png')}
           resizeMode='contain'
           animation={Animations.fadeInLogo}
           duration={2000}
@@ -315,7 +315,7 @@ class LoginScreen extends React.PureComponent {
       return (
         <Animatable.Image
           style={styles.icon}
-          source={require('../../assets/images/icon/Icon_ExactFit_200x200.png')}
+          source={require('../../assets/images/icon/icon.png')}
           resizeMode='contain'
           animation={Animations.fadeInIcon}
           duration={2000}

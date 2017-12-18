@@ -53,7 +53,7 @@ class DebugLoginScreen extends React.PureComponent {
       <RN.View style={ styles.topView }>
         <RN.Image
           style={ styles.logo }
-          source={require('../../assets/images/logo/Logo_ExactFit_807x285.png')}
+          source={require('../../assets/images/logo/logo.png')}
           resizeMode='contain'
         />
       </RN.View>
