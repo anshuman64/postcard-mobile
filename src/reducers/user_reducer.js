@@ -4,16 +4,15 @@ import * as _ from 'lodash';
 // Local Imports
 import { USER_ACTION_TYPES } from '../actions/user_actions.js';
 
-
 //--------------------------------------------------------------------//
 
 
 const DEFAULT_STATE = {
-  phoneNumber:          '',
-  confirmationCodeObj:  null,
-  firebaseUserObj:      null,
-  authToken:            '',
-  user:                 null
+  phoneNumber:         '',
+  confirmationCodeObj: null,
+  firebaseUserObj:     null,
+  authToken:           '',
+  user:                null
 };
 
 const UserReducer = (state = DEFAULT_STATE, action) => {
@@ -35,7 +34,6 @@ const UserReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case USER_ACTION_TYPES.RECEIVE_AUTH_TOKEN:
       newState.authToken = action.data;
-      console.log(action.data) // Debug Test
 
       return newState;
     case USER_ACTION_TYPES.RECEIVE_USER:
@@ -49,6 +47,5 @@ const UserReducer = (state = DEFAULT_STATE, action) => {
 
 
 //--------------------------------------------------------------------//
-
 
 export default UserReducer;
