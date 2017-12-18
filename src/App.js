@@ -1,8 +1,7 @@
 // Library Imports
 import React        from 'react';
 import { Provider } from 'react-redux';
-import RNAmplitute from 'react-native-amplitude-analytics';
-
+import RNAmplitute  from 'react-native-amplitude-analytics';
 
 // Local Imports
 import configureStore                  from './store';

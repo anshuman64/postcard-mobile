@@ -1,10 +1,12 @@
 // Local Imports
 import * as APIUtility from '../utilities/api_utility.js';
 
+//--------------------------------------------------------------------//
 
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
+
 
 export const POST_TYPES = {
   ALL:      'ALL',
@@ -22,8 +24,26 @@ export const POST_ACTION_TYPES = {
 
 
 //--------------------------------------------------------------------//
+// Helpers
+//--------------------------------------------------------------------//
+
+
+let getRouteForPostType = (postType) => {
+  switch(postType) {
+    case POST_TYPES.ALL:
+      return '';
+    case POST_TYPES.AUTHORED:
+      return '/authored';
+    case POST_TYPES.LIKED:
+      return '/liked';
+  }
+}
+
+
+//--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
+
 
 export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
@@ -47,43 +67,21 @@ export const stopScrollToTop = (data) => {
 
 
 //--------------------------------------------------------------------//
-// API Calls
+// Asynchronous Actions
 //--------------------------------------------------------------------//
 
 
 export const getPosts = (authToken, postType, queryParams) => (dispatch) => {
-  let getRouteForPostType = (postType) => {
-    switch(postType) {
-      case POST_TYPES.ALL:
-        return '';
-      case POST_TYPES.AUTHORED:
-        return '/authored';
-      case POST_TYPES.LIKED:
-        return '/liked';
-    }
-  }
-
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
-      dispatch(receivePosts({posts: posts, postType: postType}));
+      dispatch(receivePosts({ posts: posts, postType: postType }));
     });
 };
 
 export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => {
-  let getRouteForPostType = (postType) => {
-    switch(postType) {
-      case POST_TYPES.ALL:
-        return '';
-      case POST_TYPES.AUTHORED:
-        return '/authored';
-      case POST_TYPES.LIKED:
-        return '/liked';
-    }
-  }
-
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
-      dispatch(refreshAndReceivePosts({posts: posts, postType: postType}));
+      dispatch(refreshAndReceivePosts({ posts: posts, postType: postType }));
     });
 };
 
