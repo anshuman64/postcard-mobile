@@ -3,9 +3,9 @@
 //--------------------------------------------------------------------//
 
 // Callback function for setting state
-export const setStateCallback = (state) => {
+export const setStateCallback = (component, state) => {
   return(
-    () => (setState(state))
+    () => (component.setState(state))
   )
 }
 
