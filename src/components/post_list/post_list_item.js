@@ -54,15 +54,12 @@ class PostListItem extends React.PureComponent {
   _renderPostHeader() {
     return (
       <RN.View style={ styles.headerView }>
-        {this.props.user.id === this.props.item.author_id ?
+        {this.props.user.id != this.props.item.author_id ?
           <RN.TouchableWithoutFeedback onPressIn={() => this._onPressDelete()}>
             <EvilIcons name='close' style={ styles.closeIcon }/>
           </RN.TouchableWithoutFeedback>
           : null
         }
-        <RN.Text style={ styles.dateText }>
-          {renderDate(this.props.item.created_at)}
-        </RN.Text>
       </RN.View>
     )
   }
@@ -70,7 +67,7 @@ class PostListItem extends React.PureComponent {
   _renderPostBody() {
     return (
       <RN.Text style={ styles.bodyText }>
-        {this.props.item.id}
+        {this.props.item.body}
       </RN.Text>
     )
   }
@@ -86,6 +83,9 @@ class PostListItem extends React.PureComponent {
         </RN.TouchableWithoutFeedback>
         <RN.Text style={ styles.likeCountText }>
           {this._renderLikesCount(this.props.item.num_likes)}
+        </RN.Text>
+        <RN.Text style={ styles.dateText }>
+          {renderDate(this.props.item.created_at)}
         </RN.Text>
       </RN.View>
     )
