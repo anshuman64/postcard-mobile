@@ -14,16 +14,17 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    paddingLeft: scale(2),
-    paddingRight: scale(2),
-    paddingTop: scale(2),
     backgroundColor: COLORS.grey50,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 15,
   },
   post: {
     width: '100%',
-    height: scale(50),
     padding: scale(8),
+    marginBottom: 5,
     backgroundColor: 'white',
+    elevation: 4,
     // borderColor: '#656565',
     // borderWidth: 0.1 * scaleFactor,
   },
@@ -39,15 +40,18 @@ export const styles = RN.StyleSheet.create({
     alignSelf: 'flex-end',
     textAlign: 'left',
     textAlignVertical: 'center',
-    marginBottom: scale(5)
+    fontSize: scaleFont(12),
+    marginBottom: scale(5),
+    color: COLORS.grey500
   },
   bodyText: {
     width: '100%',
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(18),
     textAlign: 'left',
     textAlignVertical: 'center',
-    marginBottom: scale(5)
+    marginBottom: scale(5),
+    color: COLORS.grey900
   },
   largeBodyText: {
     fontSize: scaleFont(8),
@@ -57,7 +61,8 @@ export const styles = RN.StyleSheet.create({
     width: '100%'
   },
   heartIcon: {
-    fontSize: scaleFont(18),
+    width: scale(10),
+    fontSize: scaleFont(20),
     marginRight: scale(4),
     color: COLORS.appleBlue
   },
@@ -65,6 +70,7 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(15),
     textAlign: 'left',
     textAlignVertical: 'center',
+    marginRight: scale(90)
   },
   activityIndicator: {
     marginTop: scale(8),
