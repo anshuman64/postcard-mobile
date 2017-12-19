@@ -67,7 +67,6 @@ class CountryListModal extends React.PureComponent {
           renderRow={this._renderItem()}
           initialListSize={COUNTRY_CODES.length}
           onContentSizeChange={this._onListViewContentSizeChange}
-          renderFooter={() => <RN.ActivityIndicator />}
         />
       )
     }
