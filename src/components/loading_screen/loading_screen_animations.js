@@ -1,6 +1,6 @@
 export const pulseIcon = {
   from: {
-    opacity: 0.5,
+    opacity: 0.3,
     scale: 0.9,
   },
   to: {

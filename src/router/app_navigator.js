@@ -20,8 +20,8 @@ import { styles }                         from './app_navigator_styles.js';
 
 
 export const AppNavigator = StackNavigator({
-  LoadingScreen: { screen: LoadingScreenContainer },
-  DebugLoginScreen: { screen: DebugLoginScreenContainer },
+  // LoadingScreen: { screen: LoadingScreenContainer },
+  // DebugLoginScreen: { screen: DebugLoginScreenContainer },
   LoginScreen: { screen: LoginScreenContainer },
   ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
   MainTabNavigator: {
@@ -29,7 +29,7 @@ export const AppNavigator = StackNavigator({
     navigationOptions: ({navigation}) => ({
       headerTitle: <RN.Image
         style={styles.headerTitle}
-        source={require('../assets/images/logo/Logo_ExactFit_807x285.png')}
+        source={require('../assets/images/logo/logo.png')}
         resizeMode='contain'
       />,
       headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(toMenuScreen())} style={styles.optionsIcon} />,
