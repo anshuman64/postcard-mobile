@@ -5,7 +5,7 @@ import RN     from 'react-native';
 // Local Imports
 import { styles }                    from './country_list_modal_styles.js';
 import CountryListItem               from './country_list_item.js';
-import { scale }                     from '../../utilities/style_utility.js';
+import { COLORS, deviceHeight }              from '../../utilities/style_utility.js';
 import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
 import { COUNTRY_CODES }             from '../../utilities/country_utility.js';
 
@@ -30,7 +30,7 @@ class CountryListModal extends React.PureComponent {
 
   // Renders the RN.ListView after other modal contents are mounted for performance
   componentDidMount() {
-    this.setState({ isModalMounted: true });
+    setInterval(() => this.setState({ isModalMounted: true }), 1);
   }
 
   //--------------------------------------------------------------------//
@@ -39,7 +39,9 @@ class CountryListModal extends React.PureComponent {
 
   // Scrolls directly to the currently selected country when RN.ListView is opened
   _onListViewContentSizeChange = () => {
-    this.listView.scrollTo({x: 0, y: scale(this.props.countryIndex * 17) - 2, animated: true})
+    let countryPosition = this.props.countryIndex * 45 - 2; // countryIndex * height of each bar minus aesthetic two pixels
+    let maxPosition = COUNTRY_CODES.length * 45 - (0.85 * deviceHeight - 50 - 45); // length of full list minus length of one page of listView
+    this.listView.scrollTo({x: 0, y: Math.min(countryPosition, maxPosition), animated: true})
   }
 
   //--------------------------------------------------------------------//
@@ -48,15 +50,14 @@ class CountryListModal extends React.PureComponent {
 
   _renderChooseCountry() {
     return (
-      <RN.View style={ styles.chooseCountryView }>
-        <RN.Text style={ styles.chooseCountryText }>
+      <RN.View style={ styles.selectCountryView }>
+        <RN.Text style={ styles.selectCountryText }>
           Select Country
         </RN.Text>
       </RN.View>
     )
   }
 
-  // TODO: render spinner
   _renderCountryListView() {
     if(this.state.isModalMounted) {
       return (
@@ -69,6 +70,10 @@ class CountryListModal extends React.PureComponent {
           onContentSizeChange={this._onListViewContentSizeChange}
         />
       )
+    } else {
+      return (
+        <RN.ActivityIndicator size='small' color={COLORS.grey400}  />
+      )
     }
   }
 
@@ -79,8 +84,8 @@ class CountryListModal extends React.PureComponent {
         onPressOut={setStateInAnimationFrame(this, { isTextHighlighted: false})}
         onPress={this.props.setParentState({ isModalVisible: false })}
       >
-        <RN.View style={ styles.chooseCountryView }>
-          <RN.Text style={[styles.chooseCountryText, this.state.isTextHighlighted && styles.textHighlighted]}>
+        <RN.View style={ styles.cancelButtonView }>
+          <RN.Text style={[styles.cancelButtonText, this.state.isTextHighlighted && styles.textHighlighted]}>
             Cancel
           </RN.Text>
         </RN.View>

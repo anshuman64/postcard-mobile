@@ -49,6 +49,11 @@ class LoginScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
+  // Callback function used for Cancel button in CountryListModal
+  setParentState = (state) => {
+    return () => (this.setState(state));
+  }
+
   // Callback function for setting country selector and updating phone number formatting
   setCountry = (index) => {
     return (
@@ -138,18 +143,67 @@ class LoginScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Render Methods
+  // Render Animation Methods
   //--------------------------------------------------------------------//
 
-  _renderLogo() {
-    return (
-      <RN.Image
-        style={ styles.logo }
-        source={require('../../assets/images/logo/logo.png')}
-        resizeMode='contain'
-        />
-    )
+  _renderIconAnimation() {
+    if (this.state.isLogoFading) {
+      return (
+        <Animatable.Image
+          style={styles.icon}
+          source={require('../../assets/images/icon/icon.png')}
+          resizeMode='contain'
+          animation={Animations.fadeInIcon}
+          duration={2000}
+          delay={1000}
+          />
+      )
+    } else {
+      return (
+        <Animatable.Image
+          style={styles.icon}
+          source={require('../../assets/images/icon/icon.png')}
+          resizeMode='contain'
+          animation={Animations.translateIcon}
+          duration={2000}
+          />
+      )
+    }
   }
+
+  _renderLogoAnimation() {
+    if (this.state.isLogoFading) {
+      return (
+        <Animatable.Text
+          style={styles.logo}
+          source={require('../../assets/images/logo/logo.png')}
+          resizeMode='contain'
+          animation={'fadeIn'}
+          duration={1800}
+          delay={3000}
+          onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
+          >
+          Insiya
+        </Animatable.Text>
+      )
+    } else {
+      return (
+        <Animatable.Text
+          style={styles.logo}
+          source={require('../../assets/images/logo/logo.png')}
+          resizeMode='contain'
+          animation={Animations.translateLogo}
+          duration={2000}
+          >
+          Insiya
+        </Animatable.Text>
+      )
+    }
+  }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
 
   _renderCountrySelector() {
     return (
@@ -238,8 +292,8 @@ class LoginScreen extends React.PureComponent {
         transparent={false}
         animationType={'none'}
         >
-        <RN.View style={ styles.container }>
-          <CountryListModal countryIndex={this.state.countryIndex} setParentState={setStateCallback} setCountry={this.setCountry} />
+        <RN.View style={ styles.fullScreen }>
+          <CountryListModal countryIndex={this.state.countryIndex} setParentState={this.setParentState} setCountry={this.setCountry} />
         </RN.View>
       </RN.Modal>
     )
@@ -250,8 +304,8 @@ class LoginScreen extends React.PureComponent {
       return (
         <Animatable.View
           animation={'fadeIn'}
-          duration={20}
-          delay={6}
+          duration={2000}
+          delay={600}
           >
           {this._renderCountrySelector()}
           {this._renderPhoneNumberInput()}
@@ -263,62 +317,6 @@ class LoginScreen extends React.PureComponent {
       )
     }
   }
-
-  _renderLogoAnimation() {
-    if (this.state.isLogoFading) {
-      return (
-        <Animatable.Text
-          style={styles.logo}
-          source={require('../../assets/images/logo/logo.png')}
-          resizeMode='contain'
-          animation={'fadeIn'}
-          duration={18}
-          delay={30}
-          onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
-          >
-          Insiya
-        </Animatable.Text>
-      )
-    } else {
-      return (
-        <Animatable.Text
-          style={styles.logo}
-          source={require('../../assets/images/logo/logo.png')}
-          resizeMode='contain'
-          animation={Animations.translateLogo}
-          duration={20}
-          >
-          Insiya
-        </Animatable.Text>
-      )
-    }
-  }
-
-  _renderIconAnimation() {
-    if (this.state.isLogoFading) {
-      return (
-        <Animatable.Image
-          style={styles.icon}
-          source={require('../../assets/images/icon/icon.png')}
-          resizeMode='contain'
-          animation={Animations.fadeInIcon}
-          duration={20}
-          delay={10}
-          />
-      )
-    } else {
-      return (
-        <Animatable.Image
-          style={styles.icon}
-          source={require('../../assets/images/icon/icon.png')}
-          resizeMode='contain'
-          animation={Animations.translateIcon}
-          duration={20}
-          />
-      )
-    }
-  }
-
 
   render() {
     return (
