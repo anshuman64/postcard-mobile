@@ -159,10 +159,10 @@ class LoginScreen extends React.PureComponent {
         onPressOut={setStateInAnimationFrame(this, { isCountrySelectorPressed: false})}
         >
         <RN.View style={[styles.countrySelectorView, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
-          <RN.Text style={ styles.countrySelectorText }>
+          <RN.Text style={[styles.countrySelectorText, this.state.isCountrySelectorPressed && styles.countrySelectorTextHighlighted]}>
             {COUNTRY_CODES[this.state.countryIndex].country_name}
           </RN.Text>
-          <Icon name='md-arrow-dropdown' style={ styles.dropdownIcon } />
+          <Icon name='md-arrow-dropdown' style={[styles.dropdownIcon, this.state.isCountrySelectorPressed && styles.countrySelectorTextHighlighted]} />
         </RN.View>
       </RN.TouchableWithoutFeedback>
     )
@@ -180,7 +180,7 @@ class LoginScreen extends React.PureComponent {
 
         {/* PhoneNumberInput */}
           <RN.TextInput
-            style={[styles.phoneNumberInput, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
+            style={[styles.phoneNumberInput, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneInputFocused && styles.countrySelectorTextHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
             keyboardType='phone-pad'
             onChangeText={(value) => this._onPhoneInputChangeText(value)}
             value={this.state.formattedPhoneNumber}

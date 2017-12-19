@@ -61,6 +61,9 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(14),
     color: COLORS.grey900
   },
+  countrySelectorTextHighlighted: {
+    color: COLORS.appleBlue
+  },
   phoneNumberView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -113,8 +116,8 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     width: 0.6 * deviceWidth,
-    height: 33,
-    borderRadius: 3,
+    height: 34,
+    borderRadius: 4,
     marginTop: 30,
     backgroundColor: COLORS.appleBlue,
   },
@@ -139,6 +142,6 @@ export const styles = RN.StyleSheet.create({
     textAlign: 'center',
     color: COLORS.grey600,
     textAlign: 'left',
-    marginTop: '3%',
+    marginTop: 10,
   },
 });
