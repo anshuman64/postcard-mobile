@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import { scale, scaleFont, COLORS, deviceWidth, deviceHeight, STATUSBAR_HEIGHT } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -22,64 +22,73 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '10%',
-    width: '100%'
+    width: '100%',
+    height: 45,
+    borderBottomColor: COLORS.grey400,
+    borderBottomWidth: 1,
+    marginTop: STATUSBAR_HEIGHT
+  },
+  backIcon: {
+    fontSize: 28,
+    marginLeft: 10
   },
   titleText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
-    fontSize: scaleFont(18),
+    fontFamily: 'System',
+    fontSize: scaleFont(16),
     textAlign: 'center',
-    textAlignVertical: 'center',
-    color: COLORS.grey900
+    color: COLORS.grey900,
+    marginTop: 50
   },
   subtitleText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(16),
+    fontWeight: '100',
+    fontSize: scaleFont(14),
     textAlign: 'center',
-    textAlignVertical: 'center',
     color: COLORS.grey900,
-    marginTop: '1%'
+    marginTop: 5
   },
   codeInput: {
-    width: scale(60),
+    width: 150,
+    height: 50,
     textAlign: 'center',
-    fontSize: scaleFont(24),
+    fontSize: scaleFont(20),
     borderBottomColor: COLORS.grey900,
-    borderBottomWidth: scale(0.3),
+    borderBottomWidth: 1,
+    marginTop: 30
   },
   borderHighlighted: {
     borderBottomColor: COLORS.appleBlue,
-    borderBottomWidth: scale(0.6)
   },
   borderRed: {
     borderBottomColor: COLORS.appleRed,
-    borderBottomWidth: scale(0.6)
   },
   invalidCodeText: {
-    height: scale(12),
-    width: scale(60),
-    fontSize: scaleFont(16),
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontWeight: '100',
+    fontSize: scaleFont(14),
     textAlign: 'center',
-    textAlignVertical: 'center',
-    color: COLORS.appleRed
+    color: COLORS.appleRed,
+    marginTop: 4
+  },
+  invalidCodeTextTransparent: {
+    color: 'transparent'
   },
   resendSMSView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: scale(120),
+    alignItems: 'center',
+    width: 270,
     height: scale(15),
-    paddingLeft: scale(10),
-    paddingRight: scale(10),
-    borderBottomColor: COLORS.grey900,
-    borderBottomWidth: scale(0.3),
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderBottomColor: COLORS.grey300,
+    borderBottomWidth: 1,
   },
   resendSMSText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    height: scale(15),
-    fontSize: scaleFont(18),
+    fontWeight: '100',
+    fontSize: scaleFont(16),
     textAlign: 'center',
-    textAlignVertical: 'center',
-    marginTop: '1%',
     color: COLORS.grey400,
   },
   smsTextActive: {

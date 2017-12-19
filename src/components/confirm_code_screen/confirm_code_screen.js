@@ -140,7 +140,7 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderSubtitle() {
     return (
       <RN.Text style={styles.subtitleText}>
-        Sent to { this.props.phoneNumber /*this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
+        Sent to +14083060059{/* this.props.phoneNumber this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
       </RN.Text>
     )
   }
@@ -166,9 +166,9 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderInvalidCodeText() {
     if (this.state.isLoading) {
       return <RN.ActivityIndicator size='small' color={COLORS.grey400} />
-    } else if (this.state.isCodeIncorrect) {
+    } else {
       return (
-        <RN.Text style={styles.invalidCodeText}>
+        <RN.Text style={[styles.invalidCodeText, !this.state.isCodeIncorrect && styles.invalidCodeTextTransparent]}>
           Invalid Code
         </RN.Text>
       )
@@ -198,18 +198,16 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={styles.container}>
-        {this._renderHeader()}
-        <RN.View style={{flex: 3}} />
+        <RN.View style={styles.container}>
+          {this._renderHeader()}
           {this._renderTitle()}
           {this._renderSubtitle()}
-        <RN.View style={{flex: 1.5}} />
           {this._renderCodeInput()}
           {this._renderInvalidCodeText()}
-        <RN.View style={{flex: 5}} />
-          {this._renderResendSMS()}
-        <RN.View style={{flex: 18}} />
-      </RN.View>
+          <RN.View style={{flex: 1}} />
+            {this._renderResendSMS()}
+          <RN.View style={{flex: 4}} />
+        </RN.View>
     )
   }
 }
