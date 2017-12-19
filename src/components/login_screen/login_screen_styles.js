@@ -32,6 +32,7 @@ export const styles = RN.StyleSheet.create({
     fontFamily: 'SourceSansPro-Light',
     fontSize: scaleFont(40),
     position: 'absolute',
+    transform: [{translateX: 25}],
     color: COLORS.grey900
   },
   countrySelectorView: {
