@@ -172,45 +172,44 @@ class LoginScreen extends React.PureComponent {
     return (
       <RN.View style={ styles.phoneNumberView }>
         {/* PhoneNumberCountryCode */}
-        <RN.Text style={ styles.countryCodeText }>
-          {COUNTRY_CODES[this.state.countryIndex].dialing_code}
-        </RN.Text>
+        <RN.View style={ styles.countryCodeTextView }>
+          <RN.Text style={ styles.countryCodeText }>
+            {COUNTRY_CODES[this.state.countryIndex].dialing_code}
+          </RN.Text>
+        </RN.View>
 
         {/* PhoneNumberInput */}
-        <RN.TextInput
-          style={[styles.phoneNumberInput, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
-          keyboardType='phone-pad'
-          onChangeText={(value) => this._onPhoneInputChangeText(value)}
-          value={this.state.formattedPhoneNumber}
-          placeholder='Phone Number'
-          placeholderTextColor={COLORS.grey400}
-          underlineColorAndroid={'transparent'}
-          onFocus={setStateInAnimationFrame(this, { isPhoneInputFocused: true})}
-          onEndEditing={setStateInAnimationFrame(this, { isPhoneInputFocused: false})}
-        />
+          <RN.TextInput
+            style={[styles.phoneNumberInput, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
+            keyboardType='phone-pad'
+            onChangeText={(value) => this._onPhoneInputChangeText(value)}
+            value={this.state.formattedPhoneNumber}
+            placeholder='Phone Number'
+            placeholderTextColor={COLORS.grey400}
+            underlineColorAndroid={'transparent'}
+            onFocus={setStateInAnimationFrame(this, { isPhoneInputFocused: true})}
+            onEndEditing={setStateInAnimationFrame(this, { isPhoneInputFocused: false})}
+            />
       </RN.View>
     )
   }
 
   _renderInvalidNumberText() {
-    if (this.state.isPhoneNumberInvalid) {
-      return (
-        <RN.View style={ styles.phoneNumberView }>
-          <RN.View style={{width: '25%'}} />
-          <RN.Text style={[styles.invalidNumberText]}>
-            Invalid Number
-          </RN.Text>
-        </RN.View>
-      )
-    }
+    return (
+      <RN.View style={ styles.phoneNumberView }>
+        <RN.Text style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && styles.invalidNumberTextTransparent]}>
+          Invalid Number
+        </RN.Text>
+      </RN.View>
+    )
   }
 
   _renderNextButton() {
     return (
       <RN.TouchableHighlight
-        style={ styles.nextButtonBackground }
+        style={[styles.nextButtonBackground, this.state.isNextButtonDisabled && styles.nextButtonBackgroundDisabled]}
         onPress={() => this._onNextButtonPress()}
-        underlayColor='#0050a7'
+        underlayColor='#0D47A1'
         disabled={this.state.isNextButtonDisabled && !this.state.isLoading}
         >
         { this.state.isLoading ?
@@ -251,8 +250,8 @@ class LoginScreen extends React.PureComponent {
       return (
         <Animatable.View
           animation={'fadeIn'}
-          duration={2000}
-          delay={600}
+          duration={20}
+          delay={6}
           >
           {this._renderCountrySelector()}
           {this._renderPhoneNumberInput()}
@@ -273,8 +272,8 @@ class LoginScreen extends React.PureComponent {
           source={require('../../assets/images/logo/logo.png')}
           resizeMode='contain'
           animation={'fadeIn'}
-          duration={1800}
-          delay={3000}
+          duration={18}
+          delay={30}
           onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
           >
           Insiya
@@ -287,7 +286,7 @@ class LoginScreen extends React.PureComponent {
           source={require('../../assets/images/logo/logo.png')}
           resizeMode='contain'
           animation={Animations.translateLogo}
-          duration={2000}
+          duration={20}
           >
           Insiya
         </Animatable.Text>
@@ -303,18 +302,18 @@ class LoginScreen extends React.PureComponent {
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='contain'
           animation={Animations.fadeInIcon}
-          duration={2000}
-          delay={1000}
+          duration={20}
+          delay={10}
           />
       )
     } else {
       return (
         <Animatable.Image
-          style={styles.iconTranslated}
+          style={styles.icon}
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='contain'
           animation={Animations.translateIcon}
-          duration={2000}
+          duration={20}
           />
       )
     }
@@ -323,18 +322,17 @@ class LoginScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={ styles.container }>
-        {this._renderIconAnimation()}
-        {this._renderLogoAnimation()}
-        {this._renderLoginScreen()}
+      <RN.View style={ styles.fullScreen }>
+        <RN.View style={ styles.container }>
+          {this._renderIconAnimation()}
+          {this._renderLogoAnimation()}
+          {this._renderLoginScreen()}
+        </RN.View>
       </RN.View>
     )
   }
 }
-// onAnimationEnd={setStateInAnimationFrame(this, {isLogoFading: false, isIconAnimatedVisible: false})}
 
-
-// {this._renderLoginScreen()}
 // --------------------------------------------------------------------
 
 
