@@ -5,8 +5,7 @@ import * as Animatable from 'react-native-animatable';
 
 // Local Imports
 import { styles }                          from './loading_screen_styles.js';
-import * as Animations                     from './loading_screen_animations.js'
-import { COLORS }                          from '../../utilities/style_utility.js';
+import * as Animations                     from './loading_screen_animations.js';
 import { toHomeScreen, toLoginScreen }     from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
@@ -17,17 +16,26 @@ class LoadingScreen extends React.PureComponent {
     header: null,
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoginSuccessful: false,
+      iterationCount:    'infinite'
+    }
+  }
+
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
   componentDidMount() {
     let successCallback = () => {
-      this.props.navigation.dispatch(toHomeScreen());
+      this.setState({ iterationCount: 2, isLoginSuccessful: true });
     };
 
     let errorCallback = () => {
-      this.props.navigation.dispatch(toLoginScreen());
+      this.setState({ iterationCount: 2, isLoginSuccessful: false });
     };
 
     this.unsubscribe = this.props.attemptToLoginUser(successCallback, errorCallback);
@@ -43,19 +51,39 @@ class LoadingScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _onAnimationEnd = () => {
+    if (this.state.isLoginSuccessful) {
+      return this.props.navigation.dispatch(toHomeScreen());
+    } else {
+      return this.props.navigation.dispatch(toLoginScreen());
+    }
+  }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _renderLoadingIcon() {
+    return (
+      <Animatable.Image
+        ref={'loadingIcon'}
+        style={styles.icon}
+        source={require('../../assets/images/icon/icon.png')}
+        resizeMode={'contain'}
+        animation={Animations.pulseIcon}
+        direction={'alternate'}
+        easing={'ease-in'}
+        duration={2000}
+        iterationCount={this.state.iterationCount}
+        onAnimationEnd={this._onAnimationEnd}
+        />
+    )
+  }
+
   render() {
     return (
       <RN.View style={styles.container}>
-        <Animatable.Image
-          style={styles.icon}
-          source={require('../../assets/images/icon/Icon_ExactFit_200x200.png')}
-          resizeMode='contain'
-          animation={Animations.pulseIcon}
-          easing='ease-out'
-          iterationCount='infinite'
-          direction='alternate'
-          duration={2000}
-          />
+        {this._renderLoadingIcon()}
       </RN.View>
     )
   }
