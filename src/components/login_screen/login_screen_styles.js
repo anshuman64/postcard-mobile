@@ -30,10 +30,10 @@ export const styles = RN.StyleSheet.create({
   },
   logo: {
     fontFamily: 'SourceSansPro-Light',
-    fontSize: scaleFont(40),
+    fontSize: 40,
     position: 'absolute',
     transform: [{translateX: 25}],
-    color: COLORS.grey900
+    color: '#333333'
   },
   countrySelectorView: {
     flexDirection: 'row',
@@ -50,6 +50,7 @@ export const styles = RN.StyleSheet.create({
     borderBottomWidth: 1,
   },
   countrySelectorText: {
+    width: 0.45 * deviceWidth,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
     fontSize: scaleFont(16),
@@ -84,6 +85,7 @@ export const styles = RN.StyleSheet.create({
   countryCodeText: {
     width: 0.17 * deviceWidth,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontWeight: '100',
     fontSize: scaleFont(16),
     textAlign: 'center',
     color: COLORS.grey900,
@@ -92,6 +94,7 @@ export const styles = RN.StyleSheet.create({
     width: 0.4 * deviceWidth,
     height: 40,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontWeight: '100',
     fontSize: scaleFont(16),
     textAlign: 'center',
     color: COLORS.grey900,
