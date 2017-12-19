@@ -1,5 +1,5 @@
 // Library Imports
-import { PixelRatio } from 'react-native';
+import { Dimensions, PixelRatio } from 'react-native';
 
 //--------------------------------------------------------------------//
 
@@ -8,8 +8,11 @@ import { PixelRatio } from 'react-native';
 //--------------------------------------------------------------------//
 
 
+export const deviceWidth = Math.min(Dimensions.get('window').width, 480);
+export const deviceHeight = Math.min(Dimensions.get('window').height, 960);
+
 export const scale = (size) => {
-  return PixelRatio.getPixelSizeForLayoutSize(size)
+  return PixelRatio.getPixelSizeForLayoutSize(size);
 }
 
 export const scaleFont = (fontSize) => {
