@@ -60,7 +60,7 @@ export const styles = RN.StyleSheet.create({
   dropdownIcon: {
     position: 'absolute',
     left: 0.53 * deviceWidth,
-    fontSize: scaleFont(14),
+    fontSize: 14,
     color: COLORS.grey900
   },
   countrySelectorTextHighlighted: {

@@ -1,5 +1,5 @@
 // Library Imports
-import { Dimensions, PixelRatio } from 'react-native';
+import { Platform, Dimensions, PixelRatio } from 'react-native';
 
 //--------------------------------------------------------------------//
 
@@ -10,6 +10,17 @@ import { Dimensions, PixelRatio } from 'react-native';
 
 export const deviceWidth = Math.min(Dimensions.get('window').width, 480);
 export const deviceHeight = Math.min(Dimensions.get('window').height, 960);
+export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 0;
+
+function isIphoneX() {
+    let dimen = Dimensions.get('window');
+    return (
+        Platform.OS === 'ios' &&
+        !Platform.isPad &&
+        !Platform.isTVOS &&
+        (dimen.height === 812 || dimen.width === 812)
+    );
+}
 
 export const scale = (size) => {
   return PixelRatio.getPixelSizeForLayoutSize(size);
