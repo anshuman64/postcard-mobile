@@ -121,10 +121,19 @@ class ConfirmCodeScreen extends React.PureComponent {
 // Render Methods
 //--------------------------------------------------------------------//
 
-  _renderHeader() {
+  _renderHeader = () => {
     return (
       <RN.View style={styles.header}>
-        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
+        <RN.TouchableWithoutFeedback
+          onPressIn={setStateInAnimationFrame(this, { isBackIconPressed: true})}
+          onPressOut={setStateInAnimationFrame(this, { isBackIconPressed: false})}
+          onPress={() => this.props.navigation.dispatch(goBack())}
+          >
+          <Ionicon
+            name='ios-arrow-round-back'
+            style={[styles.backIcon, this.state.isBackIconPressed && styles.textHighlighted]}
+            />
+        </RN.TouchableWithoutFeedback>
       </RN.View>
     )
   }
@@ -183,7 +192,7 @@ class ConfirmCodeScreen extends React.PureComponent {
         onPress={() => this._onResendSMSPress()}
         disabled={this.state.isResendSMSDisabled}
         >
-        <RN.View style={styles.resendSMSView}>
+        <RN.View style={[styles.resendSMSView, this.state.isResendSMSPressed && styles.borderHighlighted]}>
           <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
             Resend SMS
           </RN.Text>
