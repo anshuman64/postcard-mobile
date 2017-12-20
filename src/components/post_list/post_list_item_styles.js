@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -21,7 +21,7 @@ export const styles = RN.StyleSheet.create({
   },
   post: {
     width: '100%',
-    padding: scale(8),
+    padding: scaleImage(8),
     marginBottom: 5,
     backgroundColor: 'white',
     elevation: 4,
@@ -41,7 +41,7 @@ export const styles = RN.StyleSheet.create({
     textAlign: 'left',
     textAlignVertical: 'center',
     fontSize: scaleFont(12),
-    marginBottom: scale(5),
+    marginBottom: scaleImage(5),
     color: COLORS.grey500
   },
   bodyText: {
@@ -50,7 +50,7 @@ export const styles = RN.StyleSheet.create({
     fontSize: scaleFont(18),
     textAlign: 'left',
     textAlignVertical: 'center',
-    marginBottom: scale(5),
+    marginBottom: scaleImage(5),
     color: COLORS.grey900
   },
   largeBodyText: {
@@ -61,19 +61,19 @@ export const styles = RN.StyleSheet.create({
     width: '100%'
   },
   heartIcon: {
-    width: scale(10),
+    width: scaleImage(10),
     fontSize: scaleFont(20),
-    marginRight: scale(4),
+    marginRight: scaleImage(4),
     color: COLORS.appleBlue
   },
   likeCountText: {
     fontSize: scaleFont(15),
     textAlign: 'left',
     textAlignVertical: 'center',
-    marginRight: scale(90)
+    marginRight: scaleImage(90)
   },
   activityIndicator: {
-    marginTop: scale(8),
-    marginBottom: scale(8),
+    marginTop: scaleImage(8),
+    marginBottom: scaleImage(8),
   }
 });
