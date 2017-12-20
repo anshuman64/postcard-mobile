@@ -30,7 +30,8 @@ export const styles = RN.StyleSheet.create({
   },
   backIcon: {
     fontSize: 36,
-    marginLeft: 15
+    marginLeft: 15,
+    color: StyleUtility.COLORS.grey900
   },
   titleText: {
     fontFamily: 'System',

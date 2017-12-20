@@ -55,7 +55,7 @@ export const styles = RN.StyleSheet.create({
     fontSize: 14,
     color: StyleUtility.COLORS.grey900
   },
-  countrySelectorTextHighlighted: {
+  textHighlighted: {
     color: StyleUtility.COLORS.appleBlue
   },
   phoneNumberView: {
@@ -94,7 +94,6 @@ export const styles = RN.StyleSheet.create({
   },
   borderRed: {
     borderBottomColor: StyleUtility.COLORS.appleRed,
-    borderBottomWidth: 2
   },
   invalidNumberText: {
     alignSelf: 'flex-start',
