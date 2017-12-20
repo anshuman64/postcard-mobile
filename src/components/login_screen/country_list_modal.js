@@ -6,7 +6,6 @@ import RN     from 'react-native';
 import { styles }                                        from './country_list_modal_styles.js';
 import CountryListItem                                   from './country_list_item.js';
 import { COLORS, DEVICE_DIM, MAX_TABLET_DIM, isTablet }  from '../../utilities/style_utility.js';
-import { setStateInAnimationFrame }                      from '../../utilities/function_utility.js';
 import { COUNTRY_CODES }                                 from '../../utilities/country_utility.js';
 
 
@@ -19,7 +18,6 @@ class CountryListModal extends React.PureComponent {
     const ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource:         ds.cloneWithRows(COUNTRY_CODES),
-      isTextHighlighted:  false,
       isModalMounted:     false,
     };
   }
@@ -81,12 +79,12 @@ class CountryListModal extends React.PureComponent {
   _renderCancelButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isTextHighlighted: true})}
-        onPressOut={setStateInAnimationFrame(this, { isTextHighlighted: false})}
+        onPressIn={() => this.cancelButtonText.setNativeProps({style: styles.textHighlighted})}
+        onPressOut={() => this.cancelButtonText.setNativeProps({style: styles.cancelButtonText})}
         onPress={this.props.setParentState({ isModalVisible: false })}
       >
         <RN.View style={ styles.cancelButtonView }>
-          <RN.Text style={[styles.cancelButtonText, this.state.isTextHighlighted && styles.textHighlighted]}>
+          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={ styles.cancelButtonText }>
             Cancel
           </RN.Text>
         </RN.View>

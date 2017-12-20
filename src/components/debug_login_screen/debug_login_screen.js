@@ -1,11 +1,10 @@
 // Library Imports
-import React                                    from 'react';
-import RN                                       from 'react-native';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
-import { styles }                                      from './debug_login_screen_styles.js';
-import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/function_utility.js';
-import { toHomeScreen }                                from '../../actions/navigation_actions.js';
+import { styles }       from './debug_login_screen_styles.js';
+import { toHomeScreen } from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
