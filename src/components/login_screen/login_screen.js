@@ -8,13 +8,13 @@ import Icon                                     from 'react-native-vector-icons/
 import * as Animatable                          from 'react-native-animatable';
 
 // Local Imports
-import { styles }                                      from './login_screen_styles.js';
-import * as Animations                                 from './login_screen_animations.js';
-import CountryListModal                                from './country_list_modal.js';
-import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
-import { setStateCallback, setStateInAnimationFrame }  from '../../utilities/function_utility.js';
-import { COLORS }                                      from '../../utilities/style_utility.js';
-import { toConfirmCodeScreen }                         from '../../actions/navigation_actions.js';
+import { styles }              from './login_screen_styles.js';
+import * as Animations         from './login_screen_animations.js';
+import CountryListModal        from './country_list_modal.js';
+import { COUNTRY_CODES }       from '../../utilities/country_utility.js';
+import { setStateCallback }    from '../../utilities/function_utility.js';
+import { COLORS }              from '../../utilities/style_utility.js';
+import { toConfirmCodeScreen } from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -31,7 +31,6 @@ class LoginScreen extends React.PureComponent {
     this.state = {
       isLogoFading:             true,
       countryIndex:             220, // hard-coded to United States
-      isCountrySelectorPressed: false,
       isPhoneInputFocused:      false,
       formattedPhoneNumber:     '',
       isModalVisible:           false,
@@ -209,14 +208,22 @@ class LoginScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPress={setStateCallback(this, { isModalVisible: true})}
-        onPressIn={setStateInAnimationFrame(this, { isCountrySelectorPressed: true})}
-        onPressOut={setStateInAnimationFrame(this, { isCountrySelectorPressed: false})}
+        onPressIn={() => {
+          this.countrySelectorView.setNativeProps({style: styles.borderHighlighted})
+          this.countrySelectorText.setNativeProps({style: styles.textHighlighted})
+          this.dropdownIcon.setNativeProps({style: styles.textHighlighted})
+        }}
+        onPressOut={() => {
+          this.countrySelectorView.setNativeProps({style: styles.countrySelectorView})
+          this.countrySelectorText.setNativeProps({style: styles.countrySelectorText})
+          this.dropdownIcon.setNativeProps({style: styles.dropdownIcon})
+        }}
         >
-        <RN.View style={[styles.countrySelectorView, this.state.isCountrySelectorPressed && styles.borderHighlighted]}>
-          <RN.Text style={[styles.countrySelectorText, this.state.isCountrySelectorPressed && styles.countrySelectorTextHighlighted]}>
+        <RN.View ref={(ref) => this.countrySelectorView = ref} style={styles.countrySelectorView}>
+          <RN.Text ref={(ref) => this.countrySelectorText = ref} style={styles.countrySelectorText}>
             {COUNTRY_CODES[this.state.countryIndex].country_name}
           </RN.Text>
-          <Icon name='md-arrow-dropdown' style={[styles.dropdownIcon, this.state.isCountrySelectorPressed && styles.countrySelectorTextHighlighted]} />
+          <Icon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
         </RN.View>
       </RN.TouchableWithoutFeedback>
     )
