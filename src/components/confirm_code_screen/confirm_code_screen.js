@@ -21,7 +21,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      isCodeIncorrect:      true,
+      isCodeIncorrect:      false,
       isResendSMSDisabled:  true,
       secsRemaining:        0, // set to 59 seconds in _startTimer()
       isLoading:            false,
@@ -120,8 +120,8 @@ class ConfirmCodeScreen extends React.PureComponent {
     return (
       <RN.View style={styles.header}>
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.cancelButtonText.setNativeProps({style: styles.textHighlighted})}
-          onPressOut={() => this.cancelButtonText.setNativeProps({style: styles.backIcon})}
+          onPressIn={() => this.backIcon.setNativeProps({style: styles.textHighlighted})}
+          onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
           onPress={() => this.props.navigation.dispatch(goBack())}
           >
           <Ionicon
