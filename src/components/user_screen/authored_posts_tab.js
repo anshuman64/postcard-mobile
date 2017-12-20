@@ -5,7 +5,6 @@ import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import PostListContainer  from '../post_list/post_list_container.js';
-import { setStateInAnimationFrame } from '../../utilities/function_utility.js';
 import { POST_TYPES }     from '../../actions/post_actions.js';
 
 

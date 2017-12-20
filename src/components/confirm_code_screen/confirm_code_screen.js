@@ -6,7 +6,6 @@ import Ionicon                                 from 'react-native-vector-icons/I
 
 // Local Imports
 import { styles }                   from './confirm_code_screen_styles.js';
-import { setStateInAnimationFrame } from '../../utilities/function_utility.js';
 import { toHomeScreen, goBack }     from '../../actions/navigation_actions.js';
 import { COLORS }                   from '../../utilities/style_utility.js';
 
@@ -22,14 +21,10 @@ class ConfirmCodeScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      isBackIconPressed:    false,
-      isCodeInputFocused:   false,
-      isCodeIncorrect:      false,
+      isCodeIncorrect:      true,
       isResendSMSDisabled:  true,
-      isResendSMSPressed:   false,
       secsRemaining:        0, // set to 59 seconds in _startTimer()
       isLoading:            false,
-      isCodeInvalid:        false,
     };
 
     this.timer = null;
@@ -125,13 +120,14 @@ class ConfirmCodeScreen extends React.PureComponent {
     return (
       <RN.View style={styles.header}>
         <RN.TouchableWithoutFeedback
-          onPressIn={setStateInAnimationFrame(this, { isBackIconPressed: true})}
-          onPressOut={setStateInAnimationFrame(this, { isBackIconPressed: false})}
+          onPressIn={() => this.cancelButtonText.setNativeProps({style: styles.textHighlighted})}
+          onPressOut={() => this.cancelButtonText.setNativeProps({style: styles.backIcon})}
           onPress={() => this.props.navigation.dispatch(goBack())}
           >
           <Ionicon
+            ref={(ref) => this.backIcon = ref}
             name='ios-arrow-round-back'
-            style={[styles.backIcon, this.state.isBackIconPressed && styles.textHighlighted]}
+            style={styles.backIcon}
             />
         </RN.TouchableWithoutFeedback>
       </RN.View>
@@ -157,7 +153,8 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderCodeInput() {
     return (
       <RN.TextInput
-        style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeIncorrect && styles.borderRed]}
+        ref={(ref) => this.codeInput = ref}
+        style={[styles.codeInput, this.state.isCodeIncorrect && styles.borderRed]}
         keyboardType='numeric'
         onChangeText={this._codeInputOnChangeText.bind(this)}
         value={this.state.inputtedCode}
@@ -166,8 +163,8 @@ class ConfirmCodeScreen extends React.PureComponent {
         maxLength={6}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
-        onFocus={setStateInAnimationFrame(this, { isCodeInputFocused: true})}
-        onEndEditing={setStateInAnimationFrame(this, { isCodeInputFocused: false})}
+        onFocus={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: styles.borderHighlighted})}
+        onEndEditing={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: styles.codeInput})}
       />
     )
   }
@@ -187,16 +184,22 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderResendSMS() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isResendSMSPressed: true})}
-        onPressOut={setStateInAnimationFrame(this, { isResendSMSPressed: false})}
+        onPressIn={() => {
+          this.resendSMSView.setNativeProps({style: styles.borderHighlighted})
+          this.resendSMSText.setNativeProps({style: styles.textHighlighted})
+        }}
+        onPressOut={() => {
+          this.resendSMSView.setNativeProps({style: styles.resendSMSView})
+          this.resendSMSText.setNativeProps({style: styles.resendSMSText})
+        }}
         onPress={() => this._onResendSMSPress()}
         disabled={this.state.isResendSMSDisabled}
         >
-        <RN.View style={[styles.resendSMSView, this.state.isResendSMSPressed && styles.borderHighlighted]}>
-          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+        <RN.View ref={(ref) => this.resendSMSView = ref} style={styles.resendSMSView}>
+          <RN.Text ref={(ref) => this.resendSMSText = ref} style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive]}>
             Resend SMS
           </RN.Text>
-          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive]}>
             {/* Displays countdown timer in clean format */}
             {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
           </RN.Text>
