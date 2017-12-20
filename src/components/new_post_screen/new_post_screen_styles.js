@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -30,6 +30,6 @@ export const styles = RN.StyleSheet.create({
     width: '100%',
     textAlignVertical: 'top',
     fontSize: scaleFont(8),
-    padding: scale(7),
+    padding: scaleImage(7),
   },
 });

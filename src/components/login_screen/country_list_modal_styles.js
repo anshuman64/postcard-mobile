@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS, deviceWidth, deviceHeight } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -13,17 +13,17 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: 0.85 * deviceWidth,
-    height: 0.85 * deviceHeight,
+    width: StyleUtility.isTablet() ? 0.9 * StyleUtility.MAX_TABLET_DIM.width : 0.85 * StyleUtility.DEVICE_DIM.width,
+    height: StyleUtility.isTablet() ? 0.9 * StyleUtility.MAX_TABLET_DIM.height : 0.85 * StyleUtility.DEVICE_DIM.height,
     elevation: 50,
     shadowOpacity: 0.3,
     shadowRadius: 50,
-    backgroundColor: COLORS.grey50,
+    backgroundColor: StyleUtility.COLORS.grey50,
   },
   countryListView: {
     width: '100%',
     height: '100%',
-    backgroundColor: COLORS.grey50
+    backgroundColor: StyleUtility.COLORS.grey50
   },
   selectCountryView: {
     flexDirection: 'column',
@@ -32,14 +32,14 @@ export const styles = RN.StyleSheet.create({
     width: '100%',
     height: 50,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.grey200,
+    borderBottomColor: StyleUtility.COLORS.grey200,
   },
   selectCountryText: {
     fontFamily: 'System',
-    fontSize: scaleFont(16),
+    fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
-    color: COLORS.grey900,
-    backgroundColor: COLORS.grey50
+    color: StyleUtility.COLORS.grey900,
+    backgroundColor: StyleUtility.COLORS.grey50
   },
   cancelButtonView: {
     flexDirection: 'column',
@@ -48,17 +48,17 @@ export const styles = RN.StyleSheet.create({
     width: '100%',
     height: 45,
     borderTopWidth: 1,
-    borderTopColor: COLORS.grey200
+    borderTopColor: StyleUtility.COLORS.grey200
   },
   cancelButtonText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
-    fontSize: scaleFont(14),
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
-    color: COLORS.grey900,
-    backgroundColor: COLORS.grey50
+    color: StyleUtility.COLORS.grey900,
+    backgroundColor: StyleUtility.COLORS.grey50
   },
   textHighlighted: {
-    color: COLORS.appleBlue
+    color: StyleUtility.COLORS.appleBlue
   },
 });

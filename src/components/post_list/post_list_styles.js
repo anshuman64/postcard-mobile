@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -23,7 +23,7 @@ export const styles = RN.StyleSheet.create({
     height: '100%'
   },
   activityIndicator: {
-    marginTop: scale(8),
-    marginBottom: scale(8),
+    marginTop: scaleImage(8),
+    marginBottom: scaleImage(8),
   }
 });

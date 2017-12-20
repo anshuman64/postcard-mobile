@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../utilities/style_utility.js';
+import { scaleImage, scaleFont, COLORS } from '../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -15,7 +15,7 @@ export var styles = RN.StyleSheet.create({
   },
   backIcon: {
     height: '100%',
-    width: scale(22),
+    width: scaleImage(22),
     fontSize: scaleFont(15),
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -23,14 +23,14 @@ export var styles = RN.StyleSheet.create({
   },
   optionsIcon: {
     height: '100%',
-    width: scale(20),
+    width: scaleImage(20),
     fontSize: scaleFont(14),
     textAlign: 'center',
     textAlignVertical: 'center'
   },
   noteIcon: {
     height: '100%',
-    width: scale(22),
+    width: scaleImage(22),
     fontSize: scaleFont(14),
     textAlign: 'center',
     textAlignVertical: 'center',
