@@ -268,10 +268,9 @@ class LoginScreen extends React.PureComponent {
 
   _renderNextButton() {
     return (
-      <RN.TouchableHighlight
+      <RN.TouchableOpacity
         style={[styles.nextButtonBackground, this.state.isNextButtonDisabled && styles.nextButtonBackgroundDisabled]}
         onPress={() => this._onNextButtonPress()}
-        underlayColor='#0D47A1'
         disabled={this.state.isNextButtonDisabled && !this.state.isLoading}
         >
         { this.state.isLoading ?
@@ -280,7 +279,7 @@ class LoginScreen extends React.PureComponent {
             Next
           </RN.Text>
         }
-      </RN.TouchableHighlight>
+      </RN.TouchableOpacity>
     )
   }
 
