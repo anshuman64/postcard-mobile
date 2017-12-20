@@ -4,25 +4,35 @@ import { Platform, Dimensions, PixelRatio } from 'react-native';
 //--------------------------------------------------------------------//
 
 //--------------------------------------------------------------------//
+// Helper Functions
+//--------------------------------------------------------------------//
+
+const isIphoneX = () => {
+  return (
+    Platform.OS === 'ios' &&
+    !Platform.isPad &&
+    !Platform.isTVOS &&
+    (DEVICE_DIM.height === 812 || DEVICE_DIM.width === 812)
+  );
+}
+
+//--------------------------------------------------------------------//
 // Interface
 //--------------------------------------------------------------------//
 
-
-export const deviceWidth = Math.min(Dimensions.get('window').width, 480);
-export const deviceHeight = Math.min(Dimensions.get('window').height, 960);
+export const DEVICE_DIM = Dimensions.get('window');
 export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 0;
+export const MAX_TABLET_DIM = { width: 480, height: 960 };
 
-function isIphoneX() {
-    let dimen = Dimensions.get('window');
-    return (
-        Platform.OS === 'ios' &&
-        !Platform.isPad &&
-        !Platform.isTVOS &&
-        (dimen.height === 812 || dimen.width === 812)
-    );
+export const isTablet = () => {
+  if (DEVICE_DIM.width < 480 || DEVICE_DIM.height < 960) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
-export const scale = (size) => {
+export const scaleImage = (size) => {
   return PixelRatio.getPixelSizeForLayoutSize(size);
 }
 

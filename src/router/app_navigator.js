@@ -22,7 +22,7 @@ import { styles }                         from './app_navigator_styles.js';
 export const AppNavigator = StackNavigator({
   // LoadingScreen: { screen: LoadingScreenContainer },
   // DebugLoginScreen: { screen: DebugLoginScreenContainer },
-  // LoginScreen: { screen: LoginScreenContainer },
+  LoginScreen: { screen: LoginScreenContainer },
   ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
   MainTabNavigator: {
     screen: MainTabNavigator,

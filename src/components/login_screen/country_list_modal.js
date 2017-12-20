@@ -3,11 +3,11 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles }                    from './country_list_modal_styles.js';
-import CountryListItem               from './country_list_item.js';
-import { COLORS, deviceHeight }              from '../../utilities/style_utility.js';
-import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
-import { COUNTRY_CODES }             from '../../utilities/country_utility.js';
+import { styles }                                        from './country_list_modal_styles.js';
+import CountryListItem                                   from './country_list_item.js';
+import { COLORS, DEVICE_DIM, MAX_TABLET_DIM, isTablet }  from '../../utilities/style_utility.js';
+import { setStateInAnimationFrame }                      from '../../utilities/function_utility.js';
+import { COUNTRY_CODES }                                 from '../../utilities/country_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -39,8 +39,9 @@ class CountryListModal extends React.PureComponent {
 
   // Scrolls directly to the currently selected country when RN.ListView is opened
   _onListViewContentSizeChange = () => {
+    let height = isTablet() ? 0.9 * MAX_TABLET_DIM.height : 0.85 * DEVICE_DIM.height;
     let countryPosition = this.props.countryIndex * 45 - 2; // countryIndex * height of each bar minus aesthetic two pixels
-    let maxPosition = COUNTRY_CODES.length * 45 - (0.85 * deviceHeight - 50 - 45); // length of full list minus length of one page of listView
+    let maxPosition = COUNTRY_CODES.length * 45 - (height - 50 - 45); // length of full list minus length of one page of listView
     this.listView.scrollTo({x: 0, y: Math.min(countryPosition, maxPosition), animated: true})
   }
 

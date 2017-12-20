@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -31,17 +31,17 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     width: '100%',
-    height: scale(20),
+    height: scaleImage(20),
   },
   menuItemIcon: {
-    height: scale(20),
+    height: scaleImage(20),
     fontSize: scaleFont(10),
     textAlignVertical: 'center',
     marginRight: '7%',
     color: COLORS.grey900
   },
   menuItemText: {
-    height: scale(20),
+    height: scaleImage(20),
     fontSize: scaleFont(6.5),
     textAlignVertical: 'center',
     color: COLORS.grey900
