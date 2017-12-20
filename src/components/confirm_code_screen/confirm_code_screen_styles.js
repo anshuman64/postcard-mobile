@@ -26,11 +26,12 @@ export const styles = RN.StyleSheet.create({
     height: 45,
     borderBottomColor: StyleUtility.COLORS.grey400,
     borderBottomWidth: 1,
-    marginTop: StyleUtility.STATUSBAR_HEIGHT
+    paddingLeft: 15,
+    marginTop: StyleUtility.STATUSBAR_HEIGHT,
+    backgroundColor: 'white'
   },
   backIcon: {
     fontSize: 36,
-    marginLeft: 15,
     color: StyleUtility.COLORS.grey900
   },
   titleText: {
