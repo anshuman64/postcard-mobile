@@ -6,7 +6,6 @@ import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }                    from './menu_screen_styles.js';
-import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
 import { goBack }                    from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
@@ -14,16 +13,6 @@ import { goBack }                    from '../../actions/navigation_actions.js';
 class MenuScreen extends React.PureComponent {
   static navigationOptions = {
     header: null,
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSupportPressed:   false,
-      isFeedbackPressed:  false,
-      isAboutPressed:     false,
-    };
   }
 
   //--------------------------------------------------------------------//
@@ -58,16 +47,23 @@ class MenuScreen extends React.PureComponent {
   _renderSupportButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isSupportPressed: true})}
-        onPressOut={setStateInAnimationFrame(this, { isSupportPressed: false})}
+        onPressIn={() => {
+          this.supportIcon.setNativeProps({style: styles.highlight})
+          this.supportText.setNativeProps({style: styles.highlight})
+        }}
+        onPressOut={() => {
+          this.supportIcon.setNativeProps({style: styles.menuItemIcon})
+          this.supportText.setNativeProps({style: styles.menuItemText})
+        }}
         onPress={() => this._onPressSupport()}
         >
         <RN.View style={ styles.menuItemView }>
           <Icon
+            ref={(ref) => this.supportIcon = ref}
             name='envelope'
-            style={[styles.menuItemIcon, this.state.isSupportPressed && styles.highlight]}
+            style={styles.menuItemIcon}
             />
-          <RN.Text style={[styles.menuItemText, this.state.isSupportPressed && styles.highlight]}>
+          <RN.Text ref={(ref) => this.supportText = ref} style={styles.menuItemText}>
             Support
           </RN.Text>
         </RN.View>
@@ -78,16 +74,23 @@ class MenuScreen extends React.PureComponent {
   _renderFeedbackButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isFeedbackPressed: true})}
-        onPressOut={setStateInAnimationFrame(this, { isFeedbackPressed: false})}
+      onPressIn={() => {
+        this.supportIcon.setNativeProps({style: styles.highlight})
+        this.supportText.setNativeProps({style: styles.highlight})
+      }}
+      onPressOut={() => {
+        this.supportIcon.setNativeProps({style: styles.menuItemIcon})
+        this.supportText.setNativeProps({style: styles.menuItemText})
+      }}
         onPress={() => this._onPressFeedback()}
         >
         <RN.View style={ styles.menuItemView }>
           <Icon
+            ref={(ref) => this.feedbackIcon = ref}
             name='speech'
-            style={[styles.menuItemIcon, this.state.isFeedbackPressed && styles.highlight]}
+            style={styles.menuItemIcon}
             />
-          <RN.Text style={[styles.menuItemText, this.state.isFeedbackPressed && styles.highlight]}>
+          <RN.Text ref={(ref) => this.feedbackText = ref} style={styles.menuItemText}>
             Feedback
           </RN.Text>
         </RN.View>
@@ -98,16 +101,23 @@ class MenuScreen extends React.PureComponent {
   _renderAboutButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isAboutPressed: true})}
-        onPressOut={setStateInAnimationFrame(this, { isAboutPressed: false})}
+        onPressIn={() => {
+          this.supportIcon.setNativeProps({style: styles.highlight})
+          this.supportText.setNativeProps({style: styles.highlight})
+        }}
+        onPressOut={() => {
+          this.supportIcon.setNativeProps({style: styles.menuItemIcon})
+          this.supportText.setNativeProps({style: styles.menuItemText})
+        }}
         onPress={() => this._onPressAbout()}
         >
         <RN.View style={ styles.menuItemView }>
           <Icon
+            ref={(ref) => this.aboutIcon = ref}
             name='question'
-            style={[styles.menuItemIcon, this.state.isAboutPressed && styles.highlight]}
+            style={styles.menuItemIcon}
             />
-          <RN.Text style={[styles.menuItemText, this.state.isAboutPressed && styles.highlight]}>
+          <RN.Text ref={(ref) => this.aboutText = ref} style={styles.menuItemText}>
             About
           </RN.Text>
         </RN.View>
