@@ -241,15 +241,16 @@ class LoginScreen extends React.PureComponent {
 
         {/* PhoneNumberInput */}
           <RN.TextInput
-            style={[styles.phoneNumberInput, this.state.isPhoneInputFocused && styles.borderHighlighted, this.state.isPhoneInputFocused && styles.countrySelectorTextHighlighted, this.state.isPhoneNumberInvalid && styles.borderRed]}
+            ref={(ref) => this.phoneInput = ref}
+            style={[styles.phoneNumberInput, this.state.isPhoneNumberInvalid && styles.borderRed]}
             keyboardType='phone-pad'
             onChangeText={(value) => this._onPhoneInputChangeText(value)}
             value={this.state.formattedPhoneNumber}
             placeholder='Phone Number'
             placeholderTextColor={COLORS.grey4}
             underlineColorAndroid={'transparent'}
-            onFocus={setStateInAnimationFrame(this, { isPhoneInputFocused: true})}
-            onEndEditing={setStateInAnimationFrame(this, { isPhoneInputFocused: false})}
+            onFocus={() => !this.state.isPhoneNumberInvalid && this.phoneInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
+            onEndEditing={() => !this.state.isPhoneNumberInvalid && this.phoneInput.setNativeProps({style: styles.phoneNumberInput})}
             />
       </RN.View>
     )
