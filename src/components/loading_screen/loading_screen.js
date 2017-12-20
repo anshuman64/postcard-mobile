@@ -73,7 +73,7 @@ class LoadingScreen extends React.PureComponent {
         animation={Animations.pulseIcon}
         direction={'alternate'}
         easing={'ease-in'}
-        duration={2000}
+        duration={20}
         iterationCount={this.state.iterationCount}
         onAnimationEnd={this._onAnimationEnd}
         />

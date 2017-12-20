@@ -23,19 +23,8 @@ export const AppNavigator = StackNavigator({
   // LoadingScreen: { screen: LoadingScreenContainer },
   // DebugLoginScreen: { screen: DebugLoginScreenContainer },
   LoginScreen: { screen: LoginScreenContainer },
-  ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
-  MainTabNavigator: {
-    screen: MainTabNavigator,
-    navigationOptions: ({navigation}) => ({
-      headerTitle: <RN.Image
-        style={styles.headerTitle}
-        source={require('../assets/images/logo/logo.png')}
-        resizeMode='contain'
-      />,
-      headerRight: <Icon name='options-vertical' onPress={() => navigation.dispatch(toMenuScreen())} style={styles.optionsIcon} />,
-      headerLeft:  <Icon name='note' onPress={() => navigation.dispatch(toNewPostScreen())} style={styles.noteIcon} />,
-    })
-   },
+  // ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
+  MainTabNavigator: { screen: MainTabNavigator },
   NewPostScreen: { screen: NewPostScreenContainer },
   MenuScreen: { screen: MenuScreen }
 });
