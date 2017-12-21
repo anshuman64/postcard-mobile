@@ -5,9 +5,10 @@ import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
 import Ionicon                                 from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }                   from './confirm_code_screen_styles.js';
-import { toHomeScreen, goBack }     from '../../actions/navigation_actions.js';
-import { COLORS }                   from '../../utilities/style_utility.js';
+import Header                   from '../header/header.js';
+import { styles }               from './confirm_code_screen_styles.js';
+import { toHomeScreen, goBack } from '../../actions/navigation_actions.js';
+import { COLORS }               from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -118,19 +119,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <RN.View style={styles.header}>
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.backIcon.setNativeProps({style: styles.textHighlighted})}
-          onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
-          onPress={() => this.props.navigation.dispatch(goBack())}
-          >
-          <Ionicon
-            ref={(ref) => this.backIcon = ref}
-            name='ios-arrow-round-back'
-            style={styles.backIcon}
-            />
-        </RN.TouchableWithoutFeedback>
-      </RN.View>
+      <Header navigation={this.props.navigation} backIcon={true} />
     )
   }
 

@@ -1,0 +1,84 @@
+// Library Imports
+import React     from 'react';
+import RN        from 'react-native';
+import Icon      from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon   from 'react-native-vector-icons/Ionicons';
+
+// Local Imports
+import { styles }                                from './header_styles.js';
+import { goBack, toNewPostScreen, toMenuScreen } from '../../actions/navigation_actions.js';
+
+//--------------------------------------------------------------------//
+
+
+class Header extends React.PureComponent {
+
+  _renderBackIcon() {
+    if (this.props.backIcon) {
+      return (
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => this.backIcon.setNativeProps({style: styles.textHighlighted})}
+          onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
+          onPress={() => this.props.navigation.dispatch(goBack())}
+          >
+          <Ionicon
+            ref={(ref) => this.backIcon = ref}
+            name='ios-arrow-round-back'
+            style={styles.backIcon}
+            />
+        </RN.TouchableWithoutFeedback>
+      )
+    }
+  }
+
+  _renderSettingsIcon() {
+    if (this.props.settingsIcon) {
+      return (
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => this.settingsIcon.setNativeProps({style: styles.textHighlighted})}
+          onPressOut={() => this.settingsIcon.setNativeProps({style: styles.settingsIcon})}
+          onPress={() => this.props.navigation.dispatch(toMenuScreen())}
+          >
+          <Icon ref={(ref) => this.settingsIcon = ref} name='settings' style={styles.settingsIcon} />
+        </RN.TouchableWithoutFeedback>
+      )
+    }
+  }
+
+  _renderLogo() {
+    if (this.props.logo) {
+      return (
+        <RN.Image
+          style={styles.logo}
+          source={require('../../assets/images/logo/logo.png')}
+          resizeMode='contain'
+          />
+      )
+    }
+  }
+
+  _renderNoteIcon() {
+    if (this.props.noteIcon) {
+      return (
+        <RN.TouchableOpacity onPress={() => this.props.navigation.dispatch(toNewPostScreen())} >
+          <Icon name='note' style={styles.noteIcon} />
+        </RN.TouchableOpacity>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <RN.View style={styles.header}>
+        {this._renderBackIcon()}
+        {this._renderSettingsIcon()}
+        {this._renderLogo()}
+        {this._renderNoteIcon()}
+      </RN.View>
+    )
+  }
+}
+
+//--------------------------------------------------------------------//
+
+export default Header;

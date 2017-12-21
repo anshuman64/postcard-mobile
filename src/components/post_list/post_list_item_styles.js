@@ -21,7 +21,10 @@ export const styles = RN.StyleSheet.create({
   },
   post: {
     width: '100%',
-    padding: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 15,
+    paddingTop: 10,
     marginBottom: 5,
     backgroundColor: 'white',
     elevation: 3,
@@ -72,15 +75,19 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
   },
   heartIcon: {
-    width: 30,
+    width: 25,
     height: 20,
     fontSize: 20,
+    textAlign: 'center',
+    marginRight: 10,
     color: StyleUtility.COLORS.appleBlue
   },
   filledHeartIcon: {
-    width: 30,
+    width: 25,
     height: 20,
     fontSize: 20,
+    textAlign: 'center',
+    marginRight: 10,
     color: StyleUtility.COLORS.appleRed
   },
   likeCountText: {
@@ -93,3 +100,15 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey400
   }
 });
+
+export const scaleHeart = {
+  0: {
+    scale: 0.3
+  },
+  0.5: {
+    scale: 1.2
+  },
+  1: {
+    scale: 1
+  }
+}
