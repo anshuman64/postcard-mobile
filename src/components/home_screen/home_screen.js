@@ -36,7 +36,7 @@ class HomeScreen extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.settingsIcon.setNativeProps({style: styles.iconHighlighted})}
           onPressOut={() => this.settingsIcon.setNativeProps({style: styles.settingsIcon})}
-          onPress={() => navigation.dispatch(toMenuScreen())}
+          onPress={() => this.props.navigation.dispatch(toMenuScreen())}
           >
           <Icon ref={(ref) => this.settingsIcon = ref} name='settings' style={styles.settingsIcon} />
         </RN.TouchableWithoutFeedback>
