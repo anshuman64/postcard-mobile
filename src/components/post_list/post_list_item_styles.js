@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -14,66 +14,82 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: COLORS.grey50,
+    backgroundColor: StyleUtility.COLORS.grey50,
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: 15,
+    paddingTop: 10,
   },
   post: {
     width: '100%',
-    padding: scaleImage(8),
+    padding: 15,
     marginBottom: 5,
     backgroundColor: 'white',
-    elevation: 4,
-    // borderColor: '#656565',
-    // borderWidth: 0.1 * scaleFactor,
+    elevation: 3,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    shadowOffset: {
+      x: 0,
+      y: 0
+    }
   },
   headerView: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
   },
   closeIcon: {
-    fontSize: scaleFont(24),
+    fontSize: 20,
+    color: StyleUtility.COLORS.grey900
   },
-  dateText: {
-    alignSelf: 'flex-end',
-    textAlign: 'left',
-    textAlignVertical: 'center',
-    fontSize: scaleFont(12),
-    marginBottom: scaleImage(5),
-    color: COLORS.grey500
+  transparent: {
+    color: 'transparent'
+  },
+  textHighlighted: {
+    color: StyleUtility.COLORS.appleBlue
   },
   bodyText: {
     width: '100%',
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(18),
+    fontWeight: '100',
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'left',
-    textAlignVertical: 'center',
-    marginBottom: scaleImage(5),
-    color: COLORS.grey900
+    marginBottom: 15,
+    color: StyleUtility.COLORS.grey900
   },
-  largeBodyText: {
-    fontSize: scaleFont(8),
+  smallBodyText: {
+    fontSize: StyleUtility.scaleFont(14),
   },
   footerView: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     width: '100%'
   },
+  likesView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   heartIcon: {
-    width: scaleImage(10),
-    fontSize: scaleFont(20),
-    marginRight: scaleImage(4),
-    color: COLORS.appleBlue
+    width: 30,
+    height: 20,
+    fontSize: 20,
+    color: StyleUtility.COLORS.appleBlue
+  },
+  filledHeartIcon: {
+    width: 30,
+    height: 20,
+    fontSize: 20,
+    color: StyleUtility.COLORS.appleRed
   },
   likeCountText: {
-    fontSize: scaleFont(15),
+    fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
-    textAlignVertical: 'center',
-    marginRight: scaleImage(90)
   },
-  activityIndicator: {
-    marginTop: scaleImage(8),
-    marginBottom: scaleImage(8),
+  dateText: {
+    textAlign: 'right',
+    fontSize: StyleUtility.scaleFont(12),
+    color: StyleUtility.COLORS.grey400
   }
 });
