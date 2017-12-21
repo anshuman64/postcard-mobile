@@ -1,5 +1,6 @@
 // Library Imports
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 // Local Imports
 import Header                  from './header.js';
@@ -12,6 +13,7 @@ import { navigateTo, goBack }  from '../../actions/navigation_actions.js';
 
 const mapStateToProps = ({ user }, ownProps) => ({
   authToken: user.authToken,
+  currentScreen: Actions.currentScene
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

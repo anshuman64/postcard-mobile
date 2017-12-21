@@ -18,13 +18,15 @@ export const styles = RN.StyleSheet.create({
     height: 30,
     backgroundColor: 'white',
     borderBottomColor: StyleUtility.COLORS.grey300,
-    borderTopWidth: 1,
+    borderBottomWidth: (RN.Platform.OS === 'ios') ? 1 : 0,
+    elevation: 2,
   },
   text: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
+    color: StyleUtility.COLORS.grey600
   },
   textHighlighted: {
     color: StyleUtility.COLORS.appleBlue,
