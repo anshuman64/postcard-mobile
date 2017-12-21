@@ -31,7 +31,14 @@ class PostListItem extends React.PureComponent {
   }
 
   _onPressDelete() {
-    this.props.deletePost(this.props.authToken, this.props.item.id);
+    RN.Alert.alert(
+      '',
+      'Are you sure you want to delete this post?',
+      [
+        {text: 'Cancel', onPress: () => null, style: 'cancel'},
+        {text: 'Delete', onPress: () => this.props.deletePost(this.props.authToken, this.props.item.id)},
+      ],
+    )
   }
 
   _renderLikesCount(count) {
@@ -54,19 +61,21 @@ class PostListItem extends React.PureComponent {
   _renderPostHeader() {
     return (
       <RN.View style={ styles.headerView }>
-        {this.props.user.id != this.props.item.author_id ?
-          <RN.TouchableWithoutFeedback onPressIn={() => this._onPressDelete()}>
-            <EvilIcons name='close' style={ styles.closeIcon }/>
-          </RN.TouchableWithoutFeedback>
-          : null
-        }
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
+          onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
+          onPress={() => this._onPressDelete()}
+          disabled={this.props.user.id === this.props.item.author_id}
+          >
+          <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id === this.props.item.author_id) && styles.transparent]}/>
+        </RN.TouchableWithoutFeedback>
       </RN.View>
     )
   }
 
   _renderPostBody() {
     return (
-      <RN.Text style={ styles.bodyText }>
+      <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
         {this.props.item.body}
       </RN.Text>
     )
@@ -75,15 +84,17 @@ class PostListItem extends React.PureComponent {
   _renderPostFooter() {
     return (
       <RN.View style={ styles.footerView }>
-        <RN.TouchableWithoutFeedback onPressIn={() => this._onPressLike()}>
-          {this.props.item.is_liked_by_user ?
-            <IconFilled name='heart-filled' style={ styles.heartIcon } /> :
-            <Icon name='heart' style={ styles.heartIcon } />
-          }
-        </RN.TouchableWithoutFeedback>
-        <RN.Text style={ styles.likeCountText }>
-          {this._renderLikesCount(this.props.item.num_likes)}
-        </RN.Text>
+        <RN.View style={styles.likesView}>
+          <RN.TouchableWithoutFeedback onPressIn={() => this._onPressLike()}>
+            {this.props.item.is_liked_by_user ?
+              <IconFilled name='heart-filled' style={ styles.filledHeartIcon } /> :
+              <Icon name='heart' style={ styles.heartIcon } />
+            }
+          </RN.TouchableWithoutFeedback>
+          <RN.Text style={ styles.likeCountText }>
+            {this._renderLikesCount(this.props.item.num_likes)}
+          </RN.Text>
+        </RN.View>
         <RN.Text style={ styles.dateText }>
           {renderDate(this.props.item.created_at)}
         </RN.Text>
