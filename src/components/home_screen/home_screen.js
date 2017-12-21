@@ -5,7 +5,7 @@ import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import PostListContainer  from '../post_list/post_list_container.js';
-import Header             from '../header/header.js';
+import HeaderContainer    from '../header/header_container.js';
 import { POST_TYPES }     from '../../actions/post_actions.js';
 import { styles }         from './home_screen_styles.js';
 
@@ -33,7 +33,7 @@ class HomeScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container} >
-        <Header navigation={this.props.navigation} settingsIcon={true} logo={true} noteIcon={true} />
+        <HeaderContainer navigation={this.props.navigation} settingsIcon={true} logo={true} noteIcon={true} />
         <PostListContainer posts={this.props.allPosts} postType={POST_TYPES.ALL} />
       </RN.View>
     )

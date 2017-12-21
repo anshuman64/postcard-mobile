@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -16,20 +16,17 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: COLORS.grey50
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '10%',
-    width: '100%'
+    backgroundColor: StyleUtility.COLORS.grey50
   },
   textInput: {
-    flex: 1,
     width: '100%',
-    textAlignVertical: 'top',
-    fontSize: scaleFont(8),
-    padding: scaleImage(7),
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: StyleUtility.scaleFont(18),
+    padding: 20,
+    marginTop: (RN.Platform.OS === 'ios') ? 20 : 0, // paddingTop on iOS isn't working for some reason
+    backgroundColor: StyleUtility.COLORS.grey50
+  },
+  smallBodyText: {
+    fontSize: StyleUtility.scaleFont(14),
   },
 });

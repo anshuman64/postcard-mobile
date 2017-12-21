@@ -24,7 +24,7 @@ export const styles = RN.StyleSheet.create({
     backgroundColor: 'white'
   },
   backIcon: {
-    fontSize: 36,
+    fontSize: StyleUtility.scaleFont(30),
     color: StyleUtility.COLORS.grey900
   },
   settingsIcon: {
@@ -37,6 +37,13 @@ export const styles = RN.StyleSheet.create({
   },
   noteIcon: {
     fontSize: StyleUtility.scaleFont(16),
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleBlue,
+  },
+  shareButton: {
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontWeight: '100',
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },
