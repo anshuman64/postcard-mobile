@@ -6,11 +6,17 @@ import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles } from './header_styles.js';
+import { COLORS } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
 
 class Header extends React.PureComponent {
+
+
+    constructor(props) {
+      super(props);
+    }
 
   //--------------------------------------------------------------------//
   // Private Methods
@@ -96,7 +102,6 @@ class Header extends React.PureComponent {
   render() {
     return (
       <RN.View style={[styles.header, this.props.noBorder && styles.noBorder]}>
-        <RN.StatusBar barStyle={'default'} animated={true}/>
         {this._renderBackIcon()}
         {this._renderSettingsIcon()}
         {this._renderLogo()}

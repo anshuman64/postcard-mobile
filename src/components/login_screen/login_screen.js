@@ -20,9 +20,6 @@ import { COLORS }              from '../../utilities/style_utility.js';
 
 
 class LoginScreen extends React.PureComponent {
-  static navigationOptions = {
-    header: null,
-  }
 
   constructor(props) {
     super(props);

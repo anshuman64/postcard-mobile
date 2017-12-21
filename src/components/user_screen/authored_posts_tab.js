@@ -12,9 +12,6 @@ import { POST_TYPES }     from '../../actions/post_actions.js';
 //--------------------------------------------------------------------//
 
 class AuthoredPostsTab extends React.PureComponent {
-  static navigationOptions = ({navigation}) => ({
-    header: <HeaderContainer navigation={navigation} settingsIcon={true} logo={true} noteIcon={true} noBorder={true} />
-  })
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
