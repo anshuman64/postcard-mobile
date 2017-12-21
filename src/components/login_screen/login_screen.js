@@ -14,7 +14,6 @@ import CountryListModal        from './country_list_modal.js';
 import { COUNTRY_CODES }       from '../../utilities/country_utility.js';
 import { setStateCallback }    from '../../utilities/function_utility.js';
 import { COLORS }              from '../../utilities/style_utility.js';
-import { toConfirmCodeScreen } from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -130,13 +129,13 @@ class LoginScreen extends React.PureComponent {
     // } else {
     //   this.setState({isLoading: true});
     //   this.props.debugGetConfirmationCode(number)
-    //     .then(this.setState({isLoading: false, isPhoneNumberInvalid: false}, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
+    //     .then(this.setState({isLoading: false, isPhoneNumberInvalid: false}, () => this.props.navigateTo('ConfirmCodeScreen')))
     // }
 
     // Real Firebase API
     this.setState({isLoading: true}, () => {
     this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
-     .then(() => this.setState({ isLoading: false, isPhoneNumberInvalid: false }, () => this.props.navigation.dispatch(toConfirmCodeScreen())))
+     .then(() => this.setState({ isLoading: false, isPhoneNumberInvalid: false }, () => this.props.navigateTo('ConfirmCodeScreen')))
      .catch(() => this.setState({ isLoading: false, isPhoneNumberInvalid: true }))
     })
   }

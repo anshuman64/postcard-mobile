@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // Local Imports
 import LoadingScreen           from './loading_screen.js';
 import { attemptToLoginUser }  from '../../actions/user_actions.js';
-
+import { navigateTo } from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -18,6 +18,7 @@ const mapStateToProps = ({ user }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   attemptToLoginUser: (successCallback, errorCallback) => dispatch(attemptToLoginUser(successCallback, errorCallback)),
+  navigateTo: (screen) => dispatch(navigateTo(screen)),
 });
 
 export default connect(

@@ -5,8 +5,7 @@ import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }                                from './header_styles.js';
-import { goBack, toNewPostScreen, toMenuScreen } from '../../actions/navigation_actions.js';
+import { styles } from './header_styles.js';
 
 //--------------------------------------------------------------------//
 
@@ -20,7 +19,7 @@ class Header extends React.PureComponent {
   _onPressShare = () => {
     this.props.createPost(this.props.authToken, { body: this.props.postText })
       .then(() => {
-        this.props.navigation.dispatch(goBack());
+        this.props.goBack();
       })
   }
 
@@ -34,7 +33,7 @@ class Header extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.backIcon.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
-          onPress={() => this.props.navigation.dispatch(goBack())}
+          onPress={() => this.props.goBack()}
           >
           <Ionicon
             ref={(ref) => this.backIcon = ref}
@@ -52,7 +51,7 @@ class Header extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.settingsIcon.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.settingsIcon.setNativeProps({style: styles.settingsIcon})}
-          onPress={() => this.props.navigation.dispatch(toMenuScreen())}
+          onPress={() => this.props.navigateTo('MenuScreen')}
           >
           <Icon ref={(ref) => this.settingsIcon = ref} name='settings' style={styles.settingsIcon} />
         </RN.TouchableWithoutFeedback>
@@ -75,7 +74,7 @@ class Header extends React.PureComponent {
   _renderNoteIcon() {
     if (this.props.noteIcon) {
       return (
-        <RN.TouchableOpacity onPress={() => this.props.navigation.dispatch(toNewPostScreen())} >
+        <RN.TouchableOpacity onPress={() => this.props.navigateTo('NewPostScreen')} >
           <Icon name='note' style={styles.noteIcon} />
         </RN.TouchableOpacity>
       )
