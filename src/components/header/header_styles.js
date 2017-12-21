@@ -20,13 +20,13 @@ export const styles = RN.StyleSheet.create({
     paddingRight: 15,
     marginTop: StyleUtility.STATUSBAR_HEIGHT,
     backgroundColor: 'white',
+    borderBottomColor: StyleUtility.COLORS.grey300,
+    borderBottomWidth: (RN.Platform.OS === 'ios') ? 1 : 0,
     elevation: 2,
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      x: 0,
-      y: 0
-    }
+  },
+  noBorder: {
+    borderBottomWidth: 0,
+    elevation: 0,
   },
   backIcon: {
     fontSize: StyleUtility.scaleFont(30),
