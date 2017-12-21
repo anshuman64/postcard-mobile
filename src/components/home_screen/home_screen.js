@@ -13,9 +13,6 @@ import { styles }         from './home_screen_styles.js';
 
 
 class HomeScreen extends React.PureComponent {
-  static navigationOptions = {
-    header: null,
-  }
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
@@ -33,7 +30,6 @@ class HomeScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container} >
-        <HeaderContainer navigation={this.props.navigation} settingsIcon={true} logo={true} noteIcon={true} />
         <PostListContainer posts={this.props.allPosts} postType={POST_TYPES.ALL} />
       </RN.View>
     )
