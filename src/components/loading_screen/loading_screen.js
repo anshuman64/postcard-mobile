@@ -53,9 +53,9 @@ class LoadingScreen extends React.PureComponent {
 
   _onAnimationEnd = () => {
     if (this.state.isLoginSuccessful) {
-      return this.props.navigation.dispatch(toHomeScreen());
+      return this.props.navigateTo('HomeScreen');
     } else {
-      return this.props.navigation.dispatch(toLoginScreen());
+      return this.props.navigateTo('LoginScreen');
     }
   }
 

@@ -7,7 +7,6 @@ import Ionicon   from 'react-native-vector-icons/Ionicons';
 import HeaderContainer  from '../header/header_container.js';
 import { styles }       from './new_post_screen_styles.js';
 import { COLORS }       from '../../utilities/style_utility.js';
-import { goBack }       from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
