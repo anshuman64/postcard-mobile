@@ -18,22 +18,6 @@ export const styles = RN.StyleSheet.create({
     height: '100%',
     backgroundColor: StyleUtility.COLORS.grey50
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    height: 45,
-    borderBottomColor: StyleUtility.COLORS.grey400,
-    borderBottomWidth: 1,
-    paddingLeft: 15,
-    marginTop: StyleUtility.STATUSBAR_HEIGHT,
-    backgroundColor: 'white'
-  },
-  backIcon: {
-    fontSize: 36,
-    color: StyleUtility.COLORS.grey900
-  },
   titleText: {
     fontFamily: 'System',
     fontSize: StyleUtility.scaleFont(16),

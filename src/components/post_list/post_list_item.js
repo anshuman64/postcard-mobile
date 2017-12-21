@@ -2,19 +2,21 @@
 import React                         from 'react';
 import RN                            from 'react-native';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
+import { createAnimatableComponent } from 'react-native-animatable';
 import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import { styles }      from './post_list_item_styles.js';
-import { renderDate }  from '../../utilities/date_time_utility.js';
-import fontelloConfig  from '../../assets/fonts/config.json';
+import { styles, scaleHeart } from './post_list_item_styles.js';
+import { renderDate }         from '../../utilities/date_time_utility.js';
+import fontelloConfig         from '../../assets/fonts/config.json';
 
 
 //--------------------------------------------------------------------//
 
 
 const IconFilled = createIconSetFromFontello(fontelloConfig);
+const AnimatedIconFilled = createAnimatableComponent(IconFilled);
 
 class PostListItem extends React.PureComponent {
 
@@ -65,9 +67,9 @@ class PostListItem extends React.PureComponent {
           onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
           onPress={() => this._onPressDelete()}
-          disabled={this.props.user.id === this.props.item.author_id}
+          disabled={this.props.user.id != this.props.item.author_id}
           >
-          <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id === this.props.item.author_id) && styles.transparent]}/>
+          <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}/>
         </RN.TouchableWithoutFeedback>
       </RN.View>
     )
@@ -87,7 +89,12 @@ class PostListItem extends React.PureComponent {
         <RN.View style={styles.likesView}>
           <RN.TouchableWithoutFeedback onPressIn={() => this._onPressLike()}>
             {this.props.item.is_liked_by_user ?
-              <IconFilled name='heart-filled' style={ styles.filledHeartIcon } /> :
+              <AnimatedIconFilled
+                name='heart-filled'
+                animation={scaleHeart}
+                duration={750}
+                style={ styles.filledHeartIcon }
+                /> :
               <Icon name='heart' style={ styles.heartIcon } />
             }
           </RN.TouchableWithoutFeedback>
