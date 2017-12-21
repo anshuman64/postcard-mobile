@@ -3,6 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
+import HeaderContainer    from '../header/header_container.js';
 import PostListContainer  from '../post_list/post_list_container.js';
 import { styles }         from '../home_screen/home_screen_styles.js';
 import { POST_TYPES }     from '../../actions/post_actions.js';
@@ -11,6 +12,9 @@ import { POST_TYPES }     from '../../actions/post_actions.js';
 //--------------------------------------------------------------------//
 
 class LikedPostsTab extends React.PureComponent {
+  static navigationOptions = ({navigation}) => ({
+    header: <HeaderContainer navigation={navigation} settingsIcon={true} logo={true} noteIcon={true} noBorder={true} />
+  })
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
