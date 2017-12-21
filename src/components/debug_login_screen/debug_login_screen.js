@@ -1,6 +1,7 @@
 // Library Imports
 import React from 'react';
 import RN    from 'react-native';
+import { Actions }    from 'react-native-router-flux';
 
 // Local Imports
 import { styles }       from './debug_login_screen_styles.js';
@@ -11,9 +12,6 @@ import { toHomeScreen } from '../../actions/navigation_actions.js';
 
 
 class DebugLoginScreen extends React.PureComponent {
-  static navigationOptions = {
-    header: null,
-  }
 
   constructor(props) {
     super(props);
@@ -33,7 +31,7 @@ class DebugLoginScreen extends React.PureComponent {
     this.setState({isLoading: true}, () => {
     this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
       .then(() => {
-        this.setState({ isLoading: false }, () => this.props.navigation.dispatch(toHomeScreen()));
+        this.setState({ isLoading: false }, () => this.props.confirmCodeScreen());
       }).catch((error) => {
         console.error(error);
       });
