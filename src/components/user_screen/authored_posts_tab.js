@@ -50,24 +50,10 @@ class AuthoredPostsTab extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderHeader = () => {
-    return (
-      <RN.View style={styles.header}>
-        <RN.TouchableWithoutFeedback
-          onPressIn={setStateInAnimationFrame(this, { isBackIconPressed: true})}
-          onPressOut={setStateInAnimationFrame(this, { isBackIconPressed: false})}
-          onPress={() => this.props.navigation.dispatch(goBack())}
-          >
-          <RN.Text>Hey</RN.Text>
-        </RN.TouchableWithoutFeedback>
-      </RN.View>
-    )
-  }
 
   render() {
     return (
       <RN.View style={styles.container} >
-        {this._renderHeader()}
         <PostListContainer posts={this.props.authoredPosts} postType={POST_TYPES.AUTHORED} />
       </RN.View>
     )
