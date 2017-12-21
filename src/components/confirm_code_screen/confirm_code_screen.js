@@ -5,7 +5,7 @@ import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
 import Ionicon                                 from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import Header                   from '../header/header.js';
+import HeaderContainer          from '../header/header_container.js';
 import { styles }               from './confirm_code_screen_styles.js';
 import { toHomeScreen, goBack } from '../../actions/navigation_actions.js';
 import { COLORS }               from '../../utilities/style_utility.js';
@@ -119,7 +119,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <Header navigation={this.props.navigation} backIcon={true} />
+      <HeaderContainer navigation={this.props.navigation} backIcon={true} />
     )
   }
 

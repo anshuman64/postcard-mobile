@@ -2,9 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import NewPostScreen   from './new_post_screen.js';
+import Header          from './header.js';
 import { createPost }  from '../../actions/post_actions.js';
-import { goBack }      from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -21,4 +20,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewPostScreen);
+)(Header);
