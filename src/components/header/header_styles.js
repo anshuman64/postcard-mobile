@@ -16,12 +16,17 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 45,
-    borderBottomColor: StyleUtility.COLORS.grey400,
-    borderBottomWidth: 1,
     paddingLeft: 15,
     paddingRight: 15,
     marginTop: StyleUtility.STATUSBAR_HEIGHT,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    elevation: 2,
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      x: 0,
+      y: 0
+    }
   },
   backIcon: {
     fontSize: StyleUtility.scaleFont(30),
