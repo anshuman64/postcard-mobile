@@ -1,10 +1,11 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
-import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import HeaderContainer    from '../header/header_container.js';
 import PostListContainer  from '../post_list/post_list_container.js';
+import { styles }         from '../home_screen/home_screen_styles.js';
 import { POST_TYPES }     from '../../actions/post_actions.js';
 
 
@@ -12,30 +13,7 @@ import { POST_TYPES }     from '../../actions/post_actions.js';
 
 class AuthoredPostsTab extends React.PureComponent {
   static navigationOptions = ({navigation}) => ({
-    header:
-    <RN.View style={styles.header}>
-      <RN.TouchableWithoutFeedback
-        onPressIn={() => this.options.setNativeProps({style: {color: 'blue'}})}
-        onPress={() => this.props.navigation.dispatch(goBack())}
-        >
-        <Icon
-          ref={(ref) => this.options = ref}
-          name='options-vertical'
-          onPress={() => navigation.dispatch(toMenuScreen())}
-          style={styles.optionsIcon}
-          />
-      </RN.TouchableWithoutFeedback>
-        <RN.Image
-          style={styles.headerTitle}
-          source={require('../../assets/images/logo/logo.png')}
-          resizeMode='contain'
-          />
-        <Icon
-          name='note'
-          onPress={() => navigation.dispatch(toNewPostScreen())}
-          style={styles.noteIcon}
-          />
-    </RN.View>,
+    header: <HeaderContainer navigation={navigation} settingsIcon={true} logo={true} noteIcon={true} noBorder={true} />
   })
 
   //--------------------------------------------------------------------//
@@ -59,24 +37,6 @@ class AuthoredPostsTab extends React.PureComponent {
     )
   }
 }
-
-const styles = RN.StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    height: 100,
-    bottom: 100,
-  }
-})
 
 //--------------------------------------------------------------------//
 
