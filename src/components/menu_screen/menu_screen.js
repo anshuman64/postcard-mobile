@@ -5,8 +5,8 @@ import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }                    from './menu_screen_styles.js';
-import { goBack }                    from '../../actions/navigation_actions.js';
+import HeaderContainer from '../header/header_container.js';
+import { styles }      from './menu_screen_styles.js';
 
 //--------------------------------------------------------------------//
 
@@ -37,10 +37,7 @@ class MenuScreen extends React.PureComponent {
 
   _renderHeader() {
     return (
-      <RN.View style={styles.header}>
-        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
-        <RN.Text style={styles.shareButtonText} onPress={() => this._onPressShare()}>Share</RN.Text>
-      </RN.View>
+      <HeaderContainer navigation={this.props.navigation} backIcon={true} />
     )
   }
 
@@ -48,8 +45,8 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.supportIcon.setNativeProps({style: styles.highlight})
-          this.supportText.setNativeProps({style: styles.highlight})
+          this.supportIcon.setNativeProps({style: styles.textHighlighted})
+          this.supportText.setNativeProps({style: styles.textHighlighted})
         }}
         onPressOut={() => {
           this.supportIcon.setNativeProps({style: styles.menuItemIcon})
@@ -75,8 +72,8 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
       onPressIn={() => {
-        this.supportIcon.setNativeProps({style: styles.highlight})
-        this.supportText.setNativeProps({style: styles.highlight})
+        this.supportIcon.setNativeProps({style: styles.textHighlighted})
+        this.supportText.setNativeProps({style: styles.textHighlighted})
       }}
       onPressOut={() => {
         this.supportIcon.setNativeProps({style: styles.menuItemIcon})
@@ -102,8 +99,8 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.supportIcon.setNativeProps({style: styles.highlight})
-          this.supportText.setNativeProps({style: styles.highlight})
+          this.supportIcon.setNativeProps({style: styles.textHighlighted})
+          this.supportText.setNativeProps({style: styles.textHighlighted})
         }}
         onPressOut={() => {
           this.supportIcon.setNativeProps({style: styles.menuItemIcon})
