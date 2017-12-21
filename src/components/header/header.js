@@ -13,6 +13,21 @@ import { goBack, toNewPostScreen, toMenuScreen } from '../../actions/navigation_
 
 class Header extends React.PureComponent {
 
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  _onPressShare = () => {
+    this.props.createPost(this.props.authToken, { body: this.props.postText })
+      .then(() => {
+        this.props.navigation.dispatch(goBack());
+      })
+  }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
   _renderBackIcon() {
     if (this.props.backIcon) {
       return (
@@ -67,6 +82,18 @@ class Header extends React.PureComponent {
     }
   }
 
+  _renderShareButton() {
+    if (this.props.shareButton) {
+      return (
+        <RN.TouchableOpacity
+          onPress={this._onPressShare}
+          >
+          <RN.Text style={styles.shareButton}>Share</RN.Text>
+        </RN.TouchableOpacity>
+      )
+    }
+  }
+
   render() {
     return (
       <RN.View style={styles.header}>
@@ -74,6 +101,7 @@ class Header extends React.PureComponent {
         {this._renderSettingsIcon()}
         {this._renderLogo()}
         {this._renderNoteIcon()}
+        {this._renderShareButton()}
       </RN.View>
     )
   }
