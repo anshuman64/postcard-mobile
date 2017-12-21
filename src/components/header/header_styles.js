@@ -15,18 +15,16 @@ export const styles = RN.StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    height: 45,
+    height: (RN.Platform.OS === 'ios') ? 45 + StyleUtility.STATUSBAR_HEIGHT : 45,
+    paddingTop: (RN.Platform.OS === 'ios') ? StyleUtility.STATUSBAR_HEIGHT : 0,
     paddingLeft: 15,
     paddingRight: 15,
-    marginTop: StyleUtility.STATUSBAR_HEIGHT,
     backgroundColor: 'white',
+  },
+  border: {
     borderBottomColor: StyleUtility.COLORS.grey300,
     borderBottomWidth: (RN.Platform.OS === 'ios') ? 1 : 0,
     elevation: 2,
-  },
-  noBorder: {
-    borderBottomWidth: 0,
-    elevation: 0,
   },
   backIcon: {
     fontSize: StyleUtility.scaleFont(30),
