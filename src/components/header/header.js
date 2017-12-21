@@ -97,6 +97,7 @@ class Header extends React.PureComponent {
   render() {
     return (
       <RN.View style={[styles.header, this.props.noBorder && styles.noBorder]}>
+        <RN.StatusBar barStyle={'default'} animated={true}/>
         {this._renderBackIcon()}
         {this._renderSettingsIcon()}
         {this._renderLogo()}
