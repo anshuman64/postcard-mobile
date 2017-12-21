@@ -101,7 +101,7 @@ class Header extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={[styles.header, this.props.noBorder && styles.noBorder]}>
+      <RN.View style={[styles.header, this.props.currentScreen === '_HomeScreen' && styles.border]}>
         {this._renderBackIcon()}
         {this._renderSettingsIcon()}
         {this._renderLogo()}
