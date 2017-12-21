@@ -1,3 +1,4 @@
+import { Actions } from 'react-native-router-flux';
 
 //--------------------------------------------------------------------//
 // Constants
@@ -28,8 +29,15 @@ export const toLoginScreen = (data) => {
 };
 
 export const toConfirmCodeScreen = (data) => {
+  debugger;
   return { type: NAVIGATION_ACTION_TYPES.TO_CONFIRM_CODE_SCREEN, data: data };
 };
+
+export const confirmCodeScreen  = () => (dispatch) => {
+  Actions.ConfirmCodeScreen();
+  debugger;
+  return dispatch(toConfirmCodeScreen())
+}
 
 export const toHomeScreen = (data) => {
   return { type: NAVIGATION_ACTION_TYPES.TO_HOME_SCREEN, data: data };

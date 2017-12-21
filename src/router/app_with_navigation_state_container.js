@@ -15,6 +15,6 @@ const mapStateToProps = (state) => ({
 
 //--------------------------------------------------------------------//
 
-export default connect(
-  mapStateToProps
-)(AppWithNavigationState);
+// export default connect(
+//   mapStateToProps
+// )(AppWithNavigationState);
