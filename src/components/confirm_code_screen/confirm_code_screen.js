@@ -113,12 +113,6 @@ class ConfirmCodeScreen extends React.PureComponent {
 // Render Methods
 //--------------------------------------------------------------------//
 
-  _renderHeader = () => {
-    return (
-      <HeaderContainer navigation={this.props.navigation} backIcon={true} />
-    )
-  }
-
   _renderTitle() {
     return (
       <RN.Text style={styles.titleText}>
@@ -196,7 +190,6 @@ class ConfirmCodeScreen extends React.PureComponent {
   render() {
     return (
         <RN.View style={styles.container}>
-          {this._renderHeader()}
           {this._renderTitle()}
           {this._renderSubtitle()}
           {this._renderCodeInput()}

@@ -18,6 +18,7 @@ export const styles = RN.StyleSheet.create({
     height: 45,
     paddingLeft: 15,
     paddingRight: 15,
+    marginTop: StyleUtility.STATUSBAR_HEIGHT,
     backgroundColor: 'white',
     borderBottomColor: StyleUtility.COLORS.grey300,
     borderBottomWidth: (RN.Platform.OS === 'ios') ? 1 : 0,

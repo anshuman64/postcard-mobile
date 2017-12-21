@@ -11,10 +11,7 @@ import { COLORS }       from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 class NewPostScreen extends React.PureComponent {
-  static navigationOptions = {
-    header: null,
-  }
-
+  
   constructor(props) {
     super(props);
 
@@ -35,11 +32,6 @@ class NewPostScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderHeader() {
-    return (
-      <HeaderContainer navigation={this.props.navigation} backIcon={true} shareButton={true} postText={this.state.postText} />
-    )
-  }
 
   _renderTextInput() {
     return (
@@ -59,7 +51,6 @@ class NewPostScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={ styles.container }>
-        {this._renderHeader()}
         {this._renderTextInput()}
       </RN.View>
     )
