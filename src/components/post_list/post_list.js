@@ -93,17 +93,23 @@ class PostList extends React.PureComponent {
         />
     )
   }
-
+  
   _renderFooter = () => {
     if (this.props.posts.isEnd) {
       return (
-        <RN.Text>
-          No More Posts
-        </RN.Text>
+        <RN.View style={ styles.footerView }>
+          <RN.View style={ styles.horizontalLine } />
+          <RN.Text style={ styles.footerText }>
+            No More Posts
+          </RN.Text>
+          <RN.View style={ styles.horizontalLine } />
+        </RN.View>
       )
     } else {
       return (
-        <RN.ActivityIndicator size='small' color={COLORS.grey400} style={styles.activityIndicator} />
+        <RN.View style={ styles.footerView }>
+          <RN.ActivityIndicator size='small' color={COLORS.grey400} style={styles.activityIndicator} />
+        </RN.View>
       )
     }
   };

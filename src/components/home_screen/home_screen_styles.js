@@ -27,12 +27,12 @@ export const styles = RN.StyleSheet.create({
     borderBottomColor: StyleUtility.COLORS.grey400,
     borderBottomWidth: 1,
     marginTop: StyleUtility.STATUSBAR_HEIGHT,
-
     backgroundColor: 'white'
   },
   settingsIcon: {
     fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
+    color: StyleUtility.COLORS.grey900
   },
   logo: {
     height: '70%',
