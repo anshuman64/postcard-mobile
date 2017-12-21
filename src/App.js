@@ -1,6 +1,5 @@
 // Library Imports
 import React        from 'react';
-import RN from 'react-native';
 import { Provider } from 'react-redux';
 import { Scene, Tabs }    from 'react-native-router-flux';
 import RNAmplitute from 'react-native-amplitude-analytics';
@@ -23,6 +22,8 @@ import NewPostScreen              from './components/new_post_screen/new_post_sc
 import MenuScreen                 from './components/menu_screen/menu_screen.js';
 
 import HeaderContainer from './components/header/header_container.js';
+import FooterContainer from './components/header/footer_container.js';
+import TabBarContainer from './components/header/tab_bar_container.js';
 
 
 //--------------------------------------------------------------------//
@@ -44,19 +45,19 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true}/>
-            <Scene key='LoginScreen' component={LoginScreenContainer}  />
-            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} />
-            <Tabs>
-              <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} />
-              <Tabs>
-                <Scene key='AuthoredPostsTab' component={AuthoredPostsTabContainer} initial={true}/>
-                <Scene key='LikedPostsTab' component={LikedPostsTabContainer} />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true} hideNavBar={true} />
+            <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true} />
+            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true}/>} />
+            <Tabs tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>}>
+              <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true} />
+              <Tabs tabBarPosition={'top'} tabBarComponent={TabBarContainer}>
+                <Scene key='AuthoredPostsTab' component={AuthoredPostsTabContainer} initial={true} hideNavBar={true}  />
+                <Scene key='LikedPostsTab' component={LikedPostsTabContainer} hideNavBar={true}  />
               </Tabs>
             </Tabs>
-            <Scene key='NewPostScreen' component={NewPostScreen} />
-            <Scene key='MenuScreen' component={MenuScreen} />
+            <Scene key='NewPostScreen' component={NewPostScreen} navBar={() => <HeaderContainer backIcon={true} shareButton={true}/>}  />
+            <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true}/>}  />
           </Scene>
         </RouterContainer>
       </Provider>

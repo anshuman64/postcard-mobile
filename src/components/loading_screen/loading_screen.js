@@ -12,9 +12,6 @@ import { toHomeScreen, toLoginScreen }     from '../../actions/navigation_action
 
 
 class LoadingScreen extends React.PureComponent {
-  static navigationOptions = {
-    header: null,
-  }
 
   constructor(props) {
     super(props);

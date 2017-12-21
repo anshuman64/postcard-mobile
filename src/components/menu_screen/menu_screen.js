@@ -11,10 +11,7 @@ import { styles }      from './menu_screen_styles.js';
 //--------------------------------------------------------------------//
 
 class MenuScreen extends React.PureComponent {
-  static navigationOptions = {
-    header: null,
-  }
-
+  
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
@@ -34,12 +31,6 @@ class MenuScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
-
-  _renderHeader() {
-    return (
-      <HeaderContainer navigation={this.props.navigation} backIcon={true} />
-    )
-  }
 
   _renderSupportButton() {
     return (
@@ -125,7 +116,6 @@ class MenuScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={ styles.container }>
-        {this._renderHeader()}
         {this._renderSupportButton()}
         {this._renderFeedbackButton()}
         {this._renderAboutButton()}
