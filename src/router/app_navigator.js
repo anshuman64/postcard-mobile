@@ -17,12 +17,12 @@ import MenuScreen                 from '../components/menu_screen/menu_screen.js
 
 
 export const AppNavigator = StackNavigator({
-  LoadingScreen: { screen: LoadingScreenContainer },
+  // LoadingScreen: { screen: LoadingScreenContainer },
   // DebugLoginScreen: { screen: DebugLoginScreenContainer },
   // LoginScreen: { screen: LoginScreenContainer },
   // ConfirmCodeScreen: { screen: ConfirmCodeScreenContainer },
-  MainTabNavigator: { screen: MainTabNavigator },
-  NewPostScreen: { screen: NewPostScreen },
+  // MainTabNavigator: { screen: MainTabNavigator },
+  // NewPostScreen: { screen: NewPostScreen },
   MenuScreen: { screen: MenuScreen }
 }, {
   navigationOptions: {
