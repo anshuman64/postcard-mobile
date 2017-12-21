@@ -38,7 +38,7 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey900
   },
   logo: {
-    height: '70%',
+    height: '60%',
   },
   noteIcon: {
     fontSize: StyleUtility.scaleFont(16),
