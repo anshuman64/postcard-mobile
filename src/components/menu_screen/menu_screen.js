@@ -72,12 +72,12 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
       onPressIn={() => {
-        this.supportIcon.setNativeProps({style: styles.textHighlighted})
-        this.supportText.setNativeProps({style: styles.textHighlighted})
+        this.feedbackIcon.setNativeProps({style: styles.textHighlighted})
+        this.feedbackText.setNativeProps({style: styles.textHighlighted})
       }}
       onPressOut={() => {
-        this.supportIcon.setNativeProps({style: styles.menuItemIcon})
-        this.supportText.setNativeProps({style: styles.menuItemText})
+        this.feedbackIcon.setNativeProps({style: styles.menuItemIcon})
+        this.feedbackText.setNativeProps({style: styles.menuItemText})
       }}
         onPress={() => this._onPressFeedback()}
         >
@@ -99,12 +99,12 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.supportIcon.setNativeProps({style: styles.textHighlighted})
-          this.supportText.setNativeProps({style: styles.textHighlighted})
+          this.aboutIcon.setNativeProps({style: styles.textHighlighted})
+          this.aboutText.setNativeProps({style: styles.textHighlighted})
         }}
         onPressOut={() => {
-          this.supportIcon.setNativeProps({style: styles.menuItemIcon})
-          this.supportText.setNativeProps({style: styles.menuItemText})
+          this.aboutIcon.setNativeProps({style: styles.menuItemIcon})
+          this.aboutText.setNativeProps({style: styles.menuItemText})
         }}
         onPress={() => this._onPressAbout()}
         >

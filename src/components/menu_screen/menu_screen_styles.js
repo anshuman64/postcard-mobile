@@ -22,9 +22,18 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    height: 200,
-    width: '100%',
-    height: 20,
+    height: 50,
+    width: '95%',
+    marginTop: 15,
+    paddingLeft: 15,
+    backgroundColor: 'white',
+    elevation: 2,
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      x: 0,
+      y: 0
+    }
   },
   menuItemIcon: {
     fontSize: StyleUtility.scaleFont(20),
