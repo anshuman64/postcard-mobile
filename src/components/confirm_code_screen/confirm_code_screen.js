@@ -7,7 +7,6 @@ import Ionicon                                 from 'react-native-vector-icons/I
 // Local Imports
 import HeaderContainer          from '../header/header_container.js';
 import { styles }               from './confirm_code_screen_styles.js';
-import { toHomeScreen, goBack } from '../../actions/navigation_actions.js';
 import { COLORS }               from '../../utilities/style_utility.js';
 
 
@@ -88,7 +87,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
       this.props.verifyConfirmationCode(this.props.phoneNumber, this.props.confirmationCodeObj, value).then(() => {
-        this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toHomeScreen()))
+        this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigationTo('HomeScreen'));
       }).catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
       })
     }
