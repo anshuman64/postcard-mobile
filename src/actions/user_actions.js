@@ -55,8 +55,7 @@ export const debugSignIn = (email, password) => (dispatch) => {
   return Firebase.auth().signInWithEmailAndPassword(email, password)
     .then((firebaseUserObj) => {
       return dispatch(loginUser(firebaseUserObj));
-    })
-    .catch((error) => {
+    }, (error) => {
       Firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((firebaseUserObj) => {
           return dispatch(loginUser(firebaseUserObj));
@@ -68,7 +67,8 @@ export const debugSignIn = (email, password) => (dispatch) => {
 
           throw error;
         });
-    });
+      }
+    )
 }
 
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {
