@@ -1,12 +1,14 @@
 // Library Imports
-import React                                   from 'react';
-import RN                                      from 'react-native';
-import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
-import Ionicon                                 from 'react-native-vector-icons/Ionicons';
+import React                from 'react';
+import RN                   from 'react-native';
+import Firebase             from 'react-native-firebase';
+import { PhoneNumberUtil }  from 'google-libphonenumber';
+import Ionicon              from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles } from './confirm_code_screen_styles.js';
-import { COLORS } from '../../utilities/style_utility.js';
+import { styles }        from './confirm_code_screen_styles.js';
+import { COLORS }        from '../../utilities/style_utility.js';
+import * as ErrorUtility from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -35,6 +37,16 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   componentDidMount() {
     this._startTimer();
+
+    this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
+      if (firebaseUserObj) {
+        this.props.loginUser(firebaseUserObj)
+          .then(() => {
+            this.unsubscribe();
+            this.props.navigationTo('HomeScreen');
+          })
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -71,25 +83,32 @@ class ConfirmCodeScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   // Sends code to Firebase API as soon as user has inputted six digits
-  // TODO: handle error callback if code is invalid
   _codeInputOnChangeText(value) {
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
-      this.props.verifyConfirmationCode(this.props.phoneNumber, this.props.confirmationCodeObj, value).then(() => {
-        this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigationTo('HomeScreen'));
-      }).catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
+        this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
+        .then(() => {
+          this.unsubscribe();
+          this.props.navigationTo('HomeScreen');
+          this.setState({ isLoading: false, isCodeIncorrect: false });
+        })
+        .catch((error) => {
+          this.setState({ isLoading: false });
+
+          if (error.description === 'Firebase code verification failed') {
+            this.setState({ isCodeIncorrect: true })
+          } else {
+            defaultErrorAlert(error);
+          }
+        });
       })
     }
   }
 
-  // Callback function to return to login screen
-  _onBackIconPress() {
-    this.props.navigation.dispatch(goBack());
-  }
-
   // Callback function to resend confirmation code via SMS and restart timer
   _onResendSMSPress() {
-    this.props.getConfirmationCode(this.props.phoneNumber);
+    this.props.getConfirmationCode(this.props.phoneNumber)
+      .catch((error) => ErrorUtility.defaultErrorAlert(error));
 
     this._startTimer();
   }

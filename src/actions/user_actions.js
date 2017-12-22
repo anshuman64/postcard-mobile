@@ -62,6 +62,10 @@ export const debugSignIn = (email, password) => (dispatch) => {
           return dispatch(loginUser(firebaseUserObj));
         })
         .catch((error) => {
+          if (!error.description) {
+            error.description = 'Firebase email sign-in failed'
+          }
+
           throw error;
         });
     });
@@ -74,6 +78,10 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
       dispatch(receiveConfirmationCodeObj(confirmationCodeObj));
     })
     .catch((error) => {
+      if (!error.description) {
+        error.description = 'Firebase phone sign-in failed'
+      }
+
       throw error;
     });
 };
@@ -84,6 +92,10 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
       return dispatch(loginUser(firebaseUserObj));
     })
     .catch((error) => {
+      if (!error.description) {
+        error.description = 'Firebase code verification failed'
+      }
+
       throw error;
     });
 };
@@ -105,6 +117,10 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         dispatch(receiveUser(newUser));
       })
       .catch((error) => {
+        if (!error.description) {
+          error.description = 'POST or GET user failed'
+        }
+
         throw error;
       })
   };
@@ -119,6 +135,10 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       return handleExistingUser(authToken);
     })
     .catch((error) => {
+      if (!error.description) {
+        error.description = 'Firebase getIdToken failed'
+      }
+
       throw error;
     });
 }
