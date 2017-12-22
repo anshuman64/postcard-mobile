@@ -115,9 +115,6 @@ export const createPost = (authToken, postObj) => (dispatch) => {
 
 export const deletePost = (authToken, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
-    .then((deletedPost) => {
-      dispatch(removePost(deletedPost));
-    })
     .catch((error) => {
       if (!error.description) {
         error.description = 'DEL post failed'
