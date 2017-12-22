@@ -1,5 +1,5 @@
 // Library Imports
-import * as _      from 'lodash';
+import _      from 'lodash';
 import { Actions } from 'react-native-router-flux';
 
 // Local Imports
