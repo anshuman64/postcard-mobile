@@ -30,8 +30,7 @@ class HomeScreen extends React.PureComponent {
       let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
       if (minsDiff > 1) {
-        this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL)
-          .catch((error) => defaultErrorAlert(error))
+        this.postList.getWrappedInstance()._onRefresh();
       }
     }
   }
@@ -44,7 +43,7 @@ class HomeScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostListContainer posts={this.props.allPosts} postType={POST_TYPES.ALL} />
+        <PostListContainer ref={(ref) => this.postList = ref} posts={this.props.allPosts} postType={POST_TYPES.ALL} />
       </RN.View>
     )
   }

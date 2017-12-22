@@ -29,8 +29,7 @@ class LikedPostsTab extends React.PureComponent {
       let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
       if (minsDiff > 1) {
-        this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED)
-          .catch((error) => defaultErrorAlert(error))
+        this.postList.getWrappedInstance()._onRefresh();
       }
     }
   }
@@ -42,7 +41,7 @@ class LikedPostsTab extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostListContainer posts={this.props.likedPosts} postType={POST_TYPES.LIKED} />
+        <PostListContainer ref={(ref) => this.postList = ref} posts={this.props.likedPosts} postType={POST_TYPES.LIKED} />
       </RN.View>
     )
   }
