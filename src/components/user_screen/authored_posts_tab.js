@@ -30,8 +30,7 @@ class AuthoredPostsTab extends React.PureComponent {
       let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
       if (minsDiff > 1) {
-        this.props.refreshPosts(this.props.authToken, POST_TYPES.AUTHORED)
-          .catch((error) => defaultErrorAlert(error))
+        this.postList.getWrappedInstance()._onRefresh();
       }
     }
   }
@@ -44,7 +43,7 @@ class AuthoredPostsTab extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostListContainer posts={this.props.authoredPosts} postType={POST_TYPES.AUTHORED} />
+        <PostListContainer ref={(ref) => this.postList = ref} posts={this.props.authoredPosts} postType={POST_TYPES.AUTHORED} />
       </RN.View>
     )
   }
