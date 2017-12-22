@@ -44,7 +44,7 @@ class App extends React.Component {
     return (
       <Provider store={ this.store }>
         <RouterContainer>
-          <Scene key='root' >
+          <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} />
             <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true} hideNavBar={true} />
             <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true} />
@@ -56,7 +56,7 @@ class App extends React.Component {
                 <Scene key='LikedPostsTab' component={LikedPostsTabContainer} hideNavBar={true}  />
               </Tabs>
             </Tabs>
-            <Scene key='NewPostScreen' component={NewPostScreen} navBar={() => <HeaderContainer backIcon={true} shareButton={true}/>}  />
+            <Scene key='NewPostScreen' component={NewPostScreen} hideNavBar={true} />
             <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true}/>}  />
           </Scene>
         </RouterContainer>
