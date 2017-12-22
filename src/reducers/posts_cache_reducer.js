@@ -7,6 +7,7 @@ import { LIKE_ACTION_TYPES } from '../actions/like_actions.js';
 
 //--------------------------------------------------------------------//
 
+
 const DEFAULT_STATE = {};
 
 const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
@@ -32,13 +33,21 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
-      newState[action.data.post_id].num_likes++;
-      newState[action.data.post_id].is_liked_by_user = true;
+      postToUpdate = newState[action.data.post_id];
+
+      if (postToUpdate) {
+        postToUpdate.num_likes++;
+        postToUpdate.is_liked_by_user = true;
+      }
 
       return newState;
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
-      newState[action.data.post_id].num_likes--;
-      newState[action.data.post_id].is_liked_by_user = false;
+      postToUpdate = newState[action.data.post_id];
+
+      if (postToUpdate) {
+        postToUpdate.num_likes--;
+        postToUpdate.is_liked_by_user = false;
+      }
 
       return newState;
     default:
