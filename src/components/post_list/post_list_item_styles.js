@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -14,60 +14,101 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    paddingLeft: scale(2),
-    paddingRight: scale(2),
-    paddingTop: scale(2),
-    backgroundColor: COLORS.grey50,
+    backgroundColor: StyleUtility.COLORS.grey50,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
   },
   post: {
     width: '100%',
-    height: scale(50),
-    padding: scale(8),
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 15,
+    paddingTop: 10,
+    marginBottom: 5,
     backgroundColor: 'white',
-    // borderColor: '#656565',
-    // borderWidth: 0.1 * scaleFactor,
+    elevation: 3,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    shadowOffset: {
+      x: 0,
+      y: 0
+    }
   },
   headerView: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
   },
   closeIcon: {
-    fontSize: scaleFont(24),
+    fontSize: 20,
+    color: StyleUtility.COLORS.grey900
   },
-  dateText: {
-    alignSelf: 'flex-end',
-    textAlign: 'left',
-    textAlignVertical: 'center',
-    marginBottom: scale(5)
+  transparent: {
+    color: 'transparent'
+  },
+  textHighlighted: {
+    color: StyleUtility.COLORS.appleBlue
   },
   bodyText: {
     width: '100%',
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(15),
+    fontWeight: '100',
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'left',
-    textAlignVertical: 'center',
-    marginBottom: scale(5)
+    marginBottom: 15,
+    color: StyleUtility.COLORS.grey900
   },
-  largeBodyText: {
-    fontSize: scaleFont(8),
+  smallBodyText: {
+    fontSize: StyleUtility.scaleFont(14),
   },
   footerView: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     width: '100%'
   },
+  likesView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   heartIcon: {
-    fontSize: scaleFont(18),
-    marginRight: scale(4),
-    color: COLORS.appleBlue
+    width: 25,
+    height: 20,
+    fontSize: 20,
+    textAlign: 'center',
+    marginRight: 10,
+    color: StyleUtility.COLORS.appleBlue
+  },
+  filledHeartIcon: {
+    width: 25,
+    height: 20,
+    fontSize: 20,
+    textAlign: 'center',
+    marginRight: 10,
+    color: StyleUtility.COLORS.appleRed
   },
   likeCountText: {
-    fontSize: scaleFont(15),
+    fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
-    textAlignVertical: 'center',
   },
-  activityIndicator: {
-    marginTop: scale(8),
-    marginBottom: scale(8),
+  dateText: {
+    textAlign: 'right',
+    fontSize: StyleUtility.scaleFont(12),
+    color: StyleUtility.COLORS.grey400
   }
 });
+
+export const scaleHeart = {
+  0: {
+    scale: 0.3
+  },
+  0.5: {
+    scale: 1.2
+  },
+  1: {
+    scale: 1
+  }
+}

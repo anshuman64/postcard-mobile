@@ -7,6 +7,7 @@ import PostListItemContainer  from './post_list_item_container.js';
 import { styles }             from './post_list_styles.js';
 import { POST_TYPES }         from '../../actions/post_actions.js';
 import { COLORS }             from '../../utilities/style_utility.js';
+import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -20,6 +21,7 @@ class PostList extends React.PureComponent {
     };
 
     this.onEndReachedCalledDuringMomentum = true;
+    this._onRefresh = this._onRefresh.bind(this);
   }
 
 
@@ -27,11 +29,17 @@ class PostList extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onRefresh() {
+  _onRefresh = () => {
     this.setState({isRefreshing: true}, () => {
-      this.props.refreshPosts(this.props.authToken, this.props.postType).then(() => {
-        this.setState({isRefreshing: false});
-      })
+      this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
+      this.props.refreshPosts(this.props.authToken, this.props.postType)
+        .then(() => {
+          this.setState({isRefreshing: false});
+        })
+        .catch((error) => {
+          this.setState({isRefreshing: false});
+          defaultErrorAlert(error);
+        })
     })
   }
 
@@ -42,6 +50,7 @@ class PostList extends React.PureComponent {
 
     let lastPostId = this.props.posts.data[this.props.posts.data.length-1];
     this.props.getPosts(this.props.authToken, this.props.postType, {start_at: lastPostId})
+      .catch((error) => defaultErrorAlert(error))
   }
 
   // TODO: slide flatlist when newPost is created
@@ -88,7 +97,7 @@ class PostList extends React.PureComponent {
     return (
       <RN.RefreshControl
         refreshing={this.state.isRefreshing}
-        onRefresh={this._onRefresh.bind(this)}
+        onRefresh={this._onRefresh}
         color={COLORS.grey400}
         />
     )
@@ -97,13 +106,19 @@ class PostList extends React.PureComponent {
   _renderFooter = () => {
     if (this.props.posts.isEnd) {
       return (
-        <RN.Text>
-          No More Posts
-        </RN.Text>
+        <RN.View style={ styles.footerView }>
+          <RN.View style={ styles.horizontalLine } />
+          <RN.Text style={ styles.footerText }>
+            No More Posts
+          </RN.Text>
+          <RN.View style={ styles.horizontalLine } />
+        </RN.View>
       )
     } else {
       return (
-        <RN.ActivityIndicator size='small' color={COLORS.grey400} style={styles.activityIndicator} />
+        <RN.View style={ styles.footerView }>
+          <RN.ActivityIndicator size='small' color={COLORS.grey400} style={styles.activityIndicator} />
+        </RN.View>
       )
     }
   };

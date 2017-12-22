@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -12,17 +12,18 @@ export const styles = RN.StyleSheet.create({
   countryListItems: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: scale(17),
-    marginLeft: scale(10),
-    marginRight: scale(10),
-    borderBottomWidth: scale(1),
-    borderBottomColor: COLORS.grey300
+    alignItems: 'center',
+    height: 45,
+    marginLeft: 25,
+    marginRight: 25,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.grey200
   },
   countryListText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
-    textAlign: 'left',
-    textAlignVertical: 'center',
+    fontWeight: '100',
+    fontSize: scaleFont(14),
+    textAlign: 'center',
     color: COLORS.grey900,
   },
   textHighlighted: {

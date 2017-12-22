@@ -3,11 +3,10 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles }                    from './country_list_modal_styles.js';
-import CountryListItem               from './country_list_item.js';
-import { scale }                     from '../../utilities/style_utility.js';
-import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
-import { COUNTRY_CODES }             from '../../utilities/country_utility.js';
+import { styles }                                        from './country_list_modal_styles.js';
+import CountryListItem                                   from './country_list_item.js';
+import { COLORS, DEVICE_DIM, MAX_TABLET_DIM, isTablet }  from '../../utilities/style_utility.js';
+import { COUNTRY_CODES }                                 from '../../utilities/country_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -19,7 +18,6 @@ class CountryListModal extends React.PureComponent {
     const ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource:         ds.cloneWithRows(COUNTRY_CODES),
-      isTextHighlighted:  false,
       isModalMounted:     false,
     };
   }
@@ -30,7 +28,7 @@ class CountryListModal extends React.PureComponent {
 
   // Renders the RN.ListView after other modal contents are mounted for performance
   componentDidMount() {
-    this.setState({ isModalMounted: true });
+    setInterval(() => this.setState({ isModalMounted: true }), 1);
   }
 
   //--------------------------------------------------------------------//
@@ -39,7 +37,10 @@ class CountryListModal extends React.PureComponent {
 
   // Scrolls directly to the currently selected country when RN.ListView is opened
   _onListViewContentSizeChange = () => {
-    this.listView.scrollTo({x: 0, y: scale(this.props.countryIndex * 17) - 2, animated: true})
+    let height = isTablet() ? 0.9 * MAX_TABLET_DIM.height : 0.85 * DEVICE_DIM.height;
+    let countryPosition = this.props.countryIndex * 45 - 2; // countryIndex * height of each bar minus aesthetic two pixels
+    let maxPosition = COUNTRY_CODES.length * 45 - (height - 50 - 45); // length of full list minus length of one page of listView
+    this.listView.scrollTo({x: 0, y: Math.min(countryPosition, maxPosition), animated: true})
   }
 
   //--------------------------------------------------------------------//
@@ -48,15 +49,14 @@ class CountryListModal extends React.PureComponent {
 
   _renderChooseCountry() {
     return (
-      <RN.View style={ styles.chooseCountryView }>
-        <RN.Text style={ styles.chooseCountryText }>
+      <RN.View style={ styles.selectCountryView }>
+        <RN.Text style={ styles.selectCountryText }>
           Select Country
         </RN.Text>
       </RN.View>
     )
   }
 
-  // TODO: render spinner
   _renderCountryListView() {
     if(this.state.isModalMounted) {
       return (
@@ -69,18 +69,22 @@ class CountryListModal extends React.PureComponent {
           onContentSizeChange={this._onListViewContentSizeChange}
         />
       )
+    } else {
+      return (
+        <RN.ActivityIndicator size='small' color={COLORS.grey400}  />
+      )
     }
   }
 
   _renderCancelButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isTextHighlighted: true})}
-        onPressOut={setStateInAnimationFrame(this, { isTextHighlighted: false})}
+        onPressIn={() => this.cancelButtonText.setNativeProps({style: styles.textHighlighted})}
+        onPressOut={() => this.cancelButtonText.setNativeProps({style: styles.cancelButtonText})}
         onPress={this.props.setParentState({ isModalVisible: false })}
       >
-        <RN.View style={ styles.chooseCountryView }>
-          <RN.Text style={[styles.chooseCountryText, this.state.isTextHighlighted && styles.textHighlighted]}>
+        <RN.View style={ styles.cancelButtonView }>
+          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={ styles.cancelButtonText }>
             Cancel
           </RN.Text>
         </RN.View>

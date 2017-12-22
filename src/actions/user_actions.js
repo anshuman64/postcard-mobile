@@ -52,28 +52,22 @@ export const receiveUser = (data) => {
 
 
 export const debugSignIn = (email, password) => (dispatch) => {
-  let handleExistingUser = (authToken) => {
-    return APIUtility.get(authToken, '/users')
-      .then((user) => {
-        dispatch(receiveUser(user));
-      }, handleNewUser.bind(this, authToken));
-  };
-
-  let handleNewUser = (authToken) => {
-    return APIUtility.post(authToken, '/users', { phone_number: email })
-      .then((newUser) => {
-        dispatch(receiveUser(newUser));
-      });
-  };
-
   return Firebase.auth().signInWithEmailAndPassword(email, password)
     .then((firebaseUserObj) => {
-      dispatch(receivePhoneNumber(firebaseUserObj._user.email));
-      dispatch(receiveFirebaseUserObj(firebaseUserObj));
-      return firebaseUserObj.getIdToken(true);
-    }).then((authToken) => {
-      dispatch(receiveAuthToken(authToken));
-      return handleExistingUser(authToken);
+      return dispatch(loginUser(firebaseUserObj));
+    })
+    .catch((error) => {
+      Firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((firebaseUserObj) => {
+          return dispatch(loginUser(firebaseUserObj));
+        })
+        .catch((error) => {
+          if (!error.description) {
+            error.description = 'Firebase email sign-in failed'
+          }
+
+          throw error;
+        });
     });
 }
 
@@ -82,52 +76,69 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
     .then((confirmationCodeObj) => {
       dispatch(receivePhoneNumber(phoneNumber));
       dispatch(receiveConfirmationCodeObj(confirmationCodeObj));
+    })
+    .catch((error) => {
+      if (!error.description) {
+        error.description = 'Firebase phone sign-in failed'
+      }
+
+      throw error;
     });
 };
 
-export const verifyConfirmationCode = (phoneNumber, confirmationCodeObj, inputtedCode) => (dispatch) => {
+export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (dispatch) => {
+  return confirmationCodeObj.confirm(inputtedCode)
+    .then((firebaseUserObj) => {
+      return dispatch(loginUser(firebaseUserObj));
+    })
+    .catch((error) => {
+      if (!error.description) {
+        error.description = 'Firebase code verification failed'
+      }
+
+      throw error;
+    });
+};
+
+export const loginUser = (firebaseUserObj) => (dispatch) => {
   let handleExistingUser = (authToken) => {
     return APIUtility.get(authToken, '/users')
       .then((user) => {
         dispatch(receiveUser(user));
-      }, handleNewUser.bind(this, authToken));
+      })
+      .catch((error) => {
+        return handleNewUser(authToken);
+      });
   };
 
   let handleNewUser = (authToken) => {
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
       .then((newUser) => {
         dispatch(receiveUser(newUser));
-      });
+      })
+      .catch((error) => {
+        if (!error.description) {
+          error.description = 'POST or GET user failed'
+        }
+
+        throw error;
+      })
   };
 
-  return confirmationCodeObj.confirm(inputtedCode)
-    .then((firebaseUserObj) => {
-      dispatch(receiveFirebaseUserObj(firebaseUserObj));
-      return firebaseUserObj.getIdToken(true);
-    }).then((authToken) => {
+  let phoneNumber = firebaseUserObj._user.phoneNumber ? firebaseUserObj._user.phoneNumber : firebaseUserObj._user.email;
+
+  dispatch(receivePhoneNumber(phoneNumber));
+  dispatch(receiveFirebaseUserObj(firebaseUserObj));
+  return firebaseUserObj.getIdToken(true)
+    .then((authToken) => {
       dispatch(receiveAuthToken(authToken));
       return handleExistingUser(authToken);
+    })
+    .catch((error) => {
+      if (!error.description) {
+        error.description = 'Firebase getIdToken failed'
+      }
+
+      throw error;
     });
-};
-
-export const attemptToLoginUser = (successCallback, errorCallback) => (dispatch) => {
-  let listener = (firebaseUserObj) => {
-    if (firebaseUserObj) {
-      dispatch(receivePhoneNumber(firebaseUserObj._user.phoneNumber));
-      dispatch(receiveFirebaseUserObj(firebaseUserObj));
-
-      firebaseUserObj.getIdToken(true)
-        .then((authToken) => {
-          dispatch(receiveAuthToken(authToken));
-          return APIUtility.get(authToken, '/users');
-        }).then((user) => {
-          dispatch(receiveUser(user));
-          successCallback();
-        });
-    } else {
-      errorCallback();
-    }
-  };
-
-  return Firebase.auth().onAuthStateChanged(listener);
-};
+}
