@@ -1,29 +1,29 @@
 // Library Imports
-import React        from 'react';
-import { Provider } from 'react-redux';
-import { Scene, Tabs }    from 'react-native-router-flux';
-import RNAmplitute from 'react-native-amplitude-analytics';
+import React            from 'react';
+import { Provider }     from 'react-redux';
+import { Scene, Tabs }  from 'react-native-router-flux';
+import RNAmplitute      from 'react-native-amplitude-analytics';
 
 
 // Local Imports
-import configureStore  from './store';
-import RouterContainer from './router/router_container.js';
+import configureStore             from './store';
+import RouterContainer            from './router/router_container.js';
 
 import DebugLoginScreenContainer  from './components/debug_login_screen/debug_login_screen_container.js';
 import LoadingScreenContainer     from './components/loading_screen/loading_screen_container.js';
 import LoginScreenContainer       from './components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer from './components/confirm_code_screen/confirm_code_screen_container.js';
 
-import HomeScreenContainer                   from './components/home_screen/home_screen_container.js';
-import AuthoredPostsTabContainer                from './components/user_screen/authored_posts_tab_container.js';
-import LikedPostsTabContainer                   from './components/user_screen/liked_posts_tab_container.js';
+import HomeScreenContainer        from './components/home_screen/home_screen_container.js';
+import AuthoredPostsTabContainer  from './components/user_screen/authored_posts_tab_container.js';
+import LikedPostsTabContainer     from './components/user_screen/liked_posts_tab_container.js';
 
 import NewPostScreen              from './components/new_post_screen/new_post_screen.js';
 import MenuScreen                 from './components/menu_screen/menu_screen.js';
 
-import HeaderContainer from './components/header/header_container.js';
-import FooterContainer from './components/header/footer_container.js';
-import TabBarContainer from './components/header/tab_bar_container.js';
+import HeaderContainer            from './components/nav_bar/header/header_container.js';
+import FooterContainer            from './components/nav_bar/footer/footer_container.js';
+import TabBarContainer            from './components/nav_bar/tab_bar/tab_bar_container.js';
 
 
 //--------------------------------------------------------------------//

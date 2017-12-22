@@ -119,17 +119,7 @@ class LoginScreen extends React.PureComponent {
     if (number[0] != '+') {
       number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
     }
-
-    // Debug test
-    // if (number === '+14088888888') {
-    //   this.setState({isPhoneNumberInvalid: true});
-    // } else {
-    //   this.setState({isLoading: true});
-    //   this.props.debugGetConfirmationCode(number)
-    //     .then(this.setState({isLoading: false, isPhoneNumberInvalid: false}, () => this.props.navigateTo('ConfirmCodeScreen')))
-    // }
-
-    // Real Firebase API
+    
     this.setState({isLoading: true}, () => {
     this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
      .then(() => this.setState({ isLoading: false, isPhoneNumberInvalid: false }, () => this.props.navigateTo('ConfirmCodeScreen')))

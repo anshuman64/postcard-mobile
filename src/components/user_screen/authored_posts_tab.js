@@ -3,7 +3,6 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import HeaderContainer    from '../header/header_container.js';
 import PostListContainer  from '../post_list/post_list_container.js';
 import { styles }         from '../home_screen/home_screen_styles.js';
 import { POST_TYPES }     from '../../actions/post_actions.js';
