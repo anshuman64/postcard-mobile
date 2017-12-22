@@ -1,5 +1,5 @@
 // Library Imports
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 // Local Imports
 import { USER_ACTION_TYPES } from '../actions/user_actions.js';

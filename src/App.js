@@ -46,7 +46,7 @@ class App extends React.Component {
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true} initial={true} />
             <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true} />
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true}/>} />
             <Tabs tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
@@ -56,7 +56,7 @@ class App extends React.Component {
                 <Scene key='LikedPostsTab' component={LikedPostsTabContainer} hideNavBar={true}  />
               </Tabs>
             </Tabs>
-            <Scene key='NewPostScreen' component={NewPostScreen} hideNavBar={true} initial={true} />
+            <Scene key='NewPostScreen' component={NewPostScreen} hideNavBar={true} />
             <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true}/>}  />
           </Scene>
         </RouterContainer>
