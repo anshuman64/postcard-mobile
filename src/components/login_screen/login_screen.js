@@ -71,15 +71,14 @@ class LoginScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  // Enables Next button only when libphonenumber believes phone number is "possible"
-  // TODO: figure out better logic for this
+  // Enables Next button only when phone number is greater than 3 digits
   _checkNextButtonEnable() {
     let phoneUtilNumber;
 
     try {
       phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, COUNTRY_CODES[this.state.countryIndex].country_code);
 
-      if (this.phoneUtil.isPossibleNumber(phoneUtilNumber)) {
+      if (phoneUtilNumber.length > 3) {
         this.setState({isNextButtonDisabled: false});
       } else {
         this.setState({isNextButtonDisabled: true});
@@ -92,7 +91,6 @@ class LoginScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   // Callback function for formatting phone number on each character typed
-  // TODO: handle error callback if phone number is invalid
   _onPhoneInputChangeText(value) {
     let formatted;
 

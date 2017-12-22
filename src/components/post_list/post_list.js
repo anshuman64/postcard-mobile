@@ -21,6 +21,7 @@ class PostList extends React.PureComponent {
     };
 
     this.onEndReachedCalledDuringMomentum = true;
+    this._onRefresh = this._onRefresh.bind(this);
   }
 
 
@@ -28,8 +29,9 @@ class PostList extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onRefresh() {
+  _onRefresh = () => {
     this.setState({isRefreshing: true}, () => {
+      this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
       this.props.refreshPosts(this.props.authToken, this.props.postType)
         .then(() => {
           this.setState({isRefreshing: false});
@@ -95,7 +97,7 @@ class PostList extends React.PureComponent {
     return (
       <RN.RefreshControl
         refreshing={this.state.isRefreshing}
-        onRefresh={this._onRefresh.bind(this)}
+        onRefresh={this._onRefresh}
         color={COLORS.grey400}
         />
     )
