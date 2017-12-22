@@ -14,6 +14,7 @@ import CountryListModal        from './country_list_modal.js';
 import { COUNTRY_CODES }       from '../../utilities/country_utility.js';
 import { setStateCallback }    from '../../utilities/function_utility.js';
 import { COLORS }              from '../../utilities/style_utility.js';
+import { defaultErrorAlert }   from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -27,7 +28,6 @@ class LoginScreen extends React.PureComponent {
     this.state = {
       isLogoFading:             true,
       countryIndex:             220, // hard-coded to United States
-      isPhoneInputFocused:      false,
       formattedPhoneNumber:     '',
       isModalVisible:           false,
       isNextButtonDisabled:     true,
@@ -119,12 +119,22 @@ class LoginScreen extends React.PureComponent {
     if (number[0] != '+') {
       number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
     }
-    
+
     this.setState({isLoading: true}, () => {
-    this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
-     .then(() => this.setState({ isLoading: false, isPhoneNumberInvalid: false }, () => this.props.navigateTo('ConfirmCodeScreen')))
-     .catch(() => this.setState({ isLoading: false, isPhoneNumberInvalid: true }))
-    })
+      this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
+       .then(() => {
+         this.props.navigateTo('ConfirmCodeScreen');
+         this.setState({ isLoading: false, isPhoneNumberInvalid: false });
+       })
+       .catch((error) => {
+         this.setState({ isLoading: false});
+         if (error.description === 'Firebase phone sign-in failed') {
+           this.setState({ isPhoneNumberInvalid: true });
+         } else {
+           defaultErrorAlert(error);
+         }
+       });
+    });
   }
 
   //--------------------------------------------------------------------//

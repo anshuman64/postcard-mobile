@@ -27,6 +27,7 @@ class Header extends React.PureComponent {
       .then(() => {
         this.props.goBack();
       })
+      .catch((error) => defaultErrorAlert(error))
   }
 
   //--------------------------------------------------------------------//

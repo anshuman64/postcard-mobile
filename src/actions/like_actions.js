@@ -39,6 +39,10 @@ export const createLike = (authToken, likeObj) => (dispatch) => {
       dispatch(receiveLike(newLike));
     })
     .catch((error) => {
+      if (!error.description) {
+        error.description = 'POST like failed'
+      }
+
       throw error;
     });
 };
@@ -49,6 +53,10 @@ export const deleteLike = (authToken, postId) => (dispatch) => {
       dispatch(removeLike(deletedLike));
     })
     .catch((error) => {
+      if (!error.description) {
+        error.description = 'DEL like failed'
+      }
+
       throw error;
     });
 };

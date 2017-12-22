@@ -52,6 +52,10 @@ let callApi = (url, requestConfig) => {
       return checkStatus(response);
     })
     .catch((error) => {
+      if (!error.response) {
+        error.description = 'No internet connection'
+      }
+
       throw error;
     });
 };

@@ -11,8 +11,8 @@ import { refreshPosts }     from '../../actions/post_actions.js';
 
 
 const mapStateToProps = ({ user, posts }, ownProps) => ({
-  authToken:            user.authToken,
-  allPosts:             posts.allPosts,
+  authToken:     user.authToken,
+  allPosts:      posts.allPosts,
   currentScreen: Actions.currentScene
 });
 

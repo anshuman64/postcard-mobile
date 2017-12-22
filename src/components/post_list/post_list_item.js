@@ -10,6 +10,7 @@ import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 import { styles, scaleHeart } from './post_list_item_styles.js';
 import { renderDate }         from '../../utilities/date_time_utility.js';
 import fontelloConfig         from '../../assets/fonts/config.json';
+import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -27,8 +28,10 @@ class PostListItem extends React.PureComponent {
   _onPressLike() {
     if (this.props.item.is_liked_by_user) {
       this.props.deleteLike(this.props.authToken, this.props.item.id)
+        .catch((error) => defaultErrorAlert(error))
     } else {
       this.props.createLike(this.props.authToken, { post_id: this.props.item.id })
+        .catch((error) => defaultErrorAlert(error))
     }
   }
 
