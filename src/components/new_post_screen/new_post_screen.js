@@ -4,7 +4,6 @@ import RN        from 'react-native';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import HeaderContainer  from '../header/header_container.js';
 import { styles }       from './new_post_screen_styles.js';
 import { COLORS }       from '../../utilities/style_utility.js';
 

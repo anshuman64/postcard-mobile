@@ -3,30 +3,26 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
 
 
 export const styles = RN.StyleSheet.create({
-  tabBar: {
+  footer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: 30,
+    height: 40,
     backgroundColor: 'white',
-    borderBottomColor: StyleUtility.COLORS.grey300,
-    borderBottomWidth: (RN.Platform.OS === 'ios') ? 1 : 0,
-    elevation: 2,
+    borderTopColor: StyleUtility.COLORS.grey300,
+    borderTopWidth: 1,
   },
-  text: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontWeight: '100',
+  icon: {
     fontSize: StyleUtility.scaleFont(16),
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey600
+    color: StyleUtility.COLORS.grey900
   },
   textHighlighted: {
     color: StyleUtility.COLORS.appleBlue,
