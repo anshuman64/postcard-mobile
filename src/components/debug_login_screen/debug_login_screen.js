@@ -28,12 +28,13 @@ class DebugLoginScreen extends React.PureComponent {
 
   _onNextButtonPress() {
     this.setState({isLoading: true}, () => {
-    this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
-      .then(() => {
-        this.setState({ isLoading: false }, () => this.props.navigateTo('HomeScreen'));
-      }).catch((error) => {
-        console.error(error);
-      });
+      this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
+        .then(() => {
+          this.setState({ isLoading: false }, () => this.props.navigateTo('HomeScreen'));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     })
   }
 

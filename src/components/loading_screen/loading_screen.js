@@ -2,6 +2,7 @@
 import React           from 'react';
 import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import Firebase        from 'react-native-firebase';
 
 // Local Imports
 import { styles }                          from './loading_screen_styles.js';
@@ -28,14 +29,28 @@ class LoadingScreen extends React.PureComponent {
 
   componentDidMount() {
     let successCallback = () => {
+      console.log('successCallback')
       this.setState({ iterationCount: 2, isLoginSuccessful: true });
     };
 
     let errorCallback = () => {
+      console.log('errorCallback')
       this.setState({ iterationCount: 2, isLoginSuccessful: false });
     };
 
-    this.unsubscribe = this.props.attemptToLoginUser(successCallback, errorCallback);
+    this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
+      if (firebaseUserObj) {
+        this.props.loginUser(firebaseUserObj)
+          .then(() => {
+            successCallback();
+          })
+          .catch(() => {
+            errorCallback();
+          })
+      } else {
+        errorCallback();
+      }
+    })
   }
 
   //--------------------------------------------------------------------//
@@ -78,7 +93,6 @@ class LoadingScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container}>
-        {this._renderLoadingIcon()}
       </RN.View>
     )
   }
