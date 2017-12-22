@@ -1,7 +1,7 @@
 // Library Imports
 import React                                    from 'react';
 import RN                                       from 'react-native';
-import * as _                                   from 'lodash';
+import _                                   from 'lodash';
 import { PhoneNumberUtil, AsYouTypeFormatter }  from 'google-libphonenumber';
 import firebase                                 from 'react-native-firebase';
 import Icon                                     from 'react-native-vector-icons/Ionicons';
