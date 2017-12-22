@@ -18,7 +18,7 @@ class HomeScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL)
+    this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL).catch((error) => console.log(error.response))
   }
 
   componentWillReceiveProps (nextProps) {
