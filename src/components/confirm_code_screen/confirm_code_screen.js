@@ -1,35 +1,28 @@
 // Library Imports
-import React                                   from 'react';
-import RN                                      from 'react-native';
-import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
-import Ionicon                                 from 'react-native-vector-icons/Ionicons';
+import React                from 'react';
+import RN                   from 'react-native';
+import Firebase             from 'react-native-firebase';
+import { PhoneNumberUtil }  from 'google-libphonenumber';
+import Ionicon              from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }                   from './confirm_code_screen_styles.js';
-import { setStateInAnimationFrame } from '../../utilities/function_utility.js';
-import { toHomeScreen, goBack }     from '../../actions/navigation_actions.js';
-import { COLORS }                   from '../../utilities/style_utility.js';
+import { styles }            from './confirm_code_screen_styles.js';
+import { COLORS }            from '../../utilities/style_utility.js';
+import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
 
 class ConfirmCodeScreen extends React.PureComponent {
-  static navigationOptions = {
-    header: null,
-  }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      isBackIconPressed:    false,
-      isCodeInputFocused:   false,
       isCodeIncorrect:      false,
       isResendSMSDisabled:  true,
-      isResendSMSPressed:   false,
       secsRemaining:        0, // set to 59 seconds in _startTimer()
       isLoading:            false,
-      isCodeInvalid:        false,
     };
 
     this.timer = null;
@@ -44,6 +37,16 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   componentDidMount() {
     this._startTimer();
+
+    this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
+      if (firebaseUserObj) {
+        this.props.loginUser(firebaseUserObj)
+          .then(() => {
+            this.unsubscribe();
+            this.props.navigationTo('HomeScreen');
+          })
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -80,39 +83,32 @@ class ConfirmCodeScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   // Sends code to Firebase API as soon as user has inputted six digits
-  // TODO: handle error callback if code is invalid
   _codeInputOnChangeText(value) {
-    // Debug test
-    // if (value.length === 6) {
-    //   if (value === this.props.confirmationCodeObj) {
-    //     this.setState({ isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()));
-    //   } else {
-    //     this.setState({ isCodeIncorrect: true });
-    //   }
-    // }
-
-    // Real Firebase API
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
-      this.props.verifyConfirmationCode(this.props.phoneNumber, this.props.confirmationCodeObj, value).then(() => {
-        this.setState({ isLoading: false, isCodeIncorrect: false }, () => this.props.navigation.dispatch(toHomeScreen()))
-      }).catch(() => this.setState({ isLoading: false, isCodeIncorrect: true }))
+        this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
+        .then(() => {
+          this.unsubscribe();
+          this.props.navigationTo('HomeScreen');
+          this.setState({ isLoading: false, isCodeIncorrect: false });
+        })
+        .catch((error) => {
+          this.setState({ isLoading: false });
+
+          if (error.description === 'Firebase code verification failed') {
+            this.setState({ isCodeIncorrect: true })
+          } else {
+            defaultErrorAlert(error);
+          }
+        });
       })
     }
   }
 
-  // Callback function to return to login screen
-  _onBackIconPress() {
-    this.props.navigation.dispatch(goBack());
-  }
-
   // Callback function to resend confirmation code via SMS and restart timer
   _onResendSMSPress() {
-    // Debug test
-    this.props.debugGetConfirmationCode(this.props.phoneNumber);
-
-    // Real Firebase API
-    // this.props.getConfirmationCode(this.props.phoneNumber);
+    this.props.getConfirmationCode(this.props.phoneNumber)
+      .catch((error) => defaultErrorAlert(error));
 
     this._startTimer();
   }
@@ -120,14 +116,6 @@ class ConfirmCodeScreen extends React.PureComponent {
 //--------------------------------------------------------------------//
 // Render Methods
 //--------------------------------------------------------------------//
-
-  _renderHeader() {
-    return (
-      <RN.View style={styles.header}>
-        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
-      </RN.View>
-    )
-  }
 
   _renderTitle() {
     return (
@@ -140,7 +128,7 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderSubtitle() {
     return (
       <RN.Text style={styles.subtitleText}>
-        Sent to { this.props.phoneNumber /*this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
+        Sent to {this.props.phoneNumber}
       </RN.Text>
     )
   }
@@ -148,7 +136,8 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderCodeInput() {
     return (
       <RN.TextInput
-        style={[styles.codeInput, this.state.isCodeInputFocused && styles.borderHighlighted, this.state.isCodeIncorrect && styles.borderRed]}
+        ref={(ref) => this.codeInput = ref}
+        style={[styles.codeInput, this.state.isCodeIncorrect && styles.borderRed]}
         keyboardType='numeric'
         onChangeText={this._codeInputOnChangeText.bind(this)}
         value={this.state.inputtedCode}
@@ -157,8 +146,8 @@ class ConfirmCodeScreen extends React.PureComponent {
         maxLength={6}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
-        onFocus={setStateInAnimationFrame(this, { isCodeInputFocused: true})}
-        onEndEditing={setStateInAnimationFrame(this, { isCodeInputFocused: false})}
+        onFocus={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: styles.borderHighlighted})}
+        onEndEditing={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: styles.codeInput})}
       />
     )
   }
@@ -166,9 +155,9 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderInvalidCodeText() {
     if (this.state.isLoading) {
       return <RN.ActivityIndicator size='small' color={COLORS.grey400} />
-    } else if (this.state.isCodeIncorrect) {
+    } else {
       return (
-        <RN.Text style={styles.invalidCodeText}>
+        <RN.Text style={[styles.invalidCodeText, !this.state.isCodeIncorrect && styles.invalidCodeTextTransparent]}>
           Invalid Code
         </RN.Text>
       )
@@ -178,16 +167,22 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderResendSMS() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isResendSMSPressed: true})}
-        onPressOut={setStateInAnimationFrame(this, { isResendSMSPressed: false})}
+        onPressIn={() => {
+          this.resendSMSView.setNativeProps({style: styles.borderHighlighted})
+          this.resendSMSText.setNativeProps({style: styles.textHighlighted})
+        }}
+        onPressOut={() => {
+          this.resendSMSView.setNativeProps({style: styles.resendSMSView})
+          this.resendSMSText.setNativeProps({style: styles.resendSMSText})
+        }}
         onPress={() => this._onResendSMSPress()}
         disabled={this.state.isResendSMSDisabled}
         >
-        <RN.View style={styles.resendSMSView}>
-          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+        <RN.View ref={(ref) => this.resendSMSView = ref} style={styles.resendSMSView}>
+          <RN.Text ref={(ref) => this.resendSMSText = ref} style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive]}>
             Resend SMS
           </RN.Text>
-          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive, this.state.isResendSMSPressed && styles.textHighlighted]}>
+          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive]}>
             {/* Displays countdown timer in clean format */}
             {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
           </RN.Text>
@@ -198,18 +193,15 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={styles.container}>
-        {this._renderHeader()}
-        <RN.View style={{flex: 3}} />
+        <RN.View style={styles.container}>
           {this._renderTitle()}
           {this._renderSubtitle()}
-        <RN.View style={{flex: 1.5}} />
           {this._renderCodeInput()}
           {this._renderInvalidCodeText()}
-        <RN.View style={{flex: 5}} />
-          {this._renderResendSMS()}
-        <RN.View style={{flex: 18}} />
-      </RN.View>
+          <RN.View style={{flex: 1}} />
+            {this._renderResendSMS()}
+          <RN.View style={{flex: 4}} />
+        </RN.View>
     )
   }
 }

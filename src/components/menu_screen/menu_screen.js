@@ -5,26 +5,11 @@ import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }                    from './menu_screen_styles.js';
-import { setStateInAnimationFrame }  from '../../utilities/function_utility.js';
-import { goBack }                    from '../../actions/navigation_actions.js';
+import { styles }      from './menu_screen_styles.js';
 
 //--------------------------------------------------------------------//
 
 class MenuScreen extends React.PureComponent {
-  static navigationOptions = {
-    header: null,
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSupportPressed:   false,
-      isFeedbackPressed:  false,
-      isAboutPressed:     false,
-    };
-  }
 
   //--------------------------------------------------------------------//
   // Callback Methods
@@ -46,28 +31,26 @@ class MenuScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderHeader() {
-    return (
-      <RN.View style={styles.header}>
-        <Ionicon name='ios-arrow-round-back' onPress={() => this.props.navigation.dispatch(goBack())} style={styles.backIcon}/>
-        <RN.Text style={styles.shareButtonText} onPress={() => this._onPressShare()}>Share</RN.Text>
-      </RN.View>
-    )
-  }
-
   _renderSupportButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isSupportPressed: true})}
-        onPressOut={setStateInAnimationFrame(this, { isSupportPressed: false})}
+        onPressIn={() => {
+          this.supportIcon.setNativeProps({style: styles.textHighlighted})
+          this.supportText.setNativeProps({style: styles.textHighlighted})
+        }}
+        onPressOut={() => {
+          this.supportIcon.setNativeProps({style: styles.menuItemIcon})
+          this.supportText.setNativeProps({style: styles.menuItemText})
+        }}
         onPress={() => this._onPressSupport()}
         >
         <RN.View style={ styles.menuItemView }>
           <Icon
+            ref={(ref) => this.supportIcon = ref}
             name='envelope'
-            style={[styles.menuItemIcon, this.state.isSupportPressed && styles.highlight]}
+            style={styles.menuItemIcon}
             />
-          <RN.Text style={[styles.menuItemText, this.state.isSupportPressed && styles.highlight]}>
+          <RN.Text ref={(ref) => this.supportText = ref} style={styles.menuItemText}>
             Support
           </RN.Text>
         </RN.View>
@@ -78,16 +61,23 @@ class MenuScreen extends React.PureComponent {
   _renderFeedbackButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isFeedbackPressed: true})}
-        onPressOut={setStateInAnimationFrame(this, { isFeedbackPressed: false})}
+      onPressIn={() => {
+        this.feedbackIcon.setNativeProps({style: styles.textHighlighted})
+        this.feedbackText.setNativeProps({style: styles.textHighlighted})
+      }}
+      onPressOut={() => {
+        this.feedbackIcon.setNativeProps({style: styles.menuItemIcon})
+        this.feedbackText.setNativeProps({style: styles.menuItemText})
+      }}
         onPress={() => this._onPressFeedback()}
         >
         <RN.View style={ styles.menuItemView }>
           <Icon
+            ref={(ref) => this.feedbackIcon = ref}
             name='speech'
-            style={[styles.menuItemIcon, this.state.isFeedbackPressed && styles.highlight]}
+            style={styles.menuItemIcon}
             />
-          <RN.Text style={[styles.menuItemText, this.state.isFeedbackPressed && styles.highlight]}>
+          <RN.Text ref={(ref) => this.feedbackText = ref} style={styles.menuItemText}>
             Feedback
           </RN.Text>
         </RN.View>
@@ -98,16 +88,23 @@ class MenuScreen extends React.PureComponent {
   _renderAboutButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={setStateInAnimationFrame(this, { isAboutPressed: true})}
-        onPressOut={setStateInAnimationFrame(this, { isAboutPressed: false})}
+        onPressIn={() => {
+          this.aboutIcon.setNativeProps({style: styles.textHighlighted})
+          this.aboutText.setNativeProps({style: styles.textHighlighted})
+        }}
+        onPressOut={() => {
+          this.aboutIcon.setNativeProps({style: styles.menuItemIcon})
+          this.aboutText.setNativeProps({style: styles.menuItemText})
+        }}
         onPress={() => this._onPressAbout()}
         >
         <RN.View style={ styles.menuItemView }>
           <Icon
+            ref={(ref) => this.aboutIcon = ref}
             name='question'
-            style={[styles.menuItemIcon, this.state.isAboutPressed && styles.highlight]}
+            style={styles.menuItemIcon}
             />
-          <RN.Text style={[styles.menuItemText, this.state.isAboutPressed && styles.highlight]}>
+          <RN.Text ref={(ref) => this.aboutText = ref} style={styles.menuItemText}>
             About
           </RN.Text>
         </RN.View>
@@ -118,7 +115,6 @@ class MenuScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={ styles.container }>
-        {this._renderHeader()}
         {this._renderSupportButton()}
         {this._renderFeedbackButton()}
         {this._renderAboutButton()}
