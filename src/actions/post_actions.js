@@ -66,6 +66,9 @@ export const getPosts = (authToken, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
       dispatch(receivePosts({posts: posts, postType: postType}));
+    })
+    .catch((error) => {
+      throw error;
     });
 };
 
@@ -84,6 +87,9 @@ export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => 
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
       dispatch(refreshAndReceivePosts({posts: posts, postType: postType}));
+    })
+    .catch((error) => {
+      throw error;
     });
 };
 
@@ -91,6 +97,9 @@ export const createPost = (authToken, postObj) => (dispatch) => {
   return APIUtility.post(authToken, '/posts', postObj)
     .then((newPost) => {
       dispatch(receivePost(newPost));
+    })
+    .catch((error) => {
+      throw error;
     });
 };
 
@@ -98,5 +107,8 @@ export const deletePost = (authToken, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((deletedPost) => {
       dispatch(removePost(deletedPost));
+    })
+    .catch((error) => {
+      throw error;
     });
 };
