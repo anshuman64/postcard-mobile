@@ -7,7 +7,6 @@ import * as Animatable from 'react-native-animatable';
 // Local Imports
 import { styles }       from './loading_screen_styles.js';
 import * as Animations  from './loading_screen_animations.js';
-import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 

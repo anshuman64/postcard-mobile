@@ -32,13 +32,11 @@ class NewPostScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-
-  render() {
-    return (
-      <RN.View style={ styles.container }>
-        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} />
+  _renderTextInput() {
+    if (this.state.postText.length < 86) {
+      return (
         <RN.TextInput
-          style={[styles.textInput, this.state.postText.length > 85 && styles.smallBodyText]}
+          style={styles.textInput}
           placeholderTextColor={COLORS.grey400}
           placeholder={'What was your happiest moment?'}
           onChangeText={(value) => this._onChangeText(value)}
@@ -47,6 +45,29 @@ class NewPostScreen extends React.PureComponent {
           returnKeyType={'done'}
           underlineColorAndroid={'transparent'}
           />
+      )
+    } else {
+      return (
+        <RN.TextInput
+          style={[styles.textInput, styles.smallBodyText]}
+          placeholderTextColor={COLORS.grey400}
+          placeholder={'What was your happiest moment?'}
+          onChangeText={(value) => this._onChangeText(value)}
+          defaultValue={this.state.postText}
+          autoFocus={true}
+          multiline={true}
+          returnKeyType={'done'}
+          underlineColorAndroid={'transparent'}
+          />
+      )
+    }
+  }
+
+  render() {
+    return (
+      <RN.View style={ styles.container }>
+        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} />
+        {this._renderTextInput()}
       </RN.View>
     )
   }
