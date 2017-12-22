@@ -10,17 +10,12 @@ import { navigateTo }     from '../../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user }, ownProps) => ({
-  phoneNumber:      user.phoneNumber,
-  firebaseUserObj:  user.firebaseUserObj
-});
-
 const mapDispatchToProps = (dispatch, ownProps) => ({
   debugSignIn: (email, password) => dispatch(debugSignIn(email, password)),
   navigateTo: (screen) => dispatch(navigateTo(screen))
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(DebugLoginScreen);

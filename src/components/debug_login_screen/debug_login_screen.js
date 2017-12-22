@@ -1,10 +1,9 @@
 // Library Imports
 import React from 'react';
 import RN    from 'react-native';
-import { Actions }    from 'react-native-router-flux';
 
 // Local Imports
-import { styles }       from './debug_login_screen_styles.js';
+import { styles } from './debug_login_screen_styles.js';
 
 
 //--------------------------------------------------------------------//
@@ -18,7 +17,6 @@ class DebugLoginScreen extends React.PureComponent {
     this.state = {
       emailInput:     'debug@insiya.io',
       passwordInput:  'password',
-      isLoading:      false,
     };
   }
 
@@ -27,15 +25,13 @@ class DebugLoginScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onNextButtonPress() {
-    this.setState({isLoading: true}, () => {
-      this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
-        .then(() => {
-          this.setState({ isLoading: false }, () => this.props.navigateTo('HomeScreen'));
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    })
+    this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
+      .then(() => {
+        this.props.navigateTo('HomeScreen');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   //--------------------------------------------------------------------//

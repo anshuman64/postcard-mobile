@@ -18,6 +18,7 @@ class AuthoredPostsTab extends React.PureComponent {
 
   componentDidMount() {
     this.props.refreshPosts(this.props.authToken, POST_TYPES.AUTHORED)
+      .catch((error) => defaultErrorAlert(error))
   }
 
   //TODO: prevent refreshPosts from being called twice
@@ -29,6 +30,7 @@ class AuthoredPostsTab extends React.PureComponent {
 
       if (minsDiff > 1) {
         this.props.refreshPosts(this.props.authToken, POST_TYPES.AUTHORED)
+          .catch((error) => defaultErrorAlert(error))
       }
     }
   }

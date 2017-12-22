@@ -68,6 +68,10 @@ export const getPosts = (authToken, postType, queryParams) => (dispatch) => {
       dispatch(receivePosts({posts: posts, postType: postType}));
     })
     .catch((error) => {
+      if (!error.description) {
+        error.description = 'GET posts failed'
+      }
+
       throw error;
     });
 };
@@ -89,6 +93,10 @@ export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => 
       dispatch(refreshAndReceivePosts({posts: posts, postType: postType}));
     })
     .catch((error) => {
+      if (!error.description) {
+        error.description = 'GET posts failed'
+      }
+
       throw error;
     });
 };
@@ -99,6 +107,10 @@ export const createPost = (authToken, postObj) => (dispatch) => {
       dispatch(receivePost(newPost));
     })
     .catch((error) => {
+      if (!error.description) {
+        error.description = 'POST post failed'
+      }
+
       throw error;
     });
 };
@@ -109,6 +121,10 @@ export const deletePost = (authToken, postId) => (dispatch) => {
       dispatch(removePost(deletedPost));
     })
     .catch((error) => {
+      if (!error.description) {
+        error.description = 'DEL post failed'
+      }
+
       throw error;
     });
 };
