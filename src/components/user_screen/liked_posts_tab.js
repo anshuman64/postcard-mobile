@@ -22,7 +22,7 @@ class LikedPostsTab extends React.PureComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.currentScreen === '_LikedPostsTab') {
+    if (this.props.currentScreen != '_LikedPostsTab' && nextProps.currentScreen === '_LikedPostsTab') {
       let currentTime = new Date();
       let lastUpdate = this.props.likedPosts.lastUpdated;
       let minsDiff = (currentTime - lastUpdate) / (1000 * 60);

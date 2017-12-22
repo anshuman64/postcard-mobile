@@ -11,17 +11,17 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 const DEFAULT_STATE = {
   allPosts: {
     data:         [],
-    lastUpdated:  Date(),
+    lastUpdated:  null,
     isEnd:        false,
   },
   authoredPosts: {
     data:         [],
-    lastUpdated:  Date(),
+    lastUpdated:  null,
     isEnd:        false,
   },
   likedPosts: {
     data:         [],
-    lastUpdated:  Date(),
+    lastUpdated:  null,
     isEnd:        false,
   },
   scrollToTop: false,
@@ -150,7 +150,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
     // Other Actions
     //--------------------------------------------------------------------//
-    
+
     case POST_ACTION_TYPES.STOP_SCROLL_TO_TOP:
       newState.scrollToTop = false;
 
