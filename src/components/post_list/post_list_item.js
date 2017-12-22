@@ -2,7 +2,7 @@
 import React                         from 'react';
 import RN                            from 'react-native';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
-import { createAnimatableComponent } from 'react-native-animatable';
+import * as Animatable               from 'react-native-animatable';
 import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 
@@ -17,7 +17,7 @@ import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 
 const IconFilled = createIconSetFromFontello(fontelloConfig);
-const AnimatedIconFilled = createAnimatableComponent(IconFilled);
+const AnimatedIconFilled = Animatable.createAnimatableComponent(IconFilled);
 
 class PostListItem extends React.PureComponent {
 
@@ -35,15 +35,25 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  _onPressDelete() {
+  _onPressDelete = () => {
     RN.Alert.alert(
       '',
       'Are you sure you want to delete this post?',
       [
         {text: 'Cancel', onPress: () => null, style: 'cancel'},
-        {text: 'Delete', onPress: () => this.props.deletePost(this.props.authToken, this.props.item.id)},
+        {text: 'Delete', onPress: this._onConfirmDelete},
       ],
     )
+  }
+
+  _onConfirmDelete = () => {
+    this.props.deletePost(this.props.authToken, this.props.item.id)
+      .then((deletedPost) => {
+        this.container.fadeOut(1000)
+          .then(() => {
+            this.props.removePost(deletedPost);
+          }, () => this.props.removePost(deletedPost))
+      }, (error) => defaultErrorAlert(error));
   }
 
   _renderLikesCount(count) {
@@ -69,7 +79,7 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
-          onPress={() => this._onPressDelete()}
+          onPress={this._onPressDelete}
           disabled={this.props.user.id != this.props.item.author_id}
           >
           <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}/>
@@ -114,13 +124,13 @@ class PostListItem extends React.PureComponent {
 
   render() {
     return(
-      <RN.View style={ styles.container }>
+      <Animatable.View ref={(ref) => this.container = ref} style={ styles.container }>
         <RN.View style={ styles.post }>
           {this._renderPostHeader()}
           {this._renderPostBody()}
           {this._renderPostFooter()}
         </RN.View>
-      </RN.View>
+      </Animatable.View>
     )
   }
 }
