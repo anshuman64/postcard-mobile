@@ -6,9 +6,9 @@ import { PhoneNumberUtil }  from 'google-libphonenumber';
 import Ionicon              from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }        from './confirm_code_screen_styles.js';
-import { COLORS }        from '../../utilities/style_utility.js';
-import * as ErrorUtility from '../../utilities/error_utility.js';
+import { styles }            from './confirm_code_screen_styles.js';
+import { COLORS }            from '../../utilities/style_utility.js';
+import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -108,7 +108,7 @@ class ConfirmCodeScreen extends React.PureComponent {
   // Callback function to resend confirmation code via SMS and restart timer
   _onResendSMSPress() {
     this.props.getConfirmationCode(this.props.phoneNumber)
-      .catch((error) => ErrorUtility.defaultErrorAlert(error));
+      .catch((error) => defaultErrorAlert(error));
 
     this._startTimer();
   }

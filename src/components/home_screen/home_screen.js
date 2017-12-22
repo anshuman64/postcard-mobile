@@ -4,10 +4,10 @@ import RN     from 'react-native';
 import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import PostListContainer        from '../post_list/post_list_container.js';
-import { POST_TYPES }           from '../../actions/post_actions.js';
-import { styles }               from './home_screen_styles.js';
-import { defaultErrorAlert } from '../../utilities/error_utility.js';
+import PostListContainer      from '../post_list/post_list_container.js';
+import { POST_TYPES }         from '../../actions/post_actions.js';
+import { styles }             from './home_screen_styles.js';
+import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
