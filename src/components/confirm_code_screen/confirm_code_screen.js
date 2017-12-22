@@ -5,9 +5,8 @@ import { PhoneNumberUtil, PhoneNumberFormat }  from 'google-libphonenumber';
 import Ionicon                                 from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import HeaderContainer          from '../header/header_container.js';
-import { styles }               from './confirm_code_screen_styles.js';
-import { COLORS }               from '../../utilities/style_utility.js';
+import { styles } from './confirm_code_screen_styles.js';
+import { COLORS } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -74,16 +73,6 @@ class ConfirmCodeScreen extends React.PureComponent {
   // Sends code to Firebase API as soon as user has inputted six digits
   // TODO: handle error callback if code is invalid
   _codeInputOnChangeText(value) {
-    // Debug test
-    // if (value.length === 6) {
-    //   if (value === this.props.confirmationCodeObj) {
-    //     this.setState({ isCodeIncorrect: false }, () => this.props.navigation.dispatch(toMainNavigator()));
-    //   } else {
-    //     this.setState({ isCodeIncorrect: true });
-    //   }
-    // }
-
-    // Real Firebase API
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
       this.props.verifyConfirmationCode(this.props.phoneNumber, this.props.confirmationCodeObj, value).then(() => {
@@ -100,11 +89,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   // Callback function to resend confirmation code via SMS and restart timer
   _onResendSMSPress() {
-    // Debug test
-    this.props.debugGetConfirmationCode(this.props.phoneNumber);
-
-    // Real Firebase API
-    // this.props.getConfirmationCode(this.props.phoneNumber);
+    this.props.getConfirmationCode(this.props.phoneNumber);
 
     this._startTimer();
   }
@@ -124,7 +109,7 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderSubtitle() {
     return (
       <RN.Text style={styles.subtitleText}>
-        Sent to +14083060059{/* this.props.phoneNumber this.phoneUtil.format(this.phoneUtil.parse(this.props.phoneNumber), PhoneNumberFormat.INTERNATIONAL) */}
+        Sent to {this.props.phoneNumber}
       </RN.Text>
     )
   }

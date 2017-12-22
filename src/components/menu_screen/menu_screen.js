@@ -5,13 +5,12 @@ import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import HeaderContainer from '../header/header_container.js';
 import { styles }      from './menu_screen_styles.js';
 
 //--------------------------------------------------------------------//
 
 class MenuScreen extends React.PureComponent {
-  
+
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
