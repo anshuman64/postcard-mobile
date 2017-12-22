@@ -11,7 +11,7 @@ import { COLORS }       from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 class NewPostScreen extends React.PureComponent {
-  
+
   constructor(props) {
     super(props);
 
@@ -33,25 +33,20 @@ class NewPostScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
 
-  _renderTextInput() {
-    return (
-      <RN.TextInput
-        style={[styles.textInput, this.state.postText.length > 85 && styles.smallBodyText]}
-        placeholderTextColor={COLORS.grey400}
-        placeholder={'What was your happiest moment?'}
-        onChangeText={(value) => this._onChangeText(value)}
-        autoFocus={true}
-        multiline={true}
-        returnKeyType={'done'}
-        underlineColorAndroid={'transparent'}
-        />
-    )
-  }
-
   render() {
     return (
       <RN.View style={ styles.container }>
-        {this._renderTextInput()}
+        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} />
+        <RN.TextInput
+          style={[styles.textInput, this.state.postText.length > 85 && styles.smallBodyText]}
+          placeholderTextColor={COLORS.grey400}
+          placeholder={'What was your happiest moment?'}
+          onChangeText={(value) => this._onChangeText(value)}
+          autoFocus={true}
+          multiline={true}
+          returnKeyType={'done'}
+          underlineColorAndroid={'transparent'}
+          />
       </RN.View>
     )
   }
