@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -14,115 +14,127 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: COLORS.grey50
+    backgroundColor: StyleUtility.COLORS.grey50
   },
-  topView: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
+  icon: {
+    width: 40,
+    position: 'absolute'
   },
   logo: {
-    width: scale(70),
+    fontFamily: 'SourceSansPro-Light',
+    fontSize: 40,
+    position: 'absolute',
+    transform: [{translateX: 25}],
+    color: '#333333'
   },
   countrySelectorView: {
     flexDirection: 'row',
-    width: scale(100),
-    height: scale(16),
-    borderBottomColor: COLORS.grey900,
-    borderBottomWidth: scale(0.3),
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 200,
+    height: 40,
+    borderBottomColor: StyleUtility.COLORS.grey900,
+    borderBottomWidth: 1,
+    marginTop: 75
   },
   borderHighlighted: {
-    borderBottomColor: COLORS.appleBlue,
-    borderBottomWidth: scale(0.6),
+    borderBottomColor: StyleUtility.COLORS.appleBlue,
+    borderBottomWidth: 1,
   },
   countrySelectorText: {
-    width: scale(100),
-    height: scale(16),
+    width: 150,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontWeight: '100',
+    fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
-    textAlignVertical: 'center',
-    color: COLORS.grey900,
+    color: StyleUtility.COLORS.grey900,
   },
   dropdownIcon: {
     position: 'absolute',
-    left: scale(90),
-    height: scale(16),
-    fontSize: scaleFont(8),
-    textAlignVertical: 'center',
-    color: COLORS.grey900
+    left: 180,
+    fontSize: 14,
+    color: StyleUtility.COLORS.grey900
+  },
+  textHighlighted: {
+    color: StyleUtility.COLORS.appleBlue
   },
   phoneNumberView: {
     flexDirection: 'row',
-    width: scale(100),
-    height: scale(16),
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 200,
+    height: 40,
+    marginTop: 5
+  },
+  countryCodeTextView: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: 50,
+    height: 40,
+    borderBottomColor: StyleUtility.COLORS.grey900,
+    borderBottomWidth: 1,
   },
   countryCodeText: {
-    width: '20%',
-    height: scale(16),
-    marginRight: '3%',
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontWeight: '100',
+    fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
-    textAlignVertical: 'center',
-    color: COLORS.grey900,
-    borderBottomColor: COLORS.grey900,
-    borderBottomWidth: scale(0.3),
+    color: StyleUtility.COLORS.grey900,
   },
   phoneNumberInput: {
-    width: '75%',
+    width: 140,
+    height: 40,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontWeight: '100',
+    fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
-    textAlignVertical: 'center',
-    color: COLORS.grey900,
-    borderBottomColor: COLORS.grey900,
-    borderBottomWidth: scale(0.3),
+    color: StyleUtility.COLORS.grey900,
+    borderBottomColor: StyleUtility.COLORS.grey900,
+    borderBottomWidth: 1,
   },
   borderRed: {
-    borderBottomColor: COLORS.appleRed,
-    borderBottomWidth: scale(0.6)
+    borderBottomColor: StyleUtility.COLORS.appleRed,
   },
   invalidNumberText: {
-    width: '75%',
-    height: scale(10),
-    fontSize: scaleFont(6),
+    alignSelf: 'flex-start',
+    position: 'absolute',
+    left: 150,
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
-    textAlignVertical: 'center',
-    color: COLORS.appleRed
+    color: StyleUtility.COLORS.appleRed,
+  },
+  invalidNumberTextTransparent: {
+    color: 'transparent'
   },
   nextButtonBackground: {
-    width: scale(100),
-    height: scale(16),
-    borderRadius: scale(5),
-    backgroundColor: COLORS.appleBlue
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: 200,
+    height: 34,
+    borderRadius: 4,
+    backgroundColor: StyleUtility.COLORS.appleBlue,
   },
   nextButtonBackgroundDisabled: {
-    borderRadius: scale(5),
-    backgroundColor: COLORS.appleBlue + '7f',
+    backgroundColor: StyleUtility.COLORS.appleBlue + '33',
   },
   nextButtonText: {
-    width: scale(100),
-    height: scale(16),
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontSize: StyleUtility.scaleFont(16),
+    fontWeight: '100',
     textAlign: 'center',
-    textAlignVertical: 'center',
     color: 'white',
   },
   nextButtonTextDisabled: {
-    color: '#ffffff7f',
+    color: '#ffffffb3',
   },
   smsNoticeText: {
-    width: scale(100),
-    height: scale(16),
+    width: 200,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: scaleFont(7.4),
+    fontSize: StyleUtility.scaleFont(12),
+    fontWeight: '100',
     textAlign: 'center',
-    textAlignVertical: 'center',
-    color: COLORS.grey600,
+    color: StyleUtility.COLORS.grey600,
     textAlign: 'left',
-    marginTop: '3%',
+    marginTop: 10,
   },
 });

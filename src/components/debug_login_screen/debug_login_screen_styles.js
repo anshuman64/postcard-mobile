@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -23,7 +23,7 @@ export const styles = RN.StyleSheet.create({
     height: '20%',
   },
   logo: {
-    width: scale(70),
+    width: scaleImage(70),
   },
   bottomView: {
     flexDirection: 'column',
@@ -33,24 +33,24 @@ export const styles = RN.StyleSheet.create({
     height: '80%'
   },
   textInput: {
-    width: scale(100),
+    width: scaleImage(100),
     fontSize: scaleFont(18),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: COLORS.grey900,
     borderBottomColor: COLORS.grey900,
-    borderBottomWidth: scale(0.3),
+    borderBottomWidth: scaleImage(0.3),
   },
   nextButtonBackground: {
-    width: scale(100),
-    height: scale(16),
-    borderRadius: scale(5),
+    width: scaleImage(100),
+    height: scaleImage(16),
+    borderRadius: scaleImage(5),
     backgroundColor: COLORS.appleBlue,
     marginTop: '5%'
   },
   nextButtonText: {
-    width: scale(100),
-    height: scale(16),
+    width: scaleImage(100),
+    height: scaleImage(16),
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: scaleFont(14),
     textAlign: 'center',
