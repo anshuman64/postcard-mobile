@@ -38,17 +38,15 @@ class LoadingScreen extends React.PureComponent {
     this.unsubscribe = this.props.attemptToLoginUser(successCallback, errorCallback);
   }
 
-  componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
-
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
   _onAnimationEnd = () => {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+
     if (this.state.isLoginSuccessful) {
       return this.props.navigateTo('HomeScreen');
     } else {

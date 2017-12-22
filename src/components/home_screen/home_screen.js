@@ -22,6 +22,18 @@ class HomeScreen extends React.PureComponent {
     this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL)
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.currentScreen === '_HomeScreen') {
+      let currentTime = new Date();
+      let lastUpdate = this.props.allPosts.lastUpdated;
+      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+
+      if (minsDiff > 0.1) {
+        this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL)
+      }
+    }
+  }
+
 
   //--------------------------------------------------------------------//
   // Render Methods
