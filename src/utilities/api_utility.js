@@ -1,4 +1,5 @@
-import * as _ from 'lodash';
+import { Alert } from 'react-native';
+import * as _    from 'lodash';
 
 //--------------------------------------------------------------------//
 
@@ -7,7 +8,7 @@ import * as _ from 'lodash';
 //--------------------------------------------------------------------//
 
 
-const BASE_URL         = 'http://192.168.2.27:3000/api';
+const BASE_URL         = 'http://192.168.2.36:3000/api';
 const DEFAULT_HEADERS  = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
@@ -49,6 +50,9 @@ let callApi = (url, requestConfig) => {
   return fetch(url, requestConfig)
     .then((response) => {
       return checkStatus(response);
+    })
+    .catch((error) => {
+      throw error;
     });
 };
 
