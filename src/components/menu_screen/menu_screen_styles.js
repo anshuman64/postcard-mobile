@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scale, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -16,37 +16,35 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: COLORS.grey50,
-    paddingLeft: '8%',
-    paddingTop: '1%'
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '10%',
-    width: '100%'
+    backgroundColor: StyleUtility.COLORS.grey50,
   },
   menuItemView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    width: '100%',
-    height: scale(20),
+    alignItems: 'center',
+    height: 50,
+    width: '95%',
+    marginTop: 15,
+    paddingLeft: 15,
+    backgroundColor: 'white',
+    elevation: 2,
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    shadowOffset: {
+      x: 0,
+      y: 0
+    }
   },
   menuItemIcon: {
-    height: scale(20),
-    fontSize: scaleFont(10),
-    textAlignVertical: 'center',
-    marginRight: '7%',
-    color: COLORS.grey900
+    fontSize: StyleUtility.scaleFont(20),
+    marginRight: 15,
+    color: StyleUtility.COLORS.grey900
   },
   menuItemText: {
-    height: scale(20),
-    fontSize: scaleFont(6.5),
-    textAlignVertical: 'center',
-    color: COLORS.grey900
+    fontSize: StyleUtility.scaleFont(16),
+    color: StyleUtility.COLORS.grey900
   },
-  highlight: {
-    color: COLORS.appleBlue
+  textHighlighted: {
+    color: StyleUtility.COLORS.appleBlue
   },
 });

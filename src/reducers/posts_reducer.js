@@ -1,5 +1,5 @@
 // Library Imports
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 // Local Imports
 import { POST_ACTION_TYPES, POST_TYPES } from '../actions/post_actions.js';
@@ -10,9 +10,9 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 
 
 const DEFAULT_STATE = {
-  allPosts:      { data: [], lastUpdated: Date(), isEnd: false },
-  authoredPosts: { data: [], lastUpdated: Date(), isEnd: false },
-  likedPosts:    { data: [], lastUpdated: Date(), isEnd: false },
+  allPosts:      { data: [], lastUpdated: null, isEnd: false },
+  authoredPosts: { data: [], lastUpdated: null, isEnd: false },
+  likedPosts:    { data: [], lastUpdated: null, isEnd: false },
   scrollToTop:   false
 };
 

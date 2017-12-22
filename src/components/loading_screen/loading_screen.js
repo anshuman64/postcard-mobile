@@ -1,17 +1,25 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React           from 'react';
+import RN              from 'react-native';
+import Firebase        from 'react-native-firebase';
+import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import { COLORS }                          from '../../utilities/style_utility.js';
-import { toHomeScreen, toLoginScreen }     from '../../actions/navigation_actions.js';
+import { styles }       from './loading_screen_styles.js';
+import * as Animations  from './loading_screen_animations.js';
 
 //--------------------------------------------------------------------//
 
 
 class LoadingScreen extends React.PureComponent {
-  static navigationOptions = {
-    header: null,
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoginSuccessful: false,
+      iterationCount:    'infinite'
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -20,19 +28,42 @@ class LoadingScreen extends React.PureComponent {
 
   componentDidMount() {
     let successCallback = () => {
-      this.props.navigation.dispatch(toHomeScreen());
+      this.setState({ iterationCount: 2, isLoginSuccessful: true });
     };
 
     let errorCallback = () => {
-      this.props.navigation.dispatch(toLoginScreen());
+      this.setState({ iterationCount: 2, isLoginSuccessful: false });
     };
 
-    this.unsubscribe = this.props.attemptToLoginUser(successCallback, errorCallback);
+    this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
+      if (firebaseUserObj) {
+        this.props.loginUser(firebaseUserObj)
+          .then(() => {
+            successCallback();
+          })
+          .catch((error) => {
+            console.log(error);
+            errorCallback();
+          })
+      } else {
+        errorCallback();
+      }
+    });
   }
 
-  componentWillUnmount() {
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _onAnimationEnd = () => {
     if (this.unsubscribe) {
       this.unsubscribe();
+    }
+
+    if (this.state.isLoginSuccessful) {
+      return this.props.navigateTo('HomeScreen');
+    } else {
+      return this.props.navigateTo('LoginScreen');
     }
   }
 
@@ -40,10 +71,27 @@ class LoadingScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _renderLoadingIcon() {
+    return (
+      <Animatable.Image
+        ref={'loadingIcon'}
+        style={styles.icon}
+        source={require('../../assets/images/icon/icon.png')}
+        resizeMode={'contain'}
+        animation={Animations.pulseIcon}
+        direction={'alternate'}
+        easing={'ease-in'}
+        duration={20}
+        iterationCount={this.state.iterationCount}
+        onAnimationEnd={this._onAnimationEnd}
+        />
+    )
+  }
+
   render() {
     return (
-      <RN.View>
-        <RN.ActivityIndicator size='large' color={COLORS.grey400} />
+      <RN.View style={styles.container}>
+        {this._renderLoadingIcon()}
       </RN.View>
     )
   }

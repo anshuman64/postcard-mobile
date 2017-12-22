@@ -1,4 +1,5 @@
-import * as _ from 'lodash';
+import { Alert } from 'react-native';
+import _    from 'lodash';
 
 //--------------------------------------------------------------------//
 
@@ -49,6 +50,13 @@ let callApi = (url, requestConfig) => {
   return fetch(url, requestConfig)
     .then((response) => {
       return checkStatus(response);
+    })
+    .catch((error) => {
+      if (!error.response) {
+        error.description = 'No internet connection'
+      }
+
+      throw error;
     });
 };
 

@@ -74,14 +74,28 @@ export const stopScrollToTop = (data) => {
 export const getPosts = (authToken, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
-      dispatch(receivePosts({ posts: posts, postType: postType }));
+      dispatch(receivePosts({posts: posts, postType: postType}));
+    })
+    .catch((error) => {
+      if (!error.description) {
+        error.description = 'GET posts failed'
+      }
+
+      throw error;
     });
 };
 
 export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
-      dispatch(refreshAndReceivePosts({ posts: posts, postType: postType }));
+      dispatch(refreshAndReceivePosts({posts: posts, postType: postType}));
+    })
+    .catch((error) => {
+      if (!error.description) {
+        error.description = 'GET posts failed'
+      }
+
+      throw error;
     });
 };
 
@@ -89,12 +103,23 @@ export const createPost = (authToken, postObj) => (dispatch) => {
   return APIUtility.post(authToken, '/posts', postObj)
     .then((newPost) => {
       dispatch(receivePost(newPost));
+    })
+    .catch((error) => {
+      if (!error.description) {
+        error.description = 'POST post failed'
+      }
+
+      throw error;
     });
 };
 
 export const deletePost = (authToken, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
-    .then((deletedPost) => {
-      dispatch(removePost(deletedPost));
+    .catch((error) => {
+      if (!error.description) {
+        error.description = 'DEL post failed'
+      }
+
+      throw error;
     });
 };
