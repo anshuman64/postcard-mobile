@@ -21,6 +21,18 @@ class LikedPostsTab extends React.PureComponent {
     this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED)
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.currentScreen === '_LikedPostsTab') {
+      let currentTime = new Date();
+      let lastUpdate = this.props.likedPosts.lastUpdated;
+      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+
+      if (minsDiff > 1) {
+        this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED)
+      }
+    }
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
