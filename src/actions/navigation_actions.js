@@ -4,9 +4,11 @@ import { Actions } from 'react-native-router-flux';
 // Constants
 //--------------------------------------------------------------------//
 
+
 export const NAVIGATION_ACTION_TYPES = {
   RECEIVE_SCREEN: 'RECEIVE_SCREEN'
 };
+
 
 //--------------------------------------------------------------------//
 // Action Creators

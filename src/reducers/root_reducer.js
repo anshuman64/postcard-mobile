@@ -7,7 +7,6 @@ import PostsReducer      from './posts_reducer.js';
 import PostsCacheReducer from './posts_cache_reducer.js';
 import NavigationReducer from './navigation_reducer.js';
 
-
 //--------------------------------------------------------------------//
 
 
