@@ -1,13 +1,13 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import Firebase        from 'react-native-firebase';
+import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import { styles }                          from './loading_screen_styles.js';
-import * as Animations                     from './loading_screen_animations.js';
-import { toHomeScreen, toLoginScreen }     from '../../actions/navigation_actions.js';
+import { styles }       from './loading_screen_styles.js';
+import * as Animations  from './loading_screen_animations.js';
+import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -29,12 +29,10 @@ class LoadingScreen extends React.PureComponent {
 
   componentDidMount() {
     let successCallback = () => {
-      console.log('successCallback')
       this.setState({ iterationCount: 2, isLoginSuccessful: true });
     };
 
     let errorCallback = () => {
-      console.log('errorCallback')
       this.setState({ iterationCount: 2, isLoginSuccessful: false });
     };
 
@@ -50,7 +48,7 @@ class LoadingScreen extends React.PureComponent {
       } else {
         errorCallback();
       }
-    })
+    });
   }
 
   //--------------------------------------------------------------------//
@@ -93,6 +91,7 @@ class LoadingScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container}>
+        {this._renderLoadingIcon()}
       </RN.View>
     )
   }

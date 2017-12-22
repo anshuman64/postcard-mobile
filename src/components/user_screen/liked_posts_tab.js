@@ -18,6 +18,7 @@ class LikedPostsTab extends React.PureComponent {
 
   componentDidMount() {
     this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED)
+      .catch((error) => defaultErrorAlert(error))
   }
 
   componentWillReceiveProps (nextProps) {
@@ -28,6 +29,7 @@ class LikedPostsTab extends React.PureComponent {
 
       if (minsDiff > 1) {
         this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED)
+          .catch((error) => defaultErrorAlert(error))
       }
     }
   }
