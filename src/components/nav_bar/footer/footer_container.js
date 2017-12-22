@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 
 // Local Imports
 import Footer                  from './footer.js';
-import { navigateTo, goBack }  from '../../actions/navigation_actions.js';
+import { navigateTo, goBack }  from '../../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
