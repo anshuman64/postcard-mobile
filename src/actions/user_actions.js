@@ -2,6 +2,7 @@
 import Firebase from 'react-native-firebase';
 
 // Local Imports
+import { amplitude }   from '../utilities/analytics_utility.js';
 import * as APIUtility from '../utilities/api_utility.js';
 
 //--------------------------------------------------------------------//
@@ -74,6 +75,9 @@ export const debugSignIn = (email, password) => (dispatch) => {
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {
   return Firebase.auth().signInWithPhoneNumber(phoneNumber)
     .then((confirmationCodeObj) => {
+      amplitude.logEvent('Onboarding - Sign In With Phone Number', { is_successful: true });
+      amplitude.setUserProperties({ phoneNumber: phoneNumber });
+
       dispatch(receivePhoneNumber(phoneNumber));
       dispatch(receiveConfirmationCodeObj(confirmationCodeObj));
     })
@@ -82,6 +86,7 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
         error.description = 'Firebase phone sign-in failed'
       }
 
+      amplitude.logEvent('Onboarding - Sign In With Phone Number', { is_successful: false, error: error.description });
       throw error;
     });
 };
@@ -89,6 +94,7 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
 export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (dispatch) => {
   return confirmationCodeObj.confirm(inputtedCode)
     .then((firebaseUserObj) => {
+      amplitude.logEvent('Onboarding - Verify Confirmation Code', { is_successful: true });
       return dispatch(loginUser(firebaseUserObj));
     })
     .catch((error) => {
@@ -96,6 +102,7 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
         error.description = 'Firebase code verification failed'
       }
 
+      amplitude.logEvent('Onboarding - Verify Confirmation Code', { is_successful: false, error: error.description });
       throw error;
     });
 };
@@ -104,6 +111,10 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
   let handleExistingUser = (authToken) => {
     return APIUtility.get(authToken, '/users')
       .then((user) => {
+        amplitude.setUserId(user.id);
+        amplitude.setUserProperties({ database_id: user.id, phone_number: user.phone_number, firebase_uid: user.firebase_uid, created_at: user.created_at });
+        amplitude.logEvent('Onboarding - Log In', { is_successful: true, isNewUser: false });
+
         dispatch(receiveUser(user));
       }, (error) => {
         return handleNewUser(authToken);
@@ -113,6 +124,10 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
   let handleNewUser = (authToken) => {
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
       .then((newUser) => {
+        amplitude.setUserId(newUser.id);
+        amplitude.setUserProperties({ database_id: newUser.id, phone_number: newUser.phone_number, firebase_uid: newUser.firebase_uid, created_at: newUser.created_at });
+        amplitude.logEvent('Onboarding - Log In', { is_successful: true, isNewUser: true });
+
         dispatch(receiveUser(newUser));
       })
       .catch((error) => {
@@ -120,6 +135,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
           error.description = 'POST or GET user failed'
         }
 
+        amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error: error.description });
         throw error;
       })
   };
@@ -138,6 +154,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         error.description = 'Firebase getIdToken failed'
       }
 
+      amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error: error.description });
       throw error;
     });
 }
