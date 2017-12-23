@@ -30,7 +30,7 @@ class LoginScreen extends React.PureComponent {
       countryIndex:             220, // hard-coded to United States
       formattedPhoneNumber:     '',
       isModalVisible:           false,
-      isNextButtonDisabled:     true,
+      isNextButtonDisabled:     false, // Debug Test
       isLoading:                false,
       isPhoneNumberInvalid:     false,
     };
@@ -112,27 +112,32 @@ class LoginScreen extends React.PureComponent {
   }
 
   // Callback function that extracts raw numbers from phone number, adds country code, and sends to Firebase API
-  _onNextButtonPress() {
-    let number = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
-    if (number[0] != '+') {
-      number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
-    }
+  // _onNextButtonPress() {
+  //   let number = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+  //   if (number[0] != '+') {
+  //     number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
+  //   }
+  //
+  //   this.setState({isLoading: true}, () => {
+  //     this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
+  //      .then(() => {
+  //        this.props.navigateTo('ConfirmCodeScreen');
+  //        this.setState({ isLoading: false, isPhoneNumberInvalid: false });
+  //      })
+  //      .catch((error) => {
+  //        this.setState({ isLoading: false});
+  //        if (error.description === 'Firebase phone sign-in failed') {
+  //          this.setState({ isPhoneNumberInvalid: true });
+  //        } else {
+  //          defaultErrorAlert(error);
+  //        }
+  //      });
+  //   });
+  // }
 
-    this.setState({isLoading: true}, () => {
-      this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
-       .then(() => {
-         this.props.navigateTo('ConfirmCodeScreen');
-         this.setState({ isLoading: false, isPhoneNumberInvalid: false });
-       })
-       .catch((error) => {
-         this.setState({ isLoading: false});
-         if (error.description === 'Firebase phone sign-in failed') {
-           this.setState({ isPhoneNumberInvalid: true });
-         } else {
-           defaultErrorAlert(error);
-         }
-       });
-    });
+  // Debug Test
+  _onNextButtonPress() {
+    this.props.navigateTo('HomeScreen');
   }
 
   //--------------------------------------------------------------------//
@@ -147,8 +152,8 @@ class LoginScreen extends React.PureComponent {
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='cover'
           animation={Animations.fadeInIcon}
-          duration={20}
-          delay={10}
+          duration={2000}
+          delay={1000}
           />
       )
     } else {
@@ -158,7 +163,7 @@ class LoginScreen extends React.PureComponent {
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='cover'
           animation={Animations.translateIcon}
-          duration={20}
+          duration={2000}
           />
       )
     }
@@ -170,8 +175,8 @@ class LoginScreen extends React.PureComponent {
         <Animatable.Text
           style={styles.logo}
           animation={'fadeIn'}
-          duration={18}
-          delay={30}
+          duration={1800}
+          delay={3000}
           onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
           >
           Insiya
@@ -182,7 +187,7 @@ class LoginScreen extends React.PureComponent {
         <Animatable.Text
           style={styles.logo}
           animation={Animations.translateLogo}
-          duration={20}
+          duration={2000}
           >
           Insiya
         </Animatable.Text>
@@ -301,15 +306,15 @@ class LoginScreen extends React.PureComponent {
       return (
         <Animatable.View
           animation={'fadeIn'}
-          duration={20}
-          delay={6}
+          duration={2000}
+          delay={600}
           >
-          {this._renderCountrySelector()}
+          {/*this._renderCountrySelector()} // Debug Test
           {this._renderPhoneNumberInput()}
-          {this._renderInvalidNumberText()}
+          {this._renderInvalidNumberText()*/}
           {this._renderNextButton()}
-          {this._renderSMSNoticeText()}
-          {this._renderModal()}
+          {/*this._renderSMSNoticeText()}
+          {this._renderModal()*/}
         </Animatable.View>
       )
     }

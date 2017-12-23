@@ -22,17 +22,18 @@ class LikedPostsTab extends React.PureComponent {
       .catch((error) => defaultErrorAlert(error))
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.currentScreen != '_LikedPostsTab' && nextProps.currentScreen === '_LikedPostsTab') {
-      let currentTime = new Date();
-      let lastUpdate = this.props.likedPosts.lastUpdated;
-      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
-
-      if (minsDiff > 1) {
-        this.postList.getWrappedInstance()._onRefresh();
-      }
-    }
-  }
+  // Debug Test
+  // componentWillReceiveProps (nextProps) {
+  //   if (this.props.currentScreen != '_LikedPostsTab' && nextProps.currentScreen === '_LikedPostsTab') {
+  //     let currentTime = new Date();
+  //     let lastUpdate = this.props.likedPosts.lastUpdated;
+  //     let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+  //
+  //     if (minsDiff > 1) {
+  //       this.postList.getWrappedInstance()._onRefresh();
+  //     }
+  //   }
+  // }
 
   //--------------------------------------------------------------------//
   // Render Methods

@@ -23,17 +23,18 @@ class AuthoredPostsTab extends React.PureComponent {
   }
 
   //TODO: prevent refreshPosts from being called twice
-  componentWillReceiveProps (nextProps) {
-    if (this.props.currentScreen != '_AuthoredPostsTab' && nextProps.currentScreen === '_AuthoredPostsTab') {
-      let currentTime = new Date();
-      let lastUpdate = this.props.authoredPosts.lastUpdated;
-      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
-
-      if (minsDiff > 1) {
-        this.postList.getWrappedInstance()._onRefresh();
-      }
-    }
-  }
+  // Debug Test
+  // componentWillReceiveProps (nextProps) {
+  //   if (this.props.currentScreen != '_AuthoredPostsTab' && nextProps.currentScreen === '_AuthoredPostsTab') {
+  //     let currentTime = new Date();
+  //     let lastUpdate = this.props.authoredPosts.lastUpdated;
+  //     let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+  //
+  //     if (minsDiff > 1) {
+  //       this.postList.getWrappedInstance()._onRefresh();
+  //     }
+  //   }
+  // }
 
   //--------------------------------------------------------------------//
   // Render Methods

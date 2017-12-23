@@ -23,17 +23,18 @@ class HomeScreen extends React.PureComponent {
       .catch((error) => defaultErrorAlert(error))
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.currentScreen != '_HomeScreen' && nextProps.currentScreen === '_HomeScreen') {
-      let currentTime = new Date();
-      let lastUpdate = this.props.allPosts.lastUpdated;
-      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
-
-      if (minsDiff > 1) {
-        this.postList.getWrappedInstance()._onRefresh();
-      }
-    }
-  }
+  // Debug Test
+  // componentWillReceiveProps (nextProps) {
+  //   if (this.props.currentScreen != '_HomeScreen' && nextProps.currentScreen === '_HomeScreen') {
+  //     let currentTime = new Date();
+  //     let lastUpdate = this.props.allPosts.lastUpdated;
+  //     let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+  //
+  //     if (minsDiff > 1) {
+  //       this.postList.getWrappedInstance()._onRefresh();
+  //     }
+  //   }
+  // }
 
 
   //--------------------------------------------------------------------//
