@@ -14,7 +14,7 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: StyleUtility.COLORS.grey45
+    backgroundColor: StyleUtility.COLORS.grey50
   },
   icon: {
     width: 45,
