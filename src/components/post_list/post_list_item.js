@@ -52,7 +52,8 @@ class PostListItem extends React.PureComponent {
         this.container.fadeOut(1000)
           .then(() => {
             this.props.removePost(deletedPost);
-          }, () => this.props.removePost(deletedPost))
+          })
+          .catch(() => this.props.removePost(deletedPost));
       }, (error) => defaultErrorAlert(error));
   }
 

@@ -120,6 +120,8 @@ export const deletePost = (authToken, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {
       amplitude.logEvent('Engagement - Delete Post', { is_successful: true, body: delPost.body });
+
+      return new Promise.resolve(delPost);
     })
     .catch((error) => {
       if (!error.description) {
