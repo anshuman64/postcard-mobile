@@ -51,7 +51,7 @@ class App extends React.Component {
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true}/>} initial={true} />
             <Tabs tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
-              <Tabs tabBarPosition={'top'} tabBarComponent={TabBarContainer}>
+              <Tabs tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={true}>
                 <Scene key='AuthoredPostsTab' component={AuthoredPostsTabContainer} initial={true} hideNavBar={true}  />
                 <Scene key='LikedPostsTab' component={LikedPostsTabContainer} hideNavBar={true}  />
               </Tabs>
