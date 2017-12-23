@@ -2,10 +2,10 @@
 import React            from 'react';
 import { Provider }     from 'react-redux';
 import { Scene, Tabs }  from 'react-native-router-flux';
-import RNAmplitute      from 'react-native-amplitude-analytics';
 
 
 // Local Imports
+import { amplitude }              from './utilities/analytics_utility.js';
 import configureStore             from './store';
 import RouterContainer            from './router/router_container.js';
 
@@ -34,10 +34,8 @@ class App extends React.Component {
 
   constructor() {
     super();
-     const amplitude = new RNAmplitute('fa9aded0e5b7590482fffff78b2bd85c');
 
-     // log an event with data
-     amplitude.logEvent('InitializeApp');
+    amplitude.logEvent('General - Initialize App');
   }
 
   render() {
@@ -48,10 +46,10 @@ class App extends React.Component {
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true}  />
             <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true} initial={true} />
             <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true} />
-            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true}/>}  />
-            <Tabs tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
-              <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  /> 
-              <Tabs tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={true}>
+            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true}/>} />
+            <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
+              <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
+              <Tabs key='UserScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={true}>
                 <Scene key='AuthoredPostsTab' component={AuthoredPostsTabContainer} initial={true} hideNavBar={true}  />
                 <Scene key='LikedPostsTab' component={LikedPostsTabContainer} hideNavBar={true}  />
               </Tabs>

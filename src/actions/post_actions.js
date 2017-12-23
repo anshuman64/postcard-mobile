@@ -1,4 +1,5 @@
 // Local Imports
+import { amplitude }   from '../utilities/analytics_utility.js';
 import * as APIUtility from '../utilities/api_utility.js';
 
 //--------------------------------------------------------------------//
@@ -102,6 +103,7 @@ export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => 
 export const createPost = (authToken, postObj) => (dispatch) => {
   return APIUtility.post(authToken, '/posts', postObj)
     .then((newPost) => {
+      amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postObj.body });
       dispatch(receivePost(newPost));
     })
     .catch((error) => {
@@ -109,17 +111,24 @@ export const createPost = (authToken, postObj) => (dispatch) => {
         error.description = 'POST post failed'
       }
 
+      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postObj.body, error: error.description });
       throw error;
     });
 };
 
 export const deletePost = (authToken, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
+    .then((delPost) => {
+      amplitude.logEvent('Engagement - Delete Post', { is_successful: true, body: delPost.body });
+
+      return new Promise.resolve(delPost);
+    })
     .catch((error) => {
       if (!error.description) {
         error.description = 'DEL post failed'
       }
 
+      amplitude.logEvent('Engagement - Delete Post', { is_successful: false, error: error.description });
       throw error;
     });
 };

@@ -33,7 +33,7 @@ export const styles = RN.StyleSheet.create({
   settingsIcon: {
     fontSize: StyleUtility.scaleFont(21),
     textAlign: 'center',
-    color: StyleUtility.COLORS.grey900
+    color: StyleUtility.COLORS.grey700
   },
   logo: {
     height: 30,

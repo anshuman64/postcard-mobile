@@ -30,7 +30,7 @@ class DebugLoginScreen extends React.PureComponent {
         this.props.navigateTo('HomeScreen');
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error.description);
       });
   }
 
