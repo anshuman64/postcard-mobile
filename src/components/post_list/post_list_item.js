@@ -49,7 +49,7 @@ class PostListItem extends React.PureComponent {
   _onConfirmDelete = () => {
     this.props.deletePost(this.props.authToken, this.props.item.id)
       .then((deletedPost) => {
-        this.container.fadeOut(1000)
+        this.container.fadeOut(300)
           .then(() => {
             this.props.removePost(deletedPost);
           }, () => this.props.removePost(deletedPost))
