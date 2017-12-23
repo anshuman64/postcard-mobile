@@ -119,7 +119,7 @@ export const styles = RN.StyleSheet.create({
     height: 36,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue,
-    marginTop: 75
+    marginTop: 150 // Debug Test
   },
   nextButtonBackgroundDisabled: {
     backgroundColor: StyleUtility.COLORS.appleBlue + '33',
