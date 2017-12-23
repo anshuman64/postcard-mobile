@@ -65,7 +65,7 @@ class App extends React.Component {
   }
 }
 
-
+// TODO: make swipe animation less laggy
 
 
 //--------------------------------------------------------------------//
