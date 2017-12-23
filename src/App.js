@@ -5,7 +5,7 @@ import { Scene, Tabs }  from 'react-native-router-flux';
 
 
 // Local Imports
-import amplitude                  from './utilities/analytics_utility.js';
+import { amplitude }              from './utilities/analytics_utility.js';
 import configureStore             from './store';
 import RouterContainer            from './router/router_container.js';
 
