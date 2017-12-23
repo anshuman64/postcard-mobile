@@ -21,9 +21,9 @@ export const styles = RN.StyleSheet.create({
   },
   post: {
     width: '100%',
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingBottom: 15,
+    paddingLeft: 17,
+    paddingRight: 17,
+    paddingBottom: 17,
     paddingTop: 10,
     marginBottom: 5,
     backgroundColor: 'white',
@@ -40,10 +40,14 @@ export const styles = RN.StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: '100%',
+    height: 25
+  },
+  headerViewSmall: {
+    height: 10
   },
   closeIcon: {
     fontSize: 20,
-    color: StyleUtility.COLORS.grey900
+    color: StyleUtility.COLORS.grey900,
   },
   transparent: {
     color: 'transparent'
@@ -79,7 +83,7 @@ export const styles = RN.StyleSheet.create({
     height: 20,
     fontSize: 20,
     textAlign: 'center',
-    marginRight: 10,
+    marginRight: 8,
     color: StyleUtility.COLORS.appleBlue
   },
   filledHeartIcon: {
@@ -87,12 +91,13 @@ export const styles = RN.StyleSheet.create({
     height: 20,
     fontSize: 20,
     textAlign: 'center',
-    marginRight: 10,
+    marginRight: 8,
     color: StyleUtility.COLORS.appleRed
   },
   likeCountText: {
     fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
+    color: StyleUtility.COLORS.grey900
   },
   dateText: {
     textAlign: 'right',
