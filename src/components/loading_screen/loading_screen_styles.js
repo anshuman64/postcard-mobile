@@ -18,5 +18,6 @@ export const styles = RN.StyleSheet.create({
   },
   icon: {
     width: 45,
+    height: 45
   },
 });

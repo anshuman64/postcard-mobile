@@ -14,45 +14,46 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: StyleUtility.COLORS.grey50
+    backgroundColor: StyleUtility.COLORS.grey45
   },
   icon: {
-    width: 40,
+    width: 45,
+    height: 45,
     position: 'absolute'
   },
   logo: {
     fontFamily: 'SourceSansPro-Light',
-    fontSize: 40,
+    fontSize: 45,
     position: 'absolute',
-    transform: [{translateX: 25}],
+    transform: [{translateX: 28}],
     color: '#333333'
   },
   countrySelectorView: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 200,
-    height: 40,
+    width: 240,
+    height: 45,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
-    marginTop: 75
+    marginTop: 150
   },
   borderHighlighted: {
     borderBottomColor: StyleUtility.COLORS.appleBlue,
     borderBottomWidth: 1,
   },
   countrySelectorText: {
-    width: 150,
+    width: 180,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
   dropdownIcon: {
     position: 'absolute',
-    left: 180,
-    fontSize: 14,
+    left: 210,
+    fontSize: 16,
     color: StyleUtility.COLORS.grey900
   },
   textHighlighted: {
@@ -62,31 +63,31 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: 200,
-    height: 40,
-    marginTop: 5
+    width: 240,
+    height: 45,
+    marginTop: 10
   },
   countryCodeTextView: {
     flexDirection: 'column',
     justifyContent: 'center',
-    width: 50,
-    height: 40,
+    width: 60,
+    height: 45,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
   },
   countryCodeText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
   phoneNumberInput: {
-    width: 140,
-    height: 40,
+    width: 165,
+    height: 45,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
@@ -95,11 +96,16 @@ export const styles = RN.StyleSheet.create({
   borderRed: {
     borderBottomColor: StyleUtility.COLORS.appleRed,
   },
+  invalidNumberTextView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: 30,
+    width: 240,
+  },
   invalidNumberText: {
-    alignSelf: 'flex-start',
-    position: 'absolute',
-    left: 150,
-    fontSize: StyleUtility.scaleFont(14),
+    width: 165,
+    fontSize: StyleUtility.scaleFont(15),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },
@@ -109,17 +115,18 @@ export const styles = RN.StyleSheet.create({
   nextButtonBackground: {
     flexDirection: 'column',
     justifyContent: 'center',
-    width: 200,
-    height: 34,
+    width: 240,
+    height: 36,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue,
+    marginTop: 75
   },
   nextButtonBackgroundDisabled: {
     backgroundColor: StyleUtility.COLORS.appleBlue + '33',
   },
   nextButtonText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: StyleUtility.scaleFont(18),
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',
@@ -128,13 +135,13 @@ export const styles = RN.StyleSheet.create({
     color: '#ffffffb3',
   },
   smsNoticeText: {
-    width: 200,
+    width: 240,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-    fontSize: StyleUtility.scaleFont(12),
+    fontSize: StyleUtility.scaleFont(14),
     fontWeight: '100',
     textAlign: 'center',
     color: StyleUtility.COLORS.grey600,
     textAlign: 'left',
-    marginTop: 10,
+    marginTop: 15,
   },
 });
