@@ -61,7 +61,8 @@ class LoadingScreen extends React.PureComponent {
     }
 
     if (this.state.isLoginSuccessful) {
-      return this.props.navigateTo('HomeScreen');
+      // return this.props.navigateTo('HomeScreen');
+      return this.props.navigateTo('LoginScreen'); //Debug Test
     } else {
       return this.props.navigateTo('LoginScreen');
     }
@@ -77,11 +78,11 @@ class LoadingScreen extends React.PureComponent {
         ref={'loadingIcon'}
         style={styles.icon}
         source={require('../../assets/images/icon/icon.png')}
-        resizeMode={'contain'}
+        resizeMode={'cover'}
         animation={Animations.pulseIcon}
         direction={'alternate'}
         easing={'ease-in'}
-        duration={20}
+        duration={1500}
         iterationCount={this.state.iterationCount}
         onAnimationEnd={this._onAnimationEnd}
         />

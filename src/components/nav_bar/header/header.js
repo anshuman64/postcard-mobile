@@ -68,7 +68,7 @@ class Header extends React.PureComponent {
         <RN.Image
           style={styles.logo}
           source={require('../../../assets/images/icon/icon.png')}
-          resizeMode='contain'
+          resizeMode='cover'
           />
       )
     }

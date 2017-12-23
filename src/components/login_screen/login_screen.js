@@ -145,7 +145,7 @@ class LoginScreen extends React.PureComponent {
         <Animatable.Image
           style={styles.icon}
           source={require('../../assets/images/icon/icon.png')}
-          resizeMode='contain'
+          resizeMode='cover'
           animation={Animations.fadeInIcon}
           duration={20}
           delay={10}
@@ -156,7 +156,7 @@ class LoginScreen extends React.PureComponent {
         <Animatable.Image
           style={styles.icon}
           source={require('../../assets/images/icon/icon.png')}
-          resizeMode='contain'
+          resizeMode='cover'
           animation={Animations.translateIcon}
           duration={20}
           />
@@ -169,8 +169,6 @@ class LoginScreen extends React.PureComponent {
       return (
         <Animatable.Text
           style={styles.logo}
-          source={require('../../assets/images/logo/logo.png')}
-          resizeMode='contain'
           animation={'fadeIn'}
           duration={18}
           delay={30}
@@ -183,8 +181,6 @@ class LoginScreen extends React.PureComponent {
       return (
         <Animatable.Text
           style={styles.logo}
-          source={require('../../assets/images/logo/logo.png')}
-          resizeMode='contain'
           animation={Animations.translateLogo}
           duration={20}
           >
@@ -241,7 +237,7 @@ class LoginScreen extends React.PureComponent {
             onChangeText={(value) => this._onPhoneInputChangeText(value)}
             value={this.state.formattedPhoneNumber}
             placeholder='Phone Number'
-            placeholderTextColor={COLORS.grey4}
+            placeholderTextColor={COLORS.grey400}
             underlineColorAndroid={'transparent'}
             onFocus={() => !this.state.isPhoneNumberInvalid && this.phoneInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
             onEndEditing={() => !this.state.isPhoneNumberInvalid && this.phoneInput.setNativeProps({style: styles.phoneNumberInput})}
@@ -252,7 +248,7 @@ class LoginScreen extends React.PureComponent {
 
   _renderInvalidNumberText() {
     return (
-      <RN.View style={ styles.phoneNumberView }>
+      <RN.View style={ styles.invalidNumberTextView }>
         <RN.Text style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && styles.invalidNumberTextTransparent]}>
           Invalid Number
         </RN.Text>
@@ -268,7 +264,7 @@ class LoginScreen extends React.PureComponent {
         disabled={this.state.isNextButtonDisabled && !this.state.isLoading}
         >
         { this.state.isLoading ?
-          <RN.ActivityIndicator size='small' color={COLORS.grey4} /> :
+          <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
           <RN.Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
             Next
           </RN.Text>
