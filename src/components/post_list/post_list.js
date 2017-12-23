@@ -43,6 +43,7 @@ class PostList extends React.PureComponent {
     })
   }
 
+  // TODO: fix behavior for < 10 posts
   _onEndReached() {
     if (this.props.posts.data.length === 0 || this.props.posts.isEnd) {
       return;
