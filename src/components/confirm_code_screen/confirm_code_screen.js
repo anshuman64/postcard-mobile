@@ -133,6 +133,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     )
   }
 
+  // TODO: fix input disappearing on keyboard close bug
   _renderCodeInput() {
     return (
       <RN.TextInput
@@ -146,7 +147,7 @@ class ConfirmCodeScreen extends React.PureComponent {
         maxLength={6}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
-        onFocus={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: styles.borderHighlighted})}
+        onFocus={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
         onEndEditing={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: styles.codeInput})}
       />
     )
@@ -200,7 +201,7 @@ class ConfirmCodeScreen extends React.PureComponent {
           {this._renderInvalidCodeText()}
           <RN.View style={{flex: 1}} />
             {this._renderResendSMS()}
-          <RN.View style={{flex: 4}} />
+          <RN.View style={{flex: 3}} />
         </RN.View>
     )
   }
