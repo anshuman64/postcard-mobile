@@ -1,4 +1,5 @@
 // Local Imports
+import { amplitude }   from '../utilities/analytics_utility.js';
 import * as APIUtility from '../utilities/api_utility.js';
 
 //--------------------------------------------------------------------//
@@ -32,10 +33,12 @@ export const removeLike = (data) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-
+// TODO: get post body of liked post and send it to amplitude
 export const createLike = (authToken, likeObj) => (dispatch) => {
   return APIUtility.post(authToken, '/likes', likeObj)
     .then((newLike) => {
+      amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: true });
+
       dispatch(receiveLike(newLike));
     })
     .catch((error) => {
@@ -43,6 +46,7 @@ export const createLike = (authToken, likeObj) => (dispatch) => {
         error.description = 'POST like failed'
       }
 
+      amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: true, error: error.description });
       throw error;
     });
 };
@@ -50,6 +54,7 @@ export const createLike = (authToken, likeObj) => (dispatch) => {
 export const deleteLike = (authToken, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/likes/' + postId)
     .then((deletedLike) => {
+      amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: false });
       dispatch(removeLike(deletedLike));
     })
     .catch((error) => {
@@ -57,6 +62,7 @@ export const deleteLike = (authToken, postId) => (dispatch) => {
         error.description = 'DEL like failed'
       }
 
+      amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: false, error: error.description });
       throw error;
     });
 };

@@ -2,10 +2,10 @@
 import React            from 'react';
 import { Provider }     from 'react-redux';
 import { Scene, Tabs }  from 'react-native-router-flux';
-import RNAmplitute      from 'react-native-amplitude-analytics';
 
 
 // Local Imports
+import amplitude                  from './utilities/analytics_utility.js';
 import configureStore             from './store';
 import RouterContainer            from './router/router_container.js';
 
@@ -34,10 +34,8 @@ class App extends React.Component {
 
   constructor() {
     super();
-     const amplitude = new RNAmplitute('fa9aded0e5b7590482fffff78b2bd85c');
 
-     // log an event with data
-     amplitude.logEvent('InitializeApp');
+    amplitude.logEvent('General - Initialize App');
   }
 
   render() {
