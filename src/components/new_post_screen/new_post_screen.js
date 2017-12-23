@@ -37,8 +37,8 @@ class NewPostScreen extends React.PureComponent {
       return (
         <RN.TextInput
           style={styles.textInput}
-          placeholderTextColor={COLORS.grey400}
-          placeholder={'What was your happiest moment?'}
+          placeholderTextColor={COLORS.grey500}
+          placeholder={'How are you?'}
           onChangeText={(value) => this._onChangeText(value)}
           autoFocus={true}
           multiline={true}
@@ -50,8 +50,8 @@ class NewPostScreen extends React.PureComponent {
       return (
         <RN.TextInput
           style={[styles.textInput, styles.smallBodyText]}
-          placeholderTextColor={COLORS.grey400}
-          placeholder={'What was your happiest moment?'}
+          placeholderTextColor={COLORS.grey500}
+          placeholder={'How are you?'}
           onChangeText={(value) => this._onChangeText(value)}
           defaultValue={this.state.postText}
           autoFocus={true}

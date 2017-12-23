@@ -75,7 +75,7 @@ class PostListItem extends React.PureComponent {
 
   _renderPostHeader() {
     return (
-      <RN.View style={ styles.headerView }>
+      <RN.View style={[styles.headerView, (this.props.user.id != this.props.item.author_id) && styles.headerViewSmall]}>
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
