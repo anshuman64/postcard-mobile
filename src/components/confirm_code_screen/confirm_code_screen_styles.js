@@ -40,7 +40,7 @@ export const styles = RN.StyleSheet.create({
     fontSize: StyleUtility.scaleFont(24),
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
-    marginTop: 50
+    marginTop: 80
   },
   borderHighlighted: {
     borderBottomColor: StyleUtility.COLORS.appleBlue,
@@ -51,7 +51,7 @@ export const styles = RN.StyleSheet.create({
   invalidCodeText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: StyleUtility.scaleFont(15),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
     marginTop: 4
