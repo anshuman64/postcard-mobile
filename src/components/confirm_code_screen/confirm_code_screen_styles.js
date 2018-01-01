@@ -38,6 +38,7 @@ export const styles = RN.StyleSheet.create({
     height: 50,
     textAlign: 'center',
     fontSize: StyleUtility.scaleFont(24),
+    color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
     marginTop: 80
