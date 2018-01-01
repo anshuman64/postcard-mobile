@@ -21,7 +21,7 @@ class Header extends React.PureComponent {
   _onPressShare = () => {
     this.props.createPost(this.props.authToken, { body: this.props.postText })
       .then(() => {
-        this.props.goBack();
+        RN.AsyncStorage.setItem('scrollToTop', 'true', () => this.props.goBack());
       })
       .catch((error) => defaultErrorAlert(error))
   }
