@@ -62,10 +62,6 @@ export const removePost = (data) => {
   return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
 };
 
-export const stopScrollToTop = (data) => {
-  return { type: POST_ACTION_TYPES.STOP_SCROLL_TO_TOP, data: data };
-}
-
 
 //--------------------------------------------------------------------//
 // Asynchronous Actions

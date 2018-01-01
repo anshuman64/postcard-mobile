@@ -1,5 +1,6 @@
 // Library Imports
 import React            from 'react';
+import { AppState }     from 'react-native';
 import { Provider }     from 'react-redux';
 import { Scene, Tabs }  from 'react-native-router-flux';
 
@@ -36,6 +37,23 @@ class App extends React.Component {
     super();
 
     amplitude.logEvent('General - Initialize App');
+    currentAppState = 'active';
+  }
+
+  componentDidMount() {
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+        amplitude.logEvent('General - Open App');
+    }
+
+    currentAppState = nextAppState;
   }
 
   render() {

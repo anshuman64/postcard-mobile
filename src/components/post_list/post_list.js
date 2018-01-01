@@ -1,6 +1,7 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
+import _      from 'lodash';
 
 // Local Imports
 import PostListItemContainer  from './post_list_item_container.js';
@@ -43,7 +44,6 @@ class PostList extends React.PureComponent {
     })
   }
 
-  // TODO: fix behavior for < 10 posts
   _onEndReached() {
     if (this.props.posts.data.length === 0 || this.props.posts.isEnd) {
       return;
@@ -54,13 +54,16 @@ class PostList extends React.PureComponent {
       .catch((error) => defaultErrorAlert(error))
   }
 
-  // TODO: slide flatlist when newPost is created
   _onContentSizeChange = () => {
-    if (!this.onEndReachedCalledDuringMomentum && this.props.scrollToTop) {
-      this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
-      this.props.stopScrollToTop();
-      this.onEndReachedCalledDuringMomentum = true;
-    }
+    RN.AsyncStorage.getItem('scrollToTop')
+      .then((value) => {
+        if (!this.onEndReachedCalledDuringMomentum && value === 'true') {
+          this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
+          this.onEndReachedCalledDuringMomentum = true;
+
+          RN.AsyncStorage.setItem('scrollToTop', 'false');
+        }
+      });
   }
 
   //--------------------------------------------------------------------//
