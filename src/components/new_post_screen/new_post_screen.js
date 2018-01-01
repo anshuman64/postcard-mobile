@@ -33,34 +33,19 @@ class NewPostScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderTextInput() {
-    if (this.state.postText.length < 86) {
-      return (
-        <RN.TextInput
-          style={styles.textInput}
-          placeholderTextColor={COLORS.grey500}
-          placeholder={'How are you?'}
-          onChangeText={(value) => this._onChangeText(value)}
-          autoFocus={true}
-          multiline={true}
-          returnKeyType={'done'}
-          underlineColorAndroid={'transparent'}
-          />
-      )
-    } else {
-      return (
-        <RN.TextInput
-          style={[styles.textInput, styles.smallBodyText]}
-          placeholderTextColor={COLORS.grey500}
-          placeholder={'How are you?'}
-          onChangeText={(value) => this._onChangeText(value)}
-          defaultValue={this.state.postText}
-          autoFocus={true}
-          multiline={true}
-          returnKeyType={'done'}
-          underlineColorAndroid={'transparent'}
-          />
-      )
-    }
+    return (
+      <RN.TextInput
+        style={[styles.textInput, this.state.postText.length >= 86 && styles.smallBodyText]}
+        placeholderTextColor={COLORS.grey500}
+        placeholder={'How are you?'}
+        onChangeText={(value) => this._onChangeText(value)}
+        value={this.state.postText}
+        autoFocus={true}
+        multiline={true}
+        returnKeyType={'done'}
+        underlineColorAndroid={'transparent'}
+        />
+    )
   }
 
   render() {
