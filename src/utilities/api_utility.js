@@ -1,5 +1,5 @@
 import { Alert } from 'react-native';
-import _    from 'lodash';
+import _         from 'lodash';
 
 //--------------------------------------------------------------------//
 
@@ -7,7 +7,7 @@ import _    from 'lodash';
 // Constants
 //--------------------------------------------------------------------//
 
-const BASE_URL        = 'http://192.168.2.27:3000/api';
+const BASE_URL        = 'http://192.168.2.36:3000/api';
 // const BASE_URL        = 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
 const DEFAULT_HEADERS = {
   'Accept':       'application/json',

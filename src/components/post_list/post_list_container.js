@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import PostList                                     from './post_list.js';
-import { getPosts, refreshPosts, stopScrollToTop }  from '../../actions/post_actions.js';
+import PostList                    from './post_list.js';
+import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -11,14 +11,12 @@ import { getPosts, refreshPosts, stopScrollToTop }  from '../../actions/post_act
 
 const mapStateToProps = ({ user, postsCache, posts }, ownProps) => ({
   authToken:    user.authToken,
-  postsCache:   postsCache,
-  scrollToTop:  posts.scrollToTop
+  postsCache:   postsCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getPosts:        (authToken, postType, queryParams) => dispatch(getPosts(authToken, postType, queryParams)),
-  refreshPosts:    (authToken, postType, queryParams) => dispatch(refreshPosts(authToken, postType, queryParams)),
-  stopScrollToTop: (data) => dispatch(stopScrollToTop(data))
+  refreshPosts:    (authToken, postType, queryParams) => dispatch(refreshPosts(authToken, postType, queryParams))
 });
 
 export default connect(
