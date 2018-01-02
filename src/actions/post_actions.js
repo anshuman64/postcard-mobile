@@ -1,6 +1,7 @@
 // Local Imports
-import { amplitude }   from '../utilities/analytics_utility.js';
-import * as APIUtility from '../utilities/api_utility.js';
+import { amplitude }        from '../utilities/analytics_utility.js';
+import * as APIUtility      from '../utilities/api_utility.js';
+import { refreshAuthToken } from './user_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -20,7 +21,6 @@ export const POST_ACTION_TYPES = {
   REFRESH_POSTS:      'REFRESH_POSTS',
   RECEIVE_POST:       'RECEIVE_POST',
   REMOVE_POST:        'REMOVE_POST',
-  STOP_SCROLL_TO_TOP: 'STOP_SCROLL_TO_TOP'
 };
 
 
@@ -68,12 +68,22 @@ export const removePost = (data) => {
 //--------------------------------------------------------------------//
 
 
-export const getPosts = (authToken, postType, queryParams) => (dispatch) => {
+export const getPosts = (authToken, firebaseUserObj, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
       dispatch(receivePosts({posts: posts, postType: postType}));
     })
     .catch((error) => {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshAuthToken(firebaseUserObj))
+          .then((newAuthToken) => {
+            return dispatch(getPosts(newAuthToken, firebaseUserObj, postType, queryParams));
+          })
+          .catch((error) => {
+            throw error;
+          })
+      }
+
       if (!error.description) {
         error.description = 'GET posts failed'
       }
@@ -82,12 +92,22 @@ export const getPosts = (authToken, postType, queryParams) => (dispatch) => {
     });
 };
 
-export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => {
+export const refreshPosts = (authToken, firebaseUserObj, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
       dispatch(refreshAndReceivePosts({posts: posts, postType: postType}));
     })
     .catch((error) => {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshAuthToken(firebaseUserObj))
+          .then((newAuthToken) => {
+            return dispatch(refreshPosts(newAuthToken, firebaseUserObj, postType, queryParams));
+          })
+          .catch((error) => {
+            throw error;
+          })
+      }
+
       if (!error.description) {
         error.description = 'GET posts failed'
       }
@@ -96,13 +116,23 @@ export const refreshPosts = (authToken, postType, queryParams) => (dispatch) => 
     });
 };
 
-export const createPost = (authToken, postObj) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, postObj) => (dispatch) => {
   return APIUtility.post(authToken, '/posts', postObj)
     .then((newPost) => {
       amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postObj.body });
       dispatch(receivePost(newPost));
     })
     .catch((error) => {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshAuthToken(firebaseUserObj))
+          .then((newAuthToken) => {
+            return dispatch(createPost(newAuthToken, firebaseUserObj, postObj));
+          })
+          .catch((error) => {
+            throw error;
+          })
+      }
+
       if (!error.description) {
         error.description = 'POST post failed'
       }
@@ -112,7 +142,7 @@ export const createPost = (authToken, postObj) => (dispatch) => {
     });
 };
 
-export const deletePost = (authToken, postId) => (dispatch) => {
+export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {
       amplitude.logEvent('Engagement - Delete Post', { is_successful: true, body: delPost.body });
@@ -120,6 +150,16 @@ export const deletePost = (authToken, postId) => (dispatch) => {
       return new Promise.resolve(delPost);
     })
     .catch((error) => {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshAuthToken(firebaseUserObj))
+          .then((newAuthToken) => {
+            return dispatch(deletePost(newAuthToken, firebaseUserObj, postId));
+          })
+          .catch((error) => {
+            throw error;
+          })
+      }
+
       if (!error.description) {
         error.description = 'DEL post failed'
       }
