@@ -20,18 +20,42 @@ const IconFilled = createIconSetFromFontello(fontelloConfig);
 const AnimatedIconFilled = Animatable.createAnimatableComponent(IconFilled);
 
 class PostListItem extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.isLikeDisabled   = false;
+    this.isDeleteDisabled = false;
+  }
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
   _onPressLike() {
+    if (this.isLikeDisabled) {
+      return;
+    }
+
+    this.isLikeDisabled = true;
+
     if (this.props.item.is_liked_by_user) {
-      this.props.deleteLike(this.props.authToken, this.props.item.id)
-        .catch((error) => defaultErrorAlert(error))
+      this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
+        .then(() => {
+          this.isLikeDisabled = false;
+        })
+        .catch((error) => {
+          this.isLikeDisabled = false;
+          defaultErrorAlert(error);
+        })
     } else {
-      this.props.createLike(this.props.authToken, { post_id: this.props.item.id })
-        .catch((error) => defaultErrorAlert(error))
+      this.props.createLike(this.props.authToken, this.props.firebaseUserObj, { post_id: this.props.item.id })
+        .then(() => {
+          this.isLikeDisabled = false;
+        })
+        .catch((error) => {
+          this.isLikeDisabled = false;
+          defaultErrorAlert(error);
+        })
     }
   }
 
@@ -47,13 +71,23 @@ class PostListItem extends React.PureComponent {
   }
 
   _onConfirmDelete = () => {
-    this.props.deletePost(this.props.authToken, this.props.item.id)
+    if (this.isDeleteDisabled) {
+      return;
+    }
+
+    this.isDeleteDisabled = true;
+    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
+        this.isDeleteDisabled = false;
         this.container.fadeOut(1000)
           .then(() => {
             this.props.removePost(deletedPost);
-          }, () => this.props.removePost(deletedPost))
-      }, (error) => defaultErrorAlert(error));
+          })
+          .catch(() => this.props.removePost(deletedPost));
+      }, (error) => {
+        this.isDeleteDisabled = false;
+        defaultErrorAlert(error);
+      });
   }
 
   _renderLikesCount(count) {
@@ -75,14 +109,16 @@ class PostListItem extends React.PureComponent {
 
   _renderPostHeader() {
     return (
-      <RN.View style={ styles.headerView }>
+      <RN.View style={[styles.headerView, (this.props.user.id != this.props.item.author_id) && styles.headerViewSmall]}>
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
           onPress={this._onPressDelete}
           disabled={this.props.user.id != this.props.item.author_id}
           >
-          <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}/>
+          <RN.View style={styles.button}>
+            <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}/>
+          </RN.View>
         </RN.TouchableWithoutFeedback>
       </RN.View>
     )
@@ -101,15 +137,17 @@ class PostListItem extends React.PureComponent {
       <RN.View style={ styles.footerView }>
         <RN.View style={styles.likesView}>
           <RN.TouchableWithoutFeedback onPressIn={() => this._onPressLike()}>
-            {this.props.item.is_liked_by_user ?
-              <AnimatedIconFilled
-                name='heart-filled'
-                animation={scaleHeart}
-                duration={750}
-                style={ styles.filledHeartIcon }
-                /> :
-              <Icon name='heart' style={ styles.heartIcon } />
-            }
+            <RN.View style={styles.button}>
+              {this.props.item.is_liked_by_user ?
+                <AnimatedIconFilled
+                  name='heart-filled'
+                  animation={scaleHeart}
+                  duration={750}
+                  style={ styles.filledHeartIcon }
+                  /> :
+                <Icon name='heart' style={ styles.heartIcon } />
+              }
+            </RN.View>
           </RN.TouchableWithoutFeedback>
           <RN.Text style={ styles.likeCountText }>
             {this._renderLikesCount(this.props.item.num_likes)}

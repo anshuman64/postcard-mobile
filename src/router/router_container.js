@@ -1,8 +1,10 @@
 // Library Imports
 import { connect } from 'react-redux';
-import { Router }  from 'react-native-router-flux';
+
+// Local Imports
+import CustomRouter from './router.js';
 
 
 //--------------------------------------------------------------------//
 
-export default connect()(Router);
+export default connect()(CustomRouter);

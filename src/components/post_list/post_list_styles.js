@@ -29,7 +29,7 @@ export const styles = RN.StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: 45,
+    height: 50,
   },
   footerText: {
     width: 120,

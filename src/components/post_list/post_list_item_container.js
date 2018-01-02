@@ -11,14 +11,15 @@ import { createLike, deleteLike }  from '../../actions/like_actions.js';
 
 
 const mapStateToProps = ({ user }, ownProps) => ({
-  authToken: user.authToken,
-  user:      user.user
+  authToken:       user.authToken,
+  firebaseUserObj: user.firebaseUserObj,
+  user:            user.user
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createLike: (authToken, likeObj) => dispatch(createLike(authToken, likeObj)),
-  deleteLike: (authToken, postId) => dispatch(deleteLike(authToken, postId)),
-  deletePost: (authToken, postId) => dispatch(deletePost(authToken, postId)),
+  createLike: (authToken, firebaseUserObj, likeObj) => dispatch(createLike(authToken, firebaseUserObj, likeObj)),
+  deleteLike: (authToken, firebaseUserObj, postId) => dispatch(deleteLike(authToken, firebaseUserObj, postId)),
+  deletePost: (authToken, firebaseUserObj, postId) => dispatch(deletePost(authToken, firebaseUserObj, postId)),
   removePost: (deletedPost) => dispatch(removePost(deletedPost)),
 });
 

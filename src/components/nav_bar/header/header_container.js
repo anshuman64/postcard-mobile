@@ -1,6 +1,5 @@
 // Library Imports
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 
 // Local Imports
 import Header                  from './header.js';
@@ -11,13 +10,14 @@ import { navigateTo, goBack }  from '../../../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user }, ownProps) => ({
-  authToken: user.authToken,
-  currentScreen: Actions.currentScene
+const mapStateToProps = ({ user, navigation }, ownProps) => ({
+  authToken:       user.authToken,
+  firebaseUserObj: user.firebaseUserObj,
+  currentScreen:   navigation.currentScreen
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createPost: (authToken, postObj) => dispatch(createPost(authToken, postObj)),
+  createPost: (authToken, firebaseUserObj, postObj) => dispatch(createPost(authToken, firebaseUserObj, postObj)),
   navigateTo: (screen) => dispatch(navigateTo(screen)),
   goBack:     () => dispatch(goBack())
 });

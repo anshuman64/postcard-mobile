@@ -6,7 +6,6 @@ import RN     from 'react-native';
 import PostListContainer      from '../post_list/post_list_container.js';
 import { styles }             from '../home_screen/home_screen_styles.js';
 import { POST_TYPES }         from '../../actions/post_actions.js';
-import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -18,8 +17,7 @@ class LikedPostsTab extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this.props.refreshPosts(this.props.authToken, POST_TYPES.LIKED)
-      .catch((error) => defaultErrorAlert(error))
+    this.postList.getWrappedInstance()._onRefresh();
   }
 
   componentWillReceiveProps (nextProps) {

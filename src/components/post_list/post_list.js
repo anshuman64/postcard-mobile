@@ -1,6 +1,7 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
+import _      from 'lodash';
 
 // Local Imports
 import PostListItemContainer  from './post_list_item_container.js';
@@ -21,6 +22,7 @@ class PostList extends React.PureComponent {
     };
 
     this.onEndReachedCalledDuringMomentum = true;
+    this.isLoading = false;
     this._onRefresh = this._onRefresh.bind(this);
   }
 
@@ -32,7 +34,7 @@ class PostList extends React.PureComponent {
   _onRefresh = () => {
     this.setState({isRefreshing: true}, () => {
       this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
-      this.props.refreshPosts(this.props.authToken, this.props.postType)
+      this.props.refreshPosts(this.props.authToken, this.props.firebaseUserObj, this.props.postType)
         .then(() => {
           this.setState({isRefreshing: false});
         })
@@ -44,22 +46,35 @@ class PostList extends React.PureComponent {
   }
 
   _onEndReached() {
-    if (this.props.posts.data.length === 0 || this.props.posts.isEnd) {
+    if (this.props.posts.data.length === 0
+        || this.props.posts.isEnd
+        || this.state.isRefreshing
+        || this.isLoading
+        || this.onEndReachedCalledDuringMomentum) {
       return;
     }
 
+    this.isLoading = true;
+    this.onEndReachedCalledDuringMomentum = true;
+
     let lastPostId = this.props.posts.data[this.props.posts.data.length-1];
-    this.props.getPosts(this.props.authToken, this.props.postType, {start_at: lastPostId})
-      .catch((error) => defaultErrorAlert(error))
+    this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, this.props.postType, {start_at: lastPostId})
+      .then(() => {
+        this.isLoading = false;
+      })
+      .catch((error) => {
+        defaultErrorAlert(error)
+      })
   }
 
-  // TODO: slide flatlist when newPost is created
   _onContentSizeChange = () => {
-    if (!this.onEndReachedCalledDuringMomentum && this.props.scrollToTop) {
-      this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
-      this.props.stopScrollToTop();
-      this.onEndReachedCalledDuringMomentum = true;
-    }
+    RN.AsyncStorage.getItem('scrollToTop')
+      .then((value) => {
+        if (value === 'true') {
+          this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
+          RN.AsyncStorage.setItem('scrollToTop', 'false');
+        }
+      });
   }
 
   //--------------------------------------------------------------------//

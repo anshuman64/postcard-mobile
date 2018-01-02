@@ -1,26 +1,18 @@
 // Library Imports
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 
 // Local Imports
-import LikedPostsTab     from './liked_posts_tab.js';
-import { refreshPosts }  from '../../actions/post_actions.js';
+import LikedPostsTab  from './liked_posts_tab.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, posts }, ownProps) => ({
-  authToken:            user.authToken,
-  likedPosts:           posts.likedPosts,
-  currentScreen: Actions.currentScene
-});
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  refreshPosts: (authToken, postType, queryParams) => dispatch(refreshPosts(authToken, postType, queryParams)),
+const mapStateToProps = ({ posts, navigation }, ownProps) => ({
+  likedPosts:    posts.likedPosts,
+  currentScreen: navigation.currentScreen
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
 )(LikedPostsTab);
