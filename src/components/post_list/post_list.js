@@ -33,7 +33,7 @@ class PostList extends React.PureComponent {
   _onRefresh = () => {
     this.setState({isRefreshing: true}, () => {
       this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
-      this.props.refreshPosts(this.props.authToken, this.props.postType)
+      this.props.refreshPosts(this.props.authToken, this.props.firebaseUserObj, this.props.postType)
         .then(() => {
           this.setState({isRefreshing: false});
         })
@@ -50,7 +50,7 @@ class PostList extends React.PureComponent {
     }
 
     let lastPostId = this.props.posts.data[this.props.posts.data.length-1];
-    this.props.getPosts(this.props.authToken, this.props.postType, {start_at: lastPostId})
+    this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, this.props.postType, {start_at: lastPostId})
       .catch((error) => defaultErrorAlert(error))
   }
 
