@@ -42,7 +42,6 @@ class LoadingScreen extends React.PureComponent {
             successCallback();
           })
           .catch((error) => {
-            console.log(error);
             errorCallback();
           })
       } else {
