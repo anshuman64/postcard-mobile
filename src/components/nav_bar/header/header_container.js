@@ -12,12 +12,13 @@ import { navigateTo, goBack }  from '../../../actions/navigation_actions.js';
 
 
 const mapStateToProps = ({ user }, ownProps) => ({
-  authToken: user.authToken,
-  currentScreen: Actions.currentScene
+  authToken:       user.authToken,
+  firebaseUserObj: user.firebaseUserObj,
+  currentScreen:   Actions.currentScene
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createPost: (authToken, postObj) => dispatch(createPost(authToken, postObj)),
+  createPost: (authToken, firebaseUserObj, postObj) => dispatch(createPost(authToken, firebaseUserObj, postObj)),
   navigateTo: (screen) => dispatch(navigateTo(screen)),
   goBack:     () => dispatch(goBack())
 });

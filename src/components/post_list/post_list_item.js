@@ -27,10 +27,10 @@ class PostListItem extends React.PureComponent {
 
   _onPressLike() {
     if (this.props.item.is_liked_by_user) {
-      this.props.deleteLike(this.props.authToken, this.props.item.id)
+      this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
         .catch((error) => defaultErrorAlert(error))
     } else {
-      this.props.createLike(this.props.authToken, { post_id: this.props.item.id })
+      this.props.createLike(this.props.authToken, this.props.firebaseUserObj, { post_id: this.props.item.id })
         .catch((error) => defaultErrorAlert(error))
     }
   }
@@ -47,7 +47,7 @@ class PostListItem extends React.PureComponent {
   }
 
   _onConfirmDelete = () => {
-    this.props.deletePost(this.props.authToken, this.props.item.id)
+    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
         this.container.fadeOut(1000)
           .then(() => {
