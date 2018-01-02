@@ -33,7 +33,8 @@ export const styles = RN.StyleSheet.create({
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
-    color: StyleUtility.COLORS.grey600
+    color: StyleUtility.COLORS.grey600,
+    marginBottom: 5,
   },
   textHighlighted: {
     color: StyleUtility.COLORS.appleBlue,

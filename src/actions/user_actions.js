@@ -113,7 +113,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       .then((user) => {
         amplitude.setUserId(user.id);
         amplitude.setUserProperties({ database_id: user.id, phone_number: user.phone_number, firebase_uid: user.firebase_uid, created_at: user.created_at });
-        amplitude.logEvent('Onboarding - Log In', { is_successful: true, isNewUser: false });
+        amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: false });
 
         dispatch(receiveUser(user));
       }, (error) => {
@@ -126,7 +126,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       .then((newUser) => {
         amplitude.setUserId(newUser.id);
         amplitude.setUserProperties({ database_id: newUser.id, phone_number: newUser.phone_number, firebase_uid: newUser.firebase_uid, created_at: newUser.created_at });
-        amplitude.logEvent('Onboarding - Log In', { is_successful: true, isNewUser: true });
+        amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: true });
 
         dispatch(receiveUser(newUser));
       })
