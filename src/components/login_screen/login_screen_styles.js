@@ -116,7 +116,7 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     width: 240,
-    height: 36,
+    height: 40,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue,
     marginTop: 75

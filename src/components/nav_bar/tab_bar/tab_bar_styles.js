@@ -21,6 +21,13 @@ export const styles = RN.StyleSheet.create({
     borderBottomWidth: (RN.Platform.OS === 'ios') ? 1 : 0,
     elevation: 2,
   },
+  button: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '50%',
+    height: 30,
+  },
   text: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
