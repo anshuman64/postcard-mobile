@@ -21,7 +21,6 @@ class Header extends React.PureComponent {
   _onPressShare = () => {
     this.props.createPost(this.props.authToken, this.props.firebaseUserObj, { body: this.props.postText })
       .then(() => {
-        console.log('hey')
         RN.AsyncStorage.setItem('scrollToTop', 'true', () => this.props.goBack());
       })
       .catch((error) => defaultErrorAlert(error))
@@ -39,11 +38,13 @@ class Header extends React.PureComponent {
           onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
           onPress={() => this.props.goBack()}
           >
-          <Ionicon
-            ref={(ref) => this.backIcon = ref}
-            name='ios-arrow-round-back'
-            style={styles.backIcon}
-            />
+          <RN.View style={styles.button}>
+            <Ionicon
+              ref={(ref) => this.backIcon = ref}
+              name='ios-arrow-round-back'
+              style={styles.backIcon}
+              />
+          </RN.View>
         </RN.TouchableWithoutFeedback>
       )
     }
@@ -57,7 +58,9 @@ class Header extends React.PureComponent {
           onPressOut={() => this.settingsIcon.setNativeProps({style: styles.settingsIcon})}
           onPress={() => this.props.navigateTo('MenuScreen')}
           >
-          <Icon ref={(ref) => this.settingsIcon = ref} name='settings' style={styles.settingsIcon} />
+          <RN.View style={styles.button}>
+            <Icon ref={(ref) => this.settingsIcon = ref} name='settings' style={styles.settingsIcon} />
+          </RN.View>
         </RN.TouchableWithoutFeedback>
       )
     }
@@ -78,7 +81,7 @@ class Header extends React.PureComponent {
   _renderNoteIcon() {
     if (this.props.noteIcon) {
       return (
-        <RN.TouchableOpacity onPress={() => this.props.navigateTo('NewPostScreen')} >
+        <RN.TouchableOpacity onPress={() => this.props.navigateTo('NewPostScreen')} style={styles.button} >
           <Icon name='note' style={styles.noteIcon} />
         </RN.TouchableOpacity>
       )
@@ -88,9 +91,7 @@ class Header extends React.PureComponent {
   _renderShareButton() {
     if (this.props.shareButton) {
       return (
-        <RN.TouchableOpacity
-          onPress={this._onPressShare}
-          >
+        <RN.TouchableOpacity onPress={this._onPressShare} style={styles.button} >
           <RN.Text style={styles.shareButton}>Share</RN.Text>
         </RN.TouchableOpacity>
       )

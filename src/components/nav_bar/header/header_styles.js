@@ -17,14 +17,20 @@ export const styles = RN.StyleSheet.create({
     width: '100%',
     height: (RN.Platform.OS === 'ios') ? 50 + StyleUtility.STATUSBAR_HEIGHT : 50,
     paddingTop: (RN.Platform.OS === 'ios') ? StyleUtility.STATUSBAR_HEIGHT : 0,
-    paddingLeft: 20,
-    paddingRight: 20,
     backgroundColor: 'white',
   },
   border: {
     borderBottomColor: StyleUtility.COLORS.grey300,
     borderBottomWidth: (RN.Platform.OS === 'ios') ? 1 : 0,
     elevation: 2,
+  },
+  button: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   backIcon: {
     fontSize: StyleUtility.scaleFont(35),

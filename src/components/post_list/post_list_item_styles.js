@@ -45,6 +45,11 @@ export const styles = RN.StyleSheet.create({
   headerViewSmall: {
     height: 10
   },
+  button: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   closeIcon: {
     fontSize: 20,
     color: StyleUtility.COLORS.grey900,
