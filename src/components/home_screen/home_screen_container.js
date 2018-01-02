@@ -1,17 +1,16 @@
 // Library Imports
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 
 // Local Imports
-import HomeScreen           from './home_screen.js';
+import HomeScreen  from './home_screen.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, posts }, ownProps) => ({
+const mapStateToProps = ({ posts, navigation }, ownProps) => ({
   allPosts:        posts.allPosts,
-  currentScreen:   Actions.currentScene
+  currentScreen:   navigation.currentScreen
 });
 
 export default connect(

@@ -1,8 +1,8 @@
 // Library Imports
-import React            from 'react';
-import { AppState }     from 'react-native';
-import { Provider }     from 'react-redux';
-import { Scene, Tabs }  from 'react-native-router-flux';
+import React                     from 'react';
+import { AppState, BackHandler } from 'react-native';
+import { Provider }              from 'react-redux';
+import { Scene, Tabs, Actions }  from 'react-native-router-flux';
 
 
 // Local Imports
@@ -42,10 +42,12 @@ class App extends React.Component {
 
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
+    BackHandler.addEventListener("hardwareBackPress", this._onBackPress);
   }
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
+    BackHandler.removeEventListener("hardwareBackPress", this._onBackPress);
   }
 
   _handleAppStateChange = (nextAppState) => {
@@ -55,6 +57,18 @@ class App extends React.Component {
 
     currentAppState = nextAppState;
   }
+
+  _onBackPress = () => {
+    if (Actions.currentScene === '_HomeScreen'
+        || Actions.currentScene === '_LoginScreen'
+        || Actions.currentScene === '_LoadingScreen'
+        || Actions.currentScene === '_DebugLoginScreen') {
+      return false;
+    }
+
+    Actions.pop();
+    return true;
+  };
 
   render() {
     return (
