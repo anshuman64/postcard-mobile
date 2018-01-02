@@ -28,7 +28,7 @@ class Footer extends React.PureComponent {
           onPress={() => this.props.navigateTo('AuthoredPostsTab')}
           style={styles.button}
           >
-          <Icon name='user' style={[styles.icon, this.props.currentScreen === '_AuthoredPostsTab' && styles.textHighlighted]} />
+          <Icon name='user' style={[styles.icon, (this.props.currentScreen === '_AuthoredPostsTab' || this.props.currentScreen === '_LikedPostsTab') && styles.textHighlighted]} />
         </RN.TouchableOpacity>
       </RN.View>
     )
