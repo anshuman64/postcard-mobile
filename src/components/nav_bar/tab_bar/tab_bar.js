@@ -18,12 +18,12 @@ class TabBar extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.tabBar}>
-        <RN.TouchableOpacity onPress={() => this.props.navigateTo('AuthoredPostsTab')}>
+        <RN.TouchableOpacity onPress={() => this.props.navigateTo('AuthoredPostsTab')} style={styles.button}>
           <RN.Text style={[styles.text, this.props.currentScreen === '_AuthoredPostsTab' && styles.textHighlighted]} >
             Posts
           </RN.Text>
         </RN.TouchableOpacity>
-        <RN.TouchableOpacity onPress={() => this.props.navigateTo('LikedPostsTab')}>
+        <RN.TouchableOpacity onPress={() => this.props.navigateTo('LikedPostsTab')} style={styles.button}>
           <RN.Text style={[styles.text, this.props.currentScreen === '_LikedPostsTab' && styles.textHighlighted]} >
             Liked
           </RN.Text>

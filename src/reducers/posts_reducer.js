@@ -10,10 +10,9 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 
 
 const DEFAULT_STATE = {
-  allPosts:      { data: [], lastUpdated: null, isEnd: false },
-  authoredPosts: { data: [], lastUpdated: null, isEnd: false },
-  likedPosts:    { data: [], lastUpdated: null, isEnd: false },
-  scrollToTop:   false
+  allPosts:      { data: [], lastUpdated: null, isEnd: true },
+  authoredPosts: { data: [], lastUpdated: null, isEnd: true },
+  likedPosts:    { data: [], lastUpdated: null, isEnd: true },
 };
 
 const PostsReducer = (state = DEFAULT_STATE, action) => {
@@ -52,12 +51,15 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case POST_ACTION_TYPES.REFRESH_POSTS:
       let handleRefreshPosts = (type) => {
-        if (action.data.posts.length === 0) {
+        if (action.data.posts.length < 10) { // 10 = number of posts fetched
           newState[type].isEnd = true;
         } else {
+          newState[type].isEnd = false;
+        }
+
+        if (action.data.posts.length > 0) {
           newState[type].data        = mergeSorted(newState[type].data, action.data.posts.map(post => post.id));
           newState[type].lastUpdated = new Date();
-          newState[type].isEnd       = false;
         }
       };
 
@@ -83,7 +85,6 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       // assumes that this case is only hit when the current user creates a post
       newState.allPosts.data.unshift(action.data.id);
       newState.authoredPosts.data.unshift(action.data.id);
-      newState.scrollToTop = true;
 
       return newState;
     case POST_ACTION_TYPES.REMOVE_POST:
@@ -117,11 +118,6 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     // Other Actions
     //--------------------------------------------------------------------//
 
-    // TODO: move this to async storage (local storage)
-    case POST_ACTION_TYPES.STOP_SCROLL_TO_TOP:
-      newState.scrollToTop = false;
-
-      return newState;
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 import { Alert } from 'react-native';
-import _    from 'lodash';
+import _         from 'lodash';
 
 //--------------------------------------------------------------------//
 
@@ -7,8 +7,8 @@ import _    from 'lodash';
 // Constants
 //--------------------------------------------------------------------//
 
-
 const BASE_URL        = 'http://192.168.2.36:3000/api';
+// const BASE_URL        = 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
 const DEFAULT_HEADERS = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
@@ -37,11 +37,13 @@ let getQueryString = (params) => {
 };
 
 let checkStatus = (response) => {
+  let body = JSON.parse(response._bodyText);
+
   if (response.status >= 200 && response.status < 300) {
-    return JSON.parse(response._bodyText);
+    return body;
   } else {
-    let error = new Error(response.statusText);
-    error.response = response;
+    let error = new Error(body);
+    error.status = response.status;
     throw error;
   }
 };
@@ -52,7 +54,7 @@ let callApi = (url, requestConfig) => {
       return checkStatus(response);
     })
     .catch((error) => {
-      if (!error.response) {
+      if (!error.status) {
         error.description = 'No internet connection'
       }
 
