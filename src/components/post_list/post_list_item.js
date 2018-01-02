@@ -83,7 +83,9 @@ class PostListItem extends React.PureComponent {
           onPress={this._onPressDelete}
           disabled={this.props.user.id != this.props.item.author_id}
           >
-          <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}/>
+          <RN.View style={styles.button}>
+            <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}/>
+          </RN.View>
         </RN.TouchableWithoutFeedback>
       </RN.View>
     )
@@ -102,15 +104,17 @@ class PostListItem extends React.PureComponent {
       <RN.View style={ styles.footerView }>
         <RN.View style={styles.likesView}>
           <RN.TouchableWithoutFeedback onPressIn={() => this._onPressLike()}>
-            {this.props.item.is_liked_by_user ?
-              <AnimatedIconFilled
-                name='heart-filled'
-                animation={scaleHeart}
-                duration={750}
-                style={ styles.filledHeartIcon }
-                /> :
-              <Icon name='heart' style={ styles.heartIcon } />
-            }
+            <RN.View style={styles.button}>
+              {this.props.item.is_liked_by_user ?
+                <AnimatedIconFilled
+                  name='heart-filled'
+                  animation={scaleHeart}
+                  duration={750}
+                  style={ styles.filledHeartIcon }
+                  /> :
+                <Icon name='heart' style={ styles.heartIcon } />
+              }
+            </RN.View>
           </RN.TouchableWithoutFeedback>
           <RN.Text style={ styles.likeCountText }>
             {this._renderLikesCount(this.props.item.num_likes)}
