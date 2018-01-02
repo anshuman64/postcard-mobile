@@ -81,7 +81,7 @@ class App extends React.Component {
   }
 }
 
-// TODO: make swipe animation less laggy
+// TODO: add transition animation to UserScreen tabs so the blue highlight transitions smoothly, not just at the end
 
 
 //--------------------------------------------------------------------//

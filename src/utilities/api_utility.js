@@ -37,11 +37,13 @@ let getQueryString = (params) => {
 };
 
 let checkStatus = (response) => {
+  let body = JSON.parse(response._bodyText);
+
   if (response.status >= 200 && response.status < 300) {
-    return JSON.parse(response._bodyText);
+    return body;
   } else {
-    let error = new Error(response.statusText);
-    error.response = response;
+    let error = new Error(body);
+    error.status = response.status;
     throw error;
   }
 };
@@ -52,7 +54,7 @@ let callApi = (url, requestConfig) => {
       return checkStatus(response);
     })
     .catch((error) => {
-      if (!error.response) {
+      if (!error.status) {
         error.description = 'No internet connection'
       }
 

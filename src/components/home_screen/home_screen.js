@@ -7,7 +7,6 @@ import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 import PostListContainer      from '../post_list/post_list_container.js';
 import { POST_TYPES }         from '../../actions/post_actions.js';
 import { styles }             from './home_screen_styles.js';
-import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -19,8 +18,7 @@ class HomeScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this.props.refreshPosts(this.props.authToken, POST_TYPES.ALL)
-      .catch((error) => defaultErrorAlert(error))
+    this.postList.getWrappedInstance()._onRefresh();
   }
 
   componentWillReceiveProps (nextProps) {

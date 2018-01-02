@@ -158,3 +158,19 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       throw error;
     });
 }
+
+export const refreshAuthToken = (firebaseUserObj) => (dispatch) => {
+  return firebaseUserObj.getIdToken(true)
+    .then((authToken) => {
+      dispatch(receiveAuthToken(authToken));
+
+      return new Promise.resolve(authToken);
+    })
+    .catch((error) => {
+      if (!error.description) {
+        error.description = 'Firebase getIdToken failed'
+      }
+
+      throw error;
+    });
+}

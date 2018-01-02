@@ -19,8 +19,9 @@ class Header extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressShare = () => {
-    this.props.createPost(this.props.authToken, { body: this.props.postText })
+    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, { body: this.props.postText })
       .then(() => {
+        console.log('hey')
         RN.AsyncStorage.setItem('scrollToTop', 'true', () => this.props.goBack());
       })
       .catch((error) => defaultErrorAlert(error))
