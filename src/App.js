@@ -36,7 +36,7 @@ class App extends React.Component {
   constructor() {
     super();
 
-    amplitude.logEvent('General - Initialize App');
+    amplitude.logEvent('App - Open App');
     currentAppState = 'active';
   }
 
@@ -52,7 +52,9 @@ class App extends React.Component {
 
   _handleAppStateChange = (nextAppState) => {
     if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
-        amplitude.logEvent('General - Open App');
+        amplitude.logEvent('App - Focus App');
+    } else if (nextAppState.match(/inactive|background/) && currentAppState === 'active') {
+        amplitude.logEvent('App - Minimize App');
     }
 
     currentAppState = nextAppState;

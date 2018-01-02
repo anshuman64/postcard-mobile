@@ -10,9 +10,9 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 
 
 const DEFAULT_STATE = {
-  allPosts:      { data: [], lastUpdated: null, isEnd: false },
-  authoredPosts: { data: [], lastUpdated: null, isEnd: false },
-  likedPosts:    { data: [], lastUpdated: null, isEnd: false },
+  allPosts:      { data: [], lastUpdated: null, isEnd: true },
+  authoredPosts: { data: [], lastUpdated: null, isEnd: true },
+  likedPosts:    { data: [], lastUpdated: null, isEnd: true },
 };
 
 const PostsReducer = (state = DEFAULT_STATE, action) => {

@@ -22,6 +22,7 @@ class PostList extends React.PureComponent {
     };
 
     this.onEndReachedCalledDuringMomentum = true;
+    this.isLoading = false;
     this._onRefresh = this._onRefresh.bind(this);
   }
 
@@ -45,22 +46,32 @@ class PostList extends React.PureComponent {
   }
 
   _onEndReached() {
-    if (this.props.posts.data.length === 0 || this.props.posts.isEnd) {
+    if (this.props.posts.data.length === 0
+        || this.props.posts.isEnd
+        || this.state.isRefreshing
+        || this.isLoading
+        || this.onEndReachedCalledDuringMomentum) {
       return;
     }
 
+    this.isLoading = true;
+    this.onEndReachedCalledDuringMomentum = true;
+
     let lastPostId = this.props.posts.data[this.props.posts.data.length-1];
     this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, this.props.postType, {start_at: lastPostId})
-      .catch((error) => defaultErrorAlert(error))
+      .then(() => {
+        this.isLoading = false;
+      })
+      .catch((error) => {
+        defaultErrorAlert(error)
+      })
   }
 
   _onContentSizeChange = () => {
     RN.AsyncStorage.getItem('scrollToTop')
       .then((value) => {
-        if (!this.onEndReachedCalledDuringMomentum && value === 'true') {
+        if (value === 'true') {
           this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
-          this.onEndReachedCalledDuringMomentum = true;
-
           RN.AsyncStorage.setItem('scrollToTop', 'false');
         }
       });
