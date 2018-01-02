@@ -1,6 +1,5 @@
 // Library Imports
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 
 // Local Imports
 import AuthoredPostsTab  from './authored_posts_tab.js';
@@ -9,9 +8,9 @@ import AuthoredPostsTab  from './authored_posts_tab.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, posts }, ownProps) => ({
+const mapStateToProps = ({ posts, navigation }, ownProps) => ({
   authoredPosts: posts.authoredPosts,
-  currentScreen: Actions.currentScene
+  currentScreen: navigation.currentScreen
 });
 
 export default connect(
