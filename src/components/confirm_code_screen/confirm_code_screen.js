@@ -19,6 +19,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     super(props);
 
     this.state = {
+      inputtedCode:         '',
       isCodeIncorrect:      false,
       isResendSMSDisabled:  true,
       secsRemaining:        0, // set to 59 seconds in _startTimer()
@@ -84,6 +85,8 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   // Sends code to Firebase API as soon as user has inputted six digits
   _codeInputOnChangeText(value) {
+    this.setState({ inputtedCode: value });
+
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
@@ -146,7 +149,7 @@ class ConfirmCodeScreen extends React.PureComponent {
         maxLength={6}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
-        onFocus={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: styles.borderHighlighted})}
+        onFocus={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
         onEndEditing={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: styles.codeInput})}
       />
     )
@@ -200,7 +203,7 @@ class ConfirmCodeScreen extends React.PureComponent {
           {this._renderInvalidCodeText()}
           <RN.View style={{flex: 1}} />
             {this._renderResendSMS()}
-          <RN.View style={{flex: 4}} />
+          <RN.View style={{flex: 3}} />
         </RN.View>
     )
   }

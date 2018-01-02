@@ -1,17 +1,16 @@
 // Library Imports
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 
 // Local Imports
-import TabBar                  from './tab_bar.js';
-import { navigateTo, goBack }  from '../../../actions/navigation_actions.js';
+import TabBar          from './tab_bar.js';
+import { navigateTo }  from '../../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user }, ownProps) => ({
-  currentScreen: Actions.currentScene
+const mapStateToProps = ({ navigation }, ownProps) => ({
+  currentScreen: navigation.currentScreen
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

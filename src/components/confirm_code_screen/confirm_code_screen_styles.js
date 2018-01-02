@@ -20,15 +20,15 @@ export const styles = RN.StyleSheet.create({
   },
   titleText: {
     fontFamily: 'System',
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
-    marginTop: 0.1 * StyleUtility.DEVICE_DIM.height
+    marginTop: 0.08 * StyleUtility.DEVICE_DIM.height
   },
   subtitleText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
     marginTop: 5
@@ -37,10 +37,11 @@ export const styles = RN.StyleSheet.create({
     width: 150,
     height: 50,
     textAlign: 'center',
-    fontSize: StyleUtility.scaleFont(20),
+    fontSize: StyleUtility.scaleFont(24),
+    color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
-    marginTop: 30
+    marginTop: 80
   },
   borderHighlighted: {
     borderBottomColor: StyleUtility.COLORS.appleBlue,
@@ -51,7 +52,7 @@ export const styles = RN.StyleSheet.create({
   invalidCodeText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: StyleUtility.scaleFont(15),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
     marginTop: 4
@@ -63,8 +64,8 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: 270,
-    height: StyleUtility.scaleImage(15),
+    width: 280,
+    height: 30,
     paddingLeft: 15,
     paddingRight: 15,
     borderBottomColor: StyleUtility.COLORS.grey300,
