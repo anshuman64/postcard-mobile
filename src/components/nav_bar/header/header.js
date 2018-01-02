@@ -1,6 +1,7 @@
 // Library Imports
 import React     from 'react';
 import RN        from 'react-native';
+import _         from 'lodash';
 import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
 
@@ -13,17 +14,35 @@ import { defaultErrorAlert } from '../../../utilities/error_utility.js';
 
 
 class Header extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this._onPressShareThrottled = _.throttle(this._onPressShare, 1000, { trailing: false });
+    this._goBackThrottled = _.throttle(this._goBack, 500, { trailing: false });
+  }
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
+  _goBack = () => {
+    this.props.goBack();
+  }
+
   _onPressShare = () => {
+    if (!this.props.postText) {
+      return;
+    }
+
     this.props.createPost(this.props.authToken, this.props.firebaseUserObj, { body: this.props.postText })
       .then(() => {
-        RN.AsyncStorage.setItem('scrollToTop', 'true', () => this.props.goBack());
+        RN.AsyncStorage.setItem('scrollToTop', 'true', () => {
+          this._goBackThrottled();
+        });
       })
-      .catch((error) => defaultErrorAlert(error))
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
   }
 
   //--------------------------------------------------------------------//
@@ -36,7 +55,7 @@ class Header extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.backIcon.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
-          onPress={() => this.props.goBack()}
+          onPress={() => this._goBackThrottled()}
           >
           <RN.View style={styles.button}>
             <Ionicon
@@ -91,7 +110,7 @@ class Header extends React.PureComponent {
   _renderShareButton() {
     if (this.props.shareButton) {
       return (
-        <RN.TouchableOpacity onPress={this._onPressShare} style={styles.button} >
+        <RN.TouchableOpacity onPress={this._onPressShareThrottled} style={styles.button} >
           <RN.Text style={styles.shareButton}>Share</RN.Text>
         </RN.TouchableOpacity>
       )

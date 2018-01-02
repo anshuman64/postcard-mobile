@@ -20,18 +20,42 @@ const IconFilled = createIconSetFromFontello(fontelloConfig);
 const AnimatedIconFilled = Animatable.createAnimatableComponent(IconFilled);
 
 class PostListItem extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.isLikeDisabled   = false;
+    this.isDeleteDisabled = false;
+  }
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
   _onPressLike() {
+    if (this.isLikeDisabled) {
+      return;
+    }
+
+    this.isLikeDisabled = true;
+
     if (this.props.item.is_liked_by_user) {
       this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
-        .catch((error) => defaultErrorAlert(error))
+        .then(() => {
+          this.isLikeDisabled = false;
+        })
+        .catch((error) => {
+          this.isLikeDisabled = false;
+          defaultErrorAlert(error);
+        })
     } else {
       this.props.createLike(this.props.authToken, this.props.firebaseUserObj, { post_id: this.props.item.id })
-        .catch((error) => defaultErrorAlert(error))
+        .then(() => {
+          this.isLikeDisabled = false;
+        })
+        .catch((error) => {
+          this.isLikeDisabled = false;
+          defaultErrorAlert(error);
+        })
     }
   }
 
@@ -47,14 +71,23 @@ class PostListItem extends React.PureComponent {
   }
 
   _onConfirmDelete = () => {
+    if (this.isDeleteDisabled) {
+      return;
+    }
+
+    this.isDeleteDisabled = true;
     this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
+        this.isDeleteDisabled = false;
         this.container.fadeOut(1000)
           .then(() => {
             this.props.removePost(deletedPost);
           })
           .catch(() => this.props.removePost(deletedPost));
-      }, (error) => defaultErrorAlert(error));
+      }, (error) => {
+        this.isDeleteDisabled = false;
+        defaultErrorAlert(error);
+      });
   }
 
   _renderLikesCount(count) {
