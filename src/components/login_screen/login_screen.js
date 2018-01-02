@@ -1,11 +1,11 @@
 // Library Imports
-import React                                    from 'react';
-import RN                                       from 'react-native';
-import _                                        from 'lodash';
-import { PhoneNumberUtil, AsYouTypeFormatter }  from 'google-libphonenumber';
-import firebase                                 from 'react-native-firebase';
-import Icon                                     from 'react-native-vector-icons/Ionicons';
-import * as Animatable                          from 'react-native-animatable';
+import React                   from 'react';
+import RN                      from 'react-native';
+import _                       from 'lodash';
+import { AsYouTypeFormatter }  from 'google-libphonenumber';
+import firebase                from 'react-native-firebase';
+import Icon                    from 'react-native-vector-icons/Ionicons';
+import * as Animatable         from 'react-native-animatable';
 
 // Local Imports
 import { styles }              from './login_screen_styles.js';
@@ -37,7 +37,6 @@ class LoginScreen extends React.PureComponent {
 
     this.unsubscribe = null;
     this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[this.state.countryIndex].country_code); // libphonenumber object that formats phone numbers by country as each character is typed
-    this.phoneUtil = PhoneNumberUtil.getInstance(); // libphonenumber object used to parse phone numbers
   }
 
   //--------------------------------------------------------------------//
@@ -71,14 +70,14 @@ class LoginScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  // Enables Next button only when phone number is greater than 3 digits
+  // Enables Next button only when phone number is greater than 5 digits
   _checkNextButtonEnable() {
     let phoneUtilNumber;
 
     try {
-      phoneUtilNumber = this.phoneUtil.parse(this.state.formattedPhoneNumber, COUNTRY_CODES[this.state.countryIndex].country_code);
+      phoneUtilNumber = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
 
-      if (phoneUtilNumber.length > 3) {
+      if (phoneUtilNumber.length >= 5) {
         this.setState({isNextButtonDisabled: false});
       } else {
         this.setState({isNextButtonDisabled: true});

@@ -20,6 +20,13 @@ export const styles = RN.StyleSheet.create({
     borderTopColor: StyleUtility.COLORS.grey300,
     borderTopWidth: 1,
   },
+  button: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 150,
+    height: 45,
+  },
   icon: {
     fontSize: StyleUtility.scaleFont(18),
     color: StyleUtility.COLORS.grey900
