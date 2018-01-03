@@ -19,7 +19,7 @@ class Header extends React.PureComponent {
 
     this._onPressShareThrottled = _.throttle(this._onPressShare, 1000, { trailing: false });
     this._goBackThrottled = _.throttle(this._goBack, 500, { trailing: false });
-  }
+  } // TODO: try permanently disabling the button or setTimeout on variable
 
   //--------------------------------------------------------------------//
   // Private Methods
