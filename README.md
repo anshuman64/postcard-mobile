@@ -20,7 +20,7 @@ cd ios && pod install && cd ..
 
 2.
 ````
-open ./node_modules/react-native/React/Base/RCTBridgeModule.h.
+open ./node_modules/react-native/React/Base/RCTBridgeModule.h
 ````
 Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 
