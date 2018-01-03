@@ -7,6 +7,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"aws-sdk": "^2.176.0",
 		"google-libphonenumber": "^3.0.9",
 		"lodash": "^4.17.4",
 		"react": "^16.2.0",
