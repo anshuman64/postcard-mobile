@@ -46,7 +46,7 @@ class PostListItem extends React.PureComponent {
         .catch((error) => {
           this.isLikeDisabled = false;
           defaultErrorAlert(error);
-        })
+        }) // TODO: put into .finally
     } else {
       this.props.createLike(this.props.authToken, this.props.firebaseUserObj, { post_id: this.props.item.id })
         .then(() => {
