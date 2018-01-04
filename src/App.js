@@ -20,6 +20,7 @@ import AuthoredPostsTabContainer  from './components/user_screen/authored_posts_
 import LikedPostsTabContainer     from './components/user_screen/liked_posts_tab_container.js';
 
 import NewPostScreen              from './components/new_post_screen/new_post_screen.js';
+import CameraRollScreen           from './components/camera_roll_screen/camera_roll_screen.js';
 import MenuScreen                 from './components/menu_screen/menu_screen.js';
 
 import HeaderContainer            from './components/nav_bar/header/header_container.js';
@@ -78,7 +79,7 @@ class App extends React.Component {
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true} initial={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true}  />
             <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true} />
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true}/>} />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
@@ -90,6 +91,7 @@ class App extends React.Component {
             </Tabs>
             <Scene key='NewPostScreen' component={NewPostScreen} hideNavBar={true} />
             <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true}/>}  />
+            <Scene key='CameraRollScreen' component={CameraRollScreen} initial={true} navBar={() => <HeaderContainer backIcon={true}/>}  />
           </Scene>
         </RouterContainer>
       </Provider>
