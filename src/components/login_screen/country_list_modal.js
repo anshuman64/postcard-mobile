@@ -58,7 +58,7 @@ class CountryListModal extends React.PureComponent {
     )
   }
 
-  _renderCountryListView() {
+  _renderCountryScrollView() {
     if(this.state.isModalMounted) {
       return (
         <RN.ScrollView
@@ -108,7 +108,7 @@ class CountryListModal extends React.PureComponent {
     return(
       <RN.View style={ styles.container }>
         {this._renderChooseCountry()}
-        {this._renderCountryListView()}
+        {this._renderCountryScrollView()}
         {this._renderCancelButton()}
       </RN.View>
     )

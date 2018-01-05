@@ -18,7 +18,7 @@ const mapStateToProps = ({ user, navigation }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   createPost: (authToken, firebaseUserObj, postObj) => dispatch(createPost(authToken, firebaseUserObj, postObj)),
-  navigateTo: (screen) => dispatch(navigateTo(screen)),
+  navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
   goBack:     () => dispatch(goBack())
 });
 

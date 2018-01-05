@@ -12,7 +12,7 @@ import { navigateTo }     from '../../actions/navigation_actions.js';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   debugSignIn: (email, password) => dispatch(debugSignIn(email, password)),
-  navigateTo: (screen) => dispatch(navigateTo(screen))
+  navigateTo: (screen, props) => dispatch(navigateTo(screen, props))
 });
 
 export default connect(
