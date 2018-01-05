@@ -1,6 +1,7 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
+import _      from 'lodash';
 
 // Local Imports
 import { styles }                                        from './country_list_modal_styles.js';
@@ -26,7 +27,7 @@ class CountryListModal extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // Renders the RN.ListView after other modal contents are mounted for performance
+  // Renders the RN.ScrollView after other modal contents are mounted for performance
   componentDidMount() {
     setInterval(() => this.setState({ isModalMounted: true }), 1);
   }
@@ -35,12 +36,12 @@ class CountryListModal extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  // Scrolls directly to the currently selected country when RN.ListView is opened
+  // Scrolls directly to the currently selected country when RN.ScrollView is opened
   _onListViewContentSizeChange = () => {
     let height = isTablet() ? 0.9 * MAX_TABLET_DIM.height : 0.85 * DEVICE_DIM.height;
     let countryPosition = this.props.countryIndex * 45 - 2; // countryIndex * height of each bar minus aesthetic two pixels
-    let maxPosition = COUNTRY_CODES.length * 45 - (height - 50 - 45); // length of full list minus length of one page of listView
-    this.listView.scrollTo({x: 0, y: Math.min(countryPosition, maxPosition), animated: true})
+    let maxPosition = COUNTRY_CODES.length * 45 - (height - 50 - 45); // length of full list minus length of one page of scrollView
+    this.scrollView.scrollTo({x: 0, y: Math.min(countryPosition, maxPosition), animated: true})
   }
 
   //--------------------------------------------------------------------//
@@ -60,14 +61,13 @@ class CountryListModal extends React.PureComponent {
   _renderCountryListView() {
     if(this.state.isModalMounted) {
       return (
-        <RN.ListView
-          ref={(ref) => this.listView = ref}
-          dataSource={this.state.dataSource}
+        <RN.ScrollView
+          ref={(ref) => this.scrollView = ref}
           style={ styles.countryListView }
-          renderRow={this._renderItem()}
-          initialListSize={COUNTRY_CODES.length}
           onContentSizeChange={this._onListViewContentSizeChange}
-        />
+          >
+          {this._renderItem()}
+        </RN.ScrollView>
       )
     } else {
       return (
@@ -93,9 +93,15 @@ class CountryListModal extends React.PureComponent {
   }
 
   _renderItem = () => {
-    return (
-      (rowData, sectionID, rowID) => ( <CountryListItem item={rowData} countryIndex={rowID} setCountry={this.props.setCountry} /> )
-    )
+    let rows = [];
+
+    for (i = 0; i < COUNTRY_CODES.length; i++) {
+      rows.push(
+        <CountryListItem item={COUNTRY_CODES[i]} countryIndex={i} setCountry={this.props.setCountry} />
+      )
+    }
+
+    return rows;
   }
 
   render() {
