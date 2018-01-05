@@ -48,11 +48,34 @@ class NewPostScreen extends React.PureComponent {
     )
   }
 
+  _renderImage() {
+    if (this.props.image) {
+      return (
+        <RN.Image source={{uri: this.props.image}} style={styles.image} resizeMode={'contain'} />
+      )
+    }
+  }
+
+  _renderImageButton() {
+    return (
+      <RN.View style={styles.imageButtonView}>
+        <RN.TouchableOpacity style={styles.imageButtonView} onPress={() => this.props.navigateTo('CameraRollScreen')}>
+          <Ionicon name='md-images' style={styles.imageButtonIcon} />
+          <RN.Text style={styles.imageButtonText}>
+            Photos
+          </RN.Text>
+        </RN.TouchableOpacity>
+      </RN.View>
+    )
+  }
+
   render() {
     return (
       <RN.View style={ styles.container }>
         <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} />
         {this._renderTextInput()}
+        {this._renderImage()}
+        {this._renderImageButton()}
       </RN.View>
     )
   }

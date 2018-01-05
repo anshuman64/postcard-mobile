@@ -18,7 +18,7 @@ const mapStateToProps = ({ user }, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getConfirmationCode:       (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),
   debugGetConfirmationCode:  (phoneNumber) => dispatch(debugGetConfirmationCode(phoneNumber)),
-  navigateTo: (screen) => dispatch(navigateTo(screen)),
+  navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
 });
 
 export default connect(

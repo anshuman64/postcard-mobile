@@ -53,7 +53,9 @@ class CameraRollScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-
+  _onPressImage(uri) {
+    this.props.goBackTo('NewPostScreen', {image: uri});
+  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -68,6 +70,7 @@ class CameraRollScreen extends React.PureComponent {
         initialListSize={PAGE_SIZE * 2}
         pageSize={PAGE_SIZE * 10}
         contentContainerStyle={styles.contentContainerStyle}
+        enableEmptySections={true}
       />
     )
   }
@@ -79,12 +82,18 @@ class CameraRollScreen extends React.PureComponent {
           <RN.View style={styles.iconBackground}>
             <Ionicon name='md-image' style={styles.imageIcon} />
           </RN.View>
-          <RN.Image
-            ref={(ref) => this.image = ref}
-            source={{uri: rowData.node.image.uri}}
-            resizeMode={'cover'}
-            style={styles.image}
-            />
+          <RN.TouchableWithoutFeedback
+            onPressIn={() => rowID.setNativeProps({style: styles.imageHighlighted}) }
+            onPressOut={() => rowID.setNativeProps({style: styles.image}) }
+            onPress={() => this._onPressImage(rowData.node.image.uri)}
+            >
+            <RN.Image
+              ref={(ref) => rowID = ref}
+              source={{uri: rowData.node.image.uri}}
+              resizeMode={'cover'}
+              style={styles.image}
+              />
+          </RN.TouchableWithoutFeedback>
         </RN.View>
       )
     )

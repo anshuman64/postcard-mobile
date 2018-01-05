@@ -36,6 +36,14 @@ export const styles = RN.StyleSheet.create({
     fontSize: StyleUtility.scaleFont(35),
     color: StyleUtility.COLORS.grey900
   },
+  backTitle: {
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Medium',
+    fontWeight: '400',
+    fontSize: StyleUtility.scaleFont(18),
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleBlue,
+    marginLeft: 10
+  },
   settingsIcon: {
     fontSize: StyleUtility.scaleFont(21),
     textAlign: 'center',

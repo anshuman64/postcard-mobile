@@ -25,7 +25,7 @@ export const styles = RN.StyleSheet.create({
   },
   contentContainerStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'stretch',
     flexWrap: 'wrap'
   },
@@ -42,7 +42,7 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
     height: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
-    backgroundColor: StyleUtility.COLORS.grey900
+    backgroundColor: StyleUtility.COLORS.grey800
   },
   imageIcon: {
     fontSize: 40,
@@ -52,6 +52,11 @@ export const styles = RN.StyleSheet.create({
     width: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
     height: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
     margin: 1,
-    position: 'absolute'
+    position: 'absolute',
+    borderWidth: 0
+  },
+  imageHighlighted: {
+    borderWidth: 2,
+    borderColor: StyleUtility.COLORS.appleBlue
   },
 });
