@@ -11,12 +11,13 @@ import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
-const IMAGE_HEIGHT = DEVICE_DIM.width / 3;
-const PAGE_SIZE = Math.ceil(DEVICE_DIM.height / IMAGE_HEIGHT) * 3;
+const PAGE_SIZE = Math.ceil(DEVICE_DIM.height / DEVICE_DIM.width / 3) * 3;
 
 class CameraRollScreen extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
       images: [],
@@ -30,11 +31,20 @@ class CameraRollScreen extends React.PureComponent {
   getPhotos = (first, after) => {
     RN.CameraRoll.getPhotos({first: first, after: after})
       .then((data) => {
-        this.setState({ images: this.state.images.concat(data.edges) });
-
-        if (data.page_info.has_next_page) {
-          this.getPhotos(999999999, data.page_info.end_cursor);
-        }
+        this.setState({ images: this.state.images.concat(data.edges) }, () => {
+          if (data.page_info.has_next_page) {
+            this.getPhotos(999999999, data.page_info.end_cursor);
+          }
+        });
+      })
+      .catch((error) => {
+        Alert.alert(
+          '',
+          'Could not load images. Please try again later.',
+          [
+            {text: 'OK', onPress: () => null, style: 'cancel'},
+          ],
+        )
       })
   }
 
@@ -51,34 +61,32 @@ class CameraRollScreen extends React.PureComponent {
 
   _renderCameraRoll() {
     return (
-      <RN.FlatList
-        data={ this.state.images }
-        renderItem={ this._renderItem.bind(this) }
-        keyExtractor={(item, index) => index}
+      <RN.ListView
+        dataSource={this.ds.cloneWithRows(this.state.images)}
         style={ styles.cameraRoll }
+        renderRow={this._renderRow()}
+        initialListSize={PAGE_SIZE * 2}
+        pageSize={PAGE_SIZE * 10}
         contentContainerStyle={styles.contentContainerStyle}
-        numColumns={3}
-        initialNumToRender={PAGE_SIZE}
-        showsVerticalScrollIndicator={false}
-        removeClippedSubviews={true}
-        getItemLayout={(data, index) => ({length: IMAGE_HEIGHT, offset: IMAGE_HEIGHT * index, index})}
-        />
+      />
     )
   }
-// content://media/external/images/media/450
-  _renderItem = ({item}) => {
+
+  _renderRow = () => {
     return (
-      <RN.View style={styles.imageContainer}>
-        <RN.View style={styles.iconBackground}>
-          <Ionicon name='md-image' style={styles.imageIcon} />
+      (rowData, sectionID, rowID) => (
+        <RN.View style={styles.imageContainer}>
+          <RN.View style={styles.iconBackground}>
+            <Ionicon name='md-image' style={styles.imageIcon} />
+          </RN.View>
+          <RN.Image
+            ref={(ref) => this.image = ref}
+            source={{uri: rowData.node.image.uri}}
+            resizeMode={'cover'}
+            style={styles.image}
+            />
         </RN.View>
-        <RN.Image
-          ref={(ref) => this.image = ref}
-          source={{uri: item.node.image.uri}}
-          resizeMode={'cover'}
-          style={styles.image}
-          />
-      </RN.View>
+      )
     )
   }
 
