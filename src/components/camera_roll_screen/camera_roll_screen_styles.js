@@ -22,15 +22,15 @@ export const styles = RN.StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: StyleUtility.COLORS.grey50,
-    position: 'absolute'
   },
   contentContainerStyle: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'stretch',
+    flexWrap: 'wrap'
   },
   imageContainer: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     width: StyleUtility.DEVICE_DIM.width / 3,
@@ -51,6 +51,7 @@ export const styles = RN.StyleSheet.create({
   image: {
     width: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
     height: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
-    margin: 1
+    margin: 1,
+    position: 'absolute'
   },
 });
