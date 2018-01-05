@@ -1,26 +1,41 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
-import _      from 'lodash';
+import React   from 'react';
+import RN      from 'react-native';
+import _       from 'lodash';
+import Ionicon from 'react-native-vector-icons/Ionicons'
 
 // Local Imports
+import { DEVICE_DIM }         from '../../utilities/style_utility.js';
 import { styles }             from './camera_roll_screen_styles.js';
 import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
+const IMAGE_HEIGHT = DEVICE_DIM.width / 3;
+const PAGE_SIZE = Math.ceil(DEVICE_DIM.height / IMAGE_HEIGHT) * 3;
 
 class CameraRollScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      isRefreshing: false,
+      images: [],
     };
+  }
 
-    this.onEndReachedCalledDuringMomentum = true;
-    this.isLoading = false;
-    this._onRefresh = this._onRefresh.bind(this);
+  componentDidMount() {
+    this.getPhotos(999999999);
+  }
+
+  getPhotos = (first, after) => {
+    RN.CameraRoll.getPhotos({first: first, after: after})
+      .then((data) => {
+        this.setState({ images: this.state.images.concat(data.edges) });
+
+        if (data.page_info.has_next_page) {
+          this.getPhotos(999999999, data.page_info.end_cursor);
+        }
+      })
   }
 
 
@@ -28,92 +43,49 @@ class CameraRollScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onEndReached() {
-    // if (this.props.posts.data.length === 0
-    //     || this.props.posts.isEnd
-    //     || this.state.isRefreshing
-    //     || this.isLoading
-    //     || this.onEndReachedCalledDuringMomentum) {
-    //   return;
-    // }
-    //
-    // this.isLoading = true;
-    // this.onEndReachedCalledDuringMomentum = true;
-    //
-    // let lastPostId = this.props.posts.data[this.props.posts.data.length-1];
-    // this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, this.props.postType, {start_at: lastPostId})
-    //   .then(() => {
-    //     this.isLoading = false;
-    //   })
-    //   .catch((error) => {
-    //     defaultErrorAlert(error)
-    //   })
-  }
+
 
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderPostList() {
+  _renderCameraRoll() {
     return (
       <RN.FlatList
-        ref={(ref) => this.flatList = ref}
-        data={ this.props.posts.data }
+        data={ this.state.images }
         renderItem={ this._renderItem.bind(this) }
-        keyExtractor={(item) => this.props.postsCache[item].id}
-        style={ styles.postList }
-        initialNumToRender={10}
-        maxToRenderPerBatch={10}
+        keyExtractor={(item, index) => index}
+        style={ styles.cameraRoll }
+        contentContainerStyle={styles.contentContainerStyle}
+        numColumns={3}
+        initialNumToRender={PAGE_SIZE}
         showsVerticalScrollIndicator={false}
-        onEndReached={() => this._onEndReached()}
-        ListFooterComponent={ this._renderFooter }
-        onContentSizeChange={this._onContentSizeChange}
-        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
-        onEndReachedThreshold={0.01}
+        removeClippedSubviews={true}
+        getItemLayout={(data, index) => ({length: IMAGE_HEIGHT, offset: IMAGE_HEIGHT * index, index})}
         />
     )
   }
-
+// content://media/external/images/media/450
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer item={this.props.postsCache[item]} />
+      <RN.View style={styles.imageContainer}>
+        <RN.View style={styles.iconBackground}>
+          <Ionicon name='md-image' style={styles.imageIcon} />
+        </RN.View>
+        <RN.Image
+          ref={(ref) => this.image = ref}
+          source={{uri: item.node.image.uri}}
+          resizeMode={'cover'}
+          style={styles.image}
+          />
+      </RN.View>
     )
   }
-
-  _renderRefreshControl() {
-    return (
-      <RN.RefreshControl
-        refreshing={this.state.isRefreshing}
-        onRefresh={this._onRefresh}
-        color={COLORS.grey400}
-        />
-    )
-  }
-
-  _renderFooter = () => {
-    if (this.props.posts.isEnd) {
-      return (
-        <RN.View style={ styles.footerView }>
-          <RN.View style={ styles.horizontalLine } />
-          <RN.Text style={ styles.footerText }>
-            No More Posts
-          </RN.Text>
-          <RN.View style={ styles.horizontalLine } />
-        </RN.View>
-      )
-    } else {
-      return (
-        <RN.View style={ styles.footerView }>
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} style={styles.activityIndicator} />
-        </RN.View>
-      )
-    }
-  };
 
   render() {
     return (
       <RN.View style={ styles.container }>
-        {this._renderPostList()}
+        {this._renderCameraRoll()}
       </RN.View>
     )
   }
