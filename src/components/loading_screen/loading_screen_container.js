@@ -10,7 +10,7 @@ import { navigateTo } from '../../actions/navigation_actions.js';
 
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  navigateTo: (screen) => dispatch(navigateTo(screen)),
+  navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
   loginUser: (firebaseUserObj) => dispatch(loginUser(firebaseUserObj))
 });
 

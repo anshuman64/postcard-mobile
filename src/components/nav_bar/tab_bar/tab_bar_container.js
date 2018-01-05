@@ -14,7 +14,7 @@ const mapStateToProps = ({ navigation }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  navigateTo: (screen) => dispatch(navigateTo(screen)),
+  navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
 });
 
 export default connect(

@@ -69,6 +69,16 @@ class Header extends React.PureComponent {
     }
   }
 
+  _renderBackTitle() {
+    if (this.props.backTitle) {
+      return (
+        <RN.Text style={styles.backTitle}>
+          this.props.backTitle
+        </RN.Text>
+      )
+    }
+  }
+
   _renderSettingsIcon() {
     if (this.props.settingsIcon) {
       return (
@@ -119,7 +129,7 @@ class Header extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={[styles.header, this.props.currentScreen === '_HomeScreen' && styles.border]}>
+      <RN.View style={[styles.header, this.props.backTitle && styles.backHeader, (this.props.currentScreen === '_HomeScreen' || this.props.currentScreen === '_NewPostScreen') && styles.border]}>
         {this._renderBackIcon()}
         {this._renderSettingsIcon()}
         {this._renderLogo()}

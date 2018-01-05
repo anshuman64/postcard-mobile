@@ -19,8 +19,8 @@ import HomeScreenContainer        from './components/home_screen/home_screen_con
 import AuthoredPostsTabContainer  from './components/user_screen/authored_posts_tab_container.js';
 import LikedPostsTabContainer     from './components/user_screen/liked_posts_tab_container.js';
 
-import NewPostScreen              from './components/new_post_screen/new_post_screen.js';
-import CameraRollScreen           from './components/camera_roll_screen/camera_roll_screen.js';
+import NewPostScreenContainer     from './components/new_post_screen/new_post_screen_container.js';
+import CameraRollScreenContainer  from './components/camera_roll_screen/camera_roll_screen_container.js';
 import MenuScreen                 from './components/menu_screen/menu_screen.js';
 
 import HeaderContainer            from './components/nav_bar/header/header_container.js';
@@ -79,9 +79,9 @@ class App extends React.Component {
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true}  initial={true} />
             <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true} />
-            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true}/>} />
+            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
               <Tabs key='UserScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={true}>
@@ -89,9 +89,9 @@ class App extends React.Component {
                 <Scene key='LikedPostsTab' component={LikedPostsTabContainer} hideNavBar={true}  />
               </Tabs>
             </Tabs>
-            <Scene key='NewPostScreen' component={NewPostScreen} hideNavBar={true} />
-            <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true}/>}  />
-            <Scene key='CameraRollScreen' component={CameraRollScreen} initial={true} navBar={() => <HeaderContainer backIcon={true}/>}  />
+            <Scene key='NewPostScreen' component={NewPostScreenContainer}  hideNavBar={true} />
+            <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true} backTitle={'Settings'}/>}  />
+            <Scene key='CameraRollScreen' component={CameraRollScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Gallery'}/>}  />
           </Scene>
         </RouterContainer>
       </Provider>
