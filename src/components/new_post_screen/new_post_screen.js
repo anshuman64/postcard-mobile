@@ -2,6 +2,7 @@
 import React     from 'react';
 import RN        from 'react-native';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
+import EvilIcon  from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import HeaderContainer  from '../nav_bar/header/header_container.js';
@@ -17,7 +18,14 @@ class NewPostScreen extends React.PureComponent {
 
     this.state = {
       postText: '',
+      image: null,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.image) {
+      this.setState({image: nextProps.image})
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -48,10 +56,13 @@ class NewPostScreen extends React.PureComponent {
     )
   }
 
+// TODO: make X button pretty
   _renderImage() {
-    if (this.props.image) {
+    if (this.state.image) {
       return (
-        <RN.Image source={{uri: this.props.image}} style={styles.image} resizeMode={'contain'} />
+        <RN.ImageBackground source={{uri: this.state.image}} style={styles.image} resizeMode={'contain'} >
+          <EvilIcon name='close' style={styles.closeIcon} onPress={() => this.setState({image: null})}/>
+        </RN.ImageBackground>
       )
     }
   }

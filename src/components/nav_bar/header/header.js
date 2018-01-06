@@ -17,30 +17,36 @@ class Header extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this._onPressShareThrottled = _.throttle(this._onPressShare, 1000, { trailing: false });
-    this._goBackThrottled = _.throttle(this._goBack, 500, { trailing: false });
-  } // TODO: try permanently disabling the button or setTimeout on variable
+    this.isSharePressed  = false;
+    this.isGoBackPressed = false;
+  }
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
   _goBack = () => {
+    if (this.isGoBackPressed) {
+      return;
+    }
+
+    this.isGoBackPressed = true;
     this.props.goBack();
   }
 
   _onPressShare = () => {
-    if (!this.props.postText) {
+    if ((!this.props.postText && !this.props.image) || this.isSharePressed) {
       return;
     }
 
+    this.isSharePressed = true;
+
     this.props.createPost(this.props.authToken, this.props.firebaseUserObj, { body: this.props.postText })
       .then(() => {
-        RN.AsyncStorage.setItem('scrollToTop', 'true', () => {
-          this._goBackThrottled();
-        });
+        this.props.goBack({scrollToTop: Date()});
       })
       .catch((error) => {
+        this.isSharePressed = false;
         defaultErrorAlert(error);
       })
   }
@@ -55,7 +61,7 @@ class Header extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.backIcon.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
-          onPress={() => this._goBackThrottled()}
+          onPress={() => this._goBack()}
           >
           <RN.View style={styles.button}>
             <Ionicon
@@ -120,7 +126,7 @@ class Header extends React.PureComponent {
   _renderShareButton() {
     if (this.props.shareButton) {
       return (
-        <RN.TouchableOpacity onPress={this._onPressShareThrottled} style={styles.button} >
+        <RN.TouchableOpacity onPress={this._onPressShare} style={styles.button} >
           <RN.Text style={styles.shareButton}>Share</RN.Text>
         </RN.TouchableOpacity>
       )
