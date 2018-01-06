@@ -1,7 +1,6 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
-import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import PostListContainer      from '../post_list/post_list_container.js';
@@ -41,7 +40,7 @@ class HomeScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostListContainer ref={(ref) => this.postList = ref} posts={this.props.allPosts} postType={POST_TYPES.ALL} />
+        <PostListContainer ref={(ref) => this.postList = ref} posts={this.props.allPosts} postType={POST_TYPES.ALL} scrollToTop={this.props.scrollToTop} />
       </RN.View>
     )
   }
