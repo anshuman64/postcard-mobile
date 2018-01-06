@@ -33,16 +33,17 @@ class PostListItem extends React.PureComponent {
   }
 
   componentDidMount() {
-    s3 = new AWS.S3();
-    url = s3.getSignedUrl('getObject', { Bucket: 'insiya-users', Key: this.props.item.image_url }, (error, data) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(data);
+    if (this.props.item.image_url) {
+      s3 = new AWS.S3();
 
-        this.setState({ imageUrl: data });
-      }
-    })
+      url = s3.getSignedUrl('getObject', { Bucket: 'insiya-users', Key: this.props.item.image_url }, (error, data) => {
+        if (error) {
+          console.log(error);
+        } else {
+          this.setState({ imageUrl: data });
+        }
+      })
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -86,12 +87,19 @@ class PostListItem extends React.PureComponent {
     )
   }
 
-  _onConfirmDelete = () => {
-    if (this.isDeleteDisabled) {
-      return;
-    }
+  //TODO: render spinner
+  _deleteImage(key) {
+    s3.deleteObject({ Bucket: 'insiya-users', Key: key }, (error, data) => {
+      if (error) {
+        this.isDeleteDisabled = false;
+        defaultErrorAlert(error);
+      } else {
+        this._deletePost();
+      }
+    })
+  }
 
-    this.isDeleteDisabled = true;
+  _deletePost() {
     this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
         this.isDeleteDisabled = false;
@@ -104,6 +112,20 @@ class PostListItem extends React.PureComponent {
         this.isDeleteDisabled = false;
         defaultErrorAlert(error);
       });
+  }
+
+  _onConfirmDelete = () => {
+    if (this.isDeleteDisabled) {
+      return;
+    }
+
+    this.isDeleteDisabled = true;
+
+    if (this.props.item.image_url) {
+      this._deleteImage(this.props.item.image_url);
+    } else {
+      this._deletePost();
+    }
   }
 
   _renderLikesCount(count) {
