@@ -1,9 +1,14 @@
 // Library Imports
-import React     from 'react';
-import RN        from 'react-native';
-import _         from 'lodash';
-import Icon      from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon   from 'react-native-vector-icons/Ionicons';
+import React       from 'react';
+import RN          from 'react-native';
+import _           from 'lodash';
+import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
+import RNFetchBlob from 'react-native-fetch-blob';
+import { Buffer }  from 'buffer';
+import uuid        from 'react-native-uuid';
+import mime        from 'mime-types';
+import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }            from './header_styles.js';
@@ -34,14 +39,18 @@ class Header extends React.PureComponent {
     this.props.goBack();
   }
 
-  _onPressShare = () => {
-    if ((!this.props.postText && !this.props.image) || this.isSharePressed) {
-      return;
-    }
+  _getS3Key(imageNode) {
+    folder = this.props.user.id;
+    name = uuid.v1();
+    ext = mime.extension(imageNode.type)
 
-    this.isSharePressed = true;
+    key = folder + '/' + name + '.' + ext;
 
-    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, { body: this.props.postText })
+    return key;
+  }
+
+  _createPost(s3Data) {
+    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, { body: this.props.postText, image_url: s3Data.key })
       .then(() => {
         this.props.goBack({scrollToTop: Date()});
       })
@@ -49,6 +58,39 @@ class Header extends React.PureComponent {
         this.isSharePressed = false;
         defaultErrorAlert(error);
       })
+  }
+
+  _onPressShare = () => {
+    if ((!this.props.postText && !this.props.imageNode) || this.isSharePressed) {
+      return;
+    }
+
+    this.isSharePressed = true;
+
+    s3 = new AWS.S3();
+
+    RNFetchBlob.fs.readFile(this.props.imageNode.image.uri, 'base64')
+      .then((data) => new Buffer(data, 'base64'))
+      .then((buffer) => {
+        params = {
+          Body: buffer,
+          Bucket: "insiya-users",
+          Key: this._getS3Key(this.props.imageNode),
+          ServerSideEncryption: "AES256",
+          ContentType: this.props.imageNode.type
+        };
+
+        s3.upload(params, (error, data) => {
+          if (error) {
+            this.isSharePressed = false;
+            defaultErrorAlert(error);
+          } else {
+            this._createPost(data);
+          }
+       })
+      })
+
+
   }
 
   //--------------------------------------------------------------------//

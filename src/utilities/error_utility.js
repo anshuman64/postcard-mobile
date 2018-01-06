@@ -26,4 +26,6 @@ export function defaultErrorAlert(error) {
   } else {
     unknownError();
   }
+
+  console.log(error)
 }

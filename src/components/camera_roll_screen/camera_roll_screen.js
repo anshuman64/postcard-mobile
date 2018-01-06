@@ -31,6 +31,8 @@ class CameraRollScreen extends React.PureComponent {
   getPhotos = (first, after) => {
     RN.CameraRoll.getPhotos({first: first, after: after})
       .then((data) => {
+
+        console.log(data.edges[5])
         this.setState({ images: this.state.images.concat(data.edges) }, () => {
           if (data.page_info.has_next_page) {
             this.getPhotos(999999999, data.page_info.end_cursor);
@@ -54,7 +56,7 @@ class CameraRollScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressImage(uri) {
-    this.props.goBack({image: uri});
+    this.props.goBack({imageNode: uri});
   }
 
   //--------------------------------------------------------------------//
@@ -85,7 +87,7 @@ class CameraRollScreen extends React.PureComponent {
           <RN.TouchableWithoutFeedback
             onPressIn={() => rowID.setNativeProps({style: styles.imageHighlighted}) }
             onPressOut={() => rowID.setNativeProps({style: styles.image}) }
-            onPress={() => this._onPressImage(rowData.node.image.uri)}
+            onPress={() => this._onPressImage(rowData.node)}
             >
             <RN.Image
               ref={(ref) => rowID = ref}
