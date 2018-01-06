@@ -12,7 +12,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 export const styles = RN.StyleSheet.create({
   container: {
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'flex-start',
     backgroundColor: StyleUtility.COLORS.grey50,
     paddingLeft: 10,
@@ -71,6 +71,10 @@ export const styles = RN.StyleSheet.create({
   },
   smallBodyText: {
     fontSize: StyleUtility.scaleFont(14),
+  },
+  image: {
+    height: StyleUtility.DEVICE_DIM.width * 0.9,
+    width: StyleUtility.DEVICE_DIM.width
   },
   footerView: {
     flexDirection: 'row',
