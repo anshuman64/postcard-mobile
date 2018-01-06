@@ -19,11 +19,25 @@ class PostList extends React.PureComponent {
 
     this.state = {
       isRefreshing: false,
+      scrollToTop:  false,
     };
 
     this.onEndReachedCalledDuringMomentum = true;
     this.isLoading = false;
     this._onRefresh = this._onRefresh.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.scrollToTop != nextProps.scrollToTop) {
+      this.setState({scrollToTop: true})
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.scrollToTop) {
+      this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
+      this.setState({scrollToTop: false})
+    }
   }
 
 
@@ -67,16 +81,6 @@ class PostList extends React.PureComponent {
       })
   }
 
-  _onContentSizeChange = () => {
-    RN.AsyncStorage.getItem('scrollToTop')
-      .then((value) => {
-        if (value === 'true') {
-          this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
-          RN.AsyncStorage.setItem('scrollToTop', 'false');
-        }
-      });
-  }
-
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -95,7 +99,6 @@ class PostList extends React.PureComponent {
         onEndReached={() => this._onEndReached()}
         refreshControl={ this._renderRefreshControl() }
         ListFooterComponent={ this._renderFooter }
-        onContentSizeChange={this._onContentSizeChange}
         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
         onEndReachedThreshold={0.01}
         />

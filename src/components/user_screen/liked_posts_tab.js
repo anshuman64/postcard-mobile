@@ -39,7 +39,7 @@ class LikedPostsTab extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostListContainer ref={(ref) => this.postList = ref} posts={this.props.likedPosts} postType={POST_TYPES.LIKED} />
+        <PostListContainer ref={(ref) => this.postList = ref} posts={this.props.likedPosts} postType={POST_TYPES.LIKED} scrollToTop={this.props.scrollToTop} />
       </RN.View>
     )
   }
