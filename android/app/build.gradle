@@ -151,6 +151,10 @@ dependencies {
     compile 'com.google.firebase:firebase-core:11.6.0'
     compile 'com.google.firebase:firebase-auth:11.6.0'
 
+
+    compile project(':react-native-fetch-blob')
+    compile project(':amazon-cognito-identity-js')
+
     compile project(':react-native-vector-icons')
 }
 

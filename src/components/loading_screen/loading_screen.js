@@ -42,7 +42,7 @@ class LoadingScreen extends React.PureComponent {
             successCallback();
           })
           .catch((error) => {
-            errorCallback();
+            console.error(error);
           })
       } else {
         errorCallback();
@@ -60,7 +60,7 @@ class LoadingScreen extends React.PureComponent {
     }
 
     if (this.state.isLoginSuccessful) {
-      return this.props.navigateTo('HomeScreen');
+      return this.props.navigateTo('DebugLoginScreen');
     } else {
       return this.props.navigateTo('LoginScreen');
     }

@@ -24,6 +24,7 @@ export const styles = RN.StyleSheet.create({
   },
   logo: {
     width: scaleImage(70),
+    height: scaleImage(70),
   },
   bottomView: {
     flexDirection: 'column',

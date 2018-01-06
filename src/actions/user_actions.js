@@ -1,5 +1,6 @@
 // Library Imports
 import Firebase from 'react-native-firebase';
+import AWS from 'aws-sdk';
 
 // Local Imports
 import { amplitude }   from '../utilities/analytics_utility.js';
@@ -115,6 +116,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         amplitude.setUserProperties({ database_id: user.id, phone_number: user.phone_number, firebase_uid: user.firebase_uid, created_at: user.created_at });
         amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: false });
 
+
         dispatch(receiveUser(user));
       }, (error) => {
         return handleNewUser(authToken);
@@ -127,6 +129,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         amplitude.setUserId(newUser.id);
         amplitude.setUserProperties({ database_id: newUser.id, phone_number: newUser.phone_number, firebase_uid: newUser.firebase_uid, created_at: newUser.created_at });
         amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: true });
+
 
         dispatch(receiveUser(newUser));
       })
