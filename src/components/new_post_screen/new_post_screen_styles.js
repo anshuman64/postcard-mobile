@@ -32,10 +32,18 @@ export const styles = RN.StyleSheet.create({
   smallBodyText: {
     fontSize: StyleUtility.scaleFont(14),
   },
+  closeIcon: {
+    height: 26,
+    width: 26,
+    fontSize: 25,
+    color: StyleUtility.COLORS.grey200,
+    backgroundColor: StyleUtility.COLORS.grey900
+  },
   image: {
     flex: 1,
-    width: StyleUtility.DEVICE_DIM.width * 0.8,
+    width: StyleUtility.DEVICE_DIM.width * 0.9,
     height: StyleUtility.DEVICE_DIM.width * 0.8,
+    marginLeft: 10,
     backgroundColor: StyleUtility.COLORS.grey800
   },
   imageButtonView: {

@@ -1,3 +1,4 @@
+import { Keyboard } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 //--------------------------------------------------------------------//
@@ -5,6 +6,7 @@ import { Actions } from 'react-native-router-flux';
 //--------------------------------------------------------------------//
 
 export const navigateTo = (screen, props) => (dispatch) => {
+  Keyboard.dismiss();
   Actions[screen].call();
 
   if (props) {
@@ -12,11 +14,11 @@ export const navigateTo = (screen, props) => (dispatch) => {
   }
 }
 
-export const goBack = () => (dispatch) => {
+export const goBack = (props) => (dispatch) => {
+  Keyboard.dismiss();
   Actions.pop();
-}
 
-export const goBackTo = (screen, props) => (dispatch) => {
-  Actions.popTo(screen);
-  Actions.refresh(props);
+  if (props) {
+    Actions.refresh(props);
+  }
 }

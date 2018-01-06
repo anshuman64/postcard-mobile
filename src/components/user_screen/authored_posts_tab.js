@@ -41,7 +41,7 @@ class AuthoredPostsTab extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container} >
-        <PostListContainer ref={(ref) => this.postList = ref} posts={this.props.authoredPosts} postType={POST_TYPES.AUTHORED} />
+        <PostListContainer ref={(ref) => this.postList = ref} posts={this.props.authoredPosts} postType={POST_TYPES.AUTHORED} scrollToTop={this.props.scrollToTop} />
       </RN.View>
     )
   }
