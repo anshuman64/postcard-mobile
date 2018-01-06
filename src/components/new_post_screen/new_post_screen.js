@@ -83,7 +83,7 @@ class NewPostScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={ styles.container }>
-        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} />
+        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} image={this.state.image}/>
         {this._renderTextInput()}
         {this._renderImage()}
         {this._renderImageButton()}
