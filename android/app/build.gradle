@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fetch-blob')
     compile 'com.amplitude:android-sdk:2.13.4'
     compile project(':react-native-amplitude-analytics')
     compile fileTree(dir: "libs", include: ["*.jar"])

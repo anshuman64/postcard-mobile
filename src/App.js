@@ -4,6 +4,7 @@ import { AppState, BackHandler } from 'react-native';
 import { Provider }              from 'react-redux';
 import { Scene, Tabs, Actions }  from 'react-native-router-flux';
 import uuid from 'react-native-uuid';
+import RNFetchBlob from 'react-native-fetch-blob'
 
 
 // Local Imports
