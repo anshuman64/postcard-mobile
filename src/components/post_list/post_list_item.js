@@ -1,6 +1,7 @@
 // Library Imports
 import React                         from 'react';
 import RN                            from 'react-native';
+import AWS                           from 'aws-sdk/dist/aws-sdk-react-native';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import * as Animatable               from 'react-native-animatable';
 import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
@@ -23,8 +24,25 @@ class PostListItem extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    this.state = {
+      imageUrl: null,
+    }
+
     this.isLikeDisabled   = false;
     this.isDeleteDisabled = false;
+  }
+
+  componentDidMount() {
+    s3 = new AWS.S3();
+    url = s3.getSignedUrl('getObject', { Bucket: 'insiya-users', Key: this.props.item.image_url }, (error, data) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(data);
+
+        this.setState({ imageUrl: data });
+      }
+    })
   }
 
   //--------------------------------------------------------------------//
@@ -130,6 +148,14 @@ class PostListItem extends React.PureComponent {
     )
   }
 
+  _renderPostImage() {
+    if (this.state.imageUrl) {
+      return (
+        <RN.Image source={{uri: this.state.imageUrl}} style={styles.image} resizeMode={'cover'} />
+      )
+    }
+  }
+
   _renderPostFooter() {
     return (
       <RN.View style={ styles.footerView }>
@@ -164,12 +190,15 @@ class PostListItem extends React.PureComponent {
         <RN.View style={ styles.post }>
           {this._renderPostHeader()}
           {this._renderPostBody()}
+          {this._renderPostImage()}
           {this._renderPostFooter()}
         </RN.View>
       </Animatable.View>
     )
   }
 }
+
+
 
 //--------------------------------------------------------------------//
 
