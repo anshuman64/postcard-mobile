@@ -10,6 +10,7 @@
 		"aws-sdk": "^2.176.0",
 		"google-libphonenumber": "^3.0.9",
 		"lodash": "^4.17.4",
+		"mime-types": "^2.1.17",
 		"react": "^16.2.0",
 		"react-native": "^0.51.0",
 		"react-native-amplitude-analytics": "^0.1.12",
