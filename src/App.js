@@ -3,10 +3,6 @@ import React                     from 'react';
 import { AppState, BackHandler } from 'react-native';
 import { Provider }              from 'react-redux';
 import { Scene, Tabs, Actions }  from 'react-native-router-flux';
-import uuid from 'react-native-uuid';
-import RNFetchBlob from 'react-native-fetch-blob';
-import mime from 'mime-types';
-
 
 // Local Imports
 import { amplitude }              from './utilities/analytics_utility.js';
