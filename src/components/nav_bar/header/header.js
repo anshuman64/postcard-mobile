@@ -49,8 +49,33 @@ class Header extends React.PureComponent {
     return key;
   }
 
-  _createPost(s3Data) {
-    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, { body: this.props.postText, image_url: s3Data.key })
+  _uploadImage(imageNode) {
+    s3 = new AWS.S3();
+
+    RNFetchBlob.fs.readFile(imageNode.image.uri, 'base64')
+      .then((data) => new Buffer(data, 'base64'))
+      .then((buffer) => {
+        params = {
+          Body: buffer,
+          Bucket: "insiya-users",
+          Key: this._getS3Key(imageNode),
+          ServerSideEncryption: "AES256",
+          ContentType: imageNode.type
+        };
+
+        s3.upload(params, (error, data) => {
+          if (error) {
+            this.isSharePressed = false;
+            defaultErrorAlert(error);
+          } else {
+            this._createPost(data.key);
+          }
+       })
+      })
+  }
+
+  _createPost(imageKey) {
+    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, { body: this.props.postText, image_url: imageKey })
       .then(() => {
         this.props.goBack({scrollToTop: Date()});
       })
@@ -60,6 +85,7 @@ class Header extends React.PureComponent {
       })
   }
 
+  //TODO: add spinner
   _onPressShare = () => {
     if ((!this.props.postText && !this.props.imageNode) || this.isSharePressed) {
       return;
@@ -67,30 +93,11 @@ class Header extends React.PureComponent {
 
     this.isSharePressed = true;
 
-    s3 = new AWS.S3();
-
-    RNFetchBlob.fs.readFile(this.props.imageNode.image.uri, 'base64')
-      .then((data) => new Buffer(data, 'base64'))
-      .then((buffer) => {
-        params = {
-          Body: buffer,
-          Bucket: "insiya-users",
-          Key: this._getS3Key(this.props.imageNode),
-          ServerSideEncryption: "AES256",
-          ContentType: this.props.imageNode.type
-        };
-
-        s3.upload(params, (error, data) => {
-          if (error) {
-            this.isSharePressed = false;
-            defaultErrorAlert(error);
-          } else {
-            this._createPost(data);
-          }
-       })
-      })
-
-
+    if (this.props.imageNode) {
+      this._uploadImage(this.props.imageNode);
+    } else {
+      this._createPost()
+    }
   }
 
   //--------------------------------------------------------------------//
