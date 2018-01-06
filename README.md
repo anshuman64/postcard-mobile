@@ -12,6 +12,20 @@ cd insiya-mobile
 npm install
 ````
 
+3. Fix mime-types module
+````
+open ./node_modules/mime_types/index.js
+````
+Edit ````var extname = require('path').extname```` to:
+````
+const extname = (path) => {
+   if (!path || path.indexOf('.') === -1) { return '' }
+   path = '.' + path.split('.').pop().toLowerCase()
+   return /.*(\..*)/g.exec(path)[1] || ''
+}
+````
+
+
 ## iOS
 1. Install Pods
 ````
