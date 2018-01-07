@@ -3,7 +3,6 @@ import React                from 'react';
 import RN                   from 'react-native';
 import Firebase             from 'react-native-firebase';
 import { PhoneNumberUtil }  from 'google-libphonenumber';
-import Ionicon              from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }            from './confirm_code_screen_styles.js';
@@ -44,7 +43,14 @@ class ConfirmCodeScreen extends React.PureComponent {
         this.props.loginUser(firebaseUserObj)
           .then(() => {
             this.unsubscribe();
-            this.props.navigationTo('HomeScreen');
+
+            if (!this.props.user.username) {
+              return this.props.navigateTo('UsernameScreenLogin');
+            } else if (!this.props.user.avatar_url) {
+              return this.props.navigateTo('AvatarScreen');
+            } else {
+              return this.props.navigateTo('HomeScreen');
+            }
           })
       }
     });

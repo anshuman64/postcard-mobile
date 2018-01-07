@@ -56,7 +56,7 @@ class CameraRollScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressImage(uri) {
-    this.props.goBack({imageNode: uri});
+    this.props.goBack({ imageNode: uri });
   }
 
   //--------------------------------------------------------------------//
