@@ -44,13 +44,7 @@ export const createLike = (authToken, firebaseUserObj, likeObj) => (dispatch) =>
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj))
-          .then((newAuthToken) => {
-            return dispatch(createLike(newAuthToken, firebaseUserObj, likeObj));
-          })
-          .catch((error) => {
-            throw error;
-          })
+        return dispatch(refreshAuthToken(error, firebaseUserObj, createLike, likeObj));
       }
 
       if (!error.description) {
@@ -70,13 +64,7 @@ export const deleteLike = (authToken, firebaseUserObj, postId) => (dispatch) => 
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj))
-          .then((newAuthToken) => {
-            return dispatch(deleteLike(newAuthToken, firebaseUserObj, postId));
-          })
-          .catch((error) => {
-            throw error;
-          })
+        return dispatch(refreshAuthToken(error, firebaseUserObj, deleteLike, postId));
       }
 
       if (!error.description) {

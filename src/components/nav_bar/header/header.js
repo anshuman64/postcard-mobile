@@ -30,15 +30,6 @@ class Header extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _goBack = () => {
-    if (this.isGoBackPressed) {
-      return;
-    }
-
-    this.isGoBackPressed = true;
-    this.props.goBack();
-  }
-
   _getS3Key(imageNode) {
     folder = this.props.user.id;
     name = uuid.v1();
@@ -85,6 +76,19 @@ class Header extends React.PureComponent {
       })
   }
 
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _goBack = () => {
+    if (this.isGoBackPressed) {
+      return;
+    }
+
+    this.isGoBackPressed = true;
+    this.props.goBack();
+  }
+
   //TODO: add spinner
   _onPressShare = () => {
     if ((!this.props.postText && !this.props.imageNode) || this.isSharePressed) {
@@ -128,7 +132,7 @@ class Header extends React.PureComponent {
     if (this.props.backTitle) {
       return (
         <RN.Text style={styles.backTitle}>
-          this.props.backTitle
+          {this.props.backTitle}
         </RN.Text>
       )
     }
@@ -183,9 +187,15 @@ class Header extends React.PureComponent {
   }
 
   render() {
+    const IS_BORDER = (this.props.currentScreen === '_HomeScreen'
+      || this.props.currentScreen === '_NewPostScreen'
+      || this.props.currentScreen === '_UsernameScreenLogin'
+      || this.props.currentScreen === '_UsernameScreen');
+
     return (
-      <RN.View style={[styles.header, this.props.backTitle && styles.backHeader, (this.props.currentScreen === '_HomeScreen' || this.props.currentScreen === '_NewPostScreen') && styles.border]}>
+      <RN.View style={[styles.header, this.props.backTitle && styles.backHeader, IS_BORDER && styles.border]}>
         {this._renderBackIcon()}
+        {this._renderBackTitle()}
         {this._renderSettingsIcon()}
         {this._renderLogo()}
         {this._renderNoteIcon()}
