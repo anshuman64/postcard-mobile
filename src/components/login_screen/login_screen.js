@@ -119,8 +119,8 @@ class LoginScreen extends React.PureComponent {
 
     this.setState({isLoading: true}, () => {
       this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
-       .then(() => {
-         this.props.navigateTo('ConfirmCodeScreen', { phoneNumber: number });
+       .then((confirmationCodeObj) => {
+         this.props.navigateTo('ConfirmCodeScreen', { phoneNumber: number, confirmationCodeObj: confirmationCodeObj });
          this.setState({ isLoading: false, isPhoneNumberInvalid: false });
        })
        .catch((error) => {
@@ -138,6 +138,7 @@ class LoginScreen extends React.PureComponent {
   // Render Animation Methods
   //--------------------------------------------------------------------//
 
+  //TODO: Don't allow icon & logo to push up with keyboard
   _renderIconAnimation() {
     if (this.state.isLogoFading) {
       return (
