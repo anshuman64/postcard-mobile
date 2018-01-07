@@ -14,7 +14,6 @@ import * as APIUtility from '../utilities/api_utility.js';
 
 
 export const USER_ACTION_TYPES = {
-  RECEIVE_PHONE_NUMBER:          'RECEIVE_PHONE_NUMBER',
   RECEIVE_CONFIRMATION_CODE_OBJ: 'RECEIVE_CONFIRMATION_CODE_OBJ',
   RECEIVE_FIREBASE_USER_OBJ:     'RECEIVE_FIREBASE_USER_OBJ',
   RECEIVE_AUTH_TOKEN:            'RECEIVE_AUTH_TOKEN',
@@ -26,10 +25,6 @@ export const USER_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
-
-export const receivePhoneNumber = (data) => {
-  return { type: USER_ACTION_TYPES.RECEIVE_PHONE_NUMBER, data: data };
-};
 
 export const receiveConfirmationCodeObj = (data) => {
   return { type: USER_ACTION_TYPES.RECEIVE_CONFIRMATION_CODE_OBJ, data: data };
@@ -93,7 +88,6 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
       amplitude.logEvent('Onboarding - Sign In With Phone Number', { is_successful: true });
       amplitude.setUserProperties({ phoneNumber: phoneNumber });
 
-      dispatch(receivePhoneNumber(phoneNumber));
       dispatch(receiveConfirmationCodeObj(confirmationCodeObj));
     })
     .catch((error) => {
@@ -157,7 +151,6 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
 
   let phoneNumber = firebaseUserObj._user.phoneNumber ? firebaseUserObj._user.phoneNumber : firebaseUserObj._user.email;
 
-  dispatch(receivePhoneNumber(phoneNumber));
   dispatch(receiveFirebaseUserObj(firebaseUserObj));
   return firebaseUserObj.getIdToken(true)
     .then((authToken) => {

@@ -120,7 +120,7 @@ class LoginScreen extends React.PureComponent {
     this.setState({isLoading: true}, () => {
       this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
        .then(() => {
-         this.props.navigateTo('ConfirmCodeScreen');
+         this.props.navigateTo('ConfirmCodeScreen', { phoneNumber: number });
          this.setState({ isLoading: false, isPhoneNumberInvalid: false });
        })
        .catch((error) => {

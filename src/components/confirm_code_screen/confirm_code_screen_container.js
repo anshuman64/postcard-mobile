@@ -11,14 +11,14 @@ import { navigateTo }                                   from '../../actions/navi
 
 
 const mapStateToProps = ({ user }, ownProps) => ({
-  phoneNumber:          user.phoneNumber,
+  user:                 user.user,
   confirmationCodeObj:  user.confirmationCodeObj,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getConfirmationCode:    (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),
   verifyConfirmationCode: (confirmationCodeObj, inputtedCode) => dispatch(verifyConfirmationCode(confirmationCodeObj, inputtedCode)),
-  navigateTo:             (screen) => dispatch(navigateTo(screen))
+  navigateTo:             (screen, props) => dispatch(navigateTo(screen, props))
 });
 
 export default connect(

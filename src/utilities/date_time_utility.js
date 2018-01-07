@@ -29,9 +29,13 @@ export const renderDate = (date) => {
   if (minsDiff < 1) {
     // If creationDate was < 1 min ago, return 'Just now'
     return 'Just now';
+  } else if (minsDiff < 2) {
+    return '1 min ago';
   } else if (minsDiff < 60) {
     // If creationDate was < 60 mins ago, return format 'xx mins ago'
     return Math.floor(minsDiff) + ' mins ago';
+  } else if (hoursDiff < 2) {
+    return '1 hour ago';
   } else if (hoursDiff < 20) {
     // If creationDate was < 20 hours ago, return format 'xx hours ago'
     return Math.floor(hoursDiff) + ' hours ago';

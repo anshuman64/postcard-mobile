@@ -7,14 +7,6 @@ export const setStateCallback = (component, state) => {
   return () => (component.setState(state));
 }
 
-export const getCurrentRoute = (state) => {
-  if (state.index !== undefined) {
-    return getCurrentRoute(state.routes[state.index])
-  } else {
-    return state.routeName
-  }
-}
-
 export const mergeSorted = (arrayA, arrayB) => {
   var i = 0;
   var j = 0;
