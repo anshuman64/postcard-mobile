@@ -18,7 +18,8 @@ class UsernameScreen extends React.PureComponent {
 
     this.state = {
       inputtedText:         '',
-      isUsernameTaken:      false,
+      isError:      false,
+      errorText:            '',
       isLoading:            false,
     };
 
@@ -30,8 +31,28 @@ class UsernameScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPress() {
-
-
+    this.setState({ isLoading: true, isError: false, errorText: '' }, () => {
+      this.props.editUsername('eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg4YWZlYjQyNzI2ZTIzOTQyMWIwZDc5OTdjN2FiYzc3NGU0ZGUxOTkifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaW5zaXlhLW1vYmlsZSIsImF1ZCI6Imluc2l5YS1tb2JpbGUiLCJhdXRoX3RpbWUiOjE1MTUzNTM4MzcsInVzZXJfaWQiOiJ0c2d1R2Nya01qYlpsSHZmUU1rQXJqakFERmkyIiwic3ViIjoidHNndUdjcmtNamJabEh2ZlFNa0FyampBREZpMiIsImlhdCI6MTUxNTM1NjQ4NSwiZXhwIjoxNTE1MzYwMDg1LCJwaG9uZV9udW1iZXIiOiIrMTQwODMwNjAwNTkiLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7InBob25lIjpbIisxNDA4MzA2MDA1OSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBob25lIn19.LVsCwDqKSu_-RBewwk5s3SKjOZJoTJQeHMVtznUt-py58S6OGvioSZOBKFYOizVcmg_wVFSIu4qjCxMc2C-m4XldVYRQtFYjLOIOgqnwaR-Vbwd4llESTJ36FBMmix2eUgihghdlDzDYeMugOiBq7ySP4In2CBF5a7XDnKye2eetCMWhqdRboVsB-4CiPL404HM3DtiQ_skQHqBSuveQWcVziH9Dg_fYniiLJZBi3gKWVxRp6BqLNxY-G239vku8KF8wYo6e7RjDUpOsEeynxXBZIfS1NHnmCNv5vm1A51fW0itWayAJoalUXTK2i5fsSHOlLhydrzRzb2wp3_t3Ww', this.props.firebaseUserObj, this.state.inputtedText)
+        .then(() => {
+          if (this.props.isLogin) {
+            this.props.navigateTo('AvatarScreen', { isLogin: true });
+          } else {
+            this.props.goBack();
+          }
+        })
+        .catch((error) => {
+          if (error.description === 'username used') { //TODO: update with proper error descriptions from user actions
+            this.setState({ isError: true, errorText: 'Username taken' });
+          } else if (error.description === 'username invalid') {
+            this.setState({ isError: true, errorText: 'Username invalid' });
+          } else {
+            defaultErrorAlert(error);
+          }
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        })
+    })
   }
 
 //--------------------------------------------------------------------//
@@ -49,7 +70,7 @@ class UsernameScreen extends React.PureComponent {
   _renderSubtitle() {
     return (
       <RN.Text style={styles.subtitleText}>
-        You can always change it later.
+        You can always change it later
       </RN.Text>
     )
   }
@@ -59,7 +80,7 @@ class UsernameScreen extends React.PureComponent {
     return (
       <RN.TextInput
         ref={(ref) => this.textInput = ref}
-        style={[styles.textInput, this.state.isUsernameTaken && styles.borderRed]}
+        style={[styles.textInput, this.state.isError && styles.borderRed]}
         onChangeText={(value) => this.setState({ inputtedText: value })}
         value={this.state.inputtedText}
         placeholder='username'
@@ -67,8 +88,8 @@ class UsernameScreen extends React.PureComponent {
         maxLength={32}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
-        onFocus={() => !this.state.isUsernameTaken && this.textInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
-        onEndEditing={() => !this.state.isUsernameTaken && this.textInput.setNativeProps({style: styles.textInput})}
+        onFocus={() => !this.state.isError && this.textInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
+        onEndEditing={() => !this.state.isError && this.textInput.setNativeProps({style: styles.textInput})}
       />
     )
   }
@@ -78,8 +99,8 @@ class UsernameScreen extends React.PureComponent {
       return <RN.ActivityIndicator size='small' color={COLORS.grey400} />
     } else {
       return (
-        <RN.Text style={[styles.invalidCodeText, !this.state.isUsernameTaken && styles.invalidCodeTextTransparent]}>
-          Invalid Code
+        <RN.Text style={[styles.invalidCodeText, !this.state.isError && styles.invalidCodeTextTransparent]}>
+          {this.state.errorText}
         </RN.Text>
       )
     }
@@ -109,7 +130,9 @@ class UsernameScreen extends React.PureComponent {
           {this._renderTitle()}
           {this._renderSubtitle()}
           {this._renderTextInput()}
+          <RN.View style={{flex: 1}} />
           {this._renderNextButton()}
+          <RN.View style={{flex: 5}} />
         </RN.View>
     )
   }
