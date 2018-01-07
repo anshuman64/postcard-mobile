@@ -164,13 +164,13 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     });
 }
 
-export const refreshAuthToken = (firebaseUserObj) => (dispatch) => {
+const refreshAuthToken = (error, firebaseUserObj, func, ...params) => (dispatch) => {
   return firebaseUserObj.getIdToken(true)
-    .then((authToken) => {
-      configureAWS(authToken);
-      dispatch(receiveAuthToken(authToken));
+    .then((newAuthToken) => {
+      configureAWS(newAuthToken);
+      dispatch(receiveAuthToken(newAuthToken));
 
-      return new Promise.resolve(authToken);
+      return dispatch(func(newAuthToken, firebaseUserObj, ...params));
     })
     .catch((error) => {
       if (!error.description) {
@@ -179,4 +179,32 @@ export const refreshAuthToken = (firebaseUserObj) => (dispatch) => {
 
       throw error;
     });
+}
+
+export const editUsername = (authToken, firebaseUserObj, queryParams) => (dispatch) => {
+  debugger
+  return APIUtility.put(authToken, '/users', queryParams)
+  .then((editedUser) => {
+    amplitude.logEvent('Onboarding - Edit Username', { is_successful: true, username: username });
+
+    dispatch(receiveUser(editedUser));
+  })
+  .catch((error) => {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshAuthToken(error, firebaseUserObj, editUsername, queryParams));
+    }
+
+    if (!error.description) {
+      if (error.message === 'username taken') { //TODO: update with proper backend messages
+        error.description = 'Username taken';
+      } else if (error.message === 'username invalid') {
+        error.description = 'Username invalid';
+      } else {
+        error.description = 'POST user for username failed'
+      }
+    }
+
+    amplitude.logEvent('Onboarding - Edit Username', { is_successful: false, username: username, error: error.description });
+    throw error;
+  });
 }

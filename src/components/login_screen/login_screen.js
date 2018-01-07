@@ -121,15 +121,17 @@ class LoginScreen extends React.PureComponent {
       this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
        .then((confirmationCodeObj) => {
          this.props.navigateTo('ConfirmCodeScreen', { phoneNumber: number, confirmationCodeObj: confirmationCodeObj });
-         this.setState({ isLoading: false, isPhoneNumberInvalid: false });
+         this.setState({ isPhoneNumberInvalid: false });
        })
        .catch((error) => {
-         this.setState({ isLoading: false});
          if (error.description === 'Firebase phone sign-in failed') {
            this.setState({ isPhoneNumberInvalid: true });
          } else {
            defaultErrorAlert(error);
          }
+       })
+       .finally(() => {
+         this.setState({ isLoading: false});
        });
     });
   }

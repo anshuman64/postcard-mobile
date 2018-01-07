@@ -37,10 +37,19 @@ let getQueryString = (params) => {
 };
 
 let checkStatus = (response) => {
-  let body = JSON.parse(response._bodyText);
+  if (!response.status) {
+    return;
+  }
+
+  let body;
+  try {
+    body = JSON.parse(response._bodyText);
+  } catch (e) {
+    body = response._bodyText;
+  }
 
   if (response.status >= 200 && response.status < 300) {
-    return body;
+    return JSON.parse(response._bodyText);
   } else {
     let error = new Error(body);
     error.status = response.status;
