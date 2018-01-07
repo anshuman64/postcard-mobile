@@ -19,6 +19,9 @@ export const styles = RN.StyleSheet.create({
     paddingTop: (RN.Platform.OS === 'ios') ? StyleUtility.STATUSBAR_HEIGHT : 0,
     backgroundColor: 'white',
   },
+  backHeader: {
+    justifyContent: 'flex-start',
+  },
   border: {
     borderBottomColor: StyleUtility.COLORS.grey300,
     borderBottomWidth: (RN.Platform.OS === 'ios') ? 1 : 0,
@@ -37,12 +40,11 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey900
   },
   backTitle: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Medium',
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
     fontWeight: '400',
     fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
-    color: StyleUtility.COLORS.appleBlue,
-    marginLeft: 10
+    color: StyleUtility.COLORS.grey900,
   },
   settingsIcon: {
     fontSize: StyleUtility.scaleFont(21),

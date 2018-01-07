@@ -32,7 +32,6 @@ class CameraRollScreen extends React.PureComponent {
     RN.CameraRoll.getPhotos({first: first, after: after})
       .then((data) => {
 
-        console.log(data.edges[5])
         this.setState({ images: this.state.images.concat(data.edges) }, () => {
           if (data.page_info.has_next_page) {
             this.getPhotos(999999999, data.page_info.end_cursor);

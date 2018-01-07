@@ -8,15 +8,30 @@ import { Actions } from 'react-native-router-flux';
 export const navigateTo = (screen, props) => (dispatch) => {
   Keyboard.dismiss();
 
-  // Preferred method is to call Actions.key(props) if passing props
-  if (screen === 'ConfirmCodeScreen') {
+  if (screen === 'DebugLoginScreen') {
+    Actions.DebugLoginScreen(props)
+  } else if (screen === 'LoadingScreen') {
+    Actions.LoadingScreen(props)
+  } else if (screen === 'LoginScreen') {
+    Actions.LoginScreen(props)
+  } else if (screen === 'ConfirmCodeScreen') {
     Actions.ConfirmCodeScreen(props)
-  } else {
-    Actions[screen].call();
-
-    if (props) {
-      Actions.refresh(props);
-    }
+  } else if (screen === 'UsernameScreenLogin') {
+    Actions.UsernameScreenLogin(props)
+  } else if (screen === 'HomeScreen') {
+    Actions.HomeScreen(props)
+  } else if (screen === 'AuthoredPostsTab') {
+    Actions.AuthoredPostsTab(props)
+  } else if (screen === 'LikedPostsTab') {
+    Actions.LikedPostsTab(props)
+  } else if (screen === 'NewPostScreen') {
+    Actions.NewPostScreen(props)
+  } else if (screen === 'MenuScreen') {
+    Actions.MenuScreen(props)
+  } else if (screen === 'UsernameScreen') {
+    Actions.UsernameScreen(props)
+  } else if (screen === 'CameraRollScreen') {
+    Actions.CameraRollScreen(props)
   }
 }
 
