@@ -35,26 +35,26 @@ class ConfirmCodeScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  componentDidMount() {
-    this._startTimer();
-
-    this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
-      if (firebaseUserObj) {
-        this.props.loginUser(firebaseUserObj)
-          .then(() => {
-            this.unsubscribe();
-
-            if (!this.props.user.username) {
-              return this.props.navigateTo('UsernameScreenLogin');
-            } else if (!this.props.user.avatar_url) {
-              return this.props.navigateTo('AvatarScreen');
-            } else {
-              return this.props.navigateTo('HomeScreen');
-            }
-          })
-      }
-    });
-  }
+  // componentDidMount() {
+  //   this._startTimer();
+  //
+  //   this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
+  //     if (firebaseUserObj) {
+  //       this.props.loginUser(firebaseUserObj)
+  //         .then(() => {
+  //           this.unsubscribe();
+  //
+  //           if (!this.props.user.username) {
+  //             return this.props.navigateTo('UsernameScreenLogin');
+  //           } else if (!this.props.user.avatar_url) {
+  //             return this.props.navigateTo('AvatarScreen');
+  //           } else {
+  //             return this.props.navigateTo('HomeScreen');
+  //           }
+  //         })
+  //     }
+  //   });
+  // }
 
   componentWillUnmount() {
     this._stopTimer();
@@ -94,11 +94,20 @@ class ConfirmCodeScreen extends React.PureComponent {
     this.setState({ inputtedCode: value });
 
     if (value.length === 6) {
+      debugger
       this.setState({ isLoading: true }, () => {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
         .then(() => {
           this.unsubscribe();
-          this.props.navigationTo('HomeScreen');
+
+          if (!this.props.user.username) {
+            return this.props.navigateTo('UsernameScreenLogin');
+          } else if (!this.props.user.avatar_url) {
+            return this.props.navigateTo('AvatarScreen');
+          } else {
+            return this.props.navigateTo('HomeScreen');
+          }
+
           this.setState({ isLoading: false, isCodeIncorrect: false });
         })
         .catch((error) => {
