@@ -29,7 +29,7 @@ class CountryListModal extends React.PureComponent {
 
   // Renders the RN.ScrollView after other modal contents are mounted for performance
   componentDidMount() {
-    setInterval(() => this.setState({ isModalMounted: true }), 1);
+    setTimeout(() => this.setState({ isModalMounted: true }), 1);
   }
 
   //--------------------------------------------------------------------//

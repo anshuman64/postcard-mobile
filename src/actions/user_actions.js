@@ -14,7 +14,6 @@ import * as APIUtility from '../utilities/api_utility.js';
 
 
 export const USER_ACTION_TYPES = {
-  RECEIVE_CONFIRMATION_CODE_OBJ: 'RECEIVE_CONFIRMATION_CODE_OBJ',
   RECEIVE_FIREBASE_USER_OBJ:     'RECEIVE_FIREBASE_USER_OBJ',
   RECEIVE_AUTH_TOKEN:            'RECEIVE_AUTH_TOKEN',
   RECEIVE_USER:                  'RECEIVE_USER'
@@ -25,10 +24,6 @@ export const USER_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
-
-export const receiveConfirmationCodeObj = (data) => {
-  return { type: USER_ACTION_TYPES.RECEIVE_CONFIRMATION_CODE_OBJ, data: data };
-};
 
 export const receiveFirebaseUserObj = (data) => {
   return { type: USER_ACTION_TYPES.RECEIVE_FIREBASE_USER_OBJ, data: data };
@@ -88,7 +83,7 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
       amplitude.logEvent('Onboarding - Sign In With Phone Number', { is_successful: true });
       amplitude.setUserProperties({ phoneNumber: phoneNumber });
 
-      dispatch(receiveConfirmationCodeObj(confirmationCodeObj));
+      return new Promise.resolve(confirmationCodeObj);
     })
     .catch((error) => {
       if (!error.description) {
