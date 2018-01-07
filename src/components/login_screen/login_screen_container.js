@@ -11,7 +11,6 @@ import { navigateTo } from '../../actions/navigation_actions.js';
 
 
 const mapStateToProps = ({ user }, ownProps) => ({
-  phoneNumber:          user.phoneNumber,
   confirmationCodeObj:  user.confirmationCodeObj
 });
 
