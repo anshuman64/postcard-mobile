@@ -60,7 +60,13 @@ class LoadingScreen extends React.PureComponent {
     }
 
     if (this.state.isLoginSuccessful) {
-      return this.props.navigateTo('HomeScreen');
+      if (!this.props.user.username) {
+        return this.props.navigateTo('UsernameScreenLogin');
+      } else if (!this.props.user.avatar_url) {
+        return this.props.navigateTo('AvatarScreen');
+      } else {
+        return this.props.navigateTo('HomeScreen');
+      }
     } else {
       return this.props.navigateTo('LoginScreen');
     }
