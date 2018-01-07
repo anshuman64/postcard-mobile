@@ -7,10 +7,16 @@ import { Actions } from 'react-native-router-flux';
 
 export const navigateTo = (screen, props) => (dispatch) => {
   Keyboard.dismiss();
-  Actions[screen].call();
 
-  if (props) {
-    Actions.refresh(props);
+  // Preferred method is to call Actions.key(props) if passing props
+  if (screen === 'ConfirmCodeScreen') {
+    Actions.ConfirmCodeScreen(props)
+  } else {
+    Actions[screen].call();
+
+    if (props) {
+      Actions.refresh(props);
+    }
   }
 }
 
