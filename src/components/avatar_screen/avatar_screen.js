@@ -95,11 +95,7 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _onConfirmSkip = () => {
-    if (this.props.isLogin) {
-      this.props.navigateTo('HomeScreen');
-    } else {
-      this.props.goBack(); //TODO: figure out proper navigation behavior
-    }
+    this.props.navigateTo('HomeScreen');
   }
 
 //--------------------------------------------------------------------//
@@ -171,17 +167,19 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderSkipButton() {
-    return (
-      <RN.TouchableOpacity
-        style={styles.skipButton}
-        onPress={this._onPressSkip}
-        disabled={this.state.isLoading}
-        >
-        <RN.Text style={ styles.skipButtonText }>
-          {"Skip"}
-        </RN.Text>
-      </RN.TouchableOpacity>
-    )
+    if (this.props.isLogin) {
+      return (
+        <RN.TouchableOpacity
+          style={styles.skipButton}
+          onPress={this._onPressSkip}
+          disabled={this.state.isLoading}
+          >
+          <RN.Text style={ styles.skipButtonText }>
+            {"Skip"}
+          </RN.Text>
+        </RN.TouchableOpacity>
+      )
+    }
   }
 
   render() {

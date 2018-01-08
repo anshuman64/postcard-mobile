@@ -2,19 +2,24 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import TabBar          from './tab_bar.js';
-import { navigateTo }  from '../../../actions/navigation_actions.js';
+import TabBar               from './tab_bar.js';
+import { refreshAuthToken } from '../../../actions/user_actions.js';
+import { navigateTo }       from '../../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ navigation }, ownProps) => ({
-  currentScreen: navigation.currentScreen
+const mapStateToProps = ({ user, navigation }, ownProps) => ({
+  authToken:       user.authToken,
+  firebaseUserObj: user.firebaseUserObj,
+  user:            user.user,
+  currentScreen:   navigation.currentScreen
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
+  navigateTo:       (screen, props) => dispatch(navigateTo(screen, props)),
+  refreshAuthToken: (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params))
 });
 
 export default connect(
