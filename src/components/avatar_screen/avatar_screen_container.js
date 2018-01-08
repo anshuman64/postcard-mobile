@@ -19,7 +19,7 @@ const mapStateToProps = ({ user }, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   editAvatar: (authToken, firebaseUserObj, avatarUrl) => dispatch(editAvatar(authToken, firebaseUserObj, avatarUrl)),
   navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
-  goBack:     (props) => dispatch(navigateTo(props))
+  goBack:     (props) => dispatch(goBack(props))
 });
 
 export default connect(
