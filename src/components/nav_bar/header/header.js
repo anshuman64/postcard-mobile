@@ -2,17 +2,13 @@
 import React       from 'react';
 import RN          from 'react-native';
 import _           from 'lodash';
-import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
-import { Buffer }  from 'buffer';
-import uuid        from 'react-native-uuid';
-import mime        from 'mime-types';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }            from './header_styles.js';
 import { COLORS }            from '../../../utilities/style_utility.js';
+import { uploadImageFile }   from '../../../utilities/file_utility.js';
 import { defaultErrorAlert } from '../../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
@@ -30,38 +26,14 @@ class Header extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _getS3Key(imageNode) {
-    folder = this.props.user.id;
-    name = uuid.v1();
-    ext = mime.extension(imageNode.type)
-
-    key = folder + '/' + name + '.' + ext;
-
-    return key;
-  }
-
   _uploadImage(imageNode) {
-    s3 = new AWS.S3();
-
-    RNFetchBlob.fs.readFile(imageNode.image.uri, 'base64')
-      .then((data) => new Buffer(data, 'base64'))
-      .then((buffer) => {
-        params = {
-          Body: buffer,
-          Bucket: "insiya-users",
-          Key: this._getS3Key(imageNode),
-          ServerSideEncryption: "AES256",
-          ContentType: imageNode.type
-        };
-
-        s3.upload(params, (error, data) => {
-          if (error) {
-            this.isSharePressed = false;
-            defaultErrorAlert(error);
-          } else {
-            this._createPost(data.key);
-          }
-       })
+    uploadImageFile(imageNode, this.props.user.id, this.props.firebaseUserObj, this.props.refreshAuthToken)
+      .then((data) => {
+        this._createPost(data.key);
+      })
+      .catch((error) => {
+        this.isSharePressed = false;
+        defaultErrorAlert(error);
       })
   }
 
