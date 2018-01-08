@@ -7,13 +7,61 @@ import mime        from 'mime-types';
 
 //--------------------------------------------------------------------//
 
-export const uploadImageFile = (imageNode, userId, firebaseUserObj, refreshAuthToken) => {
+// const s3 = new AWS.S3(); Debug Test
+
+export const getSignedUrl = (firebaseUserObj, refreshAuthToken, type, params) => {
+  s3 = new AWS.S3();
+
+  return new Promise((resolve, reject) => {
+    s3.getSignedUrl(type, params, (error, data) => {
+      if (error) {
+        if (error.message === "Missing credentials in config") {
+          debugger
+          return refreshAuthToken(firebaseUserObj) //TODO: ask Vin why this doesn't work and find workaround
+            .then(() => {
+              return getSignedUrl(firebaseUserObj, refreshAuthToken, type, params);
+            })
+        }
+
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
+
+export const deleteFile = (firebaseUserObj, refreshAuthToken, params) => {
+  s3 = new AWS.S3();
+
+  return new Promise((resolve, reject) => {
+    s3.deleteObject(params, (error, data) => {
+      if (error) {
+        if (error.message === "Missing credentials in config") {
+          debugger
+          return refreshAuthToken(firebaseUserObj)
+            .then(() => {
+              return deleteFile(firebaseUserObj, refreshAuthToken, params);
+            })
+        }
+
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
+
+export const uploadImageFile = (firebaseUserObj, refreshAuthToken, imageNode, userId) => {
+  s3 = new AWS.S3();
+
   return readImageFile(imageNode)
     .then((buffer) => {
       params = getParamsForImage(userId, imageNode, buffer);
 
-      return uploadFile(firebaseUserObj, params, refreshAuthToken);
-    })
+      return uploadFile(firebaseUserObj, refreshAuthToken, params);
+    });
 }
 
 const readImageFile = (imageNode) => {
@@ -48,9 +96,7 @@ const getParamsForImage = (userId, imageNode, buffer) => {
 }
 
 
-const uploadFile = (firebaseUserObj, params, refreshAuthToken) => {
-  s3 = new AWS.S3();
-
+const uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
   return new Promise((resolve, reject) => {
     s3.upload(params, (error, data) => {
       if (error) {
@@ -59,13 +105,13 @@ const uploadFile = (firebaseUserObj, params, refreshAuthToken) => {
             .then(() => {
               return uploadFile(firebaseUserObj, params, refreshAuthToken);
             })
-        } else {
-          if (!error.description) {
-            error.description = 'Upload file to S3 failed'
-          }
-
-          reject(error);
         }
+
+        if (!error.description) {
+          error.description = 'Upload file to S3 failed'
+        }
+
+        reject(error);
       } else {
         resolve(data);
       }

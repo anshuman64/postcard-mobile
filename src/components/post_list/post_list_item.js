@@ -1,17 +1,17 @@
 // Library Imports
 import React                         from 'react';
 import RN                            from 'react-native';
-import AWS                           from 'aws-sdk/dist/aws-sdk-react-native';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import * as Animatable               from 'react-native-animatable';
 import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import { styles, scaleHeart } from './post_list_item_styles.js';
-import { renderDate }         from '../../utilities/date_time_utility.js';
-import fontelloConfig         from '../../assets/fonts/config.json';
-import { defaultErrorAlert }  from '../../utilities/error_utility.js';
+import { styles, scaleHeart }       from './post_list_item_styles.js';
+import { renderDate }               from '../../utilities/date_time_utility.js';
+import fontelloConfig               from '../../assets/fonts/config.json';
+import { defaultErrorAlert }        from '../../utilities/error_utility.js';
+import { getSignedUrl, deleteFile } from '../../utilities/file_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -34,15 +34,10 @@ class PostListItem extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.item.image_url) {
-      s3 = new AWS.S3();
-
-      url = s3.getSignedUrl('getObject', { Bucket: 'insiya-users', Key: this.props.item.image_url }, (error, data) => {
-        if (error) {
-          console.log(error);
-        } else {
+      getSignedUrl(this.props.firebaseUserObj, this.props.refreshAuthToken, 'getObject', { Bucket: 'insiya-users', Key: this.props.item.image_url })
+        .then((data) => {
           this.setState({ imageUrl: data });
-        }
-      })
+        })
     }
   }
 
@@ -87,16 +82,30 @@ class PostListItem extends React.PureComponent {
     )
   }
 
+  _onConfirmDelete = () => {
+    if (this.isDeleteDisabled) {
+      return;
+    }
+
+    this.isDeleteDisabled = true;
+
+    if (this.props.item.image_url) {
+      this._deleteImageFile(this.props.item.image_url);
+    } else {
+      this._deletePost();
+    }
+  }
+
   //TODO: render spinner
-  _deleteImage(key) {
-    s3.deleteObject({ Bucket: 'insiya-users', Key: key }, (error, data) => {
-      if (error) {
+  _deleteImageFile(key) {
+    deleteFile(this.props.firebaseUserObj, this.props.refreshAuthToken, { Bucket: 'insiya-users', Key: key })
+      .then((data) => {
+        this._deletePost();
+      })
+      .catch((error) => {
         this.isDeleteDisabled = false;
         defaultErrorAlert(error);
-      } else {
-        this._deletePost();
-      }
-    })
+      })
   }
 
   _deletePost() {
@@ -112,20 +121,6 @@ class PostListItem extends React.PureComponent {
         this.isDeleteDisabled = false;
         defaultErrorAlert(error);
       });
-  }
-
-  _onConfirmDelete = () => {
-    if (this.isDeleteDisabled) {
-      return;
-    }
-
-    this.isDeleteDisabled = true;
-
-    if (this.props.item.image_url) {
-      this._deleteImage(this.props.item.image_url);
-    } else {
-      this._deletePost();
-    }
   }
 
   _renderLikesCount(count) {
