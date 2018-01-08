@@ -99,7 +99,7 @@ export const refreshPosts = (authToken, firebaseUserObj, postType, queryParams) 
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(error, firebaseUserObj, refreshPosts, postType, queryParams));
+        return dispatch(refreshAuthToken(firebaseUserObj, refreshPosts, postType, queryParams));
       }
 
       if (!error.description) {
@@ -118,7 +118,7 @@ export const createPost = (authToken, firebaseUserObj, postObj) => (dispatch) =>
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(error, firebaseUserObj, createPost, postObj));
+        return dispatch(refreshAuthToken(firebaseUserObj, createPost, postObj));
       }
 
       if (!error.description) {
@@ -139,7 +139,7 @@ export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => 
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(error, firebaseUserObj, deletePost, postId));
+        return dispatch(refreshAuthToken(firebaseUserObj, deletePost, postId));
       }
 
       if (!error.description) {

@@ -164,13 +164,15 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     });
 }
 
-const refreshAuthToken = (error, firebaseUserObj, func, ...params) => (dispatch) => {
+const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
   return firebaseUserObj.getIdToken(true)
     .then((newAuthToken) => {
       configureAWS(newAuthToken);
       dispatch(receiveAuthToken(newAuthToken));
 
-      return dispatch(func(newAuthToken, firebaseUserObj, ...params));
+      if (func) {
+        return dispatch(func(newAuthToken, firebaseUserObj, ...params));
+      }
     })
     .catch((error) => {
       if (!error.description) {
@@ -191,7 +193,7 @@ export const editUsername = (authToken, firebaseUserObj, queryParams) => (dispat
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshAuthToken(error, firebaseUserObj, editUsername, queryParams));
+      return dispatch(refreshAuthToken(firebaseUserObj, editUsername, queryParams));
     }
 
     if (!error.description) {
