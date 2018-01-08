@@ -8,18 +8,19 @@ import mime        from 'mime-types';
 //--------------------------------------------------------------------//
 
 // const s3 = new AWS.S3(); Debug Test
+const BUCKET_NAME = 'insiya-users';
 
-export const getSignedUrl = (firebaseUserObj, refreshAuthToken, type, params) => {
+export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
   s3 = new AWS.S3();
 
   return new Promise((resolve, reject) => {
-    s3.getSignedUrl(type, params, (error, data) => {
+    s3.getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
           debugger
           return refreshAuthToken(firebaseUserObj) //TODO: ask Vin why this doesn't work and find workaround
             .then(() => {
-              return getSignedUrl(firebaseUserObj, refreshAuthToken, type, params);
+              return getImage(firebaseUserObj, refreshAuthToken, key);
             })
         }
 
@@ -31,17 +32,17 @@ export const getSignedUrl = (firebaseUserObj, refreshAuthToken, type, params) =>
   });
 }
 
-export const deleteFile = (firebaseUserObj, refreshAuthToken, params) => {
+export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
   s3 = new AWS.S3();
 
   return new Promise((resolve, reject) => {
-    s3.deleteObject(params, (error, data) => {
+    s3.deleteObject({ Bucket: BUCKET_NAME, Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
           debugger
           return refreshAuthToken(firebaseUserObj)
             .then(() => {
-              return deleteFile(firebaseUserObj, refreshAuthToken, params);
+              return deleteFile(firebaseUserObj, refreshAuthToken, key);
             })
         }
 
@@ -53,12 +54,12 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, params) => {
   });
 }
 
-export const uploadImageFile = (firebaseUserObj, refreshAuthToken, imageNode, userId) => {
+export const uploadImageFile = (firebaseUserObj, refreshAuthToken, imageNode, userId, path) => {
   s3 = new AWS.S3();
 
   return readImageFile(imageNode)
     .then((buffer) => {
-      params = getParamsForImage(userId, imageNode, buffer);
+      params = getParamsForImage(userId, imageNode, buffer, path);
 
       return uploadFile(firebaseUserObj, refreshAuthToken, params);
     });
@@ -79,15 +80,16 @@ const readImageFile = (imageNode) => {
     });
 }
 
-const getParamsForImage = (userId, imageNode, buffer) => {
-  folder = userId;
+const getParamsForImage = (userId, imageNode, buffer, path) => {
+  userFolder = userId;
   name = uuid.v1();
   ext = mime.extension(imageNode.type);
+  folder = path ? path : '';
 
   params = {
     Body: buffer,
     Bucket: "insiya-users",
-    Key: folder + '/' + name + '.' + ext,
+    Key: userFolder + '/' + folder + name + '.' + ext,
     ServerSideEncryption: "AES256",
     ContentType: imageNode.type
   };

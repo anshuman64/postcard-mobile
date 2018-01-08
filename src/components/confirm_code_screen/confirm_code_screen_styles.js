@@ -57,7 +57,7 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.appleRed,
     marginTop: 4
   },
-  invalidCodeTextTransparent: {
+  transparentText: {
     color: 'transparent'
   },
   resendSMSView: {

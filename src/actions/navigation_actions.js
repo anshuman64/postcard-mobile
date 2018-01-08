@@ -18,6 +18,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
     Actions.ConfirmCodeScreen(props)
   } else if (screen === 'UsernameScreenLogin') {
     Actions.UsernameScreenLogin(props)
+  } else if (screen === 'AvatarScreen') {
+    Actions.AvatarScreen(props)
   } else if (screen === 'HomeScreen') {
     Actions.HomeScreen(props)
   } else if (screen === 'AuthoredPostsTab') {
