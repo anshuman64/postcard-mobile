@@ -165,6 +165,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
 }
 
 const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
+  debugger
   return firebaseUserObj.getIdToken(true)
     .then((newAuthToken) => {
       configureAWS(newAuthToken);
