@@ -32,8 +32,8 @@ class UsernameScreen extends React.PureComponent {
     this.setState({ isLoading: true, isError: false, errorText: '' }, () => {
       this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, this.state.inputtedText)
         .then(() => {
-          if (this.props.isLogin) {
-            this.props.navigateTo('AvatarScreen', { isLogin: true });
+          if (this.props.currentScreen === '_UsernameScreenLogin') {
+            this.props.navigateTo('AvatarScreen');
           } else {
             this.props.goBack();
           }
@@ -76,19 +76,25 @@ class UsernameScreen extends React.PureComponent {
   //TODO: adjust maxLength to match backend restrictions
   _renderTextInput() {
     return (
-      <RN.TextInput
-        ref={(ref) => this.textInput = ref}
-        style={[styles.textInput, this.state.isError && styles.borderRed]}
-        onChangeText={(value) => this.setState({ inputtedText: value })}
-        value={this.state.inputtedText}
-        placeholder='username'
-        autoFocus={true}
-        maxLength={32}
-        placeholderTextColor={COLORS.grey400}
-        underlineColorAndroid={'transparent'}
-        onFocus={() => !this.state.isError && this.textInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
-        onEndEditing={() => !this.state.isError && this.textInput.setNativeProps({style: styles.textInput})}
-      />
+      <RN.View ref={(ref) => this.textInputView = ref} style={[styles.textInputView]}>
+        <RN.Text style={styles.atText}>
+          @
+        </RN.Text>
+        <RN.TextInput
+          ref={(ref) => this.textInput = ref}
+          style={[styles.textInput, this.state.isError && styles.borderRed]}
+          onChangeText={(value) => this.setState({ inputtedText: value })}
+          value={this.state.inputtedText}
+          placeholder={'username'}
+          autoCapitalize={'none'}
+          autoFocus={true}
+          maxLength={32}
+          placeholderTextColor={COLORS.grey400}
+          underlineColorAndroid={'transparent'}
+          onFocus={() => !this.state.isError && this.textInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
+          onEndEditing={() => !this.state.isError && this.textInput.setNativeProps({style: styles.textInput})}
+        />
+      </RN.View>
     )
   }
 
@@ -115,7 +121,7 @@ class UsernameScreen extends React.PureComponent {
         { this.state.isLoading ?
           <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
           <RN.Text style={[styles.nextButtonText, (this.state.inputtedText.length === 0) && styles.nextButtonTextDisabled]}>
-            {this.props.isLogin ? 'Next' : 'Done'}
+            {this.props.currentScreen === '_UsernameScreenLogin' ? 'Next' : 'Done'}
           </RN.Text>
         }
       </RN.TouchableOpacity>
