@@ -109,7 +109,7 @@ export const styles = RN.StyleSheet.create({
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },
-  invalidNumberTextTransparent: {
+  transparentText: {
     color: 'transparent'
   },
   nextButtonBackground: {
@@ -139,9 +139,8 @@ export const styles = RN.StyleSheet.create({
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: StyleUtility.scaleFont(14),
     fontWeight: '100',
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey600,
     textAlign: 'left',
+    color: StyleUtility.COLORS.grey600,
     marginTop: 15,
   },
 });

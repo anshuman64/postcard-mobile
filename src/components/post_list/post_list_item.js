@@ -7,11 +7,11 @@ import Icon                          from 'react-native-vector-icons/SimpleLineI
 import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import { styles, scaleHeart }       from './post_list_item_styles.js';
-import { renderDate }               from '../../utilities/date_time_utility.js';
-import fontelloConfig               from '../../assets/fonts/config.json';
-import { defaultErrorAlert }        from '../../utilities/error_utility.js';
-import { getSignedUrl, deleteFile } from '../../utilities/file_utility.js';
+import { styles, scaleHeart }   from './post_list_item_styles.js';
+import { renderDate }           from '../../utilities/date_time_utility.js';
+import fontelloConfig           from '../../assets/fonts/config.json';
+import { defaultErrorAlert }    from '../../utilities/error_utility.js';
+import { getImage, deleteFile } from '../../utilities/file_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -34,7 +34,7 @@ class PostListItem extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.item.image_url) {
-      getSignedUrl(this.props.firebaseUserObj, this.props.refreshAuthToken, 'getObject', { Bucket: 'insiya-users', Key: this.props.item.image_url })
+      getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.item.image_url)
         .then((data) => {
           this.setState({ imageUrl: data });
         })
@@ -98,7 +98,7 @@ class PostListItem extends React.PureComponent {
 
   //TODO: render spinner
   _deleteImageFile(key) {
-    deleteFile(this.props.firebaseUserObj, this.props.refreshAuthToken, { Bucket: 'insiya-users', Key: key })
+    deleteFile(this.props.firebaseUserObj, this.props.refreshAuthToken, key)
       .then((data) => {
         this._deletePost();
       })
