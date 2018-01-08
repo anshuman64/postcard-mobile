@@ -14,6 +14,7 @@ import LoadingScreenContainer     from './components/loading_screen/loading_scre
 import LoginScreenContainer       from './components/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer from './components/confirm_code_screen/confirm_code_screen_container.js';
 import UsernameScreenContainer    from './components/username_screen/username_screen_container.js';
+import AvatarScreenContainer      from './components/avatar_screen/avatar_screen_container.js';
 
 import HomeScreenContainer        from './components/home_screen/home_screen_container.js';
 import AuthoredPostsTabContainer  from './components/user_screen/authored_posts_tab_container.js';
@@ -80,11 +81,11 @@ class App extends React.Component {
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true} hideNavBar={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true}  hideNavBar={true}  />
             <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true}  />
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Username'}/>}  />
-            <Scene key='AvatarScreen' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
+            <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
               <Tabs key='UserScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={true}>
