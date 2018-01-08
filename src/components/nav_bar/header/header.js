@@ -27,7 +27,7 @@ class Header extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _uploadImage(imageNode) {
-    uploadImageFile(imageNode, this.props.user.id, this.props.firebaseUserObj, this.props.refreshAuthToken)
+    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, imageNode, this.props.user.id)
       .then((data) => {
         this._createPost(data.key);
       })
