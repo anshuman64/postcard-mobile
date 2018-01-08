@@ -33,37 +33,37 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
     marginTop: 5
   },
-  textInput: {
-    width: 240,
-    height: 50,
-    textAlign: 'left',
-    fontSize: StyleUtility.scaleFont(20),
+  frame: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 200,
+    width: 200,
+    borderWidth: 2,
+    borderColor: StyleUtility.COLORS.grey900,
+    borderRadius: 200 / 2,
+    marginTop: 25,
+  },
+  placeholderImage: {
+    fontSize: StyleUtility.scaleFont(40),
+    textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
-    borderBottomColor: StyleUtility.COLORS.grey900,
-    borderBottomWidth: 1,
-    marginTop: 80
   },
-  borderHighlighted: {
-    borderBottomColor: StyleUtility.COLORS.appleBlue,
+  image: {
+    width: 200,
+    height: 200,
   },
-  borderRed: {
-    borderBottomColor: StyleUtility.COLORS.appleRed,
-  },
-  errorText: {
-    width: 240,
+  changePhotoText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(15),
-    textAlign: 'left',
-    color: StyleUtility.COLORS.appleRed,
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleBlue,
     marginTop: 4
   },
   transparentText: {
     color: 'transparent'
   },
-  textHighlighted: {
-   color: StyleUtility.COLORS.appleBlue,
- },
  nextButtonBackground: {
    flexDirection: 'column',
    justifyContent: 'center',
@@ -71,19 +71,28 @@ export const styles = RN.StyleSheet.create({
    height: 40,
    borderRadius: 4,
    backgroundColor: StyleUtility.COLORS.appleBlue,
-   marginTop: 75
- },
- nextButtonBackgroundDisabled: {
-   backgroundColor: StyleUtility.COLORS.appleBlue + '33',
+   marginTop: 25
  },
  nextButtonText: {
    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
-   fontSize: StyleUtility.scaleFont(18),
+   fontSize: StyleUtility.scaleFont(17),
    fontWeight: '100',
    textAlign: 'center',
    color: 'white',
  },
- nextButtonTextDisabled: {
-   color: '#ffffffb3',
+ skipButton: {
+   flexDirection: 'column',
+   justifyContent: 'center',
+   alignItems: 'center',
+   height: 50,
+   width: 100,
+ },
+ skipButtonText: {
+   width: 240,
+   fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+   fontSize: StyleUtility.scaleFont(15),
+   fontWeight: '100',
+   textAlign: 'center',
+   color: StyleUtility.COLORS.appleBlue,
  },
 });

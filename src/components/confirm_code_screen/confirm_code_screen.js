@@ -175,7 +175,7 @@ class ConfirmCodeScreen extends React.PureComponent {
       return <RN.ActivityIndicator size='small' color={COLORS.grey400} />
     } else {
       return (
-        <RN.Text style={[styles.invalidCodeText, !this.state.isCodeIncorrect && styles.invalidCodeTextTransparent]}>
+        <RN.Text style={[styles.invalidCodeText, !this.state.isCodeIncorrect && styles.transparentText]}>
           Invalid Code
         </RN.Text>
       )

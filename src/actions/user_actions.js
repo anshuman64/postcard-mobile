@@ -184,9 +184,8 @@ const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
     });
 }
 
-export const editUsername = (authToken, firebaseUserObj, queryParams) => (dispatch) => {
-  debugger
-  return APIUtility.put(authToken, '/users', queryParams)
+export const editUsername = (authToken, firebaseUserObj, username) => (dispatch) => {
+  return APIUtility.put(authToken, '/users', { username: username })
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: true, username: username });
 
@@ -194,7 +193,7 @@ export const editUsername = (authToken, firebaseUserObj, queryParams) => (dispat
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshAuthToken(firebaseUserObj, editUsername, queryParams));
+      return dispatch(refreshAuthToken(firebaseUserObj, editUsername, username));
     }
 
     if (!error.description) {
@@ -203,11 +202,32 @@ export const editUsername = (authToken, firebaseUserObj, queryParams) => (dispat
       } else if (error.message === 'username invalid') {
         error.description = 'Username invalid';
       } else {
-        error.description = 'POST user for username failed'
+        error.description = 'PUT user for username failed'
       }
     }
 
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: false, username: username, error: error.description });
+    throw error;
+  });
+}
+
+export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) => {
+  return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
+  .then((editedUser) => {
+    amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
+
+    dispatch(receiveUser(editedUser));
+  })
+  .catch((error) => {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, avatarUrl));
+    }
+
+    if (!error.description) {
+      error.description = 'PUT user for avatarUrl failed'
+    }
+
+    amplitude.logEvent('Onboarding - Edit Username', { is_successful: false, avatar_url: avatarUrl, error: error.description });
     throw error;
   });
 }

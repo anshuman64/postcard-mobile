@@ -17,13 +17,11 @@ class UsernameScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      inputtedText:         '',
-      isError:      false,
-      errorText:            '',
-      isLoading:            false,
+      inputtedText:  '',
+      isError:       false,
+      errorText:     '',
+      isLoading:     false,
     };
-
-    this.timer = null;
   }
 
   //--------------------------------------------------------------------//
@@ -32,7 +30,7 @@ class UsernameScreen extends React.PureComponent {
 
   _onPress() {
     this.setState({ isLoading: true, isError: false, errorText: '' }, () => {
-      this.props.editUsername('eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg4YWZlYjQyNzI2ZTIzOTQyMWIwZDc5OTdjN2FiYzc3NGU0ZGUxOTkifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaW5zaXlhLW1vYmlsZSIsImF1ZCI6Imluc2l5YS1tb2JpbGUiLCJhdXRoX3RpbWUiOjE1MTUzNTM4MzcsInVzZXJfaWQiOiJ0c2d1R2Nya01qYlpsSHZmUU1rQXJqakFERmkyIiwic3ViIjoidHNndUdjcmtNamJabEh2ZlFNa0FyampBREZpMiIsImlhdCI6MTUxNTM1NjQ4NSwiZXhwIjoxNTE1MzYwMDg1LCJwaG9uZV9udW1iZXIiOiIrMTQwODMwNjAwNTkiLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7InBob25lIjpbIisxNDA4MzA2MDA1OSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBob25lIn19.LVsCwDqKSu_-RBewwk5s3SKjOZJoTJQeHMVtznUt-py58S6OGvioSZOBKFYOizVcmg_wVFSIu4qjCxMc2C-m4XldVYRQtFYjLOIOgqnwaR-Vbwd4llESTJ36FBMmix2eUgihghdlDzDYeMugOiBq7ySP4In2CBF5a7XDnKye2eetCMWhqdRboVsB-4CiPL404HM3DtiQ_skQHqBSuveQWcVziH9Dg_fYniiLJZBi3gKWVxRp6BqLNxY-G239vku8KF8wYo6e7RjDUpOsEeynxXBZIfS1NHnmCNv5vm1A51fW0itWayAJoalUXTK2i5fsSHOlLhydrzRzb2wp3_t3Ww', this.props.firebaseUserObj, this.state.inputtedText)
+      this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, this.state.inputtedText)
         .then(() => {
           if (this.props.isLogin) {
             this.props.navigateTo('AvatarScreen', { isLogin: true });
@@ -94,12 +92,12 @@ class UsernameScreen extends React.PureComponent {
     )
   }
 
-  _renderUsernameTakenText() {
+  _renderErrorText() {
     if (this.state.isLoading) {
       return <RN.ActivityIndicator size='small' color={COLORS.grey400} />
     } else {
       return (
-        <RN.Text style={[styles.invalidCodeText, !this.state.isError && styles.invalidCodeTextTransparent]}>
+        <RN.Text style={[styles.errorText, !this.state.isError && styles.transparentText]}>
           {this.state.errorText}
         </RN.Text>
       )

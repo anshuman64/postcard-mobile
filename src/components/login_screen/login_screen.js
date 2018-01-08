@@ -251,7 +251,7 @@ class LoginScreen extends React.PureComponent {
   _renderInvalidNumberText() {
     return (
       <RN.View style={ styles.invalidNumberTextView }>
-        <RN.Text style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && styles.invalidNumberTextTransparent]}>
+        <RN.Text style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && styles.transparentText]}>
           Invalid Number
         </RN.Text>
       </RN.View>
@@ -263,7 +263,7 @@ class LoginScreen extends React.PureComponent {
       <RN.TouchableOpacity
         style={[styles.nextButtonBackground, this.state.isNextButtonDisabled && styles.nextButtonBackgroundDisabled]}
         onPress={() => this._onNextButtonPress()}
-        disabled={this.state.isNextButtonDisabled && !this.state.isLoading}
+        disabled={this.state.isNextButtonDisabled && this.state.isLoading}
         >
         { this.state.isLoading ?
           <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
