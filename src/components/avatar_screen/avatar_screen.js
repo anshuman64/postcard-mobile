@@ -19,7 +19,8 @@ class AvatarScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      image:      null,
+      imagePath:     null,
+      imageType:     null,
       isError:       false,
       isLoading:     false,
       isNextPressed: true,
@@ -27,8 +28,8 @@ class AvatarScreen extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.image) {
-      this.setState({image: nextProps.image})
+    if (nextProps.imagePath) {
+      this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
     }
   }
 
@@ -37,8 +38,8 @@ class AvatarScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _uploadImage(image) {
-    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, image, this.props.user.id, 'profile_pictures/')
+  _uploadImage(imagePath, imageType) {
+    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, imagePath, imageType, this.props.user.id, 'profile_pictures/')
       .then((data) => {
         this._setAvatarUrl(data.key);
       })
@@ -79,7 +80,7 @@ class AvatarScreen extends React.PureComponent {
     this.isNextPressed = true;
 
     this.setState({ isLoading: true }, () => {
-      this._uploadImage(this.props.image);
+      this._uploadImage(this.props.imagePath, this.props.imageType);
     });
   }
 
@@ -119,7 +120,7 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderAvatar() {
-    if (!this.state.image) {
+    if (!this.state.imagePath) {
       return (
         <RN.View style={styles.frame}>
           <Icon name='user' style={styles.placeholderImage} />
@@ -128,7 +129,7 @@ class AvatarScreen extends React.PureComponent {
     } else {
       return (
         <RN.View style={styles.frame}>
-          <RN.Image source={{uri: this.state.image.image ? this.state.image.image.uri : this.state.image.path}} style={styles.image} resizeMode={'contain'} />
+          <RN.Image source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'} />
         </RN.View>
       )
     }
@@ -139,9 +140,9 @@ class AvatarScreen extends React.PureComponent {
       <RN.TouchableOpacity
         style={styles.skipButton}
         onPress={this._onPressAddPhoto}
-        disabled={!this.state.image || this.state.isLoading}
+        disabled={!this.state.imagePath || this.state.isLoading}
         >
-        <RN.Text style={[styles.skipButtonText, !this.state.image && styles.transparentText]}>
+        <RN.Text style={[styles.skipButtonText, !this.state.imagePath && styles.transparentText]}>
           Change
         </RN.Text>
       </RN.TouchableOpacity>
@@ -153,13 +154,13 @@ class AvatarScreen extends React.PureComponent {
     return (
       <RN.TouchableOpacity
         style={styles.nextButtonBackground}
-        onPress={this.state.image ? this._onPressNext : this._onPressAddPhoto}
+        onPress={this.state.imagePath ? this._onPressNext : this._onPressAddPhoto}
         disabled={this.state.isLoading}
         >
         { this.state.isLoading ?
           <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
           <RN.Text style={styles.nextButtonText}>
-            {this.state.image ? 'Next' : 'Add Photo'}
+            {this.state.imagePath ? 'Next' : 'Add Photo'}
           </RN.Text>
         }
       </RN.TouchableOpacity>
