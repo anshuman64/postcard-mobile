@@ -4,6 +4,7 @@ import RN     from 'react-native';
 import _      from 'lodash';
 
 // Local Imports
+import TabBarContainer        from '../nav_bar/tab_bar/tab_bar_container.js';
 import PostListItemContainer  from './post_list_item_container.js';
 import { styles }             from './post_list_styles.js';
 import { POST_TYPES }         from '../../actions/post_actions.js';
@@ -98,6 +99,7 @@ class PostList extends React.PureComponent {
         showsVerticalScrollIndicator={false}
         onEndReached={() => this._onEndReached()}
         refreshControl={ this._renderRefreshControl() }
+        ListHeaderComponent={ this._renderHeader }
         ListFooterComponent={ this._renderFooter }
         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
         onEndReachedThreshold={0.01}
@@ -118,6 +120,12 @@ class PostList extends React.PureComponent {
         onRefresh={this._onRefresh}
         color={COLORS.grey400}
         />
+    )
+  }
+
+  _renderHeader = () => {
+    return (
+      <TabBarContainer />
     )
   }
 

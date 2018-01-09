@@ -18,13 +18,13 @@ class NewPostScreen extends React.PureComponent {
 
     this.state = {
       postText: '',
-      imageNode: null,
+      image: null,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.imageNode) {
-      this.setState({imageNode: nextProps.imageNode})
+    if (nextProps.image) {
+      this.setState({image: nextProps.image})
     }
   }
 
@@ -58,10 +58,10 @@ class NewPostScreen extends React.PureComponent {
 
 // TODO: make X button pretty
   _renderImage() {
-    if (this.state.imageNode) {
+    if (this.state.image) {
       return (
-        <RN.ImageBackground source={{uri: this.state.imageNode.image.uri}} style={styles.image} resizeMode={'contain'} >
-          <EvilIcon name='close' style={styles.closeIcon} onPress={() => this.setState({imageNode: null})}/>
+        <RN.ImageBackground source={{uri: this.state.image.image ? this.state.image.image.uri : this.state.image.path}} style={styles.image} resizeMode={'contain'} >
+          <EvilIcon name='close' style={styles.closeIcon} onPress={() => this.setState({image: null})}/>
         </RN.ImageBackground>
       )
     }
@@ -83,7 +83,7 @@ class NewPostScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={ styles.container }>
-        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} imageNode={this.state.imageNode}/>
+        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} image={this.state.image}/>
         {this._renderTextInput()}
         {this._renderImage()}
         {this._renderImageButton()}

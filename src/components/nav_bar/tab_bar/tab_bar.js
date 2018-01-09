@@ -9,7 +9,6 @@ import { getImage } from '../../../utilities/file_utility.js';
 
 //--------------------------------------------------------------------//
 
-
 class TabBar extends React.PureComponent {
   constructor(props) {
     super(props);
