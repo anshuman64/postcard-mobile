@@ -26,8 +26,8 @@ class Header extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _uploadImage(imageNode) {
-    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, imageNode, this.props.user.id, 'posts/')
+  _uploadImage(image) {
+    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, image, this.props.user.id, 'posts/')
       .then((data) => {
         this._createPost(data.key);
       })
@@ -63,14 +63,14 @@ class Header extends React.PureComponent {
 
   //TODO: add spinner
   _onPressShare = () => {
-    if ((!this.props.postText && !this.props.imageNode) || this.isSharePressed) {
+    if ((!this.props.postText && !this.props.image) || this.isSharePressed) {
       return;
     }
 
     this.isSharePressed = true;
 
-    if (this.props.imageNode) {
-      this._uploadImage(this.props.imageNode);
+    if (this.props.image) {
+      this._uploadImage(this.props.image);
     } else {
       this._createPost()
     }
@@ -103,7 +103,7 @@ class Header extends React.PureComponent {
   _renderBackTitle() {
     if (this.props.backTitle) {
       return (
-        <RN.Text style={styles.backTitle}>
+        <RN.Text style={[styles.backTitle, !this.props.backIcon && styles.marginLeft]}>
           {this.props.backTitle}
         </RN.Text>
       )
@@ -159,13 +159,11 @@ class Header extends React.PureComponent {
   }
 
   render() {
-    const IS_BORDER = (this.props.currentScreen === '_HomeScreen'
-      || this.props.currentScreen === '_NewPostScreen'
-      || this.props.currentScreen === '_UsernameScreenLogin'
-      || this.props.currentScreen === '_UsernameScreen');
+    const IS_NOT_BORDER = (this.props.currentScreen === '_AuthoredPostsTab'
+      || this.props.currentScreen === '_LikedPostsTab');
 
     return (
-      <RN.View style={[styles.header, this.props.backTitle && styles.backHeader, IS_BORDER && styles.border]}>
+      <RN.View style={[styles.header, this.props.backTitle && styles.backHeader, !IS_NOT_BORDER && styles.border]}>
         {this._renderBackIcon()}
         {this._renderBackTitle()}
         {this._renderSettingsIcon()}

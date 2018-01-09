@@ -1,6 +1,6 @@
 // Library Imports
 import React                            from 'react';
-import { AppState, BackHandler }        from 'react-native';
+import { AppState, BackHandler, View }  from 'react-native';
 import { Provider }                     from 'react-redux';
 import { Scene, Tabs, Stack, Actions }  from 'react-native-router-flux';
 
@@ -80,7 +80,7 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer}    hideNavBar={true}  />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true}  />
             <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true} hideNavBar={true}  />
             <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true}  />
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
@@ -88,8 +88,8 @@ class App extends React.Component {
             <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
-              <Tabs key='UserScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={true}>
-                <Scene key='AuthoredPostsTab' component={AuthoredPostsTabContainer} initial={true} hideNavBar={true}  />
+              <Tabs key='UserScreenTabs' tabBarComponent={() => <View style={{height: 0}}/>} >
+                <Scene key='AuthoredPostsTab' component={AuthoredPostsTabContainer} initial={true} hideNavBar={true} />
                 <Scene key='LikedPostsTab' component={LikedPostsTabContainer} hideNavBar={true}  />
               </Tabs>
             </Tabs>

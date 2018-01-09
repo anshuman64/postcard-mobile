@@ -16,7 +16,6 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    paddingTop: 5,
     backgroundColor: StyleUtility.COLORS.grey50,
   },
   postList: {

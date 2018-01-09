@@ -18,6 +18,8 @@ class DebugLoginScreen extends React.PureComponent {
       emailInput:     'debug@insiya.io',
       passwordInput:  'password',
     };
+
+    this.isNextPressed = false;
   }
 
   //--------------------------------------------------------------------//
@@ -25,12 +27,19 @@ class DebugLoginScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onNextButtonPress() {
+    if (this.isNextPressed) {
+      return;
+    }
+
+    this.isNextPressed = true;
+
     this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
       .then(() => {
         this.props.navigateTo('HomeScreen');
       })
       .catch((error) => {
         console.error(error.description);
+        this.isNextPressed = false;
       });
   }
 
