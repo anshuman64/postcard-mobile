@@ -51,6 +51,8 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case POST_ACTION_TYPES.REFRESH_POSTS:
       let handleRefreshPosts = (type) => {
+        newState[type].lastUpdated = new Date();
+        
         if (action.data.posts.length < 10) { // 10 = number of posts fetched
           newState[type].isEnd = true;
         } else {
@@ -59,7 +61,6 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
         if (action.data.posts.length > 0) {
           newState[type].data        = mergeSorted(newState[type].data, action.data.posts.map(post => post.id));
-          newState[type].lastUpdated = new Date();
         }
       };
 

@@ -79,7 +79,7 @@ class AvatarScreen extends React.PureComponent {
     this.isNextPressed = true;
 
     this.setState({ isLoading: true }, () => {
-      this._uploadImage(this.props.imageNode);
+      this._uploadImage(this.props.image);
     });
   }
 
