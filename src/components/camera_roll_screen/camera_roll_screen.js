@@ -67,13 +67,13 @@ class CameraRollScreen extends React.PureComponent {
         cropperToolbarColor: 'black',
       })
       .then((imageObj) => {
-        this.props.goBack({ image: imageObj });
+        this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
       })
       .catch((error) => {
         console.log(error);
       })
     } else {
-      this.props.goBack({ image: imageNode });
+      this.props.goBack({ imagePath: imageNode.image.uri, imageType: imageNode.type });
     }
   }
 
