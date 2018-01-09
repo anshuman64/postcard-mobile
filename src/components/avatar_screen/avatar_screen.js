@@ -68,7 +68,7 @@ class AvatarScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressAddPhoto = () => {
-    this.props.navigateTo('CameraRollScreen');
+    this.props.navigateTo('CameraRollScreen', { isAvatar: true });
   }
 
   _onPressNext = () => {

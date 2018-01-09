@@ -46,6 +46,9 @@ export const styles = RN.StyleSheet.create({
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
+  marginLeft: {
+    marginLeft: 50
+  },
   settingsIcon: {
     fontSize: StyleUtility.scaleFont(21),
     textAlign: 'center',
