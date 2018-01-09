@@ -54,19 +54,21 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
   });
 }
 
-export const uploadImageFile = (firebaseUserObj, refreshAuthToken, imageNode, userId, path) => {
+export const uploadImageFile = (firebaseUserObj, refreshAuthToken, image, userId, path) => {
   s3 = new AWS.S3();
 
-  return readImageFile(imageNode)
+  return readImageFile(image)
     .then((buffer) => {
-      params = getParamsForImage(userId, imageNode, buffer, path);
+      params = getParamsForImage(userId, image, buffer, path);
 
       return uploadFile(firebaseUserObj, refreshAuthToken, params);
     });
 }
 
-const readImageFile = (imageNode) => {
-  return RNFetchBlob.fs.readFile(imageNode.image.uri, 'base64')
+const readImageFile = (image) => {
+  path = image.image ? image.image.uri : image.path;
+
+  return RNFetchBlob.fs.readFile(path, 'base64')
     .then((data) => {
       buffer = new Buffer(data, 'base64');
       return new Promise.resolve(buffer);
@@ -80,10 +82,11 @@ const readImageFile = (imageNode) => {
     });
 }
 
-const getParamsForImage = (userId, imageNode, buffer, path) => {
+const getParamsForImage = (userId, image, buffer, path) => {
+  type = image.type ? image.type : image.mime;
   userFolder = userId;
   name = uuid.v1();
-  ext = mime.extension(imageNode.type);
+  ext = mime.extension(image.type);
   folder = path ? path : '';
 
   params = {
@@ -91,7 +94,7 @@ const getParamsForImage = (userId, imageNode, buffer, path) => {
     Bucket: "insiya-users",
     Key: userFolder + '/' + folder + name + '.' + ext,
     ServerSideEncryption: "AES256",
-    ContentType: imageNode.type
+    ContentType: type
   };
 
   return params;
