@@ -10,10 +10,11 @@ import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, postsCache, posts }, ownProps) => ({
+const mapStateToProps = ({ user, postsCache, posts, navigation }, ownProps) => ({
   authToken:       user.authToken,
   firebaseUserObj: user.firebaseUserObj,
-  postsCache:      postsCache
+  postsCache:      postsCache,
+  currentScreen:   navigation.currentScreen
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

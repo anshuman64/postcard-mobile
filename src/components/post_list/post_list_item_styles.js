@@ -37,18 +37,30 @@ export const styles = RN.StyleSheet.create({
   },
   headerView: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    height: 25
+    height: 50
   },
-  headerViewSmall: {
-    height: 10
-  },
-  button: {
-    flexDirection: 'column',
-    justifyContent: 'center',
+  userView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    width: '80%',
+    height: 50,
+  },
+  avatarImage: {
+    height: 50,
+    width: 50,
+    borderRadius: 50 / 2,
+  },
+  usernameText: {
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
+    fontWeight: '400',
+    fontSize: StyleUtility.scaleFont(14),
+    textAlign: 'left',
+    color: StyleUtility.COLORS.grey900,
+    marginLeft: 10
   },
   closeIcon: {
     fontSize: 20,
@@ -72,9 +84,9 @@ export const styles = RN.StyleSheet.create({
   smallBodyText: {
     fontSize: StyleUtility.scaleFont(14),
   },
-  image: {
+  bodyImage: {
     height: StyleUtility.DEVICE_DIM.width * 0.9,
-    width: StyleUtility.DEVICE_DIM.width
+    width: StyleUtility.DEVICE_DIM.width,
   },
   footerView: {
     flexDirection: 'row',

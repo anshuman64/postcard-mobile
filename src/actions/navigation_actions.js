@@ -26,6 +26,10 @@ export const navigateTo = (screen, props) => (dispatch) => {
     Actions.AuthoredPostsTab(props)
   } else if (screen === 'LikedPostsTab') {
     Actions.LikedPostsTab(props)
+  } else if (screen === 'ProfileAuthoredTab') {
+    Actions.ProfileAuthoredTab(props)
+  } else if (screen === 'ProfileLikedTab') {
+    Actions.ProfileLikedTab(props)
   } else if (screen === 'NewPostScreen') {
     Actions.NewPostScreen(props)
   } else if (screen === 'MenuScreen') {

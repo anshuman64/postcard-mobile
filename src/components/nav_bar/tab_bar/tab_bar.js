@@ -18,9 +18,21 @@ class TabBar extends React.PureComponent {
     }
   }
 
+  componentDidMount() {
+    this._setAvatarUrl(this.props)
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user.avatar_url && nextProps.user.avatar_url != this.state.avatarUrl) {
-      getImage(nextProps.firebaseUserObj, nextProps.refreshAuthToken, nextProps.user.avatar_url)
+    this._setAvatarUrl(nextProps)
+  }
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  _setAvatarUrl(props) {
+    if (props.user.avatar_url && props.user.avatar_url != this.state.avatarUrl) {
+      getImage(props.firebaseUserObj, props.refreshAuthToken, props.user.avatar_url)
         .then((data) => {
           this.setState({ avatarUrl: data });
         })
@@ -34,15 +46,15 @@ class TabBar extends React.PureComponent {
   _renderAvatar() {
     if (!this.state.avatarUrl) {
       return (
-        <RN.View style={styles.frame}>
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')}>
           <Icon name='user' style={styles.placeholderImage} />
-        </RN.View>
+        </RN.TouchableOpacity>
       )
     } else {
       return (
-        <RN.View style={styles.frame}>
+        <RN.TouchableOpacity style={styles.frame}>
           <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'contain'} />
-        </RN.View>
+        </RN.TouchableOpacity>
       )
     }
   }
