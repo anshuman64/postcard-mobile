@@ -105,5 +105,7 @@
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string/>
+	<key>NSCameraUsageDescription</key>
+	<string/>
 </dict>
 </plist>
