@@ -81,11 +81,11 @@ class App extends React.Component {
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer}    hideNavBar={true}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true} hideNavBar={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true}  />
             <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true}  />
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backTitle={'Username'}/>}  />
-            <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
+            <Scene key='AvatarScreen' component={AvatarScreenContainer} initial={true} navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
               <Tabs key='UserScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={true}>
