@@ -26,8 +26,8 @@ class Header extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _uploadImage(image) {
-    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, image, this.props.user.id, 'posts/')
+  _uploadImage(imagePath, imageType) {
+    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, imagePath, imageType, this.props.user.id, 'posts/')
       .then((data) => {
         this._createPost(data.key);
       })
@@ -63,14 +63,14 @@ class Header extends React.PureComponent {
 
   //TODO: add spinner
   _onPressShare = () => {
-    if ((!this.props.postText && !this.props.image) || this.isSharePressed) {
+    if ((!this.props.postText && !this.props.imagePath) || this.isSharePressed) {
       return;
     }
 
     this.isSharePressed = true;
 
-    if (this.props.image) {
-      this._uploadImage(this.props.image);
+    if (this.props.imagePath) {
+      this._uploadImage(this.props.imagePath, this.props.imageType);
     } else {
       this._createPost()
     }
