@@ -124,9 +124,13 @@ class PostList extends React.PureComponent {
   }
 
   _renderHeader = () => {
-    return (
-      <TabBarContainer />
-    )
+    if (this.props.currentScreen != '_HomeScreen') {
+      return (
+        <TabBarContainer />
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderFooter = () => {

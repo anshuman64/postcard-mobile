@@ -88,10 +88,14 @@ class App extends React.Component {
             <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
-              <Tabs key='UserScreenTabs' tabBarComponent={() => <View style={{height: 0}}/>} >
+              <Tabs key='UserScreen' tabBarComponent={() => <View style={{height: 0}}/>} >
                 <Scene key='AuthoredPostsTab' component={AuthoredPostsTabContainer} initial={true} hideNavBar={true} />
                 <Scene key='LikedPostsTab' component={LikedPostsTabContainer} hideNavBar={true}  />
               </Tabs>
+            </Tabs>
+            <Tabs key='ProfileScreen' tabBarComponent={() => <View style={{height: 0}}/>} navBar={() => <HeaderContainer backIcon={true}/>} >
+              <Scene key='ProfileAuthoredTab' component={AuthoredPostsTabContainer} initial={true} hideNavBar={true} />
+              <Scene key='ProfileLikedTab' component={LikedPostsTabContainer} hideNavBar={true}  />
             </Tabs>
             <Scene key='NewPostScreen' component={NewPostScreenContainer}  hideNavBar={true}  />
             <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true} backTitle={'Settings'}/>}  />

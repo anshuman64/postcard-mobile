@@ -29,7 +29,7 @@ export const styles = RN.StyleSheet.create({
     width: 150,
     borderWidth: 2,
     borderColor: StyleUtility.COLORS.grey900,
-    borderRadius: 200 / 2,
+    borderRadius: 150 / 2,
     marginBottom: 10,
   },
   placeholderImage: {
@@ -38,8 +38,9 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
   },
   image: {
-    width: 150,
-    height: 150,
+    width: 146,
+    height: 146,
+    borderRadius: 50,
   },
   usernameButton: {
     flexDirection: 'row',

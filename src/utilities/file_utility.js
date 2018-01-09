@@ -10,11 +10,19 @@ import mime        from 'mime-types';
 // const s3 = new AWS.S3(); Debug Test
 const BUCKET_NAME = 'insiya-users';
 
-export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
-  s3 = new AWS.S3();
+let s3 = null;
 
+const getClient = () => {
+  if (!s3) {
+    s3 = new AWS.S3();
+  }
+
+  return s3;
+};
+
+export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
   return new Promise((resolve, reject) => {
-    s3.getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: key }, (error, data) => {
+    getClient().getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
           debugger
@@ -33,10 +41,8 @@ export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
 }
 
 export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
-  s3 = new AWS.S3();
-
   return new Promise((resolve, reject) => {
-    s3.deleteObject({ Bucket: BUCKET_NAME, Key: key }, (error, data) => {
+    getClient().deleteObject({ Bucket: BUCKET_NAME, Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
           debugger
@@ -55,8 +61,6 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
 }
 
 export const uploadImageFile = (firebaseUserObj, refreshAuthToken, image, userId, path) => {
-  s3 = new AWS.S3();
-
   return readImageFile(image)
     .then((buffer) => {
       params = getParamsForImage(userId, image, buffer, path);
@@ -86,7 +90,7 @@ const getParamsForImage = (userId, image, buffer, path) => {
   type = image.type ? image.type : image.mime;
   userFolder = userId;
   name = uuid.v1();
-  ext = mime.extension(image.type);
+  ext = mime.extension(type);
   folder = path ? path : '';
 
   params = {
@@ -103,7 +107,7 @@ const getParamsForImage = (userId, image, buffer, path) => {
 
 const uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
   return new Promise((resolve, reject) => {
-    s3.upload(params, (error, data) => {
+    getClient().upload(params, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
           return refreshAuthToken(firebaseUserObj)
