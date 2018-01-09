@@ -43,6 +43,7 @@ export const styles = RN.StyleSheet.create({
     borderColor: StyleUtility.COLORS.grey900,
     borderRadius: 200 / 2,
     marginTop: 25,
+    zIndex: 1,
   },
   placeholderImage: {
     fontSize: StyleUtility.scaleFont(40),
@@ -50,8 +51,9 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 196,
+    height: 196,
+    borderRadius: 200 / 2,
   },
   changePhotoText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',

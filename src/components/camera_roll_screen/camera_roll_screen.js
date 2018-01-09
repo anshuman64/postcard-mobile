@@ -1,8 +1,9 @@
 // Library Imports
-import React   from 'react';
-import RN      from 'react-native';
-import _       from 'lodash';
-import Ionicon from 'react-native-vector-icons/Ionicons'
+import React       from 'react';
+import RN          from 'react-native';
+import _           from 'lodash';
+import ImagePicker from 'react-native-image-crop-picker';
+import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { DEVICE_DIM }         from '../../utilities/style_utility.js';
@@ -54,8 +55,23 @@ class CameraRollScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onPressImage(uri) {
-    this.props.goBack({ imageNode: uri });
+  _onPressImage(imageNode) {
+    ImagePicker.openCropper({
+      path: imageNode.image.uri,
+      width: 500,
+      height: 500,
+      cropperCircleOverlay: true,
+      showCropGuidelines: false,
+      hideBottomControls: true,
+      cropperToolbarColor: 'black',
+    })
+    .then((imageObj) => {
+      this.props.goBack({ image: imageObj });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+
   }
 
   //--------------------------------------------------------------------//
