@@ -14,7 +14,7 @@ npm install
 
 3. Fix mime-types module
 ````
-open ./node_modules/mime_types/index.js
+open ./node_modules/mime-types/index.js
 ````
 Edit ````var extname = require('path').extname```` to:
 ````
