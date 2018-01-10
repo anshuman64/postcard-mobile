@@ -41,6 +41,12 @@ export const navigateTo = (screen, props) => (dispatch) => {
   }
 }
 
+export const navigateToProfile = (props) => (dispatch) => {
+  Keyboard.dismiss();
+
+  Actions.push('ProfileAuthoredTab', props);
+}
+
 export const goBack = (props) => (dispatch) => {
   Keyboard.dismiss();
   Actions.pop();
