@@ -154,7 +154,7 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.usernameText.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
-          onPress={() => this.props.navigateTo('ProfileAuthoredTab', { postItem: this.props.item })}
+          onPress={() => this.props.navigateToProfile({ authorId: this.props.item.author_id, authorUsername: this.props.item.author_username, authorAvatarUrl: this.props.item.author_avatar_url })}
           disabled={this.props.user.id != this.props.item.author_id}
           style={styles.userView}
           >
