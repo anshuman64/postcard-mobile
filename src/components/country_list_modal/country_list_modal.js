@@ -5,7 +5,7 @@ import _      from 'lodash';
 
 // Local Imports
 import { styles }                                        from './country_list_modal_styles.js';
-import CountryListItem                                   from './country_list_item.js';
+import CountryListItem                                   from './country_list_item/country_list_item.js';
 import { COLORS, DEVICE_DIM, MAX_TABLET_DIM, isTablet }  from '../../utilities/style_utility.js';
 import { COUNTRY_CODES }                                 from '../../utilities/country_utility.js';
 

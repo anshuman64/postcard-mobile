@@ -19,7 +19,6 @@ const mapStateToProps = ({ user, navigation }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   navigateTo:       (screen, props) => dispatch(navigateTo(screen, props)),
-  refreshAuthToken: (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params))
 });
 
 export default connect(
