@@ -7,7 +7,7 @@ import _         from 'lodash';
 // Constants
 //--------------------------------------------------------------------//
 
-const BASE_URL        = 'http://192.168.2.18:3000/api';
+const BASE_URL        = 'http://192.168.2.2:3000/api';
 // const BASE_URL        = 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
 const DEFAULT_HEADERS = {
   'Accept':       'application/json',

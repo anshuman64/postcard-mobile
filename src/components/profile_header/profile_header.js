@@ -4,12 +4,13 @@ import RN        from 'react-native';
 import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }   from './tab_bar_styles.js';
-import { getImage } from '../../../utilities/file_utility.js';
+import { styles }     from './profile_header_styles.js';
+import { POST_TYPES } from '../../actions/post_actions.js';
+import { getImage }   from '../../utilities/file_utility.js';
 
 //--------------------------------------------------------------------//
 
-class TabBar extends React.PureComponent {
+class ProfileHeader extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -68,13 +69,13 @@ class TabBar extends React.PureComponent {
   _renderTabs() {
     return (
       <RN.View style={styles.tabs}>
-        <RN.TouchableOpacity onPress={() => this.props.navigateTo('AuthoredPostsTab')} style={styles.button}>
-          <RN.Text style={[styles.text, this.props.currentScreen === '_AuthoredPostsTab' && styles.textHighlighted]} >
+        <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
+          <RN.Text style={[styles.text, this.props.postType === POST_TYPES.AUTHORED && styles.textHighlighted]} >
             Posts
           </RN.Text>
         </RN.TouchableOpacity>
-        <RN.TouchableOpacity onPress={() => this.props.navigateTo('LikedPostsTab')} style={styles.button}>
-          <RN.Text style={[styles.text, this.props.currentScreen === '_LikedPostsTab' && styles.textHighlighted]} >
+        <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
+          <RN.Text style={[styles.text, this.props.postType === POST_TYPES.LIKED && styles.textHighlighted]} >
             Liked
           </RN.Text>
         </RN.TouchableOpacity>
@@ -96,4 +97,4 @@ class TabBar extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default TabBar;
+export default ProfileHeader;
