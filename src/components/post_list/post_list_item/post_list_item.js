@@ -8,10 +8,10 @@ import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import { styles, scaleHeart }   from './post_list_item_styles.js';
-import { renderDate }           from '../../utilities/date_time_utility.js';
-import fontelloConfig           from '../../assets/fonts/config.json';
-import { defaultErrorAlert }    from '../../utilities/error_utility.js';
-import { getImage, deleteFile } from '../../utilities/file_utility.js';
+import { renderDate }           from '../../../utilities/date_time_utility.js';
+import fontelloConfig           from '../../../assets/fonts/config.json';
+import { defaultErrorAlert }    from '../../../utilities/error_utility.js';
+import { getImage, deleteFile } from '../../../utilities/file_utility.js';
 
 
 //--------------------------------------------------------------------//

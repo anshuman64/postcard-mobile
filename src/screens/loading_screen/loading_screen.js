@@ -5,8 +5,7 @@ import Firebase        from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import { styles }       from './loading_screen_styles.js';
-import * as Animations  from './loading_screen_animations.js';
+import { styles, pulseIcon } from './loading_screen_styles.js';
 
 //--------------------------------------------------------------------//
 
@@ -81,7 +80,7 @@ class LoadingScreen extends React.PureComponent {
         style={styles.icon}
         source={require('../../assets/images/icon/icon.png')}
         resizeMode={'cover'}
-        animation={Animations.pulseIcon}
+        animation={pulseIcon}
         direction={'alternate'}
         easing={'ease-in'}
         duration={1500}

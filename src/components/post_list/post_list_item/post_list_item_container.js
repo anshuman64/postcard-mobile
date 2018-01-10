@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import PostListItem                from './post_list_item.js';
-import { refreshAuthToken }        from '../../actions/user_actions.js';
-import { deletePost, removePost }  from '../../actions/post_actions.js';
-import { createLike, deleteLike }  from '../../actions/like_actions.js';
-import { navigateToProfile }       from '../../actions/navigation_actions.js';
+import { refreshAuthToken }        from '../../../actions/user_actions.js';
+import { deletePost, removePost }  from '../../../actions/post_actions.js';
+import { createLike, deleteLike }  from '../../../actions/like_actions.js';
+import { navigateToProfile }       from '../../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//

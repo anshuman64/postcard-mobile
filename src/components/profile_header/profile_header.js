@@ -69,12 +69,12 @@ class ProfileHeader extends React.PureComponent {
   _renderTabs() {
     return (
       <RN.View style={styles.tabs}>
-        <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
+        <RN.TouchableOpacity onPress={this.props.setParentState ? this.props.setParentState({ postType: POST_TYPES.AUTHORED }) : null} style={styles.button}>
           <RN.Text style={[styles.text, this.props.postType === POST_TYPES.AUTHORED && styles.textHighlighted]} >
             Posts
           </RN.Text>
         </RN.TouchableOpacity>
-        <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
+        <RN.TouchableOpacity onPress={this.props.setParentState ? this.props.setParentState({ postType: POST_TYPES.LIKED }) : null} style={styles.button}>
           <RN.Text style={[styles.text, this.props.postType === POST_TYPES.LIKED && styles.textHighlighted]} >
             Liked
           </RN.Text>
