@@ -9,18 +9,20 @@ import { amplitude }              from './utilities/analytics_utility.js';
 import configureStore             from './store';
 import RouterContainer            from './router/router_container.js';
 
-import DebugLoginScreenContainer  from './components/debug_login_screen/debug_login_screen_container.js';
-import LoadingScreenContainer     from './components/loading_screen/loading_screen_container.js';
-import LoginScreenContainer       from './components/login_screen/login_screen_container.js';
-import ConfirmCodeScreenContainer from './components/confirm_code_screen/confirm_code_screen_container.js';
-import UsernameScreenContainer    from './components/username_screen/username_screen_container.js';
-import AvatarScreenContainer      from './components/avatar_screen/avatar_screen_container.js';
+import DebugLoginScreenContainer  from './screens/debug_login_screen/debug_login_screen_container.js';
+import LoadingScreenContainer     from './screens/loading_screen/loading_screen_container.js';
+import LoginScreenContainer       from './screens/login_screen/login_screen_container.js';
+import ConfirmCodeScreenContainer from './screens/confirm_code_screen/confirm_code_screen_container.js';
+import UsernameScreenContainer    from './screens/username_screen/username_screen_container.js';
+import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container.js';
 
-import PostsScreenContainer       from './components/posts_screen/posts_screen_container.js';
+import HomeScreenContainer        from './screens/home_screen/home_screen_container.js';
+import ProfileScreenContainer     from './screens/profile_screen/profile_screen_container.js';
+import UserScreen                 from './screens/user_screen/user_screen.js';
 
-import NewPostScreenContainer     from './components/new_post_screen/new_post_screen_container.js';
-import MenuScreen                 from './components/menu_screen/menu_screen.js';
-import CameraRollScreenContainer  from './components/camera_roll_screen/camera_roll_screen_container.js';
+import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container.js';
+import MenuScreen                 from './screens/menu_screen/menu_screen.js';
+import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container.js';
 
 import HeaderContainer            from './components/nav_bar_header/header_container.js';
 import FooterContainer            from './components/nav_bar_footer/footer_container.js';
@@ -84,10 +86,10 @@ class App extends React.Component {
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backTitle={'Username'}/>}  />
             <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
-              <Scene key='HomeScreen' component={PostsScreenContainer} initial={true} hideNavBar={true}  />
-              <Scene key='ProfileScreen' component={PostsScreenContainer} hideNavBar={true} />
+              <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
+              <Scene key='ProfileScreen' component={ProfileScreenContainer} hideNavBar={true} />
             </Tabs>
-            <Scene key='UserScreen' component={PostsScreenContainer} navBar={() => <HeaderContainer backIcon={true}/>} />
+            <Scene key='UserScreen' component={UserScreen} navBar={() => <HeaderContainer backIcon={true}/>} />
             <Scene key='NewPostScreen' component={NewPostScreenContainer}  hideNavBar={true}  />
             <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true} backTitle={'Settings'}/>}  />
             <Scene key='UsernameScreen' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Username'}/>}  />
