@@ -31,7 +31,7 @@ class TabBar extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _setAvatarUrl(props) {
-    if (props.user.avatar_url && props.user.avatar_url != this.state.avatarUrl) {
+    if (props.user.avatar_url && (props.user.avatar_url != this.state.avatarUrl)) {
       getImage(props.firebaseUserObj, props.refreshAuthToken, props.user.avatar_url)
         .then((data) => {
           this.setState({ avatarUrl: data });
@@ -44,19 +44,14 @@ class TabBar extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAvatar() {
-    if (!this.state.avatarUrl) {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')}>
-          <Icon name='user' style={styles.placeholderImage} />
+          {!this.state.avatarUrl ?
+            <Icon name='user' style={styles.placeholderImage} /> :
+            <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'contain'} />
+          }
         </RN.TouchableOpacity>
       )
-    } else {
-      return (
-        <RN.TouchableOpacity style={styles.frame}>
-          <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'contain'} />
-        </RN.TouchableOpacity>
-      )
-    }
   }
 
   _renderUsername() {
