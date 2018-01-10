@@ -5,7 +5,7 @@ import Ionicon   from 'react-native-vector-icons/Ionicons';
 import EvilIcon  from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import HeaderContainer  from '../nav_bar/header/header_container.js';
+import HeaderContainer  from '../nav_bar_header/header_container.js';
 import { styles }       from './new_post_screen_styles.js';
 import { COLORS }       from '../../utilities/style_utility.js';
 
