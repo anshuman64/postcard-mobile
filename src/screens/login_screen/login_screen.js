@@ -8,13 +8,12 @@ import Icon                    from 'react-native-vector-icons/Ionicons';
 import * as Animatable         from 'react-native-animatable';
 
 // Local Imports
-import { styles }              from './login_screen_styles.js';
-import * as Animations         from './login_screen_animations.js';
-import CountryListModal        from './country_list_modal.js';
-import { COUNTRY_CODES }       from '../../utilities/country_utility.js';
-import { setStateCallback }    from '../../utilities/function_utility.js';
-import { COLORS }              from '../../utilities/style_utility.js';
-import { defaultErrorAlert }   from '../../utilities/error_utility.js';
+import { styles, fadeInIcon, translateIcon, translateLogo } from './login_screen_styles.js';
+import CountryListModal                                     from '../../components/country_list_modal/country_list_modal.js';
+import { COUNTRY_CODES }                                    from '../../utilities/country_utility.js';
+import { setStateCallback }                                 from '../../utilities/function_utility.js';
+import { COLORS }                                           from '../../utilities/style_utility.js';
+import { defaultErrorAlert }                                from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -148,7 +147,7 @@ class LoginScreen extends React.PureComponent {
           style={styles.icon}
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='cover'
-          animation={Animations.fadeInIcon}
+          animation={fadeInIcon}
           duration={20}
           delay={10}
           />
@@ -159,7 +158,7 @@ class LoginScreen extends React.PureComponent {
           style={styles.icon}
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='cover'
-          animation={Animations.translateIcon}
+          animation={translateIcon}
           duration={20}
           />
       )
@@ -183,7 +182,7 @@ class LoginScreen extends React.PureComponent {
       return (
         <Animatable.Text
           style={styles.logo}
-          animation={Animations.translateLogo}
+          animation={translateLogo}
           duration={20}
           >
           Insiya

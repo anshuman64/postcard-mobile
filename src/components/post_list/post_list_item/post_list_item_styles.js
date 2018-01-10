@@ -3,7 +3,7 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//

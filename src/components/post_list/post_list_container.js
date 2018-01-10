@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import PostsScreen                 from './posts_screen.js';
+import PostList                    from './post_list.js';
 import { refreshAuthToken }        from '../../actions/user_actions.js';
 import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
 
@@ -27,4 +27,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PostsScreen);
+  null,
+  {withRef: true}
+)(PostList);

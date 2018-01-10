@@ -3,21 +3,16 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
+
 
 //--------------------------------------------------------------------//
+
 
 export const styles = RN.StyleSheet.create({
   container: {
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'white'
-  },
-  icon: {
-    width: 45,
-    height: 45
   },
 });
