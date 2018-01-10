@@ -19,9 +19,9 @@ const mapStateToProps = ({ user }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createLike:        (authToken, firebaseUserObj, likeObj) => dispatch(createLike(authToken, firebaseUserObj, likeObj)),
-  deleteLike:        (authToken, firebaseUserObj, postId) => dispatch(deleteLike(authToken, firebaseUserObj, postId)),
-  deletePost:        (authToken, firebaseUserObj, postId) => dispatch(deletePost(authToken, firebaseUserObj, postId)),
+  createLike:        (authToken, firebaseUserObj, userId, likeObj) => dispatch(createLike(authToken, firebaseUserObj, userId, likeObj)),
+  deleteLike:        (authToken, firebaseUserObj, userId, postId) => dispatch(deleteLike(authToken, firebaseUserObj, userId, postId)),
+  deletePost:        (authToken, firebaseUserObj, userId, postId) => dispatch(deletePost(authToken, firebaseUserObj, userId, postId)),
   removePost:        (deletedPost) => dispatch(removePost(deletedPost)),
   refreshAuthToken:  (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params)),
   navigateToProfile: (props) => dispatch(navigateToProfile(props))

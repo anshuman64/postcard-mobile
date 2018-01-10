@@ -11,9 +11,9 @@ import { refreshAuthToken } from './user_actions.js';
 
 
 export const POST_TYPES = {
-  ALL:      'ALL',
-  AUTHORED: 'AUTHORED',
-  LIKED:    'LIKED'
+  ALL:      'allPosts',
+  AUTHORED: 'authoredPosts',
+  LIKED:    'likedPosts'
 }
 
 export const POST_ACTION_TYPES = {
@@ -68,16 +68,16 @@ export const removePost = (data) => {
 //--------------------------------------------------------------------//
 
 
-export const getPosts = (authToken, firebaseUserObj, postType, queryParams) => (dispatch) => {
+export const getPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
-      dispatch(receivePosts({posts: posts, postType: postType}));
+      dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
         return dispatch(refreshAuthToken(firebaseUserObj))
           .then((newAuthToken) => {
-            return dispatch(getPosts(newAuthToken, firebaseUserObj, postType, queryParams));
+            return dispatch(getPosts(newAuthToken, firebaseUserObj, userId, postType, queryParams));
           })
           .catch((error) => {
             throw error;
@@ -92,14 +92,14 @@ export const getPosts = (authToken, firebaseUserObj, postType, queryParams) => (
     });
 };
 
-export const refreshPosts = (authToken, firebaseUserObj, postType, queryParams) => (dispatch) => {
+export const refreshPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
     .then((posts) => {
-      dispatch(refreshAndReceivePosts({posts: posts, postType: postType}));
+      dispatch(refreshAndReceivePosts({ posts: posts, userId: userId, postType: postType }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, refreshPosts, postType, queryParams));
+        return dispatch(refreshAuthToken(firebaseUserObj, refreshPosts, userId, postType, queryParams));
       }
 
       if (!error.description) {
@@ -110,15 +110,15 @@ export const refreshPosts = (authToken, firebaseUserObj, postType, queryParams) 
     });
 };
 
-export const createPost = (authToken, firebaseUserObj, postObj) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, userId, postObj) => (dispatch) => {
   return APIUtility.post(authToken, '/posts', postObj)
     .then((newPost) => {
       amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postObj.body });
-      dispatch(receivePost(newPost));
+      dispatch(receivePost({ post: newPost, userId: userId }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createPost, postObj));
+        return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postObj));
       }
 
       if (!error.description) {
@@ -130,7 +130,7 @@ export const createPost = (authToken, firebaseUserObj, postObj) => (dispatch) =>
     });
 };
 
-export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => {
+export const deletePost = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {
       amplitude.logEvent('Engagement - Delete Post', { is_successful: true, body: delPost.body });
@@ -139,7 +139,7 @@ export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => 
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, deletePost, postId));
+        return dispatch(refreshAuthToken(firebaseUserObj, deletePost, userId, postId));
       }
 
       if (!error.description) {

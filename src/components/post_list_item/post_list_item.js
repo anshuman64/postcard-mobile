@@ -117,14 +117,14 @@ class PostListItem extends React.PureComponent {
   }
 
   _deletePost() {
-    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
+    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.author_id, this.props.item.id)
       .then((deletedPost) => {
         this.isDeleteDisabled = false;
         this.container.fadeOut(1000)
           .then(() => {
-            this.props.removePost(deletedPost);
+            this.props.removePost({ post: deletedPost, userId: userId });
           })
-          .catch(() => this.props.removePost(deletedPost));
+          .catch(() => this.props.removePost({ post: deletedPost, userId: userId }));
       }, (error) => {
         this.isDeleteDisabled = false;
         defaultErrorAlert(error);
