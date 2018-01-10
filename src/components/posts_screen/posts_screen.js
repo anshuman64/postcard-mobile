@@ -4,9 +4,9 @@ import RN     from 'react-native';
 import _      from 'lodash';
 
 // Local Imports
-import TabBarContainer        from '../nav_bar/tab_bar/tab_bar_container.js';
-import PostListItemContainer  from './post_list_item_container.js';
-import { styles }             from './post_list_styles.js';
+import ProfileHeaderContainer from '../profile_header/profile_header_container.js';
+import PostListItemContainer  from '../post_list_item/post_list_item_container.js';
+import { styles }             from './posts_screen_styles.js';
 import { POST_TYPES }         from '../../actions/post_actions.js';
 import { COLORS }             from '../../utilities/style_utility.js';
 import { defaultErrorAlert }  from '../../utilities/error_utility.js';
@@ -14,11 +14,13 @@ import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 //--------------------------------------------------------------------//
 
 
-class PostList extends React.PureComponent {
+class PostsScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
+      userId:       0,
+      postType:     POST_TYPES.ALL,
       isRefreshing: false,
       scrollToTop:  false,
     };
@@ -28,10 +30,39 @@ class PostList extends React.PureComponent {
     this._onRefresh = this._onRefresh.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.scrollToTop != nextProps.scrollToTop) {
-      this.setState({scrollToTop: true})
+  componentDidMount() {
+    if (this.props.currentScreen === '_ProfileScreen') {
+      this.setState({ userId: this.props.user.id, postType: POST_TYPES.AUTHORED }, () => {
+        this._onRefresh();
+        this._onRefresh(POST_TYPES.LIKED);
+      });
+    } else if (this.props.currentScreen === '_UserScreen') {
+      this.setState({ userId: this.props.userId, postType: POST_TYPES.AUTHORED }, () => {
+        this._onRefresh();
+        this._onRefresh(POST_TYPES.LIKED);
+      });
+    } else {
+      this._onRefresh();
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentScreen === this.props.currentScreen && nextProps.postType && nextProps.postType != this.state.postType) {
+      this.setState({ postType: nextProps.postType });
+    }
+    // if (this.props.currentScreen != '_HomeScreen' && nextProps.currentScreen === '_HomeScreen') {
+    //   let currentTime = new Date();
+    //   let lastUpdate = this.props.allPosts.lastUpdated;
+    //   let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+    //
+    //   if (minsDiff > 1) {
+    //     this._onRefresh();
+    //   }
+    // }
+    //
+    // if (this.props.scrollToTop != nextProps.scrollToTop) {
+    //   this.setState({scrollToTop: true})
+    // }
   }
 
   componentDidUpdate() {
@@ -41,15 +72,19 @@ class PostList extends React.PureComponent {
     }
   }
 
+  setParentState = (state) => {
+    return () => (this.setState(state));
+  }
+
 
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onRefresh = () => {
+  _onRefresh = (postType = this.state.postType) => {
     this.setState({isRefreshing: true}, () => {
       this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
-      this.props.refreshPosts(this.props.authToken, this.props.firebaseUserObj, this.props.postType)
+      this.props.refreshPosts(this.props.authToken, this.props.firebaseUserObj, this.state.userId, postType)
         .then(() => {
           this.setState({isRefreshing: false});
         })
@@ -61,8 +96,8 @@ class PostList extends React.PureComponent {
   }
 
   _onEndReached() {
-    if (this.props.posts.data.length === 0
-        || this.props.posts.isEnd
+    if (this.props.posts[this.state.userId][this.state.postType].data.length === 0
+        || this.props.posts[this.state.userId][this.state.postType].isEnd
         || this.state.isRefreshing
         || this.isLoading
         || this.onEndReachedCalledDuringMomentum) {
@@ -72,8 +107,8 @@ class PostList extends React.PureComponent {
     this.isLoading = true;
     this.onEndReachedCalledDuringMomentum = true;
 
-    let lastPostId = this.props.posts.data[this.props.posts.data.length-1];
-    this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, this.props.postType, {start_at: lastPostId})
+    let lastPostId = this.props.posts[this.state.userId][this.state.postType].data[this.props.posts[this.state.userId][this.state.postType].data.length-1];
+    this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, this.state.userId, this.state.postType, {start_at: lastPostId})
       .then(() => {
         this.isLoading = false;
       })
@@ -90,7 +125,7 @@ class PostList extends React.PureComponent {
     return (
       <RN.FlatList
         ref={(ref) => this.flatList = ref}
-        data={ this.props.posts.data }
+        data={ (this.props.posts[this.state.userId] && this.props.posts[this.state.userId][this.state.postType]) ? this.props.posts[this.state.userId][this.state.postType].data : null }
         renderItem={ this._renderItem.bind(this) }
         keyExtractor={(item) => this.props.postsCache[item].id}
         style={ styles.postList }
@@ -126,7 +161,7 @@ class PostList extends React.PureComponent {
   _renderHeader = () => {
     if (this.props.currentScreen != '_HomeScreen') {
       return (
-        <TabBarContainer />
+        <ProfileHeaderContainer postType={this.state.postType} setParentState={this.setParentState} />
       )
     } else {
       return null;
@@ -134,7 +169,7 @@ class PostList extends React.PureComponent {
   }
 
   _renderFooter = () => {
-    if (this.props.posts.isEnd) {
+    if (this.props.posts[this.state.userId] && this.props.posts[this.state.userId][this.state.postType] && this.props.posts[this.state.userId][this.state.postType].isEnd) {
       return (
         <RN.View style={ styles.footerView }>
           <RN.View style={ styles.horizontalLine } />
@@ -164,4 +199,4 @@ class PostList extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default PostList;
+export default PostsScreen;

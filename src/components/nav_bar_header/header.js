@@ -7,9 +7,9 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }            from './header_styles.js';
-import { COLORS }            from '../../../utilities/style_utility.js';
-import { uploadImageFile }   from '../../../utilities/file_utility.js';
-import { defaultErrorAlert } from '../../../utilities/error_utility.js';
+import { COLORS }            from '../../utilities/style_utility.js';
+import { uploadImageFile }   from '../../utilities/file_utility.js';
+import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -131,7 +131,7 @@ class Header extends React.PureComponent {
       return (
         <RN.Image
           style={styles.logo}
-          source={require('../../../assets/images/icon/icon.png')}
+          source={require('../../assets/images/icon/icon.png')}
           resizeMode='cover'
           />
       )

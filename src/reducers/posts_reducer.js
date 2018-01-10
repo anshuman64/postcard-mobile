@@ -8,12 +8,17 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 
 //--------------------------------------------------------------------//
 
-
-const DEFAULT_STATE = {
-  allPosts:      { data: [], lastUpdated: null, isEnd: true },
-  authoredPosts: { data: [], lastUpdated: null, isEnd: true },
-  likedPosts:    { data: [], lastUpdated: null, isEnd: true },
-};
+// Data is in the form {
+//   0: {
+//     allPosts:  { data: [], lastUpdated: null, isEnd: true },
+//   }
+//   userId1: {
+//     authoredPosts: { data: [], lastUpdated: null, isEnd: true }
+//     likedPosts:    { data: [], lastUpdated: null, isEnd: true }
+//   }
+//   userId2...
+// }
+const DEFAULT_STATE = {};
 
 const PostsReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
@@ -26,53 +31,65 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case POST_ACTION_TYPES.RECEIVE_POSTS:
-      let handleReceivePosts = (type) => {
+      let handleReceivePosts = (userId, postType) => {
         if (action.data.posts.length === 0) {
-          newState[type].isEnd = true;
+          newState[userId][postType].isEnd = true;
         } else {
           _.forEach(action.data.posts, (post) => {
-            newState[type].data.push(post.id);
+            newState[userId][postType].data.push(post.id);
           });
         }
       };
 
       switch (action.data.postType) {
         case POST_TYPES.ALL:
-          handleReceivePosts('allPosts');
+          handleReceivePosts(0, POST_TYPES.ALL);
           break;
         case POST_TYPES.AUTHORED:
-          handleReceivePosts('authoredPosts');
+          handleReceivePosts(action.data.userId, POST_TYPES.AUTHORED);
           break;
         case POST_TYPES.LIKED:
-          handleReceivePosts('likedPosts');
+          handleReceivePosts(action.data.userId, POST_TYPES.LIKED);
           break;
       }
 
       return newState;
     case POST_ACTION_TYPES.REFRESH_POSTS:
-      let handleRefreshPosts = (type) => {
-        newState[type].lastUpdated = new Date();
+      let createData = (userId, postType) => {
+        newState[userId]           = newState[userId] || {};
+        newState[userId][postType] = newState[userId][postType] || {};
+
+        newState[userId][postType].data        = newState[userId][postType].data || [];
+        newState[userId][postType].lastUpdated = newState[userId][postType].lastUpdated || new Date();
+        newState[userId][postType].isEnd       = newState[userId][postType].isEnd || false;
+      };
+
+      let handleRefreshPosts = (userId, postType) => {
+        newState[userId][postType].lastUpdated = new Date();
 
         if (action.data.posts.length < 10) { // 10 = number of posts fetched
-          newState[type].isEnd = true;
+          newState[userId][postType].isEnd = true;
         } else {
-          newState[type].isEnd = false;
+          newState[userId][postType].isEnd = false;
         }
 
         if (action.data.posts.length > 0) {
-          newState[type].data = mergeSorted(newState[type].data, action.data.posts.map(post => post.id));
+          newState[userId][postType].data = mergeSorted(newState[userId][postType].data, action.data.posts.map(post => post.id));
         }
       };
 
       switch (action.data.postType) {
         case POST_TYPES.ALL:
-          handleRefreshPosts('allPosts');
+          createData(0, POST_TYPES.ALL);
+          handleRefreshPosts(0, POST_TYPES.ALL);
           break;
         case POST_TYPES.AUTHORED:
-          handleRefreshPosts('authoredPosts');
+          createData(action.data.userId, POST_TYPES.AUTHORED);
+          handleRefreshPosts(action.data.userId, POST_TYPES.AUTHORED);
           break;
         case POST_TYPES.LIKED:
-          handleRefreshPosts('likedPosts');
+          createData(action.data.userId, POST_TYPES.LIKED);
+          handleRefreshPosts(action.data.userId, POST_TYPES.LIKED);
           break;
       }
 
@@ -84,18 +101,18 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
     case POST_ACTION_TYPES.RECEIVE_POST:
       // assumes that this case is only hit when the current user creates a post
-      newState.allPosts.data.unshift(action.data.id);
-      newState.authoredPosts.data.unshift(action.data.id);
+      newState[0][POST_TYPES.ALL].data.unshift(action.data.post.id);
+      newState[action.data.userId][POST_TYPES.AUTHORED].data.unshift(action.data.post.id);
 
       return newState;
     case POST_ACTION_TYPES.REMOVE_POST:
     // assumes that this case is only hit when the current user removes their own post
-      _.remove(newState.allPosts.data, (postId) => {
-        return postId === action.data.id;
+      _.remove(newState[0][POST_TYPES.ALL].data, (postId) => {
+        return postId === action.data.post.id;
       });
 
-      _.remove(newState.authoredPosts.data, (postId) => {
-        return postId === action.data.id;
+      _.remove(newState[action.data.userId][POST_TYPES.AUTHORED].data, (postId) => {
+        return postId === action.data.post.id;
       });
 
       return newState;
@@ -105,12 +122,12 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
-      newState.likedPosts.data.unshift(action.data.post_id);
+      newState[action.data.userId][POST_TYPES.LIKED].data.unshift(action.data.like.post_id);
 
       return newState;
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
-      _.remove(newState.likedPosts.data, (postId) => {
-        return postId === action.data.post_id;
+      _.remove(newState[action.data.userId][POST_TYPES.LIKED].data, (postId) => {
+        return postId === action.data.like.post_id;
       });
 
       return newState;
