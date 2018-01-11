@@ -170,7 +170,7 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.userView}>
             <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'contain'} />
             <RN.Text ref={(ref) => this.usernameText = ref} style={styles.usernameText}>
-              {'@' + this.props.item.author_username}
+              {this.props.item.author_username}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>

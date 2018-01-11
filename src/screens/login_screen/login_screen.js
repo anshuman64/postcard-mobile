@@ -44,21 +44,29 @@ class LoginScreen extends React.PureComponent {
 
   // Callback function used for Cancel button in CountryListModal
   setParentState = (state) => {
-    this.setState(state);
+    let func = () => {
+      this.setState(state);
+    }
+
+    return func;
   }
 
   // Callback function for setting country selector and updating phone number formatting
   setCountry = (index) => {
-    let tempFormatted = '';
-    // Create new libphonenumber formatter for new country
-    this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[index].country_code);
-    // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
-    try {
-      tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
-      _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
-    } catch (e) {}
+    let func = () => {
+      let tempFormatted = '';
+      // Create new libphonenumber formatter for new country
+      this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[index].country_code);
+      // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
+      try {
+        tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+        _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
+      } catch (e) {}
 
-    this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this._checkNextButtonEnable());
+      this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this._checkNextButtonEnable());
+    }
+
+    return func;
   }
 
   //--------------------------------------------------------------------//
