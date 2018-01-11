@@ -53,7 +53,7 @@ class AvatarScreen extends React.PureComponent {
   _setAvatarUrl(imageKey) {
     this.props.editAvatar(this.props.authToken, this.props.firebaseUserObj, imageKey)
       .then(() => {
-        this._onConfirmSkip();
+        this.props.goBack();
       })
       .catch((error) => {
         defaultErrorAlert(error);
