@@ -160,7 +160,7 @@ class AvatarScreen extends React.PureComponent {
         { this.state.isLoading ?
           <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
           <RN.Text style={styles.nextButtonText}>
-            {this.state.imagePath ? 'Next' : 'Add Photo'}
+            {this.state.imagePath ? (this.props.isLogin ? 'Next' : 'Done') : 'Add Photo'}
           </RN.Text>
         }
       </RN.TouchableOpacity>

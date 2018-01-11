@@ -26,8 +26,8 @@ class Header extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _uploadImage(imagePath, imageType) {
-    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, imagePath, imageType, this.props.user.id, 'posts/')
+  _uploadImage() {
+    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.imagePath, this.props.imageType, this.props.user.id, 'posts/')
       .then((data) => {
         this._createPost(data.key);
       })
@@ -38,9 +38,9 @@ class Header extends React.PureComponent {
   }
 
   _createPost(imageKey) {
-    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, { body: this.props.postText, image_url: imageKey })
+    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, { body: this.props.postText, image_url: imageKey })
       .then(() => {
-        this.props.goBack({scrollToTop: Date()});
+        this.props.goBack({ scrollToTop: Date() });
       })
       .catch((error) => {
         this.isSharePressed = false;
@@ -70,7 +70,7 @@ class Header extends React.PureComponent {
     this.isSharePressed = true;
 
     if (this.props.imagePath) {
-      this._uploadImage(this.props.imagePath, this.props.imageType);
+      this._uploadImage();
     } else {
       this._createPost()
     }
@@ -159,8 +159,8 @@ class Header extends React.PureComponent {
   }
 
   render() {
-    const IS_NOT_BORDER = (this.props.currentScreen === '_AuthoredPostsTab'
-      || this.props.currentScreen === '_LikedPostsTab');
+    const IS_NOT_BORDER = (this.props.currentScreen === 'AuthoredPostsTab'
+      || this.props.currentScreen === 'LikedPostsTab');
 
     return (
       <RN.View style={[styles.header, this.props.backTitle && styles.backHeader, !IS_NOT_BORDER && styles.border]}>
