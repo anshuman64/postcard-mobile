@@ -20,30 +20,27 @@ class ProfileHeader extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.user.avatar_url) {
-      getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.user.avatar_url)
-        .then((data) => {
-          this.setState({ avatarUrl: data });
-        })
+    if (this.props.avatarUrl) {
+      this._setAvatarUrl(this.props.avatarUrl);
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   this._setAvatarUrl(nextProps)
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user.id === this.props.userId && nextProps.user.avatar_url != this.props.user.avatar_url) {
+      this._setAvatarUrl(nextProps.user.avatar_url);
+    }
+  }
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
-  // _setAvatarUrl(props) {
-  //   if (props.user.avatar_url && (props.user.avatar_url != this.state.avatarUrl)) {
-  //     getImage(props.firebaseUserObj, props.refreshAuthToken, props.user.avatar_url)
-  //       .then((data) => {
-  //         this.setState({ avatarUrl: data });
-  //       })
-  //   }
-  // }
+  _setAvatarUrl(avatarUrl) {
+    getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, avatarUrl)
+      .then((data) => {
+        this.setState({ avatarUrl: data });
+      })
+  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -51,7 +48,7 @@ class ProfileHeader extends React.PureComponent {
 
   _renderAvatar() {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')}>
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           {!this.state.avatarUrl ?
             <Icon name='user' style={styles.placeholderImage} /> :
             <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'contain'} />
@@ -62,11 +59,14 @@ class ProfileHeader extends React.PureComponent {
 
   _renderUsername() {
     return (
-      <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')}>
+      <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.user.id != this.props.userId}>
         <RN.Text style={[styles.usernameText]}>
-          {this.props.user.username}
+          {this.props.username}
         </RN.Text>
-        <Icon name='pencil' style={styles.pencil} />
+        { this.props.user.id === this.props.userId ?
+          <Icon name='pencil' style={styles.pencil} /> :
+          null
+        }
       </RN.TouchableOpacity>
     )
   }

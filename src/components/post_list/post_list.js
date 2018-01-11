@@ -5,7 +5,6 @@ import _      from 'lodash';
 
 // Local Imports
 import ProfileHeaderContainer from '../profile_header/profile_header_container.js';
-import UserHeaderContainer    from '../user_header/user_header_container.js';
 import PostListItemContainer  from './post_list_item/post_list_item_container.js';
 import { styles }             from './post_list_styles.js';
 import { POST_TYPES }         from '../../actions/post_actions.js';
@@ -42,14 +41,7 @@ class PostsScreen extends React.PureComponent {
 
   componentDidUpdate() {
     if (this.state.scrollToTop) {
-      if (this.props.currentScreen === 'HomeScreen') {
-        this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
-      } else if (this.props.currentScreen === 'ProfileScreen') {
-        this.props.setParentState({ postType: POST_TYPES.AUTHORED }, () => {
-          this.postList.getWrappedInstance().flatList.scrollToOffset({x: 0, y: 50, animated: true}); //TODO: FIX this and adjust y offset to be exactly at tabs
-        });
-      }
-
+      this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
       this.setState({ scrollToTop: false });
     }
   }
@@ -126,13 +118,9 @@ class PostsScreen extends React.PureComponent {
   _renderHeader = () => {
     if (this.props.currentScreen === 'HomeScreen') {
       return null;
-    } else if (this.props.currentScreen === 'ProfileScreen' || this.props.userId === this.props.user.id) {
+    } else {
       return (
-        <ProfileHeaderContainer postType={this.props.postType} setParentState={this.props.setParentState} />
-      )
-    } else if (this.props.currentScreen === 'UserScreen') {
-      return (
-        <UserHeaderContainer userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.postType} setParentState={this.props.setParentState} />
+        <ProfileHeaderContainer userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.postType} setParentState={this.props.setParentState} />
       )
     }
   }

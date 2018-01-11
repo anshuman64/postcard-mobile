@@ -32,8 +32,8 @@ class UserScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
-  setParentState = (state, callback) => {
-    return () => (this.setState(state, callback));
+  setParentState = (state) => {
+    this.setState(state)
   }
 
   //--------------------------------------------------------------------//
