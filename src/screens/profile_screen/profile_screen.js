@@ -45,8 +45,12 @@ class ProfileScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
-  setParentState = (state, callback) => {
-    return () => (this.setState(state, callback));
+  setParentState = (state) => {
+    // let func = () => {
+      this.setState(state);
+    // }
+
+    // return func;
   }
 
   //--------------------------------------------------------------------//
@@ -56,7 +60,7 @@ class ProfileScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container}>
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} postType={this.state.postType} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
+        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} username={this.props.user.username} avatarUrl={this.props.user.avatar_url} postType={this.state.postType} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
       </RN.View>
     )
   }
