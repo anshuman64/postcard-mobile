@@ -2,11 +2,6 @@
 // Interface
 //--------------------------------------------------------------------//
 
-// Callback function for setting state
-export const setStateCallback = (component, state) => {
-  return () => (component.setState(state));
-}
-
 export const mergeSorted = (arrayA, arrayB) => {
   var i = 0;
   var j = 0;

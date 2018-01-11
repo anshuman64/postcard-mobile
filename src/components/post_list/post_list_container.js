@@ -13,7 +13,6 @@ import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
 const mapStateToProps = ({ user, posts, postsCache, navigation }, ownProps) => ({
   authToken:       user.authToken,
   firebaseUserObj: user.firebaseUserObj,
-  user:            user.user,
   posts:           posts,
   postsCache:      postsCache,
   currentScreen:   navigation.currentScreen

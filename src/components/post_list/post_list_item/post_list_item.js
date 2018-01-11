@@ -35,10 +35,7 @@ class PostListItem extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.item.author_avatar_url) {
-      getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.item.author_avatar_url)
-        .then((data) => {
-          this.setState({ avatarUrl: data });
-        })
+      this._setAvatarUrl(this.props.item.author_avatar_url);
     }
 
     if (this.props.item.image_url) {
@@ -49,9 +46,22 @@ class PostListItem extends React.PureComponent {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user.id === this.props.item.author_id && nextProps.user.avatar_url != this.props.user.avatar_url) {
+      this._setAvatarUrl(nextProps.user.avatar_url);
+    }
+  }
+
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
+
+  _setAvatarUrl(avatarUrl) {
+    getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, avatarUrl)
+      .then((data) => {
+        this.setState({ avatarUrl: data });
+      })
+  }
 
   _onPressLike() {
     if (this.isLikeDisabled) {
