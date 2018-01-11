@@ -116,7 +116,7 @@ class LoginScreen extends React.PureComponent {
       number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
     }
 
-    this.setState({isLoading: true}, () => {
+    this.setState({ isLoading: true }, () => {
       this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
        .then((confirmationCodeObj) => {
          this.props.navigateTo('ConfirmCodeScreen', { phoneNumber: number, confirmationCodeObj: confirmationCodeObj });

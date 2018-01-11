@@ -71,7 +71,7 @@ class NewPostScreen extends React.PureComponent {
   _renderImageButton() {
     return (
       <RN.View style={styles.imageButtonView}>
-        <RN.TouchableOpacity style={styles.imageButtonView} onPress={() => this.props.navigateTo('CameraRollScreen')}>
+        <RN.TouchableOpacity style={styles.imageButtonView} onPress={() => this.props.navigateTo('CameraRollScreen', { isAvatar: false })}>
           <Ionicon name='md-images' style={styles.imageButtonIcon} />
           <RN.Text style={styles.imageButtonText}>
             Photos

@@ -9,6 +9,9 @@ import { navigateTo }     from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
+const mapStateToProps = ({ user }, ownProps) => ({
+  user: user.user,
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   debugSignIn: (email, password) => dispatch(debugSignIn(email, password)),
@@ -16,6 +19,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(DebugLoginScreen);

@@ -12,15 +12,19 @@ import { styles }        from './home_screen_styles.js';
 
 class HomeScreen extends React.PureComponent {
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentDidMount() {
-    this.postList.getWrappedInstance()._onRefresh();
+    this.postList.getWrappedInstance().refresh();
   }
 
   componentWillReceiveProps(nextProps) {
     // Auto-refresh screen if coming back to it after > 1 minute
-    if (this.props.currentScreen != '_HomeScreen' && nextProps.currentScreen === '_HomeScreen') {
+    if (this.props.currentScreen != 'HomeScreen' && nextProps.currentScreen === 'HomeScreen') {
       let currentTime = new Date();
-      let lastUpdate = this.props.posts[0][POST_TYPES.ALL].lastUpdated;
+      let lastUpdate = this.props.posts[this.props.user.id][POST_TYPES.ALL].lastUpdated;
       let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
       if (minsDiff > 1) {
@@ -36,7 +40,7 @@ class HomeScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container}>
-        <PostListContainer ref={(ref) => this.postList = ref} userId={0} postType={POST_TYPES.ALL} />
+        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} postType={POST_TYPES.ALL} scrollToTop={this.props.scrollToTop} />
       </RN.View>
     )
   }

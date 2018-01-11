@@ -23,17 +23,17 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case POST_ACTION_TYPES.RECEIVE_POST:
-      newState[action.data.id] = action.data;
+      newState[action.data.post.id] = action.data.post;
 
       return newState;
     case POST_ACTION_TYPES.REMOVE_POST:
       _.remove(newState, (postId) => {
-        return postId === action.data.id;
+        return postId === action.data.post.id;
       });
 
       return newState;
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
-      postToUpdate = newState[action.data.post_id];
+      postToUpdate = newState[action.data.like.post_id];
 
       if (postToUpdate) {
         postToUpdate.num_likes++;
@@ -42,7 +42,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
-      postToUpdate = newState[action.data.post_id];
+      postToUpdate = newState[action.data.like.post_id];
 
       if (postToUpdate) {
         postToUpdate.num_likes--;

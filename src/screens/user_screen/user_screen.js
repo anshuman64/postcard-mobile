@@ -19,17 +19,21 @@ class UserScreen extends React.PureComponent {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentDidMount() {
-    this.postList.getWrappedInstance()._onRefresh();
-    this.postList.getWrappedInstance()._onRefresh(POST_TYPES.LIKED);
+    this.postList.getWrappedInstance().refresh();
+    this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
   }
 
   //--------------------------------------------------------------------//
   // Public Methods
   //--------------------------------------------------------------------//
 
-  setParentState = (state) => {
-    return () => (this.setState(state));
+  setParentState = (state, callback) => {
+    return () => (this.setState(state, callback));
   }
 
   //--------------------------------------------------------------------//
@@ -39,7 +43,7 @@ class UserScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container}>
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.userId} postType={this.state.postType} setParentState={this.setParentState}/>
+        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.state.postType} setParentState={this.setParentState}/>
       </RN.View>
     )
   }

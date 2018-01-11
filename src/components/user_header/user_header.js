@@ -4,13 +4,13 @@ import RN        from 'react-native';
 import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }     from './profile_header_styles.js';
+import { styles }     from './user_header_styles.js';
 import { POST_TYPES } from '../../actions/post_actions.js';
 import { getImage }   from '../../utilities/file_utility.js';
 
 //--------------------------------------------------------------------//
 
-class ProfileHeader extends React.PureComponent {
+class UserHeader extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -20,30 +20,13 @@ class ProfileHeader extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.user.avatar_url) {
-      getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.user.avatar_url)
+    if (this.props.avatarUrl) {
+      getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.avatarUrl)
         .then((data) => {
           this.setState({ avatarUrl: data });
         })
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this._setAvatarUrl(nextProps)
-  // }
-
-  //--------------------------------------------------------------------//
-  // Private Methods
-  //--------------------------------------------------------------------//
-
-  // _setAvatarUrl(props) {
-  //   if (props.user.avatar_url && (props.user.avatar_url != this.state.avatarUrl)) {
-  //     getImage(props.firebaseUserObj, props.refreshAuthToken, props.user.avatar_url)
-  //       .then((data) => {
-  //         this.setState({ avatarUrl: data });
-  //       })
-  //   }
-  // }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -51,23 +34,22 @@ class ProfileHeader extends React.PureComponent {
 
   _renderAvatar() {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')}>
+        <RN.View style={styles.frame}>
           {!this.state.avatarUrl ?
             <Icon name='user' style={styles.placeholderImage} /> :
             <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'contain'} />
           }
-        </RN.TouchableOpacity>
+        </RN.View>
       )
   }
 
   _renderUsername() {
     return (
-      <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')}>
-        <RN.Text style={[styles.usernameText]}>
-          {this.props.user.username}
+      <RN.View style={styles.usernameButton}>
+        <RN.Text style={styles.usernameText}>
+          {this.props.username}
         </RN.Text>
-        <Icon name='pencil' style={styles.pencil} />
-      </RN.TouchableOpacity>
+      </RN.View>
     )
   }
 
@@ -102,4 +84,4 @@ class ProfileHeader extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default ProfileHeader;
+export default UserHeader;
