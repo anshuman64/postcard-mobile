@@ -29,14 +29,14 @@ export const POST_ACTION_TYPES = {
 //--------------------------------------------------------------------//
 
 
-let getRouteForPostType = (postType) => {
+let getRouteForPostType = (postType, userId) => {
   switch(postType) {
     case POST_TYPES.ALL:
       return '';
     case POST_TYPES.AUTHORED:
-      return '/authored';
+      return '/authored/' + userId;
     case POST_TYPES.LIKED:
-      return '/liked';
+      return '/liked/' + userId;
   }
 }
 
@@ -69,7 +69,7 @@ export const removePost = (data) => {
 
 
 export const getPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
     .then((posts) => {
       dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
     })
@@ -93,7 +93,7 @@ export const getPosts = (authToken, firebaseUserObj, userId, postType, queryPara
 };
 
 export const refreshPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
     .then((posts) => {
       dispatch(refreshAndReceivePosts({ posts: posts, userId: userId, postType: postType }));
     })

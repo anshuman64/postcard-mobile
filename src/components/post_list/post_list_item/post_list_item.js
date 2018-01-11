@@ -61,7 +61,7 @@ class PostListItem extends React.PureComponent {
     this.isLikeDisabled = true;
 
     if (this.props.item.is_liked_by_user) {
-      this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
+      this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -69,7 +69,7 @@ class PostListItem extends React.PureComponent {
           this.isLikeDisabled = false;
         });
     } else {
-      this.props.createLike(this.props.authToken, this.props.firebaseUserObj, { post_id: this.props.item.id })
+      this.props.createLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, { post_id: this.props.item.id })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -117,14 +117,14 @@ class PostListItem extends React.PureComponent {
   }
 
   _deletePost() {
-    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.author_id, this.props.item.id)
+    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
       .then((deletedPost) => {
         this.isDeleteDisabled = false;
         this.container.fadeOut(1000)
           .then(() => {
-            this.props.removePost({ post: deletedPost, userId: userId });
+            this.props.removePost({ post: deletedPost, userId: this.props.user.id });
           })
-          .catch(() => this.props.removePost({ post: deletedPost, userId: userId }));
+          .catch(() => this.props.removePost({ post: deletedPost, userId: this.props.user.id  }));
       }, (error) => {
         this.isDeleteDisabled = false;
         defaultErrorAlert(error);
@@ -154,8 +154,7 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.usernameText.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
-          onPress={() => this.props.navigateToProfile({ authorId: this.props.item.author_id, authorUsername: this.props.item.author_username, authorAvatarUrl: this.props.item.author_avatar_url })}
-          disabled={this.props.user.id != this.props.item.author_id}
+          onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id, username: this.props.item.author_username, avatarUrl: this.props.item.author_avatar_url })}
           style={styles.userView}
           >
           <RN.View style={styles.userView}>

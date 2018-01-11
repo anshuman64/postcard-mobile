@@ -56,25 +56,21 @@ class CameraRollScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressImage(imageNode) {
-    if (this.props.isAvatar) {
-      ImagePicker.openCropper({
-        path: imageNode.image.uri,
-        width: 500,
-        height: 500,
-        cropperCircleOverlay: true,
-        showCropGuidelines: false,
-        hideBottomControls: true,
-        cropperToolbarColor: 'black',
-      })
-      .then((imageObj) => {
-        this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-    } else {
-      this.props.goBack({ imagePath: imageNode.image.uri, imageType: imageNode.type });
-    }
+    ImagePicker.openCropper({
+      path: imageNode.image.uri,
+      width: 500,
+      height: 500,
+      cropperCircleOverlay: this.props.isAvatar,
+      showCropGuidelines: false,
+      hideBottomControls: true,
+      cropperToolbarColor: 'black',
+    })
+    .then((imageObj) => {
+      this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   //--------------------------------------------------------------------//
