@@ -6,7 +6,8 @@ import HomeScreen  from './home_screen.js';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ posts, navigation }, ownProps) => ({
+const mapStateToProps = ({ user, posts, navigation }, ownProps) => ({
+  user:          user.user,
   posts:         posts,
   currentScreen: navigation.currentScreen
 });

@@ -31,66 +31,39 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case POST_ACTION_TYPES.RECEIVE_POSTS:
-      let handleReceivePosts = (userId, postType) => {
-        if (action.data.posts.length === 0) {
-          newState[userId][postType].isEnd = true;
-        } else {
-          _.forEach(action.data.posts, (post) => {
-            newState[userId][postType].data.push(post.id);
-          });
-        }
-      };
+      userId   = action.data.userId;
+      postType = action.data.postType;
 
-      switch (action.data.postType) {
-        case POST_TYPES.ALL:
-          handleReceivePosts(0, POST_TYPES.ALL);
-          break;
-        case POST_TYPES.AUTHORED:
-          handleReceivePosts(action.data.userId, POST_TYPES.AUTHORED);
-          break;
-        case POST_TYPES.LIKED:
-          handleReceivePosts(action.data.userId, POST_TYPES.LIKED);
-          break;
+      if (action.data.posts.length === 0) {
+        newState[userId][postType].isEnd = true;
+      } else {
+        _.forEach(action.data.posts, (post) => {
+          newState[userId][postType].data.push(post.id);
+        });
       }
 
       return newState;
     case POST_ACTION_TYPES.REFRESH_POSTS:
-      let createData = (userId, postType) => {
-        newState[userId]           = newState[userId] || {};
-        newState[userId][postType] = newState[userId][postType] || {};
+      userId   = action.data.userId;
+      postType = action.data.postType;
 
-        newState[userId][postType].data        = newState[userId][postType].data || [];
-        newState[userId][postType].lastUpdated = newState[userId][postType].lastUpdated || new Date();
-        newState[userId][postType].isEnd       = newState[userId][postType].isEnd || false;
-      };
+      // Make sure objects exist
+      newState[userId] = newState[userId] || {};
+      _.forEach(POST_TYPES, (postType) => {
+        newState[userId][postType]      = newState[userId][postType] || {};
+        newState[userId][postType].data = newState[userId][postType].data || [];
+      })
 
-      let handleRefreshPosts = (userId, postType) => {
-        newState[userId][postType].lastUpdated = new Date();
+      newState[userId][postType].lastUpdated = new Date();
 
-        if (action.data.posts.length < 10) { // 10 = number of posts fetched
-          newState[userId][postType].isEnd = true;
-        } else {
-          newState[userId][postType].isEnd = false;
-        }
+      if (action.data.posts.length < 10) { // 10 = number of posts fetched
+        newState[userId][postType].isEnd = true;
+      } else {
+        newState[userId][postType].isEnd = false;
+      }
 
-        if (action.data.posts.length > 0) {
-          newState[userId][postType].data = mergeSorted(newState[userId][postType].data, action.data.posts.map(post => post.id));
-        }
-      };
-
-      switch (action.data.postType) {
-        case POST_TYPES.ALL:
-          createData(0, POST_TYPES.ALL);
-          handleRefreshPosts(0, POST_TYPES.ALL);
-          break;
-        case POST_TYPES.AUTHORED:
-          createData(action.data.userId, POST_TYPES.AUTHORED);
-          handleRefreshPosts(action.data.userId, POST_TYPES.AUTHORED);
-          break;
-        case POST_TYPES.LIKED:
-          createData(action.data.userId, POST_TYPES.LIKED);
-          handleRefreshPosts(action.data.userId, POST_TYPES.LIKED);
-          break;
+      if (action.data.posts.length > 0) {
+        newState[userId][postType].data = mergeSorted(newState[userId][postType].data, action.data.posts.map(post => post.id));
       }
 
       return newState;
@@ -101,13 +74,13 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
     case POST_ACTION_TYPES.RECEIVE_POST:
       // assumes that this case is only hit when the current user creates a post
-      newState[0][POST_TYPES.ALL].data.unshift(action.data.post.id);
+      newState[action.data.userId][POST_TYPES.ALL].data.unshift(action.data.post.id);
       newState[action.data.userId][POST_TYPES.AUTHORED].data.unshift(action.data.post.id);
 
       return newState;
     case POST_ACTION_TYPES.REMOVE_POST:
     // assumes that this case is only hit when the current user removes their own post
-      _.remove(newState[0][POST_TYPES.ALL].data, (postId) => {
+      _.remove(newState[action.data.userId][POST_TYPES.ALL].data, (postId) => {
         return postId === action.data.post.id;
       });
 

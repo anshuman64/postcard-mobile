@@ -19,14 +19,18 @@ class ProfileScreen extends React.PureComponent {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentDidMount() {
-    this.postList.getWrappedInstance()._onRefresh();
-    this.postList.getWrappedInstance()._onRefresh(POST_TYPES.LIKED);
+    this.postList.getWrappedInstance().refresh();
+    this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
   }
 
   componentWillReceiveProps(nextProps) {
     // Auto-refresh screen if coming back to it after > 1 minute
-    if (this.props.currentScreen != '_ProfileScreen' && nextProps.currentScreen === '_ProfileScreen') {
+    if (this.props.currentScreen != 'ProfileScreen' && nextProps.currentScreen === 'ProfileScreen') {
       let currentTime = new Date();
       let lastUpdate = this.props.posts[this.props.user.id][this.state.postType].lastUpdated;
       let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
@@ -41,8 +45,8 @@ class ProfileScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
-  setParentState = (state) => {
-    return () => (this.setState(state));
+  setParentState = (state, callback) => {
+    return () => (this.setState(state, callback));
   }
 
   //--------------------------------------------------------------------//
@@ -52,7 +56,7 @@ class ProfileScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container}>
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} postType={this.state.postType} setParentState={this.setParentState} />
+        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} postType={this.state.postType} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
       </RN.View>
     )
   }

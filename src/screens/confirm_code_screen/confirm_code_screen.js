@@ -37,21 +37,6 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   componentDidMount() {
     this._startTimer();
-
-    this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
-      if (firebaseUserObj) {
-        this.props.loginUser(firebaseUserObj)
-          .then(() => {
-            this.unsubscribe();
-
-            if (!this.props.user.username) {
-              return this.props.navigateTo('UsernameScreenLogin');
-            } else {
-              return this.props.navigateTo('HomeScreen');
-            }
-          })
-      }
-    });
   }
 
   componentWillUnmount() {
@@ -95,8 +80,8 @@ class ConfirmCodeScreen extends React.PureComponent {
       this.setState({ isLoading: true }, () => {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
         .then(() => {
-          this.unsubscribe();
-
+          this._stopTimer();
+          
           if (!this.props.user.username) {
             return this.props.navigateTo('UsernameScreenLogin');
           } else {

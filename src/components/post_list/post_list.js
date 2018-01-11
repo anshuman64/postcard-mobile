@@ -5,6 +5,7 @@ import _      from 'lodash';
 
 // Local Imports
 import ProfileHeaderContainer from '../profile_header/profile_header_container.js';
+import UserHeaderContainer    from '../user_header/user_header_container.js';
 import PostListItemContainer  from './post_list_item/post_list_item_container.js';
 import { styles }             from './post_list_styles.js';
 import { POST_TYPES }         from '../../actions/post_actions.js';
@@ -24,9 +25,13 @@ class PostsScreen extends React.PureComponent {
     };
 
     this.onEndReachedCalledDuringMomentum = true;
-    this.isLoading = false;
+    this.isLoading = true;
     this._onRefresh = this._onRefresh.bind(this);
   }
+
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
 
   componentWillReceiveProps(nextProps) {
     // Scroll to top when having created a new post if returning to Home Screen or Authored Post Tab
@@ -37,36 +42,51 @@ class PostsScreen extends React.PureComponent {
 
   componentDidUpdate() {
     if (this.state.scrollToTop) {
-      this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
+      if (this.props.currentScreen === 'HomeScreen') {
+        this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
+      } else if (this.props.currentScreen === 'ProfileScreen') {
+        this.props.setParentState({ postType: POST_TYPES.AUTHORED }, () => {
+          this.postList.getWrappedInstance().flatList.scrollToOffset({x: 0, y: 50, animated: true}); //TODO: FIX this and adjust y offset to be exactly at tabs
+        });
+      }
+
       this.setState({ scrollToTop: false });
     }
   }
 
+  //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
 
+  refresh = (postType = this.props.postType) => {
+    this.props.refreshPosts(this.props.authToken, this.props.firebaseUserObj, this.props.userId, postType)
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.setState({ isRefreshing: false });
+        this.isLoading = false;
+      })
+  }
 
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onRefresh = (postType = this.props.postType) => {
+  _onRefresh = () => {
+    this.isLoading = true;
     this.setState({ isRefreshing: true }, () => {
       this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
-      this.props.refreshPosts(this.props.authToken, this.props.firebaseUserObj, this.props.userId, postType)
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
-        .finally(() => {
-          this.setState({ isRefreshing: false });
-        })
+      this.refresh();
     })
   }
 
   _onEndReached() {
-    if (this.props.posts[this.props.userId][this.props.postType].data.length === 0
-        || this.props.posts[this.props.userId][this.props.postType].isEnd
-        || this.state.isRefreshing
+    if (this.state.isRefreshing
         || this.isLoading
-        || this.onEndReachedCalledDuringMomentum) {
+        || this.onEndReachedCalledDuringMomentum
+        || this.props.posts[this.props.userId][this.props.postType].data.length === 0
+        || this.props.posts[this.props.userId][this.props.postType].isEnd) {
       return;
     }
 
@@ -104,12 +124,16 @@ class PostsScreen extends React.PureComponent {
   }
 
   _renderHeader = () => {
-    if (this.props.currentScreen === '_ProfileScreen' || this.props.currentScreen === '_UserScreen') {
+    if (this.props.currentScreen === 'HomeScreen') {
+      return null;
+    } else if (this.props.currentScreen === 'ProfileScreen' || this.props.userId === this.props.user.id) {
       return (
         <ProfileHeaderContainer postType={this.props.postType} setParentState={this.props.setParentState} />
       )
-    } else {
-      return null;
+    } else if (this.props.currentScreen === 'UserScreen') {
+      return (
+        <UserHeaderContainer userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.postType} setParentState={this.props.setParentState} />
+      )
     }
   }
 
@@ -134,7 +158,6 @@ class PostsScreen extends React.PureComponent {
   };
 
   render() {
-    debugger
     return (
       <RN.View style={ styles.container }>
         <RN.FlatList

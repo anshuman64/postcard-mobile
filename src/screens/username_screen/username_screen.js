@@ -32,8 +32,8 @@ class UsernameScreen extends React.PureComponent {
     this.setState({ isLoading: true, isError: false, errorText: '' }, () => {
       this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, this.state.inputtedText)
         .then(() => {
-          if (this.props.currentScreen === '_UsernameScreenLogin') {
-            this.props.navigateTo('AvatarScreen');
+          if (this.props.currentScreen === 'UsernameScreenLogin') {
+            this.props.navigateTo('AvatarScreen', { isLogin: true });
           } else {
             this.props.goBack();
           }
@@ -121,7 +121,7 @@ class UsernameScreen extends React.PureComponent {
         { this.state.isLoading ?
           <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
           <RN.Text style={[styles.nextButtonText, (this.state.inputtedText.length === 0) && styles.nextButtonTextDisabled]}>
-            {this.props.currentScreen === '_UsernameScreenLogin' ? 'Next' : 'Done'}
+            {this.props.currentScreen === 'UsernameScreenLogin' ? 'Next' : 'Done'}
           </RN.Text>
         }
       </RN.TouchableOpacity>

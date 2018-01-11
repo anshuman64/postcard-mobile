@@ -18,7 +18,7 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
 
   switch(action.type) {
     case ActionConst.FOCUS:
-      newState.currentScreen = Actions.currentScene;
+      newState.currentScreen = Actions.currentScene.replace(/^_/, '');
 
       return newState;
     default:
