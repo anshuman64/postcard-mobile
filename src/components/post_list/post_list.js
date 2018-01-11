@@ -50,7 +50,7 @@ class PostsScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
-  refresh = (postType = this.props.postType) => {
+  refresh(postType = this.props.postType) {
     this.props.refreshPosts(this.props.authToken, this.props.firebaseUserObj, this.props.userId, postType)
       .catch((error) => {
         defaultErrorAlert(error);
@@ -73,7 +73,7 @@ class PostsScreen extends React.PureComponent {
     })
   }
 
-  _onEndReached() {
+  _onEndReached = () => {
     if (this.state.isRefreshing
         || this.isLoading
         || this.onEndReachedCalledDuringMomentum
@@ -99,6 +99,30 @@ class PostsScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _renderPostList = () => {
+    return (
+      <RN.FlatList
+        ref={(ref) => this.flatList = ref}
+        data={ (this.props.posts[this.props.userId] && this.props.posts[this.props.userId][this.props.postType]) ?
+          this.props.posts[this.props.userId][this.props.postType].data :
+          null
+        }
+        renderItem={ this._renderItem.bind(this) }
+        keyExtractor={(item) => this.props.postsCache[item].id}
+        style={ styles.postList }
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        showsVerticalScrollIndicator={false}
+        onEndReached={this._onEndReached()}
+        refreshControl={this._renderRefreshControl()}
+        ListHeaderComponent={ this.props.currentScreen === 'HomeScreen' ? null : this._renderHeader }
+        ListFooterComponent={ this._renderFooter }
+        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+        onEndReachedThreshold={0.01}
+        />
+    )
+  }
+
   _renderItem = ({item}) => {
     return (
       <PostListItemContainer item={this.props.postsCache[item]} />
@@ -116,13 +140,9 @@ class PostsScreen extends React.PureComponent {
   }
 
   _renderHeader = () => {
-    if (this.props.currentScreen === 'HomeScreen') {
-      return null;
-    } else {
-      return (
-        <ProfileHeaderContainer userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.postType} setParentState={this.props.setParentState} />
-      )
-    }
+    return (
+      <ProfileHeaderContainer userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.postType} setParentState={this.props.setParentState} />
+    )
   }
 
   _renderFooter = () => {
@@ -148,25 +168,7 @@ class PostsScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={ styles.container }>
-        <RN.FlatList
-          ref={(ref) => this.flatList = ref}
-          data={ (this.props.posts[this.props.userId] && this.props.posts[this.props.userId][this.props.postType]) ?
-            this.props.posts[this.props.userId][this.props.postType].data :
-            null
-          }
-          renderItem={ this._renderItem.bind(this) }
-          keyExtractor={(item) => this.props.postsCache[item].id}
-          style={ styles.postList }
-          initialNumToRender={10}
-          maxToRenderPerBatch={10}
-          showsVerticalScrollIndicator={false}
-          onEndReached={() => this._onEndReached()}
-          refreshControl={ this._renderRefreshControl() }
-          ListHeaderComponent={ this._renderHeader }
-          ListFooterComponent={ this._renderFooter }
-          onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
-          onEndReachedThreshold={0.01}
-          />
+        {this._renderPostList()}
       </RN.View>
     )
   }
