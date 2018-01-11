@@ -46,11 +46,11 @@ class ProfileScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   setParentState = (state) => {
-    // let func = () => {
+    let func = () => {
       this.setState(state);
-    // }
+    }
 
-    // return func;
+    return func;
   }
 
   //--------------------------------------------------------------------//
