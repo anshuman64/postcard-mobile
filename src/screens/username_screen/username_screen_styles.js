@@ -33,25 +33,9 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
     marginTop: 5
   },
-  textInputView: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+  textInput: {
     height: 50,
     width: 240,
-    marginTop: 80
-  },
-  atText: {
-    width: 20,
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
-    fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(20),
-    textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
-    bottom: 2
-  },
-  textInput: {
-    width: 220,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(20),
@@ -59,6 +43,7 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
+    marginTop: 80
   },
   borderHighlighted: {
     borderBottomColor: StyleUtility.COLORS.appleBlue,

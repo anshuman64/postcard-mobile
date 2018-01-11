@@ -89,7 +89,7 @@ class App extends React.Component {
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
               <Scene key='ProfileScreen' component={ProfileScreenContainer} hideNavBar={true} />
             </Tabs>
-            <Scene key='UserScreen' component={UserScreen} navBar={() => <HeaderContainer backIcon={true}/>} />
+            <Scene key='UserScreen' component={UserScreen} hideNavBar={true} />
             <Scene key='NewPostScreen' component={NewPostScreenContainer}  hideNavBar={true}  />
             <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true} backTitle={'Settings'}/>}  />
             <Scene key='UsernameScreen' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Username'}/>}  />

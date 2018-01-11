@@ -38,7 +38,7 @@ class AvatarScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _uploadImage(imagePath, imageType) {
+  _uploadImage = (imagePath, imageType) => {
     uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, imagePath, imageType, this.props.user.id, 'profile_pictures/')
       .then((data) => {
         this._setAvatarUrl(data.key);
@@ -50,7 +50,7 @@ class AvatarScreen extends React.PureComponent {
       })
   }
 
-  _setAvatarUrl(imageKey) {
+  _setAvatarUrl = (imageKey) => {
     this.props.editAvatar(this.props.authToken, this.props.firebaseUserObj, imageKey)
       .then(() => {
         this.props.goBack();

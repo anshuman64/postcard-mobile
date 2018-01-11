@@ -63,7 +63,7 @@ class ProfileHeader extends React.PureComponent {
         <RN.Text style={[styles.usernameText]}>
           {this.props.username}
         </RN.Text>
-        { this.props.user.id === this.props.userId ?
+        {this.props.user.id === this.props.userId ?
           <Icon name='pencil' style={styles.pencil} /> :
           null
         }
