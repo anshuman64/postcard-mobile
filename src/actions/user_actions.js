@@ -43,12 +43,22 @@ export const receiveUser = (data) => {
 //--------------------------------------------------------------------//
 
 const configureAWS = (authToken) => {
-  AWS.config.region = 'us-east-1';
-  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'us-east-1:6df1340e-29c5-49f6-9692-7d2933d2e815',
-    Logins: {
-      'securetoken.google.com/insiya-mobile': authToken
-    }
+  return new Promise((resolve, reject) => {
+    AWS.config.region = 'us-east-1';
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: 'us-east-1:6df1340e-29c5-49f6-9692-7d2933d2e815',
+      Logins: {
+        'securetoken.google.com/insiya-mobile': authToken
+      }
+    })
+
+    return AWS.config.credentials.refresh((error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
   })
 }
 
@@ -112,14 +122,18 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
 };
 
 export const loginUser = (firebaseUserObj) => (dispatch) => {
+  let setUser = (user, isNew) => {
+    amplitude.setUserId(user.id);
+    amplitude.setUserProperties({ database_id: user.id, phone_number: user.phone_number, firebase_uid: user.firebase_uid, created_at: user.created_at });
+    amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
+
+    dispatch(receiveUser(user));
+  }
+
   let handleExistingUser = (authToken) => {
     return APIUtility.get(authToken, '/users')
       .then((user) => {
-        amplitude.setUserId(user.id);
-        amplitude.setUserProperties({ database_id: user.id, phone_number: user.phone_number, firebase_uid: user.firebase_uid, created_at: user.created_at });
-        amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: false });
-
-        dispatch(receiveUser(user));
+        setUser(user, false);
       }, (error) => {
         return handleNewUser(authToken);
       });
@@ -128,11 +142,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
   let handleNewUser = (authToken) => {
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
       .then((newUser) => {
-        amplitude.setUserId(newUser.id);
-        amplitude.setUserProperties({ database_id: newUser.id, phone_number: newUser.phone_number, firebase_uid: newUser.firebase_uid, created_at: newUser.created_at });
-        amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: true });
-
-        dispatch(receiveUser(newUser));
+        setUser(newUser, true);
       })
       .catch((error) => {
         if (!error.description) {
@@ -147,12 +157,9 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
   let phoneNumber = firebaseUserObj._user.phoneNumber ? firebaseUserObj._user.phoneNumber : firebaseUserObj._user.email;
 
   dispatch(receiveFirebaseUserObj(firebaseUserObj));
-  return firebaseUserObj.getIdToken(true)
-    .then((authToken) => {
-      configureAWS(authToken);
-      dispatch(receiveAuthToken(authToken));
-
-      return handleExistingUser(authToken);
+  return dispatch(refreshAuthToken(firebaseUserObj))
+    .then((newAuthToken) => {
+      return handleExistingUser(newAuthToken);
     })
     .catch((error) => {
       if (!error.description) {
@@ -161,27 +168,39 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
 
       amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error: error.description });
       throw error;
-    });
+    })
 }
 
 const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
-  debugger
+  let configureAWSError = (error) => {
+    if (!error.description) {
+      error.description = 'Configure AWS failed'
+    }
+
+    throw error;
+  }
+
+  let getIdTokenError = (error) => {
+    if (!error.description) {
+      error.description = 'Firebase getIdToken failed'
+    }
+
+    throw error;
+  }
+
   return firebaseUserObj.getIdToken(true)
     .then((newAuthToken) => {
-      configureAWS(newAuthToken);
       dispatch(receiveAuthToken(newAuthToken));
 
-      if (func) {
-        return dispatch(func(newAuthToken, firebaseUserObj, ...params));
-      }
-    })
-    .catch((error) => {
-      if (!error.description) {
-        error.description = 'Firebase getIdToken failed'
-      }
-
-      throw error;
-    });
+      return configureAWS(newAuthToken)
+        .then(() => {
+          if (func) {
+            return dispatch(func(newAuthToken, firebaseUserObj, ...params));
+          } else {
+            return new Promise.resolve(newAuthToken)
+          }
+        }, configureAWSError)
+    }, getIdTokenError)
 }
 
 export const editUsername = (authToken, firebaseUserObj, username) => (dispatch) => {

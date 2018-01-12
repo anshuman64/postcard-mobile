@@ -97,7 +97,7 @@ class CountryListModal extends React.PureComponent {
 
     for (i = 0; i < COUNTRY_CODES.length; i++) {
       rows.push(
-        <CountryListItem item={COUNTRY_CODES[i]} countryIndex={i} setCountry={this.props.setCountry} />
+        <CountryListItem key={i} item={COUNTRY_CODES[i]} countryIndex={i} setCountry={this.props.setCountry} />
       )
     }
 
