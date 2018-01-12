@@ -2,6 +2,14 @@
 // Interface
 //--------------------------------------------------------------------//
 
+export const setStateCallback = (component, state) => {
+  let func = () => {
+    component.setState(state);
+  }
+
+  return func;
+}
+
 export const mergeSorted = (arrayA, arrayB) => {
   var i = 0;
   var j = 0;
