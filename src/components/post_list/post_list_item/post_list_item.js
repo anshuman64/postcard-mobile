@@ -194,10 +194,24 @@ class PostListItem extends React.PureComponent {
     )
   }
 
+  // uri: 'https://s3.amazonaws.com/insiya-users/hello.jpg',
+  // method: 'GET',
+  // headers: {
+  //   'Authorization': 'AWS4-HMAC-SHA256 Credential=AKIAIRQS2UB5N25VO62A/20180111/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=3f4bea1dc9b8173dca9ecea5eb5de580c754372eba746604b737328b0dc7c458'
+  // }}}
+
   _renderPostImage() {
-    if (this.state.imageUrl) {
+    if (true) {
       return (
-        <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'cover'} />
+        <RN.Image style={styles.bodyImage} resizeMode={'cover'} source={{
+          uri: 'https://s3.amazonaws.com/insiya-users/hello.jpg',
+          method: 'GET',
+          headers: {
+            'X-Amz-Content-Sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+            'X-Amz-Date': '20180112T032040Z',
+            'Authorization': 'AWS4-HMAC-SHA256 Credential=AKIAIRQS2UB5N25VO62A/20180112/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=004df2290460899d4b31675a75d1cd5586a454a37e1906daa48a31b6dc60edc4'
+          }}}
+        />
       )
     }
   }

@@ -75,12 +75,16 @@ class App extends React.Component {
   };
 
   render() {
+    return null;
+  }
+
+  render() {
     return (
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer}  hideNavBar={true}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true} hideNavBar={true}  />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} initial={true} hideNavBar={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true}  />
             <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true}  />
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backTitle={'Username'}/>}  />

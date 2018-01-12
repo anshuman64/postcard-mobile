@@ -1,6 +1,7 @@
 // Library Imports
 import Firebase from 'react-native-firebase';
 import AWS      from 'aws-sdk/dist/aws-sdk-react-native';
+import crypto   from 'crypto';
 
 // Local Imports
 import { amplitude }   from '../utilities/analytics_utility.js';
@@ -50,6 +51,21 @@ const configureAWS = (authToken) => {
       'securetoken.google.com/insiya-mobile': authToken
     }
   })
+
+  // return new Promise((resolve) => {
+  //
+  //   let data;
+  //   let checkData = () => {
+  //     data =  AWS.config.credentials.data;
+  //     if (data) {
+  //       console.error('hey')
+  //       resolve();
+  //       // clearInterval(checker);
+  //     }
+  //   }
+  //
+  //   checker = setTimeout(checkData, 5000);
+  // })
 }
 
 //--------------------------------------------------------------------//
@@ -149,10 +165,12 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
   dispatch(receiveFirebaseUserObj(firebaseUserObj));
   return firebaseUserObj.getIdToken(true)
     .then((authToken) => {
-      configureAWS(authToken);
-      dispatch(receiveAuthToken(authToken));
+      return configureAWS(authToken)
+        .then(() => {
+          dispatch(receiveAuthToken(authToken));
 
-      return handleExistingUser(authToken);
+          return handleExistingUser(authToken);
+        });
     })
     .catch((error) => {
       if (!error.description) {
@@ -168,12 +186,14 @@ const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
   debugger
   return firebaseUserObj.getIdToken(true)
     .then((newAuthToken) => {
-      configureAWS(newAuthToken);
-      dispatch(receiveAuthToken(newAuthToken));
+      return configureAWS(newAuthToken)
+        .then(() => {
+          dispatch(receiveAuthToken(newAuthToken));
 
-      if (func) {
-        return dispatch(func(newAuthToken, firebaseUserObj, ...params));
-      }
+          if (func) {
+            return dispatch(func(newAuthToken, firebaseUserObj, ...params));
+          }
+        });
     })
     .catch((error) => {
       if (!error.description) {
