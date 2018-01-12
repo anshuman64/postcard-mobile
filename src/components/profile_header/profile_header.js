@@ -20,6 +20,7 @@ class ProfileHeader extends React.PureComponent {
   }
 
   componentDidMount() {
+    console.log('yo')
     if (this.props.avatarUrl) {
       this._setAvatarUrl(this.props.avatarUrl);
     }
@@ -36,6 +37,7 @@ class ProfileHeader extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _setAvatarUrl(avatarUrl) {
+    console.log('Hey')
     getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, avatarUrl)
       .then((data) => {
         this.setState({ avatarUrl: data });
@@ -90,7 +92,7 @@ class ProfileHeader extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={ styles.container }>
+      <RN.View style={[{height: 0}, this.props.currentScreen === 'ProfileScreen' && styles.container ]}>
         {this._renderAvatar()}
         {this._renderUsername()}
         {this._renderTabs()}

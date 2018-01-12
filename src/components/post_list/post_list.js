@@ -113,9 +113,9 @@ class PostsScreen extends React.PureComponent {
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
-        onEndReached={this._onEndReached()}
+        onEndReached={this._onEndReached}
         refreshControl={this._renderRefreshControl()}
-        ListHeaderComponent={ this.props.currentScreen === 'HomeScreen' ? null : this._renderHeader }
+        ListHeaderComponent={ this._renderHeader }
         ListFooterComponent={ this._renderFooter }
         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
         onEndReachedThreshold={0.01}
