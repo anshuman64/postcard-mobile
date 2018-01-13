@@ -12,6 +12,10 @@ import { styles, pulseIcon } from './loading_screen_styles.js';
 
 class LoadingScreen extends React.PureComponent {
 
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
   constructor(props) {
     super(props);
 

@@ -21,6 +21,11 @@ const IconFilled = createIconSetFromFontello(fontelloConfig);
 const AnimatedIconFilled = Animatable.createAnimatableComponent(IconFilled);
 
 class PostListItem extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
   constructor(props) {
     super(props);
 
@@ -32,6 +37,10 @@ class PostListItem extends React.PureComponent {
     this.isLikeDisabled   = false;
     this.isDeleteDisabled = false;
   }
+
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
 
   componentDidMount() {
     if (this.props.item.author_avatar_url) {

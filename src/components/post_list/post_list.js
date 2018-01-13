@@ -16,6 +16,11 @@ import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 const AnimatedFlatList = RN.Animated.createAnimatedComponent(RN.FlatList);
 
 class PostList extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+  
   constructor(props) {
     super(props);
 
