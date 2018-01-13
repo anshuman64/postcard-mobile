@@ -30,7 +30,7 @@ class NewPostScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Callback Methods
+  // Private Methods
   //--------------------------------------------------------------------//
 
   _onChangeText(value) {
