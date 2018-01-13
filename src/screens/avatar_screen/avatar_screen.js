@@ -92,18 +92,41 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _onPressSkip = () => {
-    RN.Alert.alert(
-      '',
-      'Are you sure you want to skip this step?',
-      [
-        {text: 'Cancel', onPress: () => null, style: 'cancel'},
-        {text: 'Skip', onPress: this._onConfirmSkip},
-      ],
-    )
+    if (this.props.isLogin) {
+      RN.Alert.alert(
+        '',
+        'Are you sure you want to skip this step?',
+        [
+          {text: 'Cancel', onPress: () => null, style: 'cancel'},
+          {text: 'Skip', onPress: this._onConfirmSkip},
+        ],
+      )
+    } else {
+      RN.Alert.alert(
+        '',
+        'Are you sure you want to remove your profile photo?',
+        [
+          {text: 'Cancel', onPress: () => null, style: 'cancel'},
+          {text: 'Remove', onPress: this._onConfirmRemove},
+        ],
+      )
+    }
   }
 
   _onConfirmSkip = () => {
     this.props.navigateTo('HomeScreen');
+  }
+
+  _onConfirmRemove = () => {
+    if (this.isNextPressed) {
+      return;
+    }
+
+    this.isNextPressed = true;
+
+    this.setState({ isLoading: true }, () => {
+      this._setAvatarUrl(null);
+    });
   }
 
 //--------------------------------------------------------------------//
@@ -130,7 +153,7 @@ class AvatarScreen extends React.PureComponent {
     if (!this.state.imagePath) {
       return (
         <RN.View style={styles.frame}>
-          <Icon name='user' style={styles.placeholderImage} />
+          <Icon name='user' style={styles.userIcon} />
         </RN.View>
       )
     } else {
@@ -175,19 +198,17 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderSkipButton() {
-    if (this.props.isLogin) {
-      return (
-        <RN.TouchableOpacity
-          style={styles.skipButton}
-          onPress={this._onPressSkip}
-          disabled={this.state.isLoading}
-          >
-          <RN.Text style={ styles.skipButtonText }>
-            {"Skip"}
-          </RN.Text>
-        </RN.TouchableOpacity>
-      )
-    }
+    return (
+      <RN.TouchableOpacity
+        style={styles.skipButton}
+        onPress={this._onPressSkip}
+        disabled={this.state.isLoading}
+        >
+        <RN.Text style={ styles.skipButtonText }>
+          {this.props.isLogin ? 'Skip' : 'Remove'}
+        </RN.Text>
+      </RN.TouchableOpacity>
+    )
   }
 
   render() {
