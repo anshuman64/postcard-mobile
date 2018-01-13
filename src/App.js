@@ -87,10 +87,16 @@ class App extends React.Component {
             <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
-              <Scene key='ProfileScreen' component={ProfileScreenContainer} hideNavBar={true} />
+              <Tabs key='ProfileScreenTabs' tabBarComponent={() => <View style={{height: 0}}/>} animationEnabled={false} swipeEnabled={false} >
+                <Scene key='ProfileScreenAuthored' component={ProfileScreenContainer} hideNavBar={true} initial={true} />
+                <Scene key='ProfileScreenLiked' component={ProfileScreenContainer} hideNavBar={true} />
+              </Tabs>
             </Tabs>
-            <Scene key='UserScreen' component={UserScreen} hideNavBar={true} />
-            <Scene key='NewPostScreen' component={NewPostScreenContainer}  hideNavBar={true}  />
+            <Tabs key='UserScreenTabs' tabBarComponent={() => <View style={{height: 0}}/>} hideNavBar={true} animationEnabled={false} swipeEnabled={false} >
+              <Scene key='UserScreenAuthored' component={UserScreen} hideNavBar={true} initial={true} />
+              <Scene key='UserScreenLiked' component={UserScreen} hideNavBar={true} />
+            </Tabs>
+            <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true}  />
             <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true} backTitle={'Settings'}/>}  />
             <Scene key='UsernameScreen' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Username'}/>}  />
             <Scene key='CameraRollScreen' component={CameraRollScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Gallery'}/>}  />

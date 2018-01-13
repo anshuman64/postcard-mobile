@@ -25,10 +25,10 @@ class Footer extends React.PureComponent {
           <Icon name='home' style={[styles.icon, this.props.currentScreen === 'HomeScreen' && styles.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TouchableOpacity
-          onPress={() => this.props.navigateTo('ProfileScreen')}
+          onPress={() => this.props.navigateTo('ProfileScreenAuthored')}
           style={styles.button}
           >
-          <Icon name='user' style={[styles.icon, this.props.currentScreen === 'ProfileScreen' && styles.textHighlighted]} />
+          <Icon name='user' style={[styles.icon, (this.props.currentScreen === 'ProfileScreenAuthored' || this.props.currentScreen === 'ProfileScreenLiked') && styles.textHighlighted]} />
         </RN.TouchableOpacity>
       </RN.View>
     )

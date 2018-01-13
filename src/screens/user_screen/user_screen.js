@@ -12,13 +12,6 @@ import { styles }        from './user_screen_styles.js';
 
 
 class UserScreen extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      postType: POST_TYPES.AUTHORED,
-    };
-  }
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
@@ -26,19 +19,6 @@ class UserScreen extends React.PureComponent {
 
   componentDidMount() {
     this.postList.getWrappedInstance().refresh();
-    this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
-  }
-
-  //--------------------------------------------------------------------//
-  // Public Methods
-  //--------------------------------------------------------------------//
-
-  setParentState = (state) => {
-    let func = () => {
-      this.setState(state);
-    }
-
-    return func;
   }
 
   //--------------------------------------------------------------------//
@@ -49,7 +29,7 @@ class UserScreen extends React.PureComponent {
     return (
       <RN.View style={styles.container}>
         <HeaderContainer backIcon={true} backTitle={this.props.username + "'s Profile"} />
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.state.postType} setParentState={this.setParentState}/>
+        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.name === '_UserScreenAuthored' ? POST_TYPES.AUTHORED : POST_TYPES.LIKED} setParentState={this.setParentState}/>
       </RN.View>
     )
   }

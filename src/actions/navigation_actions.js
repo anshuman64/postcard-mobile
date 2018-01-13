@@ -22,8 +22,14 @@ export const navigateTo = (screen, props) => (dispatch) => {
     Actions.AvatarScreen(props)
   } else if (screen === 'HomeScreen') {
     Actions.HomeScreen(props)
-  } else if (screen === 'ProfileScreen') {
-    Actions.ProfileScreen(props)
+  } else if (screen === 'ProfileScreenAuthored') {
+    Actions.ProfileScreenAuthored(props)
+  } else if (screen === 'ProfileScreenLiked') {
+    Actions.ProfileScreenLiked(props)
+  } else if (screen === 'UserScreenAuthored') {
+    Actions.UserScreenAuthored(props)
+  } else if (screen === 'UserScreenLiked') {
+    Actions.UserScreenLiked(props)
   } else if (screen === 'NewPostScreen') {
     Actions.NewPostScreen(props)
   } else if (screen === 'MenuScreen') {
@@ -38,7 +44,7 @@ export const navigateTo = (screen, props) => (dispatch) => {
 export const navigateToProfile = (props) => (dispatch) => {
   Keyboard.dismiss();
 
-  Actions.push('UserScreen', props);
+  Actions.push('UserScreenTabs', props);
 }
 
 export const goBack = (props) => (dispatch) => {
