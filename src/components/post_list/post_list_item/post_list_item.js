@@ -5,6 +5,7 @@ import { createIconSetFromFontello } from 'react-native-vector-icons';
 import * as Animatable               from 'react-native-animatable';
 import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
+import FontAwesome                   from 'react-native-vector-icons/FontAwesome';
 
 // Local Imports
 import { styles, scaleHeart }   from './post_list_item_styles.js';
@@ -12,6 +13,7 @@ import { renderDate }           from '../../../utilities/date_time_utility.js';
 import fontelloConfig           from '../../../assets/fonts/config.json';
 import { defaultErrorAlert }    from '../../../utilities/error_utility.js';
 import { getImage, deleteFile } from '../../../utilities/file_utility.js';
+import { setStateCallback }     from '../../../utilities/function_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -30,8 +32,10 @@ class PostListItem extends React.PureComponent {
     super(props);
 
     this.state = {
-      avatarUrl: null,
-      imageUrl: null,
+      avatarUrl:         null,
+      imageUrl:          null,
+      isLikingAnimation: false,
+      isLikingServer:    false,
     }
 
     this.isLikeDisabled   = false;
@@ -79,29 +83,33 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressLike = () => {
-    if (this.isLikeDisabled) {
+    if (this.isLikeDisabled || this.state.isLikingAnimation || this.state.isLikingServer) {
       return;
     }
 
     this.isLikeDisabled = true;
 
-    if (this.props.item.is_liked_by_user) {
-      this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
-        .finally(() => {
-          this.isLikeDisabled = false;
-        });
-    } else {
-      this.props.createLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, { post_id: this.props.item.id })
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
-        .finally(() => {
-          this.isLikeDisabled = false;
-        });
-    }
+    this.setState({ isLikingServer: true }, () => {
+      if (this.props.item.is_liked_by_user) {
+        this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+          .catch((error) => {
+            defaultErrorAlert(error);
+          })
+          .finally(() => {
+            this.isLikeDisabled = false;
+            this.setState({ isLikingServer: false });
+          });
+      } else {
+        this.props.createLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, { post_id: this.props.item.id })
+          .catch((error) => {
+            defaultErrorAlert(error);
+          })
+          .finally(() => {
+            this.isLikeDisabled = false;
+            this.setState({ isLikingServer: false });
+          });
+      }
+    })
   }
 
   _onPressDelete = () => {
@@ -156,64 +164,125 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  _renderPostHeader() {
+  _renderAvatar() {
+    if (!this.props.item.author_avatar_url) {
+      return (
+        <RN.View style={styles.frame}>
+          <FontAwesome name='user-circle-o' style={styles.userIcon} />
+        </RN.View>
+      )
+    } else if (!this.state.avatarUrl) {
+      return (
+        <RN.View style={styles.frame} />
+      )
+    } else {
+      return (
+        <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'contain'} />
+      )
+    }
+  }
+
+  _renderUserView() {
     return (
-      <RN.View style={styles.headerView}>
+      <RN.View style={styles.userView}>
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.usernameText.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
           onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id, username: this.props.item.author_username, avatarUrl: this.props.item.author_avatar_url })}
-          style={styles.userView}
           >
-          <RN.View style={styles.userView}>
-            <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'contain'} />
+          <RN.View style={styles.userButton}>
+            {this._renderAvatar()}
             <RN.Text ref={(ref) => this.usernameText = ref} style={styles.usernameText}>
               {this.props.item.author_username}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
-          onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
-          onPress={this._onPressDelete}
-          disabled={this.props.user.id != this.props.item.author_id}
-          >
-          <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}/>
-        </RN.TouchableWithoutFeedback>
+        <RN.Text style={styles.breakText}>
+          ●
+        </RN.Text>
+        <RN.TouchableOpacity>
+          <RN.Text style={styles.followText}>
+            Follow
+          </RN.Text>
+        </RN.TouchableOpacity>
       </RN.View>
     )
   }
 
-  _renderPostBody() {
+  _renderCloseButton() {
     return (
-      <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
-        {this.props.item.body}
-      </RN.Text>
+      <RN.TouchableWithoutFeedback
+        onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
+        onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
+        onPress={this._onPressDelete}
+        disabled={this.props.user.id != this.props.item.author_id}
+        >
+        <RN.View style={styles.closeButton}>
+          <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}/>
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
     )
   }
 
-  _renderPostImage() {
-    if (this.state.imageUrl) {
+  _renderHeader() {
+    return (
+      <RN.View style={styles.headerView}>
+        {this._renderUserView()}
+        {this._renderCloseButton()}
+      </RN.View>
+    )
+  }
+
+  _renderBody() {
+    if (this.props.item.body) {
+      return (
+        <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
+          {this.props.item.body}
+        </RN.Text>
+      )
+    }
+  }
+
+  _renderImage() {
+    if (this.props.item.image_url && !this.state.imageUrl) {
+      return (
+        <RN.View style={styles.bodyImage} />
+      )
+    } else if (this.state.imageUrl) {
       return (
         <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'cover'} />
       )
     }
   }
 
-  _renderPostFooter() {
+  _renderLike() {
+    if ((!this.props.item.is_liked_by_user && !(!this.state.isLikingServer && !this.state.isLikingAnimation))
+        || this.props.item.is_liked_by_user) {
+      return (
+        <AnimatedIconFilled
+          name='heart-filled'
+          animation={scaleHeart}
+          duration={750}
+          style={ styles.filledHeartIcon }
+          onAnimationBegin={setStateCallback(this, { isLikingAnimation: true })}
+          onAnimationEnd={setStateCallback(this, { isLikingAnimation: false })}
+          />
+      )
+    } else {
+      return (
+        <Icon name='heart' style={ styles.heartIcon } />
+      )
+    }
+  }
+
+  _renderFooter() {
     return (
       <RN.View style={ styles.footerView }>
         <RN.View style={styles.likesView}>
           <RN.TouchableWithoutFeedback onPressIn={this._onPressLike}>
-            {this.props.item.is_liked_by_user ?
-              <AnimatedIconFilled
-                name='heart-filled'
-                animation={scaleHeart}
-                duration={750}
-                style={ styles.filledHeartIcon }
-                /> :
-              <Icon name='heart' style={ styles.heartIcon } />
-            }
+            <RN.View style={styles.heartButton}>
+              {this._renderLike()}
+            </RN.View>
           </RN.TouchableWithoutFeedback>
           <RN.Text style={ styles.likeCountText }>
             {this._renderLikesCount(this.props.item.num_likes)}
@@ -228,14 +297,14 @@ class PostListItem extends React.PureComponent {
 
   render() {
     return(
-      <Animatable.View ref={(ref) => this.container = ref} style={ styles.container }>
-        <RN.View style={ styles.post }>
-          {this._renderPostHeader()}
-          {this._renderPostBody()}
-          {this._renderPostImage()}
-          {this._renderPostFooter()}
-        </RN.View>
-      </Animatable.View>
+      <RN.View style={styles.container}>
+        <Animatable.View ref={(ref) => this.container = ref} style={ styles.postContainer }>
+          {this._renderHeader()}
+          {this._renderBody()}
+          {this._renderImage()}
+          {this._renderFooter()}
+        </Animatable.View>
+      </RN.View>
     )
   }
 }

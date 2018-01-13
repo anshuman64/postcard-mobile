@@ -31,7 +31,7 @@ class DebugLoginScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onNextButtonPress() {
+  _onNextButtonPress = () => {
     if (this.isNextPressed) {
       return;
     }
@@ -72,7 +72,7 @@ class DebugLoginScreen extends React.PureComponent {
     return (
       <RN.TextInput
         style={styles.textInput}
-        onChangeText={setStateCallback(this, { emailInput: value })}
+        onChangeText={(value) => this.setState({ emailInput: value })}
         value={this.state.emailInput}
         underlineColorAndroid={'transparent'}
       />
@@ -83,7 +83,7 @@ class DebugLoginScreen extends React.PureComponent {
     return (
       <RN.TextInput
         style={styles.textInput}
-        onChangeText={setStateCallback(this, { emailInput: value })}
+        onChangeText={(value) => this.setState({ emailInput: value })}
         value={this.state.passwordInput}
         underlineColorAndroid={'transparent'}
         secureTextEntry={true}

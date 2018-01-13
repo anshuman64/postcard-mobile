@@ -43,9 +43,8 @@ export const styles = RN.StyleSheet.create({
     borderColor: StyleUtility.COLORS.grey900,
     borderRadius: 200 / 2,
     marginTop: 25,
-    zIndex: 1,
   },
-  placeholderImage: {
+  userIcon: {
     fontSize: StyleUtility.scaleFont(40),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
