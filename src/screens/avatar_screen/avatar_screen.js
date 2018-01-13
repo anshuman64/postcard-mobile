@@ -27,6 +27,10 @@ class AvatarScreen extends React.PureComponent {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.imagePath) {
       this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })

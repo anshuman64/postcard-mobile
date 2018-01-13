@@ -89,14 +89,14 @@ class ProfileHeader extends React.PureComponent {
   }
 
   render() {
-    const headerHeight = this.props.scrollY.interpolate({
-      inputRange: [0, 270 - 30],
-      outputRange: [270, 30],
+    const translateY = this.props.scrollY.interpolate({
+      inputRange: [0, 240],
+      outputRange: [0, -240],
       extrapolate: 'clamp',
     });
 
     return (
-      <RN.Animated.View style={[styles.container, {height: 0}, this.props.currentScreen != 'HomeScreen' && {height: headerHeight}]}>
+      <RN.Animated.View style={[styles.container, this.props.currentScreen === 'HomeScreen' && {height: 0}, this.props.currentScreen != 'HomeScreen' && { transform: [{translateY}] }]}>
         {this._renderAvatar()}
         {this._renderUsername()}
         {this._renderTabs()}

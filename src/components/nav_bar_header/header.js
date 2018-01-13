@@ -22,10 +22,6 @@ class Header extends React.PureComponent {
     this.isGoBackPressed = false;
   }
 
-  componentDidMount() {
-    console.log(this.props)
-  }
-
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
@@ -90,7 +86,7 @@ class Header extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.backIcon.setNativeProps({style: styles.textHighlighted})}
           onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
-          onPress={() => this._goBack()}
+          onPress={this._goBack}
           >
           <RN.View style={styles.button}>
             <Ionicon
@@ -163,10 +159,7 @@ class Header extends React.PureComponent {
   }
 
   render() {
-    const IS_NOT_BORDER = (this.props.currentScreen === 'ProfileScreenAuthored'
-      || this.props.currentScreen === 'ProfileScreenLiked'
-      || this.props.currentScreen === 'UserScreenAuthored'
-      || this.props.currentScreen === 'UserScreenLiked');
+    const IS_NOT_BORDER = this.props.currentScreen === 'ProfileScreen' || this.props.currentScreen === 'UserScreen';
 
     return (
       <RN.View style={[styles.header, this.props.backTitle && styles.backHeader, !IS_NOT_BORDER && styles.border]}>

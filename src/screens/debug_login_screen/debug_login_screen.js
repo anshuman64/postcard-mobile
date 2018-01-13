@@ -90,7 +90,7 @@ class DebugLoginScreen extends React.PureComponent {
     return (
       <RN.TouchableHighlight
         style={ styles.nextButtonBackground }
-        onPress={() => this._onNextButtonPress()}
+        onPress={this._onNextButtonPress}
         underlayColor='#0050a7'
         >
         <RN.Text style={styles.nextButtonText}>

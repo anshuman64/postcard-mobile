@@ -10,7 +10,7 @@ import { styles }                    from './country_list_item_styles.js';
 
 
 class CountryListItem extends React.PureComponent {
-
+  
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//

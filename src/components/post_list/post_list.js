@@ -13,6 +13,7 @@ import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
+const AnimatedFlatList = RN.Animated.createAnimatedComponent(RN.FlatList);
 
 class PostList extends React.PureComponent {
   constructor(props) {
@@ -42,7 +43,7 @@ class PostList extends React.PureComponent {
 
   componentDidUpdate() {
     if (this.state.scrollToTop) {
-      this.flatList.scrollToOffset({x: 0, y: 0, animated: true});
+      this.flatList.getNode().getscrollToOffset({x: 0, y: 0, animated: true});
       this.setState({ scrollToTop: false });
     }
   }
@@ -69,7 +70,7 @@ class PostList extends React.PureComponent {
   _onRefresh = () => {
     this.isLoading = true;
     this.setState({ isRefreshing: true }, () => {
-      this.flatList.scrollToOffset({ x: 0, y: 0, animated: true });
+      this.flatList.getNode().scrollToOffset({ x: 0, y: 0, animated: true });
       this.refresh();
     })
   }
@@ -102,7 +103,7 @@ class PostList extends React.PureComponent {
 
   _renderPostList = () => {
     return (
-      <RN.FlatList
+      <AnimatedFlatList
         ref={(ref) => this.flatList = ref}
         data={ (this.props.posts[this.props.userId] && this.props.posts[this.props.userId][this.props.postType]) ?
           this.props.posts[this.props.userId][this.props.postType].data :
@@ -120,7 +121,8 @@ class PostList extends React.PureComponent {
         ListFooterComponent={ this._renderFooter }
         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
         onEndReachedThreshold={0.01}
-        onScroll={RN.Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}])}
+        onScroll={RN.Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}], {useNativeDriver: true})}
+        scrollEventThrottle={16}
         />
     )
   }
@@ -137,6 +139,7 @@ class PostList extends React.PureComponent {
         refreshing={this.state.isRefreshing}
         onRefresh={this._onRefresh}
         color={COLORS.grey400}
+        progressViewOffset={this.props.currentScreen === 'HomeScreen' ? 0 : 270}
         />
     )
   }

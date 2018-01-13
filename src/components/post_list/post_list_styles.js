@@ -19,7 +19,7 @@ export const styles = RN.StyleSheet.create({
     backgroundColor: StyleUtility.COLORS.grey50,
   },
   minusHeader: {
-    height: StyleUtility.DEVICE_DIM.height - 50 - StyleUtility.STATUSBAR_HEIGHT - 24, // Total height - header - statusBar - footer - random value
+    height: StyleUtility.DEVICE_DIM.height - 50 - StyleUtility.STATUSBAR_HEIGHT - 24, // Total height - header - statusBar - random value
   },
   postList: {
     width: '100%',
