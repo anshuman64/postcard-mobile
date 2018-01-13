@@ -20,7 +20,6 @@ class ProfileHeader extends React.PureComponent {
   }
 
   componentDidMount() {
-    console.log('yo')
     if (this.props.avatarUrl) {
       this._setAvatarUrl(this.props.avatarUrl);
     }
@@ -37,11 +36,30 @@ class ProfileHeader extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _setAvatarUrl(avatarUrl) {
-    console.log('Hey')
     getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, avatarUrl)
       .then((data) => {
         this.setState({ avatarUrl: data });
       })
+  }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onChangeTabs = (isLikedPressed) => {
+    if (isLikedPressed) {
+      if (this.props.currentScreen === 'ProfileScreenAuthored') {
+        this.props.navigateTo('ProfileScreenLiked', { scrollToTop: new Date() });
+      } else if (this.props.currentScreen === 'UserScreenAuthored') {
+        this.props.navigateTo('UserScreenLiked', { scrollToTop: new Date() });
+      }
+    } else {
+      if (this.props.currentScreen === 'ProfileScreenLiked') {
+        this.props.navigateTo('ProfileScreenAuthored', { scrollToTop: new Date() });
+      } else if (this.props.currentScreen === 'UserScreenLiked') {
+        this.props.navigateTo('UserScreenAuthored', { scrollToTop: new Date() });
+      }
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -76,12 +94,12 @@ class ProfileHeader extends React.PureComponent {
   _renderTabs() {
     return (
       <RN.View style={styles.tabs}>
-        <RN.TouchableOpacity onPress={this.props.setParentState ? this.props.setParentState({ postType: POST_TYPES.AUTHORED }) : null} style={styles.button}>
+        <RN.TouchableOpacity onPress={() => this._onChangeTabs(false)} style={styles.button}>
           <RN.Text style={[styles.text, this.props.postType === POST_TYPES.AUTHORED && styles.textHighlighted]} >
             Posts
           </RN.Text>
         </RN.TouchableOpacity>
-        <RN.TouchableOpacity onPress={this.props.setParentState ? this.props.setParentState({ postType: POST_TYPES.LIKED }) : null} style={styles.button}>
+        <RN.TouchableOpacity onPress={() => this._onChangeTabs(true)} style={styles.button}>
           <RN.Text style={[styles.text, this.props.postType === POST_TYPES.LIKED && styles.textHighlighted]} >
             Liked
           </RN.Text>
@@ -91,12 +109,18 @@ class ProfileHeader extends React.PureComponent {
   }
 
   render() {
+    const headerHeight = this.props.scrollY.interpolate({
+      inputRange: [0, 270 - 30],
+      outputRange: [270, 30],
+      extrapolate: 'clamp',
+    });
+
     return (
-      <RN.View style={[{height: 0}, this.props.currentScreen === 'ProfileScreen' && styles.container ]}>
+      <RN.Animated.View style={[styles.container, {height: 0}, this.props.currentScreen != 'HomeScreen' && {height: headerHeight}]}>
         {this._renderAvatar()}
         {this._renderUsername()}
         {this._renderTabs()}
-      </RN.View>
+      </RN.Animated.View>
     )
   }
 }

@@ -18,8 +18,8 @@ export const styles = RN.StyleSheet.create({
     height: 270,
     backgroundColor: 'white',
     borderBottomColor: StyleUtility.COLORS.grey300,
-    borderBottomWidth: (RN.Platform.OS === 'ios') ? 1 : 0,
-    elevation: 2,
+    borderBottomWidth: 1,
+    position: 'absolute'
   },
   frame: {
     flexDirection: 'column',
