@@ -2,6 +2,10 @@
 // Interface
 //--------------------------------------------------------------------//
 
+export const getRandomInt = (max) => {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 export const setStateCallback = (component, state) => {
   let func = () => {
     component.setState(state);

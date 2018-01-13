@@ -97,10 +97,10 @@ export const refreshPosts = (authToken, firebaseUserObj, userId, postType, query
     });
 };
 
-export const createPost = (authToken, firebaseUserObj, userId, postObj) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, userId, postObj, placeholderText) => (dispatch) => {
   return APIUtility.post(authToken, '/posts', postObj)
     .then((newPost) => {
-      amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postObj.body });
+      amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postObj.body, placeholder_text: placeholderText });
       dispatch(receivePost({ post: newPost, userId: userId }));
     })
     .catch((error) => {
@@ -112,7 +112,7 @@ export const createPost = (authToken, firebaseUserObj, userId, postObj) => (disp
         error.description = 'POST post failed'
       }
 
-      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postObj.body, error: error.description });
+      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postObj.body, placeholder_text: placeholderText, error: error.description });
       throw error;
     });
 };
