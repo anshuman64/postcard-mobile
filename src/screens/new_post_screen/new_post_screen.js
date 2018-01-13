@@ -13,6 +13,10 @@ import { COLORS }       from '../../utilities/style_utility.js';
 
 class NewPostScreen extends React.PureComponent {
 
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
   constructor(props) {
     super(props);
 
@@ -22,6 +26,10 @@ class NewPostScreen extends React.PureComponent {
       imageType: null
     };
   }
+
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.imagePath) {
