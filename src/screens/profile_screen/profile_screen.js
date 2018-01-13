@@ -12,6 +12,13 @@ import { styles }        from './profile_screen_styles.js';
 
 
 class ProfileScreen extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      postType:  POST_TYPES.AUTHORED,
+    };
+  }
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
@@ -35,13 +42,25 @@ class ProfileScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
+  setParentState = (state) => {
+    let func = () => {
+      this.setState(state);
+    }
+
+    return func;
+  }
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
   render() {
     return (
       <RN.View style={styles.container}>
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} username={this.props.user.username} avatarUrl={this.props.user.avatar_url} postType={this.props.routeName === 'ProfileScreenAuthored' ? POST_TYPES.AUTHORED : POST_TYPES.LIKED} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
+        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} username={this.props.user.username} avatarUrl={this.props.user.avatar_url} postType={this.state.postType} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
       </RN.View>
     )
   }

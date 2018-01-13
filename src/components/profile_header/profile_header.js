@@ -43,26 +43,6 @@ class ProfileHeader extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
-
-  _onChangeTabs = (isLikedPressed) => {
-    if (isLikedPressed) {
-      if (this.props.currentScreen === 'ProfileScreenAuthored') {
-        this.props.navigateTo('ProfileScreenLiked', { scrollToTop: new Date() });
-      } else if (this.props.currentScreen === 'UserScreenAuthored') {
-        this.props.navigateTo('UserScreenLiked', { scrollToTop: new Date() });
-      }
-    } else {
-      if (this.props.currentScreen === 'ProfileScreenLiked') {
-        this.props.navigateTo('ProfileScreenAuthored', { scrollToTop: new Date() });
-      } else if (this.props.currentScreen === 'UserScreenLiked') {
-        this.props.navigateTo('UserScreenAuthored', { scrollToTop: new Date() });
-      }
-    }
-  }
-
-  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -94,12 +74,12 @@ class ProfileHeader extends React.PureComponent {
   _renderTabs() {
     return (
       <RN.View style={styles.tabs}>
-        <RN.TouchableOpacity onPress={() => this._onChangeTabs(false)} style={styles.button}>
+        <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
           <RN.Text style={[styles.text, this.props.postType === POST_TYPES.AUTHORED && styles.textHighlighted]} >
             Posts
           </RN.Text>
         </RN.TouchableOpacity>
-        <RN.TouchableOpacity onPress={() => this._onChangeTabs(true)} style={styles.button}>
+        <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
           <RN.Text style={[styles.text, this.props.postType === POST_TYPES.LIKED && styles.textHighlighted]} >
             Liked
           </RN.Text>
