@@ -26,6 +26,13 @@ export const styles = RN.StyleSheet.create({
     height: '100%',
     backgroundColor: StyleUtility.COLORS.grey50,
   },
+  headerView: {
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+    height: 270,
+  },
   footerView: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -47,7 +54,5 @@ export const styles = RN.StyleSheet.create({
     height: '50%',
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200
-  },
-  activityIndicator: {
   },
 });

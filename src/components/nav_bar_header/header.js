@@ -6,6 +6,7 @@ import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
+import LoadingModal          from '../loading_modal/loading_modal.js'
 import { styles }            from './header_styles.js';
 import { COLORS }            from '../../utilities/style_utility.js';
 import { uploadImageFile }   from '../../utilities/file_utility.js';
@@ -23,6 +24,10 @@ class Header extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isLoading: false,
+    }
+
     this.isSharePressed  = false;
     this.isGoBackPressed = false;
   }
@@ -38,6 +43,7 @@ class Header extends React.PureComponent {
       })
       .catch((error) => {
         this.isSharePressed = false;
+        this.setState({ isLoading: false });
         defaultErrorAlert(error);
       })
   }
@@ -50,6 +56,9 @@ class Header extends React.PureComponent {
       .catch((error) => {
         this.isSharePressed = false;
         defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
       })
   }
 
@@ -66,7 +75,6 @@ class Header extends React.PureComponent {
     this.props.goBack();
   }
 
-  //TODO: add spinner
   _onPressShare = () => {
     if ((!this.props.postText && !this.props.imagePath) || this.isSharePressed) {
       return;
@@ -74,11 +82,13 @@ class Header extends React.PureComponent {
 
     this.isSharePressed = true;
 
-    if (this.props.imagePath) {
-      this._uploadImage();
-    } else {
-      this._createPost();
-    }
+    this.setState({ isLoading: true },() => {
+      if (this.props.imagePath) {
+        this._uploadImage();
+      } else {
+        this._createPost();
+      }
+    });
   }
 
   //--------------------------------------------------------------------//
@@ -163,6 +173,12 @@ class Header extends React.PureComponent {
     }
   }
 
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading}/>
+    )
+  }
+
   render() {
     const IS_NOT_BORDER = this.props.currentScreen === 'ProfileScreen' || this.props.currentScreen === 'UserScreen';
 
@@ -174,6 +190,7 @@ class Header extends React.PureComponent {
         {this._renderLogo()}
         {this._renderNoteIcon()}
         {this._renderShareButton()}
+        {this._renderLoadingModal()}
       </RN.View>
     )
   }
