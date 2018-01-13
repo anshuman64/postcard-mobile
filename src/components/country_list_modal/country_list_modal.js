@@ -18,7 +18,7 @@ class CountryListModal extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Constructor
   //--------------------------------------------------------------------//
-  
+
   constructor(props) {
     super(props);
     const ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -32,6 +32,7 @@ class CountryListModal extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  //TODO: ask Vin if we actually need to do this
   // Renders the RN.ScrollView after other modal contents are mounted for performance
   componentDidMount() {
     setTimeout(() => this.setState({ isModalMounted: true }), 1);
@@ -81,6 +82,18 @@ class CountryListModal extends React.PureComponent {
     }
   }
 
+  _renderItem() {
+    let rows = [];
+
+    for (i = 0; i < COUNTRY_CODES.length; i++) {
+      rows.push(
+        <CountryListItem key={i} item={COUNTRY_CODES[i]} countryIndex={i} setCountry={this.props.setCountry} />
+      )
+    }
+
+    return rows;
+  }
+
   _renderCancelButton() {
     return (
       <RN.TouchableWithoutFeedback
@@ -95,18 +108,6 @@ class CountryListModal extends React.PureComponent {
         </RN.View>
       </RN.TouchableWithoutFeedback>
     )
-  }
-
-  _renderItem = () => {
-    let rows = [];
-
-    for (i = 0; i < COUNTRY_CODES.length; i++) {
-      rows.push(
-        <CountryListItem key={i} item={COUNTRY_CODES[i]} countryIndex={i} setCountry={this.props.setCountry} />
-      )
-    }
-
-    return rows;
   }
 
   render() {
