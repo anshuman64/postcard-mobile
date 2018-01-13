@@ -14,13 +14,14 @@ import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 //--------------------------------------------------------------------//
 
 
-class PostsScreen extends React.PureComponent {
+class PostList extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
       isRefreshing: false,
       scrollToTop:  false,
+      scrollY: new RN.Animated.Value(0)
     };
 
     this.onEndReachedCalledDuringMomentum = true;
@@ -115,10 +116,11 @@ class PostsScreen extends React.PureComponent {
         showsVerticalScrollIndicator={false}
         onEndReached={this._onEndReached}
         refreshControl={this._renderRefreshControl()}
-        ListHeaderComponent={ this._renderHeader }
+        ListHeaderComponent={() => <RN.View style={{height: this.props.currentScreen === 'HomeScreen' ? 0 : 270}}/>}
         ListFooterComponent={ this._renderFooter }
         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
         onEndReachedThreshold={0.01}
+        onScroll={RN.Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}])}
         />
     )
   }
@@ -141,7 +143,7 @@ class PostsScreen extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <ProfileHeaderContainer userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.postType} setParentState={this.props.setParentState} />
+      <ProfileHeaderContainer scrollY={this.state.scrollY} userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.postType} setParentState={this.props.setParentState} />
     )
   }
 
@@ -167,8 +169,9 @@ class PostsScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={ styles.container }>
+      <RN.View style={[styles.container, (this.props.currentScreen === 'UserScreenAuthored' || this.props.currentScreen === 'UserScreenLiked') && styles.minusHeader]}>
         {this._renderPostList()}
+        {this._renderHeader()}
       </RN.View>
     )
   }
@@ -176,4 +179,4 @@ class PostsScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default PostsScreen;
+export default PostList;
