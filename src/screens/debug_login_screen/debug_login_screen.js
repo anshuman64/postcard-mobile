@@ -3,7 +3,8 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import { styles } from './debug_login_screen_styles.js';
+import { setStateCallback } from '../../utilities/function_utility.js';
+import { styles }           from './debug_login_screen_styles.js';
 
 
 //--------------------------------------------------------------------//
@@ -71,7 +72,7 @@ class DebugLoginScreen extends React.PureComponent {
     return (
       <RN.TextInput
         style={styles.textInput}
-        onChangeText={(value) => setState({ emailInput: value })}
+        onChangeText={setStateCallback(this, { emailInput: value })}
         value={this.state.emailInput}
         underlineColorAndroid={'transparent'}
       />
@@ -82,7 +83,7 @@ class DebugLoginScreen extends React.PureComponent {
     return (
       <RN.TextInput
         style={styles.textInput}
-        onChangeText={(value) => setState({ emailInput: value })}
+        onChangeText={setStateCallback(this, { emailInput: value })}
         value={this.state.passwordInput}
         underlineColorAndroid={'transparent'}
         secureTextEntry={true}

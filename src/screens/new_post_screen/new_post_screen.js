@@ -5,9 +5,10 @@ import Ionicon   from 'react-native-vector-icons/Ionicons';
 import EvilIcon  from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import HeaderContainer  from '../../components/nav_bar_header/header_container.js';
-import { styles }       from './new_post_screen_styles.js';
-import { COLORS }       from '../../utilities/style_utility.js';
+import HeaderContainer      from '../../components/nav_bar_header/header_container.js';
+import { styles }           from './new_post_screen_styles.js';
+import { setStateCallback } from '../../utilities/function_utility.js';
+import { COLORS }           from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -38,10 +39,10 @@ class NewPostScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Private Methods
+  // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onChangeText(value) {
+  _onChangeText = (value) => {
     this.setState({ postText: value })
   }
 
@@ -55,7 +56,7 @@ class NewPostScreen extends React.PureComponent {
         style={[styles.textInput, this.state.postText.length >= 86 && styles.smallBodyText]}
         placeholderTextColor={COLORS.grey500}
         placeholder={'How are you?'}
-        onChangeText={(value) => this._onChangeText(value)}
+        onChangeText={this._onChangeText.bind(this)}
         value={this.state.postText}
         autoFocus={true}
         multiline={true}
@@ -70,7 +71,7 @@ class NewPostScreen extends React.PureComponent {
     if (this.state.imagePath) {
       return (
         <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'} >
-          <EvilIcon name='close' style={styles.closeIcon} onPress={() => this.setState({image: null})}/>
+          <EvilIcon name='close' style={styles.closeIcon} onPress={setStateCallback(this, {image: null})}/>
         </RN.ImageBackground>
       )
     }

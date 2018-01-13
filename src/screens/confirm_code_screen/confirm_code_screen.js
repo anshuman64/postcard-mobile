@@ -72,8 +72,12 @@ class ConfirmCodeScreen extends React.PureComponent {
     });
   }
 
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
   // Sends code to Firebase API as soon as user has inputted six digits
-  _codeInputOnChangeText(value) {
+  _codeInputOnChangeText = (value) => {
     this.setState({ inputtedCode: value });
 
     if (value.length === 6) {
@@ -103,10 +107,6 @@ class ConfirmCodeScreen extends React.PureComponent {
       });
     }
   }
-
-  //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
 
   // Callback function to resend confirmation code via SMS and restart timer
   _onResendSMSPress = () => {
@@ -142,7 +142,7 @@ class ConfirmCodeScreen extends React.PureComponent {
         ref={(ref) => this.codeInput = ref}
         style={[styles.codeInput, this.state.isCodeIncorrect && styles.borderRed]}
         keyboardType='numeric'
-        onChangeText={(value) => this._codeInputOnChangeText(value)}
+        onChangeText={this._codeInputOnChangeText.bind(this)}
         value={this.state.inputtedCode}
         placeholder='-  -  -  -  -  -'
         autoFocus={true}
