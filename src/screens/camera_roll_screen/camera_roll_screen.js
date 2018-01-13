@@ -15,6 +15,11 @@ import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 const PAGE_SIZE = Math.ceil(DEVICE_DIM.height / DEVICE_DIM.width / 3) * 3;
 
 class CameraRollScreen extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
   constructor(props) {
     super(props);
 

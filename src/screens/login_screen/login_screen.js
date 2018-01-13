@@ -21,6 +21,10 @@ import { defaultErrorAlert }                                from '../../utilitie
 
 class LoginScreen extends React.PureComponent {
 
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
   constructor(props) {
     super(props);
 
