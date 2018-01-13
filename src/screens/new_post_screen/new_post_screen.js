@@ -5,10 +5,11 @@ import Ionicon   from 'react-native-vector-icons/Ionicons';
 import EvilIcon  from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import HeaderContainer      from '../../components/nav_bar_header/header_container.js';
-import { styles }           from './new_post_screen_styles.js';
-import { setStateCallback } from '../../utilities/function_utility.js';
-import { COLORS }           from '../../utilities/style_utility.js';
+import HeaderContainer                    from '../../components/nav_bar_header/header_container.js';
+import { POST_PLACEHOLDERS }              from '../../utilities/new_post_utility.js';
+import { styles }                         from './new_post_screen_styles.js';
+import { getRandomInt, setStateCallback } from '../../utilities/function_utility.js';
+import { COLORS }                         from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -22,15 +23,20 @@ class NewPostScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      postText:  '',
-      imagePath: null,
-      imageType: null
+      postText:        '',
+      placeholderText: '',
+      imagePath:       null,
+      imageType:       null,
     };
   }
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
+
+  componentDidMount() {
+    this.setState({ placeholderText: POST_PLACEHOLDERS[getRandomInt(POST_PLACEHOLDERS.length)]})
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.imagePath) {
@@ -55,7 +61,7 @@ class NewPostScreen extends React.PureComponent {
       <RN.TextInput
         style={[styles.textInput, this.state.postText.length >= 86 && styles.smallBodyText]}
         placeholderTextColor={COLORS.grey500}
-        placeholder={'How are you?'}
+        placeholder={this.state.placeholderText}
         onChangeText={this._onChangeText.bind(this)}
         value={this.state.postText}
         autoFocus={true}
@@ -93,7 +99,7 @@ class NewPostScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={ styles.container }>
-        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} imagePath={this.state.imagePath} imageType={this.state.imageType}/>
+        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} placeholderText={this.state.placeholderText} imagePath={this.state.imagePath} imageType={this.state.imageType}/>
         {this._renderTextInput()}
         {this._renderImage()}
         {this._renderImageButton()}
