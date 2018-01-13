@@ -68,10 +68,6 @@ class ConfirmCodeScreen extends React.PureComponent {
     });
   }
 
-  //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
-
   // Sends code to Firebase API as soon as user has inputted six digits
   _codeInputOnChangeText(value) {
     this.setState({ inputtedCode: value });
@@ -81,7 +77,7 @@ class ConfirmCodeScreen extends React.PureComponent {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
         .then(() => {
           this._stopTimer();
-          
+
           if (!this.props.user.username) {
             return this.props.navigateTo('UsernameScreenLogin');
           } else {
@@ -104,8 +100,12 @@ class ConfirmCodeScreen extends React.PureComponent {
     }
   }
 
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
   // Callback function to resend confirmation code via SMS and restart timer
-  _onResendSMSPress() {
+  _onResendSMSPress = () => {
     this.props.getConfirmationCode(this.props.phoneNumber)
       .catch((error) => defaultErrorAlert(error));
 
@@ -138,7 +138,7 @@ class ConfirmCodeScreen extends React.PureComponent {
         ref={(ref) => this.codeInput = ref}
         style={[styles.codeInput, this.state.isCodeIncorrect && styles.borderRed]}
         keyboardType='numeric'
-        onChangeText={this._codeInputOnChangeText.bind(this)}
+        onChangeText={(value) => this._codeInputOnChangeText(value)}
         value={this.state.inputtedCode}
         placeholder='-  -  -  -  -  -'
         autoFocus={true}
@@ -174,7 +174,7 @@ class ConfirmCodeScreen extends React.PureComponent {
           this.resendSMSView.setNativeProps({style: styles.resendSMSView})
           this.resendSMSText.setNativeProps({style: styles.resendSMSText})
         }}
-        onPress={() => this._onResendSMSPress()}
+        onPress={this._onResendSMSPress}
         disabled={this.state.isResendSMSDisabled}
         >
         <RN.View ref={(ref) => this.resendSMSView = ref} style={styles.resendSMSView}>

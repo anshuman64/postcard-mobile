@@ -87,7 +87,7 @@ class App extends React.Component {
             <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
-              <Scene key='ProfileScreen' component={ProfileScreenContainer} tabBarComponent={() => <View style={{height: 0}}/>} />
+              <Scene key='ProfileScreen' component={ProfileScreenContainer} tabBarComponent={() => <View style={{height: 0}}/>} hideNavBar={true} />
             </Tabs>
             <Tabs key='UserScreen' component={UserScreen} tabBarComponent={() => <View style={{height: 0}}/>} hideNavBar={true} />
             <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true}  />
