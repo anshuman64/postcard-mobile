@@ -3,6 +3,7 @@ import React                from 'react';
 import RN                   from 'react-native';
 
 // Local Imports
+import LoadingModal          from '../../components/loading_modal/loading_modal.js';
 import { styles }            from './username_screen_styles.js';
 import { setStateCallback }  from '../../utilities/function_utility.js';
 import { COLORS }            from '../../utilities/style_utility.js';
@@ -98,15 +99,11 @@ class UsernameScreen extends React.PureComponent {
   }
 
   _renderErrorText() {
-    if (this.state.isLoading) {
-      return <RN.ActivityIndicator size='small' color={COLORS.grey400} />
-    } else {
-      return (
-        <RN.Text style={[styles.errorText, !this.state.isError && styles.transparentText]}>
-          {this.state.errorText}
-        </RN.Text>
-      )
-    }
+    return (
+      <RN.Text style={[styles.errorText, !this.state.isError && styles.transparentText]}>
+        {this.state.errorText}
+      </RN.Text>
+    )
   }
 
   //TODO: create utility component shared with LoginScreen
@@ -117,13 +114,16 @@ class UsernameScreen extends React.PureComponent {
         onPress={this._onPress}
         disabled={(this.state.inputtedText.length === 0) && !this.state.isLoading}
         >
-        { this.state.isLoading ?
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
-          <RN.Text style={[styles.nextButtonText, (this.state.inputtedText.length === 0) && styles.nextButtonTextDisabled]}>
-            {this.props.currentScreen === 'UsernameScreenLogin' ? 'Next' : 'Done'}
-          </RN.Text>
-        }
+        <RN.Text style={[styles.nextButtonText, (this.state.inputtedText.length === 0) && styles.nextButtonTextDisabled]}>
+          {this.props.currentScreen === 'UsernameScreenLogin' ? 'Next' : 'Done'}
+        </RN.Text>
       </RN.TouchableOpacity>
+    )
+  }
+
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading} />
     )
   }
 
@@ -136,6 +136,7 @@ class UsernameScreen extends React.PureComponent {
           <RN.View style={{flex: 1}} />
           {this._renderNextButton()}
           <RN.View style={{flex: 5}} />
+          {this._renderLoadingModal()}
         </RN.View>
     )
   }

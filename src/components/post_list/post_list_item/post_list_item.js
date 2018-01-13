@@ -177,7 +177,9 @@ class PostListItem extends React.PureComponent {
       )
     } else {
       return (
-        <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'contain'} />
+        <RN.View style={styles.frame}>
+          <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'contain'} />
+        </RN.View>
       )
     }
   }
@@ -191,7 +193,9 @@ class PostListItem extends React.PureComponent {
           onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id, username: this.props.item.author_username, avatarUrl: this.props.item.author_avatar_url })}
           >
           <RN.View style={styles.userButton}>
-            {this._renderAvatar()}
+            <RN.View style={styles.frame}>
+              {this._renderAvatar()}
+            </RN.View>
             <RN.Text ref={(ref) => this.usernameText = ref} style={styles.usernameText}>
               {this.props.item.author_username}
             </RN.Text>
