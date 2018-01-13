@@ -25,7 +25,6 @@ export const styles = RN.StyleSheet.create({
     height: 50,
     width: '95%',
     marginTop: 15,
-    paddingLeft: 15,
     backgroundColor: 'white',
     elevation: 2,
     shadowOpacity: 0.3,
@@ -37,6 +36,7 @@ export const styles = RN.StyleSheet.create({
   },
   menuItemIcon: {
     fontSize: StyleUtility.scaleFont(20),
+    marginLeft: 15,
     marginRight: 15,
     color: StyleUtility.COLORS.grey900
   },

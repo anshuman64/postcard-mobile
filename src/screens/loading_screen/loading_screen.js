@@ -45,9 +45,11 @@ class LoadingScreen extends React.PureComponent {
             successCallback();
           })
           .catch((error) => {
+            console.error(error);
             errorCallback();
           })
       } else {
+        console.error('No Firebase cookie found');
         errorCallback();
       }
     });
