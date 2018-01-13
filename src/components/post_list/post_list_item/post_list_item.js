@@ -63,7 +63,11 @@ class PostListItem extends React.PureComponent {
       })
   }
 
-  _onPressLike() {
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressLike = () => {
     if (this.isLikeDisabled) {
       return;
     }
@@ -107,39 +111,26 @@ class PostListItem extends React.PureComponent {
 
     this.isDeleteDisabled = true;
 
-    if (this.props.item.image_url) {
-      this._deleteImageFile(this.props.item.image_url);
-    } else {
-      this._deletePost();
-    }
-  }
-
-  //TODO: render spinner
-  _deleteImageFile(key) {
-    deleteFile(this.props.firebaseUserObj, this.props.refreshAuthToken, key)
-      .then((data) => {
-        this._deletePost();
-      })
-      .catch((error) => {
-        this.isDeleteDisabled = false;
-        defaultErrorAlert(error);
-      })
-  }
-
-  _deletePost() {
     this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
       .then((deletedPost) => {
-        this.isDeleteDisabled = false;
+        if (this.props.item.image_url) {
+          deleteFile(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.item.image_url);
+        }
+
         this.container.fadeOut(1000)
-          .then(() => {
-            this.props.removePost({ post: deletedPost, userId: this.props.user.id });
-          })
-          .catch(() => this.props.removePost({ post: deletedPost, userId: this.props.user.id  }));
+          .finally(() => {
+            this.props.removePost({ post: deletedPost, userId: this.props.user.id  });
+            this.isDeleteDisabled = false;
+          });
       }, (error) => {
         this.isDeleteDisabled = false;
         defaultErrorAlert(error);
       });
   }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
 
   _renderLikesCount(count) {
     // If likes < 1000, render the number as-is
@@ -153,10 +144,6 @@ class PostListItem extends React.PureComponent {
       return (Math.floor(count / 100000) / 10).toFixed(1) + 'M';
     }
   }
-
-  //--------------------------------------------------------------------//
-  // Render Methods
-  //--------------------------------------------------------------------//
 
   _renderPostHeader() {
     return (
@@ -206,7 +193,7 @@ class PostListItem extends React.PureComponent {
     return (
       <RN.View style={ styles.footerView }>
         <RN.View style={styles.likesView}>
-          <RN.TouchableWithoutFeedback onPressIn={() => this._onPressLike()}>
+          <RN.TouchableWithoutFeedback onPressIn={this._onPressLike}>
             {this.props.item.is_liked_by_user ?
               <AnimatedIconFilled
                 name='heart-filled'

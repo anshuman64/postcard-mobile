@@ -50,7 +50,7 @@ class LoadingScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Render Methods
+  // Callback Methods
   //--------------------------------------------------------------------//
 
   _onAnimationEnd = () => {

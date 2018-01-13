@@ -63,7 +63,7 @@ class LoginScreen extends React.PureComponent {
         _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
       } catch (e) {}
 
-      this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, () => this._checkNextButtonEnable());
+      this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, this._checkNextButtonEnable);
     }
 
     return func;
@@ -71,25 +71,6 @@ class LoginScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Private Methods
-  //--------------------------------------------------------------------//
-
-  // Enables Next button only when phone number is greater than 5 digits
-  _checkNextButtonEnable() {
-    let phoneUtilNumber;
-
-    try {
-      phoneUtilNumber = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
-
-      if (phoneUtilNumber.length >= 5) {
-        this.setState({isNextButtonDisabled: false});
-      } else {
-        this.setState({isNextButtonDisabled: true});
-      }
-    } catch (e) {}
-  }
-
-  //--------------------------------------------------------------------//
-  // Callback Methods
   //--------------------------------------------------------------------//
 
   // Callback function for formatting phone number on each character typed
@@ -110,11 +91,30 @@ class LoginScreen extends React.PureComponent {
       _.forEach(formatted, (char) => formatted = this.formatter.inputDigit(char));
     }
 
-    this.setState({ formattedPhoneNumber: formatted }, () => this._checkNextButtonEnable());
+    this.setState({ formattedPhoneNumber: formatted }, this._checkNextButtonEnable);
+  }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  // Enables Next button only when phone number is greater than 5 digits
+  _checkNextButtonEnable = () => {
+    let phoneUtilNumber;
+
+    try {
+      phoneUtilNumber = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+
+      if (phoneUtilNumber.length >= 5) {
+        this.setState({isNextButtonDisabled: false});
+      } else {
+        this.setState({isNextButtonDisabled: true});
+      }
+    } catch (e) {}
   }
 
   // Callback function that extracts raw numbers from phone number, adds country code, and sends to Firebase API
-  _onNextButtonPress() {
+  _onNextButtonPress = () => {
     let number = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
     if (number[0] != '+') {
       number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
@@ -265,7 +265,7 @@ class LoginScreen extends React.PureComponent {
     return (
       <RN.TouchableOpacity
         style={[styles.nextButtonBackground, this.state.isNextButtonDisabled && styles.nextButtonBackgroundDisabled]}
-        onPress={() => this._onNextButtonPress()}
+        onPress={this._onNextButtonPress}
         disabled={this.state.isNextButtonDisabled && this.state.isLoading}
         >
         { this.state.isLoading ?

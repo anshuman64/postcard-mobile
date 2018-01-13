@@ -28,7 +28,7 @@ class UsernameScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onPress() {
+  _onPress = () => {
     this.setState({ isLoading: true, isError: false, errorText: '' }, () => {
       this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, this.state.inputtedText)
         .then(() => {
@@ -110,7 +110,7 @@ class UsernameScreen extends React.PureComponent {
     return (
       <RN.TouchableOpacity
         style={[styles.nextButtonBackground, (this.state.inputtedText.length === 0) && styles.nextButtonBackgroundDisabled]}
-        onPress={() => this._onPress()}
+        onPress={this._onPress}
         disabled={(this.state.inputtedText.length === 0) && !this.state.isLoading}
         >
         { this.state.isLoading ?

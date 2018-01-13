@@ -34,6 +34,10 @@ class HomeScreen extends React.PureComponent {
     }
   }
 
+  //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
   setParentState = (state) => {
     let func = () => {
       this.setState(state);

@@ -25,17 +25,25 @@ class CameraRollScreen extends React.PureComponent {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
   componentDidMount() {
-    this.getPhotos(999999999);
+    this._getPhotos(999999999);
   }
 
-  getPhotos = (first, after) => {
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  _getPhotos = (first, after) => {
     RN.CameraRoll.getPhotos({first: first, after: after})
       .then((data) => {
 
         this.setState({ images: this.state.images.concat(data.edges) }, () => {
           if (data.page_info.has_next_page) {
-            this.getPhotos(999999999, data.page_info.end_cursor);
+            this._getPhotos(999999999, data.page_info.end_cursor);
           }
         });
       })
@@ -49,11 +57,6 @@ class CameraRollScreen extends React.PureComponent {
         )
       })
   }
-
-
-  //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
 
   _onPressImage(imageNode) {
     ImagePicker.openCropper({
@@ -91,7 +94,7 @@ class CameraRollScreen extends React.PureComponent {
     )
   }
 
-  _renderRow = () => {
+  _renderRow() {
     return (
       (rowData, sectionID, rowID) => (
         <RN.View style={styles.imageContainer}>

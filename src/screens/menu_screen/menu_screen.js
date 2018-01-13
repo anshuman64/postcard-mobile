@@ -15,15 +15,15 @@ class MenuScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onPressSupport() {
+  _onPressSupport = () => {
     RN.Linking.openURL('mailto:support@insiya.io');
   }
 
-  _onPressFeedback() {
+  _onPressFeedback = () => {
     RN.Linking.openURL('mailto:feedback@insiya.io');
   }
 
-  _onPressAbout() {
+  _onPressAbout = () => {
 
   }
 
@@ -42,7 +42,7 @@ class MenuScreen extends React.PureComponent {
           this.supportIcon.setNativeProps({style: styles.menuItemIcon})
           this.supportText.setNativeProps({style: styles.menuItemText})
         }}
-        onPress={() => this._onPressSupport()}
+        onPress={this._onPressSupport}
         >
         <RN.View style={ styles.menuItemView }>
           <Icon
@@ -69,7 +69,7 @@ class MenuScreen extends React.PureComponent {
         this.feedbackIcon.setNativeProps({style: styles.menuItemIcon})
         this.feedbackText.setNativeProps({style: styles.menuItemText})
       }}
-        onPress={() => this._onPressFeedback()}
+        onPress={this._onPressFeedback}
         >
         <RN.View style={ styles.menuItemView }>
           <Icon
@@ -96,7 +96,7 @@ class MenuScreen extends React.PureComponent {
           this.aboutIcon.setNativeProps({style: styles.menuItemIcon})
           this.aboutText.setNativeProps({style: styles.menuItemText})
         }}
-        onPress={() => this._onPressAbout()}
+        onPress={this._onPressAbout}
         >
         <RN.View style={ styles.menuItemView }>
           <Icon
