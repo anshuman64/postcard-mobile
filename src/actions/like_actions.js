@@ -9,17 +9,14 @@ import { refreshAuthToken } from './user_actions.js';
 // Constants
 //--------------------------------------------------------------------//
 
-
 export const LIKE_ACTION_TYPES = {
   RECEIVE_LIKE: 'RECEIVE_LIKE',
   REMOVE_LIKE:  'REMOVE_LIKE'
 };
 
-
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
-
 
 export const receiveLike = (data) => {
   return { type: LIKE_ACTION_TYPES.RECEIVE_LIKE, data: data };
@@ -28,7 +25,6 @@ export const receiveLike = (data) => {
 export const removeLike = (data) => {
   return { type: LIKE_ACTION_TYPES.REMOVE_LIKE, data: data };
 };
-
 
 //--------------------------------------------------------------------//
 // Asynchronous Actions

@@ -12,18 +12,15 @@ import * as APIUtility from '../utilities/api_utility.js';
 // Constants
 //--------------------------------------------------------------------//
 
-
 export const USER_ACTION_TYPES = {
   RECEIVE_FIREBASE_USER_OBJ:     'RECEIVE_FIREBASE_USER_OBJ',
   RECEIVE_AUTH_TOKEN:            'RECEIVE_AUTH_TOKEN',
   RECEIVE_USER:                  'RECEIVE_USER'
 };
 
-
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
-
 
 export const receiveFirebaseUserObj = (data) => {
   return { type: USER_ACTION_TYPES.RECEIVE_FIREBASE_USER_OBJ, data: data };
@@ -36,7 +33,6 @@ export const receiveAuthToken = (data) => {
 export const receiveUser = (data) => {
   return { type: USER_ACTION_TYPES.RECEIVE_USER, data: data }
 };
-
 
 //--------------------------------------------------------------------//
 // Helper Functions
@@ -65,7 +61,6 @@ const configureAWS = (authToken) => {
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
-
 
 export const debugSignIn = (email, password) => (dispatch) => {
   return Firebase.auth().signInWithEmailAndPassword(email, password)
