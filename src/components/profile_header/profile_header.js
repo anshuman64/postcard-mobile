@@ -11,6 +11,11 @@ import { getImage }   from '../../utilities/file_utility.js';
 //--------------------------------------------------------------------//
 
 class ProfileHeader extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
   constructor(props) {
     super(props);
 
@@ -18,6 +23,10 @@ class ProfileHeader extends React.PureComponent {
       avatarUrl: null,
     }
   }
+
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
 
   componentDidMount() {
     if (this.props.avatarUrl) {

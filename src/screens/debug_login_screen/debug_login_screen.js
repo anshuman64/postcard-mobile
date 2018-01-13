@@ -11,6 +11,10 @@ import { styles } from './debug_login_screen_styles.js';
 
 class DebugLoginScreen extends React.PureComponent {
 
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
   constructor(props) {
     super(props);
 

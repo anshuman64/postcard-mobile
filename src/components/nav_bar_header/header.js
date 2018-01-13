@@ -15,6 +15,11 @@ import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 
 class Header extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
   constructor(props) {
     super(props);
 

@@ -12,6 +12,11 @@ import { styles }        from './user_screen_styles.js';
 
 
 class UserScreen extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+  
   constructor(props) {
     super(props);
 

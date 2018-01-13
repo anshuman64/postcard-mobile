@@ -12,6 +12,11 @@ import { styles }        from './profile_screen_styles.js';
 
 
 class ProfileScreen extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+  
   constructor(props) {
     super(props);
 

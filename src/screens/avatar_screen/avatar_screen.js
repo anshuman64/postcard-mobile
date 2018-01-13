@@ -15,6 +15,10 @@ import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 class AvatarScreen extends React.PureComponent {
 
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
   constructor(props) {
     super(props);
 
@@ -36,7 +40,6 @@ class AvatarScreen extends React.PureComponent {
       this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
     }
   }
-
 
   //--------------------------------------------------------------------//
   // Private Methods
@@ -66,7 +69,6 @@ class AvatarScreen extends React.PureComponent {
         this.setState({ isLoading: false });
       });
   }
-
 
   //--------------------------------------------------------------------//
   // Callback Methods
