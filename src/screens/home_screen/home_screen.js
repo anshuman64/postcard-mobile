@@ -34,6 +34,14 @@ class HomeScreen extends React.PureComponent {
     }
   }
 
+  setParentState = (state) => {
+    let func = () => {
+      this.setState(state);
+    }
+
+    return func;
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -41,7 +49,7 @@ class HomeScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container}>
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} postType={POST_TYPES.ALL} scrollToTop={this.props.scrollToTop} />
+        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} postType={POST_TYPES.ALL} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
       </RN.View>
     )
   }
