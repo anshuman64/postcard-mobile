@@ -74,11 +74,11 @@ class LoginScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Private Methods
+  // Callback Methods
   //--------------------------------------------------------------------//
 
   // Callback function for formatting phone number on each character typed
-  _onPhoneInputChangeText(value) {
+  _onPhoneInputChangeText = (value) => {
     let formatted;
 
     if (value.length >= this.state.formattedPhoneNumber.length) {
@@ -97,10 +97,6 @@ class LoginScreen extends React.PureComponent {
 
     this.setState({ formattedPhoneNumber: formatted }, this._checkNextButtonEnable);
   }
-
-  //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
 
   // Enables Next button only when phone number is greater than 5 digits
   _checkNextButtonEnable = () => {
@@ -243,7 +239,7 @@ class LoginScreen extends React.PureComponent {
             ref={(ref) => this.phoneInput = ref}
             style={[styles.phoneNumberInput, this.state.isPhoneNumberInvalid && styles.borderRed]}
             keyboardType='phone-pad'
-            onChangeText={(value) => this._onPhoneInputChangeText(value)}
+            onChangeText={this._onPhoneInputChangeText.bind(this)}
             value={this.state.formattedPhoneNumber}
             placeholder='Phone Number'
             placeholderTextColor={COLORS.grey400}

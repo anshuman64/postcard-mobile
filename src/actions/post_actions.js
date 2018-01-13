@@ -9,7 +9,6 @@ import { refreshAuthToken } from './user_actions.js';
 // Constants
 //--------------------------------------------------------------------//
 
-
 export const POST_TYPES = {
   ALL:      'allPosts',
   AUTHORED: 'authoredPosts',
@@ -23,28 +22,9 @@ export const POST_ACTION_TYPES = {
   REMOVE_POST:        'REMOVE_POST',
 };
 
-
-//--------------------------------------------------------------------//
-// Helpers
-//--------------------------------------------------------------------//
-
-
-let getRouteForPostType = (postType, userId) => {
-  switch(postType) {
-    case POST_TYPES.ALL:
-      return '';
-    case POST_TYPES.AUTHORED:
-      return '/authored/' + userId;
-    case POST_TYPES.LIKED:
-      return '/liked/' + userId;
-  }
-}
-
-
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
-
 
 export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
@@ -62,11 +42,24 @@ export const removePost = (data) => {
   return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
 };
 
+//--------------------------------------------------------------------//
+// Helpers
+//--------------------------------------------------------------------//
+
+let getRouteForPostType = (postType, userId) => {
+  switch(postType) {
+    case POST_TYPES.ALL:
+      return '';
+    case POST_TYPES.AUTHORED:
+      return '/authored/' + userId;
+    case POST_TYPES.LIKED:
+      return '/liked/' + userId;
+  }
+}
 
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
-
 
 export const getPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
@@ -75,13 +68,7 @@ export const getPosts = (authToken, firebaseUserObj, userId, postType, queryPara
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj))
-          .then((newAuthToken) => {
-            return dispatch(getPosts(newAuthToken, firebaseUserObj, userId, postType, queryParams));
-          })
-          .catch((error) => {
-            throw error;
-          })
+        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, userId, postType, queryParams));
       }
 
       if (!error.description) {

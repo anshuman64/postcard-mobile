@@ -20,7 +20,7 @@ class PostList extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Constructor
   //--------------------------------------------------------------------//
-  
+
   constructor(props) {
     super(props);
 
@@ -114,7 +114,7 @@ class PostList extends React.PureComponent {
           this.props.posts[this.props.userId][this.props.postType].data :
           null
         }
-        renderItem={ this._renderItem.bind(this) }
+        renderItem={this._renderItem.bind(this)}
         keyExtractor={(item) => this.props.postsCache[item].id}
         style={ styles.postList }
         initialNumToRender={10}
@@ -138,7 +138,7 @@ class PostList extends React.PureComponent {
     )
   }
 
-  _renderRefreshControl() {
+  _renderRefreshControl = () => {
     return (
       <RN.RefreshControl
         refreshing={this.state.isRefreshing}

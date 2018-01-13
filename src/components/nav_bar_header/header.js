@@ -77,7 +77,7 @@ class Header extends React.PureComponent {
     if (this.props.imagePath) {
       this._uploadImage();
     } else {
-      this._createPost()
+      this._createPost();
     }
   }
 
