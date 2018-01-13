@@ -49,7 +49,7 @@ class Header extends React.PureComponent {
   }
 
   _createPost(imageKey) {
-    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, { body: this.props.postText, image_url: imageKey })
+    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, { body: this.props.postText, image_url: imageKey }, this.props.placeholderText)
       .then(() => {
         this.props.goBack({ scrollToTop: Date() });
       })
