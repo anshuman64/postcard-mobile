@@ -14,5 +14,6 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
+    height: '100%'
   },
 });

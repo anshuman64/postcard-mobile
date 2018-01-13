@@ -22,6 +22,10 @@ class Header extends React.PureComponent {
     this.isGoBackPressed = false;
   }
 
+  componentDidMount() {
+    console.log(this.props)
+  }
+
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
@@ -159,8 +163,10 @@ class Header extends React.PureComponent {
   }
 
   render() {
-    const IS_NOT_BORDER = (this.props.currentScreen === 'AuthoredPostsTab'
-      || this.props.currentScreen === 'LikedPostsTab');
+    const IS_NOT_BORDER = (this.props.currentScreen === 'ProfileScreenAuthored'
+      || this.props.currentScreen === 'ProfileScreenLiked'
+      || this.props.currentScreen === 'UserScreenAuthored'
+      || this.props.currentScreen === 'UserScreenLiked');
 
     return (
       <RN.View style={[styles.header, this.props.backTitle && styles.backHeader, !IS_NOT_BORDER && styles.border]}>
