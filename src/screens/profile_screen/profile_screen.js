@@ -16,7 +16,7 @@ class ProfileScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Constructor
   //--------------------------------------------------------------------//
-  
+
   constructor(props) {
     super(props);
 
@@ -31,18 +31,25 @@ class ProfileScreen extends React.PureComponent {
 
   componentDidMount() {
     this.postList.getWrappedInstance().refresh();
+    this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
   }
 
   componentWillReceiveProps(nextProps) {
     // Auto-refresh screen if coming back to it after > 1 minute
-    if (this.props.currentScreen != this.props.routeName && nextProps.currentScreen === this.props.routeName) {
-      let currentTime = new Date();
-      let lastUpdate = this.props.posts[this.props.user.id][this.props.routeName === 'ProfileScreenAuthored' ? POST_TYPES.AUTHORED : POST_TYPES.LIKED].lastUpdated;
-      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+    if (this.props.currentScreen != 'ProfileScreen' && nextProps.currentScreen === 'ProfileScreen') {
+      let checkRefresh = (postType) => {
+        let currentTime = new Date();
+        let lastUpdate = this.props.posts[this.props.user.id][postType].lastUpdated;
+        let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
-      if (minsDiff > 1) {
-        this.postList.getWrappedInstance()._onRefresh();
+        if (minsDiff > 1) {
+          console.log('hey')
+          this.postList.getWrappedInstance()._onRefresh(postType);
+        }
       }
+
+      checkRefresh(POST_TYPES.AUTHORED);
+      checkRefresh(POST_TYPES.LIKED);
     }
   }
 

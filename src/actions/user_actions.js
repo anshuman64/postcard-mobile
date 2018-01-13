@@ -166,7 +166,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     })
 }
 
-const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
+export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
   let configureAWSError = (error) => {
     if (!error.description) {
       error.description = 'Configure AWS failed'

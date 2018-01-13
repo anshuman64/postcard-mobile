@@ -44,20 +44,18 @@ class PostListItem extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.item.author_avatar_url) {
-      this._setAvatarUrl(this.props.item.author_avatar_url);
+      this._setImageUrl(this.props.item.author_avatar_url, true);
     }
 
     if (this.props.item.image_url) {
-      getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.item.image_url)
-        .then((data) => {
-          this.setState({ imageUrl: data });
-        })
+      this._setImageUrl(this.props.item.image_url, false);
+      getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.item.image_url);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.user.id === this.props.item.author_id && nextProps.user.avatar_url != this.props.user.avatar_url) {
-      this._setAvatarUrl(nextProps.user.avatar_url);
+      this._setImageUrl(nextProps.user.avatar_url, true);
     }
   }
 
@@ -65,11 +63,15 @@ class PostListItem extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _setAvatarUrl(avatarUrl) {
-    getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, avatarUrl)
+  _setImageUrl(imageUrl, isAvatar) {
+    getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, imageUrl)
       .then((data) => {
-        this.setState({ avatarUrl: data });
-      })
+        if (isAvatar) {
+          this.setState({ avatarUrl: data });
+        } else {
+          this.setState({ imageUrl: data });
+        }
+      });
   }
 
   //--------------------------------------------------------------------//

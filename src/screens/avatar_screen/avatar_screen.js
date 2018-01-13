@@ -74,6 +74,7 @@ class AvatarScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
+  //TODO: let users remove their profile picture
   _onPressAddPhoto = () => {
     this.props.navigateTo('CameraRollScreen', { isAvatar: true });
   }

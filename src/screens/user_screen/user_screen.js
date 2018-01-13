@@ -16,7 +16,7 @@ class UserScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Constructor
   //--------------------------------------------------------------------//
-  
+
   constructor(props) {
     super(props);
 
@@ -31,6 +31,7 @@ class UserScreen extends React.PureComponent {
 
   componentDidMount() {
     this.postList.getWrappedInstance().refresh();
+    this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
   }
 
   //--------------------------------------------------------------------//
