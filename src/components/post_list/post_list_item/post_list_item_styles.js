@@ -52,7 +52,7 @@ export const styles = RN.StyleSheet.create({
     marginLeft: DEFAULT_MARGIN,
   },
   frame: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
     height: 40,
@@ -79,7 +79,7 @@ export const styles = RN.StyleSheet.create({
   breakText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
     fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(6),
+    fontSize: StyleUtility.scaleFont(4),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
     marginLeft: 5,
@@ -145,7 +145,7 @@ export const styles = RN.StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: 50,
-    height: 40,
+    height: 50,
   },
   heartIcon: {
     width: 30,

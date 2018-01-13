@@ -25,22 +25,19 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 150,
-    width: 150,
-    borderWidth: 2,
-    borderColor: StyleUtility.COLORS.grey900,
-    borderRadius: 150 / 2,
+    height: 120,
+    width: 120,
     marginBottom: 10,
   },
-  placeholderImage: {
+  userIcon: {
     fontSize: StyleUtility.scaleFont(40),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
   image: {
-    width: 146,
-    height: 146,
-    borderRadius: 50,
+    height: 120,
+    width: 120,
+    borderRadius: (RN.Platform.OS === 'ios') ? 120 / 2 : 10000,
   },
   usernameButton: {
     flexDirection: 'row',
