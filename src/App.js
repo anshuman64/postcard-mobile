@@ -85,7 +85,7 @@ class App extends React.Component {
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backTitle={'Username'}/>}  />
             <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Avatar'}/>}  />
-            <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
+            <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={false} animationEnabled={false} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
               <Scene key='ProfileScreen' component={ProfileScreenContainer} tabBarComponent={() => <View style={{height: 0}}/>} hideNavBar={true} />
             </Tabs>
