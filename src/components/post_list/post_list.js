@@ -48,7 +48,7 @@ class PostList extends React.PureComponent {
 
   componentDidUpdate() {
     if (this.state.scrollToTop) {
-      this.flatList.getNode().getscrollToOffset({x: 0, y: 0, animated: true});
+      this.flatList.getNode().scrollToOffset({x: 0, y: 0, animated: true});
       this.setState({ scrollToTop: false });
     }
   }
@@ -177,7 +177,7 @@ class PostList extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={[styles.container, (this.props.currentScreen === 'UserScreenAuthored' || this.props.currentScreen === 'UserScreenLiked') && styles.minusHeader]}>
+      <RN.View style={[styles.container, this.props.currentScreen === 'UserScreen' && styles.minusHeader]}>
         {this._renderPostList()}
         {this._renderHeader()}
       </RN.View>

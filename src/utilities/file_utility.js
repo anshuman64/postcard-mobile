@@ -25,8 +25,7 @@ export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
     getClient().getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
-          debugger
-          return refreshAuthToken(firebaseUserObj) //TODO: ask Vin why this doesn't work and find workaround
+          return refreshAuthToken(firebaseUserObj)
             .then(() => {
               return getImage(firebaseUserObj, refreshAuthToken, key);
             })
@@ -45,7 +44,6 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
     getClient().deleteObject({ Bucket: BUCKET_NAME, Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
-          debugger
           return refreshAuthToken(firebaseUserObj)
             .then(() => {
               return deleteFile(firebaseUserObj, refreshAuthToken, key);
