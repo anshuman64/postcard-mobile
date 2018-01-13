@@ -8,6 +8,7 @@ import Icon                    from 'react-native-vector-icons/Ionicons';
 import * as Animatable         from 'react-native-animatable';
 
 // Local Imports
+import LoadingModal                                         from '../../components/loading_modal/loading_modal.js';
 import { styles, fadeInIcon, translateIcon, translateLogo } from './login_screen_styles.js';
 import CountryListModal                                     from '../../components/country_list_modal/country_list_modal.js';
 import { COUNTRY_CODES }                                    from '../../utilities/country_utility.js';
@@ -268,12 +269,9 @@ class LoginScreen extends React.PureComponent {
         onPress={this._onNextButtonPress}
         disabled={this.state.isNextButtonDisabled && this.state.isLoading}
         >
-        { this.state.isLoading ?
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
-          <RN.Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
-            Next
-          </RN.Text>
-        }
+        <RN.Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
+          Next
+        </RN.Text>
       </RN.TouchableOpacity>
     )
   }
@@ -320,12 +318,19 @@ class LoginScreen extends React.PureComponent {
     }
   }
 
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading} />
+    )
+  }
+
   render() {
     return (
       <RN.View style={ styles.container }>
         {this._renderIconAnimation()}
         {this._renderLogoAnimation()}
         {this._renderLoginScreen()}
+        {this._renderLoadingModal()}
       </RN.View>
     )
   }

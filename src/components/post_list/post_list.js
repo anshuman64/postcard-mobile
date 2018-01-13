@@ -122,8 +122,8 @@ class PostList extends React.PureComponent {
         showsVerticalScrollIndicator={false}
         onEndReached={this._onEndReached}
         refreshControl={this._renderRefreshControl()}
-        ListHeaderComponent={() => <RN.View style={{height: this.props.currentScreen === 'HomeScreen' ? 0 : 270}}/>}
-        ListFooterComponent={ this._renderFooter }
+        ListHeaderComponent={this._renderHeader}
+        ListFooterComponent={this._renderFooter}
         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
         onEndReachedThreshold={0.01}
         onScroll={RN.Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}], {useNativeDriver: true})}
@@ -149,9 +149,17 @@ class PostList extends React.PureComponent {
     )
   }
 
-  _renderHeader = () => {
+  _renderProfileHeader = () => {
     return (
       <ProfileHeaderContainer scrollY={this.state.scrollY} userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.postType} setParentState={this.props.setParentState} />
+    )
+  }
+
+  _renderHeader = () => {
+    return (
+      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: 0 }]}>
+        <RN.ActivityIndicator size='large' color={COLORS.grey400} style={{marginBottom: 20}} />
+      </RN.View>
     )
   }
 
@@ -169,7 +177,7 @@ class PostList extends React.PureComponent {
     } else {
       return (
         <RN.View style={ styles.footerView }>
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} style={styles.activityIndicator} />
+          <RN.ActivityIndicator size='small' color={COLORS.grey400} />
         </RN.View>
       )
     }
@@ -179,7 +187,7 @@ class PostList extends React.PureComponent {
     return (
       <RN.View style={[styles.container, this.props.currentScreen === 'UserScreen' && styles.minusHeader]}>
         {this._renderPostList()}
-        {this._renderHeader()}
+        {this._renderProfileHeader()}
       </RN.View>
     )
   }

@@ -4,6 +4,7 @@ import RN     from 'react-native';
 import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import LoadingModal          from '../../components/loading_modal/loading_modal.js';
 import { styles }            from './avatar_screen_styles.js';
 import { uploadImageFile }   from '../../utilities/file_utility.js';
 import { setStateCallback }  from '../../utilities/function_utility.js';
@@ -187,12 +188,9 @@ class AvatarScreen extends React.PureComponent {
         onPress={this.state.imagePath ? this._onPressNext : this._onPressAddPhoto}
         disabled={this.state.isLoading}
         >
-        { this.state.isLoading ?
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} /> :
-          <RN.Text style={styles.nextButtonText}>
-            {this.state.imagePath ? (this.props.isLogin ? 'Next' : 'Done') : 'Add Photo'}
-          </RN.Text>
-        }
+        <RN.Text style={styles.nextButtonText}>
+          {this.state.imagePath ? (this.props.isLogin ? 'Next' : 'Done') : 'Add Photo'}
+        </RN.Text>
       </RN.TouchableOpacity>
     )
   }
@@ -211,6 +209,12 @@ class AvatarScreen extends React.PureComponent {
     )
   }
 
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading} />
+    )
+  }
+
   render() {
     return (
         <RN.View style={styles.container}>
@@ -220,6 +224,7 @@ class AvatarScreen extends React.PureComponent {
           {this._renderChangePhotoText()}
           {this._renderNextButton()}
           {this._renderSkipButton()}
+          {this._renderLoadingModal()}
         </RN.View>
     )
   }

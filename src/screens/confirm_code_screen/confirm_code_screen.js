@@ -5,6 +5,7 @@ import Firebase             from 'react-native-firebase';
 import { PhoneNumberUtil }  from 'google-libphonenumber';
 
 // Local Imports
+import LoadingModal          from '../../components/loading_modal/loading_modal.js';
 import { styles }            from './confirm_code_screen_styles.js';
 import { COLORS }            from '../../utilities/style_utility.js';
 import { defaultErrorAlert } from '../../utilities/error_utility.js';
@@ -156,15 +157,11 @@ class ConfirmCodeScreen extends React.PureComponent {
   }
 
   _renderInvalidCodeText() {
-    if (this.state.isLoading) {
-      return <RN.ActivityIndicator size='small' color={COLORS.grey400} />
-    } else {
-      return (
-        <RN.Text style={[styles.invalidCodeText, !this.state.isCodeIncorrect && styles.transparentText]}>
-          Invalid Code
-        </RN.Text>
-      )
-    }
+    return (
+      <RN.Text style={[styles.invalidCodeText, !this.state.isCodeIncorrect && styles.transparentText]}>
+        Invalid Code
+      </RN.Text>
+    )
   }
 
   _renderResendSMS() {
@@ -194,6 +191,12 @@ class ConfirmCodeScreen extends React.PureComponent {
     )
   }
 
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading} />
+    )
+  }
+
   render() {
     return (
         <RN.View style={styles.container}>
@@ -204,6 +207,7 @@ class ConfirmCodeScreen extends React.PureComponent {
           <RN.View style={{flex: 1}} />
             {this._renderResendSMS()}
           <RN.View style={{flex: 3}} />
+          {this._renderLoadingModal()}
         </RN.View>
     )
   }
