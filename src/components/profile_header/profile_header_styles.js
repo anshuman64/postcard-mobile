@@ -25,8 +25,8 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 120,
-    width: 120,
+    height: 150,
+    width: 150,
     marginBottom: 10,
   },
   userIcon: {
