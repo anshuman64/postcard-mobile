@@ -129,7 +129,8 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     return APIUtility.get(authToken, '/users')
       .then((user) => {
         setUser(user, false);
-      }, (error) => {
+      })
+      .catch((error) => {
         return handleNewUser(authToken);
       });
   };

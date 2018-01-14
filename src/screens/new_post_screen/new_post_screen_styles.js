@@ -32,19 +32,26 @@ export const styles = RN.StyleSheet.create({
   smallBodyText: {
     fontSize: StyleUtility.scaleFont(14),
   },
+  closeButton: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 30,
+    width: 30,
+    backgroundColor: StyleUtility.COLORS.grey900 + 'bf',
+    borderRadius: 30 / 2,
+    marginLeft: 2,
+    marginTop: 2
+  },
   closeIcon: {
-    height: 26,
-    width: 26,
-    fontSize: 25,
-    color: StyleUtility.COLORS.grey200,
-    backgroundColor: StyleUtility.COLORS.grey900
+    fontSize: 20,
+    color: 'white',
+    textAlign: 'center',
   },
   image: {
     flex: 1,
     width: StyleUtility.DEVICE_DIM.width * 0.9,
-    height: StyleUtility.DEVICE_DIM.width * 0.8,
-    marginLeft: 10,
-    backgroundColor: StyleUtility.COLORS.grey800
+    height: StyleUtility.DEVICE_DIM.width * 0.9,
   },
   imageButtonView: {
     flexDirection: 'row',
