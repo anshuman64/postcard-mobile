@@ -1,7 +1,8 @@
 // Library Imports
-import React     from 'react';
-import RN        from 'react-native';
-import Icon      from 'react-native-vector-icons/SimpleLineIcons';
+import React       from 'react';
+import RN          from 'react-native';
+import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // Local Imports
 import { styles }            from './profile_header_styles.js';
@@ -57,14 +58,27 @@ class ProfileHeader extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAvatar() {
+    if (!this.props.user.avatar_url) {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
-          {!this.state.avatarUrl ?
-            <Icon name='user' style={styles.userIcon} /> :
-            <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'cover'} />
-          }
+        <RN.TouchableOpacity onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
+          <RN.View style={styles.frame}>
+            <FontAwesome name='user-circle-o' style={[styles.userIcon, this.props.user.id === this.props.userId && styles.textHighlighted]} />
+          </RN.View>
         </RN.TouchableOpacity>
       )
+    } else if (this.props.user.avatar_url && !this.state.avatarUrl) {
+      return (
+        <RN.View style={styles.frame} />
+      )
+    } else {
+      return (
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
+          <RN.View style={styles.frame}>
+            <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'cover'} />
+          </RN.View>
+        </RN.TouchableOpacity>
+      )
+    }
   }
 
   _renderUsername() {
