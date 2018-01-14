@@ -2,6 +2,7 @@
 import _ from 'lodash';
 
 // Local Imports
+import { USER_ACTION_TYPES }             from '../actions/user_actions.js';
 import { POST_ACTION_TYPES, POST_TYPES } from '../actions/post_actions.js';
 import { LIKE_ACTION_TYPES }             from '../actions/like_actions.js';
 import { mergeSorted }                   from '../utilities/function_utility.js';
@@ -10,11 +11,11 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 
 // Data is in the form {
 //   0: {
-//     allPosts:  { data: [], lastUpdated: null, isEnd: true },
+//     allPosts:  { data: [], lastUpdated: null, isEnd: false },
 //   }
 //   userId1: {
-//     authoredPosts: { data: [], lastUpdated: null, isEnd: true }
-//     likedPosts:    { data: [], lastUpdated: null, isEnd: true }
+//     authoredPosts: { data: [], lastUpdated: null, isEnd: false }
+//     likedPosts:    { data: [], lastUpdated: null, isEnd: false }
 //   }
 //   userId2...
 // }
@@ -25,6 +26,24 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
+
+    //--------------------------------------------------------------------//
+    // Receive User Action
+    //--------------------------------------------------------------------//
+
+    case USER_ACTION_TYPES.RECEIVE_USER:
+      userId = action.data.id;
+
+      newState[userId] = newState[userId] || {};
+
+      _.forEach(POST_TYPES, (postType) => {
+        newState[userId][postType]             = newState[userId][postType]             || {};
+        newState[userId][postType].data        = newState[userId][postType].data        || [];
+        newState[userId][postType].lastUpdated = newState[userId][postType].lastUpdated || new Date();
+        newState[userId][postType].isEnd       = newState[userId][postType].isEnd       || false;
+      })
+
+      return newState;
 
     //--------------------------------------------------------------------//
     // Get and Refresh Post Actions
