@@ -24,7 +24,7 @@ export const styles = RN.StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     marginTop: 10,
-    marginBottom: 5,
+    marginBottom: 4,
     elevation: 3,
     shadowOpacity: 0.3,
     shadowRadius: 3,

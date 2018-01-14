@@ -4,12 +4,12 @@ import RN     from 'react-native';
 import _      from 'lodash';
 
 // Local Imports
-import ProfileHeaderContainer from '../profile_header/profile_header_container.js';
-import PostListItemContainer  from './post_list_item/post_list_item_container.js';
-import { styles }             from './post_list_styles.js';
-import { POST_TYPES }         from '../../actions/post_actions.js';
-import { COLORS }             from '../../utilities/style_utility.js';
-import { defaultErrorAlert }  from '../../utilities/error_utility.js';
+import ProfileHeaderContainer       from '../profile_header/profile_header_container.js';
+import PostListItemContainer        from './post_list_item/post_list_item_container.js';
+import { styles }                   from './post_list_styles.js';
+import { POST_TYPES }               from '../../actions/post_actions.js';
+import { COLORS, STATUSBAR_HEIGHT } from '../../utilities/style_utility.js';
+import { defaultErrorAlert }        from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -157,8 +157,8 @@ class PostList extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: 0 }]}>
-        <RN.ActivityIndicator size='large' color={COLORS.grey400} style={{marginBottom: 20}} />
+      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: 0 }, (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { height: 270 - STATUSBAR_HEIGHT - 4 } ]}>
+        <RN.ActivityIndicator size='large' color={this.props.currentScreen === 'HomeScreen' ? 'transparent' : COLORS.grey400} style={{marginBottom: 20}} />
       </RN.View>
     )
   }

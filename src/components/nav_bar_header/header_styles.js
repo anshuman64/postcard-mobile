@@ -18,6 +18,7 @@ export const styles = RN.StyleSheet.create({
     height: (RN.Platform.OS === 'ios') ? 50 + StyleUtility.STATUSBAR_HEIGHT : 50,
     paddingTop: (RN.Platform.OS === 'ios') ? StyleUtility.STATUSBAR_HEIGHT : 0,
     backgroundColor: 'white',
+    zIndex: 1
   },
   backView: {
     flexDirection: 'row',
@@ -51,7 +52,7 @@ export const styles = RN.StyleSheet.create({
     marginLeft: 50
   },
   settingsIcon: {
-    fontSize: StyleUtility.scaleFont(21),
+    fontSize: StyleUtility.scaleFont(22),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey700
   },

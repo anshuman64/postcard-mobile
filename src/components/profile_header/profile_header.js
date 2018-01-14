@@ -4,9 +4,10 @@ import RN        from 'react-native';
 import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }     from './profile_header_styles.js';
-import { POST_TYPES } from '../../actions/post_actions.js';
-import { getImage }   from '../../utilities/file_utility.js';
+import { styles }            from './profile_header_styles.js';
+import { POST_TYPES }        from '../../actions/post_actions.js';
+import { getImage }          from '../../utilities/file_utility.js';
+import { STATUSBAR_HEIGHT }  from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -105,7 +106,10 @@ class ProfileHeader extends React.PureComponent {
     });
 
     return (
-      <RN.Animated.View style={[styles.container, this.props.currentScreen === 'HomeScreen' && {height: 0}, this.props.currentScreen != 'HomeScreen' && { transform: [{translateY}] }]}>
+      <RN.Animated.View style={[styles.container, this.props.currentScreen === 'HomeScreen' && { height: 0 },
+        this.props.currentScreen != 'HomeScreen' && { transform: [{translateY}] },
+        (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { marginTop: -STATUSBAR_HEIGHT - 4 } ]}
+        >
         {this._renderAvatar()}
         {this._renderUsername()}
         {this._renderTabs()}

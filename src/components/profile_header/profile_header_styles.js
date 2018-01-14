@@ -19,7 +19,7 @@ export const styles = RN.StyleSheet.create({
     backgroundColor: 'white',
     borderBottomColor: StyleUtility.COLORS.grey500,
     borderBottomWidth: 0.5,
-    position: 'absolute'
+    position: 'absolute',
   },
   frame: {
     flexDirection: 'column',
