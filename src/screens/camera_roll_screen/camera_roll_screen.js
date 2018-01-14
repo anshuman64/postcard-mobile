@@ -26,13 +26,10 @@ class CameraRollScreen extends React.PureComponent {
     this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
-      images:   [],
-      pageInfo: null,
+      images: [],
     };
 
     this.isImagePressed = false;
-    this.isLoading = false;
-    this.onEndReachedCalledDuringMomentum = false;
   }
 
   //--------------------------------------------------------------------//
@@ -40,7 +37,7 @@ class CameraRollScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this._getPhotos(10000000);
+    this._getPhotos(999999999);
   }
 
   //--------------------------------------------------------------------//
@@ -48,12 +45,14 @@ class CameraRollScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _getPhotos = (first, after) => {
-    this.isLoading = true;
-    this.onEndReachedCalledDuringMomentum = true;
-
     RN.CameraRoll.getPhotos({first: first, after: after})
       .then((data) => {
-        this.setState({ images: this.state.images.concat(data.edges), pageInfo: data.page_info });
+
+        this.setState({ images: this.state.images.concat(data.edges) }, () => {
+          if (data.page_info.has_next_page) {
+            this._getPhotos(999999999, data.page_info.end_cursor);
+          }
+        });
       })
       .catch((error) => {
         Alert.alert(
@@ -63,9 +62,6 @@ class CameraRollScreen extends React.PureComponent {
             {text: 'OK', onPress: () => null, style: 'cancel'},
           ],
         )
-      })
-      .finally(() => {
-        this.isLoading = false;
       })
   }
 
@@ -102,20 +98,6 @@ class CameraRollScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Private Methods
-  //--------------------------------------------------------------------//
-
-  _onEndReached = () => {
-    if (this.isLoading
-        || this.onEndReachedCalledDuringMomentum
-        || !this.state.pageInfo.has_next_page) {
-      return;
-    }
-
-    this._getPhotos(3000, this.state.pageInfo.end_cursor);
-  }
-
-  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -129,10 +111,6 @@ class CameraRollScreen extends React.PureComponent {
         pageSize={PAGE_SIZE * 10}
         contentContainerStyle={styles.contentContainerStyle}
         enableEmptySections={true}
-        showsVerticalScrollIndicator={false}
-        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
-        onEndReached={this._onEndReached}
-        onEndReachedThreshold={0.01}
       />
     )
   }
