@@ -28,6 +28,8 @@ class CameraRollScreen extends React.PureComponent {
     this.state = {
       images: [],
     };
+
+    this.isImagePressed = false;
   }
 
   //--------------------------------------------------------------------//
@@ -64,21 +66,35 @@ class CameraRollScreen extends React.PureComponent {
   }
 
   _onPressImage(imageNode) {
-    ImagePicker.openCropper({
-      path: imageNode.image.uri,
-      width: 500,
-      height: 500,
-      cropperCircleOverlay: this.props.isAvatar,
-      showCropGuidelines: false,
-      hideBottomControls: true,
-      cropperToolbarColor: 'black',
-    })
-    .then((imageObj) => {
-      this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+    if (this.isImagePressed) {
+      return;
+    }
+
+    this.isImagePressed = true;
+
+    if (imageNode.type === 'image/gif') {
+      this.props.goBack({ imagePath: imageNode.image.uri, imageType: imageNode.type });
+      this.isImagePressed = false;
+    } else {
+      ImagePicker.openCropper({
+        path: imageNode.image.uri,
+        width: 500,
+        height: 500,
+        cropperCircleOverlay: this.props.isAvatar,
+        showCropGuidelines: false,
+        hideBottomControls: true,
+        cropperToolbarColor: 'black',
+      })
+      .then((imageObj) => {
+        this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        this.isImagePressed = false;
+      })
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -102,17 +118,16 @@ class CameraRollScreen extends React.PureComponent {
   _renderRow() {
     return (
       (rowData, sectionID, rowID) => (
-        <RN.View style={styles.imageContainer}>
+        <RN.View ref={(ref) => rowID = ref} style={styles.imageContainer}>
           <RN.View style={styles.iconBackground}>
             <Ionicon name='md-image' style={styles.imageIcon} />
           </RN.View>
           <RN.TouchableWithoutFeedback
             onPressIn={() => rowID.setNativeProps({style: styles.imageHighlighted}) }
-            onPressOut={() => rowID.setNativeProps({style: styles.image}) }
+            onPressOut={() => rowID.setNativeProps({style: styles.imageContainer}) }
             onPress={() => this._onPressImage(rowData.node)}
             >
             <RN.Image
-              ref={(ref) => rowID = ref}
               source={{uri: rowData.node.image.uri}}
               resizeMode={'cover'}
               style={styles.image}

@@ -60,7 +60,7 @@ class ProfileHeader extends React.PureComponent {
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           {!this.state.avatarUrl ?
             <Icon name='user' style={styles.userIcon} /> :
-            <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'contain'} />
+            <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'cover'} />
           }
         </RN.TouchableOpacity>
       )

@@ -35,13 +35,14 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
     width: StyleUtility.DEVICE_DIM.width / 3,
     height: StyleUtility.DEVICE_DIM.width / 3,
+    borderWidth: 0,
   },
   iconBackground: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
-    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
+    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * 2,
+    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * 2,
     backgroundColor: StyleUtility.COLORS.grey800
   },
   imageIcon: {
@@ -49,11 +50,10 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey500,
   },
   image: {
-    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
-    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * 1,
+    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * 2,
+    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * 2,
     margin: 1,
     position: 'absolute',
-    borderWidth: 0
   },
   imageHighlighted: {
     borderWidth: 2,

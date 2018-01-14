@@ -135,7 +135,7 @@ class UsernameScreen extends React.PureComponent {
           {this._renderTextInput()}
           <RN.View style={{flex: 1}} />
           {this._renderNextButton()}
-          <RN.View style={{flex: 5}} />
+          <RN.View style={{flex: 10}} />
           {this._renderLoadingModal()}
         </RN.View>
     )
