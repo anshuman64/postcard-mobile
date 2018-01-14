@@ -25,8 +25,8 @@ export const styles = RN.StyleSheet.create({
     alignItems: 'center',
   },
   border: {
-    borderBottomColor: StyleUtility.COLORS.grey300,
-    borderBottomWidth: 1,
+    borderBottomColor: StyleUtility.COLORS.grey500,
+    borderBottomWidth: 0.5,
   },
   button: {
     flexDirection: 'column',
@@ -57,9 +57,10 @@ export const styles = RN.StyleSheet.create({
   },
   logo: {
     height: 30,
+    width: 150
   },
   noteIcon: {
-    fontSize: StyleUtility.scaleFont(20),
+    fontSize: StyleUtility.scaleFont(21),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },

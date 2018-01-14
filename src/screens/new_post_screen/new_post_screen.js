@@ -60,7 +60,7 @@ class NewPostScreen extends React.PureComponent {
     return (
       <RN.TextInput
         style={[styles.textInput, this.state.postText.length >= 86 && styles.smallBodyText]}
-        placeholderTextColor={COLORS.grey500}
+        placeholderTextColor={COLORS.grey400}
         placeholder={this.state.placeholderText}
         onChangeText={this._onChangeText.bind(this)}
         value={this.state.postText}

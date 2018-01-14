@@ -169,7 +169,12 @@ class AvatarScreen extends React.PureComponent {
     } else {
       return (
         <RN.View style={styles.frame}>
-          <RN.Image source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'} />
+          <RN.TouchableOpacity
+            onPress={this._onPressAddPhoto}
+            disabled={!this.state.imagePath || this.state.isLoading}
+            >
+            <RN.Image source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'} />
+          </RN.TouchableOpacity>
         </RN.View>
       )
     }
