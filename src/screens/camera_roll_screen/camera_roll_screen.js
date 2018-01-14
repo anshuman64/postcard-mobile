@@ -44,6 +44,7 @@ class CameraRollScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
+  //TODO: decide to paginate or wait for bugs!
   _getPhotos = (first, after) => {
     RN.CameraRoll.getPhotos({first: first, after: after})
       .then((data) => {

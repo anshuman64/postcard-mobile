@@ -240,9 +240,13 @@ class PostListItem extends React.PureComponent {
   _renderBody() {
     if (this.props.item.body) {
       return (
-        <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
-          {this.props.item.body}
-        </RN.Text>
+        <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
+          <RN.View>
+            <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
+              {this.props.item.body}
+            </RN.Text>
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
       )
     }
   }

@@ -1,7 +1,8 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
-import Icon   from 'react-native-vector-icons/SimpleLineIcons';
+import React       from 'react';
+import RN          from 'react-native';
+import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // Local Imports
 import LoadingModal                   from '../../components/loading_modal/loading_modal.js';
@@ -160,11 +161,15 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderAvatar() {
-    if (!this.state.imagePath) {
+    if (!this.props.user.avatar_url && !this.state.imagePath) {
       return (
         <RN.View style={styles.frame}>
-          <Icon name='user' style={styles.userIcon} />
+          <FontAwesome name='user-circle-o' style={styles.userIcon} />
         </RN.View>
+      )
+    } else if (this.props.user.avatar_url && !this.state.imagePath) {
+      return (
+        <RN.View style={styles.frame} />
       )
     } else {
       return (
