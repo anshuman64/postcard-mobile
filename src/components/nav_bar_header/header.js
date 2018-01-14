@@ -98,19 +98,22 @@ class Header extends React.PureComponent {
   _renderBackIcon() {
     if (this.props.backIcon) {
       return (
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.backIcon.setNativeProps({style: styles.textHighlighted})}
-          onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
-          onPress={this._goBack}
-          >
-          <RN.View style={styles.button}>
-            <Ionicon
-              ref={(ref) => this.backIcon = ref}
-              name='ios-arrow-round-back'
-              style={styles.backIcon}
-              />
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
+        <RN.View style={styles.backView}>
+          <RN.TouchableWithoutFeedback
+            onPressIn={() => this.backIcon.setNativeProps({style: styles.textHighlighted})}
+            onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
+            onPress={this._goBack}
+            >
+            <RN.View style={styles.button}>
+              <Ionicon
+                ref={(ref) => this.backIcon = ref}
+                name='ios-arrow-round-back'
+                style={styles.backIcon}
+                />
+            </RN.View>
+          </RN.TouchableWithoutFeedback>
+          {this._renderBackTitle()}
+        </RN.View>
       )
     }
   }
@@ -146,8 +149,8 @@ class Header extends React.PureComponent {
       return (
         <RN.Image
           style={styles.logo}
-          source={require('../../assets/images/icon/icon.png')}
-          resizeMode='cover'
+          source={require('../../assets/images/logo/logo.png')}
+          resizeMode='contain'
           />
       )
     }
@@ -183,9 +186,8 @@ class Header extends React.PureComponent {
     const IS_NOT_BORDER = this.props.currentScreen === 'ProfileScreen' || this.props.currentScreen === 'UserScreen';
 
     return (
-      <RN.View style={[styles.header, this.props.backTitle && styles.backHeader, !IS_NOT_BORDER && styles.border]}>
+      <RN.View style={[styles.header, !IS_NOT_BORDER && styles.border]}>
         {this._renderBackIcon()}
-        {this._renderBackTitle()}
         {this._renderSettingsIcon()}
         {this._renderLogo()}
         {this._renderNoteIcon()}

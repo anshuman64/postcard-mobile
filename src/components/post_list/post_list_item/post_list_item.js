@@ -178,7 +178,7 @@ class PostListItem extends React.PureComponent {
     } else {
       return (
         <RN.View style={styles.frame}>
-          <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'contain'} />
+          <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'cover'} />
         </RN.View>
       )
     }

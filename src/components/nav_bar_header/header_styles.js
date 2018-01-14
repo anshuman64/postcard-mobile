@@ -19,8 +19,10 @@ export const styles = RN.StyleSheet.create({
     paddingTop: (RN.Platform.OS === 'ios') ? StyleUtility.STATUSBAR_HEIGHT : 0,
     backgroundColor: 'white',
   },
-  backHeader: {
+  backView: {
+    flexDirection: 'row',
     justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   border: {
     borderBottomColor: StyleUtility.COLORS.grey300,
@@ -55,7 +57,6 @@ export const styles = RN.StyleSheet.create({
   },
   logo: {
     height: 30,
-    width: 30
   },
   noteIcon: {
     fontSize: StyleUtility.scaleFont(20),

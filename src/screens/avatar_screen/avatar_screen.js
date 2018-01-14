@@ -4,12 +4,12 @@ import RN     from 'react-native';
 import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import LoadingModal          from '../../components/loading_modal/loading_modal.js';
-import { styles }            from './avatar_screen_styles.js';
-import { uploadImageFile }   from '../../utilities/file_utility.js';
-import { setStateCallback }  from '../../utilities/function_utility.js';
-import { COLORS }            from '../../utilities/style_utility.js';
-import { defaultErrorAlert } from '../../utilities/error_utility.js';
+import LoadingModal                   from '../../components/loading_modal/loading_modal.js';
+import { styles }                     from './avatar_screen_styles.js';
+import { getImage, uploadImageFile }  from '../../utilities/file_utility.js';
+import { setStateCallback }           from '../../utilities/function_utility.js';
+import { COLORS }                     from '../../utilities/style_utility.js';
+import { defaultErrorAlert }          from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -35,6 +35,15 @@ class AvatarScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
+
+  componentDidMount() {
+    if (this.props.user.avatar_url) {
+      getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.user.avatar_url)
+        .then((data) => {
+          this.setState({ imagePath: data });
+        });
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.imagePath) {
@@ -160,7 +169,7 @@ class AvatarScreen extends React.PureComponent {
     } else {
       return (
         <RN.View style={styles.frame}>
-          <RN.Image source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'} />
+          <RN.Image source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'} />
         </RN.View>
       )
     }
@@ -180,7 +189,6 @@ class AvatarScreen extends React.PureComponent {
     )
   }
 
-  //TODO: create utility component shared with LoginScreen
   _renderNextButton() {
     return (
       <RN.TouchableOpacity

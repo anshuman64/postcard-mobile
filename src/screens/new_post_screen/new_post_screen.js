@@ -72,12 +72,15 @@ class NewPostScreen extends React.PureComponent {
     )
   }
 
-// TODO: make X button pretty
   _renderImage() {
     if (this.state.imagePath) {
       return (
-        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'} >
-          <EvilIcon name='close' style={styles.closeIcon} onPress={setStateCallback(this, {image: null})}/>
+        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'} >
+          <RN.TouchableWithoutFeedback onPress={setStateCallback(this, {image: null})} >
+            <RN.View style={styles.closeButton} >
+              <EvilIcon name='close' style={styles.closeIcon} />
+            </RN.View>
+          </RN.TouchableWithoutFeedback>
         </RN.ImageBackground>
       )
     }
@@ -99,7 +102,7 @@ class NewPostScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={ styles.container }>
-        <HeaderContainer backIcon={true} shareButton={true} postText={this.state.postText} placeholderText={this.state.placeholderText} imagePath={this.state.imagePath} imageType={this.state.imageType}/>
+        <HeaderContainer backIcon={true} backTitle={'Create Post'} shareButton={true} postText={this.state.postText} placeholderText={this.state.placeholderText} imagePath={this.state.imagePath} imageType={this.state.imageType}/>
         {this._renderTextInput()}
         {this._renderImage()}
         {this._renderImageButton()}
