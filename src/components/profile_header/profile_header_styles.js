@@ -17,8 +17,8 @@ export const styles = RN.StyleSheet.create({
     width: '100%',
     height: 270,
     backgroundColor: 'white',
-    borderBottomColor: StyleUtility.COLORS.grey300,
-    borderBottomWidth: 1,
+    borderBottomColor: StyleUtility.COLORS.grey500,
+    borderBottomWidth: 0.5,
     position: 'absolute'
   },
   frame: {

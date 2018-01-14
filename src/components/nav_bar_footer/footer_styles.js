@@ -28,7 +28,7 @@ export const styles = RN.StyleSheet.create({
     height: 45,
   },
   icon: {
-    fontSize: StyleUtility.scaleFont(18),
+    fontSize: StyleUtility.scaleFont(19),
     color: StyleUtility.COLORS.grey900
   },
   textHighlighted: {

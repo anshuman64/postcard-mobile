@@ -136,7 +136,7 @@ class PostListItem extends React.PureComponent {
           deleteFile(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.item.image_url);
         }
 
-        this.container.fadeOut(1000)
+        this.container.fadeOut(500)
           .finally(() => {
             this.props.removePost({ post: deletedPost, userId: this.props.user.id  });
             this.isDeleteDisabled = false;
@@ -254,7 +254,9 @@ class PostListItem extends React.PureComponent {
       )
     } else if (this.state.imageUrl) {
       return (
-        <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'cover'} />
+        <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
+          <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'cover'} />
+        </RN.TouchableWithoutFeedback>
       )
     }
   }
