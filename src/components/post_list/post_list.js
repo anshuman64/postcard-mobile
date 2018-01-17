@@ -144,7 +144,7 @@ class PostList extends React.PureComponent {
         refreshing={this.state.isRefreshing}
         onRefresh={this._onRefresh}
         color={COLORS.grey400}
-        progressViewOffset={this.props.currentScreen === 'HomeScreen' ? 0 : 270}
+        progressViewOffset={this.props.currentScreen === 'HomeScreen' ? 30 : 270}
         />
     )
   }
@@ -157,7 +157,7 @@ class PostList extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: 0 }, (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { height: 270 - STATUSBAR_HEIGHT - 4 } ]}>
+      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: 30 }, (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { height: 270 - STATUSBAR_HEIGHT - 4 } ]}>
         <RN.ActivityIndicator size='large' color={this.props.currentScreen === 'HomeScreen' ? 'transparent' : COLORS.grey400} style={{marginBottom: 20}} />
       </RN.View>
     )
