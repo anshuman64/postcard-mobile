@@ -183,7 +183,7 @@ class Header extends React.PureComponent {
   }
 
   render() {
-    const IS_NOT_BORDER = this.props.currentScreen === 'ProfileScreen' || this.props.currentScreen === 'UserScreen';
+    const IS_NOT_BORDER = this.props.currentScreen === 'HomeScreen' || this.props.currentScreen === 'ProfileScreen' || this.props.currentScreen === 'UserScreen';
 
     return (
       <RN.View style={[styles.header, !IS_NOT_BORDER && styles.border]}>
