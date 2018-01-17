@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { USER_ACTION_TYPES }             from '../actions/user_actions.js';
 import { POST_ACTION_TYPES, POST_TYPES } from '../actions/post_actions.js';
 import { LIKE_ACTION_TYPES }             from '../actions/like_actions.js';
+import { FOLLOW_ACTION_TYPES }           from '../actions/follow_actions.js';
 import { mergeSorted }                   from '../utilities/function_utility.js';
 
 //--------------------------------------------------------------------//
@@ -74,6 +75,9 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       })
 
       newState[userId][postType].lastUpdated = new Date();
+      if (postType === POST_TYPES.FOLLOWED) {
+        newState[userId][postType].data = [];
+      }
 
       if (action.data.posts.length < 10) { // 10 = number of posts fetched
         newState[userId][postType].isEnd = true;
