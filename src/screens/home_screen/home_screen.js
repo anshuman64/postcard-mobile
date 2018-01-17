@@ -13,24 +13,38 @@ import { styles }        from './home_screen_styles.js';
 
 class HomeScreen extends React.PureComponent {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      postType:  POST_TYPES.ALL,
+    };
+  }
+
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
   componentDidMount() {
     this.postList.getWrappedInstance().refresh();
+    this.postList.getWrappedInstance().refresh(POST_TYPES.FOLLOWED);
   }
 
   componentWillReceiveProps(nextProps) {
     // Auto-refresh screen if coming back to it after > 1 minute
     if (this.props.currentScreen != 'HomeScreen' && nextProps.currentScreen === 'HomeScreen') {
-      let currentTime = new Date();
-      let lastUpdate = this.props.posts[this.props.user.id][POST_TYPES.ALL].lastUpdated;
-      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+      let checkRefresh = (postType) => {
+        let currentTime = new Date();
+        let lastUpdate = this.props.posts[this.props.user.id][postType].lastUpdated;
+        let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
-      if (minsDiff > 1) {
-        this.postList.getWrappedInstance()._onRefresh();
+        if (minsDiff > 1) {
+          this.postList.getWrappedInstance()._onRefresh(postType);
+        }
       }
+
+      checkRefresh(POST_TYPES.ALL);
+      checkRefresh(POST_TYPES.FOLLOWED);
     }
   }
 
@@ -53,7 +67,7 @@ class HomeScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={styles.container}>
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} postType={POST_TYPES.ALL} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
+        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} postType={this.state.postType} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
       </RN.View>
     )
   }

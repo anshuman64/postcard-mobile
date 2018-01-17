@@ -12,7 +12,8 @@ import { refreshAuthToken } from './user_actions.js';
 export const POST_TYPES = {
   ALL:      'allPosts',
   AUTHORED: 'authoredPosts',
-  LIKED:    'likedPosts'
+  LIKED:    'likedPosts',
+  FOLLOWED: 'followedPosts'
 }
 
 export const POST_ACTION_TYPES = {
@@ -54,6 +55,8 @@ let getRouteForPostType = (postType, userId) => {
       return '/authored/' + userId;
     case POST_TYPES.LIKED:
       return '/liked/' + userId;
+    case POST_TYPES.FOLLOWED:
+      return '/followed';
   }
 }
 

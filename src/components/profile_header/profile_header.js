@@ -58,7 +58,9 @@ class ProfileHeader extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAvatar() {
-    if (!this.props.user.avatar_url) {
+    if (this.props.currentScreen === 'HomeScreen') {
+      return null;
+    } else if (!this.props.user.avatar_url) {
       return (
         <RN.TouchableOpacity onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.View style={styles.frame}>
@@ -70,7 +72,7 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.View style={styles.frame} />
       )
-    } else {
+    } else if (this.props.currentScreen) {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.View style={styles.frame}>
@@ -82,34 +84,55 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderUsername() {
-    return (
-      <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.user.id != this.props.userId}>
-        <RN.Text style={[styles.usernameText]}>
-          {this.props.username}
-        </RN.Text>
-        {this.props.user.id === this.props.userId ?
-          <Icon name='pencil' style={styles.pencil} /> :
-          null
-        }
-      </RN.TouchableOpacity>
-    )
+    if (this.props.currentScreen === 'HomeScreen') {
+      return null;
+    } else {
+      return (
+        <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.user.id != this.props.userId}>
+          <RN.Text style={[styles.usernameText]}>
+            {this.props.username}
+          </RN.Text>
+          {this.props.user.id === this.props.userId ?
+            <Icon name='pencil' style={styles.pencil} /> :
+            null
+          }
+        </RN.TouchableOpacity>
+      )
+    }
   }
 
   _renderTabs() {
-    return (
-      <RN.View style={styles.tabs}>
-        <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
-          <RN.Text style={[styles.text, this.props.postType === POST_TYPES.AUTHORED && styles.textHighlighted]} >
-            Posts
-          </RN.Text>
-        </RN.TouchableOpacity>
-        <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
-          <RN.Text style={[styles.text, this.props.postType === POST_TYPES.LIKED && styles.textHighlighted]} >
-            Liked
-          </RN.Text>
-        </RN.TouchableOpacity>
-      </RN.View>
-    )
+    if (this.props.currentScreen === 'HomeScreen') {
+      return (
+        <RN.View style={styles.tabs}>
+          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.ALL })} style={styles.button}>
+            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.ALL && styles.textHighlighted]} >
+              Recent
+            </RN.Text>
+          </RN.TouchableOpacity>
+          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.FOLLOWED })} style={styles.button}>
+            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.FOLLOWED && styles.textHighlighted]} >
+              Following
+            </RN.Text>
+          </RN.TouchableOpacity>
+        </RN.View>
+      )
+    } else {
+      return (
+        <RN.View style={styles.tabs}>
+          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
+            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.AUTHORED && styles.textHighlighted]} >
+              Posts
+            </RN.Text>
+          </RN.TouchableOpacity>
+          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
+            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.LIKED && styles.textHighlighted]} >
+              Liked
+            </RN.Text>
+          </RN.TouchableOpacity>
+        </RN.View>
+      )
+    }
   }
 
   render() {
@@ -120,7 +143,7 @@ class ProfileHeader extends React.PureComponent {
     });
 
     return (
-      <RN.Animated.View style={[styles.container, this.props.currentScreen === 'HomeScreen' && { height: 0 },
+      <RN.Animated.View style={[styles.container, this.props.currentScreen === 'HomeScreen' && { height: 30 },
         this.props.currentScreen != 'HomeScreen' && { transform: [{translateY}] },
         (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { marginTop: -STATUSBAR_HEIGHT - 4 } ]}
         >
