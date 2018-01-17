@@ -31,8 +31,8 @@ export const removeLike = (data) => {
 //--------------------------------------------------------------------//
 
 // TODO: get post body of liked post and send it to amplitude
-export const createLike = (authToken, firebaseUserObj, userId, likeObj) => (dispatch) => {
-  return APIUtility.post(authToken, '/likes', likeObj)
+export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
+  return APIUtility.post(authToken, '/likes', { post_id: postId })
     .then((newLike) => {
       amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: true });
 
@@ -40,7 +40,7 @@ export const createLike = (authToken, firebaseUserObj, userId, likeObj) => (disp
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createLike, userId, likeObj));
+        return dispatch(refreshAuthToken(firebaseUserObj, createLike, userId, postId));
       }
 
       if (!error.description) {
