@@ -113,6 +113,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     // Like Post Actions
     //--------------------------------------------------------------------//
 
+    // TODO: add the liked post in the correct chronological spot
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
       newState[action.data.userId][POST_TYPES.LIKED].data.unshift(action.data.like.post_id);
 

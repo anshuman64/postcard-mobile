@@ -2,8 +2,9 @@
 import _ from 'lodash';
 
 // Local Imports
-import { POST_ACTION_TYPES } from '../actions/post_actions.js';
-import { LIKE_ACTION_TYPES } from '../actions/like_actions.js';
+import { POST_ACTION_TYPES }   from '../actions/post_actions.js';
+import { LIKE_ACTION_TYPES }   from '../actions/like_actions.js';
+import { FOLLOW_ACTION_TYPES } from '../actions/follow_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -35,19 +36,31 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
       postToUpdate = newState[action.data.like.post_id];
 
-      if (postToUpdate) {
-        postToUpdate.num_likes++;
-        postToUpdate.is_liked_by_user = true;
-      }
+      postToUpdate.num_likes++;
+      postToUpdate.is_liked_by_user = true;
 
       return newState;
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
       postToUpdate = newState[action.data.like.post_id];
 
-      if (postToUpdate) {
-        postToUpdate.num_likes--;
-        postToUpdate.is_liked_by_user = false;
-      }
+      postToUpdate.num_likes--;
+      postToUpdate.is_liked_by_user = false;
+
+      return newState;
+    case FOLLOW_ACTION_TYPES.RECEIVE_FOLLOW:
+      _.forEach(newState, (post) => {
+        if (post.author_id === action.data.follow.followee_id) {
+          post.is_author_followed_by_user = true;
+        }
+      });
+
+      return newState;
+    case FOLLOW_ACTION_TYPES.REMOVE_FOLLOW:
+      _.forEach(newState, (post) => {
+        if (post.author_id === action.data.follow.followee_id) {
+          post.is_author_followed_by_user = false;
+        }
+      });
 
       return newState;
     default:
