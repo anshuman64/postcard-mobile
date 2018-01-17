@@ -79,7 +79,7 @@ export const styles = RN.StyleSheet.create({
   breakText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
     fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(4),
+    fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
     marginLeft: 5,
@@ -89,7 +89,7 @@ export const styles = RN.StyleSheet.create({
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
-    color: StyleUtility.COLORS.appleBlue,
+    color: StyleUtility.COLORS.grey900,
     marginLeft: 5,
   },
   closeButton: {

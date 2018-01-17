@@ -22,7 +22,7 @@ import { setStateCallback }     from '../../../utilities/function_utility.js';
 const IconFilled = createIconSetFromFontello(fontelloConfig);
 const AnimatedIconFilled = Animatable.createAnimatableComponent(IconFilled);
 
-class PostListItem extends React.PureComponent {
+class PostListItem extends React.Component {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -40,6 +40,7 @@ class PostListItem extends React.PureComponent {
 
     this.isLikeDisabled   = false;
     this.isDeleteDisabled = false;
+    this.isFollowDisabled = false;
   }
 
   //--------------------------------------------------------------------//
@@ -100,7 +101,7 @@ class PostListItem extends React.PureComponent {
             this.setState({ isLikingServer: false });
           });
       } else {
-        this.props.createLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, { post_id: this.props.item.id })
+        this.props.createLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
           .catch((error) => {
             defaultErrorAlert(error);
           })
@@ -112,18 +113,21 @@ class PostListItem extends React.PureComponent {
     })
   }
 
-  _onPressDelete = () => {
+  _onPressDeletePost = () => {
     RN.Alert.alert(
       '',
       'Are you sure you want to delete this post?',
       [
-        {text: 'Cancel', onPress: () => null, style: 'cancel'},
-        {text: 'Delete', onPress: this._onConfirmDelete},
+        {text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
+        {text: 'Delete', onPress: this._onConfirmDeletePost},
       ],
+      {
+        onDismiss: () => this.isDeleteDisabled = false
+      }
     )
   }
 
-  _onConfirmDelete = () => {
+  _onConfirmDeletePost = () => {
     if (this.isDeleteDisabled) {
       return;
     }
@@ -147,20 +151,70 @@ class PostListItem extends React.PureComponent {
       });
   }
 
+  _onPressFollow = () => {
+    if (this.isFollowDisabled) {
+      return;
+    }
+
+    this.isFollowDisabled = true;
+
+    if (this.props.item.is_author_followed_by_user) {
+      this._onPressUnfollow();
+    } else {
+      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.isFollowDisabled = false;
+        });
+    }
+  }
+
+  _onPressUnfollow = () => {
+    RN.Alert.alert(
+      '',
+      'Are you sure you want to unfollow this user?',
+      [
+        {text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
+        {text: 'Unfollow', onPress: this._onConfirmUnfollow},
+      ],
+      {
+        onDismiss: () => this.isFollowDisabled = false
+      }
+    )
+  }
+
+  _onConfirmUnfollow = () => {
+    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.isFollowDisabled = false;
+      });
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderLikesCount(count) {
-    // If likes < 1000, render the number as-is
-    if (count < 1000) {
-      return count;
-    // If likes are > 1000, return format 'xxx.xK'
-    } else if (count < 1000000000){
-      return (Math.floor(count / 100) / 10).toFixed(1) + 'K';
-    // If likes are > 1 milion, return format 'xxx.xM'
+  _renderFollow() {
+    if (this.props.item.author_id != this.props.user.id) {
+      return (
+        <RN.View style={styles.userView}>
+          <RN.Text style={styles.breakText}>
+            |
+          </RN.Text>
+          <RN.TouchableOpacity onPress={this._onPressFollow}>
+            <RN.Text style={[styles.followText, !this.props.item.is_author_followed_by_user && styles.textHighlighted]}>
+              {this.props.item.is_author_followed_by_user ? 'Following' : 'Follow'}
+            </RN.Text>
+          </RN.TouchableOpacity>
+        </RN.View>
+      )
     } else {
-      return (Math.floor(count / 100000) / 10).toFixed(1) + 'M';
+      return null;
     }
   }
 
@@ -201,14 +255,7 @@ class PostListItem extends React.PureComponent {
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
-        <RN.Text style={styles.breakText}>
-          ●
-        </RN.Text>
-        <RN.TouchableOpacity>
-          <RN.Text style={styles.followText}>
-            Follow
-          </RN.Text>
-        </RN.TouchableOpacity>
+        {this._renderFollow()}
       </RN.View>
     )
   }
@@ -218,7 +265,7 @@ class PostListItem extends React.PureComponent {
       <RN.TouchableWithoutFeedback
         onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
         onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
-        onPress={this._onPressDelete}
+        onPress={this._onPressDeletePost}
         disabled={this.props.user.id != this.props.item.author_id}
         >
         <RN.View style={styles.closeButton}>
@@ -282,6 +329,19 @@ class PostListItem extends React.PureComponent {
       return (
         <Icon name='heart' style={ styles.heartIcon } />
       )
+    }
+  }
+
+  _renderLikesCount(count) {
+    // If likes < 1000, render the number as-is
+    if (count < 1000) {
+      return count;
+    // If likes are > 1000, return format 'xxx.xK'
+    } else if (count < 1000000000){
+      return (Math.floor(count / 100) / 10).toFixed(1) + 'K';
+    // If likes are > 1 milion, return format 'xxx.xM'
+    } else {
+      return (Math.floor(count / 100000) / 10).toFixed(1) + 'M';
     }
   }
 
