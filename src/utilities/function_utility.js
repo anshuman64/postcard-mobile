@@ -2,6 +2,10 @@
 // Interface
 //--------------------------------------------------------------------//
 
+export const isStringEmpty = (string) => {
+  return (string.length === 0 || !string.trim());
+}
+
 export const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 }

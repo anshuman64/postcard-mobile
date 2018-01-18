@@ -38,6 +38,7 @@ class PostListItem extends React.Component {
       isLikingServer:    false,
     }
 
+    this.isUser           = false;
     this.isLikeDisabled   = false;
     this.isDeleteDisabled = false;
     this.isFollowDisabled = false;
@@ -48,22 +49,21 @@ class PostListItem extends React.Component {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    if (this.props.user.id === this.props.item.author_id) {
-      if (this.props.user.avatar_url) {
-        this._setImageUrl(this.props.user.avatar_url, true);
-      }
+    this.isUser = this.props.user.id === this.props.item.author_id;
+
+    if (this.isUser && this.props.user.avatar_url) {
+      this._setImageUrl(this.props.user.avatar_url, true);
     } else if (this.props.item.author_avatar_url) {
       this._setImageUrl(this.props.item.author_avatar_url, true);
     }
 
     if (this.props.item.image_url) {
       this._setImageUrl(this.props.item.image_url, false);
-      getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.item.image_url);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.user.id === this.props.item.author_id && nextProps.user.avatar_url != this.props.user.avatar_url) {
+    if (this.isUser && nextProps.user.avatar_url != this.props.user.avatar_url) {
       if (nextProps.user.avatar_url) {
         this._setImageUrl(nextProps.user.avatar_url, true);
       } else {
@@ -77,7 +77,6 @@ class PostListItem extends React.Component {
   //--------------------------------------------------------------------//
 
   _setImageUrl(imageUrl, isAvatar) {
-    console.log(imageUrl)
     getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, imageUrl)
       .then((data) => {
         if (isAvatar) {
@@ -230,7 +229,7 @@ class PostListItem extends React.Component {
   //--------------------------------------------------------------------//
 
   _renderFollow() {
-    if (this.props.item.author_id != this.props.user.id) {
+    if (!this.isUser) {
       return (
         <RN.View style={styles.userView}>
           <RN.Text style={styles.breakText}>
@@ -276,7 +275,7 @@ class PostListItem extends React.Component {
                 {this._renderAvatar()}
               </RN.View>
               <RN.Text ref={(ref) => this.usernameText = ref} style={styles.usernameText}>
-                {this.props.item.author_username}
+                {this.isUser ? this.props.user.username : this.props.item.author_username}
               </RN.Text>
             </RN.View>
           {this._renderFollow()}
@@ -290,13 +289,13 @@ class PostListItem extends React.Component {
         onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
         onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
         onPress={this._onPressDeletePost}
-        disabled={this.props.user.id != this.props.item.author_id}
+        disabled={!this.isUser}
         >
         <RN.View style={styles.closeButton}>
           <EvilIcons
             ref={(ref) => this.closeIcon = ref}
             name='close'
-            style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}
+            style={[styles.closeIcon, !this.isUser && styles.transparent]}
             />
         </RN.View>
       </RN.TouchableWithoutFeedback>
