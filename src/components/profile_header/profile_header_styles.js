@@ -8,6 +8,8 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
+export const PROFILE_HEADER_HEIGHT      = 180;
+export const PROFILE_HEADER_TABS_HEIGHT = 30;
 
 export const styles = RN.StyleSheet.create({
   container: {
@@ -15,19 +17,26 @@ export const styles = RN.StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: '100%',
-    height: 270,
+    height: PROFILE_HEADER_HEIGHT,
     backgroundColor: 'white',
     borderBottomColor: StyleUtility.COLORS.grey500,
     borderBottomWidth: 0.5,
     position: 'absolute',
   },
-  frame: {
-    flexDirection: 'column',
-    justifyContent: 'center',
+  userView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    height: 150,
-    width: 150,
-    marginBottom: 10,
+    width: '100%',
+    paddingLeft: 40,
+    marginBottom: 30
+  },
+  frame: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    height: 100,
+    width: 105,
   },
   userIcon: {
     fontSize: StyleUtility.scaleFont(40),
@@ -35,38 +44,75 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
   },
   image: {
-    height: 120,
-    width: 120,
-    borderRadius: (RN.Platform.OS === 'ios') ? 120 / 2 : 10000,
+    height: 100,
+    width: 100,
+    borderRadius: (RN.Platform.OS === 'ios') ? 100 / 2 : 10000,
+  },
+  avatarPencil: {
+    fontSize: StyleUtility.scaleFont(14),
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleBlue + 'bf',
+    marginLeft: -15,
+    marginBottom: 3
+  },
+  transparent: {
+    color: 'transparent',
+  },
+  usernameView: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginLeft: 30
   },
   usernameButton: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    height: 40,
     width: 200,
-    marginBottom: 20,
+    marginBottom: 15,
   },
   usernameText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
     fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(20),
-    textAlign: 'center',
-    color: StyleUtility.COLORS.appleBlue,
-    left: 10
+    fontSize: StyleUtility.scaleFont(24),
+    textAlign: 'left',
+    color: StyleUtility.COLORS.grey900,
   },
   pencil: {
     fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
-    color: StyleUtility.COLORS.appleBlue,
-    marginLeft: 15,
+    color: StyleUtility.COLORS.appleBlue + 'bf',
+    marginLeft: 5
+  },
+  followButtonBackground: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: 200,
+    height: 30,
+    borderRadius: 4,
+    backgroundColor: StyleUtility.COLORS.appleBlue,
+  },
+  followButtonBackgroundDisabled: {
+    backgroundColor: 'white',
+    borderColor: StyleUtility.COLORS.grey900,
+    borderWidth: 1
+  },
+  followButtonText: {
+    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontSize: StyleUtility.scaleFont(16),
+    fontWeight: '100',
+    textAlign: 'center',
+    color: 'white',
+  },
+  followButtonTextDisabled: {
+    color: StyleUtility.COLORS.grey900,
   },
   tabs: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: 30,
+    height: PROFILE_HEADER_TABS_HEIGHT,
     backgroundColor: 'white',
   },
   button: {
@@ -74,7 +120,7 @@ export const styles = RN.StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '50%',
-    height: 30,
+    height: PROFILE_HEADER_TABS_HEIGHT,
   },
   text: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',

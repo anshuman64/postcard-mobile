@@ -21,7 +21,8 @@ class UserScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      postType:  POST_TYPES.AUTHORED,
+      postType:   POST_TYPES.AUTHORED,
+      isFollowed: false
     };
   }
 
@@ -32,6 +33,10 @@ class UserScreen extends React.PureComponent {
   componentDidMount() {
     this.postList.getWrappedInstance().refresh();
     this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
+
+    if (this.props.isFollowed) {
+      this.setState({ isFollowed: true })
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -46,6 +51,10 @@ class UserScreen extends React.PureComponent {
     return func;
   }
 
+  setFollowState = (state) => {
+    this.setState(state);
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -54,7 +63,16 @@ class UserScreen extends React.PureComponent {
     return (
       <RN.View style={styles.container}>
         <HeaderContainer backIcon={true} backTitle={this.props.username + "'s Profile"} />
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.state.postType} setParentState={this.setParentState}/>
+        <PostListContainer
+          ref={(ref) => this.postList = ref}
+          userId={this.props.userId}
+          username={this.props.username}
+          avatarUrl={this.props.avatarUrl} 
+          isFollowed={this.state.isFollowed}
+          postType={this.state.postType}
+          setParentState={this.setParentState}
+          setFollowState={this.setFollowState}
+          />
       </RN.View>
     )
   }

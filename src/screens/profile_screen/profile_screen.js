@@ -43,7 +43,6 @@ class ProfileScreen extends React.PureComponent {
         let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
         if (minsDiff > 1) {
-          console.log('hey')
           this.postList.getWrappedInstance()._onRefresh(postType);
         }
       }

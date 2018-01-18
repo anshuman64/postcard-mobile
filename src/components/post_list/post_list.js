@@ -4,12 +4,13 @@ import RN     from 'react-native';
 import _      from 'lodash';
 
 // Local Imports
-import ProfileHeaderContainer       from '../profile_header/profile_header_container.js';
-import PostListItemContainer        from './post_list_item/post_list_item_container.js';
-import { styles }                   from './post_list_styles.js';
-import { POST_TYPES }               from '../../actions/post_actions.js';
-import { COLORS, STATUSBAR_HEIGHT } from '../../utilities/style_utility.js';
-import { defaultErrorAlert }        from '../../utilities/error_utility.js';
+import ProfileHeaderContainer                                from '../profile_header/profile_header_container.js';
+import PostListItemContainer                                 from './post_list_item/post_list_item_container.js';
+import { PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from '../profile_header/profile_header_styles.js';
+import { styles }                                            from './post_list_styles.js';
+import { POST_TYPES }                                        from '../../actions/post_actions.js';
+import { COLORS, STATUSBAR_HEIGHT }                          from '../../utilities/style_utility.js';
+import { defaultErrorAlert }                                 from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -27,7 +28,7 @@ class PostList extends React.PureComponent {
     this.state = {
       isRefreshing: false,
       scrollToTop:  false,
-      scrollY: new RN.Animated.Value(0)
+      scrollY:      new RN.Animated.Value(0),
     };
 
     this.onEndReachedCalledDuringMomentum = true;
@@ -134,7 +135,7 @@ class PostList extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer item={this.props.postsCache[item]} />
+      <PostListItemContainer item={this.props.postsCache[item]} setFollowState={this.props.setFollowState} />
     )
   }
 
@@ -144,20 +145,29 @@ class PostList extends React.PureComponent {
         refreshing={this.state.isRefreshing}
         onRefresh={this._onRefresh}
         color={COLORS.grey400}
-        progressViewOffset={this.props.currentScreen === 'HomeScreen' ? 30 : 270}
+        progressViewOffset={this.props.currentScreen === 'HomeScreen' ? PROFILE_HEADER_TABS_HEIGHT : PROFILE_HEADER_HEIGHT}
         />
     )
   }
 
   _renderProfileHeader = () => {
     return (
-      <ProfileHeaderContainer scrollY={this.state.scrollY} userId={this.props.userId} username={this.props.username} avatarUrl={this.props.avatarUrl} postType={this.props.postType} setParentState={this.props.setParentState} />
+      <ProfileHeaderContainer
+        scrollY={this.state.scrollY}
+        userId={this.props.userId}
+        username={this.props.username}
+        avatarUrl={this.props.avatarUrl}
+        isFollowed={this.props.isFollowed}
+        postType={this.props.postType}
+        setParentState={this.props.setParentState}
+        setFollowState={this.props.setFollowState}
+        />
     )
   }
 
   _renderHeader = () => {
     return (
-      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: 30 }, (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { height: 270 - STATUSBAR_HEIGHT - 4 } ]}>
+      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: PROFILE_HEADER_TABS_HEIGHT }, (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { height: PROFILE_HEADER_HEIGHT - STATUSBAR_HEIGHT - 4 } ]}>
         <RN.ActivityIndicator size='large' color={this.props.currentScreen === 'HomeScreen' ? 'transparent' : COLORS.grey400} style={{marginBottom: 20}} />
       </RN.View>
     )
