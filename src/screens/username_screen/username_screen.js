@@ -35,6 +35,16 @@ class UsernameScreen extends React.PureComponent {
 
   _onPress = () => {
     this.setState({ isLoading: true, isError: false, errorText: '' }, () => {
+      if (this.state.inputtedText < 3) {
+        this.setState({ isError: true, errorText: 'Enter at least 3 characters', isLoading: false });
+        return;
+      }
+
+      if (!(/^([A-Za-z0-9._-])$/.test(this.state.inputtedText))) {
+        this.setState({ isError: true, errorText: 'Only use letters, numbers, -, _, or .', isLoading: false });
+        return;
+      }
+
       this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, this.state.inputtedText)
         .then(() => {
           if (this.props.currentScreen === 'UsernameScreenLogin') {
@@ -89,7 +99,7 @@ class UsernameScreen extends React.PureComponent {
         placeholder={'username'}
         autoCapitalize={'none'}
         autoFocus={true}
-        maxLength={32}
+        maxLength={12}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
         onFocus={() => !this.state.isError && this.textInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
@@ -133,6 +143,7 @@ class UsernameScreen extends React.PureComponent {
           {this._renderTitle()}
           {this._renderSubtitle()}
           {this._renderTextInput()}
+          {this._renderErrorText()}
           <RN.View style={{flex: 1}} />
           {this._renderNextButton()}
           <RN.View style={{flex: 10}} />

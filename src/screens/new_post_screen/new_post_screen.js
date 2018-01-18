@@ -76,8 +76,8 @@ class NewPostScreen extends React.PureComponent {
     if (this.state.imagePath) {
       return (
         <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'} >
-          <RN.TouchableWithoutFeedback onPress={setStateCallback(this, {image: null})} >
-            <RN.View style={styles.closeButton} >
+          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })} >
+            <RN.View style={styles.closeButtonBackground} >
               <EvilIcon name='close' style={styles.closeIcon} />
             </RN.View>
           </RN.TouchableWithoutFeedback>

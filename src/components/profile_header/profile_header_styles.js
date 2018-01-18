@@ -34,12 +34,12 @@ export const styles = RN.StyleSheet.create({
   frame: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     height: 100,
     width: 105,
   },
   userIcon: {
-    fontSize: StyleUtility.scaleFont(40),
+    fontSize: StyleUtility.scaleFont(90),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
@@ -74,7 +74,7 @@ export const styles = RN.StyleSheet.create({
   usernameText: {
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
     fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(24),
+    fontSize: StyleUtility.scaleFont(22),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
   },
@@ -127,7 +127,7 @@ export const styles = RN.StyleSheet.create({
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
-    color: StyleUtility.COLORS.grey600,
+    color: StyleUtility.COLORS.grey900,
     marginBottom: 5,
   },
   textHighlighted: {

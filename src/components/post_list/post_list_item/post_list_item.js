@@ -48,7 +48,11 @@ class PostListItem extends React.Component {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    if (this.props.item.author_avatar_url) {
+    if (this.props.user.id === this.props.item.author_id) {
+      if (this.props.user.avatar_url) {
+        this._setImageUrl(this.props.user.avatar_url, true);
+      }
+    } else if (this.props.item.author_avatar_url) {
       this._setImageUrl(this.props.item.author_avatar_url, true);
     }
 
@@ -60,7 +64,11 @@ class PostListItem extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.user.id === this.props.item.author_id && nextProps.user.avatar_url != this.props.user.avatar_url) {
-      this._setImageUrl(nextProps.user.avatar_url, true);
+      if (nextProps.user.avatar_url) {
+        this._setImageUrl(nextProps.user.avatar_url, true);
+      } else {
+        this.setState({ avatarUrl: null });
+      }
     }
   }
 
@@ -69,6 +77,7 @@ class PostListItem extends React.Component {
   //--------------------------------------------------------------------//
 
   _setImageUrl(imageUrl, isAvatar) {
+    console.log(imageUrl)
     getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, imageUrl)
       .then((data) => {
         if (isAvatar) {
@@ -76,7 +85,7 @@ class PostListItem extends React.Component {
         } else {
           this.setState({ imageUrl: data });
         }
-      });
+      })
   }
 
   //--------------------------------------------------------------------//
@@ -205,6 +214,17 @@ class PostListItem extends React.Component {
       });
   }
 
+  _navigateToProfile = () => {
+    if (this.props.userId != this.props.item.author_id) {
+      this.props.navigateToProfile({
+        userId: this.props.item.author_id,
+        username: this.props.item.author_username,
+        avatarUrl: this.props.item.author_avatar_url,
+        isFollowed: this.props.item.is_author_followed_by_user
+      })
+    }
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -229,21 +249,21 @@ class PostListItem extends React.Component {
   }
 
   _renderAvatar() {
-    if (!this.props.item.author_avatar_url) {
+    if (this.state.avatarUrl) {
+      return (
+        <RN.View style={styles.frame}>
+          <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'cover'} />
+        </RN.View>
+      )
+    } else if (!this.props.item.author_avatar_url && !this.state.avatarUrl) {
       return (
         <RN.View style={styles.frame}>
           <FontAwesome name='user-circle-o' style={styles.userIcon} />
         </RN.View>
       )
-    } else if (!this.state.avatarUrl) {
-      return (
-        <RN.View style={styles.frame} />
-      )
     } else {
       return (
-        <RN.View style={styles.frame}>
-          <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'cover'} />
-        </RN.View>
+        <RN.View style={styles.frame} />
       )
     }
   }
@@ -273,7 +293,11 @@ class PostListItem extends React.Component {
         disabled={this.props.user.id != this.props.item.author_id}
         >
         <RN.View style={styles.closeButton}>
-          <EvilIcons ref={(ref) => this.closeIcon = ref} name='close' style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}/>
+          <EvilIcons
+            ref={(ref) => this.closeIcon = ref}
+            name='close'
+            style={[styles.closeIcon, (this.props.user.id != this.props.item.author_id) && styles.transparent]}
+            />
         </RN.View>
       </RN.TouchableWithoutFeedback>
     )
@@ -284,7 +308,7 @@ class PostListItem extends React.Component {
       <RN.TouchableWithoutFeedback
         onPressIn={() => this.usernameText.setNativeProps({style: styles.textHighlighted})}
         onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
-        onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id, username: this.props.item.author_username, avatarUrl: this.props.item.author_avatar_url, isFollowed: this.props.item.is_author_followed_by_user })}
+        onPress={this._navigateToProfile}
         >
         <RN.View style={styles.headerView}>
           {this._renderUserView()}
