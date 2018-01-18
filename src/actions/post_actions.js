@@ -100,22 +100,22 @@ export const refreshPosts = (authToken, firebaseUserObj, userId, postType, query
     });
 };
 
-export const createPost = (authToken, firebaseUserObj, userId, postObj, placeholderText) => (dispatch) => {
-  return APIUtility.post(authToken, '/posts', postObj)
+export const createPost = (authToken, firebaseUserObj, userId, postBody, postImage, placeholderText) => (dispatch) => {
+  return APIUtility.post(authToken, '/posts', { body: postBody, image_url: postImage })
     .then((newPost) => {
-      amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postObj.body, placeholder_text: placeholderText });
+      amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText });
       dispatch(receivePost({ post: newPost, userId: userId }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postObj));
+        return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postBody, postImage, placeholderText));
       }
 
       if (!error.description) {
         error.description = 'POST post failed'
       }
 
-      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postObj.body, placeholder_text: placeholderText, error: error.description });
+      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText, error: error.description });
       throw error;
     });
 };

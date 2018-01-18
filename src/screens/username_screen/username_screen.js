@@ -34,38 +34,50 @@ class UsernameScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPress = () => {
-    this.setState({ isLoading: true, isError: false, errorText: '' }, () => {
-      if (this.state.inputtedText < 3) {
-        this.setState({ isError: true, errorText: 'Enter at least 3 characters', isLoading: false });
+    this.setState({ isError: false, errorText: '' }, () => {
+      let isNotSpecialChar = /^[A-Za-z0-9._-]+$/.test(this.state.inputtedText);
+      let isStartWithSpecialChar = /^[._-]/.test(this.state.inputtedText);
+      let isEndWithSpecialChar = /[._-]$/.test(this.state.inputtedText);
+      let isConsecutiveSpecialChar = /[._-]{2}/.test(this.state.inputtedText);
+      let isTooShort = this.state.inputtedText.length < 3;
+
+      if (!isNotSpecialChar) {
+        this.setState({ isError: true, errorText: 'Letters, numbers, -, _, or . only' });
+        return;
+      } else if (isStartWithSpecialChar || isEndWithSpecialChar) {
+        this.setState({ isError: true, errorText: 'No leading or trailing special characters' });
+        return;
+      } else if (isConsecutiveSpecialChar) {
+        this.setState({ isError: true, errorText: 'No consecutive special characters' });
+        return;
+      } else if (isTooShort) {
+        this.setState({ isError: true, errorText: 'Must be at least 3 characters' });
         return;
       }
 
-      if (!(/^([A-Za-z0-9._-])$/.test(this.state.inputtedText))) {
-        this.setState({ isError: true, errorText: 'Only use letters, numbers, -, _, or .', isLoading: false });
-        return;
-      }
-
-      this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, this.state.inputtedText)
-        .then(() => {
-          if (this.props.currentScreen === 'UsernameScreenLogin') {
-            this.props.navigateTo('AvatarScreen', { isLogin: true });
-          } else {
-            this.props.goBack();
-          }
-        })
-        .catch((error) => {
-          if (error.description === 'username used') { //TODO: update with proper error descriptions from user actions
-            this.setState({ isError: true, errorText: 'Username taken' });
-          } else if (error.description === 'username invalid') {
-            this.setState({ isError: true, errorText: 'Username invalid' });
-          } else {
-            defaultErrorAlert(error);
-          }
-        })
-        .finally(() => {
-          this.setState({ isLoading: false });
-        })
-    })
+      this.setState({ isLoading: true } , () => {
+        this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, this.state.inputtedText)
+          .then(() => {
+            if (this.props.currentScreen === 'UsernameScreenLogin') {
+              this.props.navigateTo('AvatarScreen', { isLogin: true });
+            } else {
+              this.props.goBack();
+            }
+          })
+          .catch((error) => {
+            if (error.description === 'Username has already been taken') {
+              this.setState({ isError: true, errorText: 'Username taken' });
+            } else if (error.description === 'PUT user for username failed') {
+              this.setState({ isError: true, errorText: 'Username invalid' });
+            } else {
+              defaultErrorAlert(error);
+            }
+          })
+          .finally(() => {
+            this.setState({ isLoading: false });
+          })
+      });
+    });
   }
 
 //--------------------------------------------------------------------//
