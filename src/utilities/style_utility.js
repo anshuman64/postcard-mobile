@@ -7,7 +7,7 @@ import { Platform, Dimensions, PixelRatio } from 'react-native';
 // Helper Functions
 //--------------------------------------------------------------------//
 
-const isIphoneX = () => {
+let isIphoneX = () => {
   return (
     Platform.OS === 'ios' &&
     !Platform.isPad &&
