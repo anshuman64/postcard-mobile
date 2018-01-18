@@ -1,6 +1,14 @@
+// Library Imports
 import { Alert } from 'react-native';
 
-export const noInternetError = () => {
+
+//--------------------------------------------------------------------//
+
+//--------------------------------------------------------------------//
+// Helpers
+//--------------------------------------------------------------------//
+
+let noInternetError = () => {
   Alert.alert(
     '',
     'No internet connection.',
@@ -10,7 +18,7 @@ export const noInternetError = () => {
   )
 }
 
-export const unknownError = () => {
+let unknownError = () => {
   Alert.alert(
     '',
     'Something went wrong. Please try again later.',
@@ -19,6 +27,10 @@ export const unknownError = () => {
     ],
   )
 }
+
+//--------------------------------------------------------------------//
+// Interface
+//--------------------------------------------------------------------//
 
 export function defaultErrorAlert(error) {
   if (error.description === 'No internet connection') {

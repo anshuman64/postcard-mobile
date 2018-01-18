@@ -241,7 +241,7 @@ export const COUNTRY_CODES = [
 	},
 	{
 		"country_code": "CI",
-		"country_name": "Côte d'Ivoire",
+		"country_name": "Ivory Coast",
 		"dialing_code": "+225"
 	},
 	{
@@ -971,7 +971,7 @@ export const COUNTRY_CODES = [
 	},
 	{
 		"country_code": "LC",
-		"country_name": "St. Lucia",
+		"country_name": "Saint Lucia",
 		"dialing_code": "+1"
 	},
 	{
