@@ -9,6 +9,7 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 import LoadingModal          from '../loading_modal/loading_modal.js'
 import { styles }            from './header_styles.js';
 import { COLORS }            from '../../utilities/style_utility.js';
+import { isStringEmpty }     from '../../utilities/function_utility.js';
 import { uploadImageFile }   from '../../utilities/file_utility.js';
 import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
@@ -50,7 +51,10 @@ class Header extends React.PureComponent {
   }
 
   _createPost(imageKey) {
-    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, { body: this.props.postText, image_url: imageKey }, this.props.placeholderText)
+    let postText = this.props.postText;
+    let postBody = isStringEmpty(postText) ? null : postText;
+
+    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, postBody, imageKey, this.props.placeholderText)
       .then(() => {
         this.setState({ isLoading: false }, () => {
           this.props.goBack({ scrollToTop: Date() });
@@ -78,7 +82,7 @@ class Header extends React.PureComponent {
   }
 
   _onPressShare = () => {
-    if ((!this.props.postText && !this.props.imagePath) || this.isSharePressed) {
+    if ((isStringEmpty(this.props.postText) && !this.props.imagePath) || this.isSharePressed) {
       return;
     }
 

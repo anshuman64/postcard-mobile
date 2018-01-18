@@ -53,6 +53,7 @@ export const styles = RN.StyleSheet.create({
   },
   errorText: {
     width: 240,
+    height: 50,
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(15),
@@ -73,7 +74,6 @@ export const styles = RN.StyleSheet.create({
    height: 40,
    borderRadius: 4,
    backgroundColor: StyleUtility.COLORS.appleBlue,
-   marginTop: 75
  },
  nextButtonBackgroundDisabled: {
    backgroundColor: StyleUtility.COLORS.appleBlue + '33',
