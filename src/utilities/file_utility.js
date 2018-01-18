@@ -27,6 +27,7 @@ export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
         if (error.message === "Missing credentials in config") {
           return refreshAuthToken(firebaseUserObj)
             .then(() => {
+              s3 = new AWS.S3();
               return getImage(firebaseUserObj, refreshAuthToken, key);
             })
         }
@@ -46,6 +47,7 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
         if (error.message === "Missing credentials in config") {
           return refreshAuthToken(firebaseUserObj)
             .then(() => {
+              s3 = new AWS.S3();
               return deleteFile(firebaseUserObj, refreshAuthToken, key);
             })
         }
@@ -107,6 +109,7 @@ const uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
         if (error.message === "Missing credentials in config") {
           return refreshAuthToken(firebaseUserObj)
             .then(() => {
+              s3 = new AWS.S3();
               return uploadFile(firebaseUserObj, params, refreshAuthToken);
             })
         }

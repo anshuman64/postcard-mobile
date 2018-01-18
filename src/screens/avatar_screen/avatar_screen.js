@@ -31,6 +31,8 @@ class AvatarScreen extends React.PureComponent {
       isLoading:     false,
       isNextPressed: true,
     };
+
+    this.existingAvatar = null;
   }
 
   //--------------------------------------------------------------------//
@@ -42,6 +44,7 @@ class AvatarScreen extends React.PureComponent {
       getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.user.avatar_url)
         .then((data) => {
           this.setState({ imagePath: data });
+          this.existingAvatar = data;
         });
     }
   }
@@ -62,22 +65,24 @@ class AvatarScreen extends React.PureComponent {
         this._setAvatarUrl(data.key);
       })
       .catch((error) => {
-        this.isNextPressed = false;
-        this.setState({ isLoading: false });
-        defaultErrorAlert(error);
-      })
+        this.setState({ isLoading: false }, () => {
+          this.isNextPressed = false;
+          defaultErrorAlert(error);
+        });
+      });
   }
 
   _setAvatarUrl = (imageKey) => {
     this.props.editAvatar(this.props.authToken, this.props.firebaseUserObj, imageKey)
       .then(() => {
-        this.props.goBack();
+        this.setState({ isLoading: false }, () => {
+          this.props.goBack();
+        });
       })
       .catch((error) => {
-        defaultErrorAlert(error);
-      })
-      .finally(() => {
-        this.setState({ isLoading: false });
+        this.setState({ isLoading: false }, () => {
+          defaultErrorAlert(error);
+        });
       });
   }
 
@@ -97,9 +102,13 @@ class AvatarScreen extends React.PureComponent {
 
     this.isNextPressed = true;
 
-    this.setState({ isLoading: true }, () => {
-      this._uploadImage(this.props.imagePath, this.props.imageType);
-    });
+    if (this.state.imagePath === this.existingAvatar) {
+      this.props.goBack();
+    } else {
+      this.setState({ isLoading: true }, () => {
+        this._uploadImage(this.props.imagePath, this.props.imageType);
+      });
+    }
   }
 
   _onPressSkip = () => {
@@ -214,17 +223,21 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderSkipButton() {
-    return (
-      <RN.TouchableOpacity
-        style={styles.skipButton}
-        onPress={this._onPressSkip}
-        disabled={this.state.isLoading}
-        >
-        <RN.Text style={ styles.skipButtonText }>
-          {this.props.isLogin ? 'Skip' : 'Remove'}
-        </RN.Text>
-      </RN.TouchableOpacity>
-    )
+    if (this.props.isLogin || this.props.user.avatar_url) {
+      return (
+        <RN.TouchableOpacity
+          style={styles.skipButton}
+          onPress={this._onPressSkip}
+          disabled={this.state.isLoading}
+          >
+          <RN.Text style={ styles.skipButtonText }>
+            {this.props.isLogin ? 'Skip' : 'Remove'}
+          </RN.Text>
+        </RN.TouchableOpacity>
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderLoadingModal() {

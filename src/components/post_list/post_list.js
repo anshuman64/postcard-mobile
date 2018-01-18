@@ -64,8 +64,9 @@ class PostList extends React.PureComponent {
         defaultErrorAlert(error);
       })
       .finally(() => {
-        this.setState({ isRefreshing: false });
-        this.isLoading = false;
+        this.setState({ isRefreshing: false }, () => {
+          this.isLoading = false;
+        });
       })
   }
 
@@ -73,11 +74,11 @@ class PostList extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onRefresh = () => {
+  _onRefresh = (postType = this.props.postType) => {
     this.isLoading = true;
     this.setState({ isRefreshing: true }, () => {
       this.flatList.getNode().scrollToOffset({ x: 0, y: 0, animated: true });
-      this.refresh();
+      this.refresh(postType);
     })
   }
 
@@ -135,7 +136,7 @@ class PostList extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer item={this.props.postsCache[item]} setFollowState={this.props.setFollowState} />
+      <PostListItemContainer item={this.props.postsCache[item]} userId={this.props.userId} setFollowState={this.props.setFollowState} />
     )
   }
 

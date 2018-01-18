@@ -90,7 +90,7 @@ class CameraRollScreen extends React.PureComponent {
         this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       })
       .finally(() => {
         this.isImagePressed = false;

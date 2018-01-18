@@ -42,24 +42,26 @@ class Header extends React.PureComponent {
         this._createPost(data.key);
       })
       .catch((error) => {
-        this.isSharePressed = false;
-        this.setState({ isLoading: false });
-        defaultErrorAlert(error);
+        this.setState({ isLoading: false }, () => {
+          this.isSharePressed = false;
+          defaultErrorAlert(error);
+        });
       })
   }
 
   _createPost(imageKey) {
     this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, { body: this.props.postText, image_url: imageKey }, this.props.placeholderText)
       .then(() => {
-        this.props.goBack({ scrollToTop: Date() });
+        this.setState({ isLoading: false }, () => {
+          this.props.goBack({ scrollToTop: Date() });
+        });
       })
       .catch((error) => {
-        this.isSharePressed = false;
-        defaultErrorAlert(error);
-      })
-      .finally(() => {
-        this.setState({ isLoading: false });
-      })
+        this.setState({ isLoading: false }, () => {
+          this.isSharePressed = false;
+          defaultErrorAlert(error);
+        });
+      });
   }
 
   //--------------------------------------------------------------------//
