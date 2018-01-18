@@ -162,6 +162,11 @@ class PostListItem extends React.Component {
       this._onPressUnfollow();
     } else {
       this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
+        .then(() => {
+          if (this.props.setFollowState) {
+            this.props.setFollowState({ isFollowed: true });
+          }
+        })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -187,6 +192,11 @@ class PostListItem extends React.Component {
 
   _onConfirmUnfollow = () => {
     this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
+      .then(() => {
+        if (this.props.setFollowState) {
+          this.props.setFollowState({ isFollowed: false });
+        }
+      })
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -240,23 +250,17 @@ class PostListItem extends React.Component {
 
   _renderUserView() {
     return (
-      <RN.View style={styles.userView}>
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.usernameText.setNativeProps({style: styles.textHighlighted})}
-          onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
-          onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id, username: this.props.item.author_username, avatarUrl: this.props.item.author_avatar_url })}
-          >
-          <RN.View style={styles.userButton}>
-            <RN.View style={styles.frame}>
-              {this._renderAvatar()}
+        <RN.View style={styles.userView}>
+            <RN.View style={styles.userButton}>
+              <RN.View style={styles.frame}>
+                {this._renderAvatar()}
+              </RN.View>
+              <RN.Text ref={(ref) => this.usernameText = ref} style={styles.usernameText}>
+                {this.props.item.author_username}
+              </RN.Text>
             </RN.View>
-            <RN.Text ref={(ref) => this.usernameText = ref} style={styles.usernameText}>
-              {this.props.item.author_username}
-            </RN.Text>
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
-        {this._renderFollow()}
-      </RN.View>
+          {this._renderFollow()}
+        </RN.View>
     )
   }
 
@@ -277,10 +281,16 @@ class PostListItem extends React.Component {
 
   _renderHeader() {
     return (
-      <RN.View style={styles.headerView}>
-        {this._renderUserView()}
-        {this._renderCloseButton()}
-      </RN.View>
+      <RN.TouchableWithoutFeedback
+        onPressIn={() => this.usernameText.setNativeProps({style: styles.textHighlighted})}
+        onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
+        onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id, username: this.props.item.author_username, avatarUrl: this.props.item.author_avatar_url, isFollowed: this.props.item.is_author_followed_by_user })}
+        >
+        <RN.View style={styles.headerView}>
+          {this._renderUserView()}
+          {this._renderCloseButton()}
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
     )
   }
 
@@ -348,16 +358,16 @@ class PostListItem extends React.Component {
   _renderFooter() {
     return (
       <RN.View style={ styles.footerView }>
-        <RN.View style={styles.likesView}>
-          <RN.TouchableWithoutFeedback onPressIn={this._onPressLike}>
+        <RN.TouchableWithoutFeedback onPressIn={this._onPressLike}>
+          <RN.View style={styles.likesView}>
             <RN.View style={styles.heartButton}>
               {this._renderLike()}
             </RN.View>
-          </RN.TouchableWithoutFeedback>
-          <RN.Text style={ styles.likeCountText }>
-            {this._renderLikesCount(this.props.item.num_likes)}
-          </RN.Text>
-        </RN.View>
+            <RN.Text style={ styles.likeCountText }>
+              {this._renderLikesCount(this.props.item.num_likes)}
+            </RN.Text>
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
         <RN.Text style={ styles.dateText }>
           {renderDate(this.props.item.created_at)}
         </RN.Text>
