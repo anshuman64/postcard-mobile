@@ -3,7 +3,8 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../utilities/style_utility.js';
+import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles.js';
+import * as StyleUtility         from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -31,7 +32,7 @@ export const styles = RN.StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: '100%',
-    height: 270,
+    height: PROFILE_HEADER_HEIGHT,
   },
   footerView: {
     flexDirection: 'row',
