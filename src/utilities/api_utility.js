@@ -1,5 +1,9 @@
+// Library Imports
 import { Alert } from 'react-native';
 import _         from 'lodash';
+
+// Local Imports
+import { ENV_TYPES, GLOBAL_ENV_SETTING } from './app_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -7,8 +11,7 @@ import _         from 'lodash';
 // Constants
 //--------------------------------------------------------------------//
 
-const BASE_URL        = 'http://192.168.2.16:3000/api';
-// const BASE_URL        = 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
+const BASE_URL        = getBaseUrl();
 const DEFAULT_HEADERS = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
@@ -19,6 +22,15 @@ const DEFAULT_HEADERS = {
 // Helpers
 //--------------------------------------------------------------------//
 
+function getBaseUrl() {
+  if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
+    return 'http://insiya-production.us-east-1.elasticbeanstalk.com/api';
+  } else if (GLOBAL_ENV_SETTING === ENV_TYPES.TEST) {
+    return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
+  } else {
+    return 'http://192.168.2.16:3000/api';
+  }
+}
 
 let getQueryString = (params) => {
   if (!params) {
