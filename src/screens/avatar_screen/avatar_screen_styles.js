@@ -57,7 +57,7 @@ export const styles = RN.StyleSheet.create({
     fontSize: StyleUtility.scaleFont(15),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
-    marginTop: 4
+    marginTop: 0
   },
   transparentText: {
     color: 'transparent'

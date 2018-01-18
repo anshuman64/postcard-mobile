@@ -30,14 +30,21 @@ export const styles = RN.StyleSheet.create({
     backgroundColor: StyleUtility.COLORS.grey50
   },
   smallBodyText: {
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: StyleUtility.scaleFont(15),
   },
   closeButton: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 30,
-    width: 30,
+    height: 50,
+    width: 50,
+  },
+  closeButtonBackground: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 25,
+    width: 25,
     backgroundColor: StyleUtility.COLORS.grey900 + 'bf',
     borderRadius: 30 / 2,
     marginLeft: 2,
@@ -71,6 +78,6 @@ export const styles = RN.StyleSheet.create({
     fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
     fontSize: StyleUtility.scaleFont(16),
     marginLeft: 15,
-    color: StyleUtility.COLORS.appleBlue
+    color: StyleUtility.COLORS.grey900
   },
 });

@@ -119,7 +119,7 @@ class ProfileHeader extends React.PureComponent {
       return null;
     } else if (!this.props.user.avatar_url) {
       return (
-        <RN.TouchableOpacity onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.View style={styles.frame}>
             <FontAwesome name='user-circle-o' style={styles.userIcon} />
           </RN.View>

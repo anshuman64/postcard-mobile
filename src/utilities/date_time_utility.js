@@ -17,6 +17,7 @@ export const renderDate = (date) => {
   let hoursDiff    = diff / (1000 * 3600);     // time difference in hours
 
   let hour = creationDate.getHours();
+  let mins = (creationDate.getMinutes() < 10 ? '0' : '') + creationDate.getMinutes();
   let m    = 'AM';
 
   if (hour === 0) {         // If creationDate is at 00:xx, change to 12:xx
@@ -41,12 +42,12 @@ export const renderDate = (date) => {
     return Math.floor(hoursDiff) + ' hours ago';
   } else if (diff < 172800000 && todayDate.getDate() - creationDate.getDate() === 1) {
     // If creationDate was within 48 hours ago and the day was 1 day ago, return format 'Yesterday at xx:xx AM'
-    return 'Yesterday at ' + hour + ':' + creationDate.getMinutes() + m;
+    return 'Yesterday at ' + hour + ':' + mins + m;
   } else if (diff < 604800000) {
     // If creationDate was within the last week, return format '[dayName] at xx:xx AM'
-    return DAY_NAMES[creationDate.getDay()]+ ' at ' + hour + ':' + creationDate.getMinutes() + m;
+    return DAY_NAMES[creationDate.getDay()]+ ' at ' + hour + ':' + mins + m;
   } else {
     // Else, return format '[monthName] [date] at xx:xx AM'
-    return MONTH_NAMES[creationDate.getMonth()] + ' ' + creationDate.getDate() + ' at ' + hour + ':' + creationDate.getMinutes() + m;
+    return MONTH_NAMES[creationDate.getMonth()] + ' ' + creationDate.getDate() + ' at ' + hour + ':' + mins + m;
   }
 };
