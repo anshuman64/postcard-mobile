@@ -5,7 +5,8 @@ import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { styles }      from './menu_screen_styles.js';
+import { styles }        from './menu_screen_styles.js';
+import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -35,8 +36,8 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.supportIcon.setNativeProps({style: styles.textHighlighted})
-          this.supportText.setNativeProps({style: styles.textHighlighted})
+          this.supportIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.supportText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
           this.supportIcon.setNativeProps({style: styles.menuItemIcon})
@@ -62,8 +63,8 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
       onPressIn={() => {
-        this.feedbackIcon.setNativeProps({style: styles.textHighlighted})
-        this.feedbackText.setNativeProps({style: styles.textHighlighted})
+        this.feedbackIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+        this.feedbackText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
       }}
       onPressOut={() => {
         this.feedbackIcon.setNativeProps({style: styles.menuItemIcon})
@@ -89,8 +90,8 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.aboutIcon.setNativeProps({style: styles.textHighlighted})
-          this.aboutText.setNativeProps({style: styles.textHighlighted})
+          this.aboutIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.aboutText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
           this.aboutIcon.setNativeProps({style: styles.menuItemIcon})

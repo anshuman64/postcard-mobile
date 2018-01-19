@@ -14,6 +14,7 @@ import fontelloConfig           from '../../../assets/fonts/config.json';
 import { defaultErrorAlert }    from '../../../utilities/error_utility.js';
 import { getImage, deleteFile } from '../../../utilities/file_utility.js';
 import { setStateCallback }     from '../../../utilities/function_utility.js';
+import { UTILITY_STYLES }        from '../../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -236,7 +237,7 @@ class PostListItem extends React.PureComponent {
             |
           </RN.Text>
           <RN.TouchableOpacity onPress={this._onPressFollow}>
-            <RN.Text style={[styles.followText, !this.props.item.is_author_followed_by_user && styles.textHighlighted]}>
+            <RN.Text style={[styles.followText, !this.props.item.is_author_followed_by_user && UTILITY_STYLES.textHighlighted]}>
               {this.props.item.is_author_followed_by_user ? 'Following' : 'Follow'}
             </RN.Text>
           </RN.TouchableOpacity>
@@ -286,7 +287,7 @@ class PostListItem extends React.PureComponent {
   _renderCloseButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={() => this.closeIcon.setNativeProps({style: styles.textHighlighted})}
+        onPressIn={() => this.closeIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
         onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
         onPress={this._onPressDeletePost}
         disabled={!this.isUser}
@@ -305,7 +306,7 @@ class PostListItem extends React.PureComponent {
   _renderHeader() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={() => this.usernameText.setNativeProps({style: styles.textHighlighted})}
+        onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
         onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
         onPress={this._navigateToProfile}
         >
