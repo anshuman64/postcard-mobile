@@ -8,7 +8,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { styles, PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from './profile_header_styles.js';
 import { POST_TYPES }                                                from '../../actions/post_actions.js';
 import { getImage }                                                  from '../../utilities/file_utility.js';
-import { STATUSBAR_HEIGHT }                                          from '../../utilities/style_utility.js';
+import { UTILITY_STYLES, STATUSBAR_HEIGHT }                           from '../../utilities/style_utility.js';
 import { defaultErrorAlert }                                         from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
@@ -181,12 +181,12 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.View style={styles.tabs}>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.ALL })} style={styles.button}>
-            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.ALL && styles.textHighlighted]} >
+            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.ALL && UTILITY_STYLES.textHighlighted]} >
               Recent
             </RN.Text>
           </RN.TouchableOpacity>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.FOLLOWED })} style={styles.button}>
-            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.FOLLOWED && styles.textHighlighted]} >
+            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.FOLLOWED && UTILITY_STYLES.textHighlighted]} >
               Following
             </RN.Text>
           </RN.TouchableOpacity>
@@ -196,12 +196,12 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.View style={styles.tabs}>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
-            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.AUTHORED && styles.textHighlighted]} >
+            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.AUTHORED && UTILITY_STYLES.textHighlighted]} >
               Posts
             </RN.Text>
           </RN.TouchableOpacity>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
-            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.LIKED && styles.textHighlighted]} >
+            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.LIKED && UTILITY_STYLES.textHighlighted]} >
               Liked
             </RN.Text>
           </RN.TouchableOpacity>

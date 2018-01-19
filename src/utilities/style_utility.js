@@ -1,7 +1,16 @@
 // Library Imports
-import { Platform, Dimensions, PixelRatio } from 'react-native';
+import { Platform, Dimensions, PixelRatio, StyleSheet } from 'react-native';
 
 //--------------------------------------------------------------------//
+
+//--------------------------------------------------------------------//
+// Constants
+//--------------------------------------------------------------------//
+
+export const DEVICE_DIM = Dimensions.get('window');
+export const MAX_TABLET_DIM = { width: 480, height: 960 };
+export const USABLE_DIM = isTablet ? MAX_TABLET_DIM : DEVICE_DIM; // Determines a usable area depending on if the device is a tablet or not
+export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 0;
 
 //--------------------------------------------------------------------//
 // Helper Functions
@@ -21,10 +30,7 @@ let isIphoneX = () => {
 // Interface
 //--------------------------------------------------------------------//
 
-export const DEVICE_DIM = Dimensions.get('window');
-export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 0;
-export const MAX_TABLET_DIM = { width: 480, height: 960 };
-
+// Determines if the device is a tablet or not
 export const isTablet = () => {
   if (DEVICE_DIM.width < 480 || DEVICE_DIM.height < 960) {
     return false;
@@ -69,3 +75,28 @@ export const COLORS = {
   grey100:    '#F5F5F5',
   grey50:     '#fafafa',
 }
+
+export const UTILITY_STYLES = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    backgroundColor: COLORS.grey50
+  },
+  textHighlighted: {
+    color: COLORS.appleBlue
+  },
+  transparentText: {
+    color: 'transparent'
+  },
+  borderHighlighted: {
+    borderBottomColor: COLORS.appleBlue,
+    borderBottomWidth: 1,
+  },
+  borderRed: {
+    borderBottomColor: COLORS.appleRed,
+    borderBottomWidth: 1,
+  },
+});

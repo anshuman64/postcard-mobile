@@ -8,14 +8,6 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 export const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: StyleUtility.COLORS.grey50
-  },
   icon: {
     width: 45,
     height: 45,
@@ -38,10 +30,6 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginTop: 150
   },
-  borderHighlighted: {
-    borderBottomColor: StyleUtility.COLORS.appleBlue,
-    borderBottomWidth: 1,
-  },
   countrySelectorText: {
     width: 180,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
@@ -55,9 +43,6 @@ export const styles = StyleSheet.create({
     left: 210,
     fontSize: 16,
     color: StyleUtility.COLORS.grey900
-  },
-  textHighlighted: {
-    color: StyleUtility.COLORS.appleBlue
   },
   phoneNumberView: {
     flexDirection: 'row',
@@ -93,9 +78,6 @@ export const styles = StyleSheet.create({
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
   },
-  borderRed: {
-    borderBottomColor: StyleUtility.COLORS.appleRed,
-  },
   invalidNumberTextView: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -108,9 +90,6 @@ export const styles = StyleSheet.create({
     fontSize: StyleUtility.scaleFont(15),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
-  },
-  transparentText: {
-    color: 'transparent'
   },
   nextButtonBackground: {
     flexDirection: 'column',

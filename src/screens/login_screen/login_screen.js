@@ -3,17 +3,16 @@ import React                   from 'react';
 import RN                      from 'react-native';
 import _                       from 'lodash';
 import { AsYouTypeFormatter }  from 'google-libphonenumber';
-import firebase                from 'react-native-firebase';
 import Icon                    from 'react-native-vector-icons/Ionicons';
 import * as Animatable         from 'react-native-animatable';
 
 // Local Imports
 import LoadingModal                                         from '../../components/loading_modal/loading_modal.js';
-import { styles, fadeInIcon, translateIcon, translateLogo } from './login_screen_styles.js';
 import CountryListModal                                     from '../../components/country_list_modal/country_list_modal.js';
+import { styles, fadeInIcon, translateIcon, translateLogo } from './login_screen_styles.js';
 import { COUNTRY_CODES }                                    from '../../utilities/country_utility.js';
 import { setStateCallback }                                 from '../../utilities/function_utility.js';
-import { COLORS }                                           from '../../utilities/style_utility.js';
+import { UTILITY_STYLES, COLORS }                            from '../../utilities/style_utility.js';
 import { defaultErrorAlert }                                from '../../utilities/error_utility.js';
 
 
@@ -117,12 +116,14 @@ class LoginScreen extends React.PureComponent {
   // Callback function that extracts raw numbers from phone number, adds country code, and sends to Firebase API
   _onNextButtonPress = () => {
     let number = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+
+    // If the user has not added their own country code in, add the one from the countryListModal
     if (number[0] != '+') {
       number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
     }
 
     this.setState({ isLoading: true }, () => {
-      this.props.getConfirmationCode(number) //  TODO: try to setState after dispatch
+      this.props.getConfirmationCode(number)
        .then((confirmationCodeObj) => {
          this.props.navigateTo('ConfirmCodeScreen', { phoneNumber: number, confirmationCodeObj: confirmationCodeObj });
          this.setState({ isPhoneNumberInvalid: false });
@@ -205,9 +206,9 @@ class LoginScreen extends React.PureComponent {
       <RN.TouchableWithoutFeedback
         onPress={setStateCallback(this, { isModalVisible: true})}
         onPressIn={() => {
-          this.countrySelectorView.setNativeProps({style: styles.borderHighlighted})
-          this.countrySelectorText.setNativeProps({style: styles.textHighlighted})
-          this.dropdownIcon.setNativeProps({style: styles.textHighlighted})
+          this.countrySelectorView.setNativeProps({style: UTILITY_STYLES.borderHighlighted})
+          this.countrySelectorText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.dropdownIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
           this.countrySelectorView.setNativeProps({style: styles.countrySelectorView})
@@ -245,7 +246,7 @@ class LoginScreen extends React.PureComponent {
             placeholder='Phone Number'
             placeholderTextColor={COLORS.grey400}
             underlineColorAndroid={'transparent'}
-            onFocus={() => !this.state.isPhoneNumberInvalid && this.phoneInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
+            onFocus={() => !this.state.isPhoneNumberInvalid && this.phoneInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]})}
             onEndEditing={() => !this.state.isPhoneNumberInvalid && this.phoneInput.setNativeProps({style: styles.phoneNumberInput})}
             />
       </RN.View>
@@ -255,7 +256,7 @@ class LoginScreen extends React.PureComponent {
   _renderInvalidNumberText() {
     return (
       <RN.View style={ styles.invalidNumberTextView }>
-        <RN.Text style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && styles.transparentText]}>
+        <RN.Text style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && UTILITY_STYLES.transparentText]}>
           Invalid Number
         </RN.Text>
       </RN.View>
@@ -326,7 +327,7 @@ class LoginScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={ styles.container }>
+      <RN.View style={UTILITY_STYLES.container}>
         {this._renderIconAnimation()}
         {this._renderLogoAnimation()}
         {this._renderLoginScreen()}

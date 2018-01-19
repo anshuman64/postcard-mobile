@@ -1,13 +1,12 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
-import _      from 'lodash';
 
 // Local Imports
-import { styles }                                        from './country_list_modal_styles.js';
-import CountryListItem                                   from './country_list_item/country_list_item.js';
-import { COLORS, DEVICE_DIM, MAX_TABLET_DIM, isTablet }  from '../../utilities/style_utility.js';
-import { COUNTRY_CODES }                                 from '../../utilities/country_utility.js';
+import { styles }                              from './country_list_modal_styles.js';
+import CountryListItem                         from './country_list_item/country_list_item.js';
+import { UTILITY_STYLES, COLORS, USABLE_DIM }  from '../../utilities/style_utility.js';
+import { COUNTRY_CODES }                       from '../../utilities/country_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -32,7 +31,6 @@ class CountryListModal extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  //TODO: ask Vin if we actually need to do this
   // Renders the RN.ScrollView after other modal contents are mounted for performance
   componentDidMount() {
     setTimeout(() => this.setState({ isModalMounted: true }), 1);
@@ -44,7 +42,7 @@ class CountryListModal extends React.PureComponent {
 
   // Scrolls directly to the currently selected country when RN.ScrollView is opened
   _onListViewContentSizeChange = () => {
-    let height = isTablet() ? 0.9 * MAX_TABLET_DIM.height : 0.85 * DEVICE_DIM.height;
+    let height = 0.85 * USABLE_DIM.height;
     let countryPosition = this.props.countryIndex * 45 - 2; // countryIndex * height of each bar minus aesthetic two pixels
     let maxPosition = COUNTRY_CODES.length * 45 - (height - 50 - 45); // length of full list minus length of one page of scrollView
     this.scrollView.scrollTo({x: 0, y: Math.min(countryPosition, maxPosition), animated: true})
@@ -97,7 +95,7 @@ class CountryListModal extends React.PureComponent {
   _renderCancelButton() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={() => this.cancelButtonText.setNativeProps({style: styles.textHighlighted})}
+        onPressIn={() => this.cancelButtonText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
         onPressOut={() => this.cancelButtonText.setNativeProps({style: styles.cancelButtonText})}
         onPress={this.props.setParentState({ isModalVisible: false })}
       >

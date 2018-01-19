@@ -3,11 +3,11 @@ import React                from 'react';
 import RN                   from 'react-native';
 
 // Local Imports
-import LoadingModal          from '../../components/loading_modal/loading_modal.js';
-import { styles }            from './username_screen_styles.js';
-import { setStateCallback }  from '../../utilities/function_utility.js';
-import { COLORS }            from '../../utilities/style_utility.js';
-import { defaultErrorAlert } from '../../utilities/error_utility.js';
+import LoadingModal               from '../../components/loading_modal/loading_modal.js';
+import { styles }                 from './username_screen_styles.js';
+import { setStateCallback }       from '../../utilities/function_utility.js';
+import { UTILITY_STYLES, COLORS }  from '../../utilities/style_utility.js';
+import { defaultErrorAlert }      from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -114,7 +114,7 @@ class UsernameScreen extends React.PureComponent {
         maxLength={12}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
-        onFocus={() => !this.state.isError && this.textInput.setNativeProps({style: [styles.borderHighlighted, styles.textHighlighted]})}
+        onFocus={() => !this.state.isError && this.textInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]})}
         onEndEditing={() => !this.state.isError && this.textInput.setNativeProps({style: styles.textInput})}
       />
     )
@@ -122,7 +122,7 @@ class UsernameScreen extends React.PureComponent {
 
   _renderErrorText() {
     return (
-      <RN.Text style={[styles.errorText, !this.state.isError && styles.transparentText]}>
+      <RN.Text style={[styles.errorText, !this.state.isError && UTILITY_STYLES.transparentText]}>
         {this.state.errorText}
       </RN.Text>
     )
