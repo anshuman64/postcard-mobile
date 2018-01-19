@@ -1,7 +1,8 @@
 // Local Imports
-import { amplitude }        from '../utilities/analytics_utility.js';
-import * as APIUtility      from '../utilities/api_utility.js';
-import { refreshAuthToken } from './user_actions.js';
+import { amplitude }           from '../utilities/analytics_utility.js';
+import * as APIUtility         from '../utilities/api_utility.js';
+import { setErrorDescription } from '../utilities/error_utility.js';
+import { refreshAuthToken }    from './user_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -43,12 +44,8 @@ export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, createLike, userId, postId));
       }
 
-      if (!error.description) {
-        error.description = 'POST like failed'
-      }
-
       amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: true, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'POST like failed');
     });
 };
 
@@ -63,11 +60,7 @@ export const deleteLike = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, deleteLike, userId, postId));
       }
 
-      if (!error.description) {
-        error.description = 'DEL like failed'
-      }
-
       amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: false, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'DEL like failed');
     });
 };

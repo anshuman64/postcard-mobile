@@ -3,8 +3,9 @@ import Firebase from 'react-native-firebase';
 import AWS      from 'aws-sdk/dist/aws-sdk-react-native';
 
 // Local Imports
-import { amplitude }   from '../utilities/analytics_utility.js';
-import * as APIUtility from '../utilities/api_utility.js';
+import { amplitude }           from '../utilities/analytics_utility.js';
+import * as APIUtility         from '../utilities/api_utility.js';
+import { setErrorDescription } from '../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -38,7 +39,7 @@ export const receiveUser = (data) => {
 // Helper Functions
 //--------------------------------------------------------------------//
 
-const configureAWS = (authToken) => {
+let configureAWS = (authToken) => {
   return new Promise((resolve, reject) => {
     AWS.config.region = 'us-east-1';
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -72,11 +73,7 @@ export const debugSignIn = (email, password) => (dispatch) => {
           return dispatch(loginUser(firebaseUserObj));
         })
         .catch((error) => {
-          if (!error.description) {
-            error.description = 'Firebase email sign-in failed'
-          }
-
-          throw error;
+          throw setErrorDescription(error, 'Firebase email sign-in failed');
         });
       }
     )
@@ -91,12 +88,8 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
       return new Promise.resolve(confirmationCodeObj);
     })
     .catch((error) => {
-      if (!error.description) {
-        error.description = 'Firebase phone sign-in failed'
-      }
-
       amplitude.logEvent('Onboarding - Sign In With Phone Number', { is_successful: false, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'Firebase phone sign-in failed');
     });
 };
 
@@ -107,12 +100,8 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
       return dispatch(loginUser(firebaseUserObj));
     })
     .catch((error) => {
-      if (!error.description) {
-        error.description = 'Firebase code verification failed'
-      }
-
       amplitude.logEvent('Onboarding - Verify Confirmation Code', { is_successful: false, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'Firebase code verification failed');
     });
 };
 
@@ -141,12 +130,8 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         setUser(newUser, true);
       })
       .catch((error) => {
-        if (!error.description) {
-          error.description = 'POST or GET user failed'
-        }
-
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error: error.description });
-        throw error;
+        throw setErrorDescription(error, 'POST or GET user failed');
       })
   };
 
@@ -158,30 +143,18 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       return handleExistingUser(newAuthToken);
     })
     .catch((error) => {
-      if (!error.description) {
-        error.description = 'Firebase getIdToken failed'
-      }
-
       amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'Firebase getIdToken failed');
     })
 }
 
 export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
   let configureAWSError = (error) => {
-    if (!error.description) {
-      error.description = 'Configure AWS failed'
-    }
-
-    throw error;
+    throw setErrorDescription(error, 'Configure AWS failed');
   }
 
   let getIdTokenError = (error) => {
-    if (!error.description) {
-      error.description = 'Firebase getIdToken failed'
-    }
-
-    throw error;
+    throw setErrorDescription(error, 'Firebase getIdToken failed');
   }
 
   return firebaseUserObj.getIdToken(true)
@@ -240,11 +213,7 @@ export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) 
       return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, avatarUrl));
     }
 
-    if (!error.description) {
-      error.description = 'PUT user for avatarUrl failed'
-    }
-
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: false, avatar_url: avatarUrl, error: error.description });
-    throw error;
+    throw setErrorDescription(error, 'PUT user for avatarUrl failed');
   });
 }

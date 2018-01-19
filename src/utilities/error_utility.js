@@ -41,3 +41,11 @@ export function defaultErrorAlert(error) {
 
   console.log(error)
 }
+
+export function setErrorDescription(error, description) {
+  if (!error.description) {
+    error.description = description;
+  }
+
+  return error;
+}
