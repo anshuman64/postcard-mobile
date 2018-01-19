@@ -40,6 +40,14 @@ export const scaleFont = (fontSize) => {
   return fontSize * PixelRatio.getFontScale();
 }
 
+export const setAndroidFont = (fontFamily) => {
+  return Platform.OS === 'ios'? 'System' : fontFamily;
+}
+
+export const getImageBorderRadius = (dimensions) => {
+  return (RN.Platform.OS === 'ios') ? dimensions / 2 : 10000;
+}
+
 // Apple Color Palette: https://developer.apple.com/ios/human-interface-guidelines/visual-design/color/
 // Google Color Palette: https://material.io/guidelines/style/color.html#color-color-palette
 export const COLORS = {
