@@ -1,6 +1,6 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../../utilities/style_utility.js';
@@ -10,7 +10,7 @@ import * as StyleUtility from '../../../utilities/style_utility.js';
 
 const DEFAULT_MARGIN = 13;
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -66,10 +66,10 @@ export const styles = RN.StyleSheet.create({
   avatarImage: {
     height: 40,
     width: 40,
-    borderRadius: (RN.Platform.OS === 'ios') ? 40 / 2 : 10000,
+    borderRadius: StyleUtility.getImageBorderRadius(40),
   },
   usernameText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontWeight: '400',
     fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
@@ -77,7 +77,7 @@ export const styles = RN.StyleSheet.create({
     marginLeft: 8
   },
   breakText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontWeight: '400',
     fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
@@ -85,7 +85,7 @@ export const styles = RN.StyleSheet.create({
     marginLeft: 5,
   },
   followText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
@@ -111,8 +111,8 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.appleBlue
   },
   bodyText: {
-    width: StyleUtility.DEVICE_DIM.width - 26,
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    width: StyleUtility.DEVICE_DIM.width - DEFAULT_MARGIN * 2,
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(18),
     textAlign: 'left',

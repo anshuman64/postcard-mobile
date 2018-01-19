@@ -1,13 +1,13 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'center',

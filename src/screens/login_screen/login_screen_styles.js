@@ -1,13 +1,13 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -44,7 +44,7 @@ export const styles = RN.StyleSheet.create({
   },
   countrySelectorText: {
     width: 180,
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
@@ -76,7 +76,7 @@ export const styles = RN.StyleSheet.create({
     borderBottomWidth: 1,
   },
   countryCodeText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
@@ -85,7 +85,7 @@ export const styles = RN.StyleSheet.create({
   phoneNumberInput: {
     width: 165,
     height: 45,
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
@@ -125,7 +125,7 @@ export const styles = RN.StyleSheet.create({
     backgroundColor: StyleUtility.COLORS.appleBlue + '33',
   },
   nextButtonText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontSize: StyleUtility.scaleFont(18),
     fontWeight: '100',
     textAlign: 'center',
@@ -136,7 +136,7 @@ export const styles = RN.StyleSheet.create({
   },
   smsNoticeText: {
     width: 240,
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontSize: StyleUtility.scaleFont(14),
     fontWeight: '100',
     textAlign: 'left',

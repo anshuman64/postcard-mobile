@@ -1,6 +1,6 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
@@ -11,7 +11,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 export const PROFILE_HEADER_HEIGHT      = 180;
 export const PROFILE_HEADER_TABS_HEIGHT = 30;
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
@@ -46,7 +46,7 @@ export const styles = RN.StyleSheet.create({
   image: {
     height: 100,
     width: 100,
-    borderRadius: (RN.Platform.OS === 'ios') ? 100 / 2 : 10000,
+    borderRadius: StyleUtility.getImageBorderRadius(100),
   },
   avatarPencil: {
     fontSize: StyleUtility.scaleFont(14),
@@ -72,7 +72,7 @@ export const styles = RN.StyleSheet.create({
     marginBottom: 15,
   },
   usernameText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontWeight: '400',
     fontSize: StyleUtility.scaleFont(22),
     textAlign: 'left',
@@ -98,7 +98,7 @@ export const styles = RN.StyleSheet.create({
     borderWidth: 1
   },
   followButtonText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontSize: StyleUtility.scaleFont(16),
     fontWeight: '100',
     textAlign: 'center',
@@ -123,7 +123,7 @@ export const styles = RN.StyleSheet.create({
     height: PROFILE_HEADER_TABS_HEIGHT,
   },
   text: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',

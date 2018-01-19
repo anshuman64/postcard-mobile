@@ -1,13 +1,13 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -51,7 +51,7 @@ export const styles = RN.StyleSheet.create({
   nextButtonText: {
     width: scaleImage(100),
     height: scaleImage(16),
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontSize: scaleFont(14),
     textAlign: 'center',
     textAlignVertical: 'center',

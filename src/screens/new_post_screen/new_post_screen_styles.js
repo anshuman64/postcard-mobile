@@ -1,6 +1,6 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
@@ -9,7 +9,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -21,7 +21,7 @@ export const styles = RN.StyleSheet.create({
   textInput: {
     flex: 1,
     width: '100%',
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontSize: StyleUtility.scaleFont(18),
     textAlign: 'left',
     textAlignVertical: 'top',
@@ -75,7 +75,7 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.appleBlue
   },
   imageButtonText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontSize: StyleUtility.scaleFont(16),
     marginLeft: 15,
     color: StyleUtility.COLORS.grey900
