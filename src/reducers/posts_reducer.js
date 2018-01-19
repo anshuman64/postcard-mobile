@@ -17,13 +17,10 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
  *     likedPosts:    { data: [], lastUpdated: null, isEnd: false }
  *     followedPosts: { data: [], lastUpdated: null, isEnd: false },
  *   },
- *   userId2: {
- *     authoredPosts: { data: [], lastUpdated: null, isEnd: false }
- *     likedPosts:    { data: [], lastUpdated: null, isEnd: false }
- *   },
- *   userId3: ...
+ *   userId2: { ...
  */
 
+// AllPosts and FollowedPosts are stored in the current user's userId
 const DEFAULT_STATE = {};
 
 const PostsReducer = (state = DEFAULT_STATE, action) => {
@@ -36,6 +33,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     // Receive User Action
     //--------------------------------------------------------------------//
 
+    // When a user logs in, instantiate blank objects in store for that userId
     case USER_ACTION_TYPES.RECEIVE_USER:
       userId = action.data.id;
 
@@ -54,6 +52,8 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     // Get and Refresh Post Actions
     //--------------------------------------------------------------------//
 
+    // When new posts are received, push to the PostListItem
+    // If no posts are received, mark isEnd true
     case POST_ACTION_TYPES.RECEIVE_POSTS:
       postData = newState[action.data.userId][action.data.postType];
 
@@ -66,6 +66,10 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       }
 
       return newState;
+    // When refreshing posts, first make sure objects in store are instantiated
+    // Update lastUpdated
+    // If number of posts received is < 10, mark isEnd to true
+    // Merge new posts with current posts, unless refreshing FollowedPosts (so that unfollowed users' posts don't appear)
     case POST_ACTION_TYPES.REFRESH_POSTS:
       userId   = action.data.userId;
       postType = action.data.postType;
@@ -100,20 +104,22 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     // Create and Remove Post Actions
     //--------------------------------------------------------------------//
 
+    // Add new post to beginning of AllPosts and AuthoredPosts when user creates a post
     case POST_ACTION_TYPES.RECEIVE_POST:
       userId = action.data.userId;
       postId = action.data.post.id;
 
-      // assumes that this case is only hit when the current user creates a post
+      // Assumes that this case is only hit when the current user creates a post
       newState[userId][POST_TYPES.ALL].data.unshift(action.data.post.id);
       newState[userId][POST_TYPES.AUTHORED].data.unshift(action.data.post.id);
 
       return newState;
+    // Remove post from AllPosts and AuthoredPosts when user deletes a post
     case POST_ACTION_TYPES.REMOVE_POST:
       userId = action.data.userId;
       postId = action.data.post.id;
 
-      // assumes that this case is only hit when the current user removes their own post
+      // Assumes that this case is only hit when the current user removes their own post
       _.remove(newState[userId][POST_TYPES.ALL].data, (postsId) => {
         return postsId === postId;
       });
@@ -129,6 +135,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     // TODO: add the liked post in the correct chronological spot
+    // Adds post to beginning of LikedPosts when user likes a post
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
       userId = action.data.userId;
       postId = action.data.like.post_id;
@@ -136,6 +143,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       newState[userId][POST_TYPES.LIKED].data.unshift(postId);
 
       return newState;
+    // Remove post from LikedPosts when user unlikes a post
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
       userId = action.data.userId;
       postId = action.data.post.id;

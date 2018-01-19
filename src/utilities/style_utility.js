@@ -7,6 +7,7 @@ import { Platform, Dimensions, PixelRatio } from 'react-native';
 // Helper Functions
 //--------------------------------------------------------------------//
 
+// Determines if the phone is an iPhone X
 let isIphoneX = () => {
   return (
     Platform.OS === 'ios' &&
@@ -32,18 +33,22 @@ export const isTablet = () => {
   }
 }
 
+// Scales image by PixelSize
 export const scaleImage = (size) => {
   return PixelRatio.getPixelSizeForLayoutSize(size);
 }
 
+// Scales font by fontScale
 export const scaleFont = (fontSize) => {
   return fontSize * PixelRatio.getFontScale();
 }
 
+// Sets Android font but uses System for iOS
 export const setAndroidFont = (fontFamily) => {
   return Platform.OS === 'ios'? 'System' : fontFamily;
 }
 
+// Sets image border radius with correction for Android
 export const getImageBorderRadius = (dimensions) => {
   return Platform.OS === 'ios' ? dimensions / 2 : 10000;
 }

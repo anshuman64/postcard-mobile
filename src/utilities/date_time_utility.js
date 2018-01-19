@@ -9,6 +9,7 @@ export const MONTH_NAMES = ["January", "February", "March", "April", "May",
 
 export const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
+// Prettifies date-time format
 export const renderDate = (date) => {
   let todayDate    = new Date();               // current date-time
   let creationDate = new Date(date);           // creation date-time

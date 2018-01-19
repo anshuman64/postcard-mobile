@@ -32,6 +32,7 @@ export const removeLike = (data) => {
 //--------------------------------------------------------------------//
 
 // TODO: get post body of liked post and send it to amplitude
+// Creates like on a post from PostListItem
 export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
   return APIUtility.post(authToken, '/likes', { post_id: postId })
     .then((newLike) => {
@@ -49,6 +50,7 @@ export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispa
     });
 };
 
+// Deletes like on a post from PostListItem
 export const deleteLike = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/likes/' + postId)
     .then((deletedLike) => {

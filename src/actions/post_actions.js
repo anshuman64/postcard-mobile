@@ -48,6 +48,7 @@ export const removePost = (data) => {
 // Helpers
 //--------------------------------------------------------------------//
 
+// Returns API path for particular POST_TYPES
 let getRouteForPostType = (postType, userId) => {
   switch(postType) {
     case POST_TYPES.ALL:
@@ -65,6 +66,7 @@ let getRouteForPostType = (postType, userId) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
+// GET posts from API and append to current PostList
 export const getPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
     .then((posts) => {
@@ -79,6 +81,7 @@ export const getPosts = (authToken, firebaseUserObj, userId, postType, queryPara
     });
 };
 
+// GET latest posts from API and merge with current PostList
 export const refreshPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
     .then((posts) => {
@@ -93,6 +96,7 @@ export const refreshPosts = (authToken, firebaseUserObj, userId, postType, query
     });
 };
 
+// Create post to API from Header of NewPostScreen
 export const createPost = (authToken, firebaseUserObj, userId, postBody, postImage, placeholderText) => (dispatch) => {
   return APIUtility.post(authToken, '/posts', { body: postBody, image_url: postImage })
     .then((newPost) => {
@@ -109,6 +113,7 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
     });
 };
 
+// Delete post to API from PostListItem
 export const deletePost = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {
