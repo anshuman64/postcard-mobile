@@ -29,28 +29,21 @@ class LoadingScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
-    let successCallback = () => {
-      this.setState({ iterationCount: 2, isLoginSuccessful: true });
-    };
-
-    let errorCallback = () => {
-      this.setState({ iterationCount: 2, isLoginSuccessful: false });
-    };
-
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
         this.props.loginUser(firebaseUserObj)
           .then(() => {
-            successCallback();
+            this.setState({ iterationCount: 2, isLoginSuccessful: true });
           })
           .catch((error) => {
             console.error(error);
-            errorCallback();
+            this.setState({ iterationCount: 2, isLoginSuccessful: false });
           })
       } else {
         console.error('No Firebase cookie found');
-        errorCallback();
+        this.setState({ iterationCount: 2, isLoginSuccessful: false });
       }
     });
   }

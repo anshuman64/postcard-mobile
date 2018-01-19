@@ -22,6 +22,7 @@ const DEFAULT_HEADERS = {
 // Helpers
 //--------------------------------------------------------------------//
 
+// Chooses right API url based on environment setting
 function getBaseUrl() {
   if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
     return 'http://insiya-production.us-east-1.elasticbeanstalk.com/api';
@@ -32,6 +33,7 @@ function getBaseUrl() {
   }
 }
 
+// Turns params into a URI string
 let getQueryString = (params) => {
   if (!params) {
     return '';
@@ -48,6 +50,8 @@ let getQueryString = (params) => {
   return '?' + paramList.join("&");
 };
 
+// Checks status of an API response and return either the body or an error
+// If there's no status (no internet connection), returns.
 let checkStatus = (response) => {
   if (!response.status) {
     return;
@@ -69,6 +73,7 @@ let checkStatus = (response) => {
   }
 };
 
+// Calls API and checks status
 let callApi = (url, requestConfig) => {
   return fetch(url, requestConfig)
     .then((response) => {
@@ -88,7 +93,7 @@ let callApi = (url, requestConfig) => {
 // Interface
 //--------------------------------------------------------------------//
 
-
+// GET request to API. Returns status.
 export const get = (authToken, path, queryParams) => {
   let requestConfig = {
     method:  'GET',
@@ -100,6 +105,7 @@ export const get = (authToken, path, queryParams) => {
   return callApi(url, requestConfig);
 };
 
+// POST request to API. Returns status.
 export const post = (authToken, path, payload) => {
   let requestConfig = {
     method:  'POST',
@@ -112,6 +118,7 @@ export const post = (authToken, path, payload) => {
   return callApi(url, requestConfig);
 };
 
+// PUT request to API. Returns status.
 export const put = (authToken, path, payload) => {
   let requestConfig = {
     method:  'PUT',
@@ -124,6 +131,7 @@ export const put = (authToken, path, payload) => {
   return callApi(url, requestConfig);
 };
 
+// DEL request to API. Returns status.
 export const del = (authToken, path) => {
   let requestConfig = {
     method:  'DELETE',

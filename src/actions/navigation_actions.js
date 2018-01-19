@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 // Action Creators
 //--------------------------------------------------------------------//
 
+// Navigates to particular screen and sends props. Dismisses keyboard before navigating.
 export const navigateTo = (screen, props) => (dispatch) => {
   Keyboard.dismiss();
 
@@ -35,12 +36,14 @@ export const navigateTo = (screen, props) => (dispatch) => {
   }
 }
 
+// Adds user ProfilseScreen to top of stack with props.
 export const navigateToProfile = (props) => (dispatch) => {
   Keyboard.dismiss();
 
   Actions.push('UserScreen', props);
 }
 
+// Pops top of stack. If props, refreshes screen with props (only way sending props works).
 export const goBack = (props) => (dispatch) => {
   Keyboard.dismiss();
   Actions.pop();

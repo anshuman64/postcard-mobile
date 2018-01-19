@@ -16,6 +16,7 @@ export const amplitude = setupAmplitude();
 // Helper Functions
 //--------------------------------------------------------------------//
 
+// Chooses the right API key depending on environment setting
 function setupAmplitude() {
   if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
     return new RNAmplitute('7ce84b314a6daad5ff9966ec1a2c52ab'); // key for insiya-production

@@ -22,7 +22,7 @@ import { setStateCallback }     from '../../../utilities/function_utility.js';
 const IconFilled = createIconSetFromFontello(fontelloConfig);
 const AnimatedIconFilled = Animatable.createAnimatableComponent(IconFilled);
 
-class PostListItem extends React.Component {
+class PostListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
