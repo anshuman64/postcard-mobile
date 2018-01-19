@@ -2,7 +2,7 @@
 import React                            from 'react';
 import { AppState, BackHandler, View }  from 'react-native';
 import { Provider }                     from 'react-redux';
-import { Scene, Tabs, Stack, Actions }  from 'react-native-router-flux';
+import { Scene, Tabs, Actions }         from 'react-native-router-flux';
 
 // Local Imports
 import { amplitude }              from './utilities/analytics_utility.js';
