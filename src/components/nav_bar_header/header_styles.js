@@ -41,13 +41,6 @@ export const styles = StyleSheet.create({
     fontSize: StyleUtility.scaleFont(35),
     color: StyleUtility.COLORS.grey900
   },
-  backTitle: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(18),
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey900,
-  },
   marginLeft: {
     marginLeft: 50
   },
@@ -71,8 +64,5 @@ export const styles = StyleSheet.create({
     fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
-  },
-  textHighlighted: {
-    color: StyleUtility.COLORS.appleBlue
   },
 })

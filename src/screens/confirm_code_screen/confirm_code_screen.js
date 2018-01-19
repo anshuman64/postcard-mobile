@@ -5,10 +5,10 @@ import Firebase             from 'react-native-firebase';
 import { PhoneNumberUtil }  from 'google-libphonenumber';
 
 // Local Imports
-import LoadingModal              from '../../components/loading_modal/loading_modal.js';
-import { styles }                from './confirm_code_screen_styles.js';
-import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
-import { defaultErrorAlert }     from '../../utilities/error_utility.js';
+import LoadingModal          from '../../components/loading_modal/loading_modal.js';
+import { styles }            from './confirm_code_screen_styles.js';
+import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
+import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -55,7 +55,7 @@ class ConfirmCodeScreen extends React.PureComponent {
   // Starts Resend SMS timer
   _startTimer() {
     this.timer = setInterval(this._tick.bind(this), 1000);
-    this.setState({isResendSMSDisabled: true, secsRemaining: 59})
+    this.setState({ isResendSMSDisabled: true, secsRemaining: 30 })
   }
 
   // Stops Resend SMS timer
@@ -112,7 +112,9 @@ class ConfirmCodeScreen extends React.PureComponent {
   // Callback function to resend confirmation code via SMS and restart timer
   _onResendSMSPress = () => {
     this.props.getConfirmationCode(this.props.phoneNumber)
-      .catch((error) => defaultErrorAlert(error));
+      .catch((error) => {
+        defaultErrorAlert(error)
+      });
 
     this._startTimer();
   }
@@ -123,7 +125,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   _renderTitle() {
     return (
-      <RN.Text style={styles.titleText}>
+      <RN.Text style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
         Enter Confirmation Code
       </RN.Text>
     )
@@ -131,7 +133,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text style={styles.subtitleText}>
+      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
         Sent to {this.props.phoneNumber}
       </RN.Text>
     )
@@ -141,7 +143,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     return (
       <RN.TextInput
         ref={(ref) => this.codeInput = ref}
-        style={[styles.codeInput, this.state.isCodeIncorrect && styles.borderRed]}
+        style={[styles.codeInput, this.state.isCodeIncorrect && UTILITY_STYLES.borderRed]}
         keyboardType='numeric'
         onChangeText={this._codeInputOnChangeText.bind(this)}
         value={this.state.inputtedCode}
@@ -199,7 +201,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   render() {
     return (
-        <RN.View style={styles.container}>
+        <RN.View style={UTILITY_STYLES.containerStart}>
           {this._renderTitle()}
           {this._renderSubtitle()}
           {this._renderCodeInput()}
