@@ -1,6 +1,6 @@
 // Library Imports
-import React          from 'react';
-import { StyleSheet } from 'react-native';
+import React                    from 'react';
+import { StyleSheet, Platform } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
@@ -15,8 +15,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    height: (RN.Platform.OS === 'ios') ? 50 + StyleUtility.STATUSBAR_HEIGHT : 50,
-    paddingTop: (RN.Platform.OS === 'ios') ? StyleUtility.STATUSBAR_HEIGHT : 0,
+    height: (Platform.OS === 'ios') ? 50 + StyleUtility.STATUSBAR_HEIGHT : 50,
+    paddingTop: (Platform.OS === 'ios') ? StyleUtility.STATUSBAR_HEIGHT : 0,
     backgroundColor: 'white',
     zIndex: 1
   },
