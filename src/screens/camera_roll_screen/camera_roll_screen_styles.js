@@ -1,6 +1,6 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
@@ -8,8 +8,9 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
+const IMAGE_PADDING = 2;
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -41,8 +42,8 @@ export const styles = RN.StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * 2,
-    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * 2,
+    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * IMAGE_PADDING,
+    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * IMAGE_PADDING,
     backgroundColor: StyleUtility.COLORS.grey800
   },
   imageIcon: {
@@ -50,8 +51,8 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey500,
   },
   image: {
-    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * 2,
-    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * 2,
+    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * IMAGE_PADDING,
+    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * IMAGE_PADDING,
     margin: 1,
     position: 'absolute',
   },

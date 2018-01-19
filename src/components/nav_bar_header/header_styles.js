@@ -1,6 +1,6 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
@@ -9,7 +9,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -42,7 +42,7 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.grey900
   },
   backTitle: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Regular',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontWeight: '400',
     fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
@@ -66,7 +66,7 @@ export const styles = RN.StyleSheet.create({
     color: StyleUtility.COLORS.appleBlue,
   },
   shareButton: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
