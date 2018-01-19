@@ -39,6 +39,7 @@ export const receiveUser = (data) => {
 // Helper Functions
 //--------------------------------------------------------------------//
 
+// Uses Firebase authToken to refresh AWS credentials
 let configureAWS = (authToken) => {
   return new Promise((resolve, reject) => {
     AWS.config.region = 'us-east-1';
@@ -63,6 +64,7 @@ let configureAWS = (authToken) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
+// Logs in using email and password via Firebase auth from DebugLoginScreen
 export const debugSignIn = (email, password) => (dispatch) => {
   return Firebase.auth().signInWithEmailAndPassword(email, password)
     .then((firebaseUserObj) => {
@@ -79,6 +81,7 @@ export const debugSignIn = (email, password) => (dispatch) => {
     )
 }
 
+// Uses Firebase to send confirmationCode to phoneNumber from LoginScreen
 export const getConfirmationCode = (phoneNumber) => (dispatch) => {
   return Firebase.auth().signInWithPhoneNumber(phoneNumber)
     .then((confirmationCodeObj) => {
@@ -93,6 +96,7 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
     });
 };
 
+// Verifies confirmationCode using confirmationCodeObj and logs in user from ConfirmCodeScreen
 export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (dispatch) => {
   return confirmationCodeObj.confirm(inputtedCode)
     .then((firebaseUserObj) => {
@@ -105,6 +109,7 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
     });
 };
 
+// Generates authToken from Firebase using firebaseUserObj. Logs in user from database. Creates new user if firebase_uid has never been seen before.
 export const loginUser = (firebaseUserObj) => (dispatch) => {
   let setUser = (user, isNew) => {
     amplitude.setUserId(user.id);
@@ -148,6 +153,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     })
 }
 
+// Refreshes Firebase authToken and AWS credentials (if expired)
 export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
   let configureAWSError = (error) => {
     throw setErrorDescription(error, 'Configure AWS failed');
@@ -172,6 +178,7 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
     }, getIdTokenError)
 }
 
+// PUT request to API to edit user username from UsernameScreen
 export const editUsername = (authToken, firebaseUserObj, username) => (dispatch) => {
   return APIUtility.put(authToken, '/users', { username: username })
   .then((editedUser) => {
@@ -201,6 +208,7 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
   });
 }
 
+// PUT request to API to edit user avatar_url from AvatarScreen
 export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) => {
   return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
   .then((editedUser) => {

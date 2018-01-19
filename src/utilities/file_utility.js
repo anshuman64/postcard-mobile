@@ -22,6 +22,7 @@ const S3_CLIENT   = null;
 // Helper Functions
 //--------------------------------------------------------------------//
 
+// Returns the right Bucket Name depending on environment setting
 function getBucketName() {
   if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
     return 'insiya-users';
@@ -32,6 +33,7 @@ function getBucketName() {
   }
 }
 
+// Gets an s3 client or creates one if one doesn't exist.
 let getClient = () => {
   if (!S3_CLIENT) {
     S3_CLIENT = new AWS.S3();
@@ -40,7 +42,7 @@ let getClient = () => {
   return S3_CLIENT;
 };
 
-
+// Reads an image file and returns a buffer to prepare for AWS S3 uploading
 let readImageFile = (imagePath) => {
   return RNFetchBlob.fs.readFile(imagePath, 'base64')
     .then((data) => {
@@ -52,6 +54,7 @@ let readImageFile = (imagePath) => {
     });
 };
 
+// Returns AWS S3 upload params
 let getParamsForImage = (userId, imageType, buffer, folderPath) => {
   userFolder = userId;
   name = uuid.v1();
@@ -69,6 +72,7 @@ let getParamsForImage = (userId, imageType, buffer, folderPath) => {
   return params;
 };
 
+// Refreshes authToken and AWS token if credentials expired
 let refreshAWSToken = (firebaseUserObj, refreshAuthToken, func, ...params) => {
   return refreshAuthToken(firebaseUserObj)
     .then(() => {
@@ -77,6 +81,7 @@ let refreshAWSToken = (firebaseUserObj, refreshAuthToken, func, ...params) => {
     })
 }
 
+// Uploads file to AWS S3
 let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
   return new Promise((resolve, reject) => {
     getClient().upload(params, (error, data) => {
@@ -98,6 +103,7 @@ let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
 // Interface
 //--------------------------------------------------------------------//
 
+// Gets signed url for image from AWS S3 bucket using path key
 export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
   return new Promise((resolve, reject) => {
     getClient().getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: key }, (error, data) => {
@@ -114,6 +120,7 @@ export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
   });
 }
 
+// Deletes file from AWS S3 bucket using path key
 export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
   return new Promise((resolve, reject) => {
     getClient().deleteObject({ Bucket: BUCKET_NAME, Key: key }, (error, data) => {
@@ -130,6 +137,7 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
   });
 }
 
+// Uploads file to AWS S3 bucket
 export const uploadImageFile = (firebaseUserObj, refreshAuthToken, imagePath, imageType, userId, folderPath) => {
   return readImageFile(imagePath)
     .then((buffer) => {

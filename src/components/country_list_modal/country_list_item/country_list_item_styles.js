@@ -9,7 +9,7 @@ import * as StyleUtility from '../../../utilities/style_utility.js';
 
 
 export const styles = StyleSheet.create({
-  countryListItems: {
+  rowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200
   },
-  countryListText: {
+  rowText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(14),

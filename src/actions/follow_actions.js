@@ -31,6 +31,7 @@ export const removeFollow = (data) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
+// Creates follow between this user and another user from PostListItem or ProfileHeader
 export const createFollow = (authToken, firebaseUserObj, userId, followeeId) => (dispatch) => {
   return APIUtility.post(authToken, '/follows', { followee_id: followeeId })
     .then((newFollow) => {
@@ -48,6 +49,7 @@ export const createFollow = (authToken, firebaseUserObj, userId, followeeId) => 
     });
 };
 
+// Deletes follow between this user and another user from PostListItem or ProfileHeader
 export const deleteFollow = (authToken, firebaseUserObj, userId, followeeId) => (dispatch) => {
   return APIUtility.del(authToken, '/follows/' + followeeId)
     .then((deletedFollow) => {
