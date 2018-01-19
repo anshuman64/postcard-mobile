@@ -1,6 +1,6 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
@@ -8,7 +8,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   modal: {
     flexDirection: 'column',
     justifyContent: 'center',

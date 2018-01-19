@@ -1,6 +1,6 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
@@ -9,7 +9,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 
-export const styles = RN.StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -23,10 +23,10 @@ export const styles = RN.StyleSheet.create({
     fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
-    marginTop: 0.08 * StyleUtility.DEVICE_DIM.height
+    marginTop: 50
   },
   subtitleText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
@@ -50,7 +50,7 @@ export const styles = RN.StyleSheet.create({
     borderBottomColor: StyleUtility.COLORS.appleRed,
   },
   invalidCodeText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(15),
     textAlign: 'center',
@@ -72,7 +72,7 @@ export const styles = RN.StyleSheet.create({
     borderBottomWidth: 1,
   },
   resendSMSText: {
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
