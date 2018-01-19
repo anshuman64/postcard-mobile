@@ -12,14 +12,6 @@ import * as StyleUtility         from '../../utilities/style_utility.js';
 const FOOTER_TEXT_WIDTH = 120;
 
 export const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: StyleUtility.COLORS.grey50,
-  },
   minusHeader: {
     height: StyleUtility.DEVICE_DIM.height - 50 - StyleUtility.STATUSBAR_HEIGHT - 24, // Total height - header - statusBar - random value
   },

@@ -12,7 +12,7 @@ import CountryListModal                                     from '../../componen
 import { styles, fadeInIcon, translateIcon, translateLogo } from './login_screen_styles.js';
 import { COUNTRY_CODES }                                    from '../../utilities/country_utility.js';
 import { setStateCallback }                                 from '../../utilities/function_utility.js';
-import { UTILITY_STYLES, COLORS }                            from '../../utilities/style_utility.js';
+import { UTILITY_STYLES, COLORS }                           from '../../utilities/style_utility.js';
 import { defaultErrorAlert }                                from '../../utilities/error_utility.js';
 
 
@@ -212,12 +212,12 @@ class LoginScreen extends React.PureComponent {
         }}
         onPressOut={() => {
           this.countrySelectorView.setNativeProps({style: styles.countrySelectorView})
-          this.countrySelectorText.setNativeProps({style: styles.countrySelectorText})
+          this.countrySelectorText.setNativeProps({style: UTILITY_STYLES.countrySelectorText})
           this.dropdownIcon.setNativeProps({style: styles.dropdownIcon})
         }}
         >
         <RN.View ref={(ref) => this.countrySelectorView = ref} style={styles.countrySelectorView}>
-          <RN.Text ref={(ref) => this.countrySelectorText = ref} style={styles.countrySelectorText}>
+          <RN.Text ref={(ref) => this.countrySelectorText = ref} style={UTILITY_STYLES.countrySelectorText}>
             {COUNTRY_CODES[this.state.countryIndex].country_name}
           </RN.Text>
           <Icon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
@@ -228,10 +228,10 @@ class LoginScreen extends React.PureComponent {
 
   _renderPhoneNumberInput() {
     return (
-      <RN.View style={ styles.phoneNumberView }>
+      <RN.View style={styles.phoneNumberView}>
         {/* PhoneNumberCountryCode */}
-        <RN.View style={ styles.countryCodeTextView }>
-          <RN.Text style={ styles.countryCodeText }>
+        <RN.View style={styles.countryCodeTextView}>
+          <RN.Text style={UTILITY_STYLES.lightBlackText18}>
             {COUNTRY_CODES[this.state.countryIndex].dialing_code}
           </RN.Text>
         </RN.View>
@@ -239,7 +239,7 @@ class LoginScreen extends React.PureComponent {
         {/* PhoneNumberInput */}
           <RN.TextInput
             ref={(ref) => this.phoneInput = ref}
-            style={[styles.phoneNumberInput, this.state.isPhoneNumberInvalid && styles.borderRed]}
+            style={[styles.phoneNumberInput, this.state.isPhoneNumberInvalid && UTILITY_STYLES.borderRed]}
             keyboardType='phone-pad'
             onChangeText={this._onPhoneInputChangeText.bind(this)}
             value={this.state.formattedPhoneNumber}
@@ -266,11 +266,11 @@ class LoginScreen extends React.PureComponent {
   _renderNextButton() {
     return (
       <RN.TouchableOpacity
-        style={[styles.nextButtonBackground, this.state.isNextButtonDisabled && styles.nextButtonBackgroundDisabled]}
+        style={[UTILITY_STYLES.nextButtonBackground, {marginTop: 75}, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonBackgroundDisabled]}
         onPress={this._onNextButtonPress}
         disabled={this.state.isNextButtonDisabled && this.state.isLoading}
         >
-        <RN.Text style={[styles.nextButtonText, this.state.isNextButtonDisabled && styles.nextButtonTextDisabled]}>
+        <RN.Text style={[UTILITY_STYLES.lightWhiteText18, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonTextDisabled]}>
           Next
         </RN.Text>
       </RN.TouchableOpacity>
@@ -293,7 +293,7 @@ class LoginScreen extends React.PureComponent {
         transparent={false}
         animationType={'none'}
         >
-        <RN.View style={ styles.container }>
+        <RN.View style={UTILITY_STYLES.containerCenter}>
           <CountryListModal countryIndex={this.state.countryIndex} setParentState={this.setParentState} setCountry={this.setCountry} />
         </RN.View>
       </RN.Modal>
@@ -327,7 +327,7 @@ class LoginScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={UTILITY_STYLES.container}>
+      <RN.View style={UTILITY_STYLES.containerCenter}>
         {this._renderIconAnimation()}
         {this._renderLogoAnimation()}
         {this._renderLoginScreen()}

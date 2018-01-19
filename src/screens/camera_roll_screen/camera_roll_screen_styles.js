@@ -11,14 +11,6 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 const IMAGE_PADDING = 2;
 
 export const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: StyleUtility.COLORS.grey50,
-  },
   cameraRoll: {
     width: '100%',
     height: '100%',

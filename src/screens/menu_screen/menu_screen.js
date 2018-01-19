@@ -6,7 +6,7 @@ import Ionicon   from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import { styles }        from './menu_screen_styles.js';
-import { UTILITY_STYLES } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -36,8 +36,8 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.supportIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          this.supportText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.supportIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
+          this.supportText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
           this.supportIcon.setNativeProps({style: styles.menuItemIcon})
@@ -63,8 +63,8 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
       onPressIn={() => {
-        this.feedbackIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-        this.feedbackText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+        this.feedbackIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
+        this.feedbackText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
       }}
       onPressOut={() => {
         this.feedbackIcon.setNativeProps({style: styles.menuItemIcon})
@@ -90,8 +90,8 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.aboutIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          this.aboutText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.aboutIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
+          this.aboutText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
           this.aboutIcon.setNativeProps({style: styles.menuItemIcon})
@@ -115,7 +115,7 @@ class MenuScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={ styles.container }>
+      <RN.View style={UTILITY_STYLES.containerStart}>
         {this._renderSupportButton()}
         {this._renderFeedbackButton()}
         {this._renderAboutButton()}

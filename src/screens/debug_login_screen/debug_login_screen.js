@@ -5,6 +5,7 @@ import RN    from 'react-native';
 // Local Imports
 import { setStateCallback } from '../../utilities/function_utility.js';
 import { styles }           from './debug_login_screen_styles.js';
+import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -94,11 +95,11 @@ class DebugLoginScreen extends React.PureComponent {
   _renderNextButton() {
     return (
       <RN.TouchableHighlight
-        style={ styles.nextButtonBackground }
+        style={[UTILITY_STYLES.nextButtonBackground, UTILITY_STYLES.marginTop50]}
         onPress={this._onNextButtonPress}
         underlayColor='#0050a7'
         >
-        <RN.Text style={styles.nextButtonText}>
+        <RN.Text style={UTILITY_STYLES.lightWhiteText16}>
           Next
         </RN.Text>
       </RN.TouchableHighlight>
@@ -107,9 +108,9 @@ class DebugLoginScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={ styles.container }>
+      <RN.View style={UTILITY_STYLES.containerCenter}>
         {this._renderLogo()}
-        <RN.View style={ styles.bottomView }>
+        <RN.View style={styles.bottomView}>
           {this._renderEmailInput()}
           {this._renderPasswordInput()}
           {this._renderNextButton()}

@@ -6,9 +6,9 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { DEVICE_DIM }         from '../../utilities/style_utility.js';
-import { styles }             from './camera_roll_screen_styles.js';
-import { defaultErrorAlert }  from '../../utilities/error_utility.js';
+import { UTILITY_STYLES, DEVICE_DIM } from '../../utilities/style_utility.js';
+import { styles }                     from './camera_roll_screen_styles.js';
+import { defaultErrorAlert }          from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -141,7 +141,7 @@ class CameraRollScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={ styles.container }>
+      <RN.View style={UTILITY_STYLES.containerCenter}>
         {this._renderCameraRoll()}
       </RN.View>
     )

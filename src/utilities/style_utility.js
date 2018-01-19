@@ -77,7 +77,8 @@ export const COLORS = {
 }
 
 export const UTILITY_STYLES = StyleSheet.create({
-  container: {
+  // Container Styles
+  containerCenter: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -85,6 +86,16 @@ export const UTILITY_STYLES = StyleSheet.create({
     height: '100%',
     backgroundColor: COLORS.grey50
   },
+  containerStart: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    backgroundColor: COLORS.grey50
+  },
+
+  // Highlight Styles
   textHighlighted: {
     color: COLORS.appleBlue
   },
@@ -99,4 +110,94 @@ export const UTILITY_STYLES = StyleSheet.create({
     borderBottomColor: COLORS.appleRed,
     borderBottomWidth: 1,
   },
+
+  // Regular Black Text Styles
+  regularBlackText18: {
+    fontFamily: setAndroidFont('Roboto-Regular'),
+    fontSize: scaleFont(18),
+    fontWeight: '400',
+    textAlign: 'center',
+    color: COLORS.grey900,
+  },
+  regularBlackText16: {
+    fontFamily: setAndroidFont('Roboto-Regular'),
+    fontSize: scaleFont(16),
+    fontWeight: '400',
+    textAlign: 'center',
+    color: COLORS.grey900,
+  },
+  regularBlackText15: {
+    fontFamily: setAndroidFont('Roboto-Regular'),
+    fontSize: scaleFont(15),
+    fontWeight: '400',
+    textAlign: 'center',
+    color: COLORS.grey900,
+  },
+
+  // Light Black Text Styles
+  lightBlackText18: {
+    fontFamily: setAndroidFont('Roboto-Light'),
+    fontSize: scaleFont(18),
+    fontWeight: '100',
+    textAlign: 'center',
+    color: COLORS.grey900,
+  },
+  lightBlackText16: {
+    fontFamily: setAndroidFont('Roboto-Light'),
+    fontSize: scaleFont(16),
+    fontWeight: '100',
+    textAlign: 'center',
+    color: COLORS.grey900,
+  },
+  lightBlackText14: {
+    fontFamily: setAndroidFont('Roboto-Light'),
+    fontSize: scaleFont(14),
+    fontWeight: '100',
+    textAlign: 'center',
+    color: COLORS.grey900,
+  },
+
+  // Light White Text StyleSheet
+  lightWhiteText18: {
+    fontFamily: setAndroidFont('Roboto-Light'),
+    fontSize: scaleFont(18),
+    fontWeight: '100',
+    textAlign: 'center',
+    color: 'white',
+  },
+  lightWhiteText16: {
+    fontFamily: setAndroidFont('Roboto-Light'),
+    fontSize: scaleFont(18),
+    fontWeight: '100',
+    textAlign: 'center',
+    color: 'white',
+  },
+
+ // Next Button Styles
+ nextButtonBackground: {
+   flexDirection: 'column',
+   justifyContent: 'center',
+   alignItems: 'center',
+   width: 240,
+   height: 40,
+   borderRadius: 4,
+   backgroundColor: COLORS.appleBlue,
+ },
+ nextButtonBackgroundDisabled: {
+   backgroundColor: COLORS.appleBlue + '33',
+ },
+ nextButtonTextDisabled: {
+   color: '#ffffffb3',
+ },
+
+ // Margin Styles
+ marginTop50: {
+   marginTop: 50
+ },
+ marginTop5: {
+   marginTop: 5
+ },
+ marginLeft5: {
+   marginLeft: 5
+ }
 });
