@@ -9,7 +9,7 @@ import LoadingModal                   from '../../components/loading_modal/loadi
 import { styles }                     from './avatar_screen_styles.js';
 import { getImage, uploadImageFile }  from '../../utilities/file_utility.js';
 import { setStateCallback }           from '../../utilities/function_utility.js';
-import { COLORS }                     from '../../utilities/style_utility.js';
+import { UTILITY_STYLES, COLORS }      from '../../utilities/style_utility.js';
 import { defaultErrorAlert }          from '../../utilities/error_utility.js';
 
 
@@ -201,7 +201,7 @@ class AvatarScreen extends React.PureComponent {
         onPress={this._onPressAddPhoto}
         disabled={!this.state.imagePath || this.state.isLoading}
         >
-        <RN.Text style={[styles.skipButtonText, !this.state.imagePath && styles.transparentText]}>
+        <RN.Text style={[styles.skipButtonText, !this.state.imagePath && UTILITY_STYLES.transparentText]}>
           Change
         </RN.Text>
       </RN.TouchableOpacity>
