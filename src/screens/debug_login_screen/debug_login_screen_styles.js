@@ -3,7 +3,7 @@ import React          from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports
-import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: COLORS.grey50
+    backgroundColor: StyleUtility.COLORS.grey50
   },
   topView: {
     flexDirection: 'column',
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     height: '20%',
   },
   logo: {
-    width: scaleImage(70),
+    width: 100,
   },
   bottomView: {
     flexDirection: 'column',
@@ -33,28 +33,27 @@ export const styles = StyleSheet.create({
     height: '80%'
   },
   textInput: {
-    width: scaleImage(100),
-    fontSize: scaleFont(18),
+    width: 240,
+    fontSize: 40,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: COLORS.grey900,
-    borderBottomColor: COLORS.grey900,
-    borderBottomWidth: scaleImage(0.3),
+    color: StyleUtility.COLORS.grey900,
+    borderBottomColor: StyleUtility.COLORS.grey900,
+    borderBottomWidth: 1,
   },
   nextButtonBackground: {
-    width: scaleImage(100),
-    height: scaleImage(16),
-    borderRadius: scaleImage(5),
-    backgroundColor: COLORS.appleBlue,
-    marginTop: '5%'
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: 240,
+    height: 40,
+    borderRadius: 4,
+    backgroundColor: StyleUtility.COLORS.appleBlue,
+    marginTop: 50
   },
   nextButtonText: {
-    width: scaleImage(100),
-    height: scaleImage(16),
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: scaleFont(14),
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
-    textAlignVertical: 'center',
     color: 'white',
   },
 });
