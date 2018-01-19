@@ -4,7 +4,7 @@ import RN        from 'react-native';
 import Icon      from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }        from './footer_styles.js';
+import { styles }         from './footer_styles.js';
 import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//

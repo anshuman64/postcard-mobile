@@ -55,9 +55,6 @@ export const styles = StyleSheet.create({
     marginLeft: -15,
     marginBottom: 3
   },
-  transparent: {
-    color: 'transparent',
-  },
   usernameView: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -97,13 +94,6 @@ export const styles = StyleSheet.create({
     borderColor: StyleUtility.COLORS.grey900,
     borderWidth: 1
   },
-  followButtonText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: StyleUtility.scaleFont(16),
-    fontWeight: '100',
-    textAlign: 'center',
-    color: 'white',
-  },
   followButtonTextDisabled: {
     color: StyleUtility.COLORS.grey900,
   },
@@ -122,15 +112,4 @@ export const styles = StyleSheet.create({
     width: '50%',
     height: PROFILE_HEADER_TABS_HEIGHT,
   },
-  text: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(16),
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey900,
-    marginBottom: 5,
-  },
-  textHighlighted: {
-    color: StyleUtility.COLORS.appleBlue,
-  }
 })

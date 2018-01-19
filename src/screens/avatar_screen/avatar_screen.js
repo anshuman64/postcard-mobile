@@ -1,15 +1,13 @@
 // Library Imports
 import React       from 'react';
 import RN          from 'react-native';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // Local Imports
 import LoadingModal                   from '../../components/loading_modal/loading_modal.js';
 import { styles }                     from './avatar_screen_styles.js';
 import { getImage, uploadImageFile }  from '../../utilities/file_utility.js';
-import { setStateCallback }           from '../../utilities/function_utility.js';
-import { UTILITY_STYLES, COLORS }      from '../../utilities/style_utility.js';
+import * as StyleUtility             from '../../utilities/style_utility.js';
 import { defaultErrorAlert }          from '../../utilities/error_utility.js';
 
 
@@ -27,7 +25,6 @@ class AvatarScreen extends React.PureComponent {
     this.state = {
       imagePath:     null,
       imageType:     null,
-      isError:       false,
       isLoading:     false,
       isNextPressed: true,
     };
@@ -39,6 +36,7 @@ class AvatarScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  // If user has an avatar, get image and render it
   componentDidMount() {
     if (this.props.user.avatar_url) {
       getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.user.avatar_url)
@@ -49,6 +47,7 @@ class AvatarScreen extends React.PureComponent {
     }
   }
 
+  // If getting imagePath prop from CameraRollScreen, update imagePath to new picture
   componentWillReceiveProps(nextProps) {
     if (nextProps.imagePath) {
       this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
@@ -59,6 +58,7 @@ class AvatarScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
+  // Uploads image to AWS S3
   _uploadImage = (imagePath, imageType) => {
     uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, imagePath, imageType, this.props.user.id, 'profile_pictures/')
       .then((data) => {
@@ -72,30 +72,35 @@ class AvatarScreen extends React.PureComponent {
       });
   }
 
+  // Changes user avatar_url with key from AWS S3
   _setAvatarUrl = (imageKey) => {
     this.props.editAvatar(this.props.authToken, this.props.firebaseUserObj, imageKey)
       .then(() => {
-        this.setState({ isLoading: false }, () => {
+        if (this.props.isLogin) {
+          this.props.navigateTo('HomeScreen');
+        } else {
           this.props.goBack();
-        });
+        }
       })
       .catch((error) => {
-        this.setState({ isLoading: false }, () => {
-          defaultErrorAlert(error);
-        });
-      });
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
+      })
   }
 
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  //TODO: let users remove their profile picture
+  //Navigates to CameraRollScreen
   _onPressAddPhoto = () => {
     this.props.navigateTo('CameraRollScreen', { isAvatar: true });
   }
 
-  _onPressNext = () => {
+  // Goes back if avatar hasn't changed, else upload image to AWS S3, changes user avatar_url, and then goes back
+  _onPressNextOrDone = () => {
     if (this.isNextPressed) {
       return;
     }
@@ -111,14 +116,15 @@ class AvatarScreen extends React.PureComponent {
     }
   }
 
-  _onPressSkip = () => {
+  // Alerts when about to skip avatar selection (if isLogin) or remove the avatar
+  _onPressSkipOrRemove = () => {
     if (this.props.isLogin) {
       RN.Alert.alert(
         '',
         'Are you sure you want to skip this step?',
         [
           {text: 'Cancel', onPress: () => null, style: 'cancel'},
-          {text: 'Skip', onPress: this._onConfirmSkip},
+          {text: 'Skip', onPress: () => this.props.navigateTo('HomeScreen')},
         ],
       )
     } else {
@@ -133,10 +139,7 @@ class AvatarScreen extends React.PureComponent {
     }
   }
 
-  _onConfirmSkip = () => {
-    this.props.navigateTo('HomeScreen');
-  }
-
+  // Sets avatar_url to null
   _onConfirmRemove = () => {
     if (this.isNextPressed) {
       return;
@@ -155,7 +158,7 @@ class AvatarScreen extends React.PureComponent {
 
   _renderTitle() {
     return (
-      <RN.Text style={styles.titleText}>
+      <RN.Text style={[StyleUtility.UTILITY_STYLES.regularBlackText18, StyleUtility.UTILITY_STYLES.marginTop50]}>
         Add profile photo
       </RN.Text>
     )
@@ -163,7 +166,7 @@ class AvatarScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text style={styles.subtitleText}>
+      <RN.Text style={[StyleUtility.UTILITY_STYLES.lightBlackText16, StyleUtility.UTILITY_STYLES.marginTop5]}>
         Add a profile photo that represents you
       </RN.Text>
     )
@@ -172,24 +175,18 @@ class AvatarScreen extends React.PureComponent {
   _renderAvatar() {
     if (!this.props.user.avatar_url && !this.state.imagePath) {
       return (
-        <RN.View style={styles.frame}>
-          <FontAwesome name='user-circle-o' style={styles.userIcon} />
-        </RN.View>
+        <FontAwesome name='user-circle-o' style={styles.userIcon} />
       )
     } else if (this.props.user.avatar_url && !this.state.imagePath) {
-      return (
-        <RN.View style={styles.frame} />
-      )
+      return null;
     } else {
       return (
-        <RN.View style={styles.frame}>
-          <RN.TouchableOpacity
-            onPress={this._onPressAddPhoto}
-            disabled={!this.state.imagePath || this.state.isLoading}
-            >
-            <RN.Image source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'} />
-          </RN.TouchableOpacity>
-        </RN.View>
+        <RN.TouchableOpacity
+          onPress={this._onPressAddPhoto}
+          disabled={!this.state.imagePath || this.state.isLoading}
+          >
+          <RN.Image source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'} />
+        </RN.TouchableOpacity>
       )
     }
   }
@@ -201,7 +198,7 @@ class AvatarScreen extends React.PureComponent {
         onPress={this._onPressAddPhoto}
         disabled={!this.state.imagePath || this.state.isLoading}
         >
-        <RN.Text style={[styles.skipButtonText, !this.state.imagePath && UTILITY_STYLES.transparentText]}>
+        <RN.Text style={[styles.skipButtonText, !this.state.imagePath && StyleUtility.UTILITY_STYLES.transparentText]}>
           Change
         </RN.Text>
       </RN.TouchableOpacity>
@@ -211,11 +208,11 @@ class AvatarScreen extends React.PureComponent {
   _renderNextButton() {
     return (
       <RN.TouchableOpacity
-        style={styles.nextButtonBackground}
-        onPress={this.state.imagePath ? this._onPressNext : this._onPressAddPhoto}
+        style={StyleUtility.UTILITY_STYLES.nextButtonBackground}
+        onPress={this.state.imagePath ? this._onPressNextOrDone : this._onPressAddPhoto}
         disabled={this.state.isLoading}
         >
-        <RN.Text style={styles.nextButtonText}>
+        <RN.Text style={StyleUtility.UTILITY_STYLES.lightWhiteText18}>
           {this.state.imagePath ? (this.props.isLogin ? 'Next' : 'Done') : 'Add Photo'}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -227,10 +224,10 @@ class AvatarScreen extends React.PureComponent {
       return (
         <RN.TouchableOpacity
           style={styles.skipButton}
-          onPress={this._onPressSkip}
+          onPress={this._onPressSkipOrRemove}
           disabled={this.state.isLoading}
           >
-          <RN.Text style={ styles.skipButtonText }>
+          <RN.Text style={styles.skipButtonText}>
             {this.props.isLogin ? 'Skip' : 'Remove'}
           </RN.Text>
         </RN.TouchableOpacity>
@@ -248,10 +245,12 @@ class AvatarScreen extends React.PureComponent {
 
   render() {
     return (
-        <RN.View style={styles.container}>
+        <RN.View style={StyleUtility.UTILITY_STYLES.containerStart}>
           {this._renderTitle()}
           {this._renderSubtitle()}
-          {this._renderAvatar()}
+          <RN.View style={styles.frame}>
+            {this._renderAvatar()}
+          </RN.View>
           {this._renderChangePhotoText()}
           {this._renderNextButton()}
           {this._renderSkipButton()}

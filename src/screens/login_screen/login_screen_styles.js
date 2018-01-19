@@ -39,9 +39,9 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
   },
   dropdownIcon: {
+    fontSize: 16,
     position: 'absolute',
     left: 210,
-    fontSize: 16,
     color: StyleUtility.COLORS.grey900
   },
   phoneNumberView: {
@@ -60,13 +60,6 @@ export const styles = StyleSheet.create({
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
   },
-  countryCodeText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(18),
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey900,
-  },
   phoneNumberInput: {
     width: 165,
     height: 45,
@@ -82,8 +75,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    height: 30,
     width: 240,
+    height: 30,
   },
   invalidNumberText: {
     width: 165,
@@ -91,33 +84,11 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },
-  nextButtonBackground: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    width: 240,
-    height: 40,
-    borderRadius: 4,
-    backgroundColor: StyleUtility.COLORS.appleBlue,
-    marginTop: 75
-  },
-  nextButtonBackgroundDisabled: {
-    backgroundColor: StyleUtility.COLORS.appleBlue + '33',
-  },
-  nextButtonText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: StyleUtility.scaleFont(18),
-    fontWeight: '100',
-    textAlign: 'center',
-    color: 'white',
-  },
-  nextButtonTextDisabled: {
-    color: '#ffffffb3',
-  },
   smsNoticeText: {
     width: 240,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: StyleUtility.scaleFont(14),
     fontWeight: '100',
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey600,
     marginTop: 15,

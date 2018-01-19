@@ -123,7 +123,7 @@ class ProfileHeader extends React.PureComponent {
           <RN.View style={styles.frame}>
             <FontAwesome name='user-circle-o' style={styles.userIcon} />
           </RN.View>
-          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && styles.transparent]} />
+          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     } else if (this.props.user.avatar_url && !this.state.avatarUrl) {
@@ -136,7 +136,7 @@ class ProfileHeader extends React.PureComponent {
           <RN.View style={styles.frame}>
             <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'cover'} />
           </RN.View>
-          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && styles.transparent]} />
+          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     }
@@ -151,7 +151,7 @@ class ProfileHeader extends React.PureComponent {
           <RN.Text style={[styles.usernameText]}>
             {this.props.username}
           </RN.Text>
-          <Icon name='pencil' style={[styles.pencil, this.props.user.id != this.props.userId && styles.transparent]} />
+          <Icon name='pencil' style={[styles.pencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     }
@@ -164,7 +164,7 @@ class ProfileHeader extends React.PureComponent {
           style={[styles.followButtonBackground, , this.props.isFollowed && styles.followButtonBackgroundDisabled]}
           onPress={this._onPressFollow}
           >
-          <RN.Text style={[styles.followButtonText, this.props.isFollowed && styles.followButtonTextDisabled]}>
+          <RN.Text style={[UTILITY_STYLES.lightWhiteText16, this.props.isFollowed && styles.followButtonTextDisabled]}>
             { this.props.isFollowed ? 'Following' : 'Follow' }
           </RN.Text>
         </RN.TouchableOpacity>
@@ -181,12 +181,12 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.View style={styles.tabs}>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.ALL })} style={styles.button}>
-            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.ALL && UTILITY_STYLES.textHighlighted]} >
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.ALL && StyleUtility.UTILITY_STYLES.textHighlighted]} >
               Recent
             </RN.Text>
           </RN.TouchableOpacity>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.FOLLOWED })} style={styles.button}>
-            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.FOLLOWED && UTILITY_STYLES.textHighlighted]} >
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.FOLLOWED && StyleUtility.UTILITY_STYLES.textHighlighted]} >
               Following
             </RN.Text>
           </RN.TouchableOpacity>
@@ -196,12 +196,12 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.View style={styles.tabs}>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
-            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.AUTHORED && UTILITY_STYLES.textHighlighted]} >
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.AUTHORED && StyleUtility.UTILITY_STYLES.textHighlighted]} >
               Posts
             </RN.Text>
           </RN.TouchableOpacity>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
-            <RN.Text style={[styles.text, this.props.postType === POST_TYPES.LIKED && UTILITY_STYLES.textHighlighted]} >
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.LIKED && StyleUtility.UTILITY_STYLES.textHighlighted]} >
               Liked
             </RN.Text>
           </RN.TouchableOpacity>

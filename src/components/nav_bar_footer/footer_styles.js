@@ -31,7 +31,4 @@ export const styles = StyleSheet.create({
     fontSize: StyleUtility.scaleFont(19),
     color: StyleUtility.COLORS.grey900
   },
-  textHighlighted: {
-    color: StyleUtility.COLORS.appleBlue,
-  }
 })

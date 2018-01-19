@@ -91,7 +91,7 @@ class LoadingScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={styles.container}>
+      <RN.View style={[StyleUtility.UTILITY_STYLES.container, {backgroundColor: 'white'}]}>
         {this._renderLoadingIcon()}
       </RN.View>
     )

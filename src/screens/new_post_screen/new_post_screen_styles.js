@@ -10,14 +10,6 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 
 export const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: StyleUtility.COLORS.grey50
-  },
   textInput: {
     flex: 1,
     width: '100%',
