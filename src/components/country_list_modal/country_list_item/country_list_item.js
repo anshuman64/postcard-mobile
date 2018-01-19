@@ -1,6 +1,6 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
 import { styles } from './country_list_item_styles.js';
@@ -23,16 +23,16 @@ class CountryListItem extends React.PureComponent {
           this.dialingCodeText.setNativeProps({style: styles.textHighlighted})
         }}
         onPressOut={() => {
-          this.countryText.setNativeProps({style: styles.countryListText})
-          this.dialingCodeText.setNativeProps({style: styles.countryListText})
+          this.countryText.setNativeProps({style: styles.rowText})
+          this.dialingCodeText.setNativeProps({style: styles.rowText})
         }}
         onPress={this.props.setCountry(this.props.countryIndex)}
         >
-        <RN.View style={[styles.countryListItems]}>
-          <RN.Text ref={(ref) => this.countryText = ref} style={styles.countryListText}>
+        <RN.View style={styles.rowContainer}>
+          <RN.Text ref={(ref) => this.countryText = ref} style={styles.rowText}>
             {this.props.item.country_name}
           </RN.Text>
-          <RN.Text ref={(ref) => this.dialingCodeText = ref} style={styles.countryListText}>
+          <RN.Text ref={(ref) => this.dialingCodeText = ref} style={styles.rowText}>
             {this.props.item.dialing_code}
           </RN.Text>
         </RN.View>

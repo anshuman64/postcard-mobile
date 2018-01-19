@@ -41,6 +41,7 @@ class App extends React.Component {
     currentAppState = 'active';
   }
 
+  // Listens to changes in AppState and when Android backButton is pressed
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
     BackHandler.addEventListener("hardwareBackPress", this._onBackPress);
@@ -51,6 +52,7 @@ class App extends React.Component {
     BackHandler.removeEventListener("hardwareBackPress", this._onBackPress);
   }
 
+  // When AppState changes, log event
   _handleAppStateChange = (nextAppState) => {
     if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
         amplitude.logEvent('App - Focus App');
@@ -61,6 +63,7 @@ class App extends React.Component {
     currentAppState = nextAppState;
   }
 
+  // When on the screens listed, close the app. Else, go back one screen.
   _onBackPress = () => {
     if (Actions.currentScene === '_HomeScreen'
         || Actions.currentScene === 'LoginScreen'
