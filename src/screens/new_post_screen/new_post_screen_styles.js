@@ -1,6 +1,6 @@
 // Library Imports
-import React          from 'react';
-import { StyleSheet } from 'react-native';
+import React                    from 'react';
+import { StyleSheet, Platform } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
     textAlignVertical: 'top',
     padding: 20,
-    marginTop: (RN.Platform.OS === 'ios') ? 20 : 0, // paddingTop on iOS isn't working for some reason
+    marginTop: (Platform.OS === 'ios') ? 20 : 0, // paddingTop on iOS isn't working for some reason
     backgroundColor: StyleUtility.COLORS.grey50
   },
   smallBodyText: {

@@ -45,7 +45,7 @@ export const setAndroidFont = (fontFamily) => {
 }
 
 export const getImageBorderRadius = (dimensions) => {
-  return (RN.Platform.OS === 'ios') ? dimensions / 2 : 10000;
+  return Platform.OS === 'ios' ? dimensions / 2 : 10000;
 }
 
 // Apple Color Palette: https://developer.apple.com/ios/human-interface-guidelines/visual-design/color/
