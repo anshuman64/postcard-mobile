@@ -7,6 +7,7 @@ import mime        from 'mime-types';
 
 // Local Imports
 import { ENV_TYPES, GLOBAL_ENV_SETTING } from './app_utility.js';
+import { setErrorDescription }           from './error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -47,11 +48,7 @@ let readImageFile = (imagePath) => {
       return new Promise.resolve(buffer);
     })
     .catch((error) => {
-      if (!error.description) {
-        error.description = 'Read image file failed'
-      }
-
-      throw error;
+      throw setErrorDescription(error, 'Read image file failed');
     });
 };
 
@@ -88,11 +85,7 @@ let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
           return refreshAWSToken(firebaseUserObj, refreshAuthToken, uploadFile, params);
         }
 
-        if (!error.description) {
-          error.description = 'Upload file to S3 failed'
-        }
-
-        reject(error);
+        reject(setErrorDescription(error, 'Upload file to S3 failed'));
       } else {
         resolve(data);
       }
@@ -129,11 +122,7 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
           return refreshAWSToken(firebaseUserObj, refreshAuthToken, deleteFile, key);
         }
 
-        if (!error.description) {
-          error.description = 'Delete file in S3 failed'
-        }
-
-        reject(error);
+        reject(setErrorDescription(error, 'Delete file in S3 failed'));
       } else {
         resolve(data);
       }

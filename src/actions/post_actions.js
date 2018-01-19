@@ -1,7 +1,8 @@
 // Local Imports
-import { amplitude }        from '../utilities/analytics_utility.js';
-import * as APIUtility      from '../utilities/api_utility.js';
-import { refreshAuthToken } from './user_actions.js';
+import { amplitude }           from '../utilities/analytics_utility.js';
+import * as APIUtility         from '../utilities/api_utility.js';
+import { setErrorDescription } from '../utilities/error_utility.js';
+import { refreshAuthToken }    from './user_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -74,11 +75,7 @@ export const getPosts = (authToken, firebaseUserObj, userId, postType, queryPara
         return dispatch(refreshAuthToken(firebaseUserObj, getPosts, userId, postType, queryParams));
       }
 
-      if (!error.description) {
-        error.description = 'GET posts failed'
-      }
-
-      throw error;
+      throw setErrorDescription(error, 'GET posts failed');
     });
 };
 
@@ -92,11 +89,7 @@ export const refreshPosts = (authToken, firebaseUserObj, userId, postType, query
         return dispatch(refreshAuthToken(firebaseUserObj, refreshPosts, userId, postType, queryParams));
       }
 
-      if (!error.description) {
-        error.description = 'GET posts failed'
-      }
-
-      throw error;
+      throw setErrorDescription(error, 'Refresh posts failed');
     });
 };
 
@@ -111,12 +104,8 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
         return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postBody, postImage, placeholderText));
       }
 
-      if (!error.description) {
-        error.description = 'POST post failed'
-      }
-
       amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'POST post failed');
     });
 };
 
@@ -132,11 +121,7 @@ export const deletePost = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, deletePost, userId, postId));
       }
 
-      if (!error.description) {
-        error.description = 'DEL post failed'
-      }
-
       amplitude.logEvent('Engagement - Delete Post', { is_successful: false, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'DEL post failed');
     });
 };

@@ -1,7 +1,8 @@
 // Local Imports
-import { amplitude }        from '../utilities/analytics_utility.js';
-import * as APIUtility      from '../utilities/api_utility.js';
-import { refreshAuthToken } from './user_actions.js';
+import { amplitude }           from '../utilities/analytics_utility.js';
+import * as APIUtility         from '../utilities/api_utility.js';
+import { setErrorDescription } from '../utilities/error_utility.js';
+import { refreshAuthToken }    from './user_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -42,12 +43,8 @@ export const createFollow = (authToken, firebaseUserObj, userId, followeeId) => 
         return dispatch(refreshAuthToken(firebaseUserObj, createFollow, userId, followeeId));
       }
 
-      if (!error.description) {
-        error.description = 'POST follow failed'
-      }
-
       amplitude.logEvent('Engagement - Click Follow', { is_successful: false, is_create: true, follower_id: userId, followee_id: followeeId, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'POST follow failed');
     });
 };
 
@@ -62,11 +59,7 @@ export const deleteFollow = (authToken, firebaseUserObj, userId, followeeId) => 
         return dispatch(refreshAuthToken(firebaseUserObj, deleteFollow, userId, followeeId));
       }
 
-      if (!error.description) {
-        error.description = 'DEL follow failed'
-      }
-
       amplitude.logEvent('Engagement - Click Follow', { is_successful: false, is_create: false, follower_id: userId, followee_id: followeeId, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'DEL follow failed');
     });
 };
