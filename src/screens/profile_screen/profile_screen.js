@@ -3,10 +3,10 @@ import React     from 'react';
 import RN        from 'react-native';
 
 // Local Imports
-import HeaderContainer   from '../../components/nav_bar_header/header_container.js';
-import PostListContainer from '../../components/post_list/post_list_container.js';
-import { POST_TYPES }    from '../../actions/post_actions.js';
-import { styles }        from './profile_screen_styles.js';
+import HeaderContainer    from '../../components/nav_bar_header/header_container.js';
+import PostListContainer  from '../../components/post_list/post_list_container.js';
+import { POST_TYPES }     from '../../actions/post_actions.js';
+import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -70,7 +70,7 @@ class ProfileScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={styles.container}>
+      <RN.View style={UTILITY_STYLES.containerStart}>
         <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} username={this.props.user.username} avatarUrl={this.props.user.avatar_url} postType={this.state.postType} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
       </RN.View>
     )

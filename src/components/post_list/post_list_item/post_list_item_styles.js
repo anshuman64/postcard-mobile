@@ -68,30 +68,6 @@ export const styles = StyleSheet.create({
     width: 40,
     borderRadius: StyleUtility.getImageBorderRadius(40),
   },
-  usernameText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(15),
-    textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
-    marginLeft: 8
-  },
-  breakText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(15),
-    textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
-    marginLeft: 5,
-  },
-  followText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(15),
-    textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
-    marginLeft: 5,
-  },
   closeButton: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -103,12 +79,6 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     color: StyleUtility.COLORS.grey900,
     marginRight: 18
-  },
-  transparent: {
-    color: 'transparent'
-  },
-  textHighlighted: {
-    color: StyleUtility.COLORS.appleBlue
   },
   bodyText: {
     width: StyleUtility.DEVICE_DIM.width - DEFAULT_MARGIN * 2,

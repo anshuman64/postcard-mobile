@@ -13,8 +13,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: StyleUtility.isTablet() ? 0.9 * StyleUtility.MAX_TABLET_DIM.width : 0.85 * StyleUtility.DEVICE_DIM.width,
-    height: StyleUtility.isTablet() ? 0.9 * StyleUtility.MAX_TABLET_DIM.height : 0.85 * StyleUtility.DEVICE_DIM.height,
+    width: 0.85 * StyleUtility.USABLE_DIM.width,
+    height: 0.85 * StyleUtility.USABLE_DIM.height,
     elevation: 50,
     shadowOpacity: 0.3,
     shadowRadius: 50,
@@ -34,14 +34,6 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200,
   },
-  selectCountryText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(16),
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey900,
-    backgroundColor: StyleUtility.COLORS.grey50
-  },
   cancelButtonView: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -50,16 +42,5 @@ export const styles = StyleSheet.create({
     height: 45,
     borderTopWidth: 1,
     borderTopColor: StyleUtility.COLORS.grey200
-  },
-  cancelButtonText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(14),
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey900,
-    backgroundColor: StyleUtility.COLORS.grey50
-  },
-  textHighlighted: {
-    color: StyleUtility.COLORS.appleBlue
   },
 });
