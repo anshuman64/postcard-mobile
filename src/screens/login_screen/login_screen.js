@@ -141,8 +141,16 @@ class LoginScreen extends React.PureComponent {
     });
   }
 
+  _onFocus = () => {
+    if (this.state.isPhoneNumberInvalid) {
+      this.phoneInput.setNativeProps({style: [UTILITY_STYLES.borderRed, UTILITY_STYLES.textHighlighted]});
+    } else {
+      this.phoneInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]});
+    }
+  }
+
   //--------------------------------------------------------------------//
-  // Render Animation Methods
+  // Animation Render Methods
   //--------------------------------------------------------------------//
 
   //TODO: Don't allow icon & logo to push up with keyboard
@@ -246,8 +254,8 @@ class LoginScreen extends React.PureComponent {
             placeholder='Phone Number'
             placeholderTextColor={COLORS.grey400}
             underlineColorAndroid={'transparent'}
-            onFocus={() => !this.state.isPhoneNumberInvalid && this.phoneInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]})}
-            onEndEditing={() => !this.state.isPhoneNumberInvalid && this.phoneInput.setNativeProps({style: styles.phoneNumberInput})}
+            onFocus={this._onFocus}
+            onEndEditing={() => this.phoneInput.setNativeProps({style: styles.phoneNumberInput})}
             />
       </RN.View>
     )
@@ -255,7 +263,7 @@ class LoginScreen extends React.PureComponent {
 
   _renderInvalidNumberText() {
     return (
-      <RN.View style={ styles.invalidNumberTextView }>
+      <RN.View style={styles.invalidNumberTextView}>
         <RN.Text style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && UTILITY_STYLES.transparentText]}>
           Invalid Number
         </RN.Text>
@@ -268,7 +276,7 @@ class LoginScreen extends React.PureComponent {
       <RN.TouchableOpacity
         style={[UTILITY_STYLES.nextButtonBackground, {marginTop: 75}, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonBackgroundDisabled]}
         onPress={this._onNextButtonPress}
-        disabled={this.state.isNextButtonDisabled && this.state.isLoading}
+        disabled={this.state.isNextButtonDisabled || this.state.isLoading}
         >
         <RN.Text style={[UTILITY_STYLES.lightWhiteText18, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonTextDisabled]}>
           Next
@@ -279,7 +287,7 @@ class LoginScreen extends React.PureComponent {
 
   _renderSMSNoticeText() {
     return (
-      <RN.Text style={ styles.smsNoticeText }>
+      <RN.Text style={styles.smsNoticeText}>
         {"We'll send an SMS message to verify your phone number"}
       </RN.Text>
     )

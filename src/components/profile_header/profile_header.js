@@ -26,6 +26,7 @@ class ProfileHeader extends React.PureComponent {
       avatarUrl:  null,
     }
 
+    this.isUser           = false;
     this.isFollowDisabled = false;
   }
 
@@ -33,14 +34,18 @@ class ProfileHeader extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  // If user has avatar, get image from AWS S3 and set signed url
   componentDidMount() {
+    this.isUser = this.props.user.id === this.props.userId;
+
     if (this.props.avatarUrl) {
       this._setAvatarUrl(this.props.avatarUrl);
     }
   }
 
+  // If user changed avatars, update avatar
   componentWillReceiveProps(nextProps) {
-    if (this.props.user.id === this.props.userId && nextProps.user.avatar_url != this.props.user.avatar_url) {
+    if (this.isUser && nextProps.user.avatar_url != this.props.user.avatar_url) {
       this._setAvatarUrl(nextProps.user.avatar_url);
     }
   }
@@ -49,6 +54,7 @@ class ProfileHeader extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
+  // Get image from AWS S3 and set url as signed Url
   _setAvatarUrl(avatarUrl) {
     getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, avatarUrl)
       .then((data) => {
@@ -60,6 +66,7 @@ class ProfileHeader extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
+  // Creates or deletes follow from DB
   _onPressFollow = () => {
     if (this.isFollowDisabled) {
       return;
@@ -83,6 +90,7 @@ class ProfileHeader extends React.PureComponent {
     }
   }
 
+  // Alert for when a user is about to unfollow
   _onPressUnfollow = () => {
     RN.Alert.alert(
       '',
@@ -97,10 +105,13 @@ class ProfileHeader extends React.PureComponent {
     )
   }
 
+  // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
     this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.userId)
       .then(() => {
-        this.props.setFollowState({ isFollowed: false });
+        if (this.props.setFollowState) {
+          this.props.setFollowState({ isFollowed: false });
+        }
       })
       .catch((error) => {
         defaultErrorAlert(error);
@@ -119,11 +130,11 @@ class ProfileHeader extends React.PureComponent {
       return null;
     } else if (!this.props.user.avatar_url) {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={!this.isUser}>
           <RN.View style={styles.frame}>
             <FontAwesome name='user-circle-o' style={styles.userIcon} />
           </RN.View>
-          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
+          <Icon name='pencil' style={[styles.avatarPencil, !this.isUser && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     } else if (this.props.user.avatar_url && !this.state.avatarUrl) {
@@ -132,11 +143,11 @@ class ProfileHeader extends React.PureComponent {
       )
     } else if (this.props.currentScreen) {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={!this.isUser}>
           <RN.View style={styles.frame}>
             <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'cover'} />
           </RN.View>
-          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
+          <Icon name='pencil' style={[styles.avatarPencil, !this.isUser && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     }
@@ -147,21 +158,21 @@ class ProfileHeader extends React.PureComponent {
       return null;
     } else {
       return (
-        <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.user.id != this.props.userId}>
-          <RN.Text style={[styles.usernameText]}>
+        <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={!this.isUser}>
+          <RN.Text style={styles.usernameText}>
             {this.props.username}
           </RN.Text>
-          <Icon name='pencil' style={[styles.pencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
+          <Icon name='pencil' style={[styles.pencil, !this.isUser && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     }
   }
 
   _renderFollowButton() {
-    if (this.props.user.id != this.props.userId) {
+    if (!this.isUser) {
       return (
         <RN.TouchableOpacity
-          style={[styles.followButtonBackground, , this.props.isFollowed && styles.followButtonBackgroundDisabled]}
+          style={[styles.followButtonBackground, this.props.isFollowed && styles.followButtonBackgroundDisabled]}
           onPress={this._onPressFollow}
           >
           <RN.Text style={[UTILITY_STYLES.lightWhiteText16, this.props.isFollowed && styles.followButtonTextDisabled]}>
@@ -218,7 +229,7 @@ class ProfileHeader extends React.PureComponent {
     });
 
     return (
-      <RN.Animated.View style={[styles.container, this.props.currentScreen === 'HomeScreen' && { height: 30 },
+      <RN.Animated.View style={[styles.container, this.props.currentScreen === 'HomeScreen' && { height: PROFILE_HEADER_TABS_HEIGHT },
         this.props.currentScreen != 'HomeScreen' && { transform: [{translateY}] },
         (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { marginTop: -STATUSBAR_HEIGHT - 4 } ]}
         >

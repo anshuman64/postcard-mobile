@@ -83,6 +83,14 @@ class UsernameScreen extends React.PureComponent {
     });
   }
 
+  _onFocus = () => {
+    if (this.state.isError) {
+      this.textInput.setNativeProps({style: [UTILITY_STYLES.borderRed, UTILITY_STYLES.textHighlighted]});
+    } else {
+      this.textInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]});
+    }
+  }
+
 //--------------------------------------------------------------------//
 // Render Methods
 //--------------------------------------------------------------------//
@@ -116,8 +124,8 @@ class UsernameScreen extends React.PureComponent {
         maxLength={12}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
-        onFocus={() => !this.state.isError && this.textInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]})}
-        onEndEditing={() => !this.state.isError && this.textInput.setNativeProps({style: styles.textInput})}
+        onFocus={this._onFocus}
+        onEndEditing={() => this.textInput.setNativeProps({style: styles.textInput})}
       />
     )
   }

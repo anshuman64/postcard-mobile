@@ -67,7 +67,7 @@ class CountryListModal extends React.PureComponent {
       return (
         <RN.ScrollView
           ref={(ref) => this.scrollView = ref}
-          style={ styles.countryListView }
+          style={styles.countryListView}
           onContentSizeChange={this._onListViewContentSizeChange}
           >
           {this._renderItem()}
@@ -100,7 +100,7 @@ class CountryListModal extends React.PureComponent {
         onPress={this.props.setParentState({ isModalVisible: false })}
       >
         <RN.View style={styles.cancelButtonView}>
-          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={ UTILITY_STYLES.lightBlackText14 }>
+          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={UTILITY_STYLES.lightBlackText14}>
             Cancel
           </RN.Text>
         </RN.View>
@@ -110,7 +110,7 @@ class CountryListModal extends React.PureComponent {
 
   render() {
     return(
-      <RN.View style={ styles.container }>
+      <RN.View style={styles.container}>
         {this._renderChooseCountry()}
         {this._renderCountryScrollView()}
         {this._renderCancelButton()}

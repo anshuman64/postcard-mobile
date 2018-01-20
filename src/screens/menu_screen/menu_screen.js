@@ -15,6 +15,7 @@ class MenuScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
+  // Opens mail client
   _onPressSupport = () => {
     RN.Linking.openURL('mailto:support@insiya.io');
   }
@@ -44,7 +45,7 @@ class MenuScreen extends React.PureComponent {
         }}
         onPress={this._onPressSupport}
         >
-        <RN.View style={ styles.menuItemView }>
+        <RN.View style={styles.menuItemView}>
           <Icon
             ref={(ref) => this.supportIcon = ref}
             name='envelope'
@@ -71,7 +72,7 @@ class MenuScreen extends React.PureComponent {
       }}
         onPress={this._onPressFeedback}
         >
-        <RN.View style={ styles.menuItemView }>
+        <RN.View style={styles.menuItemView}>
           <Icon
             ref={(ref) => this.feedbackIcon = ref}
             name='speech'
@@ -98,7 +99,7 @@ class MenuScreen extends React.PureComponent {
         }}
         onPress={this._onPressAbout}
         >
-        <RN.View style={ styles.menuItemView }>
+        <RN.View style={styles.menuItemView}>
           <Icon
             ref={(ref) => this.aboutIcon = ref}
             name='question'
