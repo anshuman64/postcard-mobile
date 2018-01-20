@@ -11,8 +11,11 @@ import RouterContainer            from './router/router_container.js';
 
 import DebugLoginScreenContainer  from './screens/debug_login_screen/debug_login_screen_container.js';
 import LoadingScreenContainer     from './screens/loading_screen/loading_screen_container.js';
+import WelcomeScreenContainer     from './screens/welcome_screen/welcome_screen_container.js';
+
 import LoginScreenContainer       from './screens/login_screen/login_screen_container.js';
 import ConfirmCodeScreenContainer from './screens/confirm_code_screen/confirm_code_screen_container.js';
+
 import UsernameScreenContainer    from './screens/username_screen/username_screen_container.js';
 import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container.js';
 
@@ -66,6 +69,7 @@ class App extends React.Component {
   // When on the screens listed, close the app. Else, go back one screen.
   _onBackPress = () => {
     if (Actions.currentScene === '_HomeScreen'
+        || Actions.currentScene === 'WelcomeScreen'
         || Actions.currentScene === 'LoginScreen'
         || Actions.currentScene === 'LoadingScreen'
         || Actions.currentScene === 'DebugLoginScreen'
@@ -83,7 +87,8 @@ class App extends React.Component {
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer}  hideNavBar={true}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true} hideNavBar={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true}  />
+            <Scene key='WelcomeScreen' component={WelcomeScreenContainer} initial={true}  hideNavBar={true}  />
             <Scene key='LoginScreen' component={LoginScreenContainer}  hideNavBar={true}  />
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backTitle={'Choose Username'}/>}  />
