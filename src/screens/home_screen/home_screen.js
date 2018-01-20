@@ -25,13 +25,14 @@ class HomeScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  // Refresh AllPosts and FollowedPosts on mount
   componentDidMount() {
     this.postList.getWrappedInstance().refresh();
     this.postList.getWrappedInstance().refresh(POST_TYPES.FOLLOWED);
   }
 
+  // Auto-refresh screen if coming back to it after > 1 minute
   componentWillReceiveProps(nextProps) {
-    // Auto-refresh screen if coming back to it after > 1 minute
     if (this.props.currentScreen != 'HomeScreen' && nextProps.currentScreen === 'HomeScreen') {
       let checkRefresh = (postType) => {
         let currentTime = new Date();
@@ -52,6 +53,7 @@ class HomeScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
+  // Passed to ProfileHeader for tab switching
   setParentState = (state) => {
     let func = () => {
       this.setState(state);
@@ -67,7 +69,13 @@ class HomeScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerCenter}>
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} postType={this.state.postType} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
+        <PostListContainer
+          ref={(ref) => this.postList = ref} 
+          userId={this.props.user.id}
+          postType={this.state.postType}
+          scrollToTop={this.props.scrollToTop}
+          setParentState={this.setParentState}
+          />
       </RN.View>
     )
   }

@@ -8,18 +8,18 @@ import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 import FontAwesome                   from 'react-native-vector-icons/FontAwesome';
 
 // Local Imports
-import { styles, scaleHeart }   from './post_list_item_styles.js';
-import { renderDate }           from '../../../utilities/date_time_utility.js';
-import fontelloConfig           from '../../../assets/fonts/config.json';
-import { defaultErrorAlert }    from '../../../utilities/error_utility.js';
-import { getImage, deleteFile } from '../../../utilities/file_utility.js';
-import { setStateCallback }     from '../../../utilities/function_utility.js';
-import { UTILITY_STYLES }       from '../../../utilities/style_utility.js';
+import { styles, scaleHeart }                 from './post_list_item_styles.js';
+import { renderDate }                         from '../../../utilities/date_time_utility.js';
+import fontelloConfig                         from '../../../assets/fonts/config.json';
+import { defaultErrorAlert }                  from '../../../utilities/error_utility.js';
+import { getImage, deleteFile }               from '../../../utilities/file_utility.js';
+import { setStateCallback, renderLikesCount } from '../../../utilities/function_utility.js';
+import { UTILITY_STYLES }                     from '../../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
 
-
+// Imports custom filled-icon set
 const IconFilled = createIconSetFromFontello(fontelloConfig);
 const AnimatedIconFilled = Animatable.createAnimatableComponent(IconFilled);
 
@@ -35,8 +35,8 @@ class PostListItem extends React.PureComponent {
     this.state = {
       avatarUrl:         null,
       imageUrl:          null,
-      isLikingAnimation: false,
-      isLikingServer:    false,
+      isLikingAnimation: false, // if the liking animation is still playing
+      isLikingServer:    false, // if the server is still registering the create/delete like
     }
 
     this.isUser           = false;
@@ -49,24 +49,31 @@ class PostListItem extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  // Gets images for avatar and post if they exist
   componentDidMount() {
+    // Set bool as variable to be used throughout code
     this.isUser = this.props.user.id === this.props.item.author_id;
 
+    // If post is authored by current user, use user.avatar_url for avatar
     if (this.isUser && this.props.user.avatar_url) {
       this._setImageUrl(this.props.user.avatar_url, true);
+    // Else, use item.author_avatar_url for avatar
     } else if (this.props.item.author_avatar_url) {
       this._setImageUrl(this.props.item.author_avatar_url, true);
     }
 
+    // If post has an image, get image
     if (this.props.item.image_url) {
       this._setImageUrl(this.props.item.image_url, false);
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    // If current user has changed avatar, update post with new avatar
     if (this.isUser && nextProps.user.avatar_url != this.props.user.avatar_url) {
       if (nextProps.user.avatar_url) {
         this._setImageUrl(nextProps.user.avatar_url, true);
+      // If user has removed avatar, update appropriately
       } else {
         this.setState({ avatarUrl: null });
       }
@@ -77,6 +84,7 @@ class PostListItem extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
+  // Gets image from AWS S3 using key and sets state with signed URL
   _setImageUrl(imageUrl, isAvatar) {
     getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, imageUrl)
       .then((data) => {
@@ -92,6 +100,7 @@ class PostListItem extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
+  // Creates/deletes like and handles animation
   _onPressLike = () => {
     if (this.isLikeDisabled || this.state.isLikingAnimation || this.state.isLikingServer) {
       return;
@@ -100,6 +109,7 @@ class PostListItem extends React.PureComponent {
     this.isLikeDisabled = true;
 
     this.setState({ isLikingServer: true }, () => {
+      // If post already liked, delete like
       if (this.props.item.is_liked_by_user) {
         this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
           .catch((error) => {
@@ -122,6 +132,7 @@ class PostListItem extends React.PureComponent {
     })
   }
 
+  // Alert that pops up when a user is about to delete a post
   _onPressDeletePost = () => {
     RN.Alert.alert(
       '',
@@ -136,6 +147,7 @@ class PostListItem extends React.PureComponent {
     )
   }
 
+  // Deletes post from DB and fades post out before removing from store
   _onConfirmDeletePost = () => {
     if (this.isDeleteDisabled) {
       return;
@@ -143,14 +155,17 @@ class PostListItem extends React.PureComponent {
 
     this.isDeleteDisabled = true;
 
+    // Delete post from DB
     this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
       .then((deletedPost) => {
+        // Delete image file from AWS S3
         if (this.props.item.image_url) {
           deleteFile(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.item.image_url);
         }
-
+        // Fade out post
         this.container.fadeOut(500)
           .finally(() => {
+            // Remove post from store
             this.props.removePost({ post: deletedPost, userId: this.props.user.id  });
             this.isDeleteDisabled = false;
           });
@@ -160,6 +175,7 @@ class PostListItem extends React.PureComponent {
       });
   }
 
+  // Creates or deletes follow from DB
   _onPressFollow = () => {
     if (this.isFollowDisabled) {
       return;
@@ -169,9 +185,11 @@ class PostListItem extends React.PureComponent {
 
     if (this.props.item.is_author_followed_by_user) {
       this._onPressUnfollow();
+    // If user is not followed, create follow
     } else {
       this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
         .then(() => {
+          // If on profileScreen, update follow state to make sure ProfileHeader is also updated
           if (this.props.setFollowState) {
             this.props.setFollowState({ isFollowed: true });
           }
@@ -185,6 +203,7 @@ class PostListItem extends React.PureComponent {
     }
   }
 
+  // Alert for when a user is about to unfollow
   _onPressUnfollow = () => {
     RN.Alert.alert(
       '',
@@ -199,6 +218,7 @@ class PostListItem extends React.PureComponent {
     )
   }
 
+  // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
     this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
       .then(() => {
@@ -214,8 +234,9 @@ class PostListItem extends React.PureComponent {
       });
   }
 
+  // Navigates to profile of user and sends appropriate props
   _navigateToProfile = () => {
-    if (this.props.userId != this.props.item.author_id) {
+    if (!this.isUser) {
       this.props.navigateToProfile({
         userId: this.props.item.author_id,
         username: this.props.item.author_username,
@@ -251,20 +272,14 @@ class PostListItem extends React.PureComponent {
   _renderAvatar() {
     if (this.state.avatarUrl) {
       return (
-        <RN.View style={styles.frame}>
-          <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'cover'} />
-        </RN.View>
+        <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'cover'} />
       )
     } else if (!this.props.item.author_avatar_url && !this.state.avatarUrl) {
       return (
-        <RN.View style={styles.frame}>
-          <FontAwesome name='user-circle-o' style={styles.userIcon} />
-        </RN.View>
+        <FontAwesome name='user-circle-o' style={styles.userIcon} />
       )
     } else {
-      return (
-        <RN.View style={styles.frame} />
-      )
+      return null;
     }
   }
 
@@ -340,7 +355,7 @@ class PostListItem extends React.PureComponent {
     } else if (this.state.imageUrl) {
       return (
         <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
-          <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'cover'} />
+          <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'contain'} />
         </RN.TouchableWithoutFeedback>
       )
     }
@@ -366,19 +381,6 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  _renderLikesCount(count) {
-    // If likes < 1000, render the number as-is
-    if (count < 1000) {
-      return count;
-    // If likes are > 1000, return format 'xxx.xK'
-    } else if (count < 1000000000){
-      return (Math.floor(count / 100) / 10).toFixed(1) + 'K';
-    // If likes are > 1 milion, return format 'xxx.xM'
-    } else {
-      return (Math.floor(count / 100000) / 10).toFixed(1) + 'M';
-    }
-  }
-
   _renderFooter() {
     return (
       <RN.View style={ styles.footerView }>
@@ -388,7 +390,7 @@ class PostListItem extends React.PureComponent {
               {this._renderLike()}
             </RN.View>
             <RN.Text style={ styles.likeCountText }>
-              {this._renderLikesCount(this.props.item.num_likes)}
+              {renderLikesCount(this.props.item.num_likes)}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -402,7 +404,7 @@ class PostListItem extends React.PureComponent {
   render() {
     return(
       <RN.View style={styles.container}>
-        <Animatable.View ref={(ref) => this.container = ref} style={ styles.postContainer }>
+        <Animatable.View ref={(ref) => this.container = ref} style={styles.postContainer}>
           {this._renderHeader()}
           {this._renderBody()}
           {this._renderImage()}

@@ -21,6 +21,19 @@ export const setStateCallback = (component, state) => {
   return func;
 }
 
+export const renderLikesCount = (count) => {
+  // If likes < 1000, render the number as-is
+  if (count < 1000) {
+    return count;
+  // If likes are > 1000, return format 'xxx.xK'
+  } else if (count < 1000000000){
+    return (Math.floor(count / 100) / 10).toFixed(1) + 'K';
+  // If likes are > 1 milion, return format 'xxx.xM'
+  } else {
+    return (Math.floor(count / 100000) / 10).toFixed(1) + 'M';
+  }
+}
+
 // Merges arrayB into arrayA. Used in refreshPost reducer
 export const mergeSorted = (arrayA, arrayB) => {
   var i = 0;

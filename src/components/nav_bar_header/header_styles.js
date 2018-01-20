@@ -41,9 +41,6 @@ export const styles = StyleSheet.create({
     fontSize: StyleUtility.scaleFont(35),
     color: StyleUtility.COLORS.grey900
   },
-  marginLeft: {
-    marginLeft: 50
-  },
   settingsIcon: {
     fontSize: StyleUtility.scaleFont(22),
     textAlign: 'center',
