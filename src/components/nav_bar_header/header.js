@@ -1,17 +1,16 @@
 // Library Imports
 import React       from 'react';
 import RN          from 'react-native';
-import _           from 'lodash';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import LoadingModal              from '../loading_modal/loading_modal.js'
-import { styles }                from './header_styles.js';
-import * as StyleUtility from '../../utilities/style_utility.js';
-import { isStringEmpty }         from '../../utilities/function_utility.js';
-import { uploadImageFile }       from '../../utilities/file_utility.js';
-import { defaultErrorAlert }     from '../../utilities/error_utility.js';
+import LoadingModal          from '../loading_modal/loading_modal.js'
+import { styles }            from './header_styles.js';
+import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
+import { isStringEmpty }     from '../../utilities/function_utility.js';
+import { uploadImageFile }   from '../../utilities/file_utility.js';
+import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -106,7 +105,7 @@ class Header extends React.PureComponent {
       return (
         <RN.View style={styles.backView}>
           <RN.TouchableWithoutFeedback
-            onPressIn={() => this.backIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
+            onPressIn={() => this.backIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
             onPressOut={() => this.backIcon.setNativeProps({style: styles.backIcon})}
             onPress={this._goBack}
             >
@@ -138,7 +137,7 @@ class Header extends React.PureComponent {
     if (this.props.settingsIcon) {
       return (
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.settingsIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
+          onPressIn={() => this.settingsIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
           onPressOut={() => this.settingsIcon.setNativeProps({style: styles.settingsIcon})}
           onPress={() => this.props.navigateTo('MenuScreen')}
           >

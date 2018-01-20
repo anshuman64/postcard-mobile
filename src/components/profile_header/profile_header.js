@@ -181,12 +181,12 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.View style={styles.tabs}>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.ALL })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.ALL && StyleUtility.UTILITY_STYLES.textHighlighted]} >
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.ALL && UTILITY_STYLES.textHighlighted]} >
               Recent
             </RN.Text>
           </RN.TouchableOpacity>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.FOLLOWED })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.FOLLOWED && StyleUtility.UTILITY_STYLES.textHighlighted]} >
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.FOLLOWED && UTILITY_STYLES.textHighlighted]} >
               Following
             </RN.Text>
           </RN.TouchableOpacity>
@@ -196,12 +196,12 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.View style={styles.tabs}>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.AUTHORED && StyleUtility.UTILITY_STYLES.textHighlighted]} >
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.AUTHORED && UTILITY_STYLES.textHighlighted]} >
               Posts
             </RN.Text>
           </RN.TouchableOpacity>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.LIKED && StyleUtility.UTILITY_STYLES.textHighlighted]} >
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.LIKED && UTILITY_STYLES.textHighlighted]} >
               Liked
             </RN.Text>
           </RN.TouchableOpacity>

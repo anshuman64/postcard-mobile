@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import PostList                    from './post_list.js';
-import { refreshAuthToken }        from '../../actions/user_actions.js';
 import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
 
 

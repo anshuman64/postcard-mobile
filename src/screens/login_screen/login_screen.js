@@ -212,12 +212,12 @@ class LoginScreen extends React.PureComponent {
         }}
         onPressOut={() => {
           this.countrySelectorView.setNativeProps({style: styles.countrySelectorView})
-          this.countrySelectorText.setNativeProps({style: UTILITY_STYLES.countrySelectorText})
+          this.countrySelectorText.setNativeProps({style: UTILITY_STYLES.lightBlackText18})
           this.dropdownIcon.setNativeProps({style: styles.dropdownIcon})
         }}
         >
         <RN.View ref={(ref) => this.countrySelectorView = ref} style={styles.countrySelectorView}>
-          <RN.Text ref={(ref) => this.countrySelectorText = ref} style={UTILITY_STYLES.countrySelectorText}>
+          <RN.Text ref={(ref) => this.countrySelectorText = ref} style={UTILITY_STYLES.lightBlackText18}>
             {COUNTRY_CODES[this.state.countryIndex].country_name}
           </RN.Text>
           <Icon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
