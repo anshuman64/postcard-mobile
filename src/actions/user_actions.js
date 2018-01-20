@@ -41,23 +41,15 @@ export const receiveUser = (data) => {
 
 // Uses Firebase authToken to refresh AWS credentials
 let configureAWS = (authToken) => {
-  return new Promise((resolve, reject) => {
     AWS.config.region = 'us-east-1';
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
       IdentityPoolId: 'us-east-1:6df1340e-29c5-49f6-9692-7d2933d2e815',
       Logins: {
         'securetoken.google.com/insiya-mobile': authToken
       }
-    })
-
-    return AWS.config.credentials.refresh((error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
     });
-  })
+
+    return AWS.config.credentials.refreshPromise();
 }
 
 //--------------------------------------------------------------------//

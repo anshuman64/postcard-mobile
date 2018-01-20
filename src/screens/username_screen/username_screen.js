@@ -105,7 +105,7 @@ class UsernameScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text style={[UTILITY_STYLES.regularBlackText16, UTILITY_STYLES.marginTop5]}>
+      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
         You can always change it later
       </RN.Text>
     )

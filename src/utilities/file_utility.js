@@ -87,7 +87,13 @@ let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
     getClient().upload(params, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
-          return refreshAWSToken(firebaseUserObj, refreshAuthToken, uploadFile, params);
+          return refreshAWSToken(firebaseUserObj, refreshAuthToken, uploadFile, params)
+            .then((data) => {
+              resolve(data);
+            })
+            .catch((error) => {
+              reject(setErrorDescription(error, 'Upload file to S3 failed'));
+            })
         }
 
         reject(setErrorDescription(error, 'Upload file to S3 failed'));
@@ -109,7 +115,13 @@ export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
     getClient().getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
-          return refreshAWSToken(firebaseUserObj, refreshAuthToken, getImage, key);
+          return refreshAWSToken(firebaseUserObj, refreshAuthToken, getImage, key)
+            .then((data) => {
+              resolve(data);
+            })
+            .catch((error) => {
+              reject(error);
+            })
         }
 
         reject(error);
@@ -126,7 +138,13 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
     getClient().deleteObject({ Bucket: BUCKET_NAME, Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
-          return refreshAWSToken(firebaseUserObj, refreshAuthToken, deleteFile, key);
+          return refreshAWSToken(firebaseUserObj, refreshAuthToken, deleteFile, key)
+            .then((data) => {
+              resolve(data);
+            })
+            .catch((error) => {
+              reject(setErrorDescription(error, 'Delete file in S3 failed'));
+            })
         }
 
         reject(setErrorDescription(error, 'Delete file in S3 failed'));
