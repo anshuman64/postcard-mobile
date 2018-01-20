@@ -29,13 +29,14 @@ class ProfileScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  // Refresh AuthoredPosts and LikedPosts on mount
   componentDidMount() {
     this.postList.getWrappedInstance().refresh();
     this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
   }
 
+  // Auto-refresh screen if coming back to it after > 1 minute
   componentWillReceiveProps(nextProps) {
-    // Auto-refresh screen if coming back to it after > 1 minute
     if (this.props.currentScreen != 'ProfileScreen' && nextProps.currentScreen === 'ProfileScreen') {
       let checkRefresh = (postType) => {
         let currentTime = new Date();
@@ -56,6 +57,7 @@ class ProfileScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
+  // Passed to ProfileHeader for tab switching
   setParentState = (state) => {
     let func = () => {
       this.setState(state);
@@ -71,7 +73,15 @@ class ProfileScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        <PostListContainer ref={(ref) => this.postList = ref} userId={this.props.user.id} username={this.props.user.username} avatarUrl={this.props.user.avatar_url} postType={this.state.postType} scrollToTop={this.props.scrollToTop} setParentState={this.setParentState} />
+        <PostListContainer
+          ref={(ref) => this.postList = ref}
+          userId={this.props.user.id}
+          username={this.props.user.username}
+          avatarUrl={this.props.user.avatar_url}
+          postType={this.state.postType}
+          scrollToTop={this.props.scrollToTop}
+          setParentState={this.setParentState}
+          />
       </RN.View>
     )
   }

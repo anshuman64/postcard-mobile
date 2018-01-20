@@ -6,6 +6,7 @@ import * as Animatable from 'react-native-animatable';
 
 // Local Imports
 import { styles, pulseIcon } from './loading_screen_styles.js';
+import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -91,7 +92,7 @@ class LoadingScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={[StyleUtility.UTILITY_STYLES.container, {backgroundColor: 'white'}]}>
+      <RN.View style={[UTILITY_STYLES.containerCenter, {backgroundColor: 'white'}]}>
         {this._renderLoadingIcon()}
       </RN.View>
     )

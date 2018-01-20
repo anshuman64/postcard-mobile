@@ -5,10 +5,10 @@ import Firebase             from 'react-native-firebase';
 import { PhoneNumberUtil }  from 'google-libphonenumber';
 
 // Local Imports
-import LoadingModal          from '../../components/loading_modal/loading_modal.js';
-import { styles }            from './confirm_code_screen_styles.js';
-import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
-import { defaultErrorAlert } from '../../utilities/error_utility.js';
+import LoadingModal               from '../../components/loading_modal/loading_modal.js';
+import { styles }                 from './confirm_code_screen_styles.js';
+import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
+import { defaultErrorAlert }      from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -119,6 +119,14 @@ class ConfirmCodeScreen extends React.PureComponent {
     this._startTimer();
   }
 
+  _onFocus = () => {
+    if (this.state.isCodeIncorrect) {
+      this.codeInput.setNativeProps({style: [UTILITY_STYLES.borderRed, UTILITY_STYLES.textHighlighted]});
+    } else {
+      this.codeInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]});
+    }
+  }
+
 //--------------------------------------------------------------------//
 // Render Methods
 //--------------------------------------------------------------------//
@@ -152,8 +160,8 @@ class ConfirmCodeScreen extends React.PureComponent {
         maxLength={6}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
-        onFocus={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]})}
-        onEndEditing={() => !this.state.isCodeIncorrect && this.codeInput.setNativeProps({style: styles.codeInput})}
+        onFocus={this._onFocus}
+        onEndEditing={() => this.codeInput.setNativeProps({style: styles.codeInput})}
       />
     )
   }

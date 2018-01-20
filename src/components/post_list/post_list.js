@@ -46,6 +46,7 @@ class PostList extends React.PureComponent {
   }
 
   componentDidUpdate() {
+    // Scrolls postList to top
     if (this.state.scrollToTop) {
       this.flatList.getNode().scrollToOffset({x: 0, y: 0, animated: true});
       this.setState({ scrollToTop: false });
@@ -56,6 +57,7 @@ class PostList extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
+  // Refreshes posts
   refresh(postType = this.props.postType) {
     this.props.refreshPosts(this.props.authToken, this.props.firebaseUserObj, this.props.userId, postType)
       .catch((error) => {
@@ -72,6 +74,7 @@ class PostList extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
+  // Refreshes posts with refresh indicator
   _onRefresh = (postType = this.props.postType) => {
     this.isLoading = true;
     this.setState({ isRefreshing: true }, () => {
@@ -80,11 +83,12 @@ class PostList extends React.PureComponent {
     })
   }
 
+  // Gets more posts when end is reached
   _onEndReached = () => {
     if (this.state.isRefreshing
         || this.isLoading
         || this.onEndReachedCalledDuringMomentum
-        || this.props.posts[this.props.userId][this.props.postType].data.length === 0
+        || this.props.posts[this.props.userId][this.props.postType].data.length === 0 // order matters; this might not exist!
         || this.props.posts[this.props.userId][this.props.postType].isEnd) {
       return;
     }
@@ -116,7 +120,7 @@ class PostList extends React.PureComponent {
         }
         renderItem={this._renderItem.bind(this)}
         keyExtractor={(item) => this.props.postsCache[item].id}
-        style={ styles.postList }
+        style={styles.postList}
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
@@ -124,7 +128,7 @@ class PostList extends React.PureComponent {
         refreshControl={this._renderRefreshControl()}
         ListHeaderComponent={this._renderHeader}
         ListFooterComponent={this._renderFooter}
-        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+        onMomentumScrollBegin={() => this.onEndReachedCalledDuringMomentum = false}
         onEndReachedThreshold={0.01}
         onScroll={RN.Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}], {useNativeDriver: true})}
         scrollEventThrottle={16}
@@ -175,17 +179,17 @@ class PostList extends React.PureComponent {
   _renderFooter = () => {
     if (this.props.posts[this.props.userId] && this.props.posts[this.props.userId][this.props.postType] && this.props.posts[this.props.userId][this.props.postType].isEnd) {
       return (
-        <RN.View style={ styles.footerView }>
-          <RN.View style={ styles.horizontalLine } />
-          <RN.Text style={ styles.footerText }>
+        <RN.View style={styles.footerView}>
+          <RN.View style={styles.horizontalLine} />
+          <RN.Text style={styles.footerText}>
             No More Posts
           </RN.Text>
-          <RN.View style={ styles.horizontalLine } />
+          <RN.View style={styles.horizontalLine} />
         </RN.View>
       )
     } else {
       return (
-        <RN.View style={ styles.footerView }>
+        <RN.View style={styles.footerView}>
           <RN.ActivityIndicator size='small' color={COLORS.grey400} />
         </RN.View>
       )
