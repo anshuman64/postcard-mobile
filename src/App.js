@@ -74,7 +74,7 @@ class App extends React.Component {
         || Actions.currentScene === 'LoadingScreen'
         || Actions.currentScene === 'DebugLoginScreen'
         || Actions.currentScene === 'UsernameScreenLogin') {
-      return false;
+      BackHandler.exitApp();
     }
 
     Actions.pop();
@@ -86,9 +86,9 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer}  hideNavBar={true}  />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} initial={true} hideNavBar={true}  />
             <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true}  />
-            <Scene key='WelcomeScreen' component={WelcomeScreenContainer} initial={true}  hideNavBar={true}  />
+            <Scene key='WelcomeScreen' component={WelcomeScreenContainer}   hideNavBar={true}  />
             <Scene key='LoginScreen' component={LoginScreenContainer}  hideNavBar={true}  />
             <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backTitle={'Choose Username'}/>}  />
