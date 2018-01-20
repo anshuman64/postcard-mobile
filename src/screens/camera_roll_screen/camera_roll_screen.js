@@ -1,7 +1,6 @@
 // Library Imports
 import React       from 'react';
 import RN          from 'react-native';
-import _           from 'lodash';
 import ImagePicker from 'react-native-image-crop-picker';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 

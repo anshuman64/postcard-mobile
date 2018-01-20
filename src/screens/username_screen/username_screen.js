@@ -6,7 +6,7 @@ import RN                   from 'react-native';
 import LoadingModal               from '../../components/loading_modal/loading_modal.js';
 import { styles }                 from './username_screen_styles.js';
 import { setStateCallback }       from '../../utilities/function_utility.js';
-import * as StyleUtility  from '../../utilities/style_utility.js';
+import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
 import { defaultErrorAlert }      from '../../utilities/error_utility.js';
 
 
@@ -89,7 +89,7 @@ class UsernameScreen extends React.PureComponent {
 
   _renderTitle() {
     return (
-      <RN.Text style={[StyleUtility.UTILITY_STYLES.regularBlackText18, StyleUtility.UTILITY_STYLES.marginTop50]}>
+      <RN.Text style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
         Choose a username
       </RN.Text>
     )
@@ -97,7 +97,7 @@ class UsernameScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text style={[StyleUtility.UTILITY_STYLES.regularBlackText16, StyleUtility.UTILITY_STYLES.marginTop5]}>
+      <RN.Text style={[UTILITY_STYLES.regularBlackText16, UTILITY_STYLES.marginTop5]}>
         You can always change it later
       </RN.Text>
     )
@@ -107,16 +107,16 @@ class UsernameScreen extends React.PureComponent {
     return (
       <RN.TextInput
         ref={(ref) => this.textInput = ref}
-        style={[styles.textInput, this.state.isError && StyleUtility.UTILITY_STYLES.borderRed]}
+        style={[styles.textInput, this.state.isError && UTILITY_STYLES.borderRed]}
         onChangeText={(value) => this.setState({ inputtedText: value })}
         value={this.state.inputtedText}
         placeholder={'username'}
         autoCapitalize={'none'}
         autoFocus={true}
         maxLength={12}
-        placeholderTextColor={StyleUtility.COLORS.grey400}
+        placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
-        onFocus={() => !this.state.isError && this.textInput.setNativeProps({style: [StyleUtility.UTILITY_STYLES.borderHighlighted, StyleUtility.UTILITY_STYLES.textHighlighted]})}
+        onFocus={() => !this.state.isError && this.textInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]})}
         onEndEditing={() => !this.state.isError && this.textInput.setNativeProps({style: styles.textInput})}
       />
     )
@@ -124,7 +124,7 @@ class UsernameScreen extends React.PureComponent {
 
   _renderErrorText() {
     return (
-      <RN.Text style={[styles.errorText, !this.state.isError && StyleUtility.UTILITY_STYLES.transparentText]}>
+      <RN.Text style={[styles.errorText, !this.state.isError && UTILITY_STYLES.transparentText]}>
         {this.state.errorText}
       </RN.Text>
     )
@@ -133,11 +133,11 @@ class UsernameScreen extends React.PureComponent {
   _renderNextButton() {
     return (
       <RN.TouchableOpacity
-        style={[StyleUtility.UTILITY_STYLES.nextButtonBackground, this.state.inputtedText.length === 0 && StyleUtility.UTILITY_STYLES.nextButtonBackgroundDisabled]}
+        style={[UTILITY_STYLES.nextButtonBackground, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonBackgroundDisabled]}
         onPress={this._onPress}
         disabled={(this.state.inputtedText.length === 0) && !this.state.isLoading}
         >
-        <RN.Text style={[StyleUtility.UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && StyleUtility.UTILITY_STYLES.nextButtonTextDisabled]}>
+        <RN.Text style={[UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonTextDisabled]}>
           {this.props.currentScreen === 'UsernameScreenLogin' ? 'Next' : 'Done'}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -152,7 +152,7 @@ class UsernameScreen extends React.PureComponent {
 
   render() {
     return (
-        <RN.View style={StyleUtility.UTILITY_STYLES.containerStart}>
+        <RN.View style={UTILITY_STYLES.containerStart}>
           {this._renderTitle()}
           {this._renderSubtitle()}
           {this._renderTextInput()}
