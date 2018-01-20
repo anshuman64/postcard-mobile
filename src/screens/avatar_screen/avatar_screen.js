@@ -7,7 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LoadingModal                   from '../../components/loading_modal/loading_modal.js';
 import { styles }                     from './avatar_screen_styles.js';
 import { getImage, uploadImageFile }  from '../../utilities/file_utility.js';
-import * as StyleUtility             from '../../utilities/style_utility.js';
+import { UTILITY_STYLES }             from '../../utilities/style_utility.js';
 import { defaultErrorAlert }          from '../../utilities/error_utility.js';
 
 
@@ -158,7 +158,7 @@ class AvatarScreen extends React.PureComponent {
 
   _renderTitle() {
     return (
-      <RN.Text style={[StyleUtility.UTILITY_STYLES.regularBlackText18, StyleUtility.UTILITY_STYLES.marginTop50]}>
+      <RN.Text style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
         Add profile photo
       </RN.Text>
     )
@@ -166,7 +166,7 @@ class AvatarScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text style={[StyleUtility.UTILITY_STYLES.lightBlackText16, StyleUtility.UTILITY_STYLES.marginTop5]}>
+      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
         Add a profile photo that represents you
       </RN.Text>
     )
@@ -198,7 +198,7 @@ class AvatarScreen extends React.PureComponent {
         onPress={this._onPressAddPhoto}
         disabled={!this.state.imagePath || this.state.isLoading}
         >
-        <RN.Text style={[styles.skipButtonText, !this.state.imagePath && StyleUtility.UTILITY_STYLES.transparentText]}>
+        <RN.Text style={[styles.skipButtonText, !this.state.imagePath && UTILITY_STYLES.transparentText]}>
           Change
         </RN.Text>
       </RN.TouchableOpacity>
@@ -208,11 +208,11 @@ class AvatarScreen extends React.PureComponent {
   _renderNextButton() {
     return (
       <RN.TouchableOpacity
-        style={StyleUtility.UTILITY_STYLES.nextButtonBackground}
+        style={UTILITY_STYLES.nextButtonBackground}
         onPress={this.state.imagePath ? this._onPressNextOrDone : this._onPressAddPhoto}
         disabled={this.state.isLoading}
         >
-        <RN.Text style={StyleUtility.UTILITY_STYLES.lightWhiteText18}>
+        <RN.Text style={UTILITY_STYLES.lightWhiteText18}>
           {this.state.imagePath ? (this.props.isLogin ? 'Next' : 'Done') : 'Add Photo'}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -245,7 +245,7 @@ class AvatarScreen extends React.PureComponent {
 
   render() {
     return (
-        <RN.View style={StyleUtility.UTILITY_STYLES.containerStart}>
+        <RN.View style={UTILITY_STYLES.containerStart}>
           {this._renderTitle()}
           {this._renderSubtitle()}
           <RN.View style={styles.frame}>

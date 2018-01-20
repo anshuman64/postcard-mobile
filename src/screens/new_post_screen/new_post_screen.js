@@ -9,7 +9,7 @@ import HeaderContainer                    from '../../components/nav_bar_header/
 import { POST_PLACEHOLDERS }              from '../../utilities/new_post_utility.js';
 import { styles }                         from './new_post_screen_styles.js';
 import { getRandomInt, setStateCallback } from '../../utilities/function_utility.js';
-import { UTILITY_STYLES }                 from '../../utilities/style_utility.js';
+import { UTILITY_STYLES, COLORS }                 from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -60,7 +60,7 @@ class NewPostScreen extends React.PureComponent {
     return (
       <RN.TextInput
         style={[styles.textInput, this.state.postText.length >= 86 && styles.smallBodyText]}
-        placeholderTextColor={StyleUtility.COLORS.grey400}
+        placeholderTextColor={COLORS.grey400}
         placeholder={this.state.placeholderText}
         onChangeText={this._onChangeText.bind(this)}
         value={this.state.postText}
@@ -102,7 +102,15 @@ class NewPostScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        <HeaderContainer backIcon={true} backTitle={'Create Post'} shareButton={true} postText={this.state.postText} placeholderText={this.state.placeholderText} imagePath={this.state.imagePath} imageType={this.state.imageType}/>
+        <HeaderContainer
+          backIcon={true}
+          backTitle={'Create Post'} 
+          shareButton={true}
+          postText={this.state.postText}
+          placeholderText={this.state.placeholderText}
+          imagePath={this.state.imagePath}
+          imageType={this.state.imageType}
+          />
         {this._renderTextInput()}
         {this._renderImage()}
         {this._renderImageButton()}
