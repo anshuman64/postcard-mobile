@@ -59,9 +59,9 @@ class DebugLoginScreen extends React.PureComponent {
 
   _renderLogo() {
     return (
-      <RN.View style={ styles.topView }>
+      <RN.View style={styles.topView}>
         <RN.Image
-          style={ styles.logo }
+          style={styles.logo}
           source={require('../../assets/images/logo/logo.png')}
           resizeMode='contain'
           />

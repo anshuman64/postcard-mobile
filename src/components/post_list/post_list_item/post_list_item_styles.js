@@ -44,23 +44,18 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-  },
-  userButton: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
     marginLeft: DEFAULT_MARGIN,
   },
   frame: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
     height: 40,
     width: 40,
   },
   userIcon: {
     fontSize: StyleUtility.scaleFont(28),
-    textAlign: 'right',
+    textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
   avatarImage: {
@@ -118,13 +113,6 @@ export const styles = StyleSheet.create({
     height: 50,
   },
   heartIcon: {
-    width: 30,
-    fontSize: 22,
-    textAlign: 'center',
-    color: StyleUtility.COLORS.appleRed,
-    marginRight: 10
-  },
-  filledHeartIcon: {
     width: 30,
     fontSize: 22,
     textAlign: 'center',
