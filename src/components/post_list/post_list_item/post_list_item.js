@@ -286,14 +286,12 @@ class PostListItem extends React.PureComponent {
   _renderUserView() {
     return (
         <RN.View style={styles.userView}>
-            <RN.View style={styles.userButton}>
-              <RN.View style={styles.frame}>
-                {this._renderAvatar()}
-              </RN.View>
-              <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-                {this.isUser ? this.props.user.username : this.props.item.author_username}
-              </RN.Text>
+            <RN.View style={styles.frame}>
+              {this._renderAvatar()}
             </RN.View>
+            <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
+              {this.isUser ? this.props.user.username : this.props.item.author_username}
+            </RN.Text>
           {this._renderFollow()}
         </RN.View>
     )
@@ -369,32 +367,32 @@ class PostListItem extends React.PureComponent {
           name='heart-filled'
           animation={scaleHeart}
           duration={750}
-          style={ styles.filledHeartIcon }
+          style={styles.heartIcon}
           onAnimationBegin={setStateCallback(this, { isLikingAnimation: true })}
           onAnimationEnd={setStateCallback(this, { isLikingAnimation: false })}
           />
       )
     } else {
       return (
-        <Icon name='heart' style={ styles.heartIcon } />
+        <Icon name='heart' style={styles.heartIcon} />
       )
     }
   }
 
   _renderFooter() {
     return (
-      <RN.View style={ styles.footerView }>
+      <RN.View style={styles.footerView}>
         <RN.TouchableWithoutFeedback onPressIn={this._onPressLike}>
           <RN.View style={styles.likesView}>
             <RN.View style={styles.heartButton}>
               {this._renderLike()}
             </RN.View>
-            <RN.Text style={ styles.likeCountText }>
+            <RN.Text style={styles.likeCountText}>
               {renderLikesCount(this.props.item.num_likes)}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
-        <RN.Text style={ styles.dateText }>
+        <RN.Text style={styles.dateText}>
           {renderDate(this.props.item.created_at)}
         </RN.Text>
       </RN.View>
