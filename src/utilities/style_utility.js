@@ -103,11 +103,11 @@ export const UTILITY_STYLES = StyleSheet.create({
     color: 'transparent'
   },
   borderHighlighted: {
-    borderBottomColor: COLORS.appleBlue,
+    borderColor: COLORS.appleBlue,
     borderBottomWidth: 1,
   },
   borderRed: {
-    borderBottomColor: COLORS.appleRed,
+    borderColor: COLORS.appleRed,
     borderBottomWidth: 1,
   },
 
@@ -184,7 +184,7 @@ export const UTILITY_STYLES = StyleSheet.create({
    backgroundColor: COLORS.appleBlue,
  },
  nextButtonBackgroundDisabled: {
-   backgroundColor: COLORS.appleBlue + '33',
+   backgroundColor: COLORS.appleBlue + '40',
  },
  nextButtonTextDisabled: {
    color: '#ffffffb3',

@@ -13,6 +13,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
     Actions.DebugLoginScreen(props)
   } else if (screen === 'LoadingScreen') {
     Actions.LoadingScreen(props)
+  } else if (screen === 'WelcomeScreen') {
+    Actions.WelcomeScreen(props)
   } else if (screen === 'LoginScreen') {
     Actions.LoginScreen(props)
   } else if (screen === 'ConfirmCodeScreen') {

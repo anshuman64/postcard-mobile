@@ -4,16 +4,15 @@ import RN                      from 'react-native';
 import _                       from 'lodash';
 import { AsYouTypeFormatter }  from 'google-libphonenumber';
 import Icon                    from 'react-native-vector-icons/Ionicons';
-import * as Animatable         from 'react-native-animatable';
 
 // Local Imports
-import LoadingModal                                         from '../../components/loading_modal/loading_modal.js';
-import CountryListModal                                     from '../../components/country_list_modal/country_list_modal.js';
-import { styles, fadeInIcon, translateIcon, translateLogo } from './login_screen_styles.js';
-import { COUNTRY_CODES }                                    from '../../utilities/country_utility.js';
-import { setStateCallback }                                 from '../../utilities/function_utility.js';
-import { UTILITY_STYLES, COLORS }                           from '../../utilities/style_utility.js';
-import { defaultErrorAlert }                                from '../../utilities/error_utility.js';
+import LoadingModal                from '../../components/loading_modal/loading_modal.js';
+import CountryListModal            from '../../components/country_list_modal/country_list_modal.js';
+import { styles }                  from './login_screen_styles.js';
+import { COUNTRY_CODES }           from '../../utilities/country_utility.js';
+import { setStateCallback }        from '../../utilities/function_utility.js';
+import { UTILITY_STYLES, COLORS }  from '../../utilities/style_utility.js';
+import { defaultErrorAlert }       from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -150,64 +149,14 @@ class LoginScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Animation Render Methods
-  //--------------------------------------------------------------------//
-
-  //TODO: Don't allow icon & logo to push up with keyboard
-  _renderIconAnimation() {
-    if (this.state.isLogoFading) {
-      return (
-        <Animatable.Image
-          style={styles.icon}
-          source={require('../../assets/images/icon/icon.png')}
-          resizeMode='cover'
-          animation={fadeInIcon}
-          duration={20}
-          delay={10}
-          />
-      )
-    } else {
-      return (
-        <Animatable.Image
-          style={styles.icon}
-          source={require('../../assets/images/icon/icon.png')}
-          resizeMode='cover'
-          animation={translateIcon}
-          duration={20}
-          />
-      )
-    }
-  }
-
-  _renderLogoAnimation() {
-    if (this.state.isLogoFading) {
-      return (
-        <Animatable.Text
-          style={styles.logo}
-          animation={'fadeIn'}
-          duration={18}
-          delay={30}
-          onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
-          >
-          Insiya
-        </Animatable.Text>
-      )
-    } else {
-      return (
-        <Animatable.Text
-          style={styles.logo}
-          animation={translateLogo}
-          duration={20}
-          >
-          Insiya
-        </Animatable.Text>
-      )
-    }
-  }
-
-  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
+
+  _renderLogo() {
+    return(
+      <RN.Image style={styles.logo} source={require('../../assets/images/logo/logo.png')} resizeMode='contain' />
+    )
+  }
 
   _renderCountrySelector() {
     return (
@@ -274,7 +223,7 @@ class LoginScreen extends React.PureComponent {
   _renderNextButton() {
     return (
       <RN.TouchableOpacity
-        style={[UTILITY_STYLES.nextButtonBackground, {marginTop: 75}, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonBackgroundDisabled]}
+        style={[UTILITY_STYLES.nextButtonBackground, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonBackgroundDisabled]}
         onPress={this._onNextButtonPress}
         disabled={this.state.isNextButtonDisabled || this.state.isLoading}
         >
@@ -308,25 +257,6 @@ class LoginScreen extends React.PureComponent {
     )
   }
 
-  _renderLoginScreen() {
-    if (!this.state.isLogoFading) {
-      return (
-        <Animatable.View
-          animation={'fadeIn'}
-          duration={20}
-          delay={6}
-          >
-          {this._renderCountrySelector()}
-          {this._renderPhoneNumberInput()}
-          {this._renderInvalidNumberText()}
-          {this._renderNextButton()}
-          {this._renderSMSNoticeText()}
-          {this._renderModal()}
-        </Animatable.View>
-      )
-    }
-  }
-
   _renderLoadingModal() {
     return (
       <LoadingModal isLoading={this.state.isLoading} />
@@ -335,10 +265,18 @@ class LoginScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={UTILITY_STYLES.containerCenter}>
-        {this._renderIconAnimation()}
-        {this._renderLogoAnimation()}
-        {this._renderLoginScreen()}
+      <RN.View style={UTILITY_STYLES.containerStart}>
+        <RN.View style={{flex: 5}} />
+        {this._renderLogo()}
+        <RN.View style={{flex: 4}} />
+        {this._renderCountrySelector()}
+        {this._renderPhoneNumberInput()}
+        {this._renderInvalidNumberText()}
+        <RN.View style={{flex: 3}} />
+        {this._renderNextButton()}
+        {this._renderSMSNoticeText()}
+        <RN.View style={{flex: 8}} />
+        {this._renderModal()}
         {this._renderLoadingModal()}
       </RN.View>
     )
