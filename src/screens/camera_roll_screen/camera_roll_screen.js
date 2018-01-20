@@ -44,10 +44,10 @@ class CameraRollScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   //TODO: decide to paginate or wait for bugs!
+  // Recursively gets all images from cameraRoll and adds data to this.state.images
   _getPhotos = (first, after) => {
     RN.CameraRoll.getPhotos({first: first, after: after})
       .then((data) => {
-
         this.setState({ images: this.state.images.concat(data.edges) }, () => {
           if (data.page_info.has_next_page) {
             this._getPhotos(999999999, data.page_info.end_cursor);
@@ -65,6 +65,7 @@ class CameraRollScreen extends React.PureComponent {
       })
   }
 
+  // Opens cropper on image selection
   _onPressImage(imageNode) {
     if (this.isImagePressed) {
       return;
@@ -72,15 +73,15 @@ class CameraRollScreen extends React.PureComponent {
 
     this.isImagePressed = true;
 
+    // If image selected is a gif, skip the cropping
     if (imageNode.type === 'image/gif') {
       this.props.goBack({ imagePath: imageNode.image.uri, imageType: imageNode.type });
-      this.isImagePressed = false;
     } else {
       ImagePicker.openCropper({
         path: imageNode.image.uri,
         width: 500,
         height: 500,
-        cropperCircleOverlay: this.props.isAvatar,
+        cropperCircleOverlay: this.props.isAvatar, // If isAvatar, use the circular cropping overlay
         showCropGuidelines: false,
         hideBottomControls: true,
         cropperToolbarColor: 'black',
@@ -90,8 +91,6 @@ class CameraRollScreen extends React.PureComponent {
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally(() => {
         this.isImagePressed = false;
       })
     }
@@ -105,7 +104,7 @@ class CameraRollScreen extends React.PureComponent {
     return (
       <RN.ListView
         dataSource={this.ds.cloneWithRows(this.state.images)}
-        style={ styles.cameraRoll }
+        style={styles.cameraRoll}
         renderRow={this._renderRow()}
         initialListSize={PAGE_SIZE * 2}
         pageSize={PAGE_SIZE * 10}

@@ -9,7 +9,7 @@ import HeaderContainer                    from '../../components/nav_bar_header/
 import { POST_PLACEHOLDERS }              from '../../utilities/new_post_utility.js';
 import { styles }                         from './new_post_screen_styles.js';
 import { getRandomInt, setStateCallback } from '../../utilities/function_utility.js';
-import { UTILITY_STYLES, COLORS }                 from '../../utilities/style_utility.js';
+import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -34,22 +34,16 @@ class NewPostScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  // Sets placeholderText as a random string from POST_PLACEHOLDERS
   componentDidMount() {
     this.setState({ placeholderText: POST_PLACEHOLDERS[getRandomInt(POST_PLACEHOLDERS.length)]})
   }
 
+  // If selected image from CameraRollScreen, adds image
   componentWillReceiveProps(nextProps) {
     if (nextProps.imagePath) {
       this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
     }
-  }
-
-  //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
-
-  _onChangeText = (value) => {
-    this.setState({ postText: value })
   }
 
   //--------------------------------------------------------------------//
@@ -62,7 +56,7 @@ class NewPostScreen extends React.PureComponent {
         style={[styles.textInput, this.state.postText.length >= 86 && styles.smallBodyText]}
         placeholderTextColor={COLORS.grey400}
         placeholder={this.state.placeholderText}
-        onChangeText={this._onChangeText.bind(this)}
+        onChangeText={(value) => this.setState({ postText: value })}
         value={this.state.postText}
         autoFocus={true}
         multiline={true}
@@ -75,9 +69,9 @@ class NewPostScreen extends React.PureComponent {
   _renderImage() {
     if (this.state.imagePath) {
       return (
-        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'} >
-          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })} >
-            <RN.View style={styles.closeButtonBackground} >
+        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'}>
+          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })}>
+            <RN.View style={styles.closeButtonBackground}>
               <EvilIcon name='close' style={styles.closeIcon} />
             </RN.View>
           </RN.TouchableWithoutFeedback>
@@ -104,7 +98,7 @@ class NewPostScreen extends React.PureComponent {
       <RN.View style={UTILITY_STYLES.containerStart}>
         <HeaderContainer
           backIcon={true}
-          backTitle={'Create Post'} 
+          backTitle={'Create Post'}
           shareButton={true}
           postText={this.state.postText}
           placeholderText={this.state.placeholderText}

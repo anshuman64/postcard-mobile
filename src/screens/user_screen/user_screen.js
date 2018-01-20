@@ -30,6 +30,7 @@ class UserScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  // Refresh AuthoredPosts and LikedPosts on mount
   componentDidMount() {
     this.postList.getWrappedInstance().refresh();
     this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
@@ -43,6 +44,7 @@ class UserScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
+  // Passed to ProfileHeader for tab switching
   setParentState = (state) => {
     let func = () => {
       this.setState(state);
@@ -51,6 +53,7 @@ class UserScreen extends React.PureComponent {
     return func;
   }
 
+  // Passed to ProfileHeader for switching follow button status
   setFollowState = (state) => {
     this.setState(state);
   }
