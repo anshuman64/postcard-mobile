@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   },
   textInput: {
     width: 240,
-    fontSize: 40,
+    fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: StyleUtility.COLORS.grey900,
