@@ -4,31 +4,6 @@ import { Alert } from 'react-native';
 
 //--------------------------------------------------------------------//
 
-//--------------------------------------------------------------------//
-// Helpers
-//--------------------------------------------------------------------//
-
-// Pops alert with 'No internet connection'
-let noInternetError = () => {
-  Alert.alert(
-    '',
-    'No internet connection.',
-    [
-      {text: 'OK', onPress: () => null, style: 'cancel'},
-    ],
-  )
-}
-
-// Pops alert when error is unknown
-let unknownError = () => {
-  Alert.alert(
-    '',
-    'Something went wrong. Please try again later.',
-    [
-      {text: 'OK', onPress: () => null, style: 'cancel'},
-    ],
-  )
-}
 
 //--------------------------------------------------------------------//
 // Interface
@@ -37,12 +12,12 @@ let unknownError = () => {
 // Pops appropriate alert depending on error
 export function defaultErrorAlert(error) {
   if (error.description === 'No internet connection') {
-    noInternetError();
+    Alert.alert('','No internet connection.',[{text: 'OK', style: 'cancel'}]);
   } else {
-    unknownError();
+    Alert.alert('','Something went wrong. Please try again later.',[{text: 'OK', style: 'cancel'}]);
   }
 
-  console.log(error)
+  console.error(error)
 }
 
 // Checks if error has a description. If not, add the description listed and return the error

@@ -236,14 +236,12 @@ class PostListItem extends React.PureComponent {
 
   // Navigates to profile of user and sends appropriate props
   _navigateToProfile = () => {
-    if (!this.isUser) {
-      this.props.navigateToProfile({
-        userId: this.props.item.author_id,
-        username: this.props.item.author_username,
-        avatarUrl: this.props.item.author_avatar_url,
-        isFollowed: this.props.item.is_author_followed_by_user
-      })
-    }
+    this.props.navigateToProfile({
+      userId: this.props.item.author_id,
+      username: this.props.item.author_username,
+      avatarUrl: this.props.item.author_avatar_url,
+      isFollowed: this.props.item.is_author_followed_by_user
+    });
   }
 
   //--------------------------------------------------------------------//
@@ -322,6 +320,7 @@ class PostListItem extends React.PureComponent {
         onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
         onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
         onPress={this._navigateToProfile}
+        disabled={this.isUser}
         >
         <RN.View style={styles.headerView}>
           {this._renderUserView()}

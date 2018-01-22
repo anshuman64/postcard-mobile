@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   },
   horizontalLine: {
     alignSelf: 'flex-start',
-    width: (StyleUtility.DEVICE_DIM.width - FOOTER_TEXT_WIDTH) / 2 - 10 - 15, // Device width minus footerText width over 2, minus post padding, minus aesthetic value
+    width: (StyleUtility.USABLE_DIM.width - FOOTER_TEXT_WIDTH) / 2 - 10 - 15, // Device width minus footerText width over 2, minus post padding, minus aesthetic value
     height: '50%',
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200

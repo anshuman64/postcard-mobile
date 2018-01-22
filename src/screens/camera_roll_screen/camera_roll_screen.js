@@ -5,13 +5,13 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { UTILITY_STYLES, DEVICE_DIM } from '../../utilities/style_utility.js';
-import { styles }                     from './camera_roll_screen_styles.js';
-import { defaultErrorAlert }          from '../../utilities/error_utility.js';
+import { UTILITY_STYLES, DEVICE_DIM, USABLE_DIM } from '../../utilities/style_utility.js';
+import { styles }                                 from './camera_roll_screen_styles.js';
+import { defaultErrorAlert }                      from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
-const PAGE_SIZE = Math.ceil(DEVICE_DIM.height / DEVICE_DIM.width / 3) * 3;
+const PAGE_SIZE = Math.ceil(DEVICE_DIM.height / USABLE_DIM.width / 3) * 3;
 
 class CameraRollScreen extends React.PureComponent {
 
@@ -48,21 +48,20 @@ class CameraRollScreen extends React.PureComponent {
   _getPhotos = (first, after) => {
     RN.CameraRoll.getPhotos({first: first, after: after})
       .then((data) => {
-        this.setState({ images: this.state.images.concat(data.edges) }, () => {
-          if (data.page_info.has_next_page) {
-            this._getPhotos(999999999, data.page_info.end_cursor);
-          }
-        });
+        // If there are no images, give an alert
+        if (!after && data.edges.length === 0) {
+          RN.Alert.alert('', 'No images in gallery.', [{text: 'OK', style: 'cancel'}]);
+        } else {
+          this.setState({ images: this.state.images.concat(data.edges) }, () => {
+            if (data.page_info.has_next_page) {
+              this._getPhotos(999999999, data.page_info.end_cursor);
+            }
+          });
+        }
       })
       .catch((error) => {
-        Alert.alert(
-          '',
-          'Could not load images. Please try again later.',
-          [
-            {text: 'OK', onPress: () => null, style: 'cancel'},
-          ],
-        )
-      })
+        RN.Alert.alert('','Could not load images. Please try again later.',[{text: 'OK', style: 'cancel'}]);
+      });
   }
 
   // Opens cropper on image selection
