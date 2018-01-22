@@ -47,7 +47,7 @@ let readImageFile = (imagePath) => {
   return RNFetchBlob.fs.readFile(imagePath, 'base64')
     .then((data) => {
       buffer = new Buffer(data, 'base64');
-      return new Promise.resolve(buffer);
+      return buffer;
     })
     .catch((error) => {
       throw setErrorDescription(error, 'Read image file failed');

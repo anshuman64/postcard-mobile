@@ -8,11 +8,7 @@ import { Platform, Dimensions, PixelRatio, StyleSheet } from 'react-native';
 //--------------------------------------------------------------------//
 
 export const isTablet = () => {
-  if (DEVICE_DIM.width < 520 || DEVICE_DIM.height < 960) {
-    return false;
-  } else {
-    return true;
-  }
+  return (DEVICE_DIM.width >= 520 || DEVICE_DIM.height >= 960);
 }
 
 // Determines if the phone is an iPhone X
@@ -102,6 +98,9 @@ export const UTILITY_STYLES = StyleSheet.create({
   // Highlight Styles
   textHighlighted: {
     color: COLORS.appleBlue
+  },
+  textRed: {
+    color: COLORS.appleRed
   },
   transparentText: {
     color: 'transparent'

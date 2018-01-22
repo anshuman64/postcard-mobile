@@ -84,13 +84,17 @@ class ConfirmCodeScreen extends React.PureComponent {
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
-        .then(() => {
+        .then((user) => {
           this._stopTimer();
 
-          if (!this.props.user.username) {
-            return this.props.navigateTo('UsernameScreenLogin');
+          if (user.is_banned) {
+            RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
           } else {
-            return this.props.navigateTo('HomeScreen');
+            if (!this.props.user.username) {
+              return this.props.navigateTo('UsernameScreenLogin');
+            } else {
+              return this.props.navigateTo('HomeScreen');
+            }
           }
 
           this.setState({ isCodeIncorrect: false });
