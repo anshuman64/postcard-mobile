@@ -86,19 +86,19 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} initial={true} hideNavBar={true}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true}  />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer}  initial={true}  hideNavBar={true}  />
             <Scene key='WelcomeScreen' component={WelcomeScreenContainer}   hideNavBar={true}  />
             <Scene key='LoginScreen' component={LoginScreenContainer}  hideNavBar={true}  />
-            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
+            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backTitle={'Choose Username'}/>}  />
             <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Choose Avatar'}/>}  />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={false} animationEnabled={false} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
               <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
               <Scene key='ProfileScreen' component={ProfileScreenContainer} tabBarComponent={() => <View style={{height: 0}}/>} hideNavBar={true} />
             </Tabs>
-            <Tabs key='UserScreen' component={UserScreen} tabBarComponent={() => <View style={{height: 0}}/>} hideNavBar={true} />
-            <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true}  />
+            <Tabs key='UserScreen' component={UserScreen}  tabBarComponent={() => <View style={{height: 0}}/>} hideNavBar={true} />
+            <Scene key='NewPostScreen' component={NewPostScreenContainer}  hideNavBar={true}  />
             <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true} backTitle={'Settings'}/>}  />
             <Scene key='UsernameScreen' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Change Username'}/>}  />
             <Scene key='CameraRollScreen' component={CameraRollScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Gallery'}/>}  />
