@@ -4,6 +4,7 @@ import _ from 'lodash';
 // Local Imports
 import { POST_ACTION_TYPES }   from '../actions/post_actions.js';
 import { LIKE_ACTION_TYPES }   from '../actions/like_actions.js';
+import { FLAG_ACTION_TYPES }   from '../actions/flag_actions.js';
 import { FOLLOW_ACTION_TYPES } from '../actions/follow_actions.js';
 
 //--------------------------------------------------------------------//

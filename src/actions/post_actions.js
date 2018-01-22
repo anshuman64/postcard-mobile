@@ -119,7 +119,7 @@ export const deletePost = (authToken, firebaseUserObj, userId, postId) => (dispa
     .then((delPost) => {
       amplitude.logEvent('Engagement - Delete Post', { is_successful: true, body: delPost.body });
 
-      return new Promise.resolve(delPost);
+      return delPost;
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
