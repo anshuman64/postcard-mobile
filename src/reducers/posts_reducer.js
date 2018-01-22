@@ -146,7 +146,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     // Remove post from LikedPosts when user unlikes a post
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
       userId = action.data.userId;
-      postId = action.data.post.id;
+      postId = action.data.like.post_id;
 
       _.remove(newState[userId][POST_TYPES.LIKED].data, (postsId) => {
         return postsId === postId;

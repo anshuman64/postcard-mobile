@@ -123,7 +123,7 @@ class AvatarScreen extends React.PureComponent {
         '',
         'Are you sure you want to skip this step?',
         [
-          {text: 'Cancel', onPress: () => null, style: 'cancel'},
+          {text: 'Cancel', style: 'cancel'},
           {text: 'Skip', onPress: () => this.props.navigateTo('HomeScreen')},
         ],
       )
@@ -132,7 +132,7 @@ class AvatarScreen extends React.PureComponent {
         '',
         'Are you sure you want to remove your profile photo?',
         [
-          {text: 'Cancel', onPress: () => null, style: 'cancel'},
+          {text: 'Cancel', style: 'cancel'},
           {text: 'Remove', onPress: this._onConfirmRemove},
         ],
       )

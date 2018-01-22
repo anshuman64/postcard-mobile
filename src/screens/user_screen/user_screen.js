@@ -64,7 +64,7 @@ class UserScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={styles.container}>
+      <RN.View style={UTILITY_STYLES.containerStart}>
         <HeaderContainer backIcon={true} backTitle={this.props.username + "'s Profile"} />
         <PostListContainer
           ref={(ref) => this.postList = ref}
