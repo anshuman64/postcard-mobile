@@ -80,7 +80,7 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
       amplitude.logEvent('Onboarding - Sign In With Phone Number', { is_successful: true });
       amplitude.setUserProperties({ phoneNumber: phoneNumber });
 
-      return new Promise.resolve(confirmationCodeObj);
+      return confirmationCodeObj;
     })
     .catch((error) => {
       amplitude.logEvent('Onboarding - Sign In With Phone Number', { is_successful: false, error: error.description });
@@ -115,6 +115,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     return APIUtility.get(authToken, '/users')
       .then((user) => {
         setUser(user, false);
+        return user;
       })
       .catch((error) => {
         return handleNewUser(authToken);
@@ -125,6 +126,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
       .then((newUser) => {
         setUser(newUser, true);
+        return newUser;
       })
       .catch((error) => {
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error: error.description });
@@ -164,7 +166,7 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
           if (func) {
             return dispatch(func(newAuthToken, firebaseUserObj, ...params));
           } else {
-            return new Promise.resolve(newAuthToken)
+            return newAuthToken;
           }
         }, configureAWSError)
     }, getIdTokenError)

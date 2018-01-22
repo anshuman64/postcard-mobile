@@ -25,7 +25,7 @@ const DEFAULT_HEADERS = {
 // Chooses right API url based on environment setting
 function getBaseUrl() {
   if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
-    return 'http://insiya-production.us-east-1.elasticbeanstalk.com/api';
+    return 'https://api.insiya.io/api';
   } else if (GLOBAL_ENV_SETTING === ENV_TYPES.TEST) {
     return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
   } else {

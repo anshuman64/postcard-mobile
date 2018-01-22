@@ -76,14 +76,15 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
       // Make sure objects exist
       newState[userId] = newState[userId] || {};
-      postData = newState[userId][postType];
 
       _.forEach(POST_TYPES, (postTypes) => {
         newState[userId][postTypes]      = newState[userId][postTypes] || {};
         newState[userId][postTypes].data = newState[userId][postTypes].data || [];
       })
 
+      postData = newState[userId][postType];
       postData.lastUpdated = new Date();
+
       if (postType === POST_TYPES.FOLLOWED) {
         postData.data = [];
       }

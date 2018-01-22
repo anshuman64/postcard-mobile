@@ -26,7 +26,6 @@ class ProfileHeader extends React.PureComponent {
       avatarUrl:  null,
     }
 
-    this.isUser           = false;
     this.isFollowDisabled = false;
   }
 
@@ -36,8 +35,6 @@ class ProfileHeader extends React.PureComponent {
 
   // If user has avatar, get image from AWS S3 and set signed url
   componentDidMount() {
-    this.isUser = this.props.user.id === this.props.userId;
-
     if (this.props.avatarUrl) {
       this._setAvatarUrl(this.props.avatarUrl);
     }
@@ -45,7 +42,7 @@ class ProfileHeader extends React.PureComponent {
 
   // If user changed avatars, update avatar
   componentWillReceiveProps(nextProps) {
-    if (this.isUser && nextProps.user.avatar_url != this.props.user.avatar_url) {
+    if (this.props.user.id === this.props.userId && nextProps.user.avatar_url != this.props.user.avatar_url) {
       this._setAvatarUrl(nextProps.user.avatar_url);
     }
   }
@@ -130,11 +127,11 @@ class ProfileHeader extends React.PureComponent {
       return null;
     } else if (!this.props.user.avatar_url) {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={!this.isUser}>
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.View style={styles.frame}>
             <FontAwesome name='user-circle-o' style={styles.userIcon} />
           </RN.View>
-          <Icon name='pencil' style={[styles.avatarPencil, !this.isUser && UTILITY_STYLES.transparentText]} />
+          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     } else if (this.props.user.avatar_url && !this.state.avatarUrl) {
@@ -143,11 +140,11 @@ class ProfileHeader extends React.PureComponent {
       )
     } else if (this.props.currentScreen) {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={!this.isUser}>
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.View style={styles.frame}>
             <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'cover'} />
           </RN.View>
-          <Icon name='pencil' style={[styles.avatarPencil, !this.isUser && UTILITY_STYLES.transparentText]} />
+          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     }
@@ -158,18 +155,18 @@ class ProfileHeader extends React.PureComponent {
       return null;
     } else {
       return (
-        <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={!this.isUser}>
+        <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.Text style={styles.usernameText}>
             {this.props.username}
           </RN.Text>
-          <Icon name='pencil' style={[styles.pencil, !this.isUser && UTILITY_STYLES.transparentText]} />
+          <Icon name='pencil' style={[styles.pencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     }
   }
 
   _renderFollowButton() {
-    if (!this.isUser) {
+    if (this.props.user.id != this.props.userId) {
       return (
         <RN.TouchableOpacity
           style={[styles.followButtonBackground, this.props.isFollowed && styles.followButtonBackgroundDisabled]}

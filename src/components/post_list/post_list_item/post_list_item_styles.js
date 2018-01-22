@@ -63,7 +63,12 @@ export const styles = StyleSheet.create({
     width: 40,
     borderRadius: StyleUtility.getImageBorderRadius(40),
   },
-  closeButton: {
+  usernameView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  closeOrFlagButton: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -73,6 +78,11 @@ export const styles = StyleSheet.create({
   closeIcon: {
     fontSize: 20,
     color: StyleUtility.COLORS.grey900,
+    marginRight: 18
+  },
+  flagIcon: {
+    fontSize: 24,
+    color: StyleUtility.COLORS.grey600,
     marginRight: 18
   },
   bodyText: {
