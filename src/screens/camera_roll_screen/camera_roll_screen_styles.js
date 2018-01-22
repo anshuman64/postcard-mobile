@@ -9,10 +9,11 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 const IMAGE_PADDING = 2;
+const IMAGE_WIDTH   = StyleUtility.USABLE_DIM.width / 3;
 
 export const styles = StyleSheet.create({
   cameraRoll: {
-    width: '100%',
+    width: StyleUtility.USABLE_DIM.width,
     height: '100%',
     backgroundColor: StyleUtility.COLORS.grey50,
   },
@@ -20,22 +21,23 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    width: '100%'
   },
   imageContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: StyleUtility.DEVICE_DIM.width / 3,
-    height: StyleUtility.DEVICE_DIM.width / 3,
+    width: IMAGE_WIDTH,
+    height: IMAGE_WIDTH,
     borderWidth: 0,
   },
   iconBackground: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * IMAGE_PADDING,
-    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * IMAGE_PADDING,
+    width: IMAGE_WIDTH - 2 * IMAGE_PADDING,
+    height: IMAGE_WIDTH - 2 * IMAGE_PADDING,
     backgroundColor: StyleUtility.COLORS.grey800
   },
   imageIcon: {
@@ -43,8 +45,8 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey500,
   },
   image: {
-    width: StyleUtility.DEVICE_DIM.width / 3 - 2 * IMAGE_PADDING,
-    height: StyleUtility.DEVICE_DIM.width / 3 - 2 * IMAGE_PADDING,
+    width: IMAGE_WIDTH - 2 * IMAGE_PADDING,
+    height: IMAGE_WIDTH - 2 * IMAGE_PADDING,
     margin: 1,
     position: 'absolute',
   },

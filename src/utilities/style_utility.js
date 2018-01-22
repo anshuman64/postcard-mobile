@@ -7,17 +7,16 @@ import { Platform, Dimensions, PixelRatio, StyleSheet } from 'react-native';
 // Constants
 //--------------------------------------------------------------------//
 
-export const DEVICE_DIM = Dimensions.get('window');
-export const MAX_TABLET_DIM = { width: 480, height: 960 };
-export const USABLE_DIM = isTablet ? MAX_TABLET_DIM : DEVICE_DIM; // Determines a usable area depending on if the device is a tablet or not
-export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 0;
-
-//--------------------------------------------------------------------//
-// Helper Functions
-//--------------------------------------------------------------------//
+export const isTablet = () => {
+  if (DEVICE_DIM.width < 520 || DEVICE_DIM.height < 960) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 // Determines if the phone is an iPhone X
-let isIphoneX = () => {
+const isIphoneX = () => {
   return (
     Platform.OS === 'ios' &&
     !Platform.isPad &&
@@ -26,18 +25,23 @@ let isIphoneX = () => {
   );
 }
 
+export const DEVICE_DIM = Dimensions.get('window');
+export const MAX_TABLET_DIM = { width: 480, height: 960 };
+export const USABLE_DIM = isTablet() ? MAX_TABLET_DIM : DEVICE_DIM; // Determines a usable area depending on if the device is a tablet or not
+export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 0;
+
+//--------------------------------------------------------------------//
+// Helper Functions
+//--------------------------------------------------------------------//
+
+
+
 //--------------------------------------------------------------------//
 // Interface
 //--------------------------------------------------------------------//
 
 // Determines if the device is a tablet or not
-export const isTablet = () => {
-  if (DEVICE_DIM.width < 480 || DEVICE_DIM.height < 960) {
-    return false;
-  } else {
-    return true;
-  }
-}
+
 
 // Scales image by PixelSize
 export const scaleImage = (size) => {
