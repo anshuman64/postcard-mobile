@@ -32,6 +32,11 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
+
+  //--------------------------------------------------------------------//
+  // Receive and Refresh Post Actions
+  //--------------------------------------------------------------------//
+
     // When receiving or refreshing posts, update the store with new post information
     case POST_ACTION_TYPES.RECEIVE_POSTS:
     case POST_ACTION_TYPES.REFRESH_POSTS:
@@ -40,6 +45,11 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       });
 
       return newState;
+
+  //--------------------------------------------------------------------//
+  // Create and Delete Post Actions
+  //--------------------------------------------------------------------//
+
     // When creating a new post, update the store with the new post
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState[action.data.post.id] = action.data.post;
@@ -52,6 +62,11 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       });
 
       return newState;
+
+  //--------------------------------------------------------------------//
+  // Like Post Actions
+  //--------------------------------------------------------------------//
+
     // When liking a post, increment the likes by 1 and set is_liked_by_user to true
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
       postToUpdate = newState[action.data.like.post_id];
@@ -68,6 +83,26 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       postToUpdate.is_liked_by_user = false;
 
       return newState;
+
+  //--------------------------------------------------------------------//
+  // Flag Post Actions
+  //--------------------------------------------------------------------//
+
+    // When flagging a post, set is_flagged_by_user to true
+    case FLAG_ACTION_TYPES.RECEIVE_FLAG:
+      newState[action.data.flag.post_id].is_flagged_by_user = true;
+
+      return newState;
+    // When unflagging a post, set is_flagged_by_user to false
+    case FLAG_ACTION_TYPES.REMOVE_FLAG:
+      newState[action.data.flag.post_id].is_flagged_by_user = false;
+
+      return newState;
+
+  //--------------------------------------------------------------------//
+  // Follow Actions
+  //--------------------------------------------------------------------//
+
     // When following a new user, set is_author_followed_by_user to true for all posts with that author
     case FOLLOW_ACTION_TYPES.RECEIVE_FOLLOW:
       _.forEach(newState, (post) => {
