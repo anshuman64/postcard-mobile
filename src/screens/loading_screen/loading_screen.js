@@ -22,7 +22,8 @@ class LoadingScreen extends React.PureComponent {
 
     this.state = {
       isLoginSuccessful: false,
-      iterationCount:    'infinite'
+      iterationCount:    'infinite',
+      isBanned:          false
     }
   }
 
@@ -35,8 +36,13 @@ class LoadingScreen extends React.PureComponent {
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
         this.props.loginUser(firebaseUserObj)
-          .then(() => {
-            this.setState({ iterationCount: 2, isLoginSuccessful: true });
+          .then((user) => {
+            if (user.is_banned) {
+              RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
+              this.setState({ iterationCount: 2, isBanned: true });
+            } else {
+              this.setState({ iterationCount: 2, isLoginSuccessful: true });
+            }
           })
           .catch((error) => {
             console.error(error);
@@ -56,6 +62,10 @@ class LoadingScreen extends React.PureComponent {
   _onAnimationEnd = () => {
     if (this.unsubscribe) {
       this.unsubscribe();
+    }
+
+    if (this.state.isBanned) {
+      return;
     }
 
     if (this.state.isLoginSuccessful) {
