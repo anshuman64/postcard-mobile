@@ -15,39 +15,41 @@ import { setErrorDescription }           from './error_utility.js';
 // Constants
 //--------------------------------------------------------------------//
 
-const BUCKET_NAME = getBucketName();
-const S3_CLIENT   = null;
+
+let s3Client = null;
+
 
 //--------------------------------------------------------------------//
 // Helper Functions
 //--------------------------------------------------------------------//
 
+
 // Returns the right Bucket Name depending on environment setting
-function getBucketName() {
-  if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
-    return 'insiya-users';
-  } else if (GLOBAL_ENV_SETTING === ENV_TYPES.TEST) {
-    return 'insiya-users-test';
-  } else {
-    return 'insiya-users-dev';
+let getBucketName = () => {
+  switch (GLOBAL_ENV_SETTING) {
+    case ENV_TYPES.PRODUCTION:
+      return 'insiya-users';
+    case ENV_TYPES.TEST:
+      return 'insiya-users-test';
+    default:
+      return 'insiya-users-dev';
   }
-}
+};
 
 // Gets an s3 client or creates one if one doesn't exist.
 let getClient = () => {
-  if (!S3_CLIENT) {
-    S3_CLIENT = new AWS.S3();
+  if (!s3Client) {
+    s3Client = new AWS.S3();
   }
 
-  return S3_CLIENT;
+  return s3Client;
 };
 
 // Reads an image file and returns a buffer to prepare for AWS S3 uploading
 let readImageFile = (imagePath) => {
   return RNFetchBlob.fs.readFile(imagePath, 'base64')
     .then((data) => {
-      buffer = new Buffer(data, 'base64');
-      return buffer;
+      return new Buffer(data, 'base64');
     })
     .catch((error) => {
       throw setErrorDescription(error, 'Read image file failed');
@@ -56,30 +58,29 @@ let readImageFile = (imagePath) => {
 
 // Returns AWS S3 upload params
 let getParamsForImage = (userId, imageType, buffer, folderPath) => {
-  userFolder = userId;
-  name = uuid.v1();
-  ext = mime.extension(imageType);
-  folder = folderPath ? folderPath : '';
+  let userFolder = userId;
+  let name       = uuid.v1();
+  let ext        = mime.extension(imageType);
+  let folder     = folderPath ? folderPath : '';
 
-  params = {
+  return {
     Body: buffer,
-    Bucket: BUCKET_NAME,
+    Bucket: getBucketName(),
     Key: userFolder + '/' + folder + name + '.' + ext,
     ServerSideEncryption: 'AES256',
     ContentType: imageType
   };
-
-  return params;
 };
 
 // Refreshes authToken and AWS token if credentials expired
-let refreshAWSToken = (firebaseUserObj, refreshAuthToken, func, ...params) => {
+let refreshAWSToken = (firebaseUserObj, refreshAuthToken, fn, ...params) => {
   return refreshAuthToken(firebaseUserObj)
     .then(() => {
-      S3_CLIENT = new AWS.S3();
-      return func(firebaseUserObj, refreshAuthToken, ...params);
-    })
-}
+      s3Client = new AWS.S3();
+
+      return fn(firebaseUserObj, refreshAuthToken, ...params);
+    });
+};
 
 // Uploads file to AWS S3
 let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
@@ -93,15 +94,15 @@ let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
             })
             .catch((error) => {
               reject(setErrorDescription(error, 'Upload file to S3 failed'));
-            })
+            });
         }
 
         reject(setErrorDescription(error, 'Upload file to S3 failed'));
       } else {
         resolve(data);
       }
-   });
-  })
+    });
+  });
 };
 
 
@@ -109,10 +110,11 @@ let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
 // Interface
 //--------------------------------------------------------------------//
 
+
 // Gets signed url for image from AWS S3 bucket using path key
 export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
   return new Promise((resolve, reject) => {
-    getClient().getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: key }, (error, data) => {
+    getClient().getSignedUrl('getObject', { Bucket: getBucketName(), Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
           return refreshAWSToken(firebaseUserObj, refreshAuthToken, getImage, key)
@@ -121,7 +123,7 @@ export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
             })
             .catch((error) => {
               reject(error);
-            })
+            });
         }
 
         reject(error);
@@ -130,12 +132,12 @@ export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
       }
     });
   });
-}
+};
 
 // Deletes file from AWS S3 bucket using path key
 export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
   return new Promise((resolve, reject) => {
-    getClient().deleteObject({ Bucket: BUCKET_NAME, Key: key }, (error, data) => {
+    getClient().deleteObject({ Bucket: getBucketName(), Key: key }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
           return refreshAWSToken(firebaseUserObj, refreshAuthToken, deleteFile, key)
@@ -144,7 +146,7 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
             })
             .catch((error) => {
               reject(setErrorDescription(error, 'Delete file in S3 failed'));
-            })
+            });
         }
 
         reject(setErrorDescription(error, 'Delete file in S3 failed'));
@@ -153,7 +155,7 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
       }
     });
   });
-}
+};
 
 // Uploads file to AWS S3 bucket
 export const uploadImageFile = (firebaseUserObj, refreshAuthToken, imagePath, imageType, userId, folderPath) => {
@@ -163,4 +165,4 @@ export const uploadImageFile = (firebaseUserObj, refreshAuthToken, imagePath, im
 
       return uploadFile(firebaseUserObj, refreshAuthToken, params);
     });
-}
+};
