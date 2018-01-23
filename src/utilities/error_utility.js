@@ -8,6 +8,7 @@ import { Alert } from 'react-native';
 // Interface
 //--------------------------------------------------------------------//
 
+
 // Pops appropriate alert depending on error
 export function defaultErrorAlert(error) {
   if (error.description === 'No internet connection') {
