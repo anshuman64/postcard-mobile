@@ -9,11 +9,11 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 const IMAGE_PADDING = 2;
-const IMAGE_WIDTH   = StyleUtility.USABLE_DIM.width / 3;
+const IMAGE_WIDTH   = StyleUtility.getUsableDimensions().width / 3;
 
 export const styles = StyleSheet.create({
   cameraRoll: {
-    width: StyleUtility.USABLE_DIM.width,
+    width: StyleUtility.getUsableDimensions().width,
     height: '100%',
     backgroundColor: StyleUtility.COLORS.grey50,
   },

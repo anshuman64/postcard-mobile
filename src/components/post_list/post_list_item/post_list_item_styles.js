@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: StyleUtility.USABLE_DIM.width,
+    width: StyleUtility.getUsableDimensions().width,
     backgroundColor: 'white',
     marginTop: 10,
     marginBottom: 4,
@@ -87,7 +87,7 @@ export const styles = StyleSheet.create({
     marginRight: 18
   },
   bodyText: {
-    width: StyleUtility.USABLE_DIM.width - DEFAULT_MARGIN * 2,
+    width: StyleUtility.getUsableDimensions().width - DEFAULT_MARGIN * 2,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(18),
@@ -101,8 +101,8 @@ export const styles = StyleSheet.create({
     fontSize: StyleUtility.scaleFont(15),
   },
   bodyImage: {
-    height: StyleUtility.USABLE_DIM.width,
-    width: StyleUtility.USABLE_DIM.width,
+    height: StyleUtility.getUsableDimensions().width,
+    width: StyleUtility.getUsableDimensions().width,
     marginTop: DEFAULT_MARGIN,
   },
   footerView: {
