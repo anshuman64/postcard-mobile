@@ -13,7 +13,7 @@ import { renderDate }                         from '../../../utilities/date_time
 import fontelloConfig                         from '../../../assets/fonts/config.json';
 import { defaultErrorAlert }                  from '../../../utilities/error_utility.js';
 import { getImage, deleteFile }               from '../../../utilities/file_utility.js';
-import { setStateCallback, renderLikesCount } from '../../../utilities/function_utility.js';
+import { setStateCallback, getReadableCount } from '../../../utilities/function_utility.js';
 import { UTILITY_STYLES }                     from '../../../utilities/style_utility.js';
 
 
@@ -441,7 +441,7 @@ class PostListItem extends React.PureComponent {
               {this._renderLike()}
             </RN.View>
             <RN.Text style={styles.likeCountText}>
-              {renderLikesCount(this.props.item.num_likes)}
+              {getReadableCount(this.props.item.num_likes)}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
