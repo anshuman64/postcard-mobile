@@ -3,10 +3,10 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles }                              from './country_list_modal_styles.js';
-import CountryListItem                         from './country_list_item/country_list_item.js';
-import { UTILITY_STYLES, COLORS, USABLE_DIM }  from '../../utilities/style_utility.js';
-import { COUNTRY_CODES }                       from '../../utilities/country_utility.js';
+import { styles }                                      from './country_list_modal_styles.js';
+import CountryListItem                                 from './country_list_item/country_list_item.js';
+import { UTILITY_STYLES, COLORS, getUsableDimensions } from '../../utilities/style_utility.js';
+import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -42,7 +42,7 @@ class CountryListModal extends React.PureComponent {
 
   // Scrolls directly to the currently selected country when RN.ScrollView is opened
   _onListViewContentSizeChange = () => {
-    let height = 0.85 * USABLE_DIM.height;
+    let height = 0.85 * getUsableDimensions().height;
     let countryPosition = this.props.countryIndex * 45 - 2; // countryIndex * height of each bar minus aesthetic two pixels
     let maxPosition = COUNTRY_CODES.length * 45 - (height - 50 - 45); // length of full list minus length of one page of scrollView
     this.scrollView.scrollTo({x: 0, y: Math.min(countryPosition, maxPosition), animated: true})
