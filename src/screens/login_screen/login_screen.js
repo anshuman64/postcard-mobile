@@ -28,7 +28,6 @@ class LoginScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      isLogoFading:             true,
       countryIndex:             220, // hard-coded to United States
       formattedPhoneNumber:     '',
       isModalVisible:           false,
@@ -129,6 +128,7 @@ class LoginScreen extends React.PureComponent {
        })
        .catch((error) => {
          if (error.description === 'Firebase phone sign-in failed') {
+           console.error(error)
            this.setState({ isPhoneNumberInvalid: true });
          } else {
            defaultErrorAlert(error);
@@ -169,12 +169,12 @@ class LoginScreen extends React.PureComponent {
         }}
         onPressOut={() => {
           this.countrySelectorView.setNativeProps({style: styles.countrySelectorView})
-          this.countrySelectorText.setNativeProps({style: UTILITY_STYLES.lightBlackText18})
+          this.countrySelectorText.setNativeProps({style: [UTILITY_STYLES.lightBlackText18, styles.countrySelectorTextWidth]})
           this.dropdownIcon.setNativeProps({style: styles.dropdownIcon})
         }}
         >
         <RN.View ref={(ref) => this.countrySelectorView = ref} style={styles.countrySelectorView}>
-          <RN.Text ref={(ref) => this.countrySelectorText = ref} style={UTILITY_STYLES.lightBlackText18}>
+          <RN.Text ref={(ref) => this.countrySelectorText = ref} style={[UTILITY_STYLES.lightBlackText18, styles.countrySelectorTextWidth]}>
             {COUNTRY_CODES[this.state.countryIndex].country_name}
           </RN.Text>
           <Icon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
@@ -204,7 +204,7 @@ class LoginScreen extends React.PureComponent {
             placeholderTextColor={COLORS.grey400}
             underlineColorAndroid={'transparent'}
             onFocus={this._onFocus}
-            onEndEditing={() => this.phoneInput.setNativeProps({style: styles.phoneNumberInput})}
+            onEndEditing={() => this.phoneInput.setNativeProps({style: [styles.phoneNumberInput, this.state.isPhoneNumberInvalid && UTILITY_STYLES.borderRed]})}
             />
       </RN.View>
     )

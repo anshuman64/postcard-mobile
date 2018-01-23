@@ -24,16 +24,16 @@ class CountryListItem extends React.PureComponent {
           this.dialingCodeText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
-          this.countryText.setNativeProps({style: UTILITY_STYLES.lightBlackText14})
-          this.dialingCodeText.setNativeProps({style: UTILITY_STYLES.lightBlackText14})
+          this.countryText.setNativeProps({style: UTILITY_STYLES.lightBlackText15})
+          this.dialingCodeText.setNativeProps({style: UTILITY_STYLES.lightBlackText15})
         }}
         onPress={this.props.setCountry(this.props.countryIndex)}
         >
         <RN.View style={styles.rowContainer}>
-          <RN.Text ref={(ref) => this.countryText = ref} style={UTILITY_STYLES.lightBlackText14}>
+          <RN.Text ref={(ref) => this.countryText = ref} style={UTILITY_STYLES.lightBlackText15}>
             {this.props.item.country_name}
           </RN.Text>
-          <RN.Text ref={(ref) => this.dialingCodeText = ref} style={UTILITY_STYLES.lightBlackText14}>
+          <RN.Text ref={(ref) => this.dialingCodeText = ref} style={UTILITY_STYLES.lightBlackText15}>
             {this.props.item.dialing_code}
           </RN.Text>
         </RN.View>
