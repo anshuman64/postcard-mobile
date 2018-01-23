@@ -8,7 +8,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-export const PROFILE_HEADER_HEIGHT      = 180;
+export const PROFILE_HEADER_HEIGHT      = 150;
 export const PROFILE_HEADER_TABS_HEIGHT = 30;
 
 export const styles = StyleSheet.create({
@@ -28,15 +28,15 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
-    paddingLeft: 40,
-    marginBottom: 30
+    paddingLeft: 30,
+    marginBottom: 15
   },
   frame: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    height: 100,
-    width: 105,
+    height: 90,
+    width: 100,
   },
   userIcon: {
     fontSize: StyleUtility.scaleFont(90),
@@ -44,9 +44,9 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
   },
   image: {
-    height: 100,
-    width: 100,
-    borderRadius: StyleUtility.getImageBorderRadius(100),
+    height: 90,
+    width: 90,
+    borderRadius: StyleUtility.getImageBorderRadius(90),
   },
   avatarPencil: {
     fontSize: StyleUtility.scaleFont(14),
@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: 200,
+    width: 180,
     marginBottom: 15,
   },
   usernameText: {
@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
   followButtonBackground: {
     flexDirection: 'column',
     justifyContent: 'center',
-    width: 200,
+    width: 180,
     height: 30,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue,
