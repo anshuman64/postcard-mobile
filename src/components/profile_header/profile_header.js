@@ -226,9 +226,9 @@ class ProfileHeader extends React.PureComponent {
     });
 
     return (
-      <RN.Animated.View style={[styles.container, this.props.currentScreen === 'HomeScreen' && { height: PROFILE_HEADER_TABS_HEIGHT },
-        this.props.currentScreen != 'HomeScreen' && { transform: [{translateY}] },
-        (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { marginTop: -STATUSBAR_HEIGHT - 4 } ]}
+      <RN.Animated.View style={[styles.container,
+        this.props.currentScreen === 'HomeScreen' && { height: PROFILE_HEADER_TABS_HEIGHT },
+        this.props.currentScreen != 'HomeScreen' && { transform: [{translateY}] }]}
         >
         <RN.View style={styles.userView}>
           {this._renderAvatar()}

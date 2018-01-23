@@ -67,6 +67,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    height: 40,
   },
   closeOrFlagButton: {
     flexDirection: 'row',
