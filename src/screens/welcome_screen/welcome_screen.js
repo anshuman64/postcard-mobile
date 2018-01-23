@@ -21,7 +21,8 @@ class WelcomeScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      isChecked: false,
+      isLogoFading: true,
+      isChecked:    false,
     };
   }
 
@@ -29,7 +30,6 @@ class WelcomeScreen extends React.PureComponent {
   // Animation Render Methods
   //--------------------------------------------------------------------//
 
-  //TODO: Don't allow icon & logo to push up with keyboard
   _renderIconAnimation() {
     if (this.state.isLogoFading) {
       return (
@@ -38,8 +38,8 @@ class WelcomeScreen extends React.PureComponent {
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='cover'
           animation={fadeInIcon}
-          duration={20}
-          delay={10}
+          duration={2000}
+          delay={1000}
           />
       )
     } else {
@@ -49,7 +49,7 @@ class WelcomeScreen extends React.PureComponent {
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='cover'
           animation={translateIcon}
-          duration={20}
+          duration={2000}
           />
       )
     }
@@ -61,8 +61,8 @@ class WelcomeScreen extends React.PureComponent {
         <Animatable.Text
           style={styles.logo}
           animation={'fadeIn'}
-          duration={18}
-          delay={30}
+          duration={1800}
+          delay={3000}
           onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
           >
           Insiya
@@ -73,7 +73,7 @@ class WelcomeScreen extends React.PureComponent {
         <Animatable.Text
           style={styles.logo}
           animation={translateLogo}
-          duration={20}
+          duration={2000}
           >
           Insiya
         </Animatable.Text>
@@ -103,11 +103,11 @@ class WelcomeScreen extends React.PureComponent {
     return (
       <RN.View style={styles.checkboxView}>
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.checkbox.setNativeProps({style: UTILITY_STYLES.borderHighlighted})}
+          onPressIn={() => this.checkbox.setNativeProps({style: styles.checkboxHighlighted})}
           onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
           onPress={setStateCallback(this, { isChecked: !this.state.isChecked })}
           >
-          <RN.View ref={(ref) => this.checkbox = ref} style={[styles.checkbox, this.state.isChecked && UTILITY_STYLES.borderHighlighted]}>
+          <RN.View ref={(ref) => this.checkbox = ref} style={styles.checkbox}>
             {this._renderFilledCheckbox()}
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -143,8 +143,8 @@ class WelcomeScreen extends React.PureComponent {
         <Animatable.View
           style={styles.animatableView}
           animation={'fadeIn'}
-          duration={20}
-          delay={6}
+          duration={2000}
+          delay={600}
           >
           {this._renderCheckbox()}
           {this._renderNextButton()}

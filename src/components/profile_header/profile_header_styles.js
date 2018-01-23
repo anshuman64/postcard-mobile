@@ -8,7 +8,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-export const PROFILE_HEADER_HEIGHT      = 150;
+export const PROFILE_HEADER_HEIGHT      = 140;
 export const PROFILE_HEADER_TABS_HEIGHT = 30;
 
 export const styles = StyleSheet.create({
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginLeft: 30
+    marginLeft: 28
   },
   usernameButton: {
     flexDirection: 'row',

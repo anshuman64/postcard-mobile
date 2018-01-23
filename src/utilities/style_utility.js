@@ -106,11 +106,11 @@ export const UTILITY_STYLES = StyleSheet.create({
     color: 'transparent'
   },
   borderHighlighted: {
-    borderColor: COLORS.appleBlue,
+    borderBottomColor: COLORS.appleBlue,
     borderBottomWidth: 1,
   },
   borderRed: {
-    borderColor: COLORS.appleRed,
+    borderBottomColor: COLORS.appleRed,
     borderBottomWidth: 1,
   },
 
@@ -152,9 +152,9 @@ export const UTILITY_STYLES = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.grey900,
   },
-  lightBlackText14: {
+  lightBlackText15: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: scaleFont(14),
+    fontSize: scaleFont(15),
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
