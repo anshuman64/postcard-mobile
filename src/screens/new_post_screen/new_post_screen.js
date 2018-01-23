@@ -6,12 +6,19 @@ import EvilIcon  from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import HeaderContainer                    from '../../components/nav_bar_header/header_container.js';
-import { POST_PLACEHOLDERS }              from '../../utilities/new_post_utility.js';
 import { styles }                         from './new_post_screen_styles.js';
 import { getRandomInt, setStateCallback } from '../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
+
+const POST_PLACEHOLDERS = [
+  'Suggestion: How are you?',
+  'Suggestion: What is your greatest fear?',
+  'Suggestion: What was your happiest moment?',
+  'Suggestion: What was your happiest moment today?'
+];
+
 
 class NewPostScreen extends React.PureComponent {
 
