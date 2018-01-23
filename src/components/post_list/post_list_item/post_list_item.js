@@ -152,7 +152,7 @@ class PostListItem extends React.PureComponent {
     } else {
       RN.Alert.alert(
         '',
-        'Flag this post as inappropriate?',
+        'Are you sure you want to flag this post as inappropriate?',
         [
           {text: 'Cancel', onPress: () => this.isFlagDisabled = false, style: 'cancel'},
           {text: 'Flag', onPress: this._onConfirmFlagPost},
@@ -293,31 +293,42 @@ class PostListItem extends React.PureComponent {
       avatarUrl: this.props.item.author_avatar_url,
       isFollowed: this.props.item.is_author_followed_by_user
     });
-
-    this.usernameText.setNativeProps({style: styles.usernameText});
   }
 
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderUsername() {
-    if (this.props.user.id != this.props.item.author_id) {
-      return (
-        <RN.View style={styles.usernameView}>
-          <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-            |
-          </RN.Text>
-          <RN.TouchableOpacity onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5, !this.props.item.is_author_followed_by_user && UTILITY_STYLES.textHighlighted]}>
-              {this.props.item.is_author_followed_by_user ? 'Following' : 'Follow'}
+  _renderHeader() {
+    return (
+      <RN.View style={styles.headerView}>
+        {this._renderUserView()}
+        {this._renderCloseOrFlag()}
+      </RN.View>
+    )
+  }
+
+  _renderUserView() {
+    return (
+      <RN.View style={styles.userView}>
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+          onPressOut={() => this.usernameText.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]})}
+          onPress={this._navigateToProfile}
+          disabled={this.props.user.id === this.props.item.author_id}
+          >
+          <RN.View style={styles.usernameView}>
+            <RN.View style={styles.frame}>
+              {this._renderAvatar()}
+            </RN.View>
+            <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
+              {this.props.user.id === this.props.item.author_id ? this.props.user.username : this.props.item.author_username}
             </RN.Text>
-          </RN.TouchableOpacity>
-        </RN.View>
-      )
-    } else {
-      return null;
-    }
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+        {this._renderFollowText()}
+      </RN.View>
+    )
   }
 
   _renderAvatar() {
@@ -334,18 +345,23 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  _renderUserView() {
-    return (
-        <RN.View style={styles.userView}>
-            <RN.View style={styles.frame}>
-              {this._renderAvatar()}
-            </RN.View>
-            <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-              {this.props.user.id === this.props.item.author_id ? this.props.user.username : this.props.item.author_username}
+  _renderFollowText() {
+    if (this.props.user.id != this.props.item.author_id) {
+      return (
+        <RN.View style={styles.usernameView}>
+          <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
+            |
+          </RN.Text>
+          <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
+            <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5, !this.props.item.is_author_followed_by_user && UTILITY_STYLES.textHighlighted]}>
+              {this.props.item.is_author_followed_by_user ? 'Following' : 'Follow'}
             </RN.Text>
-          {this._renderUsername()}
+          </RN.TouchableOpacity>
         </RN.View>
-    )
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderCloseOrFlag() {
@@ -379,21 +395,10 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  _renderHeader() {
-    return (
-      <RN.TouchableWithoutFeedback
-        onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-        onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
-        onPress={this._navigateToProfile}
-        disabled={this.props.user.id === this.props.item.author_id}
-        >
-        <RN.View style={styles.headerView}>
-          {this._renderUserView()}
-          {this._renderCloseOrFlag()}
-        </RN.View>
-      </RN.TouchableWithoutFeedback>
-    )
-  }
+
+  //--------------------------------------------------------------------//
+  // Post Body Render Methods
+  //--------------------------------------------------------------------//
 
   _renderBody() {
     if (this.props.item.body) {
@@ -423,25 +428,9 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  _renderLike() {
-    if ((!this.props.item.is_liked_by_user && !(!this.state.isLikingServer && !this.state.isLikingAnimation))
-        || this.props.item.is_liked_by_user) {
-      return (
-        <AnimatedIonicon
-          name='md-heart'
-          animation={scaleHeart}
-          duration={750}
-          style={styles.heartIcon}
-          onAnimationBegin={setStateCallback(this, { isLikingAnimation: true })}
-          onAnimationEnd={setStateCallback(this, { isLikingAnimation: false })}
-          />
-      )
-    } else {
-      return (
-        <Ionicon name='md-heart-outline' style={styles.heartIcon} />
-      )
-    }
-  }
+  //--------------------------------------------------------------------//
+  // Post Footer Render Methods
+  //--------------------------------------------------------------------//
 
   _renderFooter() {
     return (
@@ -462,6 +451,30 @@ class PostListItem extends React.PureComponent {
       </RN.View>
     )
   }
+
+  _renderLike() {
+    if ((!this.props.item.is_liked_by_user && !(!this.state.isLikingServer && !this.state.isLikingAnimation))
+        || this.props.item.is_liked_by_user) {
+      return (
+        <AnimatedIonicon
+          name='md-heart'
+          animation={scaleHeart}
+          duration={750}
+          style={styles.heartIcon}
+          onAnimationBegin={setStateCallback(this, { isLikingAnimation: true })}
+          onAnimationEnd={setStateCallback(this, { isLikingAnimation: false })}
+          />
+      )
+    } else {
+      return (
+        <Ionicon name='md-heart-outline' style={styles.heartIcon} />
+      )
+    }
+  }
+
+  //--------------------------------------------------------------------//
+  // Other Render Methods
+  //--------------------------------------------------------------------//
 
   render() {
     return(
