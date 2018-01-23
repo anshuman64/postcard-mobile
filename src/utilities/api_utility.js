@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import _         from 'lodash';
 
 // Local Imports
-import { ENV_TYPES, GLOBAL_ENV_SETTING } from './app_utility.js';
+import { ENV_TYPES, GLOBAL_ENV_SETTING } from '../app_config.js';
 
 //--------------------------------------------------------------------//
 
@@ -13,7 +13,6 @@ import { ENV_TYPES, GLOBAL_ENV_SETTING } from './app_utility.js';
 //--------------------------------------------------------------------//
 
 
-const BASE_URL        = getBaseUrl();
 const DEFAULT_HEADERS = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
@@ -104,7 +103,7 @@ export const get = (authToken, path, queryParams) => {
     headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
   };
 
-  let url = BASE_URL + path + getQueryString(queryParams);
+  let url = getBaseUrl() + path + getQueryString(queryParams);
 
   return callApi(url, requestConfig);
 };
@@ -117,7 +116,7 @@ export const post = (authToken, path, payload) => {
     body:    JSON.stringify(payload)
   };
 
-  let url = BASE_URL + path;
+  let url = getBaseUrl() + path;
 
   return callApi(url, requestConfig);
 };
@@ -130,7 +129,7 @@ export const put = (authToken, path, payload) => {
     body:    JSON.stringify(payload)
   };
 
-  let url = BASE_URL + path;
+  let url = getBaseUrl() + path;
 
   return callApi(url, requestConfig);
 };
@@ -142,7 +141,7 @@ export const del = (authToken, path) => {
     headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
   };
 
-  let url = BASE_URL + path;
+  let url = getBaseUrl() + path;
 
   return callApi(url, requestConfig);
 };
