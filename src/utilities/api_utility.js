@@ -29,7 +29,7 @@ function getBaseUrl() {
   } else if (GLOBAL_ENV_SETTING === ENV_TYPES.TEST) {
     return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
   } else {
-    return 'http://192.168.2.12:3000/api';
+    return 'http://10.0.0.183:3000/api';
   }
 }
 
