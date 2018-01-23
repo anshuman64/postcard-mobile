@@ -15,8 +15,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    height: (Platform.OS === 'ios') ? 50 + StyleUtility.STATUSBAR_HEIGHT : 50,
-    paddingTop: (Platform.OS === 'ios') ? StyleUtility.STATUSBAR_HEIGHT : 0,
+    height: (Platform.OS === 'ios') ? 50 + StyleUtility.getStatusBarHeight() : 50,
+    paddingTop: (Platform.OS === 'ios') ? StyleUtility.getStatusBarHeight() : 0,
     backgroundColor: 'white',
     zIndex: 1
   },

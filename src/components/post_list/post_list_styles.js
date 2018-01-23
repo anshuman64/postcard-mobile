@@ -13,7 +13,7 @@ const FOOTER_TEXT_WIDTH = 120;
 
 export const styles = StyleSheet.create({
   minusHeader: {
-    height: StyleUtility.DEVICE_DIM.height - 50 - StyleUtility.STATUSBAR_HEIGHT - 24, // Total height - header - statusBar - random value
+    height: StyleUtility.DEVICE_DIM.height - 50 - StyleUtility.getStatusBarHeight() - 24, // Total height - header - statusBar - random value
   },
   postList: {
     width: '100%',
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   },
   horizontalLine: {
     alignSelf: 'flex-start',
-    width: (StyleUtility.USABLE_DIM.width - FOOTER_TEXT_WIDTH) / 2 - 10 - 15, // Device width minus footerText width over 2, minus post padding, minus aesthetic value
+    width: (StyleUtility.getUsableDimensions().width - FOOTER_TEXT_WIDTH) / 2 - 10 - 15, // Device width minus footerText width over 2, minus post padding, minus aesthetic value
     height: '50%',
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200

@@ -8,7 +8,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { styles, PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from './profile_header_styles.js';
 import { POST_TYPES }                                                from '../../actions/post_actions.js';
 import { getImage }                                                  from '../../utilities/file_utility.js';
-import { UTILITY_STYLES, STATUSBAR_HEIGHT }                           from '../../utilities/style_utility.js';
+import { UTILITY_STYLES }                                            from '../../utilities/style_utility.js';
 import { defaultErrorAlert }                                         from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
