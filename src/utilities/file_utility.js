@@ -6,7 +6,7 @@ import uuid        from 'react-native-uuid';
 import mime        from 'mime-types';
 
 // Local Imports
-import { ENV_TYPES, GLOBAL_ENV_SETTING } from './app_utility.js';
+import { ENV_TYPES, GLOBAL_ENV_SETTING } from '../app_config.js';
 import { setErrorDescription }           from './error_utility.js';
 
 //--------------------------------------------------------------------//

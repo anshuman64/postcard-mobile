@@ -2,7 +2,7 @@
 import RNAmplitute from 'react-native-amplitude-analytics';
 
 // Local Imports
-import { ENV_TYPES, GLOBAL_ENV_SETTING } from './app_utility.js';
+import { ENV_TYPES, GLOBAL_ENV_SETTING } from '../app_config.js';
 
 //--------------------------------------------------------------------//
 
