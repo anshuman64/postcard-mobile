@@ -12,7 +12,35 @@ cd insiya-mobile
 npm install
 ````
 
+3. Fix mime-types module
+````
+open ./node_modules/mime-types/index.js
+````
+Edit ````var extname = require('path').extname```` to:
+````
+const extname = (path) => {
+   if (!path || path.indexOf('.') === -1) { return '' }
+   path = '.' + path.split('.').pop().toLowerCase()
+   return /.*(\..*)/g.exec(path)[1] || ''
+}
+````
+
+
 ## iOS
+0. Fix react-native-image-crop-picker UI
+````
+open ./node_modules/react-native-image-crop-picker/ios/RSKImageCropper/RSKImageCropper/RSKImageCropViewController.m
+````
+Change lines 335 and 359 (approximately) to:
+````
+//line 335:
+_moveAndScaleLabel.text = RSKLocalizedString(@"", @"Move and Scale label");
+
+//line 359: 
+[_chooseButton setTitle:RSKLocalizedString(@"Done", @"Choose button") forState:UIControlStateNormal];
+````
+NOTE: If you forget to do this step before installing pods below, also make the same changes in ````./ios/Pods/RSKImageCropper/RSKImageCropper/RSKImageCropViewController.m````
+
 1. Install Pods
 ````
 cd ios && pod install && cd ..
@@ -20,7 +48,7 @@ cd ios && pod install && cd ..
 
 2.
 ````
-open ./node_modules/react-native/React/Base/RCTBridgeModule.h.
+open ./node_modules/react-native/React/Base/RCTBridgeModule.h
 ````
 Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 
