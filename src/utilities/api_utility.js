@@ -7,9 +7,11 @@ import { ENV_TYPES, GLOBAL_ENV_SETTING } from './app_utility.js';
 
 //--------------------------------------------------------------------//
 
+
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
+
 
 const BASE_URL        = getBaseUrl();
 const DEFAULT_HEADERS = {
@@ -21,6 +23,7 @@ const DEFAULT_HEADERS = {
 //--------------------------------------------------------------------//
 // Helpers
 //--------------------------------------------------------------------//
+
 
 // Chooses right API url based on environment setting
 function getBaseUrl() {
@@ -58,6 +61,7 @@ let checkStatus = (response) => {
   }
 
   let body;
+
   try {
     body = JSON.parse(response._bodyText);
   } catch (e) {
@@ -67,7 +71,7 @@ let checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return JSON.parse(response._bodyText);
   } else {
-    let error = new Error(body);
+    let error    = new Error(body);
     error.status = response.status;
     throw error;
   }

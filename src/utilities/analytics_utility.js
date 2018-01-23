@@ -6,15 +6,11 @@ import { ENV_TYPES, GLOBAL_ENV_SETTING } from './app_utility.js';
 
 //--------------------------------------------------------------------//
 
-//--------------------------------------------------------------------//
-// Constants
-//--------------------------------------------------------------------//
-
-export const amplitude = setupAmplitude();
 
 //--------------------------------------------------------------------//
 // Helper Functions
 //--------------------------------------------------------------------//
+
 
 // Chooses the right API key depending on environment setting
 function setupAmplitude() {
@@ -26,3 +22,11 @@ function setupAmplitude() {
     return new RNAmplitute('fa9aded0e5b7590482fffff78b2bd85c'); // key for insiya-dev
   }
 }
+
+
+//--------------------------------------------------------------------//
+// Interface
+//--------------------------------------------------------------------//
+
+
+export const amplitude = setupAmplitude();
