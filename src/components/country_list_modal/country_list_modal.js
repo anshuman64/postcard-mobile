@@ -96,11 +96,11 @@ class CountryListModal extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => this.cancelButtonText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-        onPressOut={() => this.cancelButtonText.setNativeProps({style: UTILITY_STYLES.lightBlackText14})}
+        onPressOut={() => this.cancelButtonText.setNativeProps({style: UTILITY_STYLES.lightBlackText15})}
         onPress={this.props.setParentState({ isModalVisible: false })}
       >
         <RN.View style={styles.cancelButtonView}>
-          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={UTILITY_STYLES.lightBlackText14}>
+          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={UTILITY_STYLES.lightBlackText15}>
             Cancel
           </RN.Text>
         </RN.View>

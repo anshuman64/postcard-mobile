@@ -208,7 +208,7 @@ class AvatarScreen extends React.PureComponent {
   _renderNextButton() {
     return (
       <RN.TouchableOpacity
-        style={[UTILITY_STYLES.nextButtonBackground, {marginTop: 35}]}
+        style={[UTILITY_STYLES.nextButtonBackground, {marginTop: 25}]}
         onPress={this.state.imagePath ? this._onPressNextOrDone : this._onPressAddPhoto}
         disabled={this.state.isLoading}
         >

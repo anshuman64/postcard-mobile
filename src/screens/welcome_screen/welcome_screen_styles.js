@@ -40,14 +40,17 @@ export const styles = StyleSheet.create({
     height: 33,
     marginRight: 13,
     borderWidth: 1,
-    borderColor: StyleUtility.COLORS.grey600
+    borderColor: StyleUtility.COLORS.grey700
+  },
+  checkboxHighlighted: {
+    borderColor: StyleUtility.COLORS.appleBlue
   },
   checkboxFilled: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 23,
-    width: 23,
+    height: 24,
+    width: 24,
     backgroundColor: StyleUtility.COLORS.appleBlue
   },
   checkboxText: {
@@ -56,7 +59,7 @@ export const styles = StyleSheet.create({
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(14),
     textAlign: 'left',
-    color: StyleUtility.COLORS.grey600,
+    color: StyleUtility.COLORS.grey700,
   },
 });
 

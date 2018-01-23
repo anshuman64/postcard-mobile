@@ -70,11 +70,10 @@ class App extends React.Component {
   _onBackPress = () => {
     if (Actions.currentScene === '_HomeScreen'
         || Actions.currentScene === 'WelcomeScreen'
-        || Actions.currentScene === 'LoginScreen'
         || Actions.currentScene === 'LoadingScreen'
         || Actions.currentScene === 'DebugLoginScreen'
         || Actions.currentScene === 'UsernameScreenLogin') {
-      BackHandler.exitApp();
+      return false;
     }
 
     Actions.pop();
@@ -87,10 +86,10 @@ class App extends React.Component {
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer}  initial={true}  hideNavBar={true}  />
-            <Scene key='WelcomeScreen' component={WelcomeScreenContainer}   hideNavBar={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} initial={true} hideNavBar={true}  />
+            <Scene key='WelcomeScreen' component={WelcomeScreenContainer}  hideNavBar={true}  />
             <Scene key='LoginScreen' component={LoginScreenContainer}  hideNavBar={true}  />
-            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
+            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Confirm Code'}/> } />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}  navBar={() => <HeaderContainer backTitle={'Choose Username'}/>}  />
             <Scene key='AvatarScreen' component={AvatarScreenContainer}  navBar={() => <HeaderContainer backIcon={true} backTitle={'Choose Avatar'}/>}  />
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'}  tabBarComponent={FooterContainer} swipeEnabled={false} lazy={false} animationEnabled={false} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
