@@ -72,6 +72,7 @@ class App extends React.Component {
         || Actions.currentScene === 'LoadingScreen'
         || Actions.currentScene === 'DebugLoginScreen'
         || Actions.currentScene === 'UsernameScreenLogin') {
+      BackHandler.exitApp();
       return false;
     }
 

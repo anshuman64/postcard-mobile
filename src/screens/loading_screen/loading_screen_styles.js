@@ -3,7 +3,7 @@ import React          from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports
-import { scaleImage, scaleFont, COLORS } from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 

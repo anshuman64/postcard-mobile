@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     width: 100,
   },
   userIcon: {
-    fontSize: StyleUtility.scaleFont(90),
+    fontSize: 85,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
