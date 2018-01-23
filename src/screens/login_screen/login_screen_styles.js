@@ -21,13 +21,8 @@ export const styles = StyleSheet.create({
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
   },
-  countrySelectorText: {
+  countrySelectorTextWidth: {
     width: 180,
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(18),
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey900,
   },
   dropdownIcon: {
     fontSize: 16,
