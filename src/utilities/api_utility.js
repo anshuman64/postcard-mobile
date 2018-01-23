@@ -26,7 +26,7 @@ const DEFAULT_HEADERS = {
 
 
 // Chooses right API url based on environment setting
-function getBaseUrl() {
+let getBaseUrl = () => {
   if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
     return 'https://api.insiya.io/api';
   } else if (GLOBAL_ENV_SETTING === ENV_TYPES.TEST) {
@@ -34,7 +34,7 @@ function getBaseUrl() {
   } else {
     return 'http://10.0.0.183:3000/api';
   }
-}
+};
 
 // Turns params into a URI string
 let getQueryString = (params) => {

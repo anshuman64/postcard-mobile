@@ -13,7 +13,7 @@ import { ENV_TYPES, GLOBAL_ENV_SETTING } from './app_utility.js';
 
 
 // Chooses the right API key depending on environment setting
-function setupAmplitude() {
+let setupAmplitude = () => {
   if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
     return new RNAmplitute('7ce84b314a6daad5ff9966ec1a2c52ab'); // key for insiya-production
   } else if (GLOBAL_ENV_SETTING === ENV_TYPES.TEST) {
@@ -21,7 +21,7 @@ function setupAmplitude() {
   } else {
     return new RNAmplitute('fa9aded0e5b7590482fffff78b2bd85c'); // key for insiya-dev
   }
-}
+};
 
 
 //--------------------------------------------------------------------//
