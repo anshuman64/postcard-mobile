@@ -78,7 +78,6 @@ class PostList extends React.PureComponent {
   _onRefresh = (postType = this.props.postType) => {
     this.isLoading = true;
     this.setState({ isRefreshing: true }, () => {
-      this.flatList.getNode().scrollToOffset({ x: 0, y: 0, animated: true });
       this.refresh(postType);
     })
   }
@@ -170,7 +169,7 @@ class PostList extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: PROFILE_HEADER_TABS_HEIGHT }, (this.props.currentScreen === 'UserScreen' && RN.Platform.OS === 'ios') && { height: PROFILE_HEADER_HEIGHT - STATUSBAR_HEIGHT - 4 } ]}>
+      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: PROFILE_HEADER_TABS_HEIGHT }]}>
         <RN.ActivityIndicator size='large' color={this.props.currentScreen === 'HomeScreen' ? 'transparent' : COLORS.grey400} style={{marginBottom: 20}} />
       </RN.View>
     )
