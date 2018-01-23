@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     marginTop: 25,
   },
   userIcon: {
-    fontSize: StyleUtility.scaleFont(160),
+    fontSize: 160,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },

@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   settingsIcon: {
     fontSize: StyleUtility.scaleFont(22),
     textAlign: 'center',
-    color: StyleUtility.COLORS.grey700
+    color: StyleUtility.COLORS.grey800
   },
   logo: {
     height: 30,

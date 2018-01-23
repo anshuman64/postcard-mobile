@@ -25,7 +25,7 @@ class MenuScreen extends React.PureComponent {
   }
 
   _onPressAbout = () => {
-
+    RN.Linking.openURL('https://medium.com/@InsiyaInc/terms-of-use-de17e7b76742');
   }
 
   //--------------------------------------------------------------------//

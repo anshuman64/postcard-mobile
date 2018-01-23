@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
     width: 40,
   },
   userIcon: {
-    fontSize: StyleUtility.scaleFont(28),
+    fontSize: 28,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
@@ -82,8 +82,8 @@ export const styles = StyleSheet.create({
     marginRight: 18
   },
   flagIcon: {
-    fontSize: 24,
-    color: StyleUtility.COLORS.grey600,
+    fontSize: 28,
+    color: StyleUtility.COLORS.grey700,
     marginRight: 18
   },
   bodyText: {
@@ -125,10 +125,10 @@ export const styles = StyleSheet.create({
   },
   heartIcon: {
     width: 30,
-    fontSize: 22,
+    fontSize: 28,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
-    marginRight: 10
+    marginRight: 8
   },
   likeCountText: {
     fontSize: StyleUtility.scaleFont(15),
