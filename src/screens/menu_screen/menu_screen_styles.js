@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: 50,
-    width: 0.95 * StyleUtility.USABLE_DIM.width,
+    width: 0.95 * StyleUtility.getUsableDimensions().width,
     marginTop: 15,
     backgroundColor: 'white',
     elevation: 2,

@@ -7,7 +7,7 @@ import ProfileHeaderContainer                                from '../profile_he
 import PostListItemContainer                                 from './post_list_item/post_list_item_container.js';
 import { PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from '../profile_header/profile_header_styles.js';
 import { styles }                                            from './post_list_styles.js';
-import { UTILITY_STYLES, COLORS, STATUSBAR_HEIGHT }          from '../../utilities/style_utility.js';
+import { UTILITY_STYLES, COLORS }                            from '../../utilities/style_utility.js';
 import { defaultErrorAlert }                                 from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//

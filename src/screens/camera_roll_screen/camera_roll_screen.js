@@ -5,13 +5,13 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { UTILITY_STYLES, DEVICE_DIM, USABLE_DIM } from '../../utilities/style_utility.js';
-import { styles }                                 from './camera_roll_screen_styles.js';
-import { defaultErrorAlert }                      from '../../utilities/error_utility.js';
+import { UTILITY_STYLES, DEVICE_DIM, getUsableDimensions } from '../../utilities/style_utility.js';
+import { styles }                                          from './camera_roll_screen_styles.js';
+import { defaultErrorAlert }                               from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
-const PAGE_SIZE = Math.ceil(DEVICE_DIM.height / USABLE_DIM.width / 3) * 3;
+const PAGE_SIZE = Math.ceil(DEVICE_DIM.height / getUsableDimensions().width / 3) * 3;
 
 class CameraRollScreen extends React.PureComponent {
 
