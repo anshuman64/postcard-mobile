@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "500815057845-dtubleqv1qr5l19h1psqskhfnefafi2p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.insiya.android",
+            "certificate_hash": "5ef47ae29b9c9f59ae3921162670d033d530e405"
+          }
+        },
+        {
+          "client_id": "500815057845-40dpff3io4dio6bkgh74umhp5rgsjplc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.insiya.android",
+            "certificate_hash": "1b0b36b13a2f1bb1e91d64734da342c5c0d5ed4b"
+          }
+        },
+        {
+          "client_id": "500815057845-5qod4o7jntgpv37h93fb4mb9jlb5sklm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.insiya.android",
+            "certificate_hash": "d3495efe729f4891cd5230ea29fb5aa33ae07bfe"
+          }
+        },
+        {
           "client_id": "500815057845-lupvh5eieq0t2mg61cgial93vd288agg.apps.googleusercontent.com",
           "client_type": 3
         }
