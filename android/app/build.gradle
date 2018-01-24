@@ -93,12 +93,31 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+/**
+ * Gets insiya-android.keystore password from Anshuman's Macbook Keychain Access
+ * See: https://pilloxa.gitlab.io/posts/safer-passwords-in-gradle/
+ */
+def getPassword(String currentUser, String keyChain) {
+   def stdout = new ByteArrayOutputStream()
+   def stderr = new ByteArrayOutputStream()
+   exec {
+       commandLine 'security', '-q', 'find-generic-password', '-a', currentUser, '-s', keyChain, '-w'
+       standardOutput = stdout
+       errorOutput = stderr
+       ignoreExitValue true
+   }
+   //noinspection GroovyAssignabilityCheck
+      stdout.toString().trim()
+}
+
+def pass = getPassword("insiya-android","android_keystore")
+
 android {
     compileSdkVersion 23
     buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "com.insiya"
+        applicationId "com.insiya.android"
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
@@ -114,6 +133,16 @@ android {
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
             include "armeabi-v7a", "x86"
+        }
+    }
+    signingConfigs {
+        release {
+            if (project.hasProperty('INSIYA_RELEASE_STORE_FILE')) {
+                storeFile file(INSIYA_RELEASE_STORE_FILE)
+                storePassword pass
+                keyAlias INSIYA_RELEASE_KEY_ALIAS
+                keyPassword pass
+            }
         }
     }
     buildTypes {
