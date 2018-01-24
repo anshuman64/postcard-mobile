@@ -17,8 +17,9 @@ const NavigationReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
+    // When a screen is focused, update currentScreen. Remove the leading '_'s from the string.
     case ActionConst.FOCUS:
-      newState.currentScreen = Actions.currentScene;
+      newState.currentScreen = Actions.currentScene.replace(/^_/, '');
 
       return newState;
     default:

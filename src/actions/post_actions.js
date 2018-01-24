@@ -1,7 +1,8 @@
 // Local Imports
-import { amplitude }        from '../utilities/analytics_utility.js';
-import * as APIUtility      from '../utilities/api_utility.js';
-import { refreshAuthToken } from './user_actions.js';
+import { amplitude }           from '../utilities/analytics_utility.js';
+import * as APIUtility         from '../utilities/api_utility.js';
+import { setErrorDescription } from '../utilities/error_utility.js';
+import { refreshAuthToken }    from './user_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -9,11 +10,11 @@ import { refreshAuthToken } from './user_actions.js';
 // Constants
 //--------------------------------------------------------------------//
 
-
 export const POST_TYPES = {
-  ALL:      'ALL',
-  AUTHORED: 'AUTHORED',
-  LIKED:    'LIKED'
+  ALL:      'allPosts',
+  AUTHORED: 'authoredPosts',
+  LIKED:    'likedPosts',
+  FOLLOWED: 'followedPosts'
 }
 
 export const POST_ACTION_TYPES = {
@@ -23,28 +24,9 @@ export const POST_ACTION_TYPES = {
   REMOVE_POST:        'REMOVE_POST',
 };
 
-
-//--------------------------------------------------------------------//
-// Helpers
-//--------------------------------------------------------------------//
-
-
-let getRouteForPostType = (postType) => {
-  switch(postType) {
-    case POST_TYPES.ALL:
-      return '';
-    case POST_TYPES.AUTHORED:
-      return '/authored';
-    case POST_TYPES.LIKED:
-      return '/liked';
-  }
-}
-
-
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
-
 
 export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
@@ -62,109 +44,89 @@ export const removePost = (data) => {
   return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
 };
 
+//--------------------------------------------------------------------//
+// Helpers
+//--------------------------------------------------------------------//
+
+// Returns API path for particular POST_TYPES
+let getRouteForPostType = (postType, userId) => {
+  switch(postType) {
+    case POST_TYPES.ALL:
+      return '';
+    case POST_TYPES.AUTHORED:
+      return '/authored/' + userId;
+    case POST_TYPES.LIKED:
+      return '/liked/' + userId;
+    case POST_TYPES.FOLLOWED:
+      return '/followed';
+  }
+}
 
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-
-export const getPosts = (authToken, firebaseUserObj, postType, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
+// GET posts from API and append to current PostList
+export const getPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
     .then((posts) => {
-      dispatch(receivePosts({posts: posts, postType: postType}));
+      dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj))
-          .then((newAuthToken) => {
-            return dispatch(getPosts(newAuthToken, firebaseUserObj, postType, queryParams));
-          })
-          .catch((error) => {
-            throw error;
-          })
+        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, userId, postType, queryParams));
       }
 
-      if (!error.description) {
-        error.description = 'GET posts failed'
-      }
-
-      throw error;
+      throw setErrorDescription(error, 'GET posts failed');
     });
 };
 
-export const refreshPosts = (authToken, firebaseUserObj, postType, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType), queryParams)
+// GET latest posts from API and merge with current PostList
+export const refreshPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
     .then((posts) => {
-      dispatch(refreshAndReceivePosts({posts: posts, postType: postType}));
+      dispatch(refreshAndReceivePosts({ posts: posts, userId: userId, postType: postType }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj))
-          .then((newAuthToken) => {
-            return dispatch(refreshPosts(newAuthToken, firebaseUserObj, postType, queryParams));
-          })
-          .catch((error) => {
-            throw error;
-          })
+        return dispatch(refreshAuthToken(firebaseUserObj, refreshPosts, userId, postType, queryParams));
       }
 
-      if (!error.description) {
-        error.description = 'GET posts failed'
-      }
-
-      throw error;
+      throw setErrorDescription(error, 'Refresh posts failed');
     });
 };
 
-export const createPost = (authToken, firebaseUserObj, postObj) => (dispatch) => {
-  return APIUtility.post(authToken, '/posts', postObj)
+// Create post to API from Header of NewPostScreen
+export const createPost = (authToken, firebaseUserObj, userId, postBody, postImage, placeholderText) => (dispatch) => {
+  return APIUtility.post(authToken, '/posts', { body: postBody, image_url: postImage })
     .then((newPost) => {
-      amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postObj.body });
-      dispatch(receivePost(newPost));
+      amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText });
+      dispatch(receivePost({ post: newPost, userId: userId }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj))
-          .then((newAuthToken) => {
-            return dispatch(createPost(newAuthToken, firebaseUserObj, postObj));
-          })
-          .catch((error) => {
-            throw error;
-          })
+        return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postBody, postImage, placeholderText));
       }
 
-      if (!error.description) {
-        error.description = 'POST post failed'
-      }
-
-      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postObj.body, error: error.description });
-      throw error;
+      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText, error: error.description });
+      throw setErrorDescription(error, 'POST post failed');
     });
 };
 
-export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => {
+// Delete post to API from PostListItem
+export const deletePost = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {
       amplitude.logEvent('Engagement - Delete Post', { is_successful: true, body: delPost.body });
 
-      return new Promise.resolve(delPost);
+      return delPost;
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj))
-          .then((newAuthToken) => {
-            return dispatch(deletePost(newAuthToken, firebaseUserObj, postId));
-          })
-          .catch((error) => {
-            throw error;
-          })
-      }
-
-      if (!error.description) {
-        error.description = 'DEL post failed'
+        return dispatch(refreshAuthToken(firebaseUserObj, deletePost, userId, postId));
       }
 
       amplitude.logEvent('Engagement - Delete Post', { is_successful: false, error: error.description });
-      throw error;
+      throw setErrorDescription(error, 'DEL post failed');
     });
 };
