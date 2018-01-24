@@ -42,6 +42,29 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   componentDidMount() {
     this._startTimer();
+
+    this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
+      if (firebaseUserObj) {
+        this.props.loginUser(firebaseUserObj)
+          .then((user) => {
+            if (user.is_banned) {
+              RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
+            } else {
+              if (!this.props.user.username) {
+                return this.props.navigateTo('UsernameScreenLogin');
+              } else {
+                return this.props.navigateTo('HomeScreen');
+              }
+            }
+          })
+          .catch((error) => {
+            // console.error(error); // Debug Test
+            defaultErrorAlert(error);
+          })
+      } else {
+        // console.error('No Firebase cookie found'); // Debug Test
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -55,7 +78,7 @@ class ConfirmCodeScreen extends React.PureComponent {
   // Starts Resend SMS timer
   _startTimer() {
     this.timer = setInterval(this._tick.bind(this), 1000);
-    this.setState({ isResendSMSDisabled: true, secsRemaining: 30 })
+    this.setState({ isResendSMSDisabled: true, secsRemaining: 59 })
   }
 
   // Stops Resend SMS timer
@@ -85,8 +108,6 @@ class ConfirmCodeScreen extends React.PureComponent {
       this.setState({ isLoading: true }, () => {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
         .then((user) => {
-          this._stopTimer();
-
           if (user.is_banned) {
             RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
           } else {
@@ -100,6 +121,7 @@ class ConfirmCodeScreen extends React.PureComponent {
           this.setState({ isCodeIncorrect: false });
         })
         .catch((error) => {
+          // console.error(error) // Debug Test
           if (error.description === 'Firebase code verification failed') {
             this.setState({ isCodeIncorrect: true })
           } else {
@@ -117,6 +139,7 @@ class ConfirmCodeScreen extends React.PureComponent {
   _onResendSMSPress = () => {
     this.props.getConfirmationCode(this.props.phoneNumber)
       .catch((error) => {
+        // console.error(error) // Debug Test
         defaultErrorAlert(error)
       });
 
