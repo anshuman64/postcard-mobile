@@ -102,10 +102,10 @@ class App extends React.Component {
             <Scene key='UserScreen'    component={UserScreen}             hideNavBar={true} />
 
             <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} navBar={this._renderHeader('Confirm Code', true)} />
-            <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    navBar={this._renderHeader('Choose Username')} />
-            <Scene key='AvatarScreen'        component={AvatarScreenContainer}      navBar={this._renderHeader('Choose Avatar', true)} />
+            <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    navBar={this._renderHeader('Username')} />
+            <Scene key='AvatarScreen'        component={AvatarScreenContainer}      navBar={this._renderHeader('Profile Photo', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 navBar={this._renderHeader('Settings', true)} />
-            <Scene key='UsernameScreen'      component={UsernameScreenContainer}    navBar={this._renderHeader('Change Username', true)} />
+            <Scene key='UsernameScreen'      component={UsernameScreenContainer}    navBar={this._renderHeader('Username', true)} />
             <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  navBar={this._renderHeader('Gallery', true)} />
 
             <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={false} animationEnabled={false} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} /> }>
