@@ -45,16 +45,18 @@ class ConfirmCodeScreen extends React.PureComponent {
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
-        this.props.loginUser(firebaseUserObj)
-          .then(() => {
-            this._navigateTo();
-          })
-          .catch((error) => {
-            // console.error(error); // Debug Test
-            defaultErrorAlert(error);
-          })
-      } else {
-        // console.error('No Firebase cookie found'); // Debug Test
+        this.setState({ isLoading: true }, () => {
+          this.props.loginUser(firebaseUserObj)
+            .then(() => {
+              this._navigateTo();
+            })
+            .catch((error) => {
+              defaultErrorAlert(error);
+            })
+            .finally(() => {
+              this.setState({ isLoading: false });
+            });
+        }
       }
     });
   }
@@ -122,7 +124,6 @@ class ConfirmCodeScreen extends React.PureComponent {
           this.setState({ isCodeIncorrect: false });
         })
         .catch((error) => {
-          // console.error(error) // Debug Test
           if (error.description === 'Firebase code verification failed') {
             this.setState({ isCodeIncorrect: true })
           } else {
@@ -140,7 +141,6 @@ class ConfirmCodeScreen extends React.PureComponent {
   _onResendSMSPress = () => {
     this.props.getConfirmationCode(this.props.phoneNumber)
       .catch((error) => {
-        // console.error(error) // Debug Test
         defaultErrorAlert(error)
       });
 
