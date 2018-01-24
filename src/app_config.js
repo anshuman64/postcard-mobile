@@ -14,4 +14,4 @@ export const ENV_TYPES = {
  * - Amplitude Analytics project
  * - AWS S3 bucket
  */
-export const GLOBAL_ENV_SETTING = ENV_TYPES.DEV
+export const GLOBAL_ENV_SETTING = ENV_TYPES.PRODUCTION
