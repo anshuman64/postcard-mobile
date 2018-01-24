@@ -159,7 +159,7 @@ class AvatarScreen extends React.PureComponent {
   _renderTitle() {
     return (
       <RN.Text style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
-        Add profile photo
+        Add Profile Photo
       </RN.Text>
     )
   }
@@ -167,7 +167,7 @@ class AvatarScreen extends React.PureComponent {
   _renderSubtitle() {
     return (
       <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
-        Add a profile photo that represents you
+        Choose a photo that represents you.
       </RN.Text>
     )
   }
