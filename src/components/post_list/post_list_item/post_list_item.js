@@ -353,7 +353,7 @@ class PostListItem extends React.PureComponent {
             |
           </RN.Text>
           <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5, !this.props.item.is_author_followed_by_user && UTILITY_STYLES.textHighlighted]}>
+            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !this.props.item.is_author_followed_by_user && UTILITY_STYLES.textHighlighted]}>
               {this.props.item.is_author_followed_by_user ? 'Following' : 'Follow'}
             </RN.Text>
           </RN.TouchableOpacity>
