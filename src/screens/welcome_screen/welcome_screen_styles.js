@@ -87,7 +87,7 @@ export const translateIcon = {
     translateX: -51,
   },
   1: {
-    translateY: -213,
+    translateY: -200,
     translateX: -51,
   }
 }
@@ -98,7 +98,7 @@ export const translateLogo = {
     translateX: 26,
   },
   1: {
-    translateY: -208,
+    translateY: -195,
     translateX: 26,
   }
 }
