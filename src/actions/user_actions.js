@@ -115,7 +115,6 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     return APIUtility.get(authToken, '/users')
       .then((user) => {
         setUser(user, false);
-        return user;
       })
       .catch((error) => {
         return handleNewUser(authToken);
@@ -126,7 +125,6 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
       .then((newUser) => {
         setUser(newUser, true);
-        return newUser;
       })
       .catch((error) => {
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error: error.description });
