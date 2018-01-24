@@ -10,8 +10,13 @@ target 'Insiya' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
 
-  # pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'react-native-amplitude-analytics', :path => '../node_modules/react-native-amplitude-analytics'
+
+  pod 'RSKImageCropper'
+  pod 'QBImagePickerController'
+
+  # pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
+  # pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'InsiyaTests' do
     inherit! :search_paths

@@ -1,28 +1,31 @@
 // Library Imports
-import React  from 'react';
-import RN     from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../utilities/style_utility.js';
+import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles.js';
+import * as StyleUtility         from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
 
+const FOOTER_TEXT_WIDTH = 120;
 
-export const styles = RN.StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    paddingTop: 5,
-    backgroundColor: StyleUtility.COLORS.grey50,
+export const styles = StyleSheet.create({
+  minusHeader: {
+    height: StyleUtility.DEVICE_DIM.height - 50 - StyleUtility.getStatusBarHeight() - 24, // Total height - header - statusBar - random value
   },
   postList: {
     width: '100%',
     height: '100%',
     backgroundColor: StyleUtility.COLORS.grey50,
+  },
+  headerView: {
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+    height: PROFILE_HEADER_HEIGHT,
   },
   footerView: {
     flexDirection: 'row',
@@ -32,8 +35,8 @@ export const styles = RN.StyleSheet.create({
     height: 50,
   },
   footerText: {
-    width: 120,
-    fontFamily: (RN.Platform.OS === 'ios') ? 'System' : 'Roboto-Light',
+    width: FOOTER_TEXT_WIDTH,
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
@@ -41,11 +44,9 @@ export const styles = RN.StyleSheet.create({
   },
   horizontalLine: {
     alignSelf: 'flex-start',
-    width: (StyleUtility.DEVICE_DIM.width - 120) / 2 - 10 - 15, // Device width minus footerText width over 2, minus post padding, minus aesthetic value
+    width: (StyleUtility.getUsableDimensions().width - FOOTER_TEXT_WIDTH) / 2 - 10 - 15, // Device width minus footerText width over 2, minus post padding, minus aesthetic value
     height: '50%',
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200
-  },
-  activityIndicator: {
   },
 });
