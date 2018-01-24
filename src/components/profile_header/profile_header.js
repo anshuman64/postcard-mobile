@@ -125,7 +125,8 @@ class ProfileHeader extends React.PureComponent {
   _renderAvatar() {
     if (this.props.currentScreen === 'HomeScreen') {
       return null;
-    } else if (!this.props.user.avatar_url) {
+    } else if ((this.props.user.id === this.props.userId && !this.props.user.avatar_url)
+               || (this.props.user.id != this.props.userId && !this.props.avatarUrl)) {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.View style={styles.frame}>
@@ -134,11 +135,11 @@ class ProfileHeader extends React.PureComponent {
           <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
-    } else if (this.props.user.avatar_url && !this.state.avatarUrl) {
+    } else if (!this.state.avatarUrl) {
       return (
         <RN.View style={styles.frame} />
       )
-    } else if (this.props.currentScreen) {
+    } else {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.View style={styles.frame}>
