@@ -42,6 +42,8 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
+*.pem
+*.jks
 
 # fastlane
 #

@@ -1,31 +1,34 @@
 // Library Imports
-import React                     from 'react';
-import { AppState, BackHandler } from 'react-native';
-import { Provider }              from 'react-redux';
-import { Scene, Tabs, Actions }  from 'react-native-router-flux';
-
+import React                           from 'react';
+import { AppState, BackHandler, View } from 'react-native';
+import { Provider }                    from 'react-redux';
+import { Scene, Tabs, Actions }        from 'react-native-router-flux';
 
 // Local Imports
 import { amplitude }              from './utilities/analytics_utility.js';
 import configureStore             from './store';
 import RouterContainer            from './router/router_container.js';
 
-import DebugLoginScreenContainer  from './components/debug_login_screen/debug_login_screen_container.js';
-import LoadingScreenContainer     from './components/loading_screen/loading_screen_container.js';
-import LoginScreenContainer       from './components/login_screen/login_screen_container.js';
-import ConfirmCodeScreenContainer from './components/confirm_code_screen/confirm_code_screen_container.js';
+import DebugLoginScreenContainer  from './screens/debug_login_screen/debug_login_screen_container.js';
+import LoadingScreenContainer     from './screens/loading_screen/loading_screen_container.js';
+import WelcomeScreenContainer     from './screens/welcome_screen/welcome_screen_container.js';
 
-import HomeScreenContainer        from './components/home_screen/home_screen_container.js';
-import AuthoredPostsTabContainer  from './components/user_screen/authored_posts_tab_container.js';
-import LikedPostsTabContainer     from './components/user_screen/liked_posts_tab_container.js';
+import LoginScreenContainer       from './screens/login_screen/login_screen_container.js';
+import ConfirmCodeScreenContainer from './screens/confirm_code_screen/confirm_code_screen_container.js';
 
-import NewPostScreen              from './components/new_post_screen/new_post_screen.js';
-import MenuScreen                 from './components/menu_screen/menu_screen.js';
+import UsernameScreenContainer    from './screens/username_screen/username_screen_container.js';
+import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container.js';
 
-import HeaderContainer            from './components/nav_bar/header/header_container.js';
-import FooterContainer            from './components/nav_bar/footer/footer_container.js';
-import TabBarContainer            from './components/nav_bar/tab_bar/tab_bar_container.js';
+import HomeScreenContainer        from './screens/home_screen/home_screen_container.js';
+import ProfileScreenContainer     from './screens/profile_screen/profile_screen_container.js';
+import UserScreen                 from './screens/user_screen/user_screen.js';
 
+import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container.js';
+import MenuScreen                 from './screens/menu_screen/menu_screen.js';
+import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container.js';
+
+import HeaderContainer            from './components/nav_bar_header/header_container.js';
+import FooterContainer            from './components/nav_bar_footer/footer_container.js';
 
 //--------------------------------------------------------------------//
 
@@ -40,6 +43,7 @@ class App extends React.Component {
     currentAppState = 'active';
   }
 
+  // Listens to changes in AppState and when Android backButton is pressed
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
     BackHandler.addEventListener("hardwareBackPress", this._onBackPress);
@@ -50,21 +54,25 @@ class App extends React.Component {
     BackHandler.removeEventListener("hardwareBackPress", this._onBackPress);
   }
 
+  // When AppState changes, log event
   _handleAppStateChange = (nextAppState) => {
     if (currentAppState.match(/inactive|background/) && nextAppState === 'active') {
-        amplitude.logEvent('App - Focus App');
+      amplitude.logEvent('App - Focus App');
     } else if (nextAppState.match(/inactive|background/) && currentAppState === 'active') {
-        amplitude.logEvent('App - Minimize App');
+      amplitude.logEvent('App - Minimize App');
     }
 
     currentAppState = nextAppState;
   }
 
+  // When on the screens listed, close the app. Else, go back one screen.
   _onBackPress = () => {
     if (Actions.currentScene === '_HomeScreen'
-        || Actions.currentScene === '_LoginScreen'
-        || Actions.currentScene === '_LoadingScreen'
-        || Actions.currentScene === '_DebugLoginScreen') {
+        || Actions.currentScene === 'WelcomeScreen'
+        || Actions.currentScene === 'LoadingScreen'
+        || Actions.currentScene === 'DebugLoginScreen'
+        || Actions.currentScene === 'UsernameScreenLogin') {
+      BackHandler.exitApp();
       return false;
     }
 
@@ -72,32 +80,44 @@ class App extends React.Component {
     return true;
   };
 
+  _renderHeader = (backTitle, backIcon) => {
+    return () => {
+      return (
+        <HeaderContainer backTitle={backTitle} backIcon={backIcon} />
+      );
+    };
+  }
+
   render() {
     return (
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true}  />
-            <Scene key='LoadingScreen' component={LoadingScreenContainer}  hideNavBar={true} initial={true}  />
-            <Scene key='LoginScreen' component={LoginScreenContainer} hideNavBar={true} />
-            <Scene key='ConfirmCodeScreen' component={ConfirmCodeScreenContainer} navBar={() => <HeaderContainer backIcon={true}/>} />
-            <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true}/>} >
-              <Scene key='HomeScreen' component={HomeScreenContainer} initial={true} hideNavBar={true}  />
-              <Tabs key='UserScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={true}>
-                <Scene key='AuthoredPostsTab' component={AuthoredPostsTabContainer} initial={true} hideNavBar={true}  />
-                <Scene key='LikedPostsTab' component={LikedPostsTabContainer} hideNavBar={true}  />
-              </Tabs>
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} />
+
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} initial={true}/>
+            <Scene key='WelcomeScreen' component={WelcomeScreenContainer} hideNavBar={true} />
+            <Scene key='LoginScreen'   component={LoginScreenContainer}   hideNavBar={true} />
+            <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true} />
+            <Scene key='UserScreen'    component={UserScreen}             hideNavBar={true} />
+
+            <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} navBar={this._renderHeader('Confirm Code', true)} />
+            <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    navBar={this._renderHeader('Username')} />
+            <Scene key='AvatarScreen'        component={AvatarScreenContainer}      navBar={this._renderHeader('Profile Photo', true)} />
+            <Scene key='MenuScreen'          component={MenuScreen}                 navBar={this._renderHeader('Settings', true)} />
+            <Scene key='UsernameScreen'      component={UsernameScreenContainer}    navBar={this._renderHeader('Username', true)} />
+            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  navBar={this._renderHeader('Gallery', true)} />
+
+            <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={false} animationEnabled={false} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} /> }>
+              <Scene key='HomeScreen'    component={HomeScreenContainer}    hideNavBar={true} initial={true} />
+              <Scene key='ProfileScreen' component={ProfileScreenContainer} hideNavBar={true} />
             </Tabs>
-            <Scene key='NewPostScreen' component={NewPostScreen} hideNavBar={true} />
-            <Scene key='MenuScreen' component={MenuScreen} navBar={() => <HeaderContainer backIcon={true}/>}  />
           </Scene>
         </RouterContainer>
       </Provider>
     );
   }
 }
-
-// TODO: add transition animation to UserScreen tabs so the blue highlight transitions smoothly, not just at the end
 
 
 //--------------------------------------------------------------------//

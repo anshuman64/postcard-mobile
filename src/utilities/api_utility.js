@@ -1,14 +1,18 @@
+// Library Imports
 import { Alert } from 'react-native';
 import _         from 'lodash';
 
+// Local Imports
+import { ENV_TYPES, GLOBAL_ENV_SETTING } from '../app_config.js';
+
 //--------------------------------------------------------------------//
+
 
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
 
-const BASE_URL        = 'http://192.168.2.36:3000/api';
-// const BASE_URL        = 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
+
 const DEFAULT_HEADERS = {
   'Accept':       'application/json',
   'Content-Type': 'application/json'
@@ -20,6 +24,18 @@ const DEFAULT_HEADERS = {
 //--------------------------------------------------------------------//
 
 
+// Chooses right API url based on environment setting
+let getBaseUrl = () => {
+  if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
+    return 'https://api.insiya.io/api';
+  } else if (GLOBAL_ENV_SETTING === ENV_TYPES.TEST) {
+    return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
+  } else {
+    return 'http://192.168.2.3:3000/api';
+  }
+};
+
+// Turns params into a URI string
 let getQueryString = (params) => {
   if (!params) {
     return '';
@@ -36,18 +52,31 @@ let getQueryString = (params) => {
   return '?' + paramList.join("&");
 };
 
+// Checks status of an API response and return either the body or an error
+// If there's no status (no internet connection), returns.
 let checkStatus = (response) => {
-  let body = JSON.parse(response._bodyText);
+  if (!response.status) {
+    return;
+  }
+
+  let body;
+
+  try {
+    body = JSON.parse(response._bodyText);
+  } catch (e) {
+    body = response._bodyText;
+  }
 
   if (response.status >= 200 && response.status < 300) {
-    return body;
+    return JSON.parse(response._bodyText);
   } else {
-    let error = new Error(body);
+    let error    = new Error(body);
     error.status = response.status;
     throw error;
   }
 };
 
+// Calls API and checks status
 let callApi = (url, requestConfig) => {
   return fetch(url, requestConfig)
     .then((response) => {
@@ -67,18 +96,19 @@ let callApi = (url, requestConfig) => {
 // Interface
 //--------------------------------------------------------------------//
 
-
+// GET request to API. Returns status.
 export const get = (authToken, path, queryParams) => {
   let requestConfig = {
     method:  'GET',
     headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
   };
 
-  let url = BASE_URL + path + getQueryString(queryParams);
+  let url = getBaseUrl() + path + getQueryString(queryParams);
 
   return callApi(url, requestConfig);
 };
 
+// POST request to API. Returns status.
 export const post = (authToken, path, payload) => {
   let requestConfig = {
     method:  'POST',
@@ -86,11 +116,12 @@ export const post = (authToken, path, payload) => {
     body:    JSON.stringify(payload)
   };
 
-  let url = BASE_URL + path;
+  let url = getBaseUrl() + path;
 
   return callApi(url, requestConfig);
 };
 
+// PUT request to API. Returns status.
 export const put = (authToken, path, payload) => {
   let requestConfig = {
     method:  'PUT',
@@ -98,18 +129,19 @@ export const put = (authToken, path, payload) => {
     body:    JSON.stringify(payload)
   };
 
-  let url = BASE_URL + path;
+  let url = getBaseUrl() + path;
 
   return callApi(url, requestConfig);
 };
 
+// DEL request to API. Returns status.
 export const del = (authToken, path) => {
   let requestConfig = {
     method:  'DELETE',
     headers: _.merge({ Authorization: 'Bearer ' + authToken }, DEFAULT_HEADERS)
   };
 
-  let url = BASE_URL + path;
+  let url = getBaseUrl() + path;
 
   return callApi(url, requestConfig);
 };
