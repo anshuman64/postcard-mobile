@@ -61,3 +61,16 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 9. Set as "Recursive"
 
 ![Alt text](https://s3.amazonaws.com/insiya-public/XCode_Amplitude_Header_Config.png)
+
+## Release - Android
+1. Add insiya-android.keystore (ask Anshuman) to /android/app directory
+2. Generate signed release APK
+
+````
+cd android && ./gradlew assembleRelease
+````
+3. Run signed release APK
+
+````
+cd .. && react-native run-android --variant=release
+````
