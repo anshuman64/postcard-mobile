@@ -91,6 +91,10 @@ class ConfirmCodeScreen extends React.PureComponent {
   _navigateTo() {
     this._stopTimer();
 
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+
     if (this.props.user.is_banned) {
       RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
     } else {
