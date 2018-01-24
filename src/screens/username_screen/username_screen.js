@@ -98,7 +98,7 @@ class UsernameScreen extends React.PureComponent {
   _renderTitle() {
     return (
       <RN.Text style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
-        Choose a username
+        Choose Username
       </RN.Text>
     )
   }
@@ -106,7 +106,7 @@ class UsernameScreen extends React.PureComponent {
   _renderSubtitle() {
     return (
       <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
-        You can always change it later
+        You can change it at any time.
       </RN.Text>
     )
   }
