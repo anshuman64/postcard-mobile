@@ -12,6 +12,7 @@ import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility.js
 
 //--------------------------------------------------------------------//
 
+// TODO: put this online and dynamically load content
 const POST_PLACEHOLDERS = [
   'How are you?',
   'How are you doing?',
@@ -19,11 +20,13 @@ const POST_PLACEHOLDERS = [
   "What's on your mind?",
   'What has recently made you happy?',
   'What was your happiest moment today?',
+  'What are you proud of?',
   'What have you recently regretted?',
   'What has recently made you afraid?',
   'What is your greatest struggle right now?',
   'What are you thankful for?',
-  'What are you grateful for?'
+  'What are you grateful for?',
+  'Who is someone you miss?'
 ];
 
 
