@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:500815057845:android:c455d4d335652cd6",
+        "mobilesdk_app_id": "1:500815057845:android:20ada8d34b1d4ccd",
         "android_client_info": {
           "package_name": "com.insiya.android"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "500815057845-ki3k3jcpj408f835spjcjabdncsmin70.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.insiya.android",
-            "certificate_hash": "d3495efe729f4891cd5230ea29fb5aa33ae07bfe"
-          }
-        },
         {
           "client_id": "500815057845-lupvh5eieq0t2mg61cgial93vd288agg.apps.googleusercontent.com",
           "client_type": 3
@@ -39,6 +31,13 @@
         "appinvite_service": {
           "status": 2,
           "other_platform_oauth_client": [
+            {
+              "client_id": "500815057845-phs657nkv5mjje7iuaps3nnhmh2g9vt9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.Insiya"
+              }
+            },
             {
               "client_id": "500815057845-lupvh5eieq0t2mg61cgial93vd288agg.apps.googleusercontent.com",
               "client_type": 3
