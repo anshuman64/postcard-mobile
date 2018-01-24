@@ -56,7 +56,7 @@ class ConfirmCodeScreen extends React.PureComponent {
             .finally(() => {
               this.setState({ isLoading: false });
             });
-        }
+        });
       }
     });
   }
