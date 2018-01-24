@@ -46,16 +46,8 @@ class ConfirmCodeScreen extends React.PureComponent {
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
         this.props.loginUser(firebaseUserObj)
-          .then((user) => {
-            if (user.is_banned) {
-              RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
-            } else {
-              if (!this.props.user.username) {
-                return this.props.navigateTo('UsernameScreenLogin');
-              } else {
-                return this.props.navigateTo('HomeScreen');
-              }
-            }
+          .then(() => {
+            this._navigateTo();
           })
           .catch((error) => {
             // console.error(error); // Debug Test
@@ -96,6 +88,20 @@ class ConfirmCodeScreen extends React.PureComponent {
     });
   }
 
+  _navigateTo() {
+    this._stopTimer();
+
+    if (this.props.user.is_banned) {
+      RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
+    } else {
+      if (!this.props.user.username) {
+        return this.props.navigateTo('UsernameScreenLogin');
+      } else {
+        return this.props.navigateTo('HomeScreen');
+      }
+    }
+  }
+
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
@@ -107,17 +113,8 @@ class ConfirmCodeScreen extends React.PureComponent {
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
-        .then((user) => {
-          if (user.is_banned) {
-            RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
-          } else {
-            if (!this.props.user.username) {
-              return this.props.navigateTo('UsernameScreenLogin');
-            } else {
-              return this.props.navigateTo('HomeScreen');
-            }
-          }
-
+        .then(() => {
+          this._navigateTo();
           this.setState({ isCodeIncorrect: false });
         })
         .catch((error) => {
