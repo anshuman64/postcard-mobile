@@ -1,0 +1,289 @@
+// Library Imports
+import React                   from 'react';
+import RN                      from 'react-native';
+import _                       from 'lodash';
+import { AsYouTypeFormatter }  from 'google-libphonenumber';
+import Icon                    from 'react-native-vector-icons/Ionicons';
+
+// Local Imports
+import LoadingModal                from '../../components/loading_modal/loading_modal.js';
+import CountryListModal            from '../../components/country_list_modal/country_list_modal.js';
+import { styles }                  from './login_screen_styles.js';
+import { COUNTRY_CODES }           from '../../utilities/country_utility.js';
+import { setStateCallback }        from '../../utilities/function_utility.js';
+import { UTILITY_STYLES, COLORS }  from '../../utilities/style_utility.js';
+import { defaultErrorAlert }       from '../../utilities/error_utility.js';
+
+
+//--------------------------------------------------------------------//
+
+
+class LoginScreen extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      countryIndex:             220, // hard-coded to United States
+      formattedPhoneNumber:     '',
+      isModalVisible:           false,
+      isNextButtonDisabled:     true,
+      isLoading:                false,
+      isPhoneNumberInvalid:     false,
+    };
+
+    this.unsubscribe = null;
+    this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[this.state.countryIndex].country_code); // libphonenumber object that formats phone numbers by country as each character is typed
+  }
+
+  //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
+  // Callback function used for Cancel button in CountryListModal
+  setParentState = (state) => {
+    let func = () => {
+      this.setState(state);
+    }
+
+    return func;
+  }
+
+  // Callback function for setting country selector and updating phone number formatting
+  setCountry = (index) => {
+    let func = () => {
+      let tempFormatted = '';
+      // Create new libphonenumber formatter for new country
+      this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[index].country_code);
+      // Try extracting raw number input from phone number and readding each character to formatter; escape if nothing to format
+      try {
+        tempFormatted = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+        _.forEach(tempFormatted, (char) => tempFormatted = this.formatter.inputDigit(char));
+      } catch (e) {}
+
+      this.setState({ countryIndex: index, formattedPhoneNumber: tempFormatted, isModalVisible: false }, this._checkNextButtonEnable);
+    }
+
+    return func;
+  }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  // Callback function for formatting phone number on each character typed
+  _onPhoneInputChangeText = (value) => {
+    let formatted;
+
+    if (value.length >= this.state.formattedPhoneNumber.length) {
+      // Adds only the last last character to libphonenumber formatter; formatter object saves previous characters
+      formatted = this.formatter.inputDigit(value[value.length - 1]);
+    }
+    // Condition if delete key was pressed
+    else {
+      // Delete last character of formatted number
+      formatted = this.state.formattedPhoneNumber.slice(0, -1);
+      // Reset formatter because it does not have remove digit functionality
+      this.formatter.clear();
+      // Loop through formatted string and add digits to formatter one by one
+      _.forEach(formatted, (char) => formatted = this.formatter.inputDigit(char));
+    }
+
+    this.setState({ formattedPhoneNumber: formatted }, this._checkNextButtonEnable);
+  }
+
+  // Enables Next button only when phone number is greater than 5 digits
+  _checkNextButtonEnable = () => {
+    let phoneUtilNumber;
+
+    try {
+      phoneUtilNumber = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+
+      if (phoneUtilNumber.length >= 5) {
+        this.setState({isNextButtonDisabled: false});
+      } else {
+        this.setState({isNextButtonDisabled: true});
+      }
+    } catch (e) {}
+  }
+
+  // Callback function that extracts raw numbers from phone number, adds country code, and sends to Firebase API
+  _onNextButtonPress = () => {
+    let number = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
+
+    // If the user has not added their own country code in, add the one from the countryListModal
+    if (number[0] != '+') {
+      number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
+    }
+
+    this.setState({ isLoading: true }, () => {
+      this.props.getConfirmationCode(number)
+       .then((confirmationCodeObj) => {
+         this.props.navigateTo('ConfirmCodeScreen', { phoneNumber: number, confirmationCodeObj: confirmationCodeObj });
+         this.setState({ isPhoneNumberInvalid: false });
+       })
+       .catch((error) => {
+         // console.error(error) // Debug Test
+         if (error.description === 'Firebase phone sign-in failed') {
+           this.setState({ isPhoneNumberInvalid: true });
+         } else {
+           defaultErrorAlert(error);
+         }
+       })
+       .finally(() => {
+         this.setState({ isLoading: false});
+       });
+    });
+  }
+
+  _onFocus = () => {
+    if (this.state.isPhoneNumberInvalid) {
+      this.phoneInput.setNativeProps({style: [UTILITY_STYLES.borderRed, UTILITY_STYLES.textHighlighted]});
+    } else {
+      this.phoneInput.setNativeProps({style: [UTILITY_STYLES.borderHighlighted, UTILITY_STYLES.textHighlighted]});
+    }
+  }
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _renderLogo() {
+    return(
+      <RN.Image style={styles.logo} source={require('../../assets/images/logo/logo.png')} resizeMode='contain' />
+    )
+  }
+
+  _renderCountrySelector() {
+    return (
+      <RN.TouchableWithoutFeedback
+        onPress={setStateCallback(this, { isModalVisible: true})}
+        onPressIn={() => {
+          this.countrySelectorView.setNativeProps({style: UTILITY_STYLES.borderHighlighted})
+          this.countrySelectorText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.dropdownIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+        }}
+        onPressOut={() => {
+          this.countrySelectorView.setNativeProps({style: styles.countrySelectorView})
+          this.countrySelectorText.setNativeProps({style: [UTILITY_STYLES.lightBlackText18, styles.countrySelectorTextWidth]})
+          this.dropdownIcon.setNativeProps({style: styles.dropdownIcon})
+        }}
+        >
+        <RN.View ref={(ref) => this.countrySelectorView = ref} style={styles.countrySelectorView}>
+          <RN.Text ref={(ref) => this.countrySelectorText = ref} style={[UTILITY_STYLES.lightBlackText18, styles.countrySelectorTextWidth]}>
+            {COUNTRY_CODES[this.state.countryIndex].country_name}
+          </RN.Text>
+          <Icon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
+    )
+  }
+
+  _renderPhoneNumberInput() {
+    return (
+      <RN.View style={styles.phoneNumberView}>
+        {/* PhoneNumberCountryCode */}
+        <RN.View style={styles.countryCodeTextView}>
+          <RN.Text style={UTILITY_STYLES.lightBlackText18}>
+            {COUNTRY_CODES[this.state.countryIndex].dialing_code}
+          </RN.Text>
+        </RN.View>
+
+        {/* PhoneNumberInput */}
+          <RN.TextInput
+            ref={(ref) => this.phoneInput = ref}
+            style={[styles.phoneNumberInput, this.state.isPhoneNumberInvalid && UTILITY_STYLES.borderRed]}
+            keyboardType='phone-pad'
+            onChangeText={this._onPhoneInputChangeText.bind(this)}
+            value={this.state.formattedPhoneNumber}
+            placeholder='Phone Number'
+            placeholderTextColor={COLORS.grey400}
+            underlineColorAndroid={'transparent'}
+            onFocus={this._onFocus}
+            onEndEditing={() => this.phoneInput.setNativeProps({style: [styles.phoneNumberInput, this.state.isPhoneNumberInvalid && UTILITY_STYLES.borderRed]})}
+            />
+      </RN.View>
+    )
+  }
+
+  _renderInvalidNumberText() {
+    return (
+      <RN.View style={styles.invalidNumberTextView}>
+        <RN.Text style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && UTILITY_STYLES.transparentText]}>
+          Invalid Number
+        </RN.Text>
+      </RN.View>
+    )
+  }
+
+  _renderNextButton() {
+    return (
+      <RN.TouchableOpacity
+        style={[UTILITY_STYLES.nextButtonBackground, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonBackgroundDisabled]}
+        onPress={this._onNextButtonPress}
+        disabled={this.state.isNextButtonDisabled || this.state.isLoading}
+        >
+        <RN.Text style={[UTILITY_STYLES.lightWhiteText18, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonTextDisabled]}>
+          Next
+        </RN.Text>
+      </RN.TouchableOpacity>
+    )
+  }
+
+  _renderSMSNoticeText() {
+    return (
+      <RN.Text style={styles.smsNoticeText}>
+        {"We'll send an SMS message to verify your phone number"}
+      </RN.Text>
+    )
+  }
+
+  _renderModal() {
+    return (
+      <RN.Modal
+        visible={this.state.isModalVisible}
+        onRequestClose={setStateCallback(this, { isModalVisible: false })}
+        transparent={false}
+        animationType={'none'}
+        >
+        <RN.View style={UTILITY_STYLES.containerCenter}>
+          <CountryListModal countryIndex={this.state.countryIndex} setParentState={this.setParentState} setCountry={this.setCountry} />
+        </RN.View>
+      </RN.Modal>
+    )
+  }
+
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading} />
+    )
+  }
+
+  render() {
+    return (
+      <RN.View style={UTILITY_STYLES.containerStart}>
+        <RN.View style={{flex: 5}} />
+        {this._renderLogo()}
+        <RN.View style={{flex: 4}} />
+        {this._renderCountrySelector()}
+        {this._renderPhoneNumberInput()}
+        {this._renderInvalidNumberText()}
+        <RN.View style={{flex: 3}} />
+        {this._renderNextButton()}
+        {this._renderSMSNoticeText()}
+        <RN.View style={{flex: 8}} />
+        {this._renderModal()}
+        {this._renderLoadingModal()}
+      </RN.View>
+    )
+  }
+}
+
+// --------------------------------------------------------------------
+
+
+export default LoginScreen;

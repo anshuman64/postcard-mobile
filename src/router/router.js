@@ -2,7 +2,6 @@
 import React               from 'react';
 import { Router, Reducer } from 'react-native-router-flux';
 
-
 //--------------------------------------------------------------------//
 
 
@@ -15,6 +14,10 @@ class CustomRouter extends React.Component {
     };
   }
 
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
   render () {
     return (
       <Router createReducer={this.reducerCreate.bind(this)} >
@@ -23,5 +26,8 @@ class CustomRouter extends React.Component {
     )
   }
 }
+
+
+//--------------------------------------------------------------------//
 
 export default CustomRouter;

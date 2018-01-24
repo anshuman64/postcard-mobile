@@ -1,4 +1,4 @@
-package com.insiya;
+package com.insiya.android;
 
 import com.facebook.react.ReactActivity;
 

@@ -1,4 +1,32 @@
-import RNAmplitute      from 'react-native-amplitude-analytics';
+// Library Imports
+import RNAmplitute from 'react-native-amplitude-analytics';
 
-// Key for insiya-dev
-export const amplitude = new RNAmplitute('fa9aded0e5b7590482fffff78b2bd85c');
+// Local Imports
+import { ENV_TYPES, GLOBAL_ENV_SETTING } from '../app_config.js';
+
+//--------------------------------------------------------------------//
+
+
+//--------------------------------------------------------------------//
+// Helper Functions
+//--------------------------------------------------------------------//
+
+
+// Chooses the right API key depending on environment setting
+let setupAmplitude = () => {
+  if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
+    return new RNAmplitute('7ce84b314a6daad5ff9966ec1a2c52ab'); // key for insiya-production
+  } else if (GLOBAL_ENV_SETTING === ENV_TYPES.TEST) {
+    return new RNAmplitute('754c90a8ee32f23bd7042c47ea600e4d'); // key for insiya-test
+  } else {
+    return new RNAmplitute('fa9aded0e5b7590482fffff78b2bd85c'); // key for insiya-dev
+  }
+};
+
+
+//--------------------------------------------------------------------//
+// Interface
+//--------------------------------------------------------------------//
+
+
+export const amplitude = setupAmplitude();
