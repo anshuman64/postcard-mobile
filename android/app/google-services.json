@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:500815057845:android:c455d4d335652cd6",
         "android_client_info": {
-          "package_name": "com.insiya"
+          "package_name": "com.insiya.android"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "500815057845-ki3k3jcpj408f835spjcjabdncsmin70.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.insiya",
+            "package_name": "com.insiya.android",
             "certificate_hash": "d3495efe729f4891cd5230ea29fb5aa33ae07bfe"
           }
         },
