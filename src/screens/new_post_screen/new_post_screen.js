@@ -13,10 +13,17 @@ import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility.js
 //--------------------------------------------------------------------//
 
 const POST_PLACEHOLDERS = [
-  'Suggestion: How are you?',
-  'Suggestion: What is your greatest fear?',
-  'Suggestion: What was your happiest moment?',
-  'Suggestion: What was your happiest moment today?'
+  'How are you?',
+  'How are you doing?',
+  "How's it going?",
+  "What's on your mind?",
+  'What has recently made you happy?',
+  'What was your happiest moment today?',
+  'What have you recently regretted?',
+  'What has recently made you afraid?',
+  'What is your greatest struggle right now?',
+  'What are you thankful for?',
+  'What are you grateful for?'
 ];
 
 
