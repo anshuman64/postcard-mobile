@@ -128,7 +128,7 @@ class LoginScreen extends React.PureComponent {
        })
        .catch((error) => {
          if (error.description === 'Firebase phone sign-in failed') {
-           console.error(error)
+           // console.error(error) // Debug Test
            this.setState({ isPhoneNumberInvalid: true });
          } else {
            defaultErrorAlert(error);

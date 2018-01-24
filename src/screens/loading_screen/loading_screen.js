@@ -45,11 +45,11 @@ class LoadingScreen extends React.PureComponent {
             }
           })
           .catch((error) => {
-            console.error(error);
+            // console.error(error); // Debug Test
             this.setState({ iterationCount: 2, isLoginSuccessful: false });
           })
       } else {
-        console.error('No Firebase cookie found');
+        console.error('No Firebase cookie found'); // Debug Test
         this.setState({ iterationCount: 2, isLoginSuccessful: false });
       }
     });

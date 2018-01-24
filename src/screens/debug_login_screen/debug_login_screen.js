@@ -48,7 +48,7 @@ class DebugLoginScreen extends React.PureComponent {
         }
       })
       .catch((error) => {
-        console.error(error);
+        // console.error(error); // Debug Test
         this.isNextPressed = false;
       });
   }
