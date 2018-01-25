@@ -16,4 +16,4 @@ export const ENV_TYPES = {
 export const GLOBAL_ENV_SETTING    = ENV_TYPES.PRODUCTION
 
 // WARNING -- affects the Amplitude Analytics project
-export const ANALYTICS_ENV_SETTING = ENV_TYPES.DEV
+export const ANALYTICS_ENV_SETTING = ENV_TYPES.PRODUCTION
