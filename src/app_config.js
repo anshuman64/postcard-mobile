@@ -11,7 +11,9 @@ export const ENV_TYPES = {
 
 /* WARNING -- affects the following services:
  * - API url
- * - Amplitude Analytics project
  * - AWS S3 bucket
  */
-export const GLOBAL_ENV_SETTING = ENV_TYPES.PRODUCTION
+export const GLOBAL_ENV_SETTING    = ENV_TYPES.PRODUCTION
+
+// WARNING -- affects the Amplitude Analytics project
+export const ANALYTICS_ENV_SETTING = ENV_TYPES.DEV
