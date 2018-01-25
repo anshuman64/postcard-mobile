@@ -197,7 +197,7 @@ class PostList extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={[UTILITY_STYLES.containerStart, this.props.currentScreen === 'UserScreen' && styles.minusHeader]}>
+      <RN.View style={UTILITY_STYLES.containerStart}>
         {this._renderPostList()}
         {this._renderProfileHeader()}
       </RN.View>
