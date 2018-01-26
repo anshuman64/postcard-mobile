@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import _         from 'lodash';
 
 // Local Imports
-import { ENV_TYPES, GLOBAL_ENV_SETTING } from '../app_config.js';
+import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config.js';
 
 //--------------------------------------------------------------------//
 
@@ -26,9 +26,9 @@ const DEFAULT_HEADERS = {
 
 // Chooses right API url based on environment setting
 let getBaseUrl = () => {
-  if (GLOBAL_ENV_SETTING === ENV_TYPES.PRODUCTION) {
+  if (SERVER_ENV_SETTING === ENV_TYPES.PRODUCTION) {
     return 'https://api.insiya.io/api';
-  } else if (GLOBAL_ENV_SETTING === ENV_TYPES.TEST) {
+  } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
     return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
   } else {
     return 'http://192.168.2.27:3000/api';

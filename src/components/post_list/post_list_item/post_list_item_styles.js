@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
     width: 40,
   },
   userIcon: {
-    fontSize: 28,
+    fontSize: 34,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
