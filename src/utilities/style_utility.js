@@ -60,6 +60,7 @@ export const scaleImage = (size) => {
   return PixelRatio.getPixelSizeForLayoutSize(size);
 };
 
+//TODO: properly address vision accessibility
 // Scales font by fontScale
 export const scaleFont = (fontSize) => {
   return fontSize * PixelRatio.getFontScale();
@@ -116,21 +117,21 @@ export const UTILITY_STYLES = StyleSheet.create({
   // Regular Black Text Styles
   regularBlackText18: {
     fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: scaleFont(18),
+    fontSize: 18,
     fontWeight: '400',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   regularBlackText16: {
     fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: scaleFont(16),
+    fontSize: 16,
     fontWeight: '400',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   regularBlackText15: {
     fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: scaleFont(15),
+    fontSize: 15,
     fontWeight: '400',
     textAlign: 'center',
     color: COLORS.grey900,
@@ -139,21 +140,21 @@ export const UTILITY_STYLES = StyleSheet.create({
   // Light Black Text Styles
   lightBlackText18: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: scaleFont(18),
+    fontSize: 18,
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   lightBlackText16: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: scaleFont(16),
+    fontSize: 16,
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   lightBlackText15: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: scaleFont(15),
+    fontSize: 15,
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
@@ -162,14 +163,14 @@ export const UTILITY_STYLES = StyleSheet.create({
   // Light White Text StyleSheet
   lightWhiteText18: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: scaleFont(18),
+    fontSize: 18,
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',
   },
   lightWhiteText16: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: scaleFont(18),
+    fontSize: 18,
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',
