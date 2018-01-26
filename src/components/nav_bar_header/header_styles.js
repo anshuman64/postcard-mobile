@@ -38,11 +38,11 @@ export const styles = StyleSheet.create({
     paddingRight: 20,
   },
   backIcon: {
-    fontSize: StyleUtility.scaleFont(35),
+    fontSize: 35,
     color: StyleUtility.COLORS.grey900
   },
   settingsIcon: {
-    fontSize: StyleUtility.scaleFont(22),
+    fontSize: 22,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey800
   },
@@ -51,14 +51,14 @@ export const styles = StyleSheet.create({
     width: 150
   },
   noteIcon: {
-    fontSize: StyleUtility.scaleFont(21),
+    fontSize: 21,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },
   shareButton: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: 16,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },

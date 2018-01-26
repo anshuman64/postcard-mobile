@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   changePhotoText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(15),
+    fontSize: 15,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
  skipButtonText: {
    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
    fontWeight: '100',
-   fontSize: StyleUtility.scaleFont(15),
+   fontSize: 15,
    textAlign: 'center',
    color: StyleUtility.COLORS.appleBlue,
  },

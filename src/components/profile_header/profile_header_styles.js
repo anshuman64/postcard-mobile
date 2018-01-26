@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     borderRadius: StyleUtility.getImageBorderRadius(90),
   },
   avatarPencil: {
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: 14,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue + 'bf',
     marginLeft: -15,
@@ -71,12 +71,12 @@ export const styles = StyleSheet.create({
   usernameText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(22),
+    fontSize: 22,
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
   },
   pencil: {
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: 14,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue + 'bf',
     marginLeft: 5

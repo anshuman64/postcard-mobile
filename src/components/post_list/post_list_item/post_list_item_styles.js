@@ -90,7 +90,7 @@ export const styles = StyleSheet.create({
     width: StyleUtility.getUsableDimensions().width - DEFAULT_MARGIN * 2,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(18),
+    fontSize: 18,
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
     marginLeft: DEFAULT_MARGIN,
@@ -98,7 +98,7 @@ export const styles = StyleSheet.create({
     marginTop: DEFAULT_MARGIN,
   },
   smallBodyText: {
-    fontSize: StyleUtility.scaleFont(15),
+    fontSize: 15,
   },
   bodyImage: {
     height: StyleUtility.getUsableDimensions().width,
@@ -131,13 +131,13 @@ export const styles = StyleSheet.create({
     marginRight: 8
   },
   likeCountText: {
-    fontSize: StyleUtility.scaleFont(15),
+    fontSize: 15,
     textAlign: 'left',
     color: StyleUtility.COLORS.grey600
   },
   dateText: {
     textAlign: 'right',
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: 14,
     color: StyleUtility.COLORS.grey400,
     marginRight: 18
   }
