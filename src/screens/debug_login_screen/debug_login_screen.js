@@ -87,7 +87,6 @@ class DebugLoginScreen extends React.PureComponent {
         onChangeText={(value) => this.setState({ emailInput: value })}
         value={this.state.passwordInput}
         underlineColorAndroid={'transparent'}
-        secureTextEntry={true}
       />
     )
   }
