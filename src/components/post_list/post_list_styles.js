@@ -12,9 +12,6 @@ import * as StyleUtility         from '../../utilities/style_utility.js';
 const FOOTER_TEXT_WIDTH = 120;
 
 export const styles = StyleSheet.create({
-  minusHeader: {
-    height: StyleUtility.DEVICE_DIM.height - 50 - StyleUtility.getStatusBarHeight() - 24, // Total height - header - statusBar - random value
-  },
   postList: {
     width: '100%',
     height: '100%',
