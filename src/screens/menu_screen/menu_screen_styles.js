@@ -27,13 +27,13 @@ export const styles = StyleSheet.create({
     }
   },
   menuItemIcon: {
-    fontSize: StyleUtility.scaleFont(20),
+    fontSize: 20,
     marginLeft: 15,
     marginRight: 15,
     color: StyleUtility.COLORS.grey900
   },
   menuItemText: {
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: 16,
     color: StyleUtility.COLORS.grey900
   },
 });

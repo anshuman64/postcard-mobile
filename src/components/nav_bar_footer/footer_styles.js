@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     height: 45,
   },
   icon: {
-    fontSize: StyleUtility.scaleFont(19),
+    fontSize: 19,
     color: StyleUtility.COLORS.grey900
   },
 })

@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     width: 150,
     height: 50,
     textAlign: 'center',
-    fontSize: StyleUtility.scaleFont(24),
+    fontSize: 24,
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   invalidCodeText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(15),
+    fontSize: 15,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
     marginTop: 4
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
   resendSMSText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: 16,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey400,
   },
