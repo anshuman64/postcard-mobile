@@ -95,9 +95,9 @@ class App extends React.Component {
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} panHandlers={null} />
 
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} panHandlers={null} initial={true} />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} panHandlers={null}  />
             <Scene key='WelcomeScreen' component={WelcomeScreenContainer} hideNavBar={true} panHandlers={null} />
-            <Scene key='LoginScreen'   component={LoginScreenContainer}   hideNavBar={true} panHandlers={null} />
+            <Scene key='LoginScreen'   component={LoginScreenContainer}   hideNavBar={true} panHandlers={null} initial={true}/>
             <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true} panHandlers={null} />
             <Scene key='UserScreen'    component={UserScreen}             hideNavBar={true} panHandlers={null} />
 

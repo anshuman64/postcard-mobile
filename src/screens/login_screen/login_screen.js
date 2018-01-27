@@ -265,7 +265,7 @@ class LoginScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={UTILITY_STYLES.containerStart}>
+      <RN.KeyboardAvoidingView style={UTILITY_STYLES.containerStart}>
         <RN.View style={{flex: 5}} />
         {this._renderLogo()}
         <RN.View style={{flex: 4}} />
@@ -278,7 +278,7 @@ class LoginScreen extends React.PureComponent {
         <RN.View style={{flex: 8}} />
         {this._renderModal()}
         {this._renderLoadingModal()}
-      </RN.View>
+      </RN.KeyboardAvoidingView>
     )
   }
 }
