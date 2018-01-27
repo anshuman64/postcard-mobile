@@ -47,8 +47,8 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey800
   },
   logo: {
-    height: 30,
-    width: 150
+    height: StyleUtility.scaleFont(30),
+    width: StyleUtility.scaleFont(150)
   },
   noteIcon: {
     fontSize: StyleUtility.scaleFont(21),
@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
   shareButton: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: 16,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },

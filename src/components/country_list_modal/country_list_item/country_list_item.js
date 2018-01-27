@@ -30,7 +30,11 @@ class CountryListItem extends React.PureComponent {
         onPress={this.props.setCountry(this.props.countryIndex)}
         >
         <RN.View style={styles.rowContainer}>
-          <RN.Text ref={(ref) => this.countryText = ref} style={UTILITY_STYLES.lightBlackText15}>
+          <RN.Text
+            ref={(ref) => this.countryText = ref}
+            style={UTILITY_STYLES.lightBlackText15}
+            numberOfLines={1}
+            ellipsizeMode={'tail'}>
             {this.props.item.country_name}
           </RN.Text>
           <RN.Text ref={(ref) => this.dialingCodeText = ref} style={UTILITY_STYLES.lightBlackText15}>
