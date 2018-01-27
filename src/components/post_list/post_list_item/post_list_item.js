@@ -14,7 +14,7 @@ import fontelloConfig                         from '../../../assets/fonts/config
 import { defaultErrorAlert }                  from '../../../utilities/error_utility.js';
 import { getImage, deleteFile }               from '../../../utilities/file_utility.js';
 import { setStateCallback, getReadableCount } from '../../../utilities/function_utility.js';
-import { UTILITY_STYLES }                     from '../../../utilities/style_utility.js';
+import { UTILITY_STYLES, COLORS }             from '../../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -421,9 +421,12 @@ class PostListItem extends React.PureComponent {
       )
     } else if (this.state.imageUrl) {
       return (
-        <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
-          <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'contain'} />
-        </RN.TouchableWithoutFeedback>
+        <RN.View style={styles.bodyImageView}>
+          <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
+            <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'contain'} cache={'force-cache'} />
+          </RN.TouchableWithoutFeedback>
+          <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
+        </RN.View>
       )
     }
   }
