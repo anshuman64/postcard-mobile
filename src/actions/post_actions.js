@@ -108,7 +108,7 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
         return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postBody, postImage, placeholderText));
       }
 
-      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText, error: error.description });
+      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText, error_description: error.description, error_message: error.message });
       throw setErrorDescription(error, 'POST post failed');
     });
 };
@@ -126,7 +126,7 @@ export const deletePost = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, deletePost, userId, postId));
       }
 
-      amplitude.logEvent('Engagement - Delete Post', { is_successful: false, error: error.description });
+      amplitude.logEvent('Engagement - Delete Post', { is_successful: false, error_description: error.description, error_message: error.message });
       throw setErrorDescription(error, 'DEL post failed');
     });
 };
