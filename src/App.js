@@ -93,24 +93,31 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} panHandlers={null} />
 
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} initial={true} />
-            <Scene key='WelcomeScreen' component={WelcomeScreenContainer} hideNavBar={true} />
-            <Scene key='LoginScreen'   component={LoginScreenContainer}   hideNavBar={true} />
-            <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true} />
-            <Scene key='UserScreen'    component={UserScreen}             hideNavBar={true} />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} panHandlers={null} initial={true} />
+            <Scene key='WelcomeScreen' component={WelcomeScreenContainer} hideNavBar={true} panHandlers={null} />
+            <Scene key='LoginScreen'   component={LoginScreenContainer}   hideNavBar={true} panHandlers={null} />
+            <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true} panHandlers={null} />
+            <Scene key='UserScreen'    component={UserScreen}             hideNavBar={true} panHandlers={null} />
 
-            <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} navBar={this._renderHeader('Confirm Code', true)} />
+            <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} navBar={this._renderHeader('Confirm Code', true)} panHandlers={null} />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    navBar={this._renderHeader('Username')} />
-            <Scene key='AvatarScreen'        component={AvatarScreenContainer}      navBar={this._renderHeader('Profile Photo', true)} />
-            <Scene key='MenuScreen'          component={MenuScreen}                 navBar={this._renderHeader('Settings', true)} />
-            <Scene key='UsernameScreen'      component={UsernameScreenContainer}    navBar={this._renderHeader('Username', true)} />
-            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  navBar={this._renderHeader('Gallery', true)} />
+            <Scene key='AvatarScreen'        component={AvatarScreenContainer}      navBar={this._renderHeader('Profile Photo', true)} panHandlers={null} />
+            <Scene key='MenuScreen'          component={MenuScreen}                 navBar={this._renderHeader('Settings', true)} panHandlers={null} />
+            <Scene key='UsernameScreen'      component={UsernameScreenContainer}    navBar={this._renderHeader('Username', true)} panHandlers={null} />
+            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  navBar={this._renderHeader('Gallery', true)} panHandlers={null} />
 
-            <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={false} animationEnabled={false} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} /> }>
-              <Scene key='HomeScreen'    component={HomeScreenContainer}    hideNavBar={true} initial={true} />
-              <Scene key='ProfileScreen' component={ProfileScreenContainer} hideNavBar={true} />
+            <Tabs key='MainScreenTabs'
+              tabBarPosition={'bottom'}
+              tabBarComponent={FooterContainer} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} /> }
+              swipeEnabled={false}
+              lazy={false}
+              animationEnabled={false}
+              panHandlers={null}
+              >
+              <Scene key='HomeScreen'    component={HomeScreenContainer}    hideNavBar={true} panHandlers={null} initial={true}/>
+              <Scene key='ProfileScreen' component={ProfileScreenContainer} hideNavBar={true} panHandlers={null} />
             </Tabs>
           </Scene>
         </RouterContainer>
