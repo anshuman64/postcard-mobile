@@ -112,20 +112,24 @@ class NewPostScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={UTILITY_STYLES.containerStart}>
-        <HeaderContainer
-          backIcon={true}
-          backTitle={'Create Post'}
-          shareButton={true}
-          postText={this.state.postText}
-          placeholderText={this.state.placeholderText}
-          imagePath={this.state.imagePath}
-          imageType={this.state.imageType}
-          />
-        {this._renderTextInput()}
-        {this._renderImage()}
-        {this._renderImageButton()}
-      </RN.View>
+      <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>
+        <RN.TouchableWithoutFeedback onPress={RN.Keyboard.dismiss} accessible={false}>
+          <RN.View style={UTILITY_STYLES.containerStart}>
+            <HeaderContainer
+              backIcon={true}
+              backTitle={'Create Post'}
+              shareButton={true}
+              postText={this.state.postText}
+              placeholderText={this.state.placeholderText}
+              imagePath={this.state.imagePath}
+              imageType={this.state.imageType}
+              />
+            {this._renderTextInput()}
+            {this._renderImage()}
+            {this._renderImageButton()}
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+      </RN.KeyboardAvoidingView>
     )
   }
 }
