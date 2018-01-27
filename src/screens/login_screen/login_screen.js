@@ -265,19 +265,23 @@ class LoginScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.KeyboardAvoidingView style={UTILITY_STYLES.containerStart}>
-        <RN.View style={{flex: 5}} />
-        {this._renderLogo()}
-        <RN.View style={{flex: 4}} />
-        {this._renderCountrySelector()}
-        {this._renderPhoneNumberInput()}
-        {this._renderInvalidNumberText()}
-        <RN.View style={{flex: 3}} />
-        {this._renderNextButton()}
-        {this._renderSMSNoticeText()}
-        <RN.View style={{flex: 8}} />
-        {this._renderModal()}
-        {this._renderLoadingModal()}
+      <RN.KeyboardAvoidingView behavior={'padding'}>
+        <RN.TouchableWithoutFeedback onPress={RN.Keyboard.dismiss} accessible={false}>
+          <RN.View style={UTILITY_STYLES.containerStart}>
+            <RN.View style={{flex: 5}} />
+            {this._renderLogo()}
+            <RN.View style={{flex: 4}} />
+            {this._renderCountrySelector()}
+            {this._renderPhoneNumberInput()}
+            {this._renderInvalidNumberText()}
+            <RN.View style={{flex: 3}} />
+            {this._renderNextButton()}
+            {this._renderSMSNoticeText()}
+            <RN.View style={{flex: 8}} />
+            {this._renderModal()}
+            {this._renderLoadingModal()}
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
       </RN.KeyboardAvoidingView>
     )
   }
