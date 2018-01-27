@@ -160,16 +160,20 @@ class UsernameScreen extends React.PureComponent {
 
   render() {
     return (
-        <RN.KeyboardAvoidingView behavior={'padding'} style={UTILITY_STYLES.containerStart}>
-          {this._renderTitle()}
-          {this._renderSubtitle()}
-          {this._renderTextInput()}
-          {this._renderErrorText()}
-          <RN.View style={{flex: 1}} />
-          {this._renderNextButton()}
-          <RN.View style={{flex: 10}} />
-          {this._renderLoadingModal()}
-        </RN.KeyboardAvoidingView>
+      <RN.KeyboardAvoidingView behavior={'padding'}>
+        <RN.TouchableWithoutFeedback onPress={RN.Keyboard.dismiss} accessible={false}>
+          <RN.View style={UTILITY_STYLES.containerStart}>
+            {this._renderTitle()}
+            {this._renderSubtitle()}
+            {this._renderTextInput()}
+            {this._renderErrorText()}
+            <RN.View style={{flex: 1}} />
+            {this._renderNextButton()}
+            <RN.View style={{flex: 10}} />
+            {this._renderLoadingModal()}
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+      </RN.KeyboardAvoidingView>
     )
   }
 }
