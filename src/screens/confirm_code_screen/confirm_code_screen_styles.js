@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     width: 150,
     height: 50,
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: 20,
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,

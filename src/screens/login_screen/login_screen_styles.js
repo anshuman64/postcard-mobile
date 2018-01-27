@@ -7,6 +7,8 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
+const DEFAULT_HEIGHT = 50;
+
 export const styles = StyleSheet.create({
   logo: {
     width: '100%',
@@ -17,7 +19,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 240,
-    height: 45,
+    height: DEFAULT_HEIGHT,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
   },
@@ -35,20 +37,20 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: 240,
-    height: 45,
+    height: DEFAULT_HEIGHT,
     marginTop: 10
   },
   countryCodeTextView: {
     flexDirection: 'column',
     justifyContent: 'center',
     width: 60,
-    height: 45,
+    height: DEFAULT_HEIGHT,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
   },
   phoneNumberInput: {
     width: 165,
-    height: 45,
+    height: DEFAULT_HEIGHT,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: 18,
@@ -62,7 +64,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: 240,
-    height: 30,
+    marginTop: 4,
   },
   invalidNumberText: {
     width: 165,

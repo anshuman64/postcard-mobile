@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
     marginRight: 18
   },
   flagIcon: {
-    fontSize: 28,
+    fontSize: StyleUtility.scaleFont(28),
     color: StyleUtility.COLORS.grey700,
     marginRight: 18
   },
@@ -115,19 +115,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  heartButton: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    width: 50,
     height: 50,
   },
   heartIcon: {
-    width: 30,
-    fontSize: 28,
+    fontSize: StyleUtility.scaleFont(28),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
+    marginLeft: DEFAULT_MARGIN,
     marginRight: 8
   },
   likeCountText: {

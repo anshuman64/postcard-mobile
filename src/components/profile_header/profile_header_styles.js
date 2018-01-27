@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
   },
   pencil: {
-    fontSize: 14,
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue + 'bf',
     marginLeft: 5

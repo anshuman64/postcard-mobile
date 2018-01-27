@@ -437,9 +437,7 @@ class PostListItem extends React.PureComponent {
       <RN.View style={styles.footerView}>
         <RN.TouchableWithoutFeedback onPressIn={this._onPressLike}>
           <RN.View style={styles.likesView}>
-            <RN.View style={styles.heartButton}>
-              {this._renderLike()}
-            </RN.View>
+            {this._renderLike()}
             <RN.Text style={styles.likeCountText}>
               {getReadableCount(this.props.item.num_likes)}
             </RN.Text>

@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     }
   },
   menuItemIcon: {
-    fontSize: 20,
+    fontSize: StyleUtility.scaleFont(20),
     marginLeft: 15,
     marginRight: 15,
     color: StyleUtility.COLORS.grey900
