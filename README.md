@@ -1,6 +1,6 @@
 # insiya-mobile
 
-## General Setup
+## Setup - General
 1. Clone repository
 ````
 git clone https://github.com/anshuman64/insiya-mobile.git
@@ -26,7 +26,7 @@ const extname = (path) => {
 ````
 
 
-## iOS
+## Setup - iOS
 0. Fix react-native-image-crop-picker UI
 ````
 open ./node_modules/react-native-image-crop-picker/ios/RSKImageCropper/RSKImageCropper/RSKImageCropViewController.m
@@ -62,9 +62,14 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 
 ![Alt text](https://s3.amazonaws.com/insiya-public/XCode_Amplitude_Header_Config.png)
 
+## Release - General
+1. ENV_SETTING = ENV_TYPES.PRODUCTION in app_config.js
+2. LoadingScreen inital={true} in App.js
+
 ## Release - Android
-1. Add insiya-android.keystore (ask Anshuman) to /android/app directory
-2. Generate signed release APK
+1. Increment versionCode and versionName in android > app > build.gradle and AndroidManifest.xml
+2. Add insiya-android.keystore (ask Anshuman) to /android/app directory
+3. Generate signed release APK
 
 ````
 cd android && ./gradlew assembleRelease
@@ -74,3 +79,6 @@ cd android && ./gradlew assembleRelease
 ````
 cd .. && react-native run-android --variant=release
 ````
+
+## Release - iOS
+1. Increment Version and Build in XCode
