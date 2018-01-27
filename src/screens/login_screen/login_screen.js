@@ -265,7 +265,7 @@ class LoginScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.KeyboardAvoidingView behavior={'padding'}>
+      <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? RN.Platform.OS === 'ios' ? 'padding' : null : null}>
         <RN.TouchableWithoutFeedback onPress={RN.Keyboard.dismiss} accessible={false}>
           <RN.View style={UTILITY_STYLES.containerStart}>
             <RN.View style={{flex: 5}} />
