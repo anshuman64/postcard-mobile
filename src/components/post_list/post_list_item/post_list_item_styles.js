@@ -100,10 +100,16 @@ export const styles = StyleSheet.create({
   smallBodyText: {
     fontSize: 15,
   },
+  bodyImageView: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   bodyImage: {
     height: StyleUtility.getUsableDimensions().width,
     width: StyleUtility.getUsableDimensions().width,
     marginTop: DEFAULT_MARGIN,
+    zIndex: 1,
   },
   footerView: {
     flexDirection: 'row',
