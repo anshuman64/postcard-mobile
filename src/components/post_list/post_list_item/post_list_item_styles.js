@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
     width: 80,
   },
   closeIcon: {
-    fontSize: 20,
+    fontSize: StyleUtility.scaleFont(20),
     color: StyleUtility.COLORS.grey900,
     marginRight: 18
   },

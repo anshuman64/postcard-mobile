@@ -12,101 +12,138 @@ import { UTILITY_STYLES }  from '../../utilities/style_utility.js';
 class MenuScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
-
-  // Opens mail client
-  _onPressSupport = () => {
-    RN.Linking.openURL('mailto:support@insiya.io');
-  }
-
-  _onPressFeedback = () => {
-    RN.Linking.openURL('mailto:feedback@insiya.io');
-  }
-
-  _onPressAbout = () => {
-    RN.Linking.openURL('https://medium.com/@InsiyaInc/terms-of-use-de17e7b76742');
-  }
-
-  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderSupportButton() {
+  _renderContactButton() {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.supportIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          this.supportText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.contactIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.contactText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
-          this.supportIcon.setNativeProps({style: styles.menuItemIcon})
-          this.supportText.setNativeProps({style: styles.menuItemText})
+          this.contactIcon.setNativeProps({style: styles.menuItemIcon})
+          this.contactText.setNativeProps({style: styles.menuItemText})
         }}
-        onPress={this._onPressSupport}
+        onPress={() => RN.Linking.openURL('mailto:contact@insiya.io')}
         >
         <RN.View style={styles.menuItemView}>
           <Icon
-            ref={(ref) => this.supportIcon = ref}
+            ref={(ref) => this.contactIcon = ref}
             name='envelope'
             style={styles.menuItemIcon}
             />
-          <RN.Text ref={(ref) => this.supportText = ref} style={styles.menuItemText}>
-            Support
+          <RN.Text ref={(ref) => this.contactText = ref} style={styles.menuItemText}>
+            Contact
           </RN.Text>
         </RN.View>
      </RN.TouchableWithoutFeedback>
     )
   }
 
-  _renderFeedbackButton() {
+  _renderTelegramButton() {
     return (
       <RN.TouchableWithoutFeedback
       onPressIn={() => {
-        this.feedbackIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-        this.feedbackText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+        this.telegramIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+        this.telegramText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
       }}
       onPressOut={() => {
-        this.feedbackIcon.setNativeProps({style: styles.menuItemIcon})
-        this.feedbackText.setNativeProps({style: styles.menuItemText})
+        this.telegramIcon.setNativeProps({style: styles.menuItemIcon})
+        this.telegramText.setNativeProps({style: styles.menuItemText})
       }}
-        onPress={this._onPressFeedback}
+        onPress={() => RN.Linking.openURL('https://t.me/insiyaapp')}
         >
         <RN.View style={styles.menuItemView}>
           <Icon
-            ref={(ref) => this.feedbackIcon = ref}
-            name='speech'
+            ref={(ref) => this.telegramIcon = ref}
+            name='paper-plane'
             style={styles.menuItemIcon}
             />
-          <RN.Text ref={(ref) => this.feedbackText = ref} style={styles.menuItemText}>
-            Feedback
+          <RN.Text ref={(ref) => this.telegramText = ref} style={styles.menuItemText}>
+            Telegram Community
           </RN.Text>
         </RN.View>
      </RN.TouchableWithoutFeedback>
     )
   }
 
-  _renderAboutButton() {
+  _renderTermsButton() {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.aboutIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          this.aboutText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.termsIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.termsText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
-          this.aboutIcon.setNativeProps({style: styles.menuItemIcon})
-          this.aboutText.setNativeProps({style: styles.menuItemText})
+          this.termsIcon.setNativeProps({style: styles.menuItemIcon})
+          this.termsText.setNativeProps({style: styles.menuItemText})
         }}
-        onPress={this._onPressAbout}
+        onPress={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/terms-of-use-de17e7b76742')}
         >
         <RN.View style={styles.menuItemView}>
           <Icon
-            ref={(ref) => this.aboutIcon = ref}
-            name='question'
+            ref={(ref) => this.termsIcon = ref}
+            name='docs'
             style={styles.menuItemIcon}
             />
-          <RN.Text ref={(ref) => this.aboutText = ref} style={styles.menuItemText}>
-            About
+          <RN.Text ref={(ref) => this.termsText = ref} style={styles.menuItemText}>
+            Terms Of Use
+          </RN.Text>
+        </RN.View>
+     </RN.TouchableWithoutFeedback>
+    )
+  }
+
+  _renderPrivacyPolicyButton() {
+    return (
+      <RN.TouchableWithoutFeedback
+        onPressIn={() => {
+          this.privacyIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.privacyText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+        }}
+        onPressOut={() => {
+          this.privacyIcon.setNativeProps({style: styles.menuItemIcon})
+          this.privacyText.setNativeProps({style: styles.menuItemText})
+        }}
+        onPress={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/privacy-policy-a18b33e9d916')}
+        >
+        <RN.View style={styles.menuItemView}>
+          <Icon
+            ref={(ref) => this.privacyIcon = ref}
+            name='lock'
+            style={styles.menuItemIcon}
+            />
+          <RN.Text ref={(ref) => this.privacyText = ref} style={styles.menuItemText}>
+            Privacy Policy
+          </RN.Text>
+        </RN.View>
+     </RN.TouchableWithoutFeedback>
+    )
+  }
+
+  _renderCommunityGuidelinesButton() {
+    return (
+      <RN.TouchableWithoutFeedback
+        onPressIn={() => {
+          this.communityIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.communityText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+        }}
+        onPressOut={() => {
+          this.communityIcon.setNativeProps({style: styles.menuItemIcon})
+          this.communityText.setNativeProps({style: styles.menuItemText})
+        }}
+        onPress={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/community-guidelines-598b3fd77a2e')}
+        >
+        <RN.View style={styles.menuItemView}>
+          <Icon
+            ref={(ref) => this.communityIcon = ref}
+            name='people'
+            style={styles.menuItemIcon}
+            />
+          <RN.Text ref={(ref) => this.communityText = ref} style={styles.menuItemText}>
+            Community Guidelines
           </RN.Text>
         </RN.View>
      </RN.TouchableWithoutFeedback>
@@ -116,9 +153,11 @@ class MenuScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        {this._renderSupportButton()}
-        {this._renderFeedbackButton()}
-        {this._renderAboutButton()}
+        {this._renderContactButton()}
+        {this._renderTelegramButton()}
+        {this._renderTermsButton()}
+        {this._renderPrivacyPolicyButton()}
+        {this._renderCommunityGuidelinesButton()}
      </RN.View>
     )
   }
