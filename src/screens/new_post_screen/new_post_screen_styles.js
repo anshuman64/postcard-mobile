@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: StyleUtility.scaleFont(18),
+    fontSize: 18,
     textAlign: 'left',
     textAlignVertical: 'top',
     padding: 20,
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     backgroundColor: StyleUtility.COLORS.grey50
   },
   smallBodyText: {
-    fontSize: StyleUtility.scaleFont(15),
+    fontSize: 15,
   },
   closeButton: {
     flexDirection: 'column',
@@ -62,13 +62,13 @@ export const styles = StyleSheet.create({
     borderTopColor: StyleUtility.COLORS.grey200
   },
   imageButtonIcon: {
-    fontSize: 25,
+    fontSize: StyleUtility.scaleFont(25),
     marginLeft: 20,
     color: StyleUtility.COLORS.appleBlue
   },
   imageButtonText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: 16,
     marginLeft: 15,
     color: StyleUtility.COLORS.grey900
   },

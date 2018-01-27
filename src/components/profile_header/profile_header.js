@@ -2,7 +2,6 @@
 import React       from 'react';
 import RN          from 'react-native';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // Local Imports
 import { styles, PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from './profile_header_styles.js';
@@ -129,8 +128,8 @@ class ProfileHeader extends React.PureComponent {
                || (this.props.user.id != this.props.userId && !this.props.avatarUrl)) {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
-          <RN.View style={styles.frame}>
-            <FontAwesome name='user-circle-o' style={styles.userIcon} />
+          <RN.View style={styles.frameBorder}>
+            <Icon name='user' style={styles.userIcon} />
           </RN.View>
           <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
@@ -142,9 +141,7 @@ class ProfileHeader extends React.PureComponent {
     } else {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
-          <RN.View style={styles.frame}>
-            <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'cover'} />
-          </RN.View>
+          <RN.Image source={{uri: this.state.avatarUrl}} style={styles.image} resizeMode={'cover'} />
           <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )

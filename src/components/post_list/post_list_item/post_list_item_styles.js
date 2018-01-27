@@ -51,12 +51,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 40,
-    width: 40,
   },
   userIcon: {
-    fontSize: 28,
-    textAlign: 'center',
+    fontSize: 24,
+    textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
+    marginRight: 8,
+    marginLeft: 2
   },
   avatarImage: {
     height: 40,
@@ -82,7 +83,7 @@ export const styles = StyleSheet.create({
     marginRight: 18
   },
   flagIcon: {
-    fontSize: 28,
+    fontSize: StyleUtility.scaleFont(28),
     color: StyleUtility.COLORS.grey700,
     marginRight: 18
   },
@@ -90,7 +91,7 @@ export const styles = StyleSheet.create({
     width: StyleUtility.getUsableDimensions().width - DEFAULT_MARGIN * 2,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(18),
+    fontSize: 18,
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
     marginLeft: DEFAULT_MARGIN,
@@ -98,12 +99,18 @@ export const styles = StyleSheet.create({
     marginTop: DEFAULT_MARGIN,
   },
   smallBodyText: {
-    fontSize: StyleUtility.scaleFont(15),
+    fontSize: 15,
+  },
+  bodyImageView: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bodyImage: {
     height: StyleUtility.getUsableDimensions().width,
     width: StyleUtility.getUsableDimensions().width,
     marginTop: DEFAULT_MARGIN,
+    zIndex: 1,
   },
   footerView: {
     flexDirection: 'row',
@@ -115,29 +122,23 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  heartButton: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    width: 50,
     height: 50,
   },
   heartIcon: {
-    width: 30,
-    fontSize: 28,
+    fontSize: StyleUtility.scaleFont(28),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
+    marginLeft: DEFAULT_MARGIN,
     marginRight: 8
   },
   likeCountText: {
-    fontSize: StyleUtility.scaleFont(15),
+    fontSize: 15,
     textAlign: 'left',
     color: StyleUtility.COLORS.grey600
   },
   dateText: {
     textAlign: 'right',
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: 14,
     color: StyleUtility.COLORS.grey400,
     marginRight: 18
   }
