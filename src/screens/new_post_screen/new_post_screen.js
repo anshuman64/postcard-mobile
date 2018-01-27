@@ -112,7 +112,7 @@ class NewPostScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={UTILITY_STYLES.containerStart}>
+      <RN.KeyboardAvoidingView behavior={'padding'} style={UTILITY_STYLES.containerStart}>
         <HeaderContainer
           backIcon={true}
           backTitle={'Create Post'}
@@ -125,7 +125,7 @@ class NewPostScreen extends React.PureComponent {
         {this._renderTextInput()}
         {this._renderImage()}
         {this._renderImageButton()}
-      </RN.View>
+      </RN.KeyboardAvoidingView>
     )
   }
 }
