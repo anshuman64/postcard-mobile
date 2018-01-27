@@ -36,7 +36,6 @@ class LoginScreen extends React.PureComponent {
       isPhoneNumberInvalid:     false,
     };
 
-    this.unsubscribe = null;
     this.formatter = new AsYouTypeFormatter(COUNTRY_CODES[this.state.countryIndex].country_code); // libphonenumber object that formats phone numbers by country as each character is typed
   }
 
