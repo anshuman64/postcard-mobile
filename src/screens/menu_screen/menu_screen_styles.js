@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900
   },
   menuItemText: {
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: 16,
     color: StyleUtility.COLORS.grey900
   },
 });

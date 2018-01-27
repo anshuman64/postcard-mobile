@@ -7,6 +7,8 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
+const DEFAULT_HEIGHT = 50;
+
 export const styles = StyleSheet.create({
   logo: {
     width: '100%',
@@ -17,7 +19,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 240,
-    height: 45,
+    height: DEFAULT_HEIGHT,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
   },
@@ -35,23 +37,23 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: 240,
-    height: 45,
+    height: DEFAULT_HEIGHT,
     marginTop: 10
   },
   countryCodeTextView: {
     flexDirection: 'column',
     justifyContent: 'center',
     width: 60,
-    height: 45,
+    height: DEFAULT_HEIGHT,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
   },
   phoneNumberInput: {
     width: 165,
-    height: 45,
+    height: DEFAULT_HEIGHT,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(18),
+    fontSize: 18,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
@@ -62,11 +64,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: 240,
-    height: 30,
+    marginTop: 4,
   },
   invalidNumberText: {
     width: 165,
-    fontSize: StyleUtility.scaleFont(15),
+    fontSize: 15,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },
@@ -74,7 +76,7 @@ export const styles = StyleSheet.create({
     width: 240,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: 14,
     textAlign: 'left',
     color: StyleUtility.COLORS.grey600,
     marginTop: 15,

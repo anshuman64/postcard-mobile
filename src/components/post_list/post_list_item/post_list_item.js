@@ -3,9 +3,9 @@ import React                         from 'react';
 import RN                            from 'react-native';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import * as Animatable               from 'react-native-animatable';
+import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon                       from 'react-native-vector-icons/Ionicons';
 import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
-import FontAwesome                   from 'react-native-vector-icons/FontAwesome';
 
 // Local Imports
 import { styles, scaleHeart }                 from './post_list_item_styles.js';
@@ -14,7 +14,7 @@ import fontelloConfig                         from '../../../assets/fonts/config
 import { defaultErrorAlert }                  from '../../../utilities/error_utility.js';
 import { getImage, deleteFile }               from '../../../utilities/file_utility.js';
 import { setStateCallback, getReadableCount } from '../../../utilities/function_utility.js';
-import { UTILITY_STYLES }                     from '../../../utilities/style_utility.js';
+import { UTILITY_STYLES, COLORS }             from '../../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -338,10 +338,12 @@ class PostListItem extends React.PureComponent {
       )
     } else if (!this.props.item.author_avatar_url && !this.state.avatarUrl) {
       return (
-        <FontAwesome name='user-circle-o' style={styles.userIcon} />
+        <Icon name='user' style={styles.userIcon} />
       )
     } else {
-      return null;
+      return (
+        <RN.View style={{width: 40}} />
+      );
     }
   }
 
@@ -421,9 +423,12 @@ class PostListItem extends React.PureComponent {
       )
     } else if (this.state.imageUrl) {
       return (
-        <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
-          <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'contain'} />
-        </RN.TouchableWithoutFeedback>
+        <RN.View style={styles.bodyImageView}>
+          <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
+            <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'contain'} cache={'force-cache'} />
+          </RN.TouchableWithoutFeedback>
+          <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
+        </RN.View>
       )
     }
   }
@@ -437,9 +442,7 @@ class PostListItem extends React.PureComponent {
       <RN.View style={styles.footerView}>
         <RN.TouchableWithoutFeedback onPressIn={this._onPressLike}>
           <RN.View style={styles.likesView}>
-            <RN.View style={styles.heartButton}>
-              {this._renderLike()}
-            </RN.View>
+            {this._renderLike()}
             <RN.Text style={styles.likeCountText}>
               {getReadableCount(this.props.item.num_likes)}
             </RN.Text>

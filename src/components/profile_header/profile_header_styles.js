@@ -38,8 +38,19 @@ export const styles = StyleSheet.create({
     height: 90,
     width: 100,
   },
+  frameBorder: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 90,
+    width: 90,
+    borderWidth: 2,
+    borderColor: StyleUtility.COLORS.grey900,
+    borderRadius: 90 / 2,
+    marginRight: 8
+  },
   userIcon: {
-    fontSize: 85,
+    fontSize: 37,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
@@ -47,9 +58,10 @@ export const styles = StyleSheet.create({
     height: 90,
     width: 90,
     borderRadius: StyleUtility.getImageBorderRadius(90),
+    marginRight: 8
   },
   avatarPencil: {
-    fontSize: StyleUtility.scaleFont(14),
+    fontSize: 14,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue + 'bf',
     marginLeft: -15,
@@ -71,7 +83,7 @@ export const styles = StyleSheet.create({
   usernameText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontWeight: '400',
-    fontSize: StyleUtility.scaleFont(22),
+    fontSize: 22,
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
   },
