@@ -60,7 +60,6 @@ export const scaleImage = (size) => {
   return PixelRatio.getPixelSizeForLayoutSize(size);
 };
 
-//TODO: properly address vision accessibility
 // Scales font by fontScale
 export const scaleFont = (fontSize) => {
   return fontSize * PixelRatio.getFontScale();
