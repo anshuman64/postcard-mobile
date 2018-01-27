@@ -18,8 +18,18 @@ export const styles = StyleSheet.create({
     width: 200,
     marginTop: 25,
   },
+  frameBorder: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 200,
+    height: 200,
+    borderWidth: 3,
+    borderColor: StyleUtility.COLORS.grey900,
+    borderRadius: 200 / 2,
+  },
   userIcon: {
-    fontSize: 160,
+    fontSize: 75,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
@@ -31,7 +41,7 @@ export const styles = StyleSheet.create({
   changePhotoText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(15),
+    fontSize: 15,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },
@@ -45,7 +55,7 @@ export const styles = StyleSheet.create({
  skipButtonText: {
    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
    fontWeight: '100',
-   fontSize: StyleUtility.scaleFont(15),
+   fontSize: 15,
    textAlign: 'center',
    color: StyleUtility.COLORS.appleBlue,
  },

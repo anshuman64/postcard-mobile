@@ -6,7 +6,7 @@ import uuid        from 'react-native-uuid';
 import mime        from 'mime-types';
 
 // Local Imports
-import { ENV_TYPES, GLOBAL_ENV_SETTING } from '../app_config.js';
+import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config.js';
 import { setErrorDescription }           from './error_utility.js';
 
 //--------------------------------------------------------------------//
@@ -27,7 +27,7 @@ let s3Client = null;
 
 // Returns the right Bucket Name depending on environment setting
 let getBucketName = () => {
-  switch (GLOBAL_ENV_SETTING) {
+  switch (SERVER_ENV_SETTING) {
     case ENV_TYPES.PRODUCTION:
       return 'insiya-users';
     case ENV_TYPES.TEST:
