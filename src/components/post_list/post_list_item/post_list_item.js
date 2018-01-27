@@ -3,9 +3,9 @@ import React                         from 'react';
 import RN                            from 'react-native';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import * as Animatable               from 'react-native-animatable';
+import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon                       from 'react-native-vector-icons/Ionicons';
 import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
-import FontAwesome                   from 'react-native-vector-icons/FontAwesome';
 
 // Local Imports
 import { styles, scaleHeart }                 from './post_list_item_styles.js';
@@ -338,10 +338,12 @@ class PostListItem extends React.PureComponent {
       )
     } else if (!this.props.item.author_avatar_url && !this.state.avatarUrl) {
       return (
-        <FontAwesome name='user-circle-o' style={styles.userIcon} />
+        <Icon name='user' style={styles.userIcon} />
       )
     } else {
-      return null;
+      return (
+        <RN.View style={{width: 40}} />
+      );
     }
   }
 
