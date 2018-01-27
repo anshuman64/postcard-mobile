@@ -38,8 +38,19 @@ export const styles = StyleSheet.create({
     height: 90,
     width: 100,
   },
+  frameBorder: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 90,
+    width: 90,
+    borderWidth: 2,
+    borderColor: StyleUtility.COLORS.grey900,
+    borderRadius: 90 / 2,
+    marginRight: 8
+  },
   userIcon: {
-    fontSize: 85,
+    fontSize: 37,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
@@ -47,6 +58,7 @@ export const styles = StyleSheet.create({
     height: 90,
     width: 90,
     borderRadius: StyleUtility.getImageBorderRadius(90),
+    marginRight: 8
   },
   avatarPencil: {
     fontSize: 14,
