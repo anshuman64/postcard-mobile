@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     borderTopColor: StyleUtility.COLORS.grey200
   },
   imageButtonIcon: {
-    fontSize: 25,
+    fontSize: StyleUtility.scaleFont(25),
     marginLeft: 20,
     color: StyleUtility.COLORS.appleBlue
   },
