@@ -6,6 +6,7 @@ import * as Animatable from 'react-native-animatable';
 
 // Local Imports
 import { styles, pulseIcon } from './loading_screen_styles.js';
+import { defaultErrorAlert } from '../../utilities/error_utility.js';
 import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
@@ -21,9 +22,10 @@ class LoadingScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      isLoginSuccessful: false,
-      iterationCount:    'infinite',
-      isBanned:          false
+      iterationCount: 'infinite',
+      isLoggedIn:     false,
+      isSuccessful:   true,
+      isBanned:       false
     }
   }
 
@@ -41,16 +43,16 @@ class LoadingScreen extends React.PureComponent {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
               this.setState({ iterationCount: 2, isBanned: true });
             } else {
-              this.setState({ iterationCount: 2, isLoginSuccessful: true });
+              this.setState({ iterationCount: 2, isLoggedIn: true });
             }
           })
           .catch((error) => {
-            // console.error(error); // Debug Test
-            this.setState({ iterationCount: 2, isLoginSuccessful: false });
+            this.setState({ iterationCount: 2, isSuccessful: false });
+            defaultErrorAlert(error);
           })
       } else {
         // console.error('No Firebase cookie found'); // Debug Test
-        this.setState({ iterationCount: 2, isLoginSuccessful: false });
+        this.setState({ iterationCount: 2, isLoggedIn: false });
       }
     });
   }
@@ -64,11 +66,11 @@ class LoadingScreen extends React.PureComponent {
       this.unsubscribe();
     }
 
-    if (this.state.isBanned) {
+    if (this.state.isBanned || !this.state.isSuccessful) {
       return;
     }
 
-    if (this.state.isLoginSuccessful) {
+    if (this.state.isLoggedIn) {
       if (!this.props.user.username) {
         return this.props.navigateTo('UsernameScreenLogin');
       } else {
