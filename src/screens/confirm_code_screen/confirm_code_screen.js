@@ -237,7 +237,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   render() {
     return (
-        <RN.View style={UTILITY_STYLES.containerStart}>
+        <RN.KeyboardAvoidingView behavior={'padding'} style={UTILITY_STYLES.containerStart}>
           {this._renderTitle()}
           {this._renderSubtitle()}
           {this._renderCodeInput()}
@@ -246,7 +246,7 @@ class ConfirmCodeScreen extends React.PureComponent {
             {this._renderResendSMS()}
           <RN.View style={{flex: 3}} />
           {this._renderLoadingModal()}
-        </RN.View>
+        </RN.KeyboardAvoidingView>
     )
   }
 }
