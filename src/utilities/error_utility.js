@@ -1,6 +1,9 @@
 // Library Imports
 import { Alert } from 'react-native';
 
+// Local Imports
+import { amplitude } from './analytics_utility.js';
+
 //--------------------------------------------------------------------//
 
 
@@ -17,7 +20,8 @@ export const defaultErrorAlert = (error) => {
     Alert.alert('', 'Something went wrong. Please try again later.', [{ text: 'OK', style: 'cancel' }]);
   }
 
-  console.error(error); // Debug Test
+  amplitude.logEvent('Error - General', { error_description: error.description, error_message: error.message });
+  // console.error(error); // Debug Test
 };
 
 // Checks if error has a description. If not, add the description listed and return the error

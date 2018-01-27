@@ -36,7 +36,7 @@ export const removeFlag = (data) => {
 export const createFlag = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
   return APIUtility.post(authToken, '/flags', { post_id: postId })
     .then((newFlag) => {
-      amplitude.logEvent('Engagement - Click Flag', { is_successful: true, is_create: true });
+      amplitude.logEvent('Safety - Click Flag', { is_successful: true, is_create: true });
 
       dispatch(receiveFlag({ flag: newFlag, userId: userId }));
     })
@@ -45,7 +45,7 @@ export const createFlag = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, createFlag, userId, postId));
       }
 
-      amplitude.logEvent('Engagement - Click Flag', { is_successful: false, is_create: true, error: error.description });
+      amplitude.logEvent('Safety - Click Flag', { is_successful: false, is_create: true, error_description: error.description, error_message: error.message });
       throw setErrorDescription(error, 'POST flag failed');
     });
 };
@@ -54,7 +54,7 @@ export const createFlag = (authToken, firebaseUserObj, userId, postId) => (dispa
 export const deleteFlag = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/flags/' + postId)
     .then((deletedFlag) => {
-      amplitude.logEvent('Engagement - Click Flag', { is_successful: true, is_create: false });
+      amplitude.logEvent('Safety - Click Flag', { is_successful: true, is_create: false });
       dispatch(removeFlag({ flag: deletedFlag, userId: userId }));
     })
     .catch((error) => {
@@ -62,7 +62,7 @@ export const deleteFlag = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, deleteFlag, userId, postId));
       }
 
-      amplitude.logEvent('Engagement - Click Flag', { is_successful: false, is_create: false, error: error.description });
+      amplitude.logEvent('Safety - Click Flag', { is_successful: false, is_create: false, error_description: error.description, error_message: error.message });
       throw setErrorDescription(error, 'DEL flag failed');
     });
 };

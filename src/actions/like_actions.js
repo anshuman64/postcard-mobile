@@ -45,7 +45,7 @@ export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, createLike, userId, postId));
       }
 
-      amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: true, error: error.description });
+      amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: true, error_description: error.description, error_message: error.message });
       throw setErrorDescription(error, 'POST like failed');
     });
 };
@@ -62,7 +62,7 @@ export const deleteLike = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, deleteLike, userId, postId));
       }
 
-      amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: false, error: error.description });
+      amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: false, error_description: error.description, error_message: error.message });
       throw setErrorDescription(error, 'DEL like failed');
     });
 };
