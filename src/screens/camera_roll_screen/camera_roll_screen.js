@@ -60,6 +60,7 @@ class CameraRollScreen extends React.PureComponent {
         }
       })
       .catch((error) => {
+        amplitude.logEvent('Error - Camera Roll', { error_description: 'Could not load images', error_message: error.message });
         RN.Alert.alert('','Could not load images. Please try again later.',[{text: 'OK', style: 'cancel'}]);
       });
   }
