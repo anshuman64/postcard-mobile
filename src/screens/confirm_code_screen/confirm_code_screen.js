@@ -237,16 +237,20 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   render() {
     return (
-        <RN.KeyboardAvoidingView behavior={'padding'} style={UTILITY_STYLES.containerStart}>
-          {this._renderTitle()}
-          {this._renderSubtitle()}
-          {this._renderCodeInput()}
-          {this._renderInvalidCodeText()}
-          <RN.View style={{flex: 1}} />
-            {this._renderResendSMS()}
-          <RN.View style={{flex: 3}} />
-          {this._renderLoadingModal()}
-        </RN.KeyboardAvoidingView>
+      <RN.KeyboardAvoidingView behavior={'padding'}>
+        <RN.TouchableWithoutFeedback onPress={RN.Keyboard.dismiss} accessible={false}>
+          <RN.View style={UTILITY_STYLES.containerStart}>
+            {this._renderTitle()}
+            {this._renderSubtitle()}
+            {this._renderCodeInput()}
+            {this._renderInvalidCodeText()}
+            <RN.View style={{flex: 1}} />
+              {this._renderResendSMS()}
+            <RN.View style={{flex: 3}} />
+            {this._renderLoadingModal()}
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+      </RN.KeyboardAvoidingView>
     )
   }
 }
