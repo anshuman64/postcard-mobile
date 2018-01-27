@@ -81,4 +81,8 @@ cd .. && react-native run-android --variant=release
 ````
 
 ## Release - iOS
-1. Increment Version and Build in XCode
+1. Change Bundle Identifier to com.insiya.apple
+2. Change signing team to Anshuman Dewangan (contact@insiya.io)
+3. Turn on Push Notifications in Capabilities
+4. Increment Version and Build in XCode
+
