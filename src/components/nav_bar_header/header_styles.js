@@ -38,20 +38,20 @@ export const styles = StyleSheet.create({
     paddingRight: 20,
   },
   backIcon: {
-    fontSize: 35,
+    fontSize: StyleUtility.scaleFont(35),
     color: StyleUtility.COLORS.grey900
   },
   settingsIcon: {
-    fontSize: 22,
+    fontSize: StyleUtility.scaleFont(22),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey800
   },
   logo: {
-    height: 30,
-    width: 150
+    height: StyleUtility.scaleFont(30),
+    width: StyleUtility.scaleFont(150)
   },
   noteIcon: {
-    fontSize: 21,
+    fontSize: StyleUtility.scaleFont(21),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },

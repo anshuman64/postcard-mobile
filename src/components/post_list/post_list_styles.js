@@ -9,7 +9,7 @@ import * as StyleUtility         from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const FOOTER_TEXT_WIDTH = 120;
+let footerTextWidth = StyleUtility.scaleFont(120);
 
 export const styles = StyleSheet.create({
   postList: {
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     height: 50,
   },
   footerText: {
-    width: FOOTER_TEXT_WIDTH,
+    width: footerTextWidth,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: 14,
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
   },
   horizontalLine: {
     alignSelf: 'flex-start',
-    width: (StyleUtility.getUsableDimensions().width - FOOTER_TEXT_WIDTH) / 2 - 10 - 15, // Device width minus footerText width over 2, minus post padding, minus aesthetic value
+    width: (StyleUtility.getUsableDimensions().width - footerTextWidth) / 2 - 20, // Device width minus footerText width over 2 minus aesthetic value
     height: '50%',
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200
