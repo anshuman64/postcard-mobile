@@ -61,10 +61,6 @@ class ConfirmCodeScreen extends React.PureComponent {
     });
   }
 
-  componentWillUnmount() {
-    this._stopTimer();
-  }
-
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
@@ -120,7 +116,6 @@ class ConfirmCodeScreen extends React.PureComponent {
       this.setState({ isLoading: true }, () => {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
         .then(() => {
-          this._navigateTo();
           this.setState({ isCodeIncorrect: false });
         })
         .catch((error) => {
