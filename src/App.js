@@ -101,12 +101,12 @@ class App extends React.Component {
             <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true} panHandlers={null} />
             <Scene key='UserScreen'    component={UserScreen}             hideNavBar={true} panHandlers={null} />
 
-            <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} initial={true} navBar={this._renderHeader('Confirm Code', true)} panHandlers={null} />
-            <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    navBar={this._renderHeader('Username')} />
-            <Scene key='AvatarScreen'        component={AvatarScreenContainer}      navBar={this._renderHeader('Profile Photo', true)} panHandlers={null} />
-            <Scene key='MenuScreen'          component={MenuScreen}                 navBar={this._renderHeader('Settings', true)} panHandlers={null} />
-            <Scene key='UsernameScreen'      component={UsernameScreenContainer}    navBar={this._renderHeader('Username', true)} panHandlers={null} />
-            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  navBar={this._renderHeader('Gallery', true)} panHandlers={null} />
+            <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
+            <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username')} />
+            <Scene key='AvatarScreen'        component={AvatarScreenContainer}      panHandlers={null} navBar={this._renderHeader('Profile Photo', true)} />
+            <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
+            <Scene key='UsernameScreen'      component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username', true)} />
+            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer} initial={true} panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
 
             <Tabs key='MainScreenTabs'
               tabBarPosition={'bottom'}
