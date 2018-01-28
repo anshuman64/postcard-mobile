@@ -5,13 +5,14 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { UTILITY_STYLES, DEVICE_DIM, getUsableDimensions } from '../../utilities/style_utility.js';
-import { styles }                                          from './camera_roll_screen_styles.js';
-import { defaultErrorAlert }                               from '../../utilities/error_utility.js';
+import { UTILITY_STYLES, COLORS, DEVICE_DIM, getUsableDimensions } from '../../utilities/style_utility.js';
+import { styles }                                                  from './camera_roll_screen_styles.js';
+import { defaultErrorAlert }                                       from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
-const PAGE_SIZE = Math.ceil(DEVICE_DIM.height / getUsableDimensions().width / 3) * 3;
+const PAGE_SIZE   = Math.ceil(DEVICE_DIM.height / (getUsableDimensions().width / 3)) * 3;
+const SCROLL_SIZE = PAGE_SIZE * 16;
 
 class CameraRollScreen extends React.PureComponent {
 
@@ -25,10 +26,12 @@ class CameraRollScreen extends React.PureComponent {
     this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
-      images: [],
+      images:   [],
+      pageInfo: null,
     };
 
     this.isImagePressed = false;
+    this.isLoading = false;
   }
 
   //--------------------------------------------------------------------//
@@ -36,33 +39,32 @@ class CameraRollScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this._getPhotos(999999999);
+    this._getPhotos(SCROLL_SIZE);
   }
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
-  //TODO: decide to paginate or wait for bugs!
-  // Recursively gets all images from cameraRoll and adds data to this.state.images
+  // Gets from cameraRoll and adds data to this.state.images
   _getPhotos = (first, after) => {
+    this.isLoading = true;
+
     RN.CameraRoll.getPhotos({first: first, after: after})
       .then((data) => {
-        // If there are no images, give an alert
         if (!after && data.edges.length === 0) {
           RN.Alert.alert('', 'No images in gallery.', [{text: 'OK', style: 'cancel'}]);
         } else {
-          this.setState({ images: this.state.images.concat(data.edges) }, () => {
-            if (data.page_info.has_next_page) {
-              this._getPhotos(999999999, data.page_info.end_cursor);
-            }
-          });
+          this.setState({ images: this.state.images.concat(data.edges), pageInfo: data.page_info });
         }
       })
       .catch((error) => {
         amplitude.logEvent('Error - Camera Roll', { error_description: 'Could not load images', error_message: error.message });
         RN.Alert.alert('','Could not load images. Please try again later.',[{text: 'OK', style: 'cancel'}]);
-      });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      })
   }
 
   // Opens cropper on image selection
@@ -97,6 +99,19 @@ class CameraRollScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  _onEndReached = () => {
+    if (this.isLoading
+        || !this.state.pageInfo.has_next_page) {
+      return;
+    }
+
+    this._getPhotos(SCROLL_SIZE, this.state.pageInfo.end_cursor);
+  }
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -106,10 +121,15 @@ class CameraRollScreen extends React.PureComponent {
         dataSource={this.ds.cloneWithRows(this.state.images)}
         style={styles.cameraRoll}
         renderRow={this._renderRow()}
-        initialListSize={PAGE_SIZE * 2}
-        pageSize={PAGE_SIZE * 10}
+        renderFooter={this._renderFooter}
+        initialListSize={SCROLL_SIZE}
+        pageSize={SCROLL_SIZE}
         contentContainerStyle={styles.contentContainerStyle}
         enableEmptySections={true}
+        showsVerticalScrollIndicator={false}
+        onEndReached={this._onEndReached}
+        onEndReachedThreshold={10000}
+        scrollRenderAheadDistance={10000}
       />
     )
   }
@@ -136,6 +156,28 @@ class CameraRollScreen extends React.PureComponent {
       )
     )
   }
+
+
+
+  _renderFooter = () => {
+    if (this.state.pageInfo && !this.state.pageInfo.has_next_page) {
+      return (
+        <RN.View style={styles.footerView}>
+          <RN.View style={styles.horizontalLine} />
+          <RN.Text style={styles.footerText}>
+            No More Photos
+          </RN.Text>
+          <RN.View style={styles.horizontalLine} />
+        </RN.View>
+      )
+    } else {
+      return (
+        <RN.View style={styles.footerView}>
+          <RN.ActivityIndicator size='small' color={COLORS.grey400} />
+        </RN.View>
+      )
+    }
+  };
 
   render() {
     return (
