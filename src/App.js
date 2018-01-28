@@ -95,7 +95,7 @@ class App extends React.Component {
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} panHandlers={null} />
 
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} panHandlers={null}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} panHandlers={null} initial={true} />
             <Scene key='WelcomeScreen' component={WelcomeScreenContainer} hideNavBar={true} panHandlers={null} />
             <Scene key='LoginScreen'   component={LoginScreenContainer}   hideNavBar={true} panHandlers={null} />
             <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true} panHandlers={null} />
@@ -106,7 +106,7 @@ class App extends React.Component {
             <Scene key='AvatarScreen'        component={AvatarScreenContainer}      panHandlers={null} navBar={this._renderHeader('Profile Photo', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
             <Scene key='UsernameScreen'      component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username', true)} />
-            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer} initial={true} panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
+            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
 
             <Tabs key='MainScreenTabs'
               tabBarPosition={'bottom'}
