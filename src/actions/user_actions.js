@@ -93,7 +93,6 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
   return confirmationCodeObj.confirm(inputtedCode)
     .then((firebaseUserObj) => {
       amplitude.logEvent('Onboarding - Verify Confirmation Code', { is_successful: true });
-      return dispatch(loginUser(firebaseUserObj));
     })
     .catch((error) => {
       amplitude.logEvent('Onboarding - Verify Confirmation Code', { is_successful: false, error_description: error.description, error_message: error.message });
