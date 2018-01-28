@@ -78,7 +78,7 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
   return Firebase.auth().signInWithPhoneNumber(phoneNumber)
     .then((confirmationCodeObj) => {
       amplitude.logEvent('Onboarding - Sign In With Phone Number', { is_successful: true });
-      amplitude.setUserProperties({ phoneNumber: phoneNumber });
+      amplitude.setUserProperties({ phone_number: phoneNumber });
 
       return confirmationCodeObj;
     })
@@ -183,7 +183,7 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
     }
 
     if (!error.description) {
-      if (error.message === 'Username has already been taken') { //TODO: update with proper backend messages
+      if (error.message === 'Username has already been taken') { 
         error.description = 'Username taken';
       } else if (error.message === 'Username is too short (minimum is 3 characters)') {
         error.description = 'Username too short';
