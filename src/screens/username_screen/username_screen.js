@@ -35,6 +35,10 @@ class UsernameScreen extends React.PureComponent {
 
   // Validates entered username, PUTs to API, and changes screen
   _onPress = () => {
+    if (this.state.isLoading) {
+      return;
+    }
+    
     this.setState({ isError: false, errorText: '' }, () => {
       let text = this.state.inputtedText;
 
@@ -68,9 +72,9 @@ class UsernameScreen extends React.PureComponent {
             }
           })
           .catch((error) => {
-            if (error.description === 'Username has already been taken') {
+            if (error.description === 'Username taken') {
               this.setState({ isError: true, errorText: 'Username taken' });
-            } else if (error.description === 'PUT user for username failed') {
+            } else if (error.description) {
               this.setState({ isError: true, errorText: 'Username invalid' });
             } else {
               defaultErrorAlert(error);

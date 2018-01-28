@@ -95,13 +95,13 @@ class App extends React.Component {
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} panHandlers={null} />
 
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} panHandlers={null} initial={true} />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} panHandlers={null}  />
             <Scene key='WelcomeScreen' component={WelcomeScreenContainer} hideNavBar={true} panHandlers={null} />
             <Scene key='LoginScreen'   component={LoginScreenContainer}   hideNavBar={true} panHandlers={null} />
             <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true} panHandlers={null} />
             <Scene key='UserScreen'    component={UserScreen}             hideNavBar={true} panHandlers={null} />
 
-            <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} navBar={this._renderHeader('Confirm Code', true)} panHandlers={null} />
+            <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} initial={true} navBar={this._renderHeader('Confirm Code', true)} panHandlers={null} />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    navBar={this._renderHeader('Username')} />
             <Scene key='AvatarScreen'        component={AvatarScreenContainer}      navBar={this._renderHeader('Profile Photo', true)} panHandlers={null} />
             <Scene key='MenuScreen'          component={MenuScreen}                 navBar={this._renderHeader('Settings', true)} panHandlers={null} />
