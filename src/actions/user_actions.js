@@ -183,12 +183,8 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
     }
 
     if (!error.description) {
-      if (error.message === 'Username has already been taken') { 
+      if (error.message === 'Username has already been taken') {
         error.description = 'Username taken';
-      } else if (error.message === 'Username is too short (minimum is 3 characters)') {
-        error.description = 'Username too short';
-      } else if (error.message === 'Username is too long (maximum is 12 characters)') {
-        error.description = 'Username too long';
       } else {
         error.description = 'PUT user for username failed'
       }
