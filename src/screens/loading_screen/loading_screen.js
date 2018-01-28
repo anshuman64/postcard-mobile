@@ -22,7 +22,7 @@ class LoadingScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      iterationCount: 'infinite',
+      iterationCount: 8,
       isLoggedIn:     false,
       isSuccessful:   true,
       isBanned:       false
