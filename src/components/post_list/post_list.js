@@ -46,8 +46,9 @@ class PostList extends React.PureComponent {
   }
 
   componentDidUpdate() {
+    // TODO: make scrollToTop work on iOS
     // Scrolls postList to top
-    if (this.state.scrollToTop) {
+    if (this.state.scrollToTop && RN.Platform.OS != 'ios') {
       this.flatList.getNode().scrollToOffset({x: 0, y: 0, animated: true});
       this.setState({ scrollToTop: false });
     }
