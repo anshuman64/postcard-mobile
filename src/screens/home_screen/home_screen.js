@@ -40,7 +40,7 @@ class HomeScreen extends React.PureComponent {
         let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
         if (minsDiff > 1) {
-          this.postList.getWrappedInstance()._onRefresh(postType);
+          this.postList.getWrappedInstance().refresh(postType);
         }
       }
 
@@ -70,7 +70,7 @@ class HomeScreen extends React.PureComponent {
     return (
       <RN.View style={UTILITY_STYLES.containerCenter}>
         <PostListContainer
-          ref={(ref) => this.postList = ref} 
+          ref={(ref) => this.postList = ref}
           userId={this.props.user.id}
           postType={this.state.postType}
           scrollToTop={this.props.scrollToTop}
