@@ -46,9 +46,8 @@ class PostList extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    // TODO: make scrollToTop work on iOS
     // Scrolls postList to top
-    if (this.state.scrollToTop && RN.Platform.OS != 'ios') {
+    if (this.state.scrollToTop) {
       this.flatList.getNode().scrollToOffset({x: 0, y: 0, animated: true});
       this.setState({ scrollToTop: false });
     }
@@ -60,6 +59,7 @@ class PostList extends React.PureComponent {
 
   // Refreshes posts
   refresh(postType = this.props.postType) {
+    this.isLoading = true;
     this.props.refreshPosts(this.props.authToken, this.props.firebaseUserObj, this.props.userId, postType)
       .catch((error) => {
         defaultErrorAlert(error);
@@ -77,7 +77,6 @@ class PostList extends React.PureComponent {
 
   // Refreshes posts with refresh indicator
   _onRefresh = (postType = this.props.postType) => {
-    this.isLoading = true;
     this.setState({ isRefreshing: true }, () => {
       this.refresh(postType);
     })
