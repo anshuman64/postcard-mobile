@@ -20,7 +20,6 @@ class MenuScreen extends React.PureComponent {
   _logOut = () => {
     Firebase.auth().signOut();
     Actions.reset('WelcomeScreen');
-    // Actions.reset('LoadingScreen');
   }
 
   //--------------------------------------------------------------------//
