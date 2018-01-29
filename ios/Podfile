@@ -9,6 +9,7 @@ target 'Insiya' do
 
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Firebase/Messaging'
 
   pod 'react-native-amplitude-analytics', :path => '../node_modules/react-native-amplitude-analytics'
 
