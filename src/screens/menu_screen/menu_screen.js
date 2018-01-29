@@ -1,7 +1,9 @@
 // Library Imports
-import React     from 'react';
-import RN        from 'react-native';
-import Icon      from 'react-native-vector-icons/SimpleLineIcons';
+import React       from 'react';
+import RN          from 'react-native';
+import Firebase    from 'react-native-firebase';
+import { Actions } from 'react-native-router-flux';
+import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import { styles }          from './menu_screen_styles.js';
@@ -10,6 +12,15 @@ import { UTILITY_STYLES }  from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 class MenuScreen extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _logOut = () => {
+    Firebase.auth().signOut();
+    Actions.reset('WelcomeScreen');
+  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -150,6 +161,33 @@ class MenuScreen extends React.PureComponent {
     )
   }
 
+  _renderLogOutButton() {
+    return (
+      <RN.TouchableWithoutFeedback
+        onPressIn={() => {
+          this.logOutIcon.setNativeProps({style: UTILITY_STYLES.textRed})
+          this.logOutText.setNativeProps({style: UTILITY_STYLES.textRed})
+        }}
+        onPressOut={() => {
+          this.logOutIcon.setNativeProps({style: styles.menuItemIcon})
+          this.logOutText.setNativeProps({style: styles.menuItemText})
+        }}
+        onPress={this._logOut}
+        >
+        <RN.View style={styles.menuItemView}>
+          <Icon
+            ref={(ref) => this.logOutIcon = ref}
+            name='logout'
+            style={styles.menuItemIcon}
+            />
+          <RN.Text ref={(ref) => this.logOutText = ref} style={styles.menuItemText}>
+            Log Out
+          </RN.Text>
+        </RN.View>
+     </RN.TouchableWithoutFeedback>
+    )
+  }
+
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
@@ -158,6 +196,7 @@ class MenuScreen extends React.PureComponent {
         {this._renderTermsButton()}
         {this._renderPrivacyPolicyButton()}
         {this._renderCommunityGuidelinesButton()}
+        {this._renderLogOutButton()}
      </RN.View>
     )
   }

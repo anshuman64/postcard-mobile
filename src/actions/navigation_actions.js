@@ -1,5 +1,5 @@
 import { Keyboard } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { Actions }  from 'react-native-router-flux';
 
 //--------------------------------------------------------------------//
 // Helper Functions
@@ -55,7 +55,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
       || Actions.currentScene === 'ConfirmCodeScreen'
       || Actions.currentScene === 'UsernameScreenLogin'
       || Actions.currentScene === 'UsernameScreen'
-      || Actions.currentScene === 'NewPostScreen') {
+      || Actions.currentScene === 'NewPostScreen'
+      || Actions.currentScene === 'DebugLoginScreen') {
     dismissKeyBoard()
       .then(() => {
         navigateScreens();
