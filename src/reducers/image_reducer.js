@@ -23,7 +23,7 @@ const ImageReducer = (state = DEFAULT_STATE, action) => {
     // When an image is downloaded from S3, update the url and lastUpdated
     case IMAGE_ACTION_TYPES.RECEIVE_IMAGE:
       newState[action.data.key] = {
-        url:         action.data.signedUrl,
+        url:         action.data.url,
         lastUpdated: new Date()
       };
 
