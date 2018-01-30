@@ -13,8 +13,7 @@ const mapStateToProps = ({ user, posts, postsCache, navigation }, ownProps) => (
   authToken:       user.authToken,
   firebaseUserObj: user.firebaseUserObj,
   posts:           posts,
-  postsCache:      postsCache,
-  currentScreen:   navigation.currentScreen
+  postsCache:      postsCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

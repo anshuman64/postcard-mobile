@@ -14,7 +14,7 @@ import { defaultErrorAlert }                                 from '../../utiliti
 
 const AnimatedFlatList = RN.Animated.createAnimatedComponent(RN.FlatList);
 
-class PostList extends React.Component {
+class PostList extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -51,16 +51,6 @@ class PostList extends React.Component {
       this.flatList.getNode().scrollToOffset({x: 0, y: 0, animated: true});
       this.setState({ scrollToTop: false });
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.currentScreen === 'HomeScreen' || nextProps.currentScreen === 'ProfileScreen' || nextProps.currentScreen === 'UserScreen') {
-      if (this.props != nextProps || this.state != nextState) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   //--------------------------------------------------------------------//
@@ -151,13 +141,14 @@ class PostList extends React.Component {
     )
   }
 
+  // !this.props.username is an indicator for this.props.currentScreen === 'HomScreen'
   _renderRefreshControl = () => {
     return (
       <RN.RefreshControl
         refreshing={this.state.isRefreshing}
         onRefresh={this._onRefresh}
         color={COLORS.grey400}
-        progressViewOffset={this.props.currentScreen === 'HomeScreen' ? PROFILE_HEADER_TABS_HEIGHT : PROFILE_HEADER_HEIGHT}
+        progressViewOffset={!this.props.username ? PROFILE_HEADER_TABS_HEIGHT : PROFILE_HEADER_HEIGHT}
         />
     )
   }
@@ -179,8 +170,8 @@ class PostList extends React.Component {
 
   _renderHeader = () => {
     return (
-      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: PROFILE_HEADER_TABS_HEIGHT }]}>
-        <RN.ActivityIndicator size='large' color={this.props.currentScreen === 'HomeScreen' ? 'transparent' : COLORS.grey400} style={{marginBottom: 20}} />
+      <RN.View style={[styles.headerView, !this.props.username && { height: PROFILE_HEADER_TABS_HEIGHT }]}>
+        <RN.ActivityIndicator size='large' color={!this.props.username ? 'transparent' : COLORS.grey400} style={{marginBottom: 20}} />
       </RN.View>
     )
   }
