@@ -1,4 +1,5 @@
 // Local Imports
+import * as FileUtility        from '../utilities/file_utility.js';
 import { amplitude }           from '../utilities/analytics_utility.js';
 import * as APIUtility         from '../utilities/api_utility.js';
 import { setErrorDescription } from '../utilities/error_utility.js';
@@ -31,27 +32,19 @@ export const removeImage = (data) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-// TODO: get post body of liked post and send it to amplitude
-// Creates like on a post from PostListItem
-export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
-  return APIUtility.post(authToken, '/likes', { post_id: postId })
-    .then((newLike) => {
-      amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: true });
-
-      dispatch(receiveLike({ like: newLike, userId: userId }));
+// Gets signedUrl from S3 and stores it
+export const getImage = (firebaseUserObj, refreshAuthToken, avatarUrl) => (dispatch) => {
+  return getFile(firebaseUserObj, refreshAuthToken, avatarUrl)
+    .then((data) => {
+      dispatch(receiveImage({ key: avatarUrl, url: data }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createLike, userId, postId));
-      }
-
-      amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: true, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'POST like failed');
-    });
+      amplitude.logEvent('Error - Get Image', { error_description: error.description, error_message: error.message });
+    })
 };
 
 // Deletes like on a post from PostListItem
-export const deleteLike = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
+export const deleteImage = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/likes/' + postId)
     .then((deletedLike) => {
       amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: false });
