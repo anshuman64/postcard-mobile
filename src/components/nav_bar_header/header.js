@@ -9,7 +9,7 @@ import LoadingModal          from '../loading_modal/loading_modal.js'
 import { styles }            from './header_styles.js';
 import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
 import { isStringEmpty }     from '../../utilities/function_utility.js';
-import { uploadImageFile }   from '../../utilities/file_utility.js';
+import { uploadFile }   from '../../utilities/file_utility.js';
 import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
@@ -38,7 +38,7 @@ class Header extends React.PureComponent {
 
   // Uploads image file to AWS and then attempts to create post from NewPostScreen share button
   _uploadImage() {
-    uploadImageFile(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.imagePath, this.props.imageType, this.props.user.id, 'posts/')
+    uploadFile(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.imagePath, this.props.imageType, this.props.user.id, 'posts/')
       .then((data) => {
         this._createPost(data.key);
       })

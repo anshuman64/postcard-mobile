@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
-    borderRadius: StyleUtility.getImageBorderRadius(200),
+    borderRadius: StyleUtility.getFileBorderRadius(200),
   },
   changePhotoText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),

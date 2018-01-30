@@ -6,7 +6,7 @@ import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 // Local Imports
 import { styles, PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from './profile_header_styles.js';
 import { POST_TYPES }                                                from '../../actions/post_actions.js';
-import { getImage }                                                  from '../../utilities/file_utility.js';
+import { getFile }                                                  from '../../utilities/file_utility.js';
 import { UTILITY_STYLES }                                            from '../../utilities/style_utility.js';
 import { defaultErrorAlert }                                         from '../../utilities/error_utility.js';
 
@@ -52,7 +52,7 @@ class ProfileHeader extends React.PureComponent {
 
   // Get image from AWS S3 and set url as signed Url
   _setAvatarUrl(avatarUrl) {
-    getImage(this.props.firebaseUserObj, this.props.refreshAuthToken, avatarUrl)
+    getFile(this.props.firebaseUserObj, this.props.refreshAuthToken, avatarUrl)
       .then((data) => {
         this.setState({ avatarUrl: data });
       })
