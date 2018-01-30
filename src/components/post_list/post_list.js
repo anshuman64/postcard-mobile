@@ -14,7 +14,7 @@ import { defaultErrorAlert }                                 from '../../utiliti
 
 const AnimatedFlatList = RN.Animated.createAnimatedComponent(RN.FlatList);
 
-class PostList extends React.PureComponent {
+class PostList extends React.Component {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -51,6 +51,16 @@ class PostList extends React.PureComponent {
       this.flatList.getNode().scrollToOffset({x: 0, y: 0, animated: true});
       this.setState({ scrollToTop: false });
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.currentScreen === 'HomeScreen' || nextProps.currentScreen === 'ProfileScreen' || nextProps.currentScreen === 'UserScreen') {
+      if (this.props != nextProps || this.state != nextState) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   //--------------------------------------------------------------------//
