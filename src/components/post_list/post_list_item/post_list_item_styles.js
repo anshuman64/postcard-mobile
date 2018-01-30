@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
   avatarImage: {
     height: 40,
     width: 40,
-    borderRadius: StyleUtility.getImageBorderRadius(40),
+    borderRadius: StyleUtility.getFileBorderRadius(40),
   },
   usernameView: {
     flexDirection: 'row',

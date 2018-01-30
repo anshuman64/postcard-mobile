@@ -71,7 +71,7 @@ export const setAndroidFont = (fontFamily) => {
 };
 
 // Sets image border radius with correction for Android
-export const getImageBorderRadius = (dimensions) => {
+export const getFileBorderRadius = (dimensions) => {
   return Platform.OS === 'ios' ? dimensions / 2 : 10000;
 };
 
