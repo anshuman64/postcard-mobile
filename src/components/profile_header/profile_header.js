@@ -12,7 +12,7 @@ import { defaultErrorAlert }                                         from '../..
 
 //--------------------------------------------------------------------//
 
-class ProfileHeader extends React.PureComponent {
+class ProfileHeader extends React.Component {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -44,6 +44,16 @@ class ProfileHeader extends React.PureComponent {
     if (this.props.user.id === this.props.userId && nextProps.user.avatar_url != this.props.user.avatar_url) {
       this._setAvatarUrl(nextProps.user.avatar_url);
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.currentScreen === 'HomeScreen' || nextProps.currentScreen === 'ProfileScreen' || nextProps.currentScreen === 'UserScreen') {
+      if (this.props != nextProps || this.state != nextState) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   //--------------------------------------------------------------------//
