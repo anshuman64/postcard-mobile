@@ -11,17 +11,33 @@ import { amplitude } from './analytics_utility.js';
 // Interface
 //--------------------------------------------------------------------//
 
+let isAlertVisible = false;
 
 // Pops appropriate alert depending on error
 export const defaultErrorAlert = (error) => {
+  if (isAlertVisible) {
+    return;
+  }
+
+  isAlertVisible = true;
+
+  let alertString = '';
+
   if (error.description === 'No internet connection') {
-    Alert.alert('', 'No internet connection.', [{ text: 'OK', style: 'cancel' }]);
+    alertString = 'No internet connection.';
   } else {
-    Alert.alert('', 'Something went wrong. Please try again later.', [{ text: 'OK', style: 'cancel' }]);
+    alertString = 'Something went wrong. Please try again later.';
   }
 
   amplitude.logEvent('Error - General', { error_description: error.description, error_message: error.message });
-  // console.error(error); // Debug Test
+  // console.error(error.message); // Debug Test
+
+  setTimeout(() => {
+    Alert.alert('', 'No internet connection.',
+      [{ text: 'OK', onPress: () => isAlertVisible = false, style: 'cancel' }],
+      { onDismiss: () => isAlertVisible = false }
+    );
+  }, 1)
 };
 
 // Checks if error has a description. If not, add the description listed and return the error
