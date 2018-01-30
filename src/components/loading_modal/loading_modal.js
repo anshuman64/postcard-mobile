@@ -3,9 +3,8 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles }            from './loading_modal_styles.js';
-import { COLORS }            from '../../utilities/style_utility.js';
-import { setStateCallback }  from '../../utilities/function_utility.js';
+import { styles } from './loading_modal_styles.js';
+import { COLORS } from '../../utilities/style_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -21,7 +20,6 @@ class LoadingModal extends React.PureComponent {
     return(
       <RN.Modal
         visible={this.props.isLoading}
-        onRequestClose={setStateCallback(this, { isModalVisible: false })}
         transparent={true}
         animationType={'none'}
         >
