@@ -110,7 +110,7 @@ class App extends React.Component {
 
             <Tabs key='MainScreenTabs'
               tabBarPosition={'bottom'}
-              tabBarComponent={FooterContainer} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} /> }
+              tabBarComponent={FooterContainer} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} noBorder={true} /> }
               swipeEnabled={false}
               lazy={false}
               animationEnabled={false}

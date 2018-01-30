@@ -15,7 +15,6 @@ const mapStateToProps = ({ user, navigation }, ownProps) => ({
   authToken:       user.authToken,
   firebaseUserObj: user.firebaseUserObj,
   user:            user.user,
-  currentScreen:   navigation.currentScreen
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
