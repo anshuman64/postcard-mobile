@@ -15,6 +15,7 @@ const RootReducer = combineReducers({
   user:       UserReducer,
   posts:      PostsReducer,
   postsCache: PostsCacheReducer,
+  images:     ImageReducer,
   navigation: NavigationReducer
 });
 
