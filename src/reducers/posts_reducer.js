@@ -53,11 +53,11 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     // When new posts are received, push to the PostListItem
-    // If no posts are received, mark isEnd true
+    // If < 10 posts are received, mark isEnd true
     case POST_ACTION_TYPES.RECEIVE_POSTS:
       postData = newState[action.data.userId][action.data.postType];
 
-      if (action.data.posts.length === 0) {
+      if (action.data.posts.length < 10) {
         postData.isEnd = true;
       } else {
         _.forEach(action.data.posts, (post) => {
