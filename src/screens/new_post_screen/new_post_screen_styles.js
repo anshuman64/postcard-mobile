@@ -37,8 +37,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 25,
     width: 25,
-    backgroundColor: StyleUtility.COLORS.grey900 + 'bf',
-    borderRadius: 30 / 2,
     marginLeft: 2,
     marginTop: 2
   },
@@ -51,6 +49,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: StyleUtility.DEVICE_DIM.width * 0.9,
     height: StyleUtility.DEVICE_DIM.width * 0.9,
+    backgroundColor: StyleUtility.COLORS.grey900
   },
   imageButtonView: {
     flexDirection: 'row',

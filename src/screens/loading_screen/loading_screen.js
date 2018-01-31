@@ -5,9 +5,10 @@ import Firebase        from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import { styles, pulseIcon } from './loading_screen_styles.js';
-import { defaultErrorAlert } from '../../utilities/error_utility.js';
-import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
+import { styles, pulseIcon }   from './loading_screen_styles.js';
+import { defaultErrorAlert }   from '../../utilities/error_utility.js';
+import { UTILITY_STYLES }      from '../../utilities/style_utility.js';
+import { getPostPlaceholders } from '../../utilities/file_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -35,6 +36,8 @@ class LoadingScreen extends React.PureComponent {
 
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
+    getPostPlaceholders();
+
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
         this.props.loginUser(firebaseUserObj)
