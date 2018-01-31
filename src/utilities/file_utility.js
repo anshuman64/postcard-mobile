@@ -86,7 +86,7 @@ let refreshAWSToken = (firebaseUserObj, refreshAuthToken, fn, ...params) => {
 };
 
 // Uploads file to AWS S3
-let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
+let uploadFileHelper = (firebaseUserObj, refreshAuthToken, params) => {
   return new Promise((resolve, reject) => {
     getClient().upload(params, (error, data) => {
       if (error) {
@@ -117,7 +117,7 @@ let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
 // Gets signed url for image from AWS S3 bucket using path key
 export const getFile = (firebaseUserObj, refreshAuthToken, key) => {
   return new Promise((resolve, reject) => {
-    getClient().getSignedUrl('getObject', { Bucket: getBucketName(), Key: key, Expires: 3600 }, (error, data) => {
+    getClient().getSignedUrl('getObject', { Bucket: getBucketName(), Key: key, Expires: 1800 }, (error, data) => {
       if (error) {
         if (error.message === "Missing credentials in config") {
           return refreshAWSToken(firebaseUserObj, refreshAuthToken, getFile, key)
@@ -167,7 +167,7 @@ export const uploadFile = (firebaseUserObj, refreshAuthToken, imagePath, imageTy
     .then((buffer) => {
       params = getParamsForImage(userId, imageType, buffer, folderPath);
 
-      return uploadFile(firebaseUserObj, refreshAuthToken, params);
+      return uploadFileHelper(firebaseUserObj, refreshAuthToken, params);
     });
 };
 
