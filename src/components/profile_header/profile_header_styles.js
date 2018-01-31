@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
   image: {
     height: 90,
     width: 90,
-    borderRadius: StyleUtility.getBorderRadius(90),
+    borderRadius: StyleUtility.getImageBorderRadius(90),
     marginRight: 8
   },
   avatarPencil: {
