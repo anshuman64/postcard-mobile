@@ -111,7 +111,10 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
 
     dispatch(receiveUser(user));
-    dispatch(getImage(user.avatar_url));
+
+    if (user.avatar_url) {
+      dispatch(getImage(user.avatar_url));
+    }
   }
 
   let handleExistingUser = (authToken) => {
@@ -209,7 +212,10 @@ export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) 
     amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
 
     dispatch(receiveUser(editedUser));
-    dispatch(getImage(editedUser.avatar_url));
+
+    if (editedUser.avatar_url) {
+      dispatch(getImage(editedUser.avatar_url));
+    }
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
