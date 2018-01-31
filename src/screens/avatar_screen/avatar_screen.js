@@ -4,11 +4,11 @@ import RN          from 'react-native';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import LoadingModal                   from '../../components/loading_modal/loading_modal.js';
-import { styles }                     from './avatar_screen_styles.js';
-import { getFile, uploadFile }  from '../../utilities/file_utility.js';
-import { UTILITY_STYLES }             from '../../utilities/style_utility.js';
-import { defaultErrorAlert }          from '../../utilities/error_utility.js';
+import LoadingModal           from '../../components/loading_modal/loading_modal.js';
+import { styles }             from './avatar_screen_styles.js';
+import { uploadFile }         from '../../utilities/file_utility.js';
+import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
+import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
 
 //--------------------------------------------------------------------//
@@ -39,11 +39,10 @@ class AvatarScreen extends React.PureComponent {
   // If user has an avatar, get image and render it
   componentDidMount() {
     if (this.props.user.avatar_url) {
-      getFile(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.user.avatar_url)
-        .then((data) => {
-          this.setState({ imagePath: data });
-          this.existingAvatar = data;
-        });
+      let avatarImageUrl = this.props.images[this.props.user.avatar_url];
+
+      this.setState({ imagePath: avatarImageUrl });
+      this.existingAvatar = avatarImageUrl;
     }
   }
 
@@ -187,7 +186,12 @@ class AvatarScreen extends React.PureComponent {
           onPress={this._onPressAddPhoto}
           disabled={!this.state.imagePath || this.state.isLoading}
           >
-          <RN.Image source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'} />
+          <RN.Image
+            source={{uri: this.state.imagePath, cache: 'force-cache'}}
+            style={styles.image}
+            resizeMode={'cover'}
+            onError={() => this.props.getImage(this.props.firebaseUserObj, this.props.user.avatar_url)}
+            />
         </RN.TouchableOpacity>
       )
     }
