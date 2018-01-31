@@ -12,7 +12,7 @@ import { styles, scaleHeart }                 from './post_list_item_styles.js';
 import { renderDate }                         from '../../../utilities/date_time_utility.js';
 import fontelloConfig                         from '../../../assets/fonts/config.json';
 import { defaultErrorAlert }                  from '../../../utilities/error_utility.js';
-import { getFile, deleteFile }               from '../../../utilities/file_utility.js';
+import { deleteFile }                         from '../../../utilities/file_utility.js';
 import { setStateCallback, getReadableCount } from '../../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS }             from '../../../utilities/style_utility.js';
 

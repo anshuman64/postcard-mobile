@@ -6,7 +6,6 @@ import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 // Local Imports
 import { styles, PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from './profile_header_styles.js';
 import { POST_TYPES }                                                from '../../actions/post_actions.js';
-import { getFile }                                                  from '../../utilities/file_utility.js';
 import { UTILITY_STYLES }                                            from '../../utilities/style_utility.js';
 import { defaultErrorAlert }                                         from '../../utilities/error_utility.js';
 
@@ -94,10 +93,10 @@ class ProfileHeader extends React.PureComponent {
   _renderAvatar() {
     let avatarUrl;
 
-    if (this.props.avatarUrl) {
-      avatarUrl = this.props.avatarUrl;
-    } else if (this.props.userId === this.props.user.id) {
+    if (this.props.userId === this.props.user.id) {
       avatarUrl = this.props.user.avatar_url;
+    } else if (this.props.avatarUrl) {
+      avatarUrl = this.props.avatarUrl;
     }
 
     if (!this.props.username) {
