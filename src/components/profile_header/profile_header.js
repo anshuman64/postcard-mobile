@@ -118,7 +118,7 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.Image
-            source={{uri: this.props.images[avatarUrl], cache: 'force-cache'}}
+            source={{uri: this.props.images[avatarUrl].url, cache: 'force-cache'}}
             style={styles.image}
             resizeMode={'cover'}
             onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
