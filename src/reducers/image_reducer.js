@@ -61,12 +61,6 @@ const ImageReducer = (state = DEFAULT_STATE, action) => {
       })
 
       return newState;
-    case IMAGE_ACTION_TYPES.DELETE_IMAGE:
-      _.remove(newState, (keys) => {
-        return keys === action.data.key;
-      });
-
-      return newState;
     default:
       return state;
   }
