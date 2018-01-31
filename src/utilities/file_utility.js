@@ -8,6 +8,7 @@ import mime        from 'mime-types';
 // Local Imports
 import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config.js';
 import { setErrorDescription }           from './error_utility.js';
+import { amplitude }                     from './analytics_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -18,6 +19,7 @@ import { setErrorDescription }           from './error_utility.js';
 
 
 let s3Client = null;
+export let postPlaceholders;
 
 
 //--------------------------------------------------------------------//
@@ -127,6 +129,7 @@ export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
             });
         }
 
+        amplitude.logEvent('Error - Get Image', { error_message: error.message, error_description: 'Get image from AWS failed' });
         reject(error);
       } else {
         resolve(data);
@@ -165,5 +168,15 @@ export const uploadImageFile = (firebaseUserObj, refreshAuthToken, imagePath, im
       params = getParamsForImage(userId, imageType, buffer, folderPath);
 
       return uploadFile(firebaseUserObj, refreshAuthToken, params);
+    });
+};
+
+export const getPostPlaceholders = () => {
+  RNFetchBlob.fetch('GET', 'https://s3.amazonaws.com/insiya-public/placeholders.csv')
+    .then((data) => {
+      postPlaceholders = data.text().split(/\r?\n/);
+    })
+    .catch((error) => {
+      amplitude.logEvent('Error - Get Post Placeholders', { error_message: error.message, error_description: 'Get post placeholders from AWS failed' });
     });
 };
