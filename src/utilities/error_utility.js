@@ -33,7 +33,7 @@ export const defaultErrorAlert = (error) => {
   // console.error(error.message); // Debug Test
 
   setTimeout(() => {
-    Alert.alert('', 'No internet connection.',
+    Alert.alert('', alertString,
       [{ text: 'OK', onPress: () => isAlertVisible = false, style: 'cancel' }],
       { onDismiss: () => isAlertVisible = false }
     );
