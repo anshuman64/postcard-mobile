@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 // Local Imports
 import * as FileUtility        from '../utilities/file_utility.js';
 import { amplitude }           from '../utilities/analytics_utility.js';
@@ -12,8 +14,8 @@ import { refreshAuthToken }    from './user_actions.js';
 //--------------------------------------------------------------------//
 
 export const IMAGE_ACTION_TYPES = {
-  RECEIVE_IMAGE: 'RECEIVE_IMAGE',
-  REMOVE_IMAGE:  'REMOVE_IMAGE'
+  RECEIVE_IMAGE:  'RECEIVE_IMAGE',
+  RECEIVE_IMAGES: 'RECEIVE_IMAGES',
 };
 
 //--------------------------------------------------------------------//
@@ -24,8 +26,8 @@ export const receiveImage = (data) => {
   return { type: IMAGE_ACTION_TYPES.RECEIVE_IMAGE, data: data };
 };
 
-export const removeImage = (data) => {
-  return { type: IMAGE_ACTION_TYPES.REMOVE_IMAGE, data: data };
+export const receiveImages = (data) => {
+  return { type: IMAGE_ACTION_TYPES.RECEIVE_IMAGES, data: data };
 };
 
 //--------------------------------------------------------------------//
@@ -33,29 +35,23 @@ export const removeImage = (data) => {
 //--------------------------------------------------------------------//
 
 // Gets signedUrl from S3 and stores it
-export const getImage = (firebaseUserObj, avatarUrl) => (dispatch) => {
-  return FileUtility.getFile(firebaseUserObj, dispatch(refreshAuthToken), avatarUrl)
-    .then((data) => {
-      dispatch(receiveImage({ key: avatarUrl, url: data }));
-    })
-    .catch((error) => {
-      amplitude.logEvent('Error - Get Image', { error_description: error.description, error_message: error.message });
-    })
+export const getImage = (avatarUrl) => (dispatch) => {
+  dispatch(receiveImage({ key: avatarUrl, url: FileUtility.getFile(avatarUrl) }));
 };
 
-// Deletes like on a post from PostListItem
-export const deleteImage = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
-  return APIUtility.del(authToken, '/likes/' + postId)
-    .then((deletedLike) => {
-      amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: false });
-      dispatch(removeLike({ like: deletedLike, userId: userId }));
-    })
-    .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, deleteLike, userId, postId));
-      }
+// Gets signedUrl from S3 and stores it
+export const getImagesFromPosts = (posts) => (dispatch) => {
+  let postImages = [];
 
-      amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: false, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'DEL like failed');
-    });
+  _.forEach(posts, (post) => {
+    if (post.image_url) {
+      postImages.push({ key: post.image_url, url: FileUtility.getFile(post.image_url) });
+    }
+
+    if (post.author_avatar_url) {
+      postImages.push({ key: post.author_avatar_url, url: FileUtility.getFile(post.author_avatar_url) });
+    }
+  });
+
+  dispatch(receiveImages(postImages));
 };
