@@ -30,14 +30,14 @@ export const defaultErrorAlert = (error) => {
   }
 
   amplitude.logEvent('Error - General', { error_description: error.description, error_message: error.message });
-  // console.error(error.message); // Debug Test
+  console.error(error.message); // Debug Test
 
   setTimeout(() => {
     Alert.alert('', alertString,
       [{ text: 'OK', onPress: () => isAlertVisible = false, style: 'cancel' }],
       { onDismiss: () => isAlertVisible = false }
     );
-  }, 1)
+  }, 100);
 };
 
 // Checks if error has a description. If not, add the description listed and return the error
