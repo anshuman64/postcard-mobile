@@ -8,6 +8,7 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 import { UTILITY_STYLES, COLORS, DEVICE_DIM, getUsableDimensions } from '../../utilities/style_utility.js';
 import { styles }                                                  from './camera_roll_screen_styles.js';
 import { defaultErrorAlert }                                       from '../../utilities/error_utility.js';
+import { amplitude }                                               from '../../utilities/analytics_utility.js';
 
 //--------------------------------------------------------------------//
 
