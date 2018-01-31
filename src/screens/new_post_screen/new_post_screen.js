@@ -1,33 +1,17 @@
 // Library Imports
-import React     from 'react';
-import RN        from 'react-native';
-import Ionicon   from 'react-native-vector-icons/Ionicons';
-import EvilIcon  from 'react-native-vector-icons/EvilIcons';
+import React       from 'react';
+import RN          from 'react-native';
+import Ionicon     from 'react-native-vector-icons/Ionicons';
+import EvilIcon    from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import HeaderContainer                    from '../../components/nav_bar_header/header_container.js';
 import { styles }                         from './new_post_screen_styles.js';
 import { getRandomInt, setStateCallback } from '../../utilities/function_utility.js';
+import { postPlaceholders }              from '../../utilities/file_utility.js';
 import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
-
-// TODO: put this online and dynamically load content
-const POST_PLACEHOLDERS = [
-  'How are you?',
-  'How are you doing?',
-  "How's it going?",
-  "What's on your mind?",
-  'What has recently made you happy?',
-  'What was your happiest moment today?',
-  'What are you proud of?',
-  'What have you recently regretted?',
-  'What has recently made you afraid?',
-  'What is your greatest struggle right now?',
-  'What are you thankful for?',
-  'What are you grateful for?',
-  'Who is someone you miss?'
-];
 
 
 class NewPostScreen extends React.PureComponent {
@@ -51,9 +35,11 @@ class NewPostScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // Sets placeholderText as a random string from POST_PLACEHOLDERS
+  // Sets placeholderText as a random string from placeholders.csv from S3 bucket
   componentDidMount() {
-    this.setState({ placeholderText: POST_PLACEHOLDERS[getRandomInt(POST_PLACEHOLDERS.length)]})
+    if (postPlaceholders) {
+      this.setState({ placeholderText: postPlaceholders[getRandomInt(postPlaceholders.length)] });
+    }
   }
 
   // If selected image from CameraRollScreen, adds image
@@ -86,7 +72,7 @@ class NewPostScreen extends React.PureComponent {
   _renderImage() {
     if (this.state.imagePath) {
       return (
-        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'cover'}>
+        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'}>
           <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })}>
             <RN.View style={styles.closeButtonBackground}>
               <EvilIcon name='close' style={styles.closeIcon} />
