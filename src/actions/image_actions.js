@@ -33,8 +33,8 @@ export const removeImage = (data) => {
 //--------------------------------------------------------------------//
 
 // Gets signedUrl from S3 and stores it
-export const getImage = (firebaseUserObj, refreshAuthToken, avatarUrl) => (dispatch) => {
-  return getFile(firebaseUserObj, refreshAuthToken, avatarUrl)
+export const getImage = (firebaseUserObj, avatarUrl) => (dispatch) => {
+  return FileUtility.getFile(firebaseUserObj, dispatch(refreshAuthToken), avatarUrl)
     .then((data) => {
       dispatch(receiveImage({ key: avatarUrl, url: data }));
     })
