@@ -37,7 +37,7 @@ export const defaultErrorAlert = (error) => {
       [{ text: 'OK', onPress: () => isAlertVisible = false, style: 'cancel' }],
       { onDismiss: () => isAlertVisible = false }
     );
-  }, 1)
+  }, 100);
 };
 
 // Checks if error has a description. If not, add the description listed and return the error
