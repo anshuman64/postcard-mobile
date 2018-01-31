@@ -31,8 +31,6 @@ class PostListItem extends React.PureComponent {
     super(props);
 
     this.state = {
-      avatarUrl:         null,
-      imageUrl:          null,
       isLikingAnimation: false, // if the liking animation is still playing
       isLikingServer:    false, // if the server is still registering the create/delete like
     }
@@ -41,54 +39,6 @@ class PostListItem extends React.PureComponent {
     this.isFlagDisabled   = false;
     this.isDeleteDisabled = false;
     this.isFollowDisabled = false;
-  }
-
-  //--------------------------------------------------------------------//
-  // Lifecycle Methods
-  //--------------------------------------------------------------------//
-
-  // Gets images for avatar and post if they exist
-  componentDidMount() {
-    // If post is authored by current user, use user.avatar_url for avatar
-    if (this.props.user.id === this.props.item.author_id && this.props.user.avatar_url) {
-      this._setImageUrl(this.props.user.avatar_url, true);
-    // Else, use item.author_avatar_url for avatar
-    } else if (this.props.item.author_avatar_url) {
-      this._setImageUrl(this.props.item.author_avatar_url, true);
-    }
-
-    // If post has an image, get image
-    if (this.props.item.image_url) {
-      this._setImageUrl(this.props.item.image_url, false);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // If current user has changed avatar, update post with new avatar
-    if (this.props.user.id === this.props.item.author_id && nextProps.user.avatar_url != this.props.user.avatar_url) {
-      if (nextProps.user.avatar_url) {
-        this._setImageUrl(nextProps.user.avatar_url, true);
-      // If user has removed avatar, update appropriately
-      } else {
-        this.setState({ avatarUrl: null });
-      }
-    }
-  }
-
-  //--------------------------------------------------------------------//
-  // Private Methods
-  //--------------------------------------------------------------------//
-
-  // Gets image from AWS S3 using key and sets state with signed URL
-  _setImageUrl(imageUrl, isAvatar) {
-    getFile(this.props.firebaseUserObj, this.props.refreshAuthToken, imageUrl)
-      .then((data) => {
-        if (isAvatar) {
-          this.setState({ avatarUrl: data });
-        } else {
-          this.setState({ imageUrl: data });
-        }
-      })
   }
 
   //--------------------------------------------------------------------//
@@ -343,20 +293,20 @@ class PostListItem extends React.PureComponent {
     if (avatarUrl) {
       return (
         <RN.Image
-        source={{uri: this.props.images[avatarUrl].url, cache: 'force-cache'}}
-        style={styles.avatarImage}
-        resizeMode={'cover'}
-        onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
-        />
+          source={{uri: this.props.images[avatarUrl].url, cache: 'force-cache'}}
+          style={styles.avatarImage}
+          resizeMode={'cover'}
+          onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
+          />
       )
-    } else if (!this.props.item.author_avatar_url && !this.state.avatarUrl) {
+    } else if (avatarUrl && !this.props.images[avatarUrl]) {
       return (
-        <Icon name='user' style={styles.userIcon} />
+        <RN.View style={{width: 40}} />
       )
     } else {
       return (
-        <RN.View style={{width: 40}} />
-      );
+        <Icon name='user' style={styles.userIcon} />
+      )
     }
   }
 
@@ -430,19 +380,26 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderImage() {
-    if (this.props.item.image_url && !this.state.imageUrl) {
-      return (
-        <RN.View style={styles.bodyImage} />
-      )
-    } else if (this.state.imageUrl) {
+    if (this.props.item.image_url && this.props.images[this.props.item.image_url]) {
       return (
         <RN.View style={styles.bodyImageView}>
           <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
-            <RN.Image source={{uri: this.state.imageUrl}} style={styles.bodyImage} resizeMode={'contain'} cache={'force-cache'} />
+            <RN.Image
+              source={{uri: this.props.images[this.props.item.image_url].url, cache: 'force-cache'}}
+              style={styles.bodyImage}
+              resizeMode={'contain'}
+              onError={() => this.props.getImage(this.props.firebaseUserObj, this.props.item.image_url)}
+              />
           </RN.TouchableWithoutFeedback>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
+    } else if (this.props.item.image_url && !this.props.images[this.props.item.image_url]) {
+      return (
+        <RN.View style={styles.bodyImage} />
+      )
+    } else {
+      return null;
     }
   }
 
