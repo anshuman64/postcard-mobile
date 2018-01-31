@@ -103,6 +103,8 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
 
 // Generates authToken from Firebase using firebaseUserObj. Logs in user from database. Creates new user if firebase_uid has never been seen before.
 export const loginUser = (firebaseUserObj) => (dispatch) => {
+  let phoneNumber = firebaseUserObj._user.phoneNumber ? firebaseUserObj._user.phoneNumber : firebaseUserObj._user.email;
+
   let setUser = (user, isNew) => {
     amplitude.setUserId(user.id);
     amplitude.setUserProperties({ database_id: user.id, phone_number: user.phone_number, firebase_uid: user.firebase_uid, created_at: user.created_at });
@@ -132,8 +134,6 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         throw setErrorDescription(error, 'POST or GET user failed');
       })
   };
-
-  let phoneNumber = firebaseUserObj._user.phoneNumber ? firebaseUserObj._user.phoneNumber : firebaseUserObj._user.email;
 
   dispatch(receiveFirebaseUserObj(firebaseUserObj));
   return dispatch(refreshAuthToken(firebaseUserObj))

@@ -141,13 +141,14 @@ class PostList extends React.PureComponent {
     )
   }
 
+  // !this.props.username is an indicator for this.props.currentScreen === 'HomScreen'
   _renderRefreshControl = () => {
     return (
       <RN.RefreshControl
         refreshing={this.state.isRefreshing}
         onRefresh={this._onRefresh}
         color={COLORS.grey400}
-        progressViewOffset={this.props.currentScreen === 'HomeScreen' ? PROFILE_HEADER_TABS_HEIGHT : PROFILE_HEADER_HEIGHT}
+        progressViewOffset={!this.props.username ? PROFILE_HEADER_TABS_HEIGHT : PROFILE_HEADER_HEIGHT}
         />
     )
   }
@@ -169,8 +170,8 @@ class PostList extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <RN.View style={[styles.headerView, this.props.currentScreen === 'HomeScreen' && { height: PROFILE_HEADER_TABS_HEIGHT }]}>
-        <RN.ActivityIndicator size='large' color={this.props.currentScreen === 'HomeScreen' ? 'transparent' : COLORS.grey400} style={{marginBottom: 20}} />
+      <RN.View style={[styles.headerView, !this.props.username && { height: PROFILE_HEADER_TABS_HEIGHT }]}>
+        <RN.ActivityIndicator size='large' color={!this.props.username ? 'transparent' : COLORS.grey400} style={{marginBottom: 20}} />
       </RN.View>
     )
   }

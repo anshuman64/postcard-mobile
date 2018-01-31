@@ -122,7 +122,7 @@ class ProfileHeader extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAvatar() {
-    if (this.props.currentScreen === 'HomeScreen') {
+    if (!this.props.username) {
       return null;
     } else if ((this.props.user.id === this.props.userId && !this.props.user.avatar_url)
                || (this.props.user.id != this.props.userId && !this.props.avatarUrl)) {
@@ -149,7 +149,7 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderUsername() {
-    if (this.props.currentScreen === 'HomeScreen') {
+    if (!this.props.username) {
       return null;
     } else {
       return (
@@ -183,7 +183,7 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderTabs() {
-    if (this.props.currentScreen === 'HomeScreen') {
+    if (!this.props.username) {
       return (
         <RN.View style={styles.tabs}>
           <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.ALL })} style={styles.button}>
@@ -216,6 +216,7 @@ class ProfileHeader extends React.PureComponent {
     }
   }
 
+  // !this.props.username is an indicator for this.props.currentScreen === 'HomScreen'
   render() {
     const translateY = this.props.scrollY.interpolate({
       inputRange: [0, (PROFILE_HEADER_HEIGHT - PROFILE_HEADER_TABS_HEIGHT)],
@@ -225,8 +226,8 @@ class ProfileHeader extends React.PureComponent {
 
     return (
       <RN.Animated.View style={[styles.container,
-        this.props.currentScreen === 'HomeScreen' && { height: PROFILE_HEADER_TABS_HEIGHT },
-        this.props.currentScreen != 'HomeScreen' && { transform: [{translateY}] }]}
+        !this.props.username && { height: PROFILE_HEADER_TABS_HEIGHT },
+        this.props.username && { transform: [{translateY}] }]}
         >
         <RN.View style={styles.userView}>
           {this._renderAvatar()}
