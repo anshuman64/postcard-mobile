@@ -286,7 +286,7 @@ class PostListItem extends React.PureComponent {
 
     if (this.props.user.id === this.props.item.author_id && this.props.user.avatar_url) {
       avatarUrl = this.props.user.avatar_url;
-    } else if (this.props.item.author_avatar_url) {
+    } else if (this.props.user.id != this.props.item.author_id && this.props.item.author_avatar_url) {
       avatarUrl = this.props.item.author_avatar_url;
     }
 
