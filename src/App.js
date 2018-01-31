@@ -93,7 +93,7 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} panHandlers={null} />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} panHandlers={null}  />
 
             <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} panHandlers={null} initial={true} />
             <Scene key='WelcomeScreen' component={WelcomeScreenContainer} hideNavBar={true} panHandlers={null} />
@@ -110,7 +110,7 @@ class App extends React.Component {
 
             <Tabs key='MainScreenTabs'
               tabBarPosition={'bottom'}
-              tabBarComponent={FooterContainer} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} /> }
+              tabBarComponent={FooterContainer} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} noBorder={true} /> }
               swipeEnabled={false}
               lazy={false}
               animationEnabled={false}
