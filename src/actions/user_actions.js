@@ -128,7 +128,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         }
 
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
-        throw setErrorDescription(error, 'POST or GET user failed');
+        throw setErrorDescription(error, 'GET user failed');
       });
   };
 
@@ -139,7 +139,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       })
       .catch((error) => {
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
-        throw setErrorDescription(error, 'POST or GET user failed');
+        throw setErrorDescription(error, 'POST user failed');
       })
   };
 
