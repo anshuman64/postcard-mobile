@@ -3,6 +3,7 @@ import Firebase from 'react-native-firebase';
 import AWS      from 'aws-sdk/dist/aws-sdk-react-native';
 
 // Local Imports
+import { getImage }            from './image_actions.js';
 import { amplitude }           from '../utilities/analytics_utility.js';
 import * as APIUtility         from '../utilities/api_utility.js';
 import { setErrorDescription } from '../utilities/error_utility.js';
@@ -110,6 +111,10 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
 
     dispatch(receiveUser(user));
+
+    if (user.avatar_url) {
+      dispatch(getImage(user.avatar_url));
+    }
   }
 
   let handleExistingUser = (authToken) => {
@@ -118,7 +123,12 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         setUser(user, false);
       })
       .catch((error) => {
-        return handleNewUser(authToken);
+        if (error.toString() === 'Error: User not found') {
+          return handleNewUser(authToken);
+        }
+
+        amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
+        throw setErrorDescription(error, 'GET user failed');
       });
   };
 
@@ -129,7 +139,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       })
       .catch((error) => {
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
-        throw setErrorDescription(error, 'POST or GET user failed');
+        throw setErrorDescription(error, 'POST user failed');
       })
   };
 
@@ -175,7 +185,7 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: true, username: username });
 
-    return dispatch(receiveUser(editedUser));
+    dispatch(receiveUser(editedUser));
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -201,7 +211,11 @@ export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) 
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
 
-    return dispatch(receiveUser(editedUser));
+    dispatch(receiveUser(editedUser));
+
+    if (editedUser.avatar_url) {
+      dispatch(getImage(editedUser.avatar_url));
+    }
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

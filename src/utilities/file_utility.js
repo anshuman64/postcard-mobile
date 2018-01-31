@@ -86,7 +86,7 @@ let refreshAWSToken = (firebaseUserObj, refreshAuthToken, fn, ...params) => {
 };
 
 // Uploads file to AWS S3
-let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
+let uploadFileHelper = (firebaseUserObj, refreshAuthToken, params) => {
   return new Promise((resolve, reject) => {
     getClient().upload(params, (error, data) => {
       if (error) {
@@ -115,27 +115,8 @@ let uploadFile = (firebaseUserObj, refreshAuthToken, params) => {
 
 
 // Gets signed url for image from AWS S3 bucket using path key
-export const getImage = (firebaseUserObj, refreshAuthToken, key) => {
-  return new Promise((resolve, reject) => {
-    getClient().getSignedUrl('getObject', { Bucket: getBucketName(), Key: key }, (error, data) => {
-      if (error) {
-        if (error.message === "Missing credentials in config") {
-          return refreshAWSToken(firebaseUserObj, refreshAuthToken, getImage, key)
-            .then((data) => {
-              resolve(data);
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        }
-
-        amplitude.logEvent('Error - Get Image', { error_message: error.message, error_description: 'Get image from AWS failed' });
-        reject(error);
-      } else {
-        resolve(data);
-      }
-    });
-  });
+export const getFile = (key) => {
+  return getClient().getSignedUrl('getObject', { Bucket: getBucketName(), Key: key, Expires: 1800 });
 };
 
 // Deletes file from AWS S3 bucket using path key
@@ -162,12 +143,12 @@ export const deleteFile = (firebaseUserObj, refreshAuthToken, key) => {
 };
 
 // Uploads file to AWS S3 bucket
-export const uploadImageFile = (firebaseUserObj, refreshAuthToken, imagePath, imageType, userId, folderPath) => {
+export const uploadFile = (firebaseUserObj, refreshAuthToken, imagePath, imageType, userId, folderPath) => {
   return readImageFile(imagePath)
     .then((buffer) => {
       params = getParamsForImage(userId, imageType, buffer, folderPath);
 
-      return uploadFile(firebaseUserObj, refreshAuthToken, params);
+      return uploadFileHelper(firebaseUserObj, refreshAuthToken, params);
     });
 };
 
