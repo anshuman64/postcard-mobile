@@ -8,6 +8,7 @@ import { deletePost, removePost }      from '../../../actions/post_actions.js';
 import { createLike, deleteLike }      from '../../../actions/like_actions.js';
 import { createFlag, deleteFlag }      from '../../../actions/flag_actions.js';
 import { createFollow, deleteFollow }  from '../../../actions/follow_actions.js';
+import { getImage }                    from '../../../actions/image_actions.js';
 import { navigateToProfile }           from '../../../actions/navigation_actions.js';
 
 
@@ -30,6 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteFlag:        (authToken, firebaseUserObj, userId, postId) => dispatch(deleteFlag(authToken, firebaseUserObj, userId, postId)),
   deletePost:        (authToken, firebaseUserObj, userId, postId) => dispatch(deletePost(authToken, firebaseUserObj, userId, postId)),
   removePost:        (deletedPost) => dispatch(removePost(deletedPost)),
+  getImage:          (firebaseUserObj, avatarUrl) => dispatch(getImage(firebaseUserObj, avatarUrl)),
   refreshAuthToken:  (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params)),
   navigateToProfile: (props) => dispatch(navigateToProfile(props))
 });

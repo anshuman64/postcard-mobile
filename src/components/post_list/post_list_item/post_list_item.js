@@ -332,9 +332,22 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    if (this.state.avatarUrl) {
+    let avatarUrl;
+
+    if (this.props.user.id === this.props.item.author_id && this.props.user.avatar_url) {
+      avatarUrl = this.props.user.avatar_url;
+    } else if (this.props.item.author_avatar_url) {
+      avatarUrl = this.props.item.author_avatar_url;
+    }
+
+    if (avatarUrl) {
       return (
-        <RN.Image source={{uri: this.state.avatarUrl}} style={styles.avatarImage} resizeMode={'cover'} />
+        <RN.Image
+        source={{uri: this.props.images[avatarUrl].url, cache: 'force-cache'}}
+        style={styles.avatarImage}
+        resizeMode={'cover'}
+        onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
+        />
       )
     } else if (!this.props.item.author_avatar_url && !this.state.avatarUrl) {
       return (
