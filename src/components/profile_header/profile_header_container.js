@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 // Local Imports
 import ProfileHeader                  from './profile_header.js';
 import { createFollow, deleteFollow } from '../../actions/follow_actions.js';
+import { getImage }                   from '../../actions/image_actions.js';
 import { refreshAuthToken }           from '../../actions/user_actions.js';
 import { navigateTo }                 from '../../actions/navigation_actions.js';
 
@@ -22,6 +23,7 @@ const mapStateToProps = ({ user, images, navigation }, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   createFollow:     (authToken, firebaseUserObj, userId, followeeId) => dispatch(createFollow(authToken, firebaseUserObj, userId, followeeId)),
   deleteFollow:     (authToken, firebaseUserObj, userId, followeeId) => dispatch(deleteFollow(authToken, firebaseUserObj, userId, followeeId)),
+  getImage:         (firebaseUserObj, avatarUrl) => dispatch(getImage(firebaseUserObj, avatarUrl)),
   navigateTo:       (screen, props) => dispatch(navigateTo(screen, props)),
   refreshAuthToken: (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params)),
 });

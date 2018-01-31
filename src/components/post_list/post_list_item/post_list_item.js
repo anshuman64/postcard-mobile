@@ -293,7 +293,7 @@ class PostListItem extends React.PureComponent {
     if (avatarUrl) {
       return (
         <RN.Image
-          source={{uri: this.props.images[avatarUrl].url, cache: 'force-cache'}}
+          source={{uri: this.props.images[avatarUrl], cache: 'force-cache'}}
           style={styles.avatarImage}
           resizeMode={'cover'}
           onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
@@ -385,7 +385,7 @@ class PostListItem extends React.PureComponent {
         <RN.View style={styles.bodyImageView}>
           <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
             <RN.Image
-              source={{uri: this.props.images[this.props.item.image_url].url, cache: 'force-cache'}}
+              source={{uri: this.props.images[this.props.item.image_url], cache: 'force-cache'}}
               style={styles.bodyImage}
               resizeMode={'contain'}
               onError={() => this.props.getImage(this.props.firebaseUserObj, this.props.item.image_url)}

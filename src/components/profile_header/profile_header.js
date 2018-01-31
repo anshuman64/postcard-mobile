@@ -29,36 +29,6 @@ class ProfileHeader extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Lifecycle Methods
-  //--------------------------------------------------------------------//
-
-  // If user has avatar, get image from AWS S3 and set signed url
-  componentDidMount() {
-    if (this.props.avatarUrl) {
-      this._setAvatarUrl(this.props.avatarUrl);
-    }
-  }
-
-  // If user changed avatars, update avatar
-  componentWillReceiveProps(nextProps) {
-    if (this.props.user.id === this.props.userId && nextProps.user.avatar_url != this.props.user.avatar_url) {
-      this._setAvatarUrl(nextProps.user.avatar_url);
-    }
-  }
-
-  //--------------------------------------------------------------------//
-  // Private Methods
-  //--------------------------------------------------------------------//
-
-  // Get image from AWS S3 and set url as signed Url
-  _setAvatarUrl(avatarUrl) {
-    getFile(this.props.firebaseUserObj, this.props.refreshAuthToken, avatarUrl)
-      .then((data) => {
-        this.setState({ avatarUrl: data });
-      })
-  }
-
-  //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
@@ -122,10 +92,17 @@ class ProfileHeader extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAvatar() {
+    let avatarUrl;
+
+    if (this.props.avatarUrl) {
+      avatarUrl = this.props.avatarUrl;
+    } else if (this.props.userId === this.props.user.id) {
+      avatarUrl = this.props.user.avatar_url;
+    }
+
     if (!this.props.username) {
       return null;
-    } else if ((this.props.user.id === this.props.userId && !this.props.user.avatar_url)
-               || (this.props.user.id != this.props.userId && !this.props.avatarUrl)) {
+    } else if (!avatarUrl) {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
           <RN.View style={styles.frameBorder}>
@@ -134,14 +111,19 @@ class ProfileHeader extends React.PureComponent {
           <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
-    } else if (!this.state.avatarUrl) {
+    } else if (avatarUrl && !this.props.images[avatarUrl]) {
       return (
         <RN.View style={styles.frame} />
       )
     } else {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
-          <RN.Image source={{uri: this.props.images[this.props.user.avatar_url].url}} style={styles.image} resizeMode={'cover'} />
+          <RN.Image
+            source={{uri: this.props.images[avatarUrl], cache: 'force-cache'}}
+            style={styles.image}
+            resizeMode={'cover'}
+            onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
+            />
           <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
