@@ -1,8 +1,5 @@
-// Library Imports
-import * as _ from 'lodash';
-
 // Local Imports
-import { getImage }            from './image_actions.js';
+import { getImagesFromPosts }  from './image_actions.js';
 import { amplitude }           from '../utilities/analytics_utility.js';
 import * as APIUtility         from '../utilities/api_utility.js';
 import { setErrorDescription } from '../utilities/error_utility.js';
@@ -75,16 +72,7 @@ export const getPosts = (authToken, firebaseUserObj, userId, postType, queryPara
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
     .then((posts) => {
       dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
-
-      _.forEach(posts, (post) => {
-        if (post.image_url) {
-          dispatch(getImage(firebaseUserObj, post.image_url));
-        }
-
-        if (post.author_avatar_url) {
-          dispatch(getImage(firebaseUserObj, post.author_avatar_url));
-        }
-      });
+      dispatch(getImagesFromPosts(posts));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -100,16 +88,7 @@ export const refreshPosts = (authToken, firebaseUserObj, userId, postType, query
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
     .then((posts) => {
       dispatch(refreshAndReceivePosts({ posts: posts, userId: userId, postType: postType }));
-
-      _.forEach(posts, (post) => {
-        if (post.image_url) {
-          dispatch(getImage(firebaseUserObj, post.image_url));
-        }
-
-        if (post.author_avatar_url) {
-          dispatch(getImage(firebaseUserObj, post.author_avatar_url));
-        }
-      });
+      dispatch(getImagesFromPosts(posts));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -126,14 +105,7 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
     .then((newPost) => {
       amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText });
       dispatch(receivePost({ post: newPost, userId: userId }));
-
-      if (newPost.image_url) {
-        dispatch(getImage(firebaseUserObj, newPost.image_url));
-      }
-
-      if (newPost.author_avatar_url) {
-        dispatch(getImage(firebaseUserObj, newPost.author_avatar_url));
-      }
+      dispatch(getImagesFromPosts(newPost));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

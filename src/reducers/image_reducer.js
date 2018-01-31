@@ -13,9 +13,14 @@ const ImageReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    // When an image is downloaded from S3, update the url and lastUpdated
     case IMAGE_ACTION_TYPES.RECEIVE_IMAGE:
-      newState[action.data.key] = action.data.url
+      newState[action.data.key] = action.data.url;
+
+      return newState;
+    case IMAGE_ACTION_TYPES.RECEIVE_IMAGES:
+      _.forEach(action.data, (imageObj) => {
+        newState[imageObj.key] = imageObj.url;
+      })
 
       return newState;
     case IMAGE_ACTION_TYPES.DELETE_IMAGE:

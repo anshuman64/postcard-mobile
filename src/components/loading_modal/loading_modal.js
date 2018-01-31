@@ -22,6 +22,7 @@ class LoadingModal extends React.PureComponent {
         visible={this.props.isLoading}
         transparent={true}
         animationType={'none'}
+        onRequestClose={() => null}
         >
         <RN.View style={styles.modal}>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} />
