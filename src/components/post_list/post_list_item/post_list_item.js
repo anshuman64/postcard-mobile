@@ -396,7 +396,9 @@ class PostListItem extends React.PureComponent {
       )
     } else if (this.props.item.image_url && !this.props.images[this.props.item.image_url]) {
       return (
-        <RN.View style={styles.bodyImage} />
+        <RN.View style={styles.bodyImage}>
+          <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
+        </RN.View>
       )
     } else {
       return null;
