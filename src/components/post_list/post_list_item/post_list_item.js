@@ -290,10 +290,10 @@ class PostListItem extends React.PureComponent {
       avatarUrl = this.props.item.author_avatar_url;
     }
 
-    if (avatarUrl) {
+    if (avatarUrl && this.props.images[avatarUrl]) {
       return (
         <RN.Image
-          source={{uri: this.props.images[avatarUrl], cache: 'force-cache'}}
+          source={{uri: this.props.images[avatarUrl].url, cache: 'force-cache'}}
           style={styles.avatarImage}
           resizeMode={'cover'}
           onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
@@ -385,7 +385,7 @@ class PostListItem extends React.PureComponent {
         <RN.View style={styles.bodyImageView}>
           <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
             <RN.Image
-              source={{uri: this.props.images[this.props.item.image_url], cache: 'force-cache'}}
+              source={{uri: this.props.images[this.props.item.image_url].url, cache: 'force-cache'}}
               style={styles.bodyImage}
               resizeMode={'contain'}
               onError={() => this.props.getImage(this.props.firebaseUserObj, this.props.item.image_url)}
@@ -396,7 +396,7 @@ class PostListItem extends React.PureComponent {
       )
     } else if (this.props.item.image_url && !this.props.images[this.props.item.image_url]) {
       return (
-        <RN.View style={styles.bodyImage}>
+        <RN.View style={styles.bodyImageView}>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
