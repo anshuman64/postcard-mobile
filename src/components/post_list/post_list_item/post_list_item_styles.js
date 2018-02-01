@@ -51,6 +51,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 40,
+    width: 40,
   },
   userIcon: {
     fontSize: 24,
@@ -105,6 +106,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    height: StyleUtility.getUsableDimensions().width,
+    width: StyleUtility.getUsableDimensions().width,
   },
   bodyImage: {
     height: StyleUtility.getUsableDimensions().width,
