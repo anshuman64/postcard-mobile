@@ -32,7 +32,7 @@ class CameraRollScreen extends React.PureComponent {
     };
 
     this.isImagePressed = false;
-    this.isLoading = false;
+    this.isLoading = true;
   }
 
   //--------------------------------------------------------------------//

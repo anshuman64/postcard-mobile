@@ -6,6 +6,7 @@ import { decorator as sensors } from 'react-native-sensors';
 
 import { Surface } from "gl-react-native";
 
+import Saturation from "./Saturation";
 // Local Imports
 import { setStateCallback } from '../../utilities/function_utility.js';
 import { styles }           from './debug_login_screen_styles.js';
@@ -16,7 +17,7 @@ import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
 
 const accelerationObservable = new Accelerometer({
-  updateInterval: 100, // defaults to 100ms
+  updateInterval: 50, // defaults to 100ms
 });
 
 class DebugLoginScreen extends React.PureComponent {
@@ -31,14 +32,22 @@ class DebugLoginScreen extends React.PureComponent {
     this.state = {
       emailInput:     'test@insiya.io',
       passwordInput:  'socialnetwork',
+      x: new RN.Animated.Value(0),
+      y: new RN.Animated.Value(0),
+      z: new RN.Animated.Value(0),
     };
 
     this.isNextPressed = false;
+  }
 
+  componentDidMount() {
+    // Normal RxJS functions
     accelerationObservable
-      .map(({ x, y, z }) => x + y + z)
-      .filter(speed => speed > 20)
-      .subscribe(speed => console.log(`You moved your phone with ${speed}`));
+        .subscribe(({x, y, z}) => this.setState({
+          x: new RN.Animated.Value(x),
+          y: new RN.Animated.Value(y),
+          z: new RN.Animated.Value(z),
+        }));
   }
 
   //--------------------------------------------------------------------//
@@ -118,32 +127,19 @@ class DebugLoginScreen extends React.PureComponent {
     )
   }
 
-  _renderDecorator() {
-    const {
-      Accelerometer,
-      Gyroscope,
-    } = this.props;
-
-    if (!Accelerometer || !Gyroscope) {
-      // One of the sensors is still initializing
-      return null;
-    }
-
-    return (
-        <RN.Text>
-          AccelerationX has value: {Accelerometer.x + '\n'}
-          AccelerationY has value: {Accelerometer.y+ '\n'}
-          AccelerationZ has value: {Accelerometer.z+ '\n'}
-        </RN.Text>
-    );
-  }
-
   _renderFilter() {
+    const saturation = this.state.x.interpolate({
+      inputRange: [-3, 0, 3],
+      outputRange: [0, 1, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
     return (
-      <Surface width={256} height={171}>
+      <Surface width={400} height={400}>
         <Saturation
-          factor={10}
-          image={{ uri: "https://i.imgur.com/iPKTONG.jpg" }}
+          factor={saturation}
+          image={{ uri: "https://s3.amazonaws.com/insiya-users/1/posts/e5705aa0-0213-11e8-9fbb-bb0961a4d07b.jpeg" }}
         />
       </Surface>
     )
@@ -163,9 +159,4 @@ class DebugLoginScreen extends React.PureComponent {
 
 
 
-export default sensors({
-  Accelerometer: {
-    updateInterval: 300, // optional
-  },
-  Gyroscope: true,
-})(DebugLoginScreen);
+export default DebugLoginScreen;
