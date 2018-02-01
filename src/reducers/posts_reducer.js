@@ -59,7 +59,9 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
       if (action.data.posts.length < 10) {
         postData.isEnd = true;
-      } else {
+      }
+
+      if (action.data.posts.length > 0) {
         _.forEach(action.data.posts, (post) => {
           postData.data.push(post.id);
         });
