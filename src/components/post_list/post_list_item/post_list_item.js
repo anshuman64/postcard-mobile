@@ -297,7 +297,7 @@ class PostListItem extends React.PureComponent {
           source={{uri: this.props.images[avatarUrl].url}}
           style={styles.avatarImage}
           resizeMode={'cover'}
-          onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
           />
       )
     } else if (avatarUrl && !this.props.images[avatarUrl]) {
@@ -389,7 +389,7 @@ class PostListItem extends React.PureComponent {
               source={{uri: this.props.images[this.props.item.image_url].url}}
               style={styles.bodyImage}
               resizeMode={'contain'}
-              onError={() => this.props.getImage(this.props.firebaseUserObj, this.props.item.image_url)}
+              onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.item.image_url)}
               />
           </RN.TouchableWithoutFeedback>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
