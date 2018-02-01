@@ -3,7 +3,7 @@ import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Buffer }  from 'buffer';
 import uuid        from 'react-native-uuid';
-import mime        from 'mime-types';
+// import mime        from 'mime-types';
 
 // Local Imports
 import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config.js';

@@ -168,6 +168,7 @@ android {
 }
 
 dependencies {
+    compile project(':gl-react-native')
     compile project(':react-native-sensors')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-fetch-blob')
