@@ -1,7 +1,8 @@
 // Library Imports
-import React       from 'react';
-import RN          from 'react-native';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import React           from 'react';
+import RN              from 'react-native';
+import { CachedImage } from 'react-native-img-cache';
+import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import { styles, PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from './profile_header_styles.js';
@@ -117,8 +118,8 @@ class ProfileHeader extends React.PureComponent {
     } else {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
-          <RN.Image
-            source={{uri: this.props.images[avatarUrl].url, cache: 'force-cache'}}
+          <CachedImage
+            source={{uri: this.props.images[avatarUrl].url}}
             style={styles.image}
             resizeMode={'cover'}
             onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
