@@ -190,7 +190,7 @@ class AvatarScreen extends React.PureComponent {
             source={{uri: this.state.imagePath, cache: 'force-cache'}}
             style={styles.image}
             resizeMode={'cover'}
-            onError={() => this.props.getImage(this.props.firebaseUserObj, this.props.user.avatar_url)}
+            onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.user.avatar_url)}
             />
         </RN.TouchableOpacity>
       )
