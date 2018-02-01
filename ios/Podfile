@@ -18,6 +18,8 @@ target 'Insiya' do
   # pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
   # pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'RNSensors', :path => '../node_modules/react-native-sensors'
+
   target 'InsiyaTests' do
     inherit! :search_paths
     # Pods for testing
