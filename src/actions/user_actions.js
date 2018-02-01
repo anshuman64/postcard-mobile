@@ -169,7 +169,7 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
   }
 
   // If the credentials don't need refreshing, return. Both Firebase and AWS credentials last 1 hour
-  if (isRefreshing || !AWS.config.credentials.needsRefresh()) {
+  if (isRefreshing || (AWS.config.credentials && !AWS.config.credentials.needsRefresh())) {
     return new Promise.resolve();
   }
 
