@@ -122,7 +122,7 @@ class ProfileHeader extends React.PureComponent {
             source={{uri: this.props.images[avatarUrl].url}}
             style={styles.image}
             resizeMode={'cover'}
-            onError={() => this.props.getImage(this.props.firebaseUserObj, avatarUrl)}
+            onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
             />
           <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>

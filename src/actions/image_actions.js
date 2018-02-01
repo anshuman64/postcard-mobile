@@ -1,11 +1,8 @@
 import * as _ from 'lodash';
 
 // Local Imports
-import * as FileUtility        from '../utilities/file_utility.js';
-import { amplitude }           from '../utilities/analytics_utility.js';
-import * as APIUtility         from '../utilities/api_utility.js';
-import { setErrorDescription } from '../utilities/error_utility.js';
-import { refreshAuthToken }    from './user_actions.js';
+import * as FileUtility     from '../utilities/file_utility.js';
+import { refreshAuthToken } from './user_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -38,6 +35,13 @@ export const receiveImages = (data) => {
 export const getImage = (avatarUrl) => (dispatch) => {
   dispatch(receiveImage({ key: avatarUrl, url: FileUtility.getFile(avatarUrl) }));
 };
+
+export const refreshCredsAndGetImage = (firebaseUserObj, avatarUrl) => {
+  dispatch(refreshAuthToken(firebaseUserObj))
+    .then(() => {
+      dispatch(getImage(avatarUrl));
+    })
+}
 
 // Gets signedUrl from S3 and stores it
 export const getImagesFromPosts = (posts) => (dispatch) => {
