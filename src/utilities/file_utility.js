@@ -116,7 +116,7 @@ let uploadFileHelper = (firebaseUserObj, refreshAuthToken, params) => {
 
 // Gets signed url for image from AWS S3 bucket using path key
 export const getFile = (key) => {
-  return getClient().getSignedUrl('getObject', { Bucket: getBucketName(), Key: key, Expires: 1800 });
+  return getClient().getSignedUrl('getObject', { Bucket: getBucketName(), Key: key, Expires: 3600 });
 };
 
 // Deletes file from AWS S3 bucket using path key
