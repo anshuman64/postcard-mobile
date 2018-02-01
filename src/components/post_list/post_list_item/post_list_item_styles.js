@@ -106,13 +106,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: DEFAULT_MARGIN,
     height: StyleUtility.getUsableDimensions().width,
     width: StyleUtility.getUsableDimensions().width,
   },
   bodyImage: {
     height: StyleUtility.getUsableDimensions().width,
     width: StyleUtility.getUsableDimensions().width,
-    marginTop: DEFAULT_MARGIN,
     zIndex: 1,
   },
   footerView: {
