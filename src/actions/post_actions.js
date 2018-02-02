@@ -127,7 +127,7 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
     return dispatch(uploadFile(authToken, firebaseUserObj, postImagePath, postImageType, userId, 'posts/'))
       .then((data) => {
         return postPost(data.key);
-      }, postPostError(error))
+      }, (error) => postPostError(error))
   } else {
     return postPost();
   }

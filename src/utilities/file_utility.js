@@ -105,7 +105,7 @@ export const deleteFile = (authToken, firebaseUserObj, key) => (dispatch) => {
 };
 
 // Uploads file to AWS S3 bucket
-export const uploadFile = (authToken, firebaseUserObj, imagePath, imageType, userId, folderPath)  => (dispatch) => {
+export const uploadFile = (authToken, firebaseUserObj, imagePath, imageType, userId, folderPath) => (dispatch) => {
   return readImageFile(imagePath)
     .then((buffer) => {
       params = getParamsForImage(userId, imageType, buffer, folderPath);

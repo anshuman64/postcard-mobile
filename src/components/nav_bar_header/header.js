@@ -55,8 +55,7 @@ class Header extends React.PureComponent {
     this.isSharePressed = true;
 
     this.setState({ isLoading: true },() => {
-      let postText = this.props.postText;
-      let postBody = isStringEmpty(postText) ? null : postText; // sets post body as null if there is no text
+      let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
 
       this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
         .then(() => {
