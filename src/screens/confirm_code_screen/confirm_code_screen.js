@@ -99,7 +99,7 @@ class ConfirmCodeScreen extends React.PureComponent {
       if (!this.props.user.username) {
         return this.props.navigateTo('UsernameScreenLogin');
       } else {
-        return this.props.navigateTo('HomeScreen');
+        return this.props.navigateTo('DiscoverScreen');
       }
     }
   }
