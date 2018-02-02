@@ -13,7 +13,6 @@ import { styles, scaleHeart }                 from './post_list_item_styles.js';
 import { renderDate }                         from '../../../utilities/date_time_utility.js';
 import fontelloConfig                         from '../../../assets/fonts/config.json';
 import { defaultErrorAlert }                  from '../../../utilities/error_utility.js';
-import { deleteFile }                         from '../../../utilities/file_utility.js';
 import { setStateCallback, getReadableCount } from '../../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS }             from '../../../utilities/style_utility.js';
 
@@ -154,12 +153,8 @@ class PostListItem extends React.PureComponent {
     this.isDeleteDisabled = true;
 
     // Delete post from DB
-    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
-        // Delete image file from AWS S3
-        if (this.props.item.image_url) {
-          deleteFile(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.item.image_url);
-        }
         // Fade out post
         this.container.fadeOut(500)
           .finally(() => {

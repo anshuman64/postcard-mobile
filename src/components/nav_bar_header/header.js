@@ -9,7 +9,6 @@ import LoadingModal          from '../loading_modal/loading_modal.js'
 import { styles }            from './header_styles.js';
 import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
 import { isStringEmpty }     from '../../utilities/function_utility.js';
-import { uploadFile }   from '../../utilities/file_utility.js';
 import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
@@ -30,42 +29,6 @@ class Header extends React.PureComponent {
 
     this.isSharePressed  = false;
     this.isGoBackPressed = false;
-  }
-
-  //--------------------------------------------------------------------//
-  // Private Methods
-  //--------------------------------------------------------------------//
-
-  // Uploads image file to AWS and then attempts to create post from NewPostScreen share button
-  _uploadImage() {
-    uploadFile(this.props.firebaseUserObj, this.props.refreshAuthToken, this.props.imagePath, this.props.imageType, this.props.user.id, 'posts/')
-      .then((data) => {
-        this._createPost(data.key);
-      })
-      .catch((error) => {
-        this.setState({ isLoading: false }, () => {
-          this.isSharePressed = false;
-          defaultErrorAlert(error);
-        });
-      })
-  }
-
-  // Creates post in DB and goes back
-  _createPost(imageKey) {
-    let postText = this.props.postText;
-    let postBody = isStringEmpty(postText) ? null : postText; // sets post body as null if there is no text
-
-    this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, postBody, imageKey, this.props.placeholderText)
-      .then(() => {
-        this.props.goBack({ scrollToTop: Date() }); // sets scrollToTop to new Date to signal to postList to scrollToTop
-      })
-      .catch((error) => {
-        this.isSharePressed = false;
-        defaultErrorAlert(error);
-      })
-      .finally(() => {
-        this.setState({ isLoading: false });
-      });
   }
 
   //--------------------------------------------------------------------//
@@ -92,11 +55,20 @@ class Header extends React.PureComponent {
     this.isSharePressed = true;
 
     this.setState({ isLoading: true },() => {
-      if (this.props.imagePath) {
-        this._uploadImage();
-      } else {
-        this._createPost();
-      }
+      let postText = this.props.postText;
+      let postBody = isStringEmpty(postText) ? null : postText; // sets post body as null if there is no text
+
+      this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
+        .then(() => {
+          this.props.goBack({ scrollToTop: Date() }); // sets scrollToTop to new Date to signal to postList to scrollToTop
+        })
+        .catch((error) => {
+          this.isSharePressed = false;
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
     });
   }
 
