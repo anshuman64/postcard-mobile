@@ -31,4 +31,8 @@ export const styles = StyleSheet.create({
     fontSize: StyleUtility.scaleFont(19),
     color: StyleUtility.COLORS.grey900
   },
+  iconBig: {
+    fontSize: StyleUtility.scaleFont(25),
+    color: StyleUtility.COLORS.appleRed,
+  },
 })
