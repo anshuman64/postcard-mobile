@@ -19,8 +19,8 @@ import { FOLLOW_ACTION_TYPES } from '../actions/follow_actions.js';
  *      "updated_at": "2018-01-18T23:48:06.000Z",
  *      "num_likes": 0,
  *      "is_liked_by_user": false,
- *      "author_username": "huuu",
- *      "author_avatar_url": "1/profile_pictures/3862f2d0-f707-11e7-911d-a54d5d66a9ee.jpeg",
+ *      "author.username": "huuu",
+ *      "author.avatar_url": "1/profile_pictures/3862f2d0-f707-11e7-911d-a54d5d66a9ee.jpeg",
  *      "is_author_followed_by_user": false
  *  },
  *   postId2: {...

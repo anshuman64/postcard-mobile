@@ -52,8 +52,8 @@ export const getImagesFromPosts = (posts) => (dispatch) => {
       postImages.push({ key: post.image_url, url: FileUtility.getFile(post.image_url) });
     }
 
-    if (post.author_avatar_url) {
-      postImages.push({ key: post.author_avatar_url, url: FileUtility.getFile(post.author_avatar_url) });
+    if (post.author.avatar_url) {
+      postImages.push({ key: post.author.avatar_url, url: FileUtility.getFile(post.author.avatar_url) });
     }
   });
 
