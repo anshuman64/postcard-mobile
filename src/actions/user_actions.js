@@ -145,7 +145,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         error = setErrorDescription(error, 'POST user failed');
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
         throw error;
-      })
+      });
   };
 
   dispatch(receiveFirebaseUserObj(firebaseUserObj));
@@ -157,7 +157,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       error = setErrorDescription(error, 'Firebase getIdToken failed');
       amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
       throw error;
-    })
+    });
 }
 
 let isRefreshing = false;
