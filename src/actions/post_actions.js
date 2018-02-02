@@ -108,13 +108,14 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
         amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, placeholder_text: placeholderText });
         dispatch(receivePost({ post: newPost, userId: userId }));
         dispatch(getImagesFromPosts([newPost]));
-      }, (error) => {
+      })
+      .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
           return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postBody, postImagePath, postImageType, placeholderText));
         }
 
         postPostError(error);
-      })
+      });
   }
 
   let postPostError = (error) => {
@@ -127,7 +128,10 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
     return dispatch(uploadFile(authToken, firebaseUserObj, postImagePath, postImageType, userId, 'posts/'))
       .then((data) => {
         return postPost(data.key);
-      }, (error) => postPostError(error))
+      })
+      .catch((error) => {
+        postPostError(error)
+      });
   } else {
     return postPost();
   }

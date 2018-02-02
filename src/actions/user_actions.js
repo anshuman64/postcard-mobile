@@ -63,7 +63,8 @@ export const debugSignIn = (email, password) => (dispatch) => {
   return Firebase.auth().signInWithEmailAndPassword(email, password)
     .then((firebaseUserObj) => {
       return dispatch(loginUser(firebaseUserObj));
-    }, (error) => {
+    })
+    .catch((error) => {
       Firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((firebaseUserObj) => {
           return dispatch(loginUser(firebaseUserObj));
@@ -71,8 +72,7 @@ export const debugSignIn = (email, password) => (dispatch) => {
         .catch((error) => {
           throw setErrorDescription(error, 'Firebase email sign-in failed');
         });
-      }
-    )
+    });
 }
 
 // Uses Firebase to send confirmationCode to phoneNumber from LoginScreen
@@ -164,16 +164,6 @@ let isRefreshing = false;
 
 // Refreshes Firebase authToken and AWS credentials (if expired)
 export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
-  let configureAWSError = (error) => {
-    isRefreshing = false;
-    throw setErrorDescription(error, 'Configure AWS failed');
-  }
-
-  let getIdTokenError = (error) => {
-    isRefreshing = false;
-    throw setErrorDescription(error, 'Firebase getIdToken failed');
-  }
-
   // If the credentials don't need refreshing, return. Both Firebase and AWS credentials last 1 hour
   if (isRefreshing || (AWS.config.credentials && !AWS.config.credentials.needsRefresh())) {
     return new Promise.resolve();
@@ -195,8 +185,16 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
           } else {
             return newAuthToken;
           }
-        }, configureAWSError)
-    }, getIdTokenError)
+        })
+        .catch((error) => {
+          isRefreshing = false;
+          throw setErrorDescription(error, 'Configure AWS failed');
+        });
+    })
+    .catch((error) => {
+      isRefreshing = false;
+      throw setErrorDescription(error, 'Firebase getIdToken failed');
+    });
 }
 
 // PUT request to API to edit user username from UsernameScreen

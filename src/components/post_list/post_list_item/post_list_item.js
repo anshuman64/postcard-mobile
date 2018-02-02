@@ -162,7 +162,8 @@ class PostListItem extends React.PureComponent {
             this.props.removePost({ post: deletedPost, userId: this.props.user.id  });
             this.isDeleteDisabled = false;
           });
-      }, (error) => {
+      })
+      .catch((error) => {
         this.isDeleteDisabled = false;
         defaultErrorAlert(error);
       });
