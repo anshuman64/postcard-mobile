@@ -91,7 +91,8 @@ export const deleteFile = (authToken, firebaseUserObj, key) => (dispatch) => {
           return dispatch(refreshAuthToken(firebaseUserObj, deleteFile, key))
             .then((data) => {
               resolve(data);
-            }, (error) => {
+            })
+            .catch((error) => {
               reject(setErrorDescription(error, 'Delete file in S3 failed'));
             });
         }
@@ -117,7 +118,8 @@ export const uploadFile = (authToken, firebaseUserObj, imagePath, imageType, use
               return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, imagePath, imageType, userId, folderPath))
                 .then((data) => {
                   resolve(data);
-                }, (error) => {
+                })
+                .catch((error) => {
                   reject(setErrorDescription(error, 'Upload file to S3 failed'));
                 });
             }
