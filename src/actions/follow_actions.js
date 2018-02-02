@@ -44,8 +44,9 @@ export const createFollow = (authToken, firebaseUserObj, userId, followeeId) => 
         return dispatch(refreshAuthToken(firebaseUserObj, createFollow, userId, followeeId));
       }
 
+      error = setErrorDescription(error, 'POST follow failed');
       amplitude.logEvent('Engagement - Click Follow', { is_successful: false, is_create: true, follower_id: userId, followee_id: followeeId, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'POST follow failed');
+      throw error;
     });
 };
 
@@ -61,7 +62,8 @@ export const deleteFollow = (authToken, firebaseUserObj, userId, followeeId) => 
         return dispatch(refreshAuthToken(firebaseUserObj, deleteFollow, userId, followeeId));
       }
 
+      error = setErrorDescription(error, 'DEL follow failed');
       amplitude.logEvent('Engagement - Click Follow', { is_successful: false, is_create: false, follower_id: userId, followee_id: followeeId, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'DEL follow failed');
+      throw error;
     });
 };
