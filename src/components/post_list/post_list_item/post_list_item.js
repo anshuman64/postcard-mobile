@@ -236,8 +236,8 @@ class PostListItem extends React.PureComponent {
   _navigateToProfile = () => {
     this.props.navigateToProfile({
       userId: this.props.item.author_id,
-      username: this.props.item.author_username,
-      avatarUrl: this.props.item.author_avatar_url,
+      username: this.props.item.author.username,
+      avatarUrl: this.props.item.author.avatar_url,
       isFollowed: this.props.item.is_author_followed_by_user
     });
   }
@@ -269,7 +269,7 @@ class PostListItem extends React.PureComponent {
               {this._renderAvatar()}
             </RN.View>
             <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-              {this.props.user.id === this.props.item.author_id ? this.props.user.username : this.props.item.author_username}
+              {this.props.user.id === this.props.item.author_id ? this.props.user.username : this.props.item.author.username}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -283,8 +283,8 @@ class PostListItem extends React.PureComponent {
 
     if (this.props.user.id === this.props.item.author_id && this.props.user.avatar_url) {
       avatarUrl = this.props.user.avatar_url;
-    } else if (this.props.user.id != this.props.item.author_id && this.props.item.author_avatar_url) {
-      avatarUrl = this.props.item.author_avatar_url;
+    } else if (this.props.user.id != this.props.item.author_id && this.props.item.author.avatar_url) {
+      avatarUrl = this.props.item.author.avatar_url;
     }
 
     if (avatarUrl && this.props.images[avatarUrl]) {

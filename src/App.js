@@ -19,7 +19,8 @@ import ConfirmCodeScreenContainer from './screens/confirm_code_screen/confirm_co
 import UsernameScreenContainer    from './screens/username_screen/username_screen_container.js';
 import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container.js';
 
-import DiscoverScreenContainer        from './screens/discover_screen/discover_screen_container.js';
+import HomeScreenContainer        from './screens/home_screen/home_screen_container.js';
+import DiscoverScreenContainer    from './screens/discover_screen/discover_screen_container.js';
 import ProfileScreenContainer     from './screens/profile_screen/profile_screen_container.js';
 import UserScreen                 from './screens/user_screen/user_screen.js';
 
@@ -67,7 +68,7 @@ class App extends React.Component {
 
   // When on the screens listed, close the app. Else, go back one screen.
   _onBackPress = () => {
-    if (Actions.currentScene === '_DiscoverScreen'
+    if (Actions.currentScene === '_HomeScreen'
         || Actions.currentScene === 'WelcomeScreen'
         || Actions.currentScene === 'LoadingScreen'
         || Actions.currentScene === 'DebugLoginScreen'
@@ -110,13 +111,15 @@ class App extends React.Component {
 
             <Tabs key='MainScreenTabs'
               tabBarPosition={'bottom'}
-              tabBarComponent={FooterContainer} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} noBorder={true} /> }
+              tabBarComponent={FooterContainer}
               swipeEnabled={false}
               lazy={false}
               animationEnabled={false}
               panHandlers={null}
               >
-              <Scene key='DiscoverScreen'    component={DiscoverScreenContainer}    hideNavBar={true} panHandlers={null} initial={true}/>
+              <Scene key='HomeScreen' component={HomeScreenContainer} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} noBorder={true} />} panHandlers={null} initial={true}/>
+              <Scene key='DiscoverScreen' component={DiscoverScreenContainer} hideNavBar={true} panHandlers={null} />
+              <Scene key='FriendRequestScreen' component={HomeScreenContainer} hideNavBar={true} panHandlers={null} />
               <Scene key='ProfileScreen' component={ProfileScreenContainer} hideNavBar={true} panHandlers={null} />
             </Tabs>
           </Scene>
