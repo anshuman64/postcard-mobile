@@ -13,6 +13,7 @@ import { refreshAuthToken }       from './user_actions.js';
 //--------------------------------------------------------------------//
 
 export const POST_TYPES = {
+  FRIENDS:  'allPosts',
   ALL:      'allPosts',
   AUTHORED: 'authoredPosts',
   LIKED:    'likedPosts',
@@ -53,6 +54,8 @@ export const removePost = (data) => {
 // Returns API path for particular POST_TYPES
 let getRouteForPostType = (postType, userId) => {
   switch(postType) {
+    case POST_TYPES.FRIENDS:
+      return '';
     case POST_TYPES.ALL:
       return '';
     case POST_TYPES.AUTHORED:

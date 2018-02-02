@@ -20,10 +20,28 @@ class Footer extends React.PureComponent {
     return (
       <RN.View style={styles.footer}>
         <RN.TouchableOpacity
+          onPress={() => this.props.navigateTo('HomeScreen')}
+          style={styles.button}
+          >
+          <Icon name='home' style={[styles.icon, this.props.currentScreen === 'HomeScreen' && UTILITY_STYLES.textHighlighted]} />
+        </RN.TouchableOpacity>
+        <RN.TouchableOpacity
           onPress={() => this.props.navigateTo('DiscoverScreen')}
           style={styles.button}
           >
-          <Icon name='home' style={[styles.icon, this.props.currentScreen === 'DiscoverScreen' && UTILITY_STYLES.textHighlighted]} />
+          <Icon name='magnifier' style={[styles.icon, this.props.currentScreen === 'DiscoverScreen' && UTILITY_STYLES.textHighlighted]} />
+        </RN.TouchableOpacity>
+        <RN.TouchableOpacity
+          onPress={() => this.props.navigateTo('NewPostScreen')}
+          style={styles.button}
+          >
+          <Icon name='plus' style={styles.iconBig} />
+        </RN.TouchableOpacity>
+        <RN.TouchableOpacity
+          onPress={() => this.props.navigateTo('FriendRequestScreen')}
+          style={styles.button}
+          >
+          <Icon name='people' style={[styles.icon, this.props.currentScreen === 'FriendRequestScreen' && UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TouchableOpacity
           onPress={() => this.props.navigateTo('ProfileScreen')}
