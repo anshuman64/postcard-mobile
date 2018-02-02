@@ -130,7 +130,7 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
         return postPost(data.key);
       })
       .catch((error) => {
-        postPostError(error)
+        postPostError(error);
       });
   } else {
     return postPost();
