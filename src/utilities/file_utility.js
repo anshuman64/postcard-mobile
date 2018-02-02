@@ -114,7 +114,7 @@ export const uploadFile = (authToken, firebaseUserObj, imagePath, imageType, use
         s3Client.upload(params, (error, data) => {
           if (error) {
             if (error.message === "Missing credentials in config") {
-              return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, params))
+              return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, imagePath, imageType, userId, folderPath))
                 .then((data) => {
                   resolve(data);
                 }, (error) => {
