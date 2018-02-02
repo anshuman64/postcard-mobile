@@ -6,6 +6,7 @@ import AWS      from 'aws-sdk/dist/aws-sdk-react-native';
 import { getImage }            from './image_actions.js';
 import { amplitude }           from '../utilities/analytics_utility.js';
 import * as APIUtility         from '../utilities/api_utility.js';
+import { setS3Client }         from '../utilities/file_utility.js';
 import { setErrorDescription } from '../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
@@ -154,15 +155,26 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     })
 }
 
+let isRefreshing = false;
+
 // Refreshes Firebase authToken and AWS credentials (if expired)
 export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
   let configureAWSError = (error) => {
+    isRefreshing = false;
     throw setErrorDescription(error, 'Configure AWS failed');
   }
 
   let getIdTokenError = (error) => {
+    isRefreshing = false;
     throw setErrorDescription(error, 'Firebase getIdToken failed');
   }
+
+  // If the credentials don't need refreshing, return. Both Firebase and AWS credentials last 1 hour
+  if (isRefreshing || (AWS.config.credentials && !AWS.config.credentials.needsRefresh())) {
+    return new Promise.resolve();
+  }
+
+  isRefreshing = true;
 
   return firebaseUserObj.getIdToken(true)
     .then((newAuthToken) => {
@@ -170,6 +182,9 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
 
       return configureAWS(newAuthToken)
         .then(() => {
+          setS3Client();
+          isRefreshing = false;
+
           if (func) {
             return dispatch(func(newAuthToken, firebaseUserObj, ...params));
           } else {

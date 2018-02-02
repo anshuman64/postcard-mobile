@@ -36,7 +36,7 @@ export const getImage = (avatarUrl) => (dispatch) => {
   dispatch(receiveImage({ key: avatarUrl, url: FileUtility.getFile(avatarUrl) }));
 };
 
-export const refreshCredsAndGetImage = (firebaseUserObj, avatarUrl) => {
+export const refreshCredsAndGetImage = (firebaseUserObj, avatarUrl) => (dispatch) => {
   dispatch(refreshAuthToken(firebaseUserObj))
     .then(() => {
       dispatch(getImage(avatarUrl));

@@ -27,7 +27,7 @@ const ImageReducer = (state = DEFAULT_STATE, action) => {
         let lastUpdate = newState[action.data.key].lastUpdated;
         let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
-        if (minsDiff < 45) {
+        if (minsDiff < 59) {
           return newState;
         }
       }
@@ -52,7 +52,7 @@ const ImageReducer = (state = DEFAULT_STATE, action) => {
           let lastUpdate = newState[imageObj.key].lastUpdated;
           let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
-          if (minsDiff > 45) {
+          if (minsDiff > 59) {
             updateImage(imageObj);
           }
         } else {
