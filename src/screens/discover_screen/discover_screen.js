@@ -11,7 +11,7 @@ import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 
-class HomeScreen extends React.PureComponent {
+class DiscoverScreen extends React.PureComponent {
 
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class HomeScreen extends React.PureComponent {
 
   // Auto-refresh screen if coming back to it after > 1 minute
   componentWillReceiveProps(nextProps) {
-    if (this.props.currentScreen != 'HomeScreen' && nextProps.currentScreen === 'HomeScreen') {
+    if (this.props.currentScreen != 'DiscoverScreen' && nextProps.currentScreen === 'DiscoverScreen') {
       let checkRefresh = (postType) => {
         let currentTime = new Date();
         let lastUpdate = this.props.posts[this.props.user.id][postType].lastUpdated;
@@ -84,4 +84,4 @@ class HomeScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default HomeScreen;
+export default DiscoverScreen;

@@ -75,7 +75,7 @@ class AvatarScreen extends React.PureComponent {
     this.props.editAvatar(this.props.authToken, this.props.firebaseUserObj, imageKey)
       .then(() => {
         if (this.props.isLogin) {
-          this.props.navigateTo('HomeScreen');
+          this.props.navigateTo('DiscoverScreen');
         } else {
           this.props.goBack();
         }
@@ -122,7 +122,7 @@ class AvatarScreen extends React.PureComponent {
         'Are you sure you want to skip this step?',
         [
           {text: 'Cancel', style: 'cancel'},
-          {text: 'Skip', onPress: () => this.props.navigateTo('HomeScreen')},
+          {text: 'Skip', onPress: () => this.props.navigateTo('DiscoverScreen')},
         ],
       )
     } else {
