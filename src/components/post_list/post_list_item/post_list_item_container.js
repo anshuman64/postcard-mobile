@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteLike:              (authToken, firebaseUserObj, userId, postId) => dispatch(deleteLike(authToken, firebaseUserObj, userId, postId)),
   createFlag:              (authToken, firebaseUserObj, userId, postId) => dispatch(createFlag(authToken, firebaseUserObj, userId, postId)),
   deleteFlag:              (authToken, firebaseUserObj, userId, postId) => dispatch(deleteFlag(authToken, firebaseUserObj, userId, postId)),
-  deletePost:              (authToken, firebaseUserObj, userId, postId) => dispatch(deletePost(authToken, firebaseUserObj, userId, postId)),
+  deletePost:              (authToken, firebaseUserObj, postId) => dispatch(deletePost(authToken, firebaseUserObj, postId)),
   removePost:              (deletedPost) => dispatch(removePost(deletedPost)),
   refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
   refreshAuthToken:        (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params)),
