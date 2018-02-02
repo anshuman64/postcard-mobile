@@ -34,8 +34,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.UsernameScreenLogin(props)
     } else if (screen === 'AvatarScreen') {
       Actions.AvatarScreen(props)
-    } else if (screen === 'HomeScreen') {
-      Actions.HomeScreen(props)
+    } else if (screen === 'DiscoverScreen') {
+      Actions.DiscoverScreen(props)
     } else if (screen === 'ProfileScreen') {
       Actions.ProfileScreen(props)
     } else if (screen === 'NewPostScreen') {

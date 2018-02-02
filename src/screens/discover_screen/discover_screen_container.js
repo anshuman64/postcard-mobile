@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import HomeScreen  from './home_screen.js';
+import DiscoverScreen  from './discover_screen.js';
 
 //--------------------------------------------------------------------//
 
@@ -14,4 +14,4 @@ const mapStateToProps = ({ user, posts, navigation }, ownProps) => ({
 
 export default connect(
   mapStateToProps,
-)(HomeScreen);
+)(DiscoverScreen);
