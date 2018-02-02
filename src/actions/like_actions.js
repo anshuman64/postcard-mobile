@@ -37,7 +37,6 @@ export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispa
   return APIUtility.post(authToken, '/likes', { post_id: postId })
     .then((newLike) => {
       amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: true });
-
       dispatch(receiveLike({ like: newLike, userId: userId }));
     })
     .catch((error) => {
@@ -45,8 +44,9 @@ export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, createLike, userId, postId));
       }
 
+      error = setErrorDescription(error, 'POST like failed');
       amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: true, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'POST like failed');
+      throw error;
     });
 };
 
@@ -62,7 +62,8 @@ export const deleteLike = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, deleteLike, userId, postId));
       }
 
+      error = setErrorDescription(error, 'DEL like failed');
       amplitude.logEvent('Engagement - Click Like', { is_successful: false, is_create: false, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'DEL like failed');
+      throw error;
     });
 };
