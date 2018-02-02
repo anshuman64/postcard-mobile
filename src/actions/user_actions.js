@@ -85,8 +85,9 @@ export const getConfirmationCode = (phoneNumber) => (dispatch) => {
       return confirmationCodeObj;
     })
     .catch((error) => {
+      error = setErrorDescription(error, 'Firebase phone sign-in failed');
       amplitude.logEvent('Onboarding - Sign In With Phone Number', { is_successful: false, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'Firebase phone sign-in failed');
+      throw error;
     });
 };
 
@@ -97,8 +98,9 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
       amplitude.logEvent('Onboarding - Verify Confirmation Code', { is_successful: true });
     })
     .catch((error) => {
+      error = setErrorDescription(error, 'Firebase code verification failed');
       amplitude.logEvent('Onboarding - Verify Confirmation Code', { is_successful: false, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'Firebase code verification failed');
+      throw error;
     });
 };
 
@@ -128,8 +130,9 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
           return handleNewUser(authToken);
         }
 
+        error = setErrorDescription(error, 'GET user failed');
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
-        throw setErrorDescription(error, 'GET user failed');
+        throw error;
       });
   };
 
@@ -139,8 +142,9 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
         setUser(newUser, true);
       })
       .catch((error) => {
+        error = setErrorDescription(error, 'POST user failed');
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
-        throw setErrorDescription(error, 'POST user failed');
+        throw error;
       })
   };
 
@@ -150,8 +154,9 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       return handleExistingUser(newAuthToken);
     })
     .catch((error) => {
+      error = setErrorDescription(error, 'Firebase getIdToken failed');
       amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'Firebase getIdToken failed');
+      throw error;
     })
 }
 
@@ -199,7 +204,6 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
   return APIUtility.put(authToken, '/users', { username: username })
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: true, username: username });
-
     dispatch(receiveUser(editedUser));
   })
   .catch((error) => {
@@ -225,7 +229,6 @@ export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) 
   return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
-
     dispatch(receiveUser(editedUser));
 
     if (editedUser.avatar_url) {
@@ -237,7 +240,8 @@ export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) 
       return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, avatarUrl));
     }
 
+    error = setErrorDescription(error, 'PUT user for avatarUrl failed');
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: false, avatar_url: avatarUrl, error_description: error.description, error_message: error.message });
-    throw setErrorDescription(error, 'PUT user for avatarUrl failed');
+    throw error;
   });
 }

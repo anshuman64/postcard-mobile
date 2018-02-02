@@ -45,8 +45,9 @@ export const createFlag = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, createFlag, userId, postId));
       }
 
+      error = setErrorDescription(error, 'POST flag failed');
       amplitude.logEvent('Safety - Click Flag', { is_successful: false, is_create: true, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'POST flag failed');
+      throw error;
     });
 };
 
@@ -62,7 +63,8 @@ export const deleteFlag = (authToken, firebaseUserObj, userId, postId) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, deleteFlag, userId, postId));
       }
 
+      error = setErrorDescription(error, 'DEL flag failed');
       amplitude.logEvent('Safety - Click Flag', { is_successful: false, is_create: false, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'DEL flag failed');
+      throw error;
     });
 };

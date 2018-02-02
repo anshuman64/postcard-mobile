@@ -110,23 +110,24 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
         dispatch(getImagesFromPosts([newPost]));
       }, (error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postBody, imageKey, placeholderText));
+          return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postBody, postImagePath, postImageType, placeholderText));
         }
 
-        amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: imageKey ? true : false, placeholder_text: placeholderText, error_description: error.description, error_message: error.message });
-        throw setErrorDescription(error, 'POST post failed');
+        postPostError(error);
       })
   }
 
+  let postPostError = (error) => {
+    error = setErrorDescription(error, 'POST post failed');
+    amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, error_description: error.description, error_message: error.message });
+    throw error;
+  }
 
   if (postImagePath) {
     return dispatch(uploadFile(authToken, firebaseUserObj, postImagePath, postImageType, userId, 'posts/'))
       .then((data) => {
         return postPost(data.key);
-      }, (error) => {
-        amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, error_description: error.description, error_message: error.message });
-        throw setErrorDescription(error, 'POST post failed');
-      })
+      }, postPostError(error))
   } else {
     return postPost();
   }
@@ -148,7 +149,8 @@ export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => 
         return dispatch(refreshAuthToken(firebaseUserObj, deletePost, postId));
       }
 
+      error = setErrorDescription(error, 'DEL post failed');
       amplitude.logEvent('Engagement - Delete Post', { is_successful: false, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'DEL post failed');
+      throw error;
     });
 };
