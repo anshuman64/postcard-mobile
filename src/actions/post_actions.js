@@ -1,9 +1,10 @@
 // Local Imports
-import { getImagesFromPosts }  from './image_actions.js';
-import { amplitude }           from '../utilities/analytics_utility.js';
-import * as APIUtility         from '../utilities/api_utility.js';
-import { setErrorDescription } from '../utilities/error_utility.js';
-import { refreshAuthToken }    from './user_actions.js';
+import { getImagesFromPosts }     from './image_actions.js';
+import { amplitude }              from '../utilities/analytics_utility.js';
+import * as APIUtility            from '../utilities/api_utility.js';
+import { setErrorDescription }    from '../utilities/error_utility.js';
+import { deleteFile, uploadFile } from '../utilities/file_utility.js';
+import { refreshAuthToken }       from './user_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -100,34 +101,51 @@ export const refreshPosts = (authToken, firebaseUserObj, userId, postType, query
 };
 
 // Create post to API from Header of NewPostScreen
-export const createPost = (authToken, firebaseUserObj, userId, postBody, postImage, placeholderText) => (dispatch) => {
-  return APIUtility.post(authToken, '/posts', { body: postBody, image_url: postImage })
-    .then((newPost) => {
-      amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText });
-      dispatch(receivePost({ post: newPost, userId: userId }));
-      dispatch(getImagesFromPosts([newPost]));
-    })
-    .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postBody, postImage, placeholderText));
-      }
+export const createPost = (authToken, firebaseUserObj, userId, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
+  let postPost = (imageKey) => {
+    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey })
+      .then((newPost) => {
+        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, placeholder_text: placeholderText });
+        dispatch(receivePost({ post: newPost, userId: userId }));
+        dispatch(getImagesFromPosts([newPost]));
+      }, (error) => {
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+          return dispatch(refreshAuthToken(firebaseUserObj, createPost, userId, postBody, imageKey, placeholderText));
+        }
 
-      amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImage ? true : false, placeholder_text: placeholderText, error_description: error.description, error_message: error.message });
-      throw setErrorDescription(error, 'POST post failed');
-    });
+        amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: imageKey ? true : false, placeholder_text: placeholderText, error_description: error.description, error_message: error.message });
+        throw setErrorDescription(error, 'POST post failed');
+      })
+  }
+
+
+  if (postImagePath) {
+    return dispatch(uploadFile(authToken, firebaseUserObj, postImagePath, postImageType, userId, 'posts/'))
+      .then((data) => {
+        return postPost(data.key);
+      }, (error) => {
+        amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, error_description: error.description, error_message: error.message });
+        throw setErrorDescription(error, 'POST post failed');
+      })
+  } else {
+    return postPost();
+  }
 };
 
 // Delete post to API from PostListItem
-export const deletePost = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
+export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {
       amplitude.logEvent('Engagement - Delete Post', { is_successful: true, body: delPost.body });
+      if (delPost.image_url) {
+        dispatch(deleteFile(authToken, firebaseUserObj, delPost.image_url));
+      }
 
       return delPost;
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, deletePost, userId, postId));
+        return dispatch(refreshAuthToken(firebaseUserObj, deletePost, postId));
       }
 
       amplitude.logEvent('Engagement - Delete Post', { is_successful: false, error_description: error.description, error_message: error.message });
