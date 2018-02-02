@@ -2,12 +2,14 @@
 import React       from 'react';
 import RN          from 'react-native';
 import Firebase    from 'react-native-firebase';
+import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }          from './menu_screen_styles.js';
-import { UTILITY_STYLES }  from '../../utilities/style_utility.js';
+import { styles }            from './menu_screen_styles.js';
+import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
+import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -18,8 +20,14 @@ class MenuScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _logOut = () => {
-    Firebase.auth().signOut();
-    Actions.reset('WelcomeScreen');
+    Firebase.auth().signOut()
+      .then(() => {
+        AWS.config.credentials = null;
+        Actions.reset('WelcomeScreen');
+      })
+      .catch((error) => {
+        defaultErrorAlert(error);
+      });
   }
 
   //--------------------------------------------------------------------//
