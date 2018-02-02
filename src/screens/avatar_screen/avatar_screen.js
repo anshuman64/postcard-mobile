@@ -6,7 +6,6 @@ import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 // Local Imports
 import LoadingModal           from '../../components/loading_modal/loading_modal.js';
 import { styles }             from './avatar_screen_styles.js';
-import { uploadFile }         from '../../utilities/file_utility.js';
 import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
 import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
@@ -59,7 +58,7 @@ class AvatarScreen extends React.PureComponent {
 
   // Uploads image to AWS S3
   _uploadImage = (imagePath, imageType) => {
-    uploadFile(this.props.firebaseUserObj, this.props.refreshAuthToken, imagePath, imageType, this.props.user.id, 'profile_pictures/')
+    this.props.uploadFile(this.props.authToken, this.props.firebaseUserObj, imagePath, imageType, this.props.user.id, 'profile_pictures/')
       .then((data) => {
         this._setAvatarUrl(data.key);
       })
