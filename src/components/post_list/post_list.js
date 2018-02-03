@@ -3,12 +3,13 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import ProfileHeaderContainer                                from '../profile_header/profile_header_container.js';
-import PostListItemContainer                                 from './post_list_item/post_list_item_container.js';
-import { PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from '../profile_header/profile_header_styles.js';
-import { styles }                                            from './post_list_styles.js';
-import { UTILITY_STYLES, COLORS }                            from '../../utilities/style_utility.js';
-import { defaultErrorAlert }                                 from '../../utilities/error_utility.js';
+import ProfileHeaderContainer     from '../profile_header/profile_header_container.js';
+import PostListItemContainer      from './post_list_item/post_list_item_container.js';
+import { PROFILE_HEADER_HEIGHT }  from '../profile_header/profile_header_styles.js';
+import { TAB_BAR_HEIGHT }         from '../tab_bar/tab_bar_styles.js';
+import { styles }                 from './post_list_styles.js';
+import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
+import { defaultErrorAlert }      from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -137,43 +138,59 @@ class PostList extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer item={this.props.postsCache[item]} userId={this.props.userId} setFollowState={this.props.setFollowState} />
+      <PostListItemContainer screen={this.props.screen} item={this.props.postsCache[item]} userId={this.props.userId} setFollowState={this.props.setFollowState} />
     )
   }
 
-  // !this.props.username is an indicator for this.props.currentScreen === 'HomScreen'
   _renderRefreshControl = () => {
+    let offset;
+
+    if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
+      offset = PROFILE_HEADER_HEIGHT;
+    } else {
+      offset = 0;
+    }
+
     return (
       <RN.RefreshControl
         refreshing={this.state.isRefreshing}
         onRefresh={this._onRefresh}
         color={COLORS.grey400}
-        progressViewOffset={!this.props.username ? PROFILE_HEADER_TABS_HEIGHT : PROFILE_HEADER_HEIGHT}
+        progressViewOffset={offset}
         />
     )
   }
 
   _renderProfileHeader = () => {
-    return (
-      <ProfileHeaderContainer
-        scrollY={this.state.scrollY}
-        userId={this.props.userId}
-        username={this.props.username}
-        avatarUrl={this.props.avatarUrl}
-        isFollowed={this.props.isFollowed}
-        postType={this.props.postType}
-        setParentState={this.props.setParentState}
-        setFollowState={this.props.setFollowState}
-        />
-    )
+    if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
+      return (
+        <ProfileHeaderContainer
+          screen={this.props.screen}
+          scrollY={this.state.scrollY}
+          userId={this.props.userId}
+          username={this.props.username}
+          avatarUrl={this.props.avatarUrl}
+          isFollowed={this.props.isFollowed}
+          postType={this.props.postType}
+          setParentState={this.props.setParentState}
+          setFollowState={this.props.setFollowState}
+          />
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderHeader = () => {
-    return (
-      <RN.View style={[styles.headerView, !this.props.username && { height: PROFILE_HEADER_TABS_HEIGHT }]}>
-        <RN.ActivityIndicator size='large' color={!this.props.username ? 'transparent' : COLORS.grey400} style={{marginBottom: 20}} />
-      </RN.View>
-    )
+    if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
+      return (
+        <RN.View style={[styles.headerView, { height: PROFILE_HEADER_HEIGHT }]}>
+          <RN.ActivityIndicator size='large' color={COLORS.grey400} style={{marginBottom: 20}} />
+        </RN.View>
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderFooter = () => {
