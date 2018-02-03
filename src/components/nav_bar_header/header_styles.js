@@ -8,6 +8,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
+export const HEADER_HEIGHT = 50;
 
 export const styles = StyleSheet.create({
   header: {
@@ -15,7 +16,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    height: (Platform.OS === 'ios') ? 50 + StyleUtility.getStatusBarHeight() : 50,
+    height: (Platform.OS === 'ios') ? HEADER_HEIGHT + StyleUtility.getStatusBarHeight() : HEADER_HEIGHT,
     paddingTop: (Platform.OS === 'ios') ? StyleUtility.getStatusBarHeight() : 0,
     backgroundColor: 'white',
     zIndex: 1
@@ -33,7 +34,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 50,
+    height: HEADER_HEIGHT,
     paddingLeft: 20,
     paddingRight: 20,
   },
@@ -42,13 +43,13 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900
   },
   settingsIcon: {
-    fontSize: StyleUtility.scaleFont(22),
+    fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
-    color: StyleUtility.COLORS.grey800
+    color: StyleUtility.COLORS.grey900
   },
   logo: {
-    height: StyleUtility.scaleFont(30),
-    width: StyleUtility.scaleFont(150)
+    height: StyleUtility.scaleFont(32),
+    width: '100%'
   },
   noteIcon: {
     fontSize: StyleUtility.scaleFont(21),
