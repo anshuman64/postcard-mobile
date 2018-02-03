@@ -119,10 +119,10 @@ class App extends React.Component {
               animationEnabled={false}
               panHandlers={null}
               >
-              <Scene key='HomeScreen'          component={HomeScreenContainer}     panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true}/>
-              <Scene key='DiscoverScreen'      component={DiscoverScreenContainer} panHandlers={null} hideNavBar={true} />
-              <Scene key='FriendRequestScreen' component={HomeScreenContainer}     panHandlers={null} hideNavBar={true} />
-              <Scene key='ProfileScreen'       component={ProfileScreenContainer}  panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
+              <Scene key='HomeScreen'     component={HomeScreenContainer}     panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true}/>
+              <Scene key='DiscoverScreen' component={DiscoverScreenContainer} panHandlers={null} hideNavBar={true} />
+              <Scene key='RequestScreen'  component={HomeScreenContainer}     panHandlers={null} hideNavBar={true} />
+              <Scene key='ProfileScreen'  component={ProfileScreenContainer}  panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
             </Tabs>
           </Scene>
         </RouterContainer>

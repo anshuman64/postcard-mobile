@@ -1,14 +1,14 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
+import * as _          from 'lodash';
 import { CachedImage } from 'react-native-img-cache';
-import * as Animatable               from 'react-native-animatable';
+import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import { styles }           from './share_list_item_styles.js';
 import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
-import { setStateCallback } from '../../utilities/function_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -25,6 +25,28 @@ class ShareListItem extends React.PureComponent {
 
     this.state = {
       isSelected:  false,
+    }
+  }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressItem = () => {
+    let newSelection;
+
+    if (!this.state.isSelected) {
+      newSelection = this.props.selectedFriends.push(this.props.id);
+
+      this.setState({ isSelected: true });
+      this.props.setParentState({ selectedFriends: newSelection });
+    } else {
+      let newSelection = _.remove(this.props.selectedFriends, (rowData) => {
+        return rowData === this.props.id;
+      });
+
+      this.setState({ isSelected: false });
+      this.props.setParentState({ selectedFriends: newSelection });
     }
   }
 
@@ -94,7 +116,7 @@ class ShareListItem extends React.PureComponent {
           this.usernameText.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, {marginLeft: 20}]})
           this.checkbox.setNativeProps({style: styles.checkbox})
         }}
-        onPress={setStateCallback(this, { isSelected: !this.state.isSelected })}
+        onPress={this._onPressItem}
         >
         <RN.View style={styles.rowView}>
           {this._renderUserView()}
