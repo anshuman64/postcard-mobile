@@ -27,6 +27,7 @@ class Header extends React.PureComponent {
       isLoading: false,
     }
 
+    this.isNextPressed   = false;
     this.isSharePressed  = false;
     this.isGoBackPressed = false;
   }
@@ -46,6 +47,13 @@ class Header extends React.PureComponent {
   }
 
   _onPressNext = () => {
+    // Return if no post body or image selected
+    if ((isStringEmpty(this.props.postText) && !this.props.imagePath) || this.isNextPressed) {
+      return;
+    }
+
+    isNextPressed = true;
+
     this.props.navigateTo('ShareScreen', {
       postText: this.props.postText,
       placeholderText: this.props.placeholderText,
@@ -56,8 +64,7 @@ class Header extends React.PureComponent {
 
   // Attempts to upload image to AWS S3 and save post to DB
   _onPressShare = () => {
-    // Return if no post body or image selected
-    if ((isStringEmpty(this.props.postText) && !this.props.imagePath) || this.isSharePressed) {
+    if (this.isSharePressed) {
       return;
     }
 
