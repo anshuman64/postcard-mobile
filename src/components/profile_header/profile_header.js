@@ -5,10 +5,12 @@ import { CachedImage } from 'react-native-img-cache';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles, PROFILE_HEADER_HEIGHT, PROFILE_HEADER_TABS_HEIGHT } from './profile_header_styles.js';
-import { POST_TYPES }                                                from '../../actions/post_actions.js';
-import { UTILITY_STYLES }                                            from '../../utilities/style_utility.js';
-import { defaultErrorAlert }                                         from '../../utilities/error_utility.js';
+import TabBar                            from '../tab_bar/tab_bar.js';
+import { TAB_BAR_HEIGHT }                from '../tab_bar/tab_bar_styles.js';
+import { styles, PROFILE_HEADER_HEIGHT } from './profile_header_styles.js';
+import { POST_TYPES }                    from '../../actions/post_actions.js';
+import { UTILITY_STYLES }                from '../../utilities/style_utility.js';
+import { defaultErrorAlert }             from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -198,17 +200,16 @@ class ProfileHeader extends React.PureComponent {
     }
   }
 
-  // !this.props.username is an indicator for this.props.currentScreen === 'HomScreen'
   render() {
     const translateY = this.props.scrollY.interpolate({
-      inputRange: [0, (PROFILE_HEADER_HEIGHT - PROFILE_HEADER_TABS_HEIGHT)],
-      outputRange: [0, -(PROFILE_HEADER_HEIGHT - PROFILE_HEADER_TABS_HEIGHT)],
+      inputRange: [0, (PROFILE_HEADER_HEIGHT - TAB_BAR_HEIGHT)],
+      outputRange: [0, -(PROFILE_HEADER_HEIGHT - TAB_BAR_HEIGHT)],
       extrapolate: 'clamp',
     });
 
     return (
       <RN.Animated.View style={[styles.container,
-        !this.props.username && { height: PROFILE_HEADER_TABS_HEIGHT },
+        !this.props.username && { height: TAB_BAR_HEIGHT },
         this.props.username && { transform: [{translateY}] }]}
         >
         <RN.View style={styles.userView}>
@@ -218,7 +219,7 @@ class ProfileHeader extends React.PureComponent {
             {this._renderFollowButton()}
           </RN.View>
         </RN.View>
-        {this._renderTabs()}
+        <TabBar screen={this.props.screen} setParentState={this.props.setParentState} postType={this.props.postType} />
       </RN.Animated.View>
     )
   }

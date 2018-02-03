@@ -1,9 +1,9 @@
 // Library Imports
-import React     from 'react';
-import RN        from 'react-native';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
-import HeaderContainer    from '../../components/nav_bar_header/header_container.js';
+import TabBar             from '../../components/tab_bar/tab_bar.js';
 import PostListContainer  from '../../components/post_list/post_list_container.js';
 import { POST_TYPES }     from '../../actions/post_actions.js';
 import { UTILITY_STYLES } from '../../utilities/style_utility.js';
@@ -68,12 +68,13 @@ class DiscoverScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={UTILITY_STYLES.containerCenter}>
+      <RN.View style={UTILITY_STYLES.containerStart}>
+        <TabBar screen={'DiscoverScreen'} postType={this.state.postType} setParentState={this.setParentState} />
         <PostListContainer
           ref={(ref) => this.postList = ref}
+          screen={'DiscoverScreen'}
           userId={this.props.user.id}
           postType={this.state.postType}
-          scrollToTop={this.props.scrollToTop}
           setParentState={this.setParentState}
           />
       </RN.View>

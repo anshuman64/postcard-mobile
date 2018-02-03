@@ -9,7 +9,6 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 export const PROFILE_HEADER_HEIGHT      = 140;
-export const PROFILE_HEADER_TABS_HEIGHT = 30;
 
 export const styles = StyleSheet.create({
   container: {
@@ -108,20 +107,5 @@ export const styles = StyleSheet.create({
   },
   followButtonTextDisabled: {
     color: StyleUtility.COLORS.grey900,
-  },
-  tabs: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width: '100%',
-    height: PROFILE_HEADER_TABS_HEIGHT,
-    backgroundColor: 'white',
-  },
-  button: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '50%',
-    height: PROFILE_HEADER_TABS_HEIGHT,
   },
 })

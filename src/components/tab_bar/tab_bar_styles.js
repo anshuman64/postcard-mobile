@@ -4,35 +4,32 @@ import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
+import { HEADER_HEIGHT } from '../nav_bar_header/header_styles.js';
 
 
 //--------------------------------------------------------------------//
 
+export const TAB_BAR_HEIGHT = 30;
 
 export const styles = StyleSheet.create({
-  footer: {
+  tabs: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: 45,
+    height: TAB_BAR_HEIGHT,
     backgroundColor: 'white',
-    borderTopColor: StyleUtility.COLORS.grey300,
-    borderTopWidth: 1,
+  },
+  header: {
+    height: HEADER_HEIGHT,
+    borderBottomColor: StyleUtility.COLORS.grey500,
+    borderBottomWidth: 0.5,
   },
   button: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '19%',
-    height: 45,
-  },
-  icon: {
-    fontSize: StyleUtility.scaleFont(19),
-    color: StyleUtility.COLORS.grey900
-  },
-  iconBig: {
-    fontSize: StyleUtility.scaleFont(25),
-    color: StyleUtility.COLORS.appleRed,
+    width: '50%',
+    height: '100%',
   },
 })

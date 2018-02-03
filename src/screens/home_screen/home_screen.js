@@ -13,14 +13,6 @@ import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 class HomeScreen extends React.PureComponent {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      postType:  POST_TYPES.ALL,
-    };
-  }
-
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
@@ -33,31 +25,14 @@ class HomeScreen extends React.PureComponent {
   // Auto-refresh screen if coming back to it after > 1 minute
   componentWillReceiveProps(nextProps) {
     if (this.props.currentScreen != 'HomeScreen' && nextProps.currentScreen === 'HomeScreen') {
-      let checkRefresh = (postType) => {
-        let currentTime = new Date();
-        let lastUpdate = this.props.posts[this.props.user.id][POST_TYPES.ALL].lastUpdated;
-        let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+      let currentTime = new Date();
+      let lastUpdate = this.props.posts[this.props.user.id][POST_TYPES.FRIENDS].lastUpdated;
+      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
-        if (minsDiff > 1) {
-          this.postList.getWrappedInstance().refresh(POST_TYPES.ALL);
-        }
+      if (minsDiff > 1) {
+        this.postList.getWrappedInstance().refresh(POST_TYPES.FRIENDS);
       }
-
-      checkRefresh(POST_TYPES.ALL);
     }
-  }
-
-  //--------------------------------------------------------------------//
-  // Public Methods
-  //--------------------------------------------------------------------//
-
-  // Passed to ProfileHeader for tab switching
-  setParentState = (state) => {
-    let func = () => {
-      this.setState(state);
-    }
-
-    return func;
   }
 
   //--------------------------------------------------------------------//
@@ -69,10 +44,10 @@ class HomeScreen extends React.PureComponent {
       <RN.View style={UTILITY_STYLES.containerCenter}>
         <PostListContainer
           ref={(ref) => this.postList = ref}
+          screen={'HomeScreen'}
           userId={this.props.user.id}
-          postType={this.state.postType}
+          postType={POST_TYPES.FRIENDS}
           scrollToTop={this.props.scrollToTop}
-          setParentState={this.setParentState}
           />
       </RN.View>
     )

@@ -12,12 +12,11 @@ import { navigateTo }                 from '../../actions/navigation_actions.js'
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, images, navigation }, ownProps) => ({
+const mapStateToProps = ({ user, images }, ownProps) => ({
   authToken:       user.authToken,
   firebaseUserObj: user.firebaseUserObj,
   user:            user.user,
   images:          images,
-  currentScreen:   navigation.currentScreen
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -94,13 +94,13 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} hideNavBar={true} panHandlers={null} />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} />
 
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} hideNavBar={true} panHandlers={null} initial={true} />
-            <Scene key='WelcomeScreen' component={WelcomeScreenContainer} hideNavBar={true} panHandlers={null} />
-            <Scene key='LoginScreen'   component={LoginScreenContainer}   hideNavBar={true} panHandlers={null} />
-            <Scene key='NewPostScreen' component={NewPostScreenContainer} hideNavBar={true} panHandlers={null} />
-            <Scene key='UserScreen'    component={UserScreen}             hideNavBar={true} panHandlers={null} />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} panHandlers={null} hideNavBar={true} initial={true} />
+            <Scene key='WelcomeScreen' component={WelcomeScreenContainer} panHandlers={null} hideNavBar={true} />
+            <Scene key='LoginScreen'   component={LoginScreenContainer}   panHandlers={null} hideNavBar={true} />
+            <Scene key='NewPostScreen' component={NewPostScreenContainer} panHandlers={null} hideNavBar={true} />
+            <Scene key='UserScreen'    component={UserScreen}             panHandlers={null} hideNavBar={true} />
 
             <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username')} />
@@ -117,10 +117,10 @@ class App extends React.Component {
               animationEnabled={false}
               panHandlers={null}
               >
-              <Scene key='HomeScreen' component={HomeScreenContainer} navBar={() => <HeaderContainer settingsIcon={true} logo={true} noteIcon={true} noBorder={true} />} panHandlers={null} initial={true}/>
-              <Scene key='DiscoverScreen' component={DiscoverScreenContainer} hideNavBar={true} panHandlers={null} />
-              <Scene key='FriendRequestScreen' component={HomeScreenContainer} hideNavBar={true} panHandlers={null} />
-              <Scene key='ProfileScreen' component={ProfileScreenContainer} hideNavBar={true} panHandlers={null} />
+              <Scene key='HomeScreen'          component={HomeScreenContainer}     panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true}/>
+              <Scene key='DiscoverScreen'      component={DiscoverScreenContainer} panHandlers={null} hideNavBar={true} />
+              <Scene key='FriendRequestScreen' component={HomeScreenContainer}     panHandlers={null} hideNavBar={true} />
+              <Scene key='ProfileScreen'       component={ProfileScreenContainer}  panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
             </Tabs>
           </Scene>
         </RouterContainer>

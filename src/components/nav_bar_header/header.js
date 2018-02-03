@@ -75,6 +75,14 @@ class Header extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _renderBlank() {
+    if (this.props.blank) {
+      return (
+        <RN.View />
+      )
+    }
+  }
+
   _renderBackIcon() {
     if (this.props.backIcon) {
       return (
@@ -117,7 +125,7 @@ class Header extends React.PureComponent {
           onPress={() => this.props.navigateTo('MenuScreen')}
           >
           <RN.View style={styles.button}>
-            <Icon ref={(ref) => this.settingsIcon = ref} name='settings' style={styles.settingsIcon} />
+            <Icon ref={(ref) => this.settingsIcon = ref} name='options-vertical' style={styles.settingsIcon} />
           </RN.View>
         </RN.TouchableWithoutFeedback>
       )
@@ -132,16 +140,6 @@ class Header extends React.PureComponent {
           source={require('../../assets/images/logo/logo.png')}
           resizeMode='contain'
           />
-      )
-    }
-  }
-
-  _renderNoteIcon() {
-    if (this.props.noteIcon) {
-      return (
-        <RN.TouchableOpacity onPress={() => this.props.navigateTo('NewPostScreen')} style={styles.button} >
-          <Icon name='note' style={styles.noteIcon} />
-        </RN.TouchableOpacity>
       )
     }
   }
@@ -165,10 +163,10 @@ class Header extends React.PureComponent {
   render() {
     return (
       <RN.View style={[styles.header, !this.props.noBorder && styles.border]}>
+        {this._renderBlank()}
         {(this.props.backTitle && !this.props.backIcon) ? this._renderBackTitle() : this._renderBackIcon()}
-        {this._renderSettingsIcon()}
         {this._renderLogo()}
-        {this._renderNoteIcon()}
+        {this._renderSettingsIcon()}
         {this._renderShareButton()}
         {this._renderLoadingModal()}
       </RN.View>
