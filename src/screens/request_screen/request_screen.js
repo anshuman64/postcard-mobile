@@ -4,14 +4,14 @@ import RN    from 'react-native';
 
 // Local Imports
 import HeaderContainer    from '../../components/nav_bar_header/header_container.js';
-import ShareListItem      from '../../components/share_list_item/share_list_item.js';
+import RequestListItem    from '../../components/request_list_item/request_list_item.js';
 import { styles }         from './share_screen_styles.js';
 import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
 
-class ShareScreen extends React.PureComponent {
+class RequestScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -91,7 +91,7 @@ class ShareScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default ShareScreen;
+export default RequestScreen;
 
 
 export const sampleData = [

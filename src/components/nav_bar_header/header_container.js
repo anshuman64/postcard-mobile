@@ -21,7 +21,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   createPost:       (authToken, firebaseUserObj, userId, postBody, postImagePath, postImageType, placeholderText) => dispatch(createPost(authToken, firebaseUserObj, userId, postBody, postImagePath, postImageType, placeholderText)),
   navigateTo:       (screen, props) => dispatch(navigateTo(screen, props)),
   goBack:           (props) => dispatch(goBack(props)),
-  refreshAuthToken: (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params))
+  goBackTo:         (screen, props) => dispatch(goBackTo(screen, props)),
+refreshAuthToken: (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params))
 });
 
 export default connect(
