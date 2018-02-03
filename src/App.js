@@ -25,6 +25,7 @@ import ProfileScreenContainer     from './screens/profile_screen/profile_screen_
 import UserScreen                 from './screens/user_screen/user_screen.js';
 
 import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container.js';
+import ShareScreenContainer       from './screens/share_screen/share_screen_container.js';
 import MenuScreen                 from './screens/menu_screen/menu_screen.js';
 import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container.js';
 
@@ -96,7 +97,7 @@ class App extends React.Component {
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} />
 
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} panHandlers={null} hideNavBar={true} initial={true} />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} panHandlers={null} hideNavBar={true}  />
             <Scene key='WelcomeScreen' component={WelcomeScreenContainer} panHandlers={null} hideNavBar={true} />
             <Scene key='LoginScreen'   component={LoginScreenContainer}   panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen' component={NewPostScreenContainer} panHandlers={null} hideNavBar={true} />
@@ -108,6 +109,7 @@ class App extends React.Component {
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
             <Scene key='UsernameScreen'      component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username', true)} />
             <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
+            <Scene key='ShareScreen'         component={ShareScreenContainer}       panHandlers={null} navBar={this._renderHeader('Share', true)} initial={true}/>
 
             <Tabs key='MainScreenTabs'
               tabBarPosition={'bottom'}
