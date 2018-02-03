@@ -101,6 +101,7 @@ class App extends React.Component {
             <Scene key='WelcomeScreen' component={WelcomeScreenContainer} panHandlers={null} hideNavBar={true} />
             <Scene key='LoginScreen'   component={LoginScreenContainer}   panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen' component={NewPostScreenContainer} panHandlers={null} hideNavBar={true} />
+            <Scene key='ShareScreen'   component={ShareScreenContainer}   panHandlers={null} hideNavBar={true} initial={true}/>
             <Scene key='UserScreen'    component={UserScreen}             panHandlers={null} hideNavBar={true} />
 
             <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
@@ -109,7 +110,6 @@ class App extends React.Component {
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
             <Scene key='UsernameScreen'      component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username', true)} />
             <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
-            <Scene key='ShareScreen'         component={ShareScreenContainer}       panHandlers={null} navBar={this._renderHeader('Share', true)} initial={true}/>
 
             <Tabs key='MainScreenTabs'
               tabBarPosition={'bottom'}
