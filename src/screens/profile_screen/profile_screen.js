@@ -75,6 +75,7 @@ class ProfileScreen extends React.PureComponent {
       <RN.View style={UTILITY_STYLES.containerStart}>
         <PostListContainer
           ref={(ref) => this.postList = ref}
+          screen={'ProfileScreen'}
           userId={this.props.user.id}
           username={this.props.user.username}
           avatarUrl={this.props.user.avatar_url}

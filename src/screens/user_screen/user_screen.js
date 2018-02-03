@@ -68,6 +68,7 @@ class UserScreen extends React.PureComponent {
         <HeaderContainer backIcon={true} backTitle={this.props.username + "'s Profile"} noBorder={true} />
         <PostListContainer
           ref={(ref) => this.postList = ref}
+          screen={'UserScreen'}
           userId={this.props.userId}
           username={this.props.username}
           avatarUrl={this.props.avatarUrl}
