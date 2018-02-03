@@ -104,7 +104,7 @@ class NewPostScreen extends React.PureComponent {
             <HeaderContainer
               backIcon={true}
               backTitle={'Create Post'}
-              shareButton={true}
+              nextButton={true}
               postText={this.state.postText}
               placeholderText={this.state.placeholderText}
               imagePath={this.state.imagePath}
