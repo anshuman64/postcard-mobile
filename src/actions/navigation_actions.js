@@ -38,8 +38,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.HomeScreen(props)
     } else if (screen === 'DiscoverScreen') {
       Actions.DiscoverScreen(props)
-    } else if (screen === 'FriendRequestScreen') {
-      Actions.FriendRequestScreen(props)
+    } else if (screen === 'RequestScreen') {
+      Actions.RequestScreen(props)
     } else if (screen === 'ProfileScreen') {
       Actions.ProfileScreen(props)
     } else if (screen === 'NewPostScreen') {
@@ -81,6 +81,16 @@ export const navigateToProfile = (props) => (dispatch) => {
 export const goBack = (props) => (dispatch) => {
   Keyboard.dismiss();
   Actions.pop();
+
+  if (props) {
+    Actions.refresh(props);
+  }
+}
+
+// Pops top of stack. If props, refreshes screen with props (only way sending props works).
+export const goBackTo = (screen, props) => (dispatch) => {
+  Keyboard.dismiss();
+  Actions.popTo(screen);
 
   if (props) {
     Actions.refresh(props);
