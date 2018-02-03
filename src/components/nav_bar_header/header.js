@@ -45,6 +45,15 @@ class Header extends React.PureComponent {
     this.props.goBack();
   }
 
+  _onPressNext = () => {
+    this.props.navigateTo('ShareScreen', {
+      postText: this.props.postText,
+      placeholderText: this.props.placeholderText,
+      imagePath: this.props.imagePath,
+      imageType: this.props.imageType,
+    });
+  }
+
   // Attempts to upload image to AWS S3 and save post to DB
   _onPressShare = () => {
     // Return if no post body or image selected
@@ -145,10 +154,10 @@ class Header extends React.PureComponent {
   }
 
   _renderShareButton() {
-    if (this.props.shareButton) {
+    if (this.props.shareButton || this.props.nextButton) {
       return (
-        <RN.TouchableOpacity onPress={this._onPressShare} style={styles.button} >
-          <RN.Text style={styles.shareButton}>Share</RN.Text>
+        <RN.TouchableOpacity onPress={this.props.shareButton ? this._onPressShare : this._onPressNext} style={styles.button} >
+          <RN.Text style={styles.shareButton}>{this.props.shareButton ? 'Share' : 'Next'}</RN.Text>
         </RN.TouchableOpacity>
       )
     }

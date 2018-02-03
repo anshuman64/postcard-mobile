@@ -8,7 +8,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const VIEW_MARGIN = 25;
+const VIEW_MARGIN = 20;
 const DEFAULT_MARGIN = 15;
 
 export const styles = StyleSheet.create({
