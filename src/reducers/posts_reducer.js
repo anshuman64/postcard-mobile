@@ -12,7 +12,7 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 
 /* Data is in the form {
  *   thisUserId: {
- *     allPosts:      { data: [], lastUpdated: null, isEnd: false },
+ *     publicPosts:      { data: [], lastUpdated: null, isEnd: false },
  *     authoredPosts: { data: [], lastUpdated: null, isEnd: false },
  *     likedPosts:    { data: [], lastUpdated: null, isEnd: false },
  *     followedPosts: { data: [], lastUpdated: null, isEnd: false },
@@ -113,7 +113,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the current user creates a post
-      newState[userId][POST_TYPES.ALL].data.unshift(action.data.post.id);
+      newState[userId][POST_TYPES.PUBLIC].data.unshift(action.data.post.id);
       newState[userId][POST_TYPES.AUTHORED].data.unshift(action.data.post.id);
 
       return newState;
@@ -123,7 +123,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the current user removes their own post
-      _.remove(newState[userId][POST_TYPES.ALL].data, (postsId) => {
+      _.remove(newState[userId][POST_TYPES.PUBLIC].data, (postsId) => {
         return postsId === postId;
       });
 
