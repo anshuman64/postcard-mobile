@@ -38,13 +38,17 @@ class FriendListItem extends React.PureComponent {
 
   _onPressDelete = () => {
     let alertString;
+    let cancelString;
 
     if (this.props.type === 'friend') {
       alertString = 'Are you sure you want to remove this friend?';
+      cancelString = 'Remove';
     } else if (this.props.type === 'sent') {
       alertString = 'Are you sure you want to cancel this friend request?';
+      cancelString = 'Cancel';
     } else {
       alertString = 'Are you sure you want to delete this friend request?';
+      cancelString = 'Delete';
     }
 
     RN.Alert.alert(
@@ -52,7 +56,7 @@ class FriendListItem extends React.PureComponent {
       alertString,
       [
         {text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
-        {text: 'Unfollow', onPress: this._onConfirmDeleteReceived},
+        {text: cancelString, onPress: this._onConfirmDeleteReceived},
       ],
       {
         onDismiss: () => this.isFollowDisabled = false
@@ -105,24 +109,24 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    // if (this.props.avatar_url && this.props.images[this.props.avatar_url]) {
-    //   return (
-    //     <CachedImage
-    //       source={{uri: this.props.images[this.props.avatar_url].url}}
-    //       style={styles.avatarImage}
-    //       resizeMode={'cover'}
-    //       onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.avatar_url)}
-    //       />
-    //   )
-    // } else if (this.props.avatar_url && !this.props.images[this.props.avatar_url]) {
-    //   return (
-    //     <RN.View style={{width: 40}} />
-    //   )
-    // } else {
+    if (this.props.avatar_url && this.props.images[this.props.avatar_url]) {
+      return (
+        <CachedImage
+          source={{uri: this.props.images[this.props.avatar_url].url}}
+          style={styles.avatarImage}
+          resizeMode={'cover'}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.avatar_url)}
+          />
+      )
+    } else if (this.props.avatar_url && !this.props.images[this.props.avatar_url]) {
+      return (
+        <RN.View style={{width: 40}} />
+      )
+    } else {
       return (
         <Icon name='user' style={styles.userIcon} />
       )
-    // }
+    }
   }
 
   _renderUserView() {
