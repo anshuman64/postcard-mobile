@@ -13,37 +13,18 @@ const IMAGE_WIDTH   = StyleUtility.getUsableDimensions().width / 3;
 const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(120);
 
 export const styles = StyleSheet.create({
-  cameraRoll: {
-    width: StyleUtility.getUsableDimensions().width,
-    height: '100%',
-    backgroundColor: StyleUtility.COLORS.grey50,
-  },
-  contentContainerStyle: {
-    flexDirection: 'column',
+  sectionHeader: {
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: '100%'
+    height: 50,
   },
-  footerView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: 60,
-  },
-  footerText: {
-    width: FOOTER_TEXT_WIDTH,
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontWeight: '100',
-    fontSize: 14,
+  sectionHeaderText: {
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
+    fontSize: 16,
+    fontWeight: '400',
     textAlign: 'center',
-    color: StyleUtility.COLORS.grey500
-  },
-  horizontalLine: {
-    alignSelf: 'flex-start',
-    width: (StyleUtility.getUsableDimensions().width - FOOTER_TEXT_WIDTH) / 2 - 20, // Device width minus footerText width over 2 minus aesthetic value
-    height: '50%',
-    borderBottomWidth: 1,
-    borderBottomColor: StyleUtility.COLORS.grey200
+    color: StyleUtility.COLORS.grey600,
+    marginLeft: 20
   },
 });

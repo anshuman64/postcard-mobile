@@ -7,14 +7,14 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }           from './request_list_item_styles.js';
+import { styles }           from './friend_list_item_styles.js';
 import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
 const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
-class RequestListItem extends React.PureComponent {
+class FriendListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -37,12 +37,22 @@ class RequestListItem extends React.PureComponent {
   }
 
   _onPressDelete = () => {
+    let alertString;
+
+    if (this.props.type === 'friend') {
+      alertString = 'Are you sure you want to remove this friend?';
+    } else if (this.props.type === 'sent') {
+      alertString = 'Are you sure you want to cancel this friend request?';
+    } else {
+      alertString = 'Are you sure you want to delete this friend request?';
+    }
+
     RN.Alert.alert(
       '',
-      'Are you sure you want to delete this friend request?',
+      alertString,
       [
         {text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
-        {text: 'Unfollow', onPress: this._onConfirmDelete},
+        {text: 'Unfollow', onPress: this._onConfirmDeleteReceived},
       ],
       {
         onDismiss: () => this.isFollowDisabled = false
@@ -60,22 +70,34 @@ class RequestListItem extends React.PureComponent {
 
 
   _renderButtons() {
+    let deleteString;
+
+    if (this.props.type === 'friend') {
+      deleteString = 'Remove';
+    } else if (this.props.type === 'sent') {
+      deleteString = 'Cancel';
+    } else {
+      deleteString = 'Delete';
+    }
+
     return (
       <RN.View style={styles.buttonView}>
-        <RN.TouchableOpacity
-          style={styles.confirmButton}
-          onPress={this._onPressConfirm}
-          >
-          <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
-            Confirm
-          </RN.Text>
-        </RN.TouchableOpacity>
+        {this.props.type === 'received' ?
+          <RN.TouchableOpacity
+            style={styles.confirmButton}
+            onPress={this._onPressConfirm}
+            >
+            <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
+              Confirm
+            </RN.Text>
+            </RN.TouchableOpacity> :
+            null}
         <RN.TouchableOpacity
           style={styles.deleteButton}
           onPress={this._onPressDelete}
           >
           <RN.Text style={UTILITY_STYLES.lightBlackText15}>
-            Delete
+            {deleteString}
           </RN.Text>
         </RN.TouchableOpacity>
       </RN.View>
@@ -129,4 +151,4 @@ class RequestListItem extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default RequestListItem;
+export default FriendListItem;

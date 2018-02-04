@@ -3,8 +3,8 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import HeaderContainer    from '../../components/nav_bar_header/header_container.js';
-import RequestListItem    from '../../components/request_list_item/request_list_item.js';
+import TabBar             from '../../components/tab_bar/tab_bar.js';
+import FriendListItem    from '../../components/friend_list_item/friend_list_item.js';
 import { styles }         from './friend_screen_styles.js';
 import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
@@ -21,7 +21,7 @@ class FriendScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      selectedFriends: [],
+      tab: 'Pending',
     };
 
     this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -44,45 +44,91 @@ class FriendScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderRow() {
+  _renderFriendItem() {
     return (
       (rowData, sectionID, rowID) => (
-        <RequestListItem
+        <FriendListItem
           id={rowData.id}
           username={rowData.username}
           avatar_url={rowData.avatar_url}
-          selectedFriends={this.state.selectedFriends}
           setParentState={this.setParentState}
+          type={'friend'}
           />
       )
     )
   }
 
-  render() {
+  _renderSentItem = (obj) => {
     return (
-      <RN.View style={UTILITY_STYLES.containerStart}>
-        <HeaderContainer
-          backIcon={true}
-          backTitle={'Select Friends'}
-          shareButton={true}
-          postText={this.props.postText}
-          placeholderText={this.props.placeholderText}
-          imagePath={this.props.imagePath}
-          imageType={this.props.imageType}
-          selectedFriends={this.state.selectedFriends}
-          />
-        <RN.ListView
-          dataSource={this.ds.cloneWithRows(sampleData)}
-          style={styles.ListView}
-          renderRow={this._renderRow()}
+      <FriendListItem
+        id={obj.item.id}
+        username={obj.item.username}
+        avatar_url={obj.item.avatar_url}
+        setParentState={this.setParentState}
+        type={'sent'}
+        />
+    )
+  }
+
+  _renderReceivedItem = (obj) => {
+    return (
+      <FriendListItem
+        id={obj.item.id}
+        username={obj.item.username}
+        avatar_url={obj.item.avatar_url}
+        setParentState={this.setParentState}
+        type={'received'}
+        />
+    )
+  }
+
+  _renderSectionHeader = ({section}) => {
+    return (
+      <RN.View style={styles.sectionHeader}>
+        <RN.Text style={styles.sectionHeaderText}>
+          {section.title}
+        </RN.Text>
+      </RN.View>
+    )
+  }
+
+  _renderList() {
+    if (this.state.tab === 'Pending') {
+      return (
+        <RN.SectionList
+          sections={[
+            {data: sampleData, renderItem: this._renderReceivedItem, title: 'Received Requests'},
+            {data: sampleData, renderItem: this._renderSentItem, title: 'Sent Requests'},
+          ]}
+          renderSectionHeader={this._renderSectionHeader.bind(this)}
           initialListSize={20}
           pageSize={80}
-          contentContainerStyle={styles.contentContainerStyle}
+          showsVerticalScrollIndicator={true}
+          onEndReachedThreshold={10000}
+          scrollRenderAheadDistance={10000}
+        />
+      )
+    } else {
+      return (
+        <RN.ListView
+          dataSource={this.ds.cloneWithRows(sampleData)}
+          renderRow={this._renderFriendItem()}
+          initialListSize={20}
+          pageSize={80}
           enableEmptySections={true}
           showsVerticalScrollIndicator={true}
           onEndReachedThreshold={10000}
           scrollRenderAheadDistance={10000}
         />
+      )
+    }
+  }
+
+  render() {
+    return (
+      <RN.View style={UTILITY_STYLES.containerStart}>
+        <TabBar screen={'FriendScreen'} tab={this.state.tab} setParentState={this.setParentState} />
+        {this._renderList()}
       </RN.View>
     )
   }
@@ -108,566 +154,6 @@ export const sampleData = [
   {
     id: 2,
     username: 'aaaaaaaaaaaa',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
     avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
   },
   {
