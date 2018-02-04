@@ -4,7 +4,7 @@ import RN    from 'react-native';
 
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal.js';
-import { styles }                 from './username_screen_styles.js';
+import { styles }                 from './add_friend_screen_styles.js';
 import { setStateCallback }       from '../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
 import { defaultErrorAlert }      from '../../utilities/error_utility.js';
@@ -12,7 +12,7 @@ import { defaultErrorAlert }      from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
-class UsernameScreen extends React.PureComponent {
+class AddFriendScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -40,50 +40,7 @@ class UsernameScreen extends React.PureComponent {
     }
 
     this.setState({ isError: false, errorText: '' }, () => {
-      let text = this.state.inputtedText;
 
-      let isNotSpecialChar = /^[A-Za-z0-9._-]+$/.test(text);
-      let isStartWithSpecialChar = /^[._-]/.test(text);
-      let isEndWithSpecialChar = /[._-]$/.test(text);
-      let isConsecutiveSpecialChar = /[._-]{2}/.test(text);
-      let isTooShort = text.length < 3;
-
-      if (!isNotSpecialChar) {
-        this.setState({ isError: true, errorText: 'Letters, numbers, -, _, or . only' });
-        return;
-      } else if (isStartWithSpecialChar || isEndWithSpecialChar) {
-        this.setState({ isError: true, errorText: 'No leading or trailing special characters' });
-        return;
-      } else if (isConsecutiveSpecialChar) {
-        this.setState({ isError: true, errorText: 'No consecutive special characters' });
-        return;
-      } else if (isTooShort) {
-        this.setState({ isError: true, errorText: 'Must be at least 3 characters' });
-        return;
-      }
-
-      this.setState({ isLoading: true } , () => {
-        this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, text)
-          .then(() => {
-            if (this.props.currentScreen === 'UsernameScreenLogin') {
-              this.props.navigateTo('AvatarScreen', { isLogin: true });
-            } else {
-              this.props.goBack();
-            }
-          })
-          .catch((error) => {
-            if (error.description === 'Username taken') {
-              this.setState({ isError: true, errorText: 'Username taken' });
-            } else if (error.description) {
-              this.setState({ isError: true, errorText: 'Username invalid' });
-            } else {
-              defaultErrorAlert(error);
-            }
-          })
-          .finally(() => {
-            this.setState({ isLoading: false });
-          })
-      });
     });
   }
 
@@ -102,7 +59,7 @@ class UsernameScreen extends React.PureComponent {
   _renderTitle() {
     return (
       <RN.Text style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
-        Choose Username
+        Enter Username
       </RN.Text>
     )
   }
@@ -110,7 +67,7 @@ class UsernameScreen extends React.PureComponent {
   _renderSubtitle() {
     return (
       <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
-        You can change it at any time.
+        A friend request will directly be sent to the user.
       </RN.Text>
     )
   }
@@ -150,7 +107,7 @@ class UsernameScreen extends React.PureComponent {
         disabled={(this.state.inputtedText.length === 0) && !this.state.isLoading}
         >
         <RN.Text style={[UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonTextDisabled]}>
-          {this.props.currentScreen === 'UsernameScreenLogin' ? 'Next' : 'Done'}
+          {'Add Friend'}
         </RN.Text>
       </RN.TouchableOpacity>
     )
@@ -186,4 +143,4 @@ class UsernameScreen extends React.PureComponent {
 //--------------------------------------------------------------------//
 
 
-export default UsernameScreen;
+export default AddFriendScreen;
