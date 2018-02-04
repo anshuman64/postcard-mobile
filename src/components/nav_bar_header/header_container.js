@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   navigateTo:       (screen, props) => dispatch(navigateTo(screen, props)),
   goBack:           (props) => dispatch(goBack(props)),
   goBackTo:         (screen, props) => dispatch(goBackTo(screen, props)),
-refreshAuthToken: (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params))
+  refreshAuthToken: (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params))
 });
 
 export default connect(
