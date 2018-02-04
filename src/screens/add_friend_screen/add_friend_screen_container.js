@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import AddFriendScreen          from './add_friend_screen.js';
+import AddFriendScreen         from './add_friend_screen.js';
 import { editUsername }        from '../../actions/user_actions.js';
 import { navigateTo, goBack }  from '../../actions/navigation_actions.js';
 

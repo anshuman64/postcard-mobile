@@ -53,10 +53,10 @@ class ProfileHeader extends React.PureComponent {
   _onPressUnfriend = () => {
     RN.Alert.alert(
       '',
-      'Are you sure you want to unfriend this user?',
+      'Are you sure you want to remove this friend?',
       [
         {text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
-        {text: 'Delete', onPress: this._onConfirmUnfriend},
+        {text: 'Remove', onPress: this._onConfirmUnfriend},
       ],
       {
         onDismiss: () => this.isFriendDisabled = false
@@ -192,7 +192,7 @@ class ProfileHeader extends React.PureComponent {
     if (this.props.friendStatus === 'REQUESTED') {
       friendString = 'Cancel Request';
     } else if (this.props.friendStatus === 'ACCEPTED') {
-      friendString = 'Unfriend'
+      friendString = 'Friends'
     } else {
       friendString = 'Add Friend';
     }
