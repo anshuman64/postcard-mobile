@@ -4,10 +4,10 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import TabBar             from '../../components/tab_bar/tab_bar.js';
-import FriendListItem    from '../../components/friend_list_item/friend_list_item.js';
-import { styles }         from './friend_screen_styles.js';
-import { UTILITY_STYLES } from '../../utilities/style_utility.js';
+import TabBar                  from '../../components/tab_bar/tab_bar.js';
+import FriendListItemContainer from '../../components/friend_list_item/friend_list_item_container.js';
+import { styles }              from './friend_screen_styles.js';
+import { UTILITY_STYLES }      from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -48,7 +48,7 @@ class FriendScreen extends React.PureComponent {
   }
 
   _onPressShare = () => {
-
+    RN.Share.share({message: 'Add me on Insiya! My username is: ' + this.props.user.username + '\nhttps://insiya.io' })
   }
 
   //--------------------------------------------------------------------//
@@ -57,7 +57,7 @@ class FriendScreen extends React.PureComponent {
 
   _renderFriendItem = (obj) => {
     return (
-      <FriendListItem
+      <FriendListItemContainer
         id={obj.item.id}
         username={obj.item.username}
         avatar_url={obj.item.avatar_url}
@@ -69,7 +69,7 @@ class FriendScreen extends React.PureComponent {
 
   _renderSentItem = (obj) => {
     return (
-      <FriendListItem
+      <FriendListItemContainer
         id={obj.item.id}
         username={obj.item.username}
         avatar_url={obj.item.avatar_url}
@@ -81,7 +81,7 @@ class FriendScreen extends React.PureComponent {
 
   _renderReceivedItem = (obj) => {
     return (
-      <FriendListItem
+      <FriendListItemContainer
         id={obj.item.id}
         username={obj.item.username}
         avatar_url={obj.item.avatar_url}

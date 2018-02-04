@@ -8,42 +8,49 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const IMAGE_PADDING = 2;
-const IMAGE_WIDTH   = StyleUtility.getUsableDimensions().width / 3;
-const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(120);
+const DEFAULT_MARGIN = 15;
 
 export const styles = StyleSheet.create({
-  cameraRoll: {
-    width: StyleUtility.getUsableDimensions().width,
-    height: '100%',
-    backgroundColor: StyleUtility.COLORS.grey50,
-  },
-  contentContainerStyle: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%'
-  },
-  footerView: {
+  rowView: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
+    width: StyleUtility.getUsableDimensions().width - 2 * DEFAULT_MARGIN,
     height: 60,
-  },
-  footerText: {
-    width: FOOTER_TEXT_WIDTH,
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontWeight: '100',
-    fontSize: 14,
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey500
-  },
-  horizontalLine: {
-    alignSelf: 'flex-start',
-    width: (StyleUtility.getUsableDimensions().width - FOOTER_TEXT_WIDTH) / 2 - 20, // Device width minus footerText width over 2 minus aesthetic value
-    height: '50%',
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200
   },
+  userView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  helpIcon: {
+    width: 55,
+    fontSize: 20,
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleRed,
+  },
+  checkboxView: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 30,
+    width: 30,
+    marginRight: DEFAULT_MARGIN
+  },
+  checkbox: {
+    height: 28,
+    width: 28,
+    borderRadius: 28 / 2,
+    borderWidth: 1.5,
+    borderColor: StyleUtility.COLORS.appleRed,
+  },
+  checkIcon: {
+    fontSize: 28,
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleRed,
+  }
 });
