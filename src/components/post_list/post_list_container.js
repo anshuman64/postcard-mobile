@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import PostList                    from './post_list.js';
-import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
+import PostList      from './post_list.js';
+import { getPosts }  from '../../actions/post_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -18,8 +18,7 @@ const mapStateToProps = ({ user, posts, postsCache }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getPosts:         (authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams)),
-  refreshPosts:     (authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams) => dispatch(refreshPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams)),
+  getPosts: (authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams)),
 });
 
 export default connect(
