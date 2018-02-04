@@ -27,11 +27,50 @@ class ProfileHeader extends React.PureComponent {
       avatarUrl:  null,
     }
 
+    this.isFriendDisabled = false;
     this.isFollowDisabled = false;
   }
 
+
   //--------------------------------------------------------------------//
-  // Callback Methods
+  // Friend Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressFriend = () => {
+    if (this.isFriendDisabled) {
+      return;
+    }
+
+    this.isFriendDisabled = true;
+
+    if (this.props.friendStatus) {
+
+    } else {
+
+    }
+  }
+
+  _onPressUnfriend = () => {
+    RN.Alert.alert(
+      '',
+      'Are you sure you want to unfriend this user?',
+      [
+        {text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
+        {text: 'Delete', onPress: this._onConfirmUnfriend},
+      ],
+      {
+        onDismiss: () => this.isFriendDisabled = false
+      }
+    )
+  }
+
+  _onConfirmUnfriend = () => {
+
+  }
+
+
+  //--------------------------------------------------------------------//
+  // Follow Callback Methods
   //--------------------------------------------------------------------//
 
   // Creates or deletes follow from DB
@@ -147,17 +186,37 @@ class ProfileHeader extends React.PureComponent {
     }
   }
 
-  _renderFollowButton() {
+  _renderButtons() {
+    let friendString;
+
+    if (this.props.friendStatus === 'REQUESTED') {
+      friendString = 'Cancel Request';
+    } else if (this.props.friendStatus === 'ACCEPTED') {
+      friendString = 'Unfriend'
+    } else {
+      friendString = 'Add Friend';
+    }
+
     if (this.props.user.id != this.props.userId) {
       return (
-        <RN.TouchableOpacity
-          style={[styles.followButtonBackground, this.props.isFollowed && styles.followButtonBackgroundDisabled]}
-          onPress={this._onPressFollow}
-          >
-          <RN.Text style={[UTILITY_STYLES.lightWhiteText16, this.props.isFollowed && styles.followButtonTextDisabled]}>
-            { this.props.isFollowed ? 'Following' : 'Follow' }
-          </RN.Text>
-        </RN.TouchableOpacity>
+        <RN.View style={styles.buttonView}>
+          <RN.TouchableOpacity
+            style={[styles.friendButtonBackground, this.props.friendStatus && styles.buttonBackgroundDisabled]}
+            onPress={this._onPressFriend}
+            >
+            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, this.props.friendStatus && styles.buttonTextDisabled]}>
+              {friendString}
+            </RN.Text>
+          </RN.TouchableOpacity>
+          <RN.TouchableOpacity
+            style={[styles.followButtonBackground, this.props.isFollowed && styles.buttonBackgroundDisabled]}
+            onPress={this._onPressFollow}
+            >
+            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, UTILITY_STYLES.textHighlighted, this.props.isFollowed && styles.buttonTextDisabled]}>
+              { this.props.isFollowed ? 'Following' : 'Follow' }
+            </RN.Text>
+          </RN.TouchableOpacity>
+        </RN.View>
       )
     } else {
       return (
@@ -216,7 +275,7 @@ class ProfileHeader extends React.PureComponent {
           {this._renderAvatar()}
           <RN.View style={styles.usernameView}>
             {this._renderUsername()}
-            {this._renderFollowButton()}
+            {this._renderButtons()}
           </RN.View>
         </RN.View>
         <TabBar screen={this.props.screen} setParentState={this.props.setParentState} postType={this.props.postType} />
