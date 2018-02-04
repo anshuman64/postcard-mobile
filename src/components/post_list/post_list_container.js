@@ -18,8 +18,8 @@ const mapStateToProps = ({ user, posts, postsCache }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getPosts:         (authToken, firebaseUserObj, userId, postType, isUser, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, userId, postType, isUser, queryParams)),
-  refreshPosts:     (authToken, firebaseUserObj, userId, postType, isUser, queryParams) => dispatch(refreshPosts(authToken, firebaseUserObj, userId, postType, isUser, queryParams)),
+  getPosts:         (authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams)),
+  refreshPosts:     (authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams) => dispatch(refreshPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams)),
 });
 
 export default connect(
