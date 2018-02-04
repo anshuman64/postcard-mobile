@@ -8,7 +8,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-export const PROFILE_HEADER_HEIGHT      = 140;
+export const PROFILE_HEADER_HEIGHT = 140;
 
 export const styles = StyleSheet.create({
   container: {
@@ -70,13 +70,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginLeft: 28
+    marginLeft: 20
   },
   usernameButton: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: 180,
+    width: 140,
     marginBottom: 15,
   },
   usernameText: {
@@ -92,20 +92,36 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.appleBlue + 'bf',
     marginLeft: 5
   },
-  followButtonBackground: {
+  buttonView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  friendButtonBackground: {
     flexDirection: 'column',
     justifyContent: 'center',
-    width: 180,
+    width: 110,
     height: 30,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue,
   },
-  followButtonBackgroundDisabled: {
+  followButtonBackground: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: 110,
+    height: 30,
+    borderRadius: 4,
+    backgroundColor: 'white',
+    borderColor: StyleUtility.COLORS.appleBlue,
+    borderWidth: 1,
+    marginLeft: 5
+  },
+  buttonBackgroundDisabled: {
     backgroundColor: 'white',
     borderColor: StyleUtility.COLORS.grey900,
     borderWidth: 1
   },
-  followButtonTextDisabled: {
+  buttonTextDisabled: {
     color: StyleUtility.COLORS.grey900,
   },
 })
