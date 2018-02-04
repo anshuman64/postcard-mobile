@@ -98,7 +98,7 @@ class ShareListItem extends React.PureComponent {
     return (
       <RN.View style={styles.userView}>
         {this._renderAvatar()}
-        <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, {marginLeft: 20}]}>
+        <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
           {this.props.username}
         </RN.Text>
       </RN.View>
@@ -113,7 +113,7 @@ class ShareListItem extends React.PureComponent {
           this.checkbox.setNativeProps({style: styles.checkboxHighlighted})
         }}
         onPressOut={() => {
-          this.usernameText.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, {marginLeft: 20}]})
+          this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText15})
           this.checkbox.setNativeProps({style: styles.checkbox})
         }}
         onPress={this._onPressItem}
