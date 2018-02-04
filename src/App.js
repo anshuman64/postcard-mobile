@@ -27,6 +27,7 @@ import UserScreen                 from './screens/user_screen/user_screen.js';
 import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container.js';
 import ShareScreenContainer       from './screens/share_screen/share_screen_container.js';
 import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container.js';
+import AddFriendScreenContainer   from './screens/add_friend_screen/add_friend_screen_container.js';
 import MenuScreen                 from './screens/menu_screen/menu_screen.js';
 
 import HeaderContainer            from './components/nav_bar_header/header_container.js';
@@ -95,9 +96,9 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={FriendScreenContainer} panHandlers={null} hideNavBar={true} initial={true} />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true}  />
 
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} panHandlers={null} hideNavBar={true}  />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} panHandlers={null} hideNavBar={true} initial={true} />
             <Scene key='WelcomeScreen' component={WelcomeScreenContainer} panHandlers={null} hideNavBar={true} />
             <Scene key='LoginScreen'   component={LoginScreenContainer}   panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen' component={NewPostScreenContainer} panHandlers={null} hideNavBar={true} />
@@ -109,6 +110,7 @@ class App extends React.Component {
             <Scene key='UsernameScreen'      component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username', true)} />
             <Scene key='AvatarScreen'        component={AvatarScreenContainer}      panHandlers={null} navBar={this._renderHeader('Profile Photo', true)} />
             <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
+            <Scene key='AddFriendScreen'     component={AddFriendScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
 
             <Tabs key='MainScreenTabs'
