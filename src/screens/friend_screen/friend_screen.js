@@ -5,13 +5,13 @@ import RN    from 'react-native';
 // Local Imports
 import HeaderContainer    from '../../components/nav_bar_header/header_container.js';
 import RequestListItem    from '../../components/request_list_item/request_list_item.js';
-import { styles }         from './share_screen_styles.js';
+import { styles }         from './friend_screen_styles.js';
 import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
 
-class RequestScreen extends React.PureComponent {
+class FriendScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -47,7 +47,7 @@ class RequestScreen extends React.PureComponent {
   _renderRow() {
     return (
       (rowData, sectionID, rowID) => (
-        <ShareListItem
+        <RequestListItem
           id={rowData.id}
           username={rowData.username}
           avatar_url={rowData.avatar_url}
@@ -91,7 +91,7 @@ class RequestScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default RequestScreen;
+export default FriendScreen;
 
 
 export const sampleData = [
@@ -107,7 +107,7 @@ export const sampleData = [
   },
   {
     id: 2,
-    username: 'keving',
+    username: 'aaaaaaaaaaaa',
     avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
   },
   {

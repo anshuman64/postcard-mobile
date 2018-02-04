@@ -31,7 +31,7 @@ let getBaseUrl = () => {
   } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
     return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
   } else {
-    return 'http://192.168.2.15:3000/api';
+    return 'http://10.0.0.53:3000/api';
   }
 };
 

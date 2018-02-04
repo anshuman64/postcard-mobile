@@ -45,27 +45,31 @@ export const styles = StyleSheet.create({
     width: 40,
     borderRadius: StyleUtility.getImageBorderRadius(40),
   },
-  checkboxView: {
+  buttonView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginRight: DEFAULT_MARGIN
+  },
+  confirmButton: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    width: 80,
     height: 30,
-    width: 30,
-    marginRight: DEFAULT_MARGIN
+    marginRight: 5,
+    borderRadius: 4,
+    backgroundColor: StyleUtility.COLORS.appleBlue
   },
-  checkbox: {
-    height: 28,
-    width: 28,
-    borderRadius: 28 / 2,
-    borderWidth: 1.5,
-    borderColor: StyleUtility.COLORS.grey700,
+  deleteButton: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    height: 30,
+    borderRadius: 4,
+    backgroundColor: 'white',
+    borderColor: StyleUtility.COLORS.grey900,
+    borderWidth: 1
   },
-  checkboxHighlighted: {
-    borderColor: StyleUtility.COLORS.appleBlue,
-  },
-  checkIcon: {
-    fontSize: 28,
-    textAlign: 'center',
-    color: StyleUtility.COLORS.appleBlue,
-  }
 });

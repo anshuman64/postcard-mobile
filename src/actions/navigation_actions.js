@@ -38,12 +38,14 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.HomeScreen(props)
     } else if (screen === 'DiscoverScreen') {
       Actions.DiscoverScreen(props)
-    } else if (screen === 'RequestScreen') {
-      Actions.RequestScreen(props)
+    } else if (screen === 'FriendScreen') {
+      Actions.FriendScreen(props)
     } else if (screen === 'ProfileScreen') {
       Actions.ProfileScreen(props)
     } else if (screen === 'NewPostScreen') {
       Actions.NewPostScreen(props)
+    } else if (screen === 'ShareScreen') {
+      Actions.ShareScreen(props)
     } else if (screen === 'MenuScreen') {
       Actions.MenuScreen(props)
     } else if (screen === 'UsernameScreen') {
