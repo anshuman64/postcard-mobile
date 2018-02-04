@@ -74,24 +74,24 @@ class ShareListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    // if (this.props.avatar_url && this.props.images[this.props.avatar_url]) {
-    //   return (
-    //     <CachedImage
-    //       source={{uri: this.props.images[this.props.avatar_url].url}}
-    //       style={styles.avatarImage}
-    //       resizeMode={'cover'}
-    //       onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.avatar_url)}
-    //       />
-    //   )
-    // } else if (this.props.avatar_url && !this.props.images[this.props.avatar_url]) {
-    //   return (
-    //     <RN.View style={{width: 40}} />
-    //   )
-    // } else {
+    if (this.props.avatar_url && this.props.images[this.props.avatar_url]) {
+      return (
+        <CachedImage
+          source={{uri: this.props.images[this.props.avatar_url].url}}
+          style={styles.avatarImage}
+          resizeMode={'cover'}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.avatar_url)}
+          />
+      )
+    } else if (this.props.avatar_url && !this.props.images[this.props.avatar_url]) {
+      return (
+        <RN.View style={{width: 40}} />
+      )
+    } else {
       return (
         <Icon name='user' style={styles.userIcon} />
       )
-    // }
+    }
   }
 
   _renderUserView() {
