@@ -35,7 +35,7 @@ export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
 };
 
-export const refreshAndReceivePosts = (data) => {
+export const refreshPosts = (data) => {
   return { type: POST_ACTION_TYPES.REFRESH_POSTS, data: data };
 };
 
@@ -80,10 +80,15 @@ let getRouteForPostType = (postType, userId, isUser) => {
 //--------------------------------------------------------------------//
 
 // GET posts from API and append to current PostList
-export const getPosts = (authToken, firebaseUserObj, userId, postType, isUser, queryParams) => (dispatch) => {
+export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId, isUser), queryParams)
     .then((posts) => {
-      dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
+      if (isRefresh) {
+        dispatch(refreshPosts({ posts: posts, userId: userId, postType: postType }));
+      } else {
+        dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
+      }
+
       dispatch(getImagesFromPosts(posts));
     })
     .catch((error) => {
@@ -92,23 +97,6 @@ export const getPosts = (authToken, firebaseUserObj, userId, postType, isUser, q
       }
 
       throw setErrorDescription(error, 'GET posts failed');
-    });
-};
-
-//TODO: combine with getPosts
-// GET latest posts from API and merge with current PostList
-export const refreshPosts = (authToken, firebaseUserObj, userId, postType, isUser, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId, isUser), queryParams)
-    .then((posts) => {
-      dispatch(refreshAndReceivePosts({ posts: posts, userId: userId, postType: postType }));
-      dispatch(getImagesFromPosts(posts));
-    })
-    .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, refreshPosts, userId, postType, isUser, queryParams));
-      }
-
-      throw setErrorDescription(error, 'Refresh posts failed');
     });
 };
 
