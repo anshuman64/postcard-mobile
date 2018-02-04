@@ -46,6 +46,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.NewPostScreen(props)
     } else if (screen === 'ShareScreen') {
       Actions.ShareScreen(props)
+    } else if (screen === 'AddFriendScreen') {
+      Actions.AddFriendScreen(props)
     } else if (screen === 'MenuScreen') {
       Actions.MenuScreen(props)
     } else if (screen === 'UsernameScreen') {

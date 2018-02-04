@@ -1,6 +1,7 @@
 // Library Imports
 import React from 'react';
 import RN    from 'react-native';
+import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import TabBar             from '../../components/tab_bar/tab_bar.js';
@@ -23,8 +24,6 @@ class FriendScreen extends React.PureComponent {
     this.state = {
       tab: 'Pending',
     };
-
-    this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   }
 
   //--------------------------------------------------------------------//
@@ -41,20 +40,30 @@ class FriendScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressAddFriend = () => {
+    this.props.navigateTo('AddFriendScreen');
+  }
+
+  _onPressShare = () => {
+
+  }
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderFriendItem() {
+  _renderFriendItem = (obj) => {
     return (
-      (rowData, sectionID, rowID) => (
-        <FriendListItem
-          id={rowData.id}
-          username={rowData.username}
-          avatar_url={rowData.avatar_url}
-          setParentState={this.setParentState}
-          type={'friend'}
-          />
-      )
+      <FriendListItem
+        id={obj.item.id}
+        username={obj.item.username}
+        avatar_url={obj.item.avatar_url}
+        setParentState={this.setParentState}
+        type={'friend'}
+        />
     )
   }
 
@@ -92,6 +101,49 @@ class FriendScreen extends React.PureComponent {
     )
   }
 
+  _renderHeader = () => {
+    return (
+      <RN.View style={styles.headerView}>
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => {
+            this.addFriendIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+            this.addFriendText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          }}
+          onPressOut={() => {
+            this.addFriendIcon.setNativeProps({style: styles.headerItemIcon})
+            this.addFriendText.setNativeProps({style: UTILITY_STYLES.lightBlackText16})
+          }}
+          onPress={this._onPressAddFriend}
+          >
+          <RN.View style={styles.headerItemView}>
+            <Icon name={'user-follow'} ref={(ref) => this.addFriendIcon = ref} style={styles.headerItemIcon} />
+            <RN.Text ref={(ref) => this.addFriendText = ref} style={UTILITY_STYLES.lightBlackText16}>
+              Add Friend by Username
+            </RN.Text>
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => {
+            this.shareIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+            this.shareText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          }}
+          onPressOut={() => {
+            this.shareIcon.setNativeProps({style: styles.headerItemIcon})
+            this.shareText.setNativeProps({style: UTILITY_STYLES.lightBlackText16})
+          }}
+          onPress={this._onPressShare}
+          >
+          <RN.View style={styles.headerItemView}>
+            <Icon name={'share'} ref={(ref) => this.shareIcon = ref} style={styles.headerItemIcon} />
+            <RN.Text ref={(ref) => this.shareText = ref} style={UTILITY_STYLES.lightBlackText16}>
+              Share Username
+            </RN.Text>
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+      </RN.View>
+    )
+  }
+
   _renderList() {
     if (this.state.tab === 'Pending') {
       return (
@@ -100,7 +152,9 @@ class FriendScreen extends React.PureComponent {
             {data: sampleData, renderItem: this._renderReceivedItem, title: 'Received Requests'},
             {data: sampleData, renderItem: this._renderSentItem, title: 'Sent Requests'},
           ]}
+          keyExtractor={(item) => item.id}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
+          ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
           pageSize={80}
           showsVerticalScrollIndicator={true}
@@ -110,12 +164,15 @@ class FriendScreen extends React.PureComponent {
       )
     } else {
       return (
-        <RN.ListView
-          dataSource={this.ds.cloneWithRows(sampleData)}
-          renderRow={this._renderFriendItem()}
+        <RN.SectionList
+          sections={[
+            {data: sampleData, renderItem: this._renderFriendItem, title: 'Friends'},
+          ]}
+          keyExtractor={(item) => item.id}
+          renderSectionHeader={this._renderSectionHeader.bind(this)}
+          ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
           pageSize={80}
-          enableEmptySections={true}
           showsVerticalScrollIndicator={true}
           onEndReachedThreshold={10000}
           scrollRenderAheadDistance={10000}
