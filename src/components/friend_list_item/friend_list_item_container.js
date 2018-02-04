@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import RequestListItem               from './header.js';
+import FriendListItem               from './header.js';
 import { refreshCredsAndGetImage } from '../../../actions/image_actions.js';
 
 
@@ -21,4 +21,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RequestListItem);
+)(FriendListItem);
