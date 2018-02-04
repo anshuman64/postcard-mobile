@@ -26,11 +26,11 @@ class HomeScreen extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     if (this.props.currentScreen != 'HomeScreen' && nextProps.currentScreen === 'HomeScreen') {
       let currentTime = new Date();
-      let lastUpdate = this.props.posts[this.props.user.id][POST_TYPES.FRIENDS].lastUpdated;
+      let lastUpdate = this.props.posts[this.props.user.id][POST_TYPES.RECEIVED].lastUpdated;
       let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
       if (minsDiff > 1) {
-        this.postList.getWrappedInstance().refresh(POST_TYPES.FRIENDS);
+        this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
       }
     }
   }
@@ -46,7 +46,7 @@ class HomeScreen extends React.PureComponent {
           ref={(ref) => this.postList = ref}
           screen={'HomeScreen'}
           userId={this.props.user.id}
-          postType={POST_TYPES.FRIENDS}
+          postType={POST_TYPES.RECEIVED}
           scrollToTop={this.props.scrollToTop}
           />
       </RN.View>

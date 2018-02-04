@@ -13,8 +13,8 @@ import { refreshAuthToken }       from './user_actions.js';
 //--------------------------------------------------------------------//
 
 export const POST_TYPES = {
-  FRIENDS:  'allPosts',
-  ALL:      'allPosts',
+  RECEIVED: 'receivedPosts',
+  PUBLIC:   'publicPosts',
   AUTHORED: 'authoredPosts',
   LIKED:    'likedPosts',
   FOLLOWED: 'followedPosts'
@@ -52,16 +52,24 @@ export const removePost = (data) => {
 //--------------------------------------------------------------------//
 
 // Returns API path for particular POST_TYPES
-let getRouteForPostType = (postType, userId) => {
+let getRouteForPostType = (postType, userId, isUser) => {
   switch(postType) {
-    case POST_TYPES.FRIENDS:
-      return '';
-    case POST_TYPES.ALL:
+    case POST_TYPES.RECEIVED:
+      return '/received/';
+    case POST_TYPES.PUBLIC:
       return '';
     case POST_TYPES.AUTHORED:
-      return '/authored/' + userId;
+      if (isUser) {
+        return '/authored';
+      } else {
+        return '/authored/' + userId;
+      }
     case POST_TYPES.LIKED:
-      return '/liked/' + userId;
+      if (isUser) {
+        return '/liked';
+      } else {
+        return '/liked/' + userId;
+      }
     case POST_TYPES.FOLLOWED:
       return '/followed';
   }
@@ -72,31 +80,32 @@ let getRouteForPostType = (postType, userId) => {
 //--------------------------------------------------------------------//
 
 // GET posts from API and append to current PostList
-export const getPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
+export const getPosts = (authToken, firebaseUserObj, userId, postType, isUser, queryParams) => (dispatch) => {
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId, isUser), queryParams)
     .then((posts) => {
       dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
       dispatch(getImagesFromPosts(posts));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, userId, postType, queryParams));
+        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, userId, postType, isUser, queryParams));
       }
 
       throw setErrorDescription(error, 'GET posts failed');
     });
 };
 
+//TODO: combine with getPosts
 // GET latest posts from API and merge with current PostList
-export const refreshPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
+export const refreshPosts = (authToken, firebaseUserObj, userId, postType, isUser, queryParams) => (dispatch) => {
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId, isUser), queryParams)
     .then((posts) => {
       dispatch(refreshAndReceivePosts({ posts: posts, userId: userId, postType: postType }));
       dispatch(getImagesFromPosts(posts));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, refreshPosts, userId, postType, queryParams));
+        return dispatch(refreshAuthToken(firebaseUserObj, refreshPosts, userId, postType, isUser, queryParams));
       }
 
       throw setErrorDescription(error, 'Refresh posts failed');
