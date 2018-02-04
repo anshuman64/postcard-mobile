@@ -229,8 +229,8 @@ class ProfileHeader extends React.PureComponent {
     if (!this.props.username) {
       return (
         <RN.View style={styles.tabs}>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.ALL })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.ALL && UTILITY_STYLES.textHighlighted]} >
+          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.PUBLIC })} style={styles.button}>
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.PUBLIC && UTILITY_STYLES.textHighlighted]} >
               Recent
             </RN.Text>
           </RN.TouchableOpacity>
