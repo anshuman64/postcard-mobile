@@ -6,10 +6,8 @@ import FriendScreen  from './friend_screen.js';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ user, posts, navigation }, ownProps) => ({
-  // user:          user.user,
-  // posts:         posts,
-  currentScreen: navigation.currentScreen
+const mapStateToProps = ({ user }, ownProps) => ({
+  user:          user.user,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

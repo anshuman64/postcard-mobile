@@ -1,15 +1,19 @@
 // Library Imports
-import React from 'react';
-import RN    from 'react-native';
+import React           from 'react';
+import RN              from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import HeaderContainer    from '../../components/nav_bar_header/header_container.js';
-import ShareListItem      from '../../components/share_list_item/share_list_item.js';
-import { styles }         from './share_screen_styles.js';
-import { UTILITY_STYLES } from '../../utilities/style_utility.js';
+import HeaderContainer        from '../../components/nav_bar_header/header_container.js';
+import ShareListItemContainer from '../../components/share_list_item/share_list_item_container.js';
+import { styles }             from './share_screen_styles.js';
+import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
+import { setStateCallback }   from '../../utilities/function_utility.js';
 
 //--------------------------------------------------------------------//
 
+const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 class ShareScreen extends React.PureComponent {
 
@@ -21,6 +25,7 @@ class ShareScreen extends React.PureComponent {
     super(props);
 
     this.state = {
+      isPublic:        false,
       selectedFriends: [],
     };
 
@@ -40,6 +45,15 @@ class ShareScreen extends React.PureComponent {
     return func;
   }
 
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressHelp = () => {
+    RN.Alert.alert('', "Checking 'Public' makes your post visible to everyone in the Discover tab.", [{text: 'OK', style: 'cancel'}]);
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -47,7 +61,7 @@ class ShareScreen extends React.PureComponent {
   _renderRow() {
     return (
       (rowData, sectionID, rowID) => (
-        <ShareListItem
+        <ShareListItemContainer
           id={rowData.id}
           username={rowData.username}
           avatar_url={rowData.avatar_url}
@@ -55,6 +69,42 @@ class ShareScreen extends React.PureComponent {
           setParentState={this.setParentState}
           />
       )
+    )
+  }
+
+  _renderCheckbox() {
+    if (this.state.isPublic) {
+      return (
+        <AnimatedIcon
+          ref={(ref) => this.checkbox = ref}
+          name='check'
+          style={styles.checkIcon}
+          animation={'flipInY'}
+          duration={200}
+          />
+      )
+    } else {
+      return (
+        <RN.View ref={(ref) => this.checkbox = ref} style={styles.checkbox} />
+      )
+    }
+  }
+
+  _renderHeader = () => {
+    return (
+      <RN.TouchableOpacity onPress={setStateCallback(this, { isPublic: !this.state.isPublic })}>
+        <RN.View style={styles.rowView}>
+          <RN.View style={styles.userView}>
+            <Icon name={'question'} onPress={this._onPressHelp} style={styles.helpIcon} />
+            <RN.Text style={[UTILITY_STYLES.regularBlackText16, UTILITY_STYLES.textRed]}>
+              Public
+            </RN.Text>
+          </RN.View>
+          <RN.View style={styles.checkboxView}>
+            {this._renderCheckbox()}
+          </RN.View>
+        </RN.View>
+      </RN.TouchableOpacity>
     )
   }
 
@@ -73,11 +123,10 @@ class ShareScreen extends React.PureComponent {
           />
         <RN.ListView
           dataSource={this.ds.cloneWithRows(sampleData)}
-          style={styles.ListView}
           renderRow={this._renderRow()}
+          renderHeader={this._renderHeader}
           initialListSize={20}
           pageSize={80}
-          contentContainerStyle={styles.contentContainerStyle}
           enableEmptySections={true}
           showsVerticalScrollIndicator={true}
           onEndReachedThreshold={10000}
