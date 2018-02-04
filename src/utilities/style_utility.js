@@ -169,7 +169,14 @@ export const UTILITY_STYLES = StyleSheet.create({
   },
   lightWhiteText16: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 18,
+    fontSize: 16,
+    fontWeight: '100',
+    textAlign: 'center',
+    color: 'white',
+  },
+  lightWhiteText15: {
+    fontFamily: setAndroidFont('Roboto-Light'),
+    fontSize: 15,
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',
