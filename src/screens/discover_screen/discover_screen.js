@@ -17,7 +17,7 @@ class DiscoverScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      postType:  POST_TYPES.ALL,
+      postType:  POST_TYPES.PUBLIC,
     };
   }
 
@@ -44,7 +44,7 @@ class DiscoverScreen extends React.PureComponent {
         }
       }
 
-      checkRefresh(POST_TYPES.ALL);
+      checkRefresh(POST_TYPES.PUBLIC);
       checkRefresh(POST_TYPES.FOLLOWED);
     }
   }

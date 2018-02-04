@@ -29,8 +29,8 @@ class TabBar extends React.PureComponent {
     if (this.props.screen === 'DiscoverScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.ALL })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, this.props.postType === POST_TYPES.ALL && UTILITY_STYLES.textHighlighted]} >
+          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.PUBLIC })} style={styles.button}>
+            <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, this.props.postType === POST_TYPES.PUBLIC && UTILITY_STYLES.textHighlighted]} >
               Recent
             </RN.Text>
           </RN.TouchableOpacity>
