@@ -197,12 +197,6 @@ class PostListItem extends React.PureComponent {
     // If user is not followed, create follow
     } else {
       this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.item.author_id)
-        .then(() => {
-          // If on profileScreen, update follow state to make sure ProfileHeader is also updated
-          if (this.props.setFollowState) {
-            this.props.setFollowState({ isFollowed: true });
-          }
-        })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -215,11 +209,6 @@ class PostListItem extends React.PureComponent {
   // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
     this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.item.author_id)
-      .then(() => {
-        if (this.props.setFollowState) {
-          this.props.setFollowState({ isFollowed: false });
-        }
-      })
       .catch((error) => {
         defaultErrorAlert(error);
       })
