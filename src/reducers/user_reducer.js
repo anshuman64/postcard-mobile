@@ -19,16 +19,16 @@ const UserReducer = (state = DEFAULT_STATE, action) => {
 
   switch(action.type) {
     case USER_ACTION_TYPES.RECEIVE_FIREBASE_USER_OBJ:
-      newState.firebaseUserObj = action.data;
+      newState.firebaseUserObj = action.data.firebaseUserObj;
 
       return newState;
     case USER_ACTION_TYPES.RECEIVE_AUTH_TOKEN:
-      newState.authToken = action.data;
+      newState.authToken = action.data.authToken;
       // console.log(action.data); // Debug Test
 
       return newState;
     case USER_ACTION_TYPES.RECEIVE_USER:
-      newState.user = action.data;
+      newState.user = action.data.user;
 
       return newState;
     default:
