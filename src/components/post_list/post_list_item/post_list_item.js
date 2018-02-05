@@ -274,16 +274,16 @@ class PostListItem extends React.PureComponent {
       avatarUrl = this.props.usersCache[this.props.item.author_id].avatar_url;
     }
 
-    if (avatarUrl && this.props.images[avatarUrl]) {
+    if (avatarUrl && this.props.imagesCache[avatarUrl]) {
       return (
         <CachedImage
-          source={{uri: this.props.images[avatarUrl].url}}
+          source={{uri: this.props.imagesCache[avatarUrl].url}}
           style={styles.avatarImage}
           resizeMode={'cover'}
           onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
           />
       )
-    } else if (avatarUrl && !this.props.images[avatarUrl]) {
+    } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
       return (
         <RN.View style={{width: 40}} />
       )
@@ -364,12 +364,12 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderImage() {
-    if (this.props.item.image_url && this.props.images[this.props.item.image_url]) {
+    if (this.props.item.image_url && this.props.imagesCache[this.props.item.image_url]) {
       return (
         <RN.View style={styles.bodyImageView}>
           <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
             <CachedImage
-              source={{uri: this.props.images[this.props.item.image_url].url}}
+              source={{uri: this.props.imagesCache[this.props.item.image_url].url}}
               style={styles.bodyImage}
               resizeMode={'contain'}
               onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.item.image_url)}
@@ -378,7 +378,7 @@ class PostListItem extends React.PureComponent {
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
-    } else if (this.props.item.image_url && !this.props.images[this.props.item.image_url]) {
+    } else if (this.props.item.image_url && !this.props.imagesCache[this.props.item.image_url]) {
       return (
         <RN.View style={styles.bodyImageView}>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
