@@ -25,12 +25,6 @@ class DiscoverScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // Refresh AllPosts and FollowedPosts on mount
-  componentDidMount() {
-    this.postList.getWrappedInstance().refresh();
-    this.postList.getWrappedInstance().refresh(POST_TYPES.FOLLOWED);
-  }
-
   // Auto-refresh screen if coming back to it after > 1 minute
   componentWillReceiveProps(nextProps) {
     if (this.props.currentScreen != 'DiscoverScreen' && nextProps.currentScreen === 'DiscoverScreen') {

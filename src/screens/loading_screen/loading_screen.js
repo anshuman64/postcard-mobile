@@ -5,6 +5,7 @@ import Firebase        from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
+import { POST_TYPES }          from '../../actions/post_actions.js';
 import { styles, pulseIcon }   from './loading_screen_styles.js';
 import { defaultErrorAlert }   from '../../utilities/error_utility.js';
 import { UTILITY_STYLES }      from '../../utilities/style_utility.js';
@@ -46,7 +47,13 @@ class LoadingScreen extends React.PureComponent {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
               this.setState({ iterationCount: 2, isBanned: true });
             } else {
-              this.setState({ iterationCount: 2, isLoggedIn: true });
+              this._getAllPosts()
+                .then(() => {
+                  this.setState({ iterationCount: 2, isLoggedIn: true });
+                })
+                .catch((error) => {
+                  defaultErrorAlert(error);
+                });
             }
           })
           .catch((error) => {
@@ -58,6 +65,17 @@ class LoadingScreen extends React.PureComponent {
         this.setState({ iterationCount: 2, isLoggedIn: false });
       }
     });
+  }
+
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  async _getAllPosts()  {
+    for (let postType in POST_TYPES) {
+      await this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
   }
 
   //--------------------------------------------------------------------//

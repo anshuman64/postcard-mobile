@@ -119,7 +119,11 @@ class PostList extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer screen={this.props.screen} item={this.props.postsCache[item]} userId={this.props.userId} setFollowState={this.props.setFollowState} />
+      <PostListItemContainer
+        screen={this.props.screen}
+        item={this.props.postsCache[item]}
+        setFollowState={this.props.setFollowState}
+        />
     )
   }
 
@@ -149,9 +153,6 @@ class PostList extends React.PureComponent {
           screen={this.props.screen}
           scrollY={this.state.scrollY}
           userId={this.props.userId}
-          username={this.props.username}
-          avatarUrl={this.props.avatarUrl}
-          isFollowed={this.props.isFollowed}
           postType={this.props.postType}
           setParentState={this.props.setParentState}
           />
