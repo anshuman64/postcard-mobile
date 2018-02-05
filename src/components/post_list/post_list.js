@@ -62,8 +62,6 @@ class PostList extends React.PureComponent {
   refresh(postType = this.props.postType) {
     this.isLoading = true;
 
-    let isUser =
-
     this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, true, this.props.userId, postType, this.props.client.id === this.props.userId)
       .catch((error) => {
         defaultErrorAlert(error);

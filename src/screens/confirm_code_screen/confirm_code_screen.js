@@ -46,7 +46,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
         this.setState({ isLoading: true }, () => {
-          this.props.loginUser(firebaseUserObj)
+          this.props.loginClient(firebaseUserObj)
             .then(() => {
               this._navigateTo();
             })
