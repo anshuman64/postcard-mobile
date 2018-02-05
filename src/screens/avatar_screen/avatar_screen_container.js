@@ -12,11 +12,11 @@ import { uploadFile }                   from '../../utilities/file_utility.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ client, images }, ownProps) => ({
+const mapStateToProps = ({ client, imagesCache }, ownProps) => ({
   client:          client.user,
   authToken:       client.authToken,
   firebaseUserObj: client.firebaseUserObj,
-  images:          images,
+  imagesCache:          imagesCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
