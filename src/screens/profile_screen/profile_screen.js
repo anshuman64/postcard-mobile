@@ -79,7 +79,6 @@ class ProfileScreen extends React.PureComponent {
           username={this.props.client.username}
           avatarUrl={this.props.client.avatar_url}
           postType={this.state.postType}
-          scrollToTop={this.props.scrollToTop}
           setParentState={this.setParentState}
           />
       </RN.View>
