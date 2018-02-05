@@ -19,7 +19,7 @@ const RootReducer = combineReducers({
   postsCache:  PostsCacheReducer,
   usersCache:  UsersCacheReducer,
   friendships: FriendshipsReducer,
-  imagesCache:      ImagesCacheReducer,
+  imagesCache: ImagesCacheReducer,
   navigation:  NavigationReducer
 });
 
