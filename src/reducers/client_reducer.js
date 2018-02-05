@@ -8,9 +8,9 @@ import { CLIENT_ACTION_TYPES } from '../actions/client_actions.js';
 
 
 const DEFAULT_STATE = {
-  firebaseUserObj:     null,
-  authToken:           '',
-  user:              null
+  firebaseUserObj: null,
+  authToken:       '',
+  user:            null
 };
 
 const ClientReducer = (state = DEFAULT_STATE, action) => {

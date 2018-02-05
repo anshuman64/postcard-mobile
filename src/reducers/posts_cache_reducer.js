@@ -11,17 +11,15 @@ import { FOLLOW_ACTION_TYPES } from '../actions/follow_actions.js';
 
 /* Data is in the form {
  *   postId1: {
- *      "id": 30,
- *      "body": null,
- *      "author_id": 1,
- *      "image_url": "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
- *      "created_at": "2018-01-18T23:48:06.000Z",
- *      "updated_at": "2018-01-18T23:48:06.000Z",
- *      "num_likes": 0,
- *      "is_liked_by_user": false,
- *      "author.username": "huuu",
- *      "author.avatar_url": "1/profile_pictures/3862f2d0-f707-11e7-911d-a54d5d66a9ee.jpeg",
- *      "is_author_followed_by_user": false
+ *      "id":                   30,
+ *      "body":                 "hello world!",
+ *      "author_id":            1,
+ *      "image_url":            "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
+ *      "created_at":           "2018-01-18T23:48:06.000Z",
+ *      "updated_at":           "2018-01-18T23:48:06.000Z",
+ *      "num_likes":            0,
+ *      "is_liked_by_client":   false,
+ *      "is_flagged_by_client": false,
  *  },
  *   postId2: {...
  */
@@ -42,7 +40,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.RECEIVE_POSTS:
     case POST_ACTION_TYPES.REFRESH_POSTS:
       _.forEach(action.data.posts, (post) => {
-        newState[post.id] = post;
+        newState[post.id] = _.omit(post, 'author');
       });
 
       return newState;
@@ -68,20 +66,20 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   // Like Post Actions
   //--------------------------------------------------------------------//
 
-    // When liking a post, increment the likes by 1 and set is_liked_by_user to true
+    // When liking a post, increment the likes by 1 and set is_liked_by_client to true
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
       postToUpdate = newState[action.data.like.post_id];
 
       postToUpdate.num_likes++;
-      postToUpdate.is_liked_by_user = true;
+      postToUpdate.is_liked_by_client = true;
 
       return newState;
-    // When unliking a post, decrement the likes by 1 and set is_liked_by_user to false
+    // When unliking a post, decrement the likes by 1 and set is_liked_by_client to false
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
       postToUpdate = newState[action.data.like.post_id];
 
       postToUpdate.num_likes--;
-      postToUpdate.is_liked_by_user = false;
+      postToUpdate.is_liked_by_client = false;
 
       return newState;
 
@@ -89,37 +87,14 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   // Flag Post Actions
   //--------------------------------------------------------------------//
 
-    // When flagging a post, set is_flagged_by_user to true
+    // When flagging a post, set is_flagged_by_client to true
     case FLAG_ACTION_TYPES.RECEIVE_FLAG:
-      newState[action.data.flag.post_id].is_flagged_by_user = true;
+      newState[action.data.flag.post_id].is_flagged_by_client = true;
 
       return newState;
-    // When unflagging a post, set is_flagged_by_user to false
+    // When unflagging a post, set is_flagged_by_client to false
     case FLAG_ACTION_TYPES.REMOVE_FLAG:
-      newState[action.data.flag.post_id].is_flagged_by_user = false;
-
-      return newState;
-
-  //--------------------------------------------------------------------//
-  // Follow Actions
-  //--------------------------------------------------------------------//
-
-    // When following a new user, set is_author_followed_by_user to true for all posts with that author
-    case FOLLOW_ACTION_TYPES.RECEIVE_FOLLOW:
-      _.forEach(newState, (post) => {
-        if (post.author_id === action.data.follow.followee_id) {
-          post.is_author_followed_by_user = true;
-        }
-      });
-
-      return newState;
-    // When unfollowing a user, set is_author_followed_by_user to false for all posts with that author
-    case FOLLOW_ACTION_TYPES.REMOVE_FOLLOW:
-      _.forEach(newState, (post) => {
-        if (post.author_id === action.data.follow.followee_id) {
-          post.is_author_followed_by_user = false;
-        }
-      });
+      newState[action.data.flag.post_id].is_flagged_by_client = false;
 
       return newState;
     default:
