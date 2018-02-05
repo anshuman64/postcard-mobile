@@ -113,7 +113,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
     amplitude.setUserProperties({ database_id: user.id, phone_number: user.phone_number, firebase_uid: user.firebase_uid, created_at: user.created_at });
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
 
-    dispatch(receiveUser(user));
+    dispatch(receiveUser({ user: user }));
 
     if (user.avatar_url) {
       dispatch(getImage(user.avatar_url));
@@ -148,7 +148,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
       });
   };
 
-  dispatch(receiveFirebaseUserObj(firebaseUserObj));
+  dispatch(receiveFirebaseUserObj({ firebaseUserObj: firebaseUserObj }));
   return dispatch(refreshAuthToken(firebaseUserObj))
     .then((newAuthToken) => {
       return handleExistingUser(newAuthToken);
@@ -173,7 +173,7 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
 
   return firebaseUserObj.getIdToken(true)
     .then((newAuthToken) => {
-      dispatch(receiveAuthToken(newAuthToken));
+      dispatch(receiveAuthToken({ authToken: newAuthToken }));
 
       return configureAWS(newAuthToken)
         .then(() => {
@@ -202,7 +202,7 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
   return APIUtility.put(authToken, '/users', { username: username })
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: true, username: username });
-    dispatch(receiveUser(editedUser));
+    dispatch(receiveUser({ user: editedUser }));
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -227,7 +227,7 @@ export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) 
   return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
-    dispatch(receiveUser(editedUser));
+    dispatch(receiveUser({ user: editedUser }));
 
     if (editedUser.avatar_url) {
       dispatch(getImage(editedUser.avatar_url));
