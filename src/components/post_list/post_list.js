@@ -26,32 +26,12 @@ class PostList extends React.PureComponent {
 
     this.state = {
       isRefreshing: false,
-      scrollToTop:  false,
       scrollY:      new RN.Animated.Value(0),
     };
 
     this.onEndReachedCalledDuringMomentum = true;
     this.isLoading = true;
     this._onRefresh = this._onRefresh.bind(this);
-  }
-
-  //--------------------------------------------------------------------//
-  // Lifecycle Methods
-  //--------------------------------------------------------------------//
-
-  componentWillReceiveProps(nextProps) {
-    // Scroll to top when having created a new post if returning to Home Screen or Authored Post Tab
-    if (this.props.scrollToTop != nextProps.scrollToTop) {
-      this.setState({ scrollToTop: true });
-    }
-  }
-
-  componentDidUpdate() {
-    // Scrolls postList to top
-    if (this.state.scrollToTop) {
-      this.flatList.getNode().scrollToOffset({x: 0, y: 0, animated: true});
-      this.setState({ scrollToTop: false });
-    }
   }
 
   //--------------------------------------------------------------------//

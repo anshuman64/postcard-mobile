@@ -47,7 +47,6 @@ class HomeScreen extends React.PureComponent {
           screen={'HomeScreen'}
           userId={this.props.client.id}
           postType={POST_TYPES.RECEIVED}
-          scrollToTop={this.props.scrollToTop}
           />
       </RN.View>
     )
