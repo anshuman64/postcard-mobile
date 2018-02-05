@@ -142,7 +142,7 @@ class ProfileHeader extends React.PureComponent {
           <Icon name='pencil' style={[styles.avatarPencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
-    } else if (avatarUrl && !this.props.images[avatarUrl]) {
+    } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
       return (
         <RN.View style={styles.frame} />
       )
@@ -150,7 +150,7 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
           <CachedImage
-            source={{uri: this.props.images[avatarUrl].url}}
+            source={{uri: this.props.imagesCache[avatarUrl].url}}
             style={styles.image}
             resizeMode={'cover'}
             onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}

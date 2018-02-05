@@ -38,7 +38,7 @@ class AvatarScreen extends React.PureComponent {
   // If user has an avatar, get image and render it
   componentDidMount() {
     if (this.props.client.avatar_url) {
-      let avatarImageUrl = this.props.images[this.props.client.avatar_url].url;
+      let avatarImageUrl = this.props.imagesCache[this.props.client.avatar_url].url;
 
       this.setState({ imagePath: avatarImageUrl });
       this.existingAvatar = avatarImageUrl;

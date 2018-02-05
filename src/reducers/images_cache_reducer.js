@@ -16,7 +16,7 @@ import { IMAGE_ACTION_TYPES } from '../actions/image_actions.js';
 
 const DEFAULT_STATE = {};
 
-const ImagesReducer = (state = DEFAULT_STATE, action) => {
+const ImagesCacheReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
   let newState = _.merge({}, state);
 
@@ -69,4 +69,4 @@ const ImagesReducer = (state = DEFAULT_STATE, action) => {
 
 //--------------------------------------------------------------------//
 
-export default ImagesReducer;
+export default ImagesCacheReducer;

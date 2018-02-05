@@ -109,16 +109,16 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    if (this.props.avatar_url && this.props.images[this.props.avatar_url]) {
+    if (this.props.avatar_url && this.props.imagesCache[this.props.avatar_url]) {
       return (
         <CachedImage
-          source={{uri: this.props.images[this.props.avatar_url].url}}
+          source={{uri: this.props.imagesCache[this.props.avatar_url].url}}
           style={styles.avatarImage}
           resizeMode={'cover'}
           onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.avatar_url)}
           />
       )
-    } else if (this.props.avatar_url && !this.props.images[this.props.avatar_url]) {
+    } else if (this.props.avatar_url && !this.props.imagesCache[this.props.avatar_url]) {
       return (
         <RN.View style={{width: 40}} />
       )
