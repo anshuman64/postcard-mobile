@@ -55,7 +55,7 @@ class PostListItem extends React.PureComponent {
 
     this.setState({ isLikingServer: true }, () => {
       // If post already liked, delete like
-      if (this.props.item.is_liked_by_user) {
+      if (this.props.item.is_liked_by_client) {
         this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.id)
           .catch((error) => {
             defaultErrorAlert(error);
@@ -90,7 +90,7 @@ class PostListItem extends React.PureComponent {
     this.isFlagDisabled = true;
 
     // If post is flagged, delete flag
-    if (this.props.item.is_flagged_by_user) {
+    if (this.props.item.is_flagged_by_client) {
       this.props.deleteFlag(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
         .catch((error) => {
           defaultErrorAlert(error);
@@ -182,7 +182,7 @@ class PostListItem extends React.PureComponent {
     this.isFollowDisabled = true;
 
     // If user is followed, pop alert confirming unfollow
-    if (this.props.item.is_author_followed_by_user) {
+    if (this.props.usersCache[this.props.item.author_id].is_user_followed_by_client) {
       RN.Alert.alert(
         '',
         'Are you sure you want to unfollow this user?',
@@ -228,19 +228,6 @@ class PostListItem extends React.PureComponent {
       });
   }
 
-  //--------------------------------------------------------------------//
-  // Other Callback Methods
-  //--------------------------------------------------------------------//
-
-  // Navigates to profile of user and sends appropriate props
-  _navigateToProfile = () => {
-    this.props.navigateToProfile({
-      userId: this.props.item.author_id,
-      username: this.props.item.author.username,
-      avatarUrl: this.props.item.author.avatar_url,
-      isFollowed: this.props.item.is_author_followed_by_user
-    });
-  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -261,7 +248,7 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
           onPressOut={() => this.usernameText.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]})}
-          onPress={this._navigateToProfile}
+          onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id })}
           disabled={this.props.client.id === this.props.item.author_id}
           >
           <RN.View style={styles.usernameView}>
@@ -269,7 +256,7 @@ class PostListItem extends React.PureComponent {
               {this._renderAvatar()}
             </RN.View>
             <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-              {this.props.client.id === this.props.item.author_id ? this.props.client.username : this.props.item.author.username}
+              {this.props.client.id === this.props.item.author_id ? this.props.client.username : this.props.usersCache[this.props.item.author_id].username}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -283,8 +270,8 @@ class PostListItem extends React.PureComponent {
 
     if (this.props.client.id === this.props.item.author_id && this.props.client.avatar_url) {
       avatarUrl = this.props.client.avatar_url;
-    } else if (this.props.client.id != this.props.item.author_id && this.props.item.author.avatar_url) {
-      avatarUrl = this.props.item.author.avatar_url;
+    } else if (this.props.client.id != this.props.item.author_id && this.props.usersCache[this.props.item.author_id].avatar_url) {
+      avatarUrl = this.props.usersCache[this.props.item.author_id].avatar_url;
     }
 
     if (avatarUrl && this.props.images[avatarUrl]) {
@@ -315,8 +302,8 @@ class PostListItem extends React.PureComponent {
             |
           </RN.Text>
           <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !this.props.item.is_author_followed_by_user && UTILITY_STYLES.textHighlighted]}>
-              {this.props.item.is_author_followed_by_user ? 'Following' : 'Follow'}
+            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !this.props.usersCache[this.props.item.author_id].is_user_followed_by_client && UTILITY_STYLES.textHighlighted]}>
+              {this.props.usersCache[this.props.item.author_id].is_user_followed_by_client ? 'Following' : 'Follow'}
             </RN.Text>
           </RN.TouchableOpacity>
         </RN.View>
@@ -348,8 +335,8 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback onPress={this._onPressFlagPost} >
           <RN.View style={styles.closeOrFlagButton}>
             <Ionicon
-              name={this.props.item.is_flagged_by_user ? 'ios-flag' : 'ios-flag-outline'}
-              style={[styles.flagIcon, this.props.item.is_flagged_by_user && UTILITY_STYLES.textRed]}
+              name={this.props.item.is_flagged_by_client ? 'ios-flag' : 'ios-flag-outline'}
+              style={[styles.flagIcon, this.props.item.is_flagged_by_client && UTILITY_STYLES.textRed]}
               />
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -425,8 +412,8 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderLike() {
-    if ((!this.props.item.is_liked_by_user && !(!this.state.isLikingServer && !this.state.isLikingAnimation))
-        || this.props.item.is_liked_by_user) {
+    if ((!this.props.item.is_liked_by_client && !(!this.state.isLikingServer && !this.state.isLikingAnimation))
+        || this.props.item.is_liked_by_client) {
       return (
         <AnimatedIonicon
           name='md-heart'
