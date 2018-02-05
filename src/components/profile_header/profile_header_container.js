@@ -5,17 +5,17 @@ import { connect } from 'react-redux';
 import ProfileHeader                  from './profile_header.js';
 import { createFollow, deleteFollow } from '../../actions/follow_actions.js';
 import { refreshCredsAndGetImage }    from '../../actions/image_actions.js';
-import { refreshAuthToken }           from '../../actions/user_actions.js';
+import { refreshAuthToken }           from '../../actions/client_actions.js';
 import { navigateTo }                 from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, images }, ownProps) => ({
-  authToken:       user.authToken,
-  firebaseUserObj: user.firebaseUserObj,
-  user:            user.user,
+const mapStateToProps = ({ client, images }, ownProps) => ({
+  authToken:       client.authToken,
+  firebaseUserObj: client.firebaseUserObj,
+  client:          client.user,
   images:          images,
 });
 

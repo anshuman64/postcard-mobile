@@ -37,8 +37,8 @@ class AvatarScreen extends React.PureComponent {
 
   // If user has an avatar, get image and render it
   componentDidMount() {
-    if (this.props.user.avatar_url) {
-      let avatarImageUrl = this.props.images[this.props.user.avatar_url].url;
+    if (this.props.client.avatar_url) {
+      let avatarImageUrl = this.props.images[this.props.client.avatar_url].url;
 
       this.setState({ imagePath: avatarImageUrl });
       this.existingAvatar = avatarImageUrl;
@@ -58,7 +58,7 @@ class AvatarScreen extends React.PureComponent {
 
   // Uploads image to AWS S3
   _uploadImage = (imagePath, imageType) => {
-    this.props.uploadFile(this.props.authToken, this.props.firebaseUserObj, imagePath, imageType, this.props.user.id, 'profile_pictures/')
+    this.props.uploadFile(this.props.authToken, this.props.firebaseUserObj, imagePath, imageType, this.props.client.id, 'profile_pictures/')
       .then((data) => {
         this._setAvatarUrl(data.key);
       })
@@ -171,13 +171,13 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderAvatar() {
-    if (!this.props.user.avatar_url && !this.state.imagePath) {
+    if (!this.props.client.avatar_url && !this.state.imagePath) {
       return (
         <RN.View style={styles.frameBorder}>
           <Icon name='user' style={styles.userIcon} />
         </RN.View>
       )
-    } else if (this.props.user.avatar_url && !this.state.imagePath) {
+    } else if (this.props.client.avatar_url && !this.state.imagePath) {
       return null;
     } else {
       return (
@@ -189,7 +189,7 @@ class AvatarScreen extends React.PureComponent {
             source={{uri: this.state.imagePath, cache: 'force-cache'}}
             style={styles.image}
             resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.user.avatar_url)}
+            onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.client.avatar_url)}
             />
         </RN.TouchableOpacity>
       )
@@ -225,7 +225,7 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderSkipButton() {
-    if (this.props.isLogin || this.props.user.avatar_url) {
+    if (this.props.isLogin || this.props.client.avatar_url) {
       return (
         <RN.TouchableOpacity
           style={styles.skipButton}

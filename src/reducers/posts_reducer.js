@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 // Local Imports
-import { USER_ACTION_TYPES }             from '../actions/user_actions.js';
+import { CLIENT_ACTION_TYPES }             from '../actions/client_actions.js';
 import { POST_ACTION_TYPES, POST_TYPES } from '../actions/post_actions.js';
 import { LIKE_ACTION_TYPES }             from '../actions/like_actions.js';
 import { FOLLOW_ACTION_TYPES }           from '../actions/follow_actions.js';
@@ -34,7 +34,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     // When a user logs in, instantiate blank objects in store for that userId
-    case USER_ACTION_TYPES.RECEIVE_USER:
+    case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
       userId = action.data.id;
 
       newState[userId] = newState[userId] || {};

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import AvatarScreen                     from './avatar_screen.js';
-import { editAvatar, refreshAuthToken } from '../../actions/user_actions.js';
+import { editAvatar, refreshAuthToken } from '../../actions/client_actions.js';
 import { refreshCredsAndGetImage }      from '../../actions/image_actions.js';
 import { navigateTo, goBack }           from '../../actions/navigation_actions.js';
 import { uploadFile }                   from '../../utilities/file_utility.js';
@@ -12,10 +12,10 @@ import { uploadFile }                   from '../../utilities/file_utility.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, images }, ownProps) => ({
-  user:            user.user,
-  authToken:       user.authToken,
-  firebaseUserObj: user.firebaseUserObj,
+const mapStateToProps = ({ client, images }, ownProps) => ({
+  client:          client.user,
+  authToken:       client.authToken,
+  firebaseUserObj: client.firebaseUserObj,
   images:          images,
 });
 

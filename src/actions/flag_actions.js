@@ -2,7 +2,7 @@
 import { amplitude }           from '../utilities/analytics_utility.js';
 import * as APIUtility         from '../utilities/api_utility.js';
 import { setErrorDescription } from '../utilities/error_utility.js';
-import { refreshAuthToken }    from './user_actions.js';
+import { refreshAuthToken }    from './client_actions.js';
 
 //--------------------------------------------------------------------//
 

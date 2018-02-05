@@ -48,7 +48,7 @@ class FriendScreen extends React.PureComponent {
   }
 
   _onPressShare = () => {
-    RN.Share.share({message: 'Add me on Insiya! My username is: ' + this.props.user.username + '\nhttps://insiya.io' })
+    RN.Share.share({message: 'Add me on Insiya! My username is: ' + this.props.client.username + '\nhttps://insiya.io' })
   }
 
   //--------------------------------------------------------------------//

@@ -36,7 +36,7 @@ class DiscoverScreen extends React.PureComponent {
     if (this.props.currentScreen != 'DiscoverScreen' && nextProps.currentScreen === 'DiscoverScreen') {
       let checkRefresh = (postType) => {
         let currentTime = new Date();
-        let lastUpdate = this.props.posts[this.props.user.id][postType].lastUpdated;
+        let lastUpdate = this.props.posts[this.props.client.id][postType].lastUpdated;
         let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
         if (minsDiff > 1) {
@@ -73,7 +73,7 @@ class DiscoverScreen extends React.PureComponent {
         <PostListContainer
           ref={(ref) => this.postList = ref}
           screen={'DiscoverScreen'}
-          userId={this.props.user.id}
+          userId={this.props.client.id}
           postType={this.state.postType}
           setParentState={this.setParentState}
           />
