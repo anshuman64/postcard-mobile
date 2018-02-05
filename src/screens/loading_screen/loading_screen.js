@@ -40,7 +40,7 @@ class LoadingScreen extends React.PureComponent {
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
-        this.props.loginUser(firebaseUserObj)
+        this.props.loginClient(firebaseUserObj)
           .then(() => {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
