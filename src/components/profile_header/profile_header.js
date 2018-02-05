@@ -81,13 +81,10 @@ class ProfileHeader extends React.PureComponent {
 
     this.isFollowDisabled = true;
 
-    if (this.props.isFollowed) {
+    if (this.props.usersCache[this.props.userId].is_user_followed_by_client) {
       this._onPressUnfollow();
     } else {
       this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
-        .then(() => {
-          this.props.setFollowState({ isFollowed: true });
-        })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -115,11 +112,6 @@ class ProfileHeader extends React.PureComponent {
   // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
     this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
-      .then(() => {
-        if (this.props.setFollowState) {
-          this.props.setFollowState({ isFollowed: false });
-        }
-      })
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -137,13 +129,11 @@ class ProfileHeader extends React.PureComponent {
 
     if (this.props.userId === this.props.client.id) {
       avatarUrl = this.props.client.avatar_url;
-    } else if (this.props.avatarUrl) {
-      avatarUrl = this.props.avatarUrl;
+    } else if (this.props.usersCache[this.props.userId].avatar_url) {
+      avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
     }
 
-    if (!this.props.username) {
-      return null;
-    } else if (!avatarUrl) {
+    if (!avatarUrl) {
       return (
         <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
           <RN.View style={styles.frameBorder}>
@@ -172,18 +162,14 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderUsername() {
-    if (!this.props.username) {
-      return null;
-    } else {
-      return (
-        <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.client.id != this.props.userId}>
-          <RN.Text style={styles.usernameText}>
-            {this.props.username}
-          </RN.Text>
-          <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
-        </RN.TouchableOpacity>
-      )
-    }
+    return (
+      <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.client.id != this.props.userId}>
+        <RN.Text style={styles.usernameText}>
+          {this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null}
+        </RN.Text>
+        <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
+      </RN.TouchableOpacity>
+    )
   }
 
   _renderButtons() {
@@ -209,11 +195,11 @@ class ProfileHeader extends React.PureComponent {
             </RN.Text>
           </RN.TouchableOpacity>
           <RN.TouchableOpacity
-            style={[styles.followButtonBackground, this.props.isFollowed && styles.buttonBackgroundDisabled]}
+            style={[styles.followButtonBackground, this.props.usersCache[this.props.userId].is_user_followed_by_client && styles.buttonBackgroundDisabled]}
             onPress={this._onPressFollow}
             >
-            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, UTILITY_STYLES.textHighlighted, this.props.isFollowed && styles.buttonTextDisabled]}>
-              { this.props.isFollowed ? 'Following' : 'Follow' }
+            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, UTILITY_STYLES.textHighlighted, this.props.usersCache[this.props.userId].is_user_followed_by_client && styles.buttonTextDisabled]}>
+              { this.props.usersCache[this.props.userId].is_user_followed_by_client ? 'Following' : 'Follow' }
             </RN.Text>
           </RN.TouchableOpacity>
         </RN.View>
@@ -221,40 +207,6 @@ class ProfileHeader extends React.PureComponent {
     } else {
       return (
         <RN.View style={{ height: 30 }} />
-      )
-    }
-  }
-
-  _renderTabs() {
-    if (!this.props.username) {
-      return (
-        <RN.View style={styles.tabs}>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.PUBLIC })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.PUBLIC && UTILITY_STYLES.textHighlighted]} >
-              Recent
-            </RN.Text>
-          </RN.TouchableOpacity>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.FOLLOWED })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.FOLLOWED && UTILITY_STYLES.textHighlighted]} >
-              Following
-            </RN.Text>
-          </RN.TouchableOpacity>
-        </RN.View>
-      )
-    } else {
-      return (
-        <RN.View style={styles.tabs}>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.AUTHORED && UTILITY_STYLES.textHighlighted]} >
-              Posts
-            </RN.Text>
-          </RN.TouchableOpacity>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, {marginBottom: 5}, this.props.postType === POST_TYPES.LIKED && UTILITY_STYLES.textHighlighted]} >
-              Liked
-            </RN.Text>
-          </RN.TouchableOpacity>
-        </RN.View>
       )
     }
   }
@@ -267,9 +219,7 @@ class ProfileHeader extends React.PureComponent {
     });
 
     return (
-      <RN.Animated.View style={[styles.container,
-        !this.props.username && { height: TAB_BAR_HEIGHT },
-        this.props.username && { transform: [{translateY}] }]}
+      <RN.Animated.View style={[styles.container, { transform: [{translateY}] }]}
         >
         <RN.View style={styles.userView}>
           {this._renderAvatar()}
