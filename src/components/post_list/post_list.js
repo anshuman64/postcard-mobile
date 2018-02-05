@@ -174,7 +174,6 @@ class PostList extends React.PureComponent {
           isFollowed={this.props.isFollowed}
           postType={this.props.postType}
           setParentState={this.props.setParentState}
-          setFollowState={this.props.setFollowState}
           />
       )
     } else {

@@ -11,8 +11,8 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 //--------------------------------------------------------------------//
 
 /* Data is in the form {
- *   thisUserId: {
- *     publicPosts:      { data: [], lastUpdated: null, isEnd: false },
+ *   clientId: {
+ *     publicPosts:   { data: [], lastUpdated: null, isEnd: false },
  *     authoredPosts: { data: [], lastUpdated: null, isEnd: false },
  *     likedPosts:    { data: [], lastUpdated: null, isEnd: false },
  *     followedPosts: { data: [], lastUpdated: null, isEnd: false },
