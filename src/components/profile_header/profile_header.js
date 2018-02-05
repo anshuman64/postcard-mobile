@@ -84,7 +84,7 @@ class ProfileHeader extends React.PureComponent {
     if (this.props.isFollowed) {
       this._onPressUnfollow();
     } else {
-      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.userId)
+      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.userId)
         .then(() => {
           this.props.setFollowState({ isFollowed: true });
         })
@@ -114,7 +114,7 @@ class ProfileHeader extends React.PureComponent {
 
   // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.userId)
+    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.userId)
       .then(() => {
         if (this.props.setFollowState) {
           this.props.setFollowState({ isFollowed: false });
@@ -135,8 +135,8 @@ class ProfileHeader extends React.PureComponent {
   _renderAvatar() {
     let avatarUrl;
 
-    if (this.props.userId === this.props.user.id) {
-      avatarUrl = this.props.user.avatar_url;
+    if (this.props.userId === this.props.client.id) {
+      avatarUrl = this.props.client.avatar_url;
     } else if (this.props.avatarUrl) {
       avatarUrl = this.props.avatarUrl;
     }
@@ -145,11 +145,11 @@ class ProfileHeader extends React.PureComponent {
       return null;
     } else if (!avatarUrl) {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
           <RN.View style={styles.frameBorder}>
             <Icon name='user' style={styles.userIcon} />
           </RN.View>
-          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
+          <Icon name='pencil' style={[styles.avatarPencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     } else if (avatarUrl && !this.props.images[avatarUrl]) {
@@ -158,14 +158,14 @@ class ProfileHeader extends React.PureComponent {
       )
     } else {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.user.id != this.props.userId}>
+        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
           <CachedImage
             source={{uri: this.props.images[avatarUrl].url}}
             style={styles.image}
             resizeMode={'cover'}
             onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
             />
-          <Icon name='pencil' style={[styles.avatarPencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
+          <Icon name='pencil' style={[styles.avatarPencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     }
@@ -176,11 +176,11 @@ class ProfileHeader extends React.PureComponent {
       return null;
     } else {
       return (
-        <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.user.id != this.props.userId}>
+        <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.client.id != this.props.userId}>
           <RN.Text style={styles.usernameText}>
             {this.props.username}
           </RN.Text>
-          <Icon name='pencil' style={[styles.pencil, this.props.user.id != this.props.userId && UTILITY_STYLES.transparentText]} />
+          <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
       )
     }
@@ -197,7 +197,7 @@ class ProfileHeader extends React.PureComponent {
       friendString = 'Add Friend';
     }
 
-    if (this.props.user.id != this.props.userId) {
+    if (this.props.client.id != this.props.userId) {
       return (
         <RN.View style={styles.buttonView}>
           <RN.TouchableOpacity

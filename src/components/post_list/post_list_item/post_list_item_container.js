@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import PostListItem                    from './post_list_item.js';
-import { refreshAuthToken }            from '../../../actions/user_actions.js';
+import { refreshAuthToken }            from '../../../actions/client_actions.js';
 import { deletePost, removePost }      from '../../../actions/post_actions.js';
 import { createLike, deleteLike }      from '../../../actions/like_actions.js';
 import { createFlag, deleteFlag }      from '../../../actions/flag_actions.js';
@@ -15,10 +15,10 @@ import { navigateToProfile }           from '../../../actions/navigation_actions
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, images }, ownProps) => ({
-  authToken:       user.authToken,
-  firebaseUserObj: user.firebaseUserObj,
-  user:            user.user,
+const mapStateToProps = ({ client, images }, ownProps) => ({
+  authToken:       client.authToken,
+  firebaseUserObj: client.firebaseUserObj,
+  client:          client.user,
   images:          images,
 });
 

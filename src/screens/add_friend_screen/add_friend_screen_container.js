@@ -3,17 +3,17 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import AddFriendScreen         from './add_friend_screen.js';
-import { editUsername }        from '../../actions/user_actions.js';
+import { editUsername }        from '../../actions/client_actions.js';
 import { navigateTo, goBack }  from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, navigation }, ownProps) => ({
-  user:            user.user,
-  authToken:       user.authToken,
-  firebaseUserObj: user.firebaseUserObj,
+const mapStateToProps = ({ client, navigation }, ownProps) => ({
+  client:          client.user,
+  authToken:       client.authToken,
+  firebaseUserObj: client.firebaseUserObj,
   currentScreen:   navigation.currentScreen
 });
 
