@@ -91,7 +91,7 @@ class PostListItem extends React.PureComponent {
 
     // If post is flagged, delete flag
     if (this.props.item.is_flagged_by_user) {
-      this.props.deleteFlag(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.id)
+      this.props.deleteFlag(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -116,7 +116,7 @@ class PostListItem extends React.PureComponent {
 
   // Creates flag
   _onConfirmFlagPost = () => {
-    this.props.createFlag(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.id)
+    this.props.createFlag(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -196,7 +196,7 @@ class PostListItem extends React.PureComponent {
       )
     // If user is not followed, create follow
     } else {
-      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.author_id)
+      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.item.author_id)
         .then(() => {
           // If on profileScreen, update follow state to make sure ProfileHeader is also updated
           if (this.props.setFollowState) {
@@ -214,7 +214,7 @@ class PostListItem extends React.PureComponent {
 
   // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.author_id)
+    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.item.author_id)
       .then(() => {
         if (this.props.setFollowState) {
           this.props.setFollowState({ isFollowed: false });

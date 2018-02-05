@@ -33,16 +33,16 @@ export const removeFlag = (data) => {
 
 // TODO: get post body of flagged post and send it to amplitude
 // Creates flag on a post from PostListItem
-export const createFlag = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
+export const createFlag = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.post(authToken, '/flags', { post_id: postId })
     .then((newFlag) => {
       amplitude.logEvent('Safety - Click Flag', { is_successful: true, is_create: true });
 
-      dispatch(receiveFlag({ flag: newFlag, userId: userId }));
+      dispatch(receiveFlag({ flag: newFlag }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createFlag, userId, postId));
+        return dispatch(refreshAuthToken(firebaseUserObj, createFlag, postId));
       }
 
       error = setErrorDescription(error, 'POST flag failed');
@@ -52,15 +52,15 @@ export const createFlag = (authToken, firebaseUserObj, userId, postId) => (dispa
 };
 
 // Deletes flag on a post from PostListItem
-export const deleteFlag = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
+export const deleteFlag = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/flags/' + postId)
     .then((deletedFlag) => {
       amplitude.logEvent('Safety - Click Flag', { is_successful: true, is_create: false });
-      dispatch(removeFlag({ flag: deletedFlag, userId: userId }));
+      dispatch(removeFlag({ flag: deletedFlag }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, deleteFlag, userId, postId));
+        return dispatch(refreshAuthToken(firebaseUserObj, deleteFlag, postId));
       }
 
       error = setErrorDescription(error, 'DEL flag failed');

@@ -140,18 +140,18 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     // TODO: add the liked post in the correct chronological spot
     // Adds post to beginning of LikedPosts when user likes a post
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
-      userId = action.data.userId;
+      clientId = action.data.clientId;
       postId = action.data.like.post_id;
 
-      newState[userId][POST_TYPES.LIKED].data.unshift(postId);
+      newState[clientId][POST_TYPES.LIKED].data.unshift(postId);
 
       return newState;
     // Remove post from LikedPosts when user unlikes a post
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
-      userId = action.data.userId;
+      clientId = action.data.clientId;
       postId = action.data.like.post_id;
 
-      _.remove(newState[userId][POST_TYPES.LIKED].data, (postsId) => {
+      _.remove(newState[clientId][POST_TYPES.LIKED].data, (postsId) => {
         return postsId === postId;
       });
 
