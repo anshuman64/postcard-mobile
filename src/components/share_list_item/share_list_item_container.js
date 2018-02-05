@@ -8,8 +8,8 @@ import ShareListItem               from './share_list_item.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user, images }, ownProps) => ({
-  firebaseUserObj: user.firebaseUserObj,
+const mapStateToProps = ({ client, images }, ownProps) => ({
+  firebaseUserObj: client.firebaseUserObj,
   images: images
 });
 

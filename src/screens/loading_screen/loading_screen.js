@@ -42,7 +42,7 @@ class LoadingScreen extends React.PureComponent {
       if (firebaseUserObj) {
         this.props.loginUser(firebaseUserObj)
           .then(() => {
-            if (this.props.user.is_banned) {
+            if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
               this.setState({ iterationCount: 2, isBanned: true });
             } else {
@@ -74,7 +74,7 @@ class LoadingScreen extends React.PureComponent {
     }
 
     if (this.state.isLoggedIn) {
-      if (!this.props.user.username) {
+      if (!this.props.client.username) {
         return this.props.navigateTo('UsernameScreenLogin');
       } else {
         return this.props.navigateTo('HomeScreen');

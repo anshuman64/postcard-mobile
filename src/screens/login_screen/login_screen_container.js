@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import LoginScreen              from './login_screen.js';
-import { getConfirmationCode }  from '../../actions/user_actions.js';
+import { getConfirmationCode }  from '../../actions/client_actions.js';
 import { navigateTo }           from '../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ user }, ownProps) => ({
-  confirmationCodeObj:  user.confirmationCodeObj
+const mapStateToProps = ({ client }, ownProps) => ({
+  confirmationCodeObj: client.confirmationCodeObj
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

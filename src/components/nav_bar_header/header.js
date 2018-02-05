@@ -73,7 +73,7 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
 
-      this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
+      this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
         .then(() => {
           this.props.goBack({ scrollToTop: Date() }); // sets scrollToTop to new Date to signal to postList to scrollToTop
         })
