@@ -84,7 +84,7 @@ class ProfileHeader extends React.PureComponent {
     if (this.props.isFollowed) {
       this._onPressUnfollow();
     } else {
-      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.userId)
+      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
         .then(() => {
           this.props.setFollowState({ isFollowed: true });
         })
@@ -114,7 +114,7 @@ class ProfileHeader extends React.PureComponent {
 
   // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.userId)
+    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
       .then(() => {
         if (this.props.setFollowState) {
           this.props.setFollowState({ isFollowed: false });

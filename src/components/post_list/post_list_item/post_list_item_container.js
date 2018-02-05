@@ -23,12 +23,12 @@ const mapStateToProps = ({ client, images }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createFollow:            (authToken, firebaseUserObj, userId, followeeId) => dispatch(createFollow(authToken, firebaseUserObj, userId, followeeId)),
-  deleteFollow:            (authToken, firebaseUserObj, userId, followeeId) => dispatch(deleteFollow(authToken, firebaseUserObj, userId, followeeId)),
-  createLike:              (authToken, firebaseUserObj, userId, postId) => dispatch(createLike(authToken, firebaseUserObj, userId, postId)),
-  deleteLike:              (authToken, firebaseUserObj, userId, postId) => dispatch(deleteLike(authToken, firebaseUserObj, userId, postId)),
-  createFlag:              (authToken, firebaseUserObj, userId, postId) => dispatch(createFlag(authToken, firebaseUserObj, userId, postId)),
-  deleteFlag:              (authToken, firebaseUserObj, userId, postId) => dispatch(deleteFlag(authToken, firebaseUserObj, userId, postId)),
+  createFollow:            (authToken, firebaseUserObj, followeeId) => dispatch(createFollow(authToken, firebaseUserObj, followeeId)),
+  deleteFollow:            (authToken, firebaseUserObj, followeeId) => dispatch(deleteFollow(authToken, firebaseUserObj, followeeId)),
+  createLike:              (authToken, firebaseUserObj, clientId, postId) => dispatch(createLike(authToken, firebaseUserObj, clientId, postId)),
+  deleteLike:              (authToken, firebaseUserObj, clientId, postId) => dispatch(deleteLike(authToken, firebaseUserObj, clientId, postId)),
+  createFlag:              (authToken, firebaseUserObj, postId) => dispatch(createFlag(authToken, firebaseUserObj, postId)),
+  deleteFlag:              (authToken, firebaseUserObj, postId) => dispatch(deleteFlag(authToken, firebaseUserObj, postId)),
   deletePost:              (authToken, firebaseUserObj, postId) => dispatch(deletePost(authToken, firebaseUserObj, postId)),
   removePost:              (deletedPost) => dispatch(removePost(deletedPost)),
   refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
