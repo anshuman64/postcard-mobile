@@ -15,10 +15,10 @@ import { setErrorDescription } from '../utilities/error_utility.js';
 // Constants
 //--------------------------------------------------------------------//
 
-export const USER_ACTION_TYPES = {
-  RECEIVE_FIREBASE_USER_OBJ:     'RECEIVE_FIREBASE_USER_OBJ',
-  RECEIVE_AUTH_TOKEN:            'RECEIVE_AUTH_TOKEN',
-  RECEIVE_USER:                  'RECEIVE_USER'
+export const CLIENT_ACTION_TYPES = {
+  RECEIVE_FIREBASE_USER_OBJ: 'RECEIVE_FIREBASE_USER_OBJ',
+  RECEIVE_AUTH_TOKEN:        'RECEIVE_AUTH_TOKEN',
+  RECEIVE_CLIENT:            'RECEIVE_CLIENT'
 };
 
 //--------------------------------------------------------------------//
@@ -26,15 +26,15 @@ export const USER_ACTION_TYPES = {
 //--------------------------------------------------------------------//
 
 export const receiveFirebaseUserObj = (data) => {
-  return { type: USER_ACTION_TYPES.RECEIVE_FIREBASE_USER_OBJ, data: data };
+  return { type: CLIENT_ACTION_TYPES.RECEIVE_FIREBASE_USER_OBJ, data: data };
 };
 
 export const receiveAuthToken = (data) => {
-  return { type: USER_ACTION_TYPES.RECEIVE_AUTH_TOKEN, data: data }
+  return { type: CLIENT_ACTION_TYPES.RECEIVE_AUTH_TOKEN, data: data }
 };
 
-export const receiveUser = (data) => {
-  return { type: USER_ACTION_TYPES.RECEIVE_USER, data: data }
+export const receiveClient = (data) => {
+  return { type: CLIENT_ACTION_TYPES.RECEIVE_CLIENT, data: data }
 };
 
 //--------------------------------------------------------------------//
@@ -62,12 +62,12 @@ let configureAWS = (authToken) => {
 export const debugSignIn = (email, password) => (dispatch) => {
   return Firebase.auth().signInWithEmailAndPassword(email, password)
     .then((firebaseUserObj) => {
-      return dispatch(loginUser(firebaseUserObj));
+      return dispatch(loginClient(firebaseUserObj));
     })
     .catch((error) => {
       Firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((firebaseUserObj) => {
-          return dispatch(loginUser(firebaseUserObj));
+          return dispatch(loginClient(firebaseUserObj));
         })
         .catch((error) => {
           throw setErrorDescription(error, 'Firebase email sign-in failed');
@@ -105,25 +105,25 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
 };
 
 // Generates authToken from Firebase using firebaseUserObj. Logs in user from database. Creates new user if firebase_uid has never been seen before.
-export const loginUser = (firebaseUserObj) => (dispatch) => {
+export const loginClient = (firebaseUserObj) => (dispatch) => {
   let phoneNumber = firebaseUserObj._user.phoneNumber ? firebaseUserObj._user.phoneNumber : firebaseUserObj._user.email;
 
-  let setUser = (user, isNew) => {
-    amplitude.setUserId(user.id);
-    amplitude.setUserProperties({ database_id: user.id, phone_number: user.phone_number, firebase_uid: user.firebase_uid, created_at: user.created_at });
+  let setClient = (client, isNew) => {
+    amplitude.setUserId(client.id);
+    amplitude.setUserProperties({ database_id: client.id, phone_number: client.phone_number, firebase_uid: client.firebase_uid, created_at: client.created_at });
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
 
-    dispatch(receiveUser({ user: user }));
+    dispatch(receiveClient({ user: client }));
 
-    if (user.avatar_url) {
-      dispatch(getImage(user.avatar_url));
+    if (client.avatar_url) {
+      dispatch(getImage(client.avatar_url));
     }
   }
 
   let handleExistingUser = (authToken) => {
     return APIUtility.get(authToken, '/users')
-      .then((user) => {
-        setUser(user, false);
+      .then((client) => {
+        setClient(client, false);
       })
       .catch((error) => {
         if (error.toString() === 'Error: User not found') {
@@ -139,7 +139,7 @@ export const loginUser = (firebaseUserObj) => (dispatch) => {
   let handleNewUser = (authToken) => {
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
       .then((newUser) => {
-        setUser(newUser, true);
+        setClient(newUser, true);
       })
       .catch((error) => {
         error = setErrorDescription(error, 'POST user failed');
@@ -197,12 +197,12 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
     });
 }
 
-// PUT request to API to edit user username from UsernameScreen
+// PUT request to API to edit client username from UsernameScreen
 export const editUsername = (authToken, firebaseUserObj, username) => (dispatch) => {
   return APIUtility.put(authToken, '/users', { username: username })
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: true, username: username });
-    dispatch(receiveUser({ user: editedUser }));
+    dispatch(receiveClient({ user: editedUser }));
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -227,7 +227,7 @@ export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) 
   return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
-    dispatch(receiveUser({ user: editedUser }));
+    dispatch(receiveClient({ user: editedUser }));
 
     if (editedUser.avatar_url) {
       dispatch(getImage(editedUser.avatar_url));

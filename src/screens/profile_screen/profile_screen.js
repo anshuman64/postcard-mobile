@@ -39,7 +39,7 @@ class ProfileScreen extends React.PureComponent {
     if (this.props.currentScreen != 'ProfileScreen' && nextProps.currentScreen === 'ProfileScreen') {
       let checkRefresh = (postType) => {
         let currentTime = new Date();
-        let lastUpdate = this.props.posts[this.props.user.id][postType].lastUpdated;
+        let lastUpdate = this.props.posts[this.props.client.id][postType].lastUpdated;
         let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
         if (minsDiff > 1) {
@@ -75,9 +75,9 @@ class ProfileScreen extends React.PureComponent {
         <PostListContainer
           ref={(ref) => this.postList = ref}
           screen={'ProfileScreen'}
-          userId={this.props.user.id}
-          username={this.props.user.username}
-          avatarUrl={this.props.user.avatar_url}
+          userId={this.props.client.id}
+          username={this.props.client.username}
+          avatarUrl={this.props.client.avatar_url}
           postType={this.state.postType}
           scrollToTop={this.props.scrollToTop}
           setParentState={this.setParentState}

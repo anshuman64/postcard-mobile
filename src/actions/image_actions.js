@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 // Local Imports
 import * as FileUtility     from '../utilities/file_utility.js';
-import { refreshAuthToken } from './user_actions.js';
+import { refreshAuthToken } from './client_actions.js';
 
 //--------------------------------------------------------------------//
 

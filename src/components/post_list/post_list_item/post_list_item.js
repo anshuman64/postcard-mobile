@@ -56,7 +56,7 @@ class PostListItem extends React.PureComponent {
     this.setState({ isLikingServer: true }, () => {
       // If post already liked, delete like
       if (this.props.item.is_liked_by_user) {
-        this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+        this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.id)
           .catch((error) => {
             defaultErrorAlert(error);
           })
@@ -65,7 +65,7 @@ class PostListItem extends React.PureComponent {
             this.setState({ isLikingServer: false });
           });
       } else {
-        this.props.createLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+        this.props.createLike(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.id)
           .catch((error) => {
             defaultErrorAlert(error);
           })
@@ -91,7 +91,7 @@ class PostListItem extends React.PureComponent {
 
     // If post is flagged, delete flag
     if (this.props.item.is_flagged_by_user) {
-      this.props.deleteFlag(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+      this.props.deleteFlag(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.id)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -116,7 +116,7 @@ class PostListItem extends React.PureComponent {
 
   // Creates flag
   _onConfirmFlagPost = () => {
-    this.props.createFlag(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+    this.props.createFlag(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.id)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -159,7 +159,7 @@ class PostListItem extends React.PureComponent {
         this.container.fadeOut(500)
           .finally(() => {
             // Remove post from store
-            this.props.removePost({ post: deletedPost, userId: this.props.user.id  });
+            this.props.removePost({ post: deletedPost, userId: this.props.client.id  });
             this.isDeleteDisabled = false;
           });
       })
@@ -196,7 +196,7 @@ class PostListItem extends React.PureComponent {
       )
     // If user is not followed, create follow
     } else {
-      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
+      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.author_id)
         .then(() => {
           // If on profileScreen, update follow state to make sure ProfileHeader is also updated
           if (this.props.setFollowState) {
@@ -214,7 +214,7 @@ class PostListItem extends React.PureComponent {
 
   // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
+    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.author_id)
       .then(() => {
         if (this.props.setFollowState) {
           this.props.setFollowState({ isFollowed: false });
@@ -262,14 +262,14 @@ class PostListItem extends React.PureComponent {
           onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
           onPressOut={() => this.usernameText.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]})}
           onPress={this._navigateToProfile}
-          disabled={this.props.user.id === this.props.item.author_id}
+          disabled={this.props.client.id === this.props.item.author_id}
           >
           <RN.View style={styles.usernameView}>
             <RN.View style={styles.frame}>
               {this._renderAvatar()}
             </RN.View>
             <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-              {this.props.user.id === this.props.item.author_id ? this.props.user.username : this.props.item.author.username}
+              {this.props.client.id === this.props.item.author_id ? this.props.client.username : this.props.item.author.username}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -281,9 +281,9 @@ class PostListItem extends React.PureComponent {
   _renderAvatar() {
     let avatarUrl;
 
-    if (this.props.user.id === this.props.item.author_id && this.props.user.avatar_url) {
-      avatarUrl = this.props.user.avatar_url;
-    } else if (this.props.user.id != this.props.item.author_id && this.props.item.author.avatar_url) {
+    if (this.props.client.id === this.props.item.author_id && this.props.client.avatar_url) {
+      avatarUrl = this.props.client.avatar_url;
+    } else if (this.props.client.id != this.props.item.author_id && this.props.item.author.avatar_url) {
       avatarUrl = this.props.item.author.avatar_url;
     }
 
@@ -308,7 +308,7 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderFollowText() {
-    if (this.props.user.id != this.props.item.author_id) {
+    if (this.props.client.id != this.props.item.author_id) {
       return (
         <RN.View style={styles.usernameView}>
           <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
@@ -327,7 +327,7 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderCloseOrFlag() {
-    if (this.props.user.id === this.props.item.author_id) {
+    if (this.props.client.id === this.props.item.author_id) {
       return (
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.closeIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
