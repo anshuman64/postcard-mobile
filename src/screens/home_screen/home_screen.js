@@ -17,11 +17,6 @@ class HomeScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // Refresh AllPosts and FollowedPosts on mount
-  componentDidMount() {
-    this.postList.getWrappedInstance().refresh();
-  }
-
   // Auto-refresh screen if coming back to it after > 1 minute
   componentWillReceiveProps(nextProps) {
     if (this.props.currentScreen != 'HomeScreen' && nextProps.currentScreen === 'HomeScreen') {

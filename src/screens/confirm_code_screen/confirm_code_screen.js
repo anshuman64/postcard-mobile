@@ -6,6 +6,7 @@ import { PhoneNumberUtil }  from 'google-libphonenumber';
 
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal.js';
+import { POST_TYPES }             from '../../actions/post_actions.js';
 import { styles }                 from './confirm_code_screen_styles.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
 import { defaultErrorAlert }      from '../../utilities/error_utility.js';
@@ -96,11 +97,23 @@ class ConfirmCodeScreen extends React.PureComponent {
     if (this.props.client.is_banned) {
       RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
     } else {
-      if (!this.props.client.username) {
-        return this.props.navigateTo('UsernameScreenLogin');
-      } else {
-        return this.props.navigateTo('HomeScreen');
-      }
+      this._getAllPosts()
+        .then(() => {
+          if (!this.props.client.username) {
+            return this.props.navigateTo('UsernameScreenLogin');
+          } else {
+            return this.props.navigateTo('HomeScreen');
+          }
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        });
+    }
+  }
+
+  async _getAllPosts()  {
+    for (let postType in POST_TYPES) {
+      await this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
   }
 
