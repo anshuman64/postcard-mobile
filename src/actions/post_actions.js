@@ -101,11 +101,11 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
 };
 
 // Create post to API from Header of NewPostScreen
-export const createPost = (authToken, firebaseUserObj, userId, isPublic, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, userId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
   let postPost = (imageKey) => {
-    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic })
+    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipients })
       .then((newPost) => {
-        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, placeholder_text: placeholderText });
+        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipients.length, placeholder_text: placeholderText });
         dispatch(receivePost({ post: newPost, userId: userId }));
         dispatch(getImagesFromPosts([newPost]));
       })
@@ -120,7 +120,7 @@ export const createPost = (authToken, firebaseUserObj, userId, isPublic, postBod
 
   let postPostError = (error) => {
     error = setErrorDescription(error, 'POST post failed');
-    amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, error_description: error.description, error_message: error.message });
+    amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipients.length, error_description: error.description, error_message: error.message });
     throw error;
   }
 
