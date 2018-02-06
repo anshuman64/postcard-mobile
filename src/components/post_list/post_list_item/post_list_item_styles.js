@@ -52,6 +52,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     width: 40,
+    marginRight: 5
   },
   userIcon: {
     fontSize: 24,

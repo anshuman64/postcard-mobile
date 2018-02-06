@@ -236,7 +236,7 @@ class PostListItem extends React.PureComponent {
       <RN.View style={styles.userView}>
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-          onPressOut={() => this.usernameText.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]})}
+          onPressOut={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText15})}
           onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id })}
           disabled={this.props.client.id === this.props.item.author_id}
           >
@@ -244,7 +244,7 @@ class PostListItem extends React.PureComponent {
             <RN.View style={styles.frame}>
               {this._renderAvatar()}
             </RN.View>
-            <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
+            <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
               {this.props.client.id === this.props.item.author_id ? this.props.usersCache[this.props.client.id].username : this.props.usersCache[this.props.item.author_id].username}
             </RN.Text>
           </RN.View>

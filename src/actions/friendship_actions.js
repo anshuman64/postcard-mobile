@@ -63,9 +63,9 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
 
 export const createFriendRequest = (authToken, firebaseUserObj, userId) => (dispatch) => {
   return APIUtility.post(authToken, '/friendships', { requestee_id: userId })
-    .then((requestedUser) => {
+    .then((friendship) => {
       amplitude.logEvent('Friendship - Request Friendship', { is_successful: true });
-      dispatch(sendFriendshipRequest({ user: requestedUser }));
+      dispatch(sendFriendshipRequest({ friendship: friendship }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -80,9 +80,9 @@ export const createFriendRequest = (authToken, firebaseUserObj, userId) => (disp
 
 export const acceptFriendRequest = (authToken, firebaseUserObj, userId) => (dispatch) => {
   return APIUtility.put(authToken, '/friendships/accept', { requester_id: userId })
-    .then((acceptedUser) => {
+    .then((friendship) => {
       amplitude.logEvent('Friendship - Accept Friendship', { is_successful: true });
-      dispatch(acceptFriendshipRequest({ user: acceptedUser }));
+      return friendship;
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -97,9 +97,9 @@ export const acceptFriendRequest = (authToken, firebaseUserObj, userId) => (disp
 
 export const deleteFriendship = (authToken, firebaseUserObj, userId) => (dispatch) => {
   return APIUtility.del(authToken, '/friendships/' + userId)
-    .then((deletedUser) => {
+    .then((friendship) => {
       amplitude.logEvent('Friendship - Delete Friendship', { is_successful: true });
-      dispatch(removeFriendship({ user: deletedUser }));
+      return friendship;
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

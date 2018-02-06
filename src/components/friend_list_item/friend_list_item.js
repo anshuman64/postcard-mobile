@@ -13,7 +13,6 @@ import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 class FriendListItem extends React.PureComponent {
 
@@ -43,11 +42,16 @@ class FriendListItem extends React.PureComponent {
     this.isFriendDisabled = true;
 
     this.props.acceptFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
-      .catch((error) => {
-        defaultErrorAlert(error);
+      .then((friendship) => {
+        this.container.fadeOut(500)
+          .finally(() => {
+            this.props.acceptFriendshipRequest({ friendship: friendship });
+            this.isFriendDisabled = false;
+          });
       })
-      .finally(() => {
+      .catch((error) => {
         this.isFriendDisabled = false;
+        defaultErrorAlert(error);
       });
   }
 
@@ -72,7 +76,7 @@ class FriendListItem extends React.PureComponent {
       alertString,
       [
         {text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
-        {text: cancelString, onPress: this._onConfirmDeleteReceived},
+        {text: cancelString, onPress: this._onConfirmDelete},
       ],
       {
         onDismiss: () => this.isFriendDisabled = false
@@ -82,11 +86,16 @@ class FriendListItem extends React.PureComponent {
 
   _onConfirmDelete = () => {
     this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
-      .catch((error) => {
-        defaultErrorAlert(error);
+      .then((friendship) => {
+        this.container.fadeOut(500)
+          .finally(() => {
+            this.props.removeFriendship({ friendship: friendship });
+            this.isFriendDisabled = false;
+          });
       })
-      .finally(() => {
+      .catch((error) => {
         this.isFriendDisabled = false;
+        defaultErrorAlert(error);
       });
   }
 
@@ -171,12 +180,12 @@ class FriendListItem extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={styles.rowView}>
+      <Animatable.View ref={(ref) => this.container = ref} style={styles.rowView}>
         {this._renderUserView()}
         <RN.View style={styles.checkboxView}>
           {this._renderButtons()}
         </RN.View>
-      </RN.View>
+      </Animatable.View>
     )
   }
 }
