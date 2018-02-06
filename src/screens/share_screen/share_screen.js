@@ -43,10 +43,10 @@ class ShareScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderItem = (obj) => {
+  _renderItem = ({item}) => {
     return (
       <ShareListItemContainer
-        userId={obj.item.id}
+        userId={item}
         selectedFriends={this.state.selectedFriends}
         setParentState={this.setParentState}
         />

@@ -30,7 +30,7 @@ class PostList extends React.PureComponent {
     };
 
     this.onEndReachedCalledDuringMomentum = true;
-    this.isLoading = true;
+    this.isLoading = false;
     this._onRefresh = this._onRefresh.bind(this);
   }
 
@@ -74,6 +74,7 @@ class PostList extends React.PureComponent {
       return;
     }
 
+
     this.isLoading = true;
     this.onEndReachedCalledDuringMomentum = true;
 
@@ -85,6 +86,10 @@ class PostList extends React.PureComponent {
       .finally(() => {
         this.isLoading = false;
       });
+  }
+
+  _onPressAddFriends = () => {
+    this.props.navigateTo('FriendScreen');
   }
 
   //--------------------------------------------------------------------//
@@ -101,7 +106,7 @@ class PostList extends React.PureComponent {
         }
         renderItem={this._renderItem.bind(this)}
         keyExtractor={(item) => this.props.postsCache[item].id}
-        style={styles.postList}
+        style={[styles.postList, this.props.screen === 'UserScreen' && styles.postListLongHeight]}
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
@@ -177,13 +182,18 @@ class PostList extends React.PureComponent {
   _renderFooter = () => {
     if (this.props.posts[this.props.userId] && this.props.posts[this.props.userId][this.props.postType] && this.props.posts[this.props.userId][this.props.postType].isEnd) {
       return (
-        <RN.View style={styles.footerView}>
-          <RN.View style={styles.horizontalLine} />
-          <RN.Text style={styles.footerText}>
-            No More Posts
-          </RN.Text>
-          <RN.View style={styles.horizontalLine} />
-        </RN.View>
+        <RN.TouchableWithoutFeedback onPress={this._onPressAddFriends}>
+          <RN.View style={styles.footerView}>
+            <RN.View style={styles.horizontalLine} />
+            <RN.Text style={styles.footerText}>
+              No More Posts?
+              <RN.Text style={[styles.footerText, UTILITY_STYLES.textHighlighted]}>
+                {' Add Friends'}
+              </RN.Text>
+            </RN.Text>
+            <RN.View style={styles.horizontalLine} />
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
       )
     } else {
       return (
@@ -196,7 +206,7 @@ class PostList extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={styles.postList}>
+      <RN.View style={[styles.postList, this.props.screen === 'UserScreen' && styles.postListLongHeight]}>
         {this._renderPostList()}
         {this._renderProfileHeader()}
       </RN.View>
