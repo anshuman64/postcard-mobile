@@ -55,6 +55,9 @@ class ProfileHeader extends React.PureComponent {
         });
     } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
       this.props.acceptFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+        .then((friendship) => {
+          this.props.acceptFriendshipRequest({ friendship: friendship });
+        })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -97,6 +100,9 @@ class ProfileHeader extends React.PureComponent {
 
   _onConfirmUnfriend = () => {
     this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+      .then((friendship) => {
+        this.props.removeFriendship({ friendship: friendship });
+      })
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -209,11 +215,11 @@ class ProfileHeader extends React.PureComponent {
     let disableButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
 
     if (friendshipStatus === FRIEND_TYPES.SENT) {
-      friendString = 'Cancel Request';
+      friendString = 'Cancel';
     } else if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
       friendString = 'Friends'
     } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
-      friendString = 'Accept Request'
+      friendString = 'Accept'
     } else {
       friendString = 'Add Friend';
     }
