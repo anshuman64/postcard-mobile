@@ -12,8 +12,9 @@ import { uploadFile }                   from '../../utilities/file_utility.js';
 //--------------------------------------------------------------------//
 
 
-const mapStateToProps = ({ client, imagesCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
   client:      client,
+  usersCache:  usersCache,
   imagesCache: imagesCache,
 });
 
