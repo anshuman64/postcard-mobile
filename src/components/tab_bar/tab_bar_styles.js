@@ -1,6 +1,6 @@
 // Library Imports
-import React          from 'react';
-import { StyleSheet } from 'react-native';
+import React                    from 'react';
+import { StyleSheet, Platform } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
@@ -21,7 +21,8 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   header: {
-    height: HEADER_HEIGHT,
+    height: (Platform.OS === 'ios') ? HEADER_HEIGHT + StyleUtility.getStatusBarHeight() : HEADER_HEIGHT,
+    paddingTop: (Platform.OS === 'ios') ? StyleUtility.getStatusBarHeight() : 0,
     borderBottomColor: StyleUtility.COLORS.grey500,
     borderBottomWidth: 0.5,
   },
