@@ -2,8 +2,9 @@
 import _ from 'lodash';
 
 // Local Imports
-import { POST_ACTION_TYPES }   from '../actions/post_actions.js';
-import { FOLLOW_ACTION_TYPES } from '../actions/follow_actions.js';
+import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions.js';
+import { POST_ACTION_TYPES }                     from '../actions/post_actions.js';
+import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -26,7 +27,27 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   switch(action.type) {
 
   //--------------------------------------------------------------------//
-  // Receive and Refresh Post Actions
+  // Friendship Actions
+  //--------------------------------------------------------------------//
+
+    case FRIENDSHIP_ACTION_TYPES.RECEIVE_FRIENDSHIPS:
+      _.forEach(action.data.friends, (user) => {
+        newState[user.id] = user;
+        newState[user.id].friendship_status_with_client = action.data.friendType;
+      })
+
+      return newState;
+    case FRIENDSHIP_ACTION_TYPES.SEND_FRIENDSHIP_REQUEST:
+      newState[action.data.user.id].friendship_status_with_client = FRIEND_TYPES.SENT;
+
+      return newState;
+    case FRIENDSHIP_ACTION_TYPES.ACCEPT_FRIENDSHIP_REQUEST:
+      newState[action.data.user.id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
+
+      return newState;
+
+  //--------------------------------------------------------------------//
+  // Post Actions
   //--------------------------------------------------------------------//
 
     // When receiving or refreshing posts, update the store with new post information

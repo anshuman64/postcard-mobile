@@ -17,7 +17,7 @@ const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
   firebaseUserObj: client.firebaseUserObj,
   client:          client.user,
   usersCache:      usersCache,
-  imagesCache:          imagesCache,
+  imagesCache:     imagesCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
