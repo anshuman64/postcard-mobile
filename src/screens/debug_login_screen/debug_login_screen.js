@@ -3,6 +3,8 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
+import { FRIEND_TYPES }     from '../../actions/friendship_actions.js';
+import { POST_TYPES }       from '../../actions/post_actions.js';
 import { setStateCallback } from '../../utilities/function_utility.js';
 import { styles }           from './debug_login_screen_styles.js';
 import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
@@ -41,16 +43,36 @@ class DebugLoginScreen extends React.PureComponent {
 
     this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
       .then(() => {
-        if (!this.props.usersCache[this.props.client.id].username) {
-          return this.props.navigateTo('UsernameScreenLogin');
-        } else {
-          return this.props.navigateTo('HomeScreen');
-        }
+        this._loadData()
+          .then(() => {
+            if (!this.props.usersCache[this.props.client.id].username) {
+              return this.props.navigateTo('UsernameScreenLogin');
+            } else {
+              return this.props.navigateTo('HomeScreen');
+            }
+          })
+          .catch((error) => {
+            console.error(error); // Debug Test
+          })
       })
       .catch((error) => {
         // console.error(error); // Debug Test
         this.isNextPressed = false;
       });
+  }
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  async _loadData()  {
+    for (let postType in POST_TYPES) {
+      await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
+
+    for (let friendType in FRIEND_TYPES) {
+      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+    }
   }
 
   //--------------------------------------------------------------------//
