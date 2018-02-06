@@ -90,13 +90,3 @@ export const goBack = (props) => (dispatch) => {
     Actions.refresh(props);
   }
 }
-
-// Pops top of stack. If props, refreshes screen with props (only way sending props works).
-export const goBackTo = (screen, props) => (dispatch) => {
-  Keyboard.dismiss();
-  Actions.popTo(screen);
-
-  if (props) {
-    Actions.refresh(props);
-  }
-}

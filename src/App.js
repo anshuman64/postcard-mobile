@@ -71,6 +71,9 @@ class App extends React.Component {
   // When on the screens listed, close the app. Else, go back one screen.
   _onBackPress = () => {
     if (Actions.currentScene === '_HomeScreen'
+        || Actions.currentScene === '_DiscoverScreen'
+        || Actions.currentScene === '_FriendScreen'
+        || Actions.currentScene === '_ProfileScreen'
         || Actions.currentScene === 'WelcomeScreen'
         || Actions.currentScene === 'LoadingScreen'
         || Actions.currentScene === 'DebugLoginScreen'
@@ -121,9 +124,9 @@ class App extends React.Component {
               animationEnabled={false}
               panHandlers={null}
               >
-              <Scene key='HomeScreen'     component={HomeScreenContainer}     panHandlers={null} navBar={() => <HeaderContainer logo={true} />} />
+              <Scene key='HomeScreen'     component={HomeScreenContainer}     panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
               <Scene key='DiscoverScreen' component={DiscoverScreenContainer} panHandlers={null} hideNavBar={true} />
-              <Scene key='FriendScreen'   component={FriendScreenContainer}   panHandlers={null} hideNavBar={true} initial={true}/>
+              <Scene key='FriendScreen'   component={FriendScreenContainer}   panHandlers={null} hideNavBar={true} />
               <Scene key='ProfileScreen'  component={ProfileScreenContainer}  panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
             </Tabs>
           </Scene>

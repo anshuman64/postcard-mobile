@@ -35,11 +35,11 @@ export const getReadableCount = (count) => {
 
 // Merges arrayB into arrayA. Used in refreshPost reducer
 export const mergeSorted = (arrayA, arrayB) => {
-  var i = 0;
-  var j = 0;
-  var m = arrayA.length;
-  var n = arrayB.length;
-  var arrayC = [];
+  let i = 0;
+  let j = 0;
+  let m = arrayA.length;
+  let n = arrayB.length;
+  let arrayC = [];
 
   while (i < m && j < n){
     if (arrayA[i] > arrayB[j]){
