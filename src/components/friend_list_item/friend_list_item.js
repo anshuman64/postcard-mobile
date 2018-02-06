@@ -7,6 +7,7 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import { FRIEND_TYPES }     from '../../actions/friendship_actions.js';
 import { styles }           from './friend_list_item_styles.js';
 import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
@@ -26,6 +27,8 @@ class FriendListItem extends React.PureComponent {
     this.state = {
       isSelected:  false,
     }
+
+    this.isFriendDisabled = false;
   }
 
   //--------------------------------------------------------------------//
@@ -33,20 +36,33 @@ class FriendListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressConfirm = () => {
+    if (this.isFriendDisabled) {
+      return;
+    }
 
+    this.isFriendDisabled = true;
+
+    this.props.acceptFriendRequest(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.isFriendDisabled = false;
+      });
   }
 
   _onPressDelete = () => {
     let alertString;
     let cancelString;
+    let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;;
 
-    if (this.props.type === 'friend') {
+    if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
       alertString = 'Are you sure you want to remove this friend?';
       cancelString = 'Remove';
-    } else if (this.props.type === 'sent') {
+    } else if (friendshipStatus === FRIEND_TYPES.SENT) {
       alertString = 'Are you sure you want to cancel this friend request?';
       cancelString = 'Cancel';
-    } else {
+    } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
       alertString = 'Are you sure you want to delete this friend request?';
       cancelString = 'Delete';
     }
@@ -55,17 +71,23 @@ class FriendListItem extends React.PureComponent {
       '',
       alertString,
       [
-        {text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
+        {text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
         {text: cancelString, onPress: this._onConfirmDeleteReceived},
       ],
       {
-        onDismiss: () => this.isFollowDisabled = false
+        onDismiss: () => this.isFriendDisabled = false
       }
     )
   }
 
   _onConfirmDelete = () => {
-
+    this.props.deleteFriendship(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.isFriendDisabled = false;
+      });
   }
 
   //--------------------------------------------------------------------//
@@ -75,18 +97,19 @@ class FriendListItem extends React.PureComponent {
 
   _renderButtons() {
     let deleteString;
+    let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
 
-    if (this.props.type === 'friend') {
+    if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
       deleteString = 'Remove';
-    } else if (this.props.type === 'sent') {
+    } else if (friendshipStatus === FRIEND_TYPES.SENT) {
       deleteString = 'Cancel';
-    } else {
+    } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
       deleteString = 'Delete';
     }
 
     return (
       <RN.View style={styles.buttonView}>
-        {this.props.type === 'received' ?
+        {friendshipStatus === 'received' ?
           <RN.TouchableOpacity
             style={styles.confirmButton}
             onPress={this._onPressConfirm}
@@ -109,16 +132,18 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    if (this.props.avatar_url && this.props.imagesCache[this.props.avatar_url]) {
+    let avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
+
+    if (avatarUrl && this.props.imagesCache[avatarUrl]) {
       return (
         <CachedImage
-          source={{uri: this.props.imagesCache[this.props.avatar_url].url}}
+          source={{uri: this.props.imagesCache[avatarUrl].url}}
           style={styles.avatarImage}
           resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.avatar_url)}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
           />
       )
-    } else if (this.props.avatar_url && !this.props.imagesCache[this.props.avatar_url]) {
+    } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
       return (
         <RN.View style={{width: 40}} />
       )
@@ -134,7 +159,7 @@ class FriendListItem extends React.PureComponent {
       <RN.View style={styles.userView}>
         {this._renderAvatar()}
         <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, {marginLeft: 20}]}>
-          {this.props.username}
+          {this.props.usersCache[this.props.userId].username}
         </RN.Text>
       </RN.View>
     )
