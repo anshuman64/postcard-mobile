@@ -33,6 +33,13 @@ class ShareListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressItem = () => {
+    // If this item is the Public item
+    if (!this.props.userId) {
+      this.setState({ isSelected: !this.state.isSelected });
+      this.props.setParentState({ isPublic: !this.props.isPublic });
+      return;
+    }
+
     let newSelection;
 
     if (!this.state.isSelected) {
@@ -50,6 +57,10 @@ class ShareListItem extends React.PureComponent {
     }
   }
 
+  _onPressHelp = () => {
+    RN.Alert.alert('', "Checking 'Public' makes your post visible to everyone in the 'Recent' tab.", [{text: 'OK', style: 'cancel'}]);
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -61,7 +72,7 @@ class ShareListItem extends React.PureComponent {
         <AnimatedIcon
           ref={(ref) => this.checkbox = ref}
           name='check'
-          style={styles.checkIcon}
+          style={[styles.checkIcon, !this.props.userId && UTILITY_STYLES.textRed]}
           animation={'flipInY'}
           duration={200}
           />
@@ -97,25 +108,36 @@ class ShareListItem extends React.PureComponent {
   }
 
   _renderUserView() {
-    return (
-      <RN.View style={styles.userView}>
-        {this._renderAvatar()}
-        <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
-          {this.props.usersCache[this.props.userId].username}
-        </RN.Text>
-      </RN.View>
-    )
+    if (!this.props.userId) {
+      return (
+        <RN.View style={styles.publicView}>
+          <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText16}>
+            Public
+          </RN.Text>
+          <Icon name={'question'} onPress={this._onPressHelp} style={styles.helpIcon} />
+        </RN.View>
+      )
+    } else {
+      return (
+        <RN.View style={styles.userView}>
+          {this._renderAvatar()}
+          <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
+            {this.props.usersCache[this.props.userId].username}
+          </RN.Text>
+        </RN.View>
+      )
+    }
   }
 
   render() {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          this.checkbox.setNativeProps({style: styles.checkboxHighlighted})
+          this.usernameText.setNativeProps({style: [UTILITY_STYLES.textHighlighted, !this.props.userId && UTILITY_STYLES.textRed]})
+          this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.userId && styles.checkboxRed]})
         }}
         onPressOut={() => {
-          this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText15})
+          this.usernameText.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, !this.props.userId && UTILITY_STYLES.regularBlackText16]})
           this.checkbox.setNativeProps({style: styles.checkbox})
         }}
         onPress={this._onPressItem}

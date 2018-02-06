@@ -388,7 +388,7 @@ class PostListItem extends React.PureComponent {
           </RN.View>
         </RN.TouchableWithoutFeedback>
         <RN.Text style={styles.dateText}>
-          {renderDate(this.props.item.created_at)}
+          {(this.props.item.is_public ? 'Public | ' : '') + renderDate(this.props.item.created_at)}
         </RN.Text>
       </RN.View>
     )
