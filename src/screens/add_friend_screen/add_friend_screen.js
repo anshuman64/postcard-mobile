@@ -23,6 +23,7 @@ class AddFriendScreen extends React.PureComponent {
 
     this.state = {
       inputtedText:  '',
+      isSuccessful:  true,
       isError:       false,
       errorText:     '',
       isLoading:     false,
@@ -39,8 +40,25 @@ class AddFriendScreen extends React.PureComponent {
       return;
     }
 
-    this.setState({ isError: false, errorText: '' }, () => {
-
+    this.setState({ isLoading: true, isSuccessful: false, isError: false, errorText: '' }, () => {
+      this.props.createFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, null, this.state.inputtedText)
+        .then(() => {
+          this.setState({ isSuccessful: true, errorText: 'Friendship request sent' });
+        })
+        .catch((error) => {
+          if (error.message === 'User not found') {
+            this.setState({ isError: true, errorText: 'User not found' });
+          } else if (error.message === 'Friendship already exists') {
+            this.setState({ isError: true, errorText: 'Friend request already sent' });
+          } else if (error.message === 'Requester and requestee cannot be the same') {
+            this.setState({ isError: true, errorText: "Go to 'Recent' tab for more friends!" });
+          } else {
+            defaultErrorAlert(error);
+          }
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
     });
   }
 
@@ -67,7 +85,7 @@ class AddFriendScreen extends React.PureComponent {
   _renderSubtitle() {
     return (
       <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
-        A friend request will directly be sent to the user.
+        A friend request will be sent directly to the user.
       </RN.Text>
     )
   }
@@ -93,7 +111,7 @@ class AddFriendScreen extends React.PureComponent {
 
   _renderErrorText() {
     return (
-      <RN.Text style={[styles.errorText, !this.state.isError && UTILITY_STYLES.transparentText]}>
+      <RN.Text style={[styles.errorText, this.state.errorText.length === 0 && UTILITY_STYLES.transparentText, this.state.isSuccessful && UTILITY_STYLES.textHighlighted]}>
         {this.state.errorText}
       </RN.Text>
     )

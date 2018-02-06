@@ -16,7 +16,7 @@ const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createFriendRequest:     (authToken, firebaseUserObj, userId) => dispatch(createFriendRequest(authToken, firebaseUserObj, userId)),
+  createFriendRequest:     (authToken, firebaseUserObj, userId, username) => dispatch(createFriendRequest(authToken, firebaseUserObj, userId, username)),
   acceptFriendRequest:     (authToken, firebaseUserObj, userId) => dispatch(acceptFriendRequest(authToken, firebaseUserObj, userId)),
   acceptFriendshipRequest: (acceptedFriendship) => dispatch(acceptFriendshipRequest(acceptedFriendship)),
   deleteFriendship:        (authToken, firebaseUserObj, userId) => dispatch(deleteFriendship(authToken, firebaseUserObj, userId)),
