@@ -61,19 +61,19 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
     });
 };
 
-export const createFriendRequest = (authToken, firebaseUserObj, userId) => (dispatch) => {
-  return APIUtility.post(authToken, '/friendships', { requestee_id: userId })
+export const createFriendRequest = (authToken, firebaseUserObj, userId, username) => (dispatch) => {
+  return APIUtility.post(authToken, '/friendships', { requestee_id: userId, username: username })
     .then((friendship) => {
       amplitude.logEvent('Friendship - Request Friendship', { is_successful: true });
       dispatch(sendFriendshipRequest({ friendship: friendship }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createFriendRequest, userId));
+        return dispatch(refreshAuthToken(firebaseUserObj, createFriendRequest, userId, username));
       }
 
       error = setErrorDescription(error, 'POST for create friend request failed');
-      amplitude.logEvent('Friendship - Request Friendship', { is_successful: false, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Friendship - Request Friendship', { is_successful: false, isUsername: username ? true : false, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
