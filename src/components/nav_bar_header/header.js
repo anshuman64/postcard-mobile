@@ -75,7 +75,7 @@ class Header extends React.PureComponent {
 
       this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
         .then(() => {
-          this.props.goBackTo('MainScreenTabs');
+          this.props.navigateTo('HomeScreen');
           this.isGoBackPressed = true;
         })
         .catch((error) => {
@@ -83,7 +83,6 @@ class Header extends React.PureComponent {
           defaultErrorAlert(error);
         })
         .finally(() => {
-          console.error('hey')
           this.setState({ isLoading: false });
         });
     });
