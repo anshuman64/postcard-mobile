@@ -8,6 +8,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
+export const FOOTER_HEIGHT = 45;
 
 export const styles = StyleSheet.create({
   footer: {
@@ -15,7 +16,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: 45,
+    height: FOOTER_HEIGHT,
     backgroundColor: 'white',
     borderTopColor: StyleUtility.COLORS.grey300,
     borderTopWidth: 1,
@@ -25,7 +26,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '19%',
-    height: 45,
+    height: FOOTER_HEIGHT,
   },
   icon: {
     fontSize: StyleUtility.scaleFont(19),

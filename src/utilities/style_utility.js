@@ -52,7 +52,7 @@ export const getUsableDimensions = () => {
 };
 
 export const getStatusBarHeight = () => {
-  return Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 0;
+  return Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 24;
 };
 
 // Scales image by PixelSize
