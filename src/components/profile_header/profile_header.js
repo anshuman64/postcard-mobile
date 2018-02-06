@@ -162,13 +162,7 @@ class ProfileHeader extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAvatar() {
-    let avatarUrl;
-
-    if (this.props.userId === this.props.client.id) {
-      avatarUrl = this.props.client.avatar_url;
-    } else if (this.props.usersCache[this.props.userId].avatar_url) {
-      avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
-    }
+    let avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
 
     if (!avatarUrl) {
       return (
@@ -202,7 +196,7 @@ class ProfileHeader extends React.PureComponent {
     return (
       <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.client.id != this.props.userId}>
         <RN.Text style={styles.usernameText}>
-          {this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null}
+          {this.props.usersCache[this.props.userId].username}
         </RN.Text>
         <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
       </RN.TouchableOpacity>

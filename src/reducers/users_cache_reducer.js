@@ -2,6 +2,7 @@
 import _ from 'lodash';
 
 // Local Imports
+import { CLIENT_ACTION_TYPES }                   from '../actions/client_actions.js';
 import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions.js';
 import { POST_ACTION_TYPES }                     from '../actions/post_actions.js';
 import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions.js';

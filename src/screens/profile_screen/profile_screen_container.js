@@ -6,8 +6,9 @@ import ProfileScreen  from './profile_screen.js';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, posts, navigation }, ownProps) => ({
-  client:        client.id,
+const mapStateToProps = ({ client, usersCache, posts, navigation }, ownProps) => ({
+  client:        client,
+  usersCache:    usersCache,
   posts:         posts,
   currentScreen: navigation.currentScreen
 });
