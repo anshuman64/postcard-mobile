@@ -41,7 +41,7 @@ class DebugLoginScreen extends React.PureComponent {
 
     this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
       .then(() => {
-        if (!this.props.client.idname) {
+        if (!this.props.usersCache[this.props.client.id].username) {
           return this.props.navigateTo('UsernameScreenLogin');
         } else {
           return this.props.navigateTo('HomeScreen');

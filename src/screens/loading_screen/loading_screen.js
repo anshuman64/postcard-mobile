@@ -97,7 +97,7 @@ class LoadingScreen extends React.PureComponent {
     }
 
     if (this.state.isLoggedIn) {
-      if (!this.props.client.idname) {
+      if (!this.props.usersCache[this.props.client.id].username) {
         return this.props.navigateTo('UsernameScreenLogin');
       } else {
         return this.props.navigateTo('HomeScreen');
