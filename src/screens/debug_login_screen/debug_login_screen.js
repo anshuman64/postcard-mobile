@@ -23,7 +23,7 @@ class DebugLoginScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      emailInput:     'test@insiya.io',
+      emailInput:     'test1@insiya.io',
       passwordInput:  'socialnetwork',
     };
 

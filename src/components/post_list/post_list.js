@@ -95,7 +95,10 @@ class PostList extends React.PureComponent {
     return (
       <AnimatedFlatList
         ref={(ref) => this.flatList = ref}
-        data={this.props.posts[this.props.userId][this.props.postType].data}
+        data={ (this.props.posts[this.props.userId] && this.props.posts[this.props.userId][this.props.postType]) ?
+          this.props.posts[this.props.userId][this.props.postType].data :
+          null
+        }
         renderItem={this._renderItem.bind(this)}
         keyExtractor={(item) => this.props.postsCache[item].id}
         style={styles.postList}
@@ -172,7 +175,7 @@ class PostList extends React.PureComponent {
   }
 
   _renderFooter = () => {
-    if (this.props.posts[this.props.userId][this.props.postType].isEnd) {
+    if (this.props.posts[this.props.userId] && this.props.posts[this.props.userId][this.props.postType] && this.props.posts[this.props.userId][this.props.postType].isEnd) {
       return (
         <RN.View style={styles.footerView}>
           <RN.View style={styles.horizontalLine} />
@@ -193,7 +196,7 @@ class PostList extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={UTILITY_STYLES.containerStart}>
+      <RN.View style={styles.postList}>
         {this._renderPostList()}
         {this._renderProfileHeader()}
       </RN.View>
