@@ -101,11 +101,11 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
 };
 
 // Create post to API from Header of NewPostScreen
-export const createPost = (authToken, firebaseUserObj, userId, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, userId, isPublic, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
   let postPost = (imageKey) => {
-    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey })
+    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic })
       .then((newPost) => {
-        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, placeholder_text: placeholderText });
+        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, placeholder_text: placeholderText });
         dispatch(receivePost({ post: newPost, userId: userId }));
         dispatch(getImagesFromPosts([newPost]));
       })

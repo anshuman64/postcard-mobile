@@ -22,6 +22,18 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200
   },
+  publicView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginLeft: 55
+  },
+  helpIcon: {
+    width: 50,
+    fontSize: 20,
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleRed,
+  },
   userView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -63,6 +75,9 @@ export const styles = StyleSheet.create({
   },
   checkboxHighlighted: {
     borderColor: StyleUtility.COLORS.appleBlue,
+  },
+  checkboxRed: {
+    borderColor: StyleUtility.COLORS.appleRed,
   },
   checkIcon: {
     fontSize: 28,
