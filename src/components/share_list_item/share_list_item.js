@@ -40,20 +40,12 @@ class ShareListItem extends React.PureComponent {
       return;
     }
 
-    let newSelection;
-
     if (!this.state.isSelected) {
-      newSelection = this.props.selectedFriends.push(this.props.id);
-
       this.setState({ isSelected: true });
-      this.props.setParentState({ selectedFriends: newSelection });
+      this.props.setParentState({ recipients: this.props.recipients.concat(this.props.userId) });
     } else {
-      let newSelection = _.remove(this.props.selectedFriends, (rowData) => {
-        return rowData === this.props.id;
-      });
-
       this.setState({ isSelected: false });
-      this.props.setParentState({ selectedFriends: newSelection });
+      this.props.setParentState({ recipients: this.props.recipients.splice(this.props.userId, 1) });
     }
   }
 

@@ -64,7 +64,7 @@ class Header extends React.PureComponent {
 
   // Attempts to upload image to AWS S3 and save post to DB
   _onPressShare = () => {
-    if (this.isSharePressed || (!this.props.isPublic && this.props.selectedFriends.length === 0)) {
+    if (this.isSharePressed || (!this.props.isPublic && this.props.recipients.length === 0)) {
       return;
     }
 
@@ -73,7 +73,7 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
 
-      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
+      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
         .then(() => {
           this.props.navigateTo('HomeScreen');
           this.isGoBackPressed = true;
