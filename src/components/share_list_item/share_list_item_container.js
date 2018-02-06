@@ -9,9 +9,9 @@ import ShareListItem               from './share_list_item.js';
 
 
 const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
-  firebaseUserObj: client.firebaseUserObj,
-  usersCache:      usersCache,
-  imagesCache:     imagesCache
+  client:      client,
+  usersCache:  usersCache,
+  imagesCache: imagesCache
 });
 
 // const mapDispatchToProps = (dispatch, ownProps) => ({

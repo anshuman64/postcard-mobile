@@ -58,7 +58,7 @@ class AvatarScreen extends React.PureComponent {
 
   // Uploads image to AWS S3
   _uploadImage = (imagePath, imageType) => {
-    this.props.uploadFile(this.props.authToken, this.props.firebaseUserObj, imagePath, imageType, this.props.client.id, 'profile_pictures/')
+    this.props.uploadFile(this.props.client.authToken, this.props.client.firebaseUserObj, imagePath, imageType, this.props.client.id, 'profile_pictures/')
       .then((data) => {
         this._setAvatarUrl(data.key);
       })
@@ -72,7 +72,7 @@ class AvatarScreen extends React.PureComponent {
 
   // Changes user avatar_url with key from AWS S3
   _setAvatarUrl = (imageKey) => {
-    this.props.editAvatar(this.props.authToken, this.props.firebaseUserObj, imageKey)
+    this.props.editAvatar(this.props.client.authToken, this.props.client.firebaseUserObj, imageKey)
       .then(() => {
         if (this.props.isLogin) {
           this.props.navigateTo('HomeScreen');
@@ -189,7 +189,7 @@ class AvatarScreen extends React.PureComponent {
             source={{uri: this.state.imagePath, cache: 'force-cache'}}
             style={styles.image}
             resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.client.avatar_url)}
+            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, this.props.client.avatar_url)}
             />
         </RN.TouchableOpacity>
       )

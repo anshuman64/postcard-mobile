@@ -63,7 +63,7 @@ class UsernameScreen extends React.PureComponent {
       }
 
       this.setState({ isLoading: true } , () => {
-        this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, text)
+        this.props.editUsername(this.props.client.authToken, this.props.client.firebaseUserObj, text)
           .then(() => {
             if (this.props.currentScreen === 'UsernameScreenLogin') {
               this.props.navigateTo('AvatarScreen', { isLogin: true });
