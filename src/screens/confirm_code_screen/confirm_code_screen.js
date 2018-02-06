@@ -6,6 +6,7 @@ import { PhoneNumberUtil }  from 'google-libphonenumber';
 
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal.js';
+import { FRIEND_TYPES }           from '../../actions/friendship_actions.js';
 import { POST_TYPES }             from '../../actions/post_actions.js';
 import { styles }                 from './confirm_code_screen_styles.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
@@ -97,7 +98,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     if (this.props.client.is_banned) {
       RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
     } else {
-      this._getAllPosts()
+      this._loadData()
         .then(() => {
           if (!this.props.client.username) {
             return this.props.navigateTo('UsernameScreenLogin');
@@ -111,9 +112,13 @@ class ConfirmCodeScreen extends React.PureComponent {
     }
   }
 
-  async _getAllPosts()  {
+  async _loadData()  {
     for (let postType in POST_TYPES) {
       await this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
+
+    for (let friendType in FRIEND_TYPES) {
+      await this.props.getFriendships(this.props.authToken, this.props.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
   }
 
