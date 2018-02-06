@@ -3,6 +3,7 @@ import React                           from 'react';
 import { AppState, BackHandler, View } from 'react-native';
 import { Provider }                    from 'react-redux';
 import { Scene, Tabs, Actions }        from 'react-native-router-flux';
+import RNExitApp                       from 'react-native-exit-app';
 
 // Local Imports
 import { amplitude }              from './utilities/analytics_utility.js';
@@ -78,7 +79,7 @@ class App extends React.Component {
         || Actions.currentScene === 'LoadingScreen'
         || Actions.currentScene === 'DebugLoginScreen'
         || Actions.currentScene === 'UsernameScreenLogin') {
-      BackHandler.exitApp();
+      RNExitApp.exitApp();
       return false;
     }
 

@@ -168,6 +168,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-exit-app')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-fetch-blob')
     compile 'com.amplitude:android-sdk:2.13.4'
