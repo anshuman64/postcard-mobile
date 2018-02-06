@@ -126,7 +126,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
         setClient(client, false);
       })
       .catch((error) => {
-        if (error.toString() === 'Error: User not found') {
+        if (error.message === 'Requester not found') {
           return handleNewUser(authToken);
         }
 
