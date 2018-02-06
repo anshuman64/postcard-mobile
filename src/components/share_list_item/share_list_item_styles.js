@@ -22,18 +22,6 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200
   },
-  publicView: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginLeft: 55
-  },
-  helpIcon: {
-    width: 50,
-    fontSize: 20,
-    textAlign: 'center',
-    color: StyleUtility.COLORS.appleRed,
-  },
   userView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -46,7 +34,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     width: 40,
-    marginRight: 20,
+    marginRight: 5
+  },
+  helpIcon: {
+    width: 50,
+    fontSize: 20,
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleRed,
   },
   userIcon: {
     fontSize: 24,

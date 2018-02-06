@@ -84,7 +84,7 @@ class ShareScreen extends React.PureComponent {
           isPublic={this.state.isPublic}
           />
         <RN.SectionList
-          sections={[{data: this.props.friendships.received, renderItem: this._renderItem, title: 'Friends'}]}
+          sections={[{data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'}]}
           keyExtractor={(item) => item.id}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
