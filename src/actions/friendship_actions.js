@@ -96,7 +96,7 @@ export const acceptFriendRequest = (authToken, firebaseUserObj, userId) => (disp
 };
 
 export const deleteFriendship = (authToken, firebaseUserObj, userId) => (dispatch) => {
-  return APIUtility.delete(authToken, '/friendships/' + userId)
+  return APIUtility.del(authToken, '/friendships/' + userId)
     .then((deletedUser) => {
       amplitude.logEvent('Friendship - Delete Friendship', { is_successful: true });
       dispatch(removeFriendship({ user: deletedUser }));

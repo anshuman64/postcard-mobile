@@ -10,9 +10,9 @@ import { createFriendRequest, acceptFriendRequest, deleteFriendship } from '../.
 
 
 const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
-  firebaseUserObj: client.firebaseUserObj,
-  usersCache:      usersCache,
-  imagesCache:     imagesCache
+  client:      client,
+  usersCache:  usersCache,
+  imagesCache: imagesCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
