@@ -11,10 +11,11 @@ import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions
 
 /* Data is in the form {
  *   userId1: {
- *      "id":                         30,
- *      "username":                   "anshu",
- *      "avatar_url":                 "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
- *      "is_user_followed_by_client": false,
+ *      "id":                            30,
+ *      "username":                      "anshu",
+ *      "avatar_url":                    "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
+ *      "is_user_followed_by_client":    false,
+ *      "friendship_status_with_client": "accepted",
  *  },
  *   userId2: {...
  */
@@ -48,10 +49,12 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.SEND_FRIENDSHIP_REQUEST:
+      newState[action.data.user.id] = action.data.user;
       newState[action.data.user.id].friendship_status_with_client = FRIEND_TYPES.SENT;
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.ACCEPT_FRIENDSHIP_REQUEST:
+      newState[action.data.user.id] = action.data.user;
       newState[action.data.user.id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
 
       return newState;
@@ -64,7 +67,7 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.RECEIVE_POSTS:
     case POST_ACTION_TYPES.REFRESH_POSTS:
       _.forEach(action.data.posts, (post) => {
-        newState[post.author_id] = post.author;
+        newState[post.author_id] = _.merge(post.author, newState[post.author_id]);
       });
 
       return newState;
