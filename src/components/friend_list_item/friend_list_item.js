@@ -97,7 +97,7 @@ class FriendListItem extends React.PureComponent {
 
   _renderButtons() {
     let deleteString;
-    let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
+    let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
@@ -108,7 +108,7 @@ class FriendListItem extends React.PureComponent {
         deleteString = 'Delete';
       }
     }
-    
+
     return (
       <RN.View style={styles.buttonView}>
         {friendshipStatus === 'received' ?
@@ -134,7 +134,7 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    let avatarUrl = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
+    let avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
 
     if (avatarUrl && this.props.imagesCache[avatarUrl]) {
       return (
@@ -157,7 +157,7 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderUserView() {
-    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+    let username = this.props.usersCache[this.props.userId].username;
 
     return (
       <RN.View style={styles.userView}>

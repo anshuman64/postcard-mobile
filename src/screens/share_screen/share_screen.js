@@ -28,81 +28,44 @@ class ShareScreen extends React.PureComponent {
       isPublic:        false,
       selectedFriends: [],
     };
-
-    this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   }
 
   //--------------------------------------------------------------------//
   // Public Methods
   //--------------------------------------------------------------------//
 
-  // Passed to ProfileHeader for tab switching
+  // Passed to ShareListItem for updating state
   setParentState = (state) => {
-    let func = () => {
-      this.setState(state);
-    }
-
-    return func;
-  }
-
-
-  //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
-
-  _onPressHelp = () => {
-    RN.Alert.alert('', "Checking 'Public' makes your post visible to everyone in the Discover tab.", [{text: 'OK', style: 'cancel'}]);
+    this.setState(state);
   }
 
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderRow() {
+  _renderItem = (obj) => {
     return (
-      (rowData, sectionID, rowID) => (
-        <ShareListItemContainer
-          userId={rowData.id}
-          selectedFriends={this.state.selectedFriends}
-          setParentState={this.setParentState}
-          />
-      )
+      <ShareListItemContainer
+        userId={obj.item.id}
+        selectedFriends={this.state.selectedFriends}
+        setParentState={this.setParentState}
+        />
     )
   }
 
-  _renderCheckbox() {
-    if (this.state.isPublic) {
-      return (
-        <AnimatedIcon
-          ref={(ref) => this.checkbox = ref}
-          name='check'
-          style={styles.checkIcon}
-          animation={'flipInY'}
-          duration={200}
-          />
-      )
-    } else {
-      return (
-        <RN.View ref={(ref) => this.checkbox = ref} style={styles.checkbox} />
-      )
-    }
+  _renderSectionHeader = ({section}) => {
+    return (
+      <RN.View style={styles.sectionHeader}>
+        <RN.Text style={styles.sectionHeaderText}>
+          {section.title}
+        </RN.Text>
+      </RN.View>
+    )
   }
 
   _renderHeader = () => {
     return (
-      <RN.TouchableOpacity onPress={setStateCallback(this, { isPublic: !this.state.isPublic })}>
-        <RN.View style={styles.rowView}>
-          <RN.View style={styles.userView}>
-            <Icon name={'question'} onPress={this._onPressHelp} style={styles.helpIcon} />
-            <RN.Text style={[UTILITY_STYLES.regularBlackText16, UTILITY_STYLES.textRed]}>
-              Public
-            </RN.Text>
-          </RN.View>
-          <RN.View style={styles.checkboxView}>
-            {this._renderCheckbox()}
-          </RN.View>
-        </RN.View>
-      </RN.TouchableOpacity>
+      <ShareListItemContainer setParentState={this.setParentState} isPublic={this.state.isPublic} />
     )
   }
 
@@ -118,14 +81,15 @@ class ShareScreen extends React.PureComponent {
           imagePath={this.props.imagePath}
           imageType={this.props.imageType}
           selectedFriends={this.state.selectedFriends}
+          isPublic={this.state.isPublic}
           />
-        <RN.ListView
-          dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
-          renderRow={this._renderRow()}
-          renderHeader={this._renderHeader}
+        <RN.SectionList
+          sections={[{data: this.props.friendships.received, renderItem: this._renderItem, title: 'Friends'}]}
+          keyExtractor={(item) => item.id}
+          renderSectionHeader={this._renderSectionHeader.bind(this)}
+          ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
           pageSize={80}
-          enableEmptySections={true}
           showsVerticalScrollIndicator={true}
           onEndReachedThreshold={10000}
           scrollRenderAheadDistance={10000}
