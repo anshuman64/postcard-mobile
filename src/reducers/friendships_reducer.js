@@ -26,22 +26,28 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.SEND_FRIENDSHIP_REQUEST:
-      newState.sent.unshift(action.data.user.id);
+      newState.sent.unshift(action.data.friendship.requestee_id);
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.ACCEPT_FRIENDSHIP_REQUEST:
-      let userId = action.data.user.id;
+      let userId = action.data.friendship.requester_id;
 
-      _.remove(newState.received, (users) => {
-        return users.id === userId;
+      _.remove(newState.received, (ids) => {
+        return ids === userId;
       });
 
       newState.accepted.unshift(userId);
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
-      _.remove(newState.accepted, (users) => {
-        return users.id === action.data.user.id;
+      _.forEach(newState, (friendListType) => {
+        _.remove(friendListType, (ids) => {
+          return ids === action.data.friendship.requester_id;
+        });
+
+        _.remove(friendListType, (ids) => {
+          return ids === action.data.friendship.requestee_id;
+        });
       });
 
       return newState;

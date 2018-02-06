@@ -110,7 +110,8 @@ class ShareListItem extends React.PureComponent {
   _renderUserView() {
     if (!this.props.userId) {
       return (
-        <RN.View style={styles.publicView}>
+        <RN.View style={styles.userView}>
+          <RN.View style={styles.frame} />
           <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText16}>
             Public
           </RN.Text>
@@ -120,7 +121,9 @@ class ShareListItem extends React.PureComponent {
     } else {
       return (
         <RN.View style={styles.userView}>
-          {this._renderAvatar()}
+          <RN.View style={styles.frame}>
+            {this._renderAvatar()}
+          </RN.View>
           <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
             {this.props.usersCache[this.props.userId].username}
           </RN.Text>
