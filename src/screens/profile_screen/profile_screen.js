@@ -70,7 +70,7 @@ class ProfileScreen extends React.PureComponent {
           ref={(ref) => this.postList = ref}
           screen={'ProfileScreen'}
           userId={this.props.client.id}
-          username={this.props.client.username}
+          username={this.props.client.idname}
           avatarUrl={this.props.client.avatar_url}
           postType={this.state.postType}
           setParentState={this.setParentState}

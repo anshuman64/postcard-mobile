@@ -7,7 +7,7 @@ import HomeScreen from './home_screen.js';
 //--------------------------------------------------------------------//
 
 const mapStateToProps = ({ client, posts, navigation }, ownProps) => ({
-  client:        client.user,
+  client:        client,
   posts:         posts,
   currentScreen: navigation.currentScreen
 });

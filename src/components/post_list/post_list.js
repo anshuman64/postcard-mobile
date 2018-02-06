@@ -42,7 +42,7 @@ class PostList extends React.PureComponent {
   refresh(postType = this.props.postType) {
     this.isLoading = true;
 
-    this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, true, this.props.userId, postType, this.props.client.id === this.props.userId)
+    this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, postType, this.props.client.id === this.props.userId)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -78,7 +78,7 @@ class PostList extends React.PureComponent {
     this.onEndReachedCalledDuringMomentum = true;
 
     let lastPostId = this.props.posts[this.props.userId][this.props.postType].data[this.props.posts[this.props.userId][this.props.postType].data.length-1];
-    this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, false, this.props.userId, this.props.postType, this.props.client.id === this.props.userId, {start_at: lastPostId})
+    this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId, this.props.postType, this.props.client.id === this.props.userId, {start_at: lastPostId})
       .catch((error) => {
         defaultErrorAlert(error)
       })

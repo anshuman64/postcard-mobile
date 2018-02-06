@@ -13,9 +13,7 @@ import { navigateTo }                                               from '../../
 
 
 const mapStateToProps = ({ client }, ownProps) => ({
-  authToken:       client.authToken,
-  firebaseUserObj: client.firebaseUserObj,
-  client:          client.user,
+  client: client
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

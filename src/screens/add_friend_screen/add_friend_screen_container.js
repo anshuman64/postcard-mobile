@@ -11,10 +11,8 @@ import { navigateTo, goBack }  from '../../actions/navigation_actions.js';
 
 
 const mapStateToProps = ({ client, navigation }, ownProps) => ({
-  client:          client.user,
-  authToken:       client.authToken,
-  firebaseUserObj: client.firebaseUserObj,
-  currentScreen:   navigation.currentScreen
+  client:        client,
+  currentScreen: navigation.currentScreen
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

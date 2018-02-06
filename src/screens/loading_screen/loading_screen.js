@@ -75,11 +75,11 @@ class LoadingScreen extends React.PureComponent {
 
   async _loadData()  {
     for (let postType in POST_TYPES) {
-      await this.props.getPosts(this.props.authToken, this.props.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+      await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
 
     for (let friendType in FRIEND_TYPES) {
-      await this.props.getFriendships(this.props.authToken, this.props.firebaseUserObj, FRIEND_TYPES[friendType]);
+      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
   }
 
@@ -97,7 +97,7 @@ class LoadingScreen extends React.PureComponent {
     }
 
     if (this.state.isLoggedIn) {
-      if (!this.props.client.username) {
+      if (!this.props.client.idname) {
         return this.props.navigateTo('UsernameScreenLogin');
       } else {
         return this.props.navigateTo('HomeScreen');
