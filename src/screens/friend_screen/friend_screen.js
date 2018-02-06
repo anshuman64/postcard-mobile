@@ -55,38 +55,11 @@ class FriendScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderFriendItem = (obj) => {
+  _renderItem = (obj) => {
     return (
       <FriendListItemContainer
-        id={obj.item.id}
-        username={obj.item.username}
-        avatar_url={obj.item.avatar_url}
+        userId={obj.item.id}
         setParentState={this.setParentState}
-        type={'friend'}
-        />
-    )
-  }
-
-  _renderSentItem = (obj) => {
-    return (
-      <FriendListItemContainer
-        id={obj.item.id}
-        username={obj.item.username}
-        avatar_url={obj.item.avatar_url}
-        setParentState={this.setParentState}
-        type={'sent'}
-        />
-    )
-  }
-
-  _renderReceivedItem = (obj) => {
-    return (
-      <FriendListItemContainer
-        id={obj.item.id}
-        username={obj.item.username}
-        avatar_url={obj.item.avatar_url}
-        setParentState={this.setParentState}
-        type={'received'}
         />
     )
   }
@@ -149,8 +122,8 @@ class FriendScreen extends React.PureComponent {
       return (
         <RN.SectionList
           sections={[
-            {data: sampleData, renderItem: this._renderReceivedItem, title: 'Received Requests'},
-            {data: sampleData, renderItem: this._renderSentItem, title: 'Sent Requests'},
+            {data: this.props.friendships.received, renderItem: this._renderItem, title: 'Received Requests'},
+            {data: this.props.friendships.sent, renderItem: this._renderItem, title: 'Sent Requests'},
           ]}
           keyExtractor={(item) => item.id}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
@@ -166,7 +139,7 @@ class FriendScreen extends React.PureComponent {
       return (
         <RN.SectionList
           sections={[
-            {data: sampleData, renderItem: this._renderFriendItem, title: 'Friends'},
+            {data: this.props.friendships.accepted, renderItem: this._renderItem, title: 'Friends'},
           ]}
           keyExtractor={(item) => item.id}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
@@ -195,32 +168,3 @@ class FriendScreen extends React.PureComponent {
 //--------------------------------------------------------------------//
 
 export default FriendScreen;
-
-
-export const sampleData = [
-  {
-    id: 1,
-    username: 'anshu',
-    avatar_url: 'https://www.google.org/assets/static/images/logo_googledotorg-171e7482e5523603fc0eed236dd772d8.svg'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'aaaaaaaaaaaa',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-  {
-    id: 2,
-    username: 'keving',
-    avatar_url: 'https://www.paklap.pk/media/wysiwyg/MQD32_Pakistan_.png'
-  },
-]

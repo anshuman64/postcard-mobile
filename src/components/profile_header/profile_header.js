@@ -8,7 +8,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 import TabBar                            from '../tab_bar/tab_bar.js';
 import { TAB_BAR_HEIGHT }                from '../tab_bar/tab_bar_styles.js';
 import { styles, PROFILE_HEADER_HEIGHT } from './profile_header_styles.js';
-import { POST_TYPES }                    from '../../actions/post_actions.js';
+import { FRIEND_TYPES }                  from '../../actions/friendship_actions.js';
 import { UTILITY_STYLES }                from '../../utilities/style_utility.js';
 import { defaultErrorAlert }             from '../../utilities/error_utility.js';
 
@@ -43,20 +43,51 @@ class ProfileHeader extends React.PureComponent {
 
     this.isFriendDisabled = true;
 
-    if (this.props.friendStatus) {
+    let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
 
+    if (!friendshipStatus) {
+      this.props.createFriendRequest(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.isFriendDisabled = false;
+        });
+    } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
+      this.props.acceptFriendRequest(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.isFriendDisabled = false;
+        });
     } else {
-
+      this._onPressUnfriend();
     }
   }
 
   _onPressUnfriend = () => {
+    let alertString;
+    let cancelString;
+    let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
+
+    if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
+      alertString = 'Are you sure you want to remove this friend?';
+      cancelString = 'Remove';
+    } else if (friendshipStatus === FRIEND_TYPES.SENT) {
+      alertString = 'Are you sure you want to cancel this friend request?';
+      cancelString = 'Cancel';
+    } else if (friendshipStatus === FRIEND_TYPES.RECEIVED){
+      alertString = 'Are you sure you want to delete this friend request?';
+      cancelString = 'Delete';
+    }
+
     RN.Alert.alert(
       '',
-      'Are you sure you want to remove this friend?',
+      alertString,
       [
         {text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
-        {text: 'Remove', onPress: this._onConfirmUnfriend},
+        {text: cancelString, onPress: this._onConfirmUnfriend},
       ],
       {
         onDismiss: () => this.isFriendDisabled = false
@@ -65,7 +96,13 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _onConfirmUnfriend = () => {
-
+    this.props.deleteFriendship(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.isFriendDisabled = false;
+      });
   }
 
 
@@ -174,11 +211,15 @@ class ProfileHeader extends React.PureComponent {
 
   _renderButtons() {
     let friendString;
+    let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
+    let disableButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
 
-    if (this.props.friendStatus === 'REQUESTED') {
+    if (friendshipStatus === FRIEND_TYPES.SENT) {
       friendString = 'Cancel Request';
-    } else if (this.props.friendStatus === 'ACCEPTED') {
+    } else if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
       friendString = 'Friends'
+    } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
+      friendString = 'Accept Request'
     } else {
       friendString = 'Add Friend';
     }
@@ -187,10 +228,10 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.View style={styles.buttonView}>
           <RN.TouchableOpacity
-            style={[styles.friendButtonBackground, this.props.friendStatus && styles.buttonBackgroundDisabled]}
+            style={[styles.friendButtonBackground, disableButton && styles.buttonBackgroundDisabled]}
             onPress={this._onPressFriend}
             >
-            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, this.props.friendStatus && styles.buttonTextDisabled]}>
+            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, disableButton && styles.buttonTextDisabled]}>
               {friendString}
             </RN.Text>
           </RN.TouchableOpacity>

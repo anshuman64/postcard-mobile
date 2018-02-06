@@ -74,16 +74,18 @@ class ShareListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    if (this.props.avatar_url && this.props.imagesCache[this.props.avatar_url]) {
+    let avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
+
+    if (avatarUrl && this.props.imagesCache[avatarUrl]) {
       return (
         <CachedImage
-          source={{uri: this.props.imagesCache[this.props.avatar_url].url}}
+          source={{uri: this.props.imagesCache[avatarUrl].url}}
           style={styles.avatarImage}
           resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.avatar_url)}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
           />
       )
-    } else if (this.props.avatar_url && !this.props.imagesCache[this.props.avatar_url]) {
+    } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
       return (
         <RN.View style={{width: 40}} />
       )
@@ -99,7 +101,7 @@ class ShareListItem extends React.PureComponent {
       <RN.View style={styles.userView}>
         {this._renderAvatar()}
         <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
-          {this.props.username}
+          {this.props.usersCache[this.props.userId].username}
         </RN.Text>
       </RN.View>
     )
