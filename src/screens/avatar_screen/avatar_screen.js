@@ -37,8 +37,8 @@ class AvatarScreen extends React.PureComponent {
 
   // If user has an avatar, get image and render it
   componentDidMount() {
-    if (this.props.client.avatar_url) {
-      let avatarImageUrl = this.props.imagesCache[this.props.client.avatar_url].url;
+    if (this.props.usersCache[this.props.client.id].avatar_url) {
+      let avatarImageUrl = this.props.imagesCache[this.props.usersCache[this.props.client.id].avatar_url].url;
 
       this.setState({ imagePath: avatarImageUrl });
       this.existingAvatar = avatarImageUrl;
@@ -171,13 +171,13 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderAvatar() {
-    if (!this.props.client.avatar_url && !this.state.imagePath) {
+    if (!this.props.usersCache[this.props.client.id].avatar_url && !this.state.imagePath) {
       return (
         <RN.View style={styles.frameBorder}>
           <Icon name='user' style={styles.userIcon} />
         </RN.View>
       )
-    } else if (this.props.client.avatar_url && !this.state.imagePath) {
+    } else if (this.props.usersCache[this.props.client.id].avatar_url && !this.state.imagePath) {
       return null;
     } else {
       return (
@@ -189,7 +189,7 @@ class AvatarScreen extends React.PureComponent {
             source={{uri: this.state.imagePath, cache: 'force-cache'}}
             style={styles.image}
             resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, this.props.client.avatar_url)}
+            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, this.props.usersCache[this.props.client.id].avatar_url)}
             />
         </RN.TouchableOpacity>
       )
@@ -225,7 +225,7 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderSkipButton() {
-    if (this.props.isLogin || this.props.client.avatar_url) {
+    if (this.props.isLogin || this.props.usersCache[this.props.client.id].avatar_url) {
       return (
         <RN.TouchableOpacity
           style={styles.skipButton}

@@ -245,7 +245,7 @@ class PostListItem extends React.PureComponent {
               {this._renderAvatar()}
             </RN.View>
             <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-              {this.props.client.id === this.props.item.author_id ? this.props.client.idname : this.props.usersCache[this.props.item.author_id].username}
+              {this.props.client.id === this.props.item.author_id ? this.props.usersCache[this.props.client.id].username : this.props.usersCache[this.props.item.author_id].username}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -255,13 +255,7 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    let avatarUrl;
-
-    if (this.props.client.id === this.props.item.author_id && this.props.client.avatar_url) {
-      avatarUrl = this.props.client.avatar_url;
-    } else if (this.props.client.id != this.props.item.author_id && this.props.usersCache[this.props.item.author_id].avatar_url) {
-      avatarUrl = this.props.usersCache[this.props.item.author_id].avatar_url;
-    }
+    let avatarUrl = this.props.usersCache[this.props.item.author_id].avatar_url;
 
     if (avatarUrl && this.props.imagesCache[avatarUrl]) {
       return (

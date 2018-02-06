@@ -100,7 +100,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     } else {
       this._loadData()
         .then(() => {
-          if (!this.props.client.idname) {
+          if (!this.props.usersCache[this.props.client.id].username) {
             return this.props.navigateTo('UsernameScreenLogin');
           } else {
             return this.props.navigateTo('HomeScreen');
