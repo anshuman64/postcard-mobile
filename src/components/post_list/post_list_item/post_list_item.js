@@ -56,7 +56,7 @@ class PostListItem extends React.PureComponent {
     this.setState({ isLikingServer: true }, () => {
       // If post already liked, delete like
       if (this.props.item.is_liked_by_client) {
-        this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.id)
+        this.props.deleteLike(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.item.id)
           .catch((error) => {
             defaultErrorAlert(error);
           })
@@ -65,7 +65,7 @@ class PostListItem extends React.PureComponent {
             this.setState({ isLikingServer: false });
           });
       } else {
-        this.props.createLike(this.props.authToken, this.props.firebaseUserObj, this.props.client.id, this.props.item.id)
+        this.props.createLike(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.item.id)
           .catch((error) => {
             defaultErrorAlert(error);
           })
@@ -91,7 +91,7 @@ class PostListItem extends React.PureComponent {
 
     // If post is flagged, delete flag
     if (this.props.item.is_flagged_by_client) {
-      this.props.deleteFlag(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
+      this.props.deleteFlag(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -116,7 +116,7 @@ class PostListItem extends React.PureComponent {
 
   // Creates flag
   _onConfirmFlagPost = () => {
-    this.props.createFlag(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
+    this.props.createFlag(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -153,7 +153,7 @@ class PostListItem extends React.PureComponent {
     this.isDeleteDisabled = true;
 
     // Delete post from DB
-    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
+    this.props.deletePost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
         // Fade out post
         this.container.fadeOut(500)
@@ -196,7 +196,7 @@ class PostListItem extends React.PureComponent {
       )
     // If user is not followed, create follow
     } else {
-      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.item.author_id)
+      this.props.createFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.author_id)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -208,7 +208,7 @@ class PostListItem extends React.PureComponent {
 
   // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.item.author_id)
+    this.props.deleteFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.author_id)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -245,7 +245,7 @@ class PostListItem extends React.PureComponent {
               {this._renderAvatar()}
             </RN.View>
             <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-              {this.props.client.id === this.props.item.author_id ? this.props.client.username : this.props.usersCache[this.props.item.author_id].username}
+              {this.props.client.id === this.props.item.author_id ? this.props.client.idname : this.props.usersCache[this.props.item.author_id].username}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -269,7 +269,7 @@ class PostListItem extends React.PureComponent {
           source={{uri: this.props.imagesCache[avatarUrl].url}}
           style={styles.avatarImage}
           resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
           />
       )
     } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
@@ -361,7 +361,7 @@ class PostListItem extends React.PureComponent {
               source={{uri: this.props.imagesCache[this.props.item.image_url].url}}
               style={styles.bodyImage}
               resizeMode={'contain'}
-              onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.item.image_url)}
+              onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, this.props.item.image_url)}
               />
           </RN.TouchableWithoutFeedback>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>

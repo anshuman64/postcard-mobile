@@ -10,11 +10,9 @@ import { getPosts }  from '../../actions/post_actions.js';
 
 
 const mapStateToProps = ({ client, posts, postsCache }, ownProps) => ({
-  authToken:       client.authToken,
-  firebaseUserObj: client.firebaseUserObj,
-  client:          client.user,
-  posts:           posts,
-  postsCache:      postsCache
+  client:     client,
+  posts:      posts,
+  postsCache: postsCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

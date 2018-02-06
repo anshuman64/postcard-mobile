@@ -42,7 +42,7 @@ class FriendListItem extends React.PureComponent {
 
     this.isFriendDisabled = true;
 
-    this.props.acceptFriendRequest(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+    this.props.acceptFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -81,7 +81,7 @@ class FriendListItem extends React.PureComponent {
   }
 
   _onConfirmDelete = () => {
-    this.props.deleteFriendship(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+    this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -140,7 +140,7 @@ class FriendListItem extends React.PureComponent {
           source={{uri: this.props.imagesCache[avatarUrl].url}}
           style={styles.avatarImage}
           resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
           />
       )
     } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {

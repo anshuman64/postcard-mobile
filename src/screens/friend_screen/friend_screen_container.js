@@ -8,7 +8,7 @@ import { navigateTo } from '../../actions/navigation_actions.js';
 //--------------------------------------------------------------------//
 
 const mapStateToProps = ({ client, friendships }, ownProps) => ({
-  client:      client.user,
+  client:      client,
   friendships: friendships,
 });
 

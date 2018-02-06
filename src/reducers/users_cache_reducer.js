@@ -30,6 +30,15 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   // Friendship Actions
   //--------------------------------------------------------------------//
 
+  case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
+    newState[action.data.user.id] = action.data.user;
+
+    return newState;
+
+  //--------------------------------------------------------------------//
+  // Friendship Actions
+  //--------------------------------------------------------------------//
+
     case FRIENDSHIP_ACTION_TYPES.RECEIVE_FRIENDSHIPS:
       _.forEach(action.data.friends, (user) => {
         newState[user.id] = user;

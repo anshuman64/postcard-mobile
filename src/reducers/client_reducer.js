@@ -10,7 +10,7 @@ import { CLIENT_ACTION_TYPES } from '../actions/client_actions.js';
 const DEFAULT_STATE = {
   firebaseUserObj: null,
   authToken:       '',
-  user:            null
+  id:              null
 };
 
 const ClientReducer = (state = DEFAULT_STATE, action) => {
@@ -28,7 +28,7 @@ const ClientReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
-      newState.user = action.data.user;
+      newState.id = action.data.user.id;
 
       return newState;
     default:
