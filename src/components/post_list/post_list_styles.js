@@ -11,13 +11,16 @@ import * as StyleUtility         from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(120);
+const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(200);
 
 export const styles = StyleSheet.create({
   postList: {
     width: '100%',
     height: StyleUtility.getUsableDimensions().height - HEADER_HEIGHT - FOOTER_HEIGHT - StyleUtility.getStatusBarHeight(),
     backgroundColor: StyleUtility.COLORS.grey50,
+  },
+  postListLongHeight: {
+    height: StyleUtility.getUsableDimensions().height - HEADER_HEIGHT - StyleUtility.getStatusBarHeight()
   },
   headerView: {
     flexDirection: 'column',

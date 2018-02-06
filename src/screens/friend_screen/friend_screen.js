@@ -55,10 +55,10 @@ class FriendScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderItem = (obj) => {
+  _renderItem = ({item}) => {
     return (
       <FriendListItemContainer
-        userId={obj.item.id}
+        userId={item}
         setParentState={this.setParentState}
         />
     )
@@ -122,8 +122,8 @@ class FriendScreen extends React.PureComponent {
       return (
         <RN.SectionList
           sections={[
-            {data: this.props.friendships.received, renderItem: this._renderItem, title: 'Received Requests'},
-            {data: this.props.friendships.sent, renderItem: this._renderItem, title: 'Sent Requests'},
+            {data: this.props.friendships.received, renderItem: this._renderItem.bind(this), title: 'Received Requests'},
+            {data: this.props.friendships.sent, renderItem: this._renderItem.bind(this), title: 'Sent Requests'},
           ]}
           keyExtractor={(item) => item.id}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
@@ -139,7 +139,7 @@ class FriendScreen extends React.PureComponent {
       return (
         <RN.SectionList
           sections={[
-            {data: this.props.friendships.accepted, renderItem: this._renderItem, title: 'Friends'},
+            {data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'},
           ]}
           keyExtractor={(item) => item.id}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
