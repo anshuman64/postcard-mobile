@@ -25,8 +25,8 @@ class ShareScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      isPublic:        false,
-      selectedFriends: [],
+      isPublic:   false,
+      recipients: [],
     };
   }
 
@@ -47,7 +47,7 @@ class ShareScreen extends React.PureComponent {
     return (
       <ShareListItemContainer
         userId={item}
-        selectedFriends={this.state.selectedFriends}
+        recipients={this.state.recipients}
         setParentState={this.setParentState}
         />
     )
@@ -80,7 +80,7 @@ class ShareScreen extends React.PureComponent {
           placeholderText={this.props.placeholderText}
           imagePath={this.props.imagePath}
           imageType={this.props.imageType}
-          selectedFriends={this.state.selectedFriends}
+          recipients={this.state.recipients}
           isPublic={this.state.isPublic}
           />
         <RN.SectionList
