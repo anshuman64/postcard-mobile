@@ -97,16 +97,18 @@ class FriendListItem extends React.PureComponent {
 
   _renderButtons() {
     let deleteString;
-    let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
+    let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
 
-    if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
-      deleteString = 'Remove';
-    } else if (friendshipStatus === FRIEND_TYPES.SENT) {
-      deleteString = 'Cancel';
-    } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
-      deleteString = 'Delete';
+    if (friendshipStatus) {
+      if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
+        deleteString = 'Remove';
+      } else if (friendshipStatus === FRIEND_TYPES.SENT) {
+        deleteString = 'Cancel';
+      } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
+        deleteString = 'Delete';
+      }
     }
-
+    
     return (
       <RN.View style={styles.buttonView}>
         {friendshipStatus === 'received' ?
@@ -132,7 +134,7 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    let avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
+    let avatarUrl = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
 
     if (avatarUrl && this.props.imagesCache[avatarUrl]) {
       return (
@@ -155,11 +157,13 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderUserView() {
+    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+
     return (
       <RN.View style={styles.userView}>
         {this._renderAvatar()}
         <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, {marginLeft: 20}]}>
-          {this.props.usersCache[this.props.userId].username}
+          {username}
         </RN.Text>
       </RN.View>
     )
