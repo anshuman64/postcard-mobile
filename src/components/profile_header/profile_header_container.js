@@ -14,11 +14,9 @@ import { navigateTo }                                                 from '../.
 
 
 const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
-  authToken:       client.authToken,
-  firebaseUserObj: client.firebaseUserObj,
-  client:          client.user,
-  usersCache:      usersCache,
-  imagesCache:     imagesCache,
+  client:      client,
+  usersCache:  usersCache,
+  imagesCache: imagesCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

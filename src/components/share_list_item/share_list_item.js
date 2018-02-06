@@ -82,7 +82,7 @@ class ShareListItem extends React.PureComponent {
           source={{uri: this.props.imagesCache[avatarUrl].url}}
           style={styles.avatarImage}
           resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
           />
       )
     } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {

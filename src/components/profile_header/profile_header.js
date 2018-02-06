@@ -46,7 +46,7 @@ class ProfileHeader extends React.PureComponent {
     let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
 
     if (!friendshipStatus) {
-      this.props.createFriendRequest(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+      this.props.createFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -54,7 +54,7 @@ class ProfileHeader extends React.PureComponent {
           this.isFriendDisabled = false;
         });
     } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
-      this.props.acceptFriendRequest(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+      this.props.acceptFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -96,7 +96,7 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _onConfirmUnfriend = () => {
-    this.props.deleteFriendship(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+    this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -121,7 +121,7 @@ class ProfileHeader extends React.PureComponent {
     if (this.props.usersCache[this.props.userId].is_user_followed_by_client) {
       this._onPressUnfollow();
     } else {
-      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+      this.props.createFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -148,7 +148,7 @@ class ProfileHeader extends React.PureComponent {
 
   // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.userId)
+    this.props.deleteFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -190,7 +190,7 @@ class ProfileHeader extends React.PureComponent {
             source={{uri: this.props.imagesCache[avatarUrl].url}}
             style={styles.image}
             resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
+            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
             />
           <Icon name='pencil' style={[styles.avatarPencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
         </RN.TouchableOpacity>
