@@ -52,11 +52,9 @@ class ConfirmCodeScreen extends React.PureComponent {
               this._navigateTo();
             })
             .catch((error) => {
+              this.setState({ isLoading: false });
               defaultErrorAlert(error);
             })
-            .finally(() => {
-              this.setState({ isLoading: false });
-            });
         });
       }
     });
@@ -95,6 +93,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     }
 
     if (this.props.client.is_banned) {
+      this.setState({ isLoading: false });
       RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
     } else {
       this._loadData()
@@ -109,6 +108,9 @@ class ConfirmCodeScreen extends React.PureComponent {
         })
         .catch((error) => {
           defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
         });
     }
   }

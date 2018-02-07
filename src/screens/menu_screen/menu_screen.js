@@ -22,6 +22,7 @@ class MenuScreen extends React.PureComponent {
   _logOut = () => {
     Firebase.auth().signOut()
       .then(() => {
+        AWS.config.credentials.clearCachedId();
         AWS.config.credentials = null;
         Actions.reset('WelcomeScreen');
       })
