@@ -65,7 +65,7 @@ export const createFriendRequest = (authToken, firebaseUserObj, userId, username
   return APIUtility.post(authToken, '/friendships', { requestee_id: userId, username: username })
     .then((friendship) => {
       amplitude.logEvent('Friendship - Request Friendship', { is_successful: true });
-      dispatch(sendFriendshipRequest({ friendship: friendship }));
+      dispatch(sendFriendshipRequest({ friendship: friendship, username: username }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
