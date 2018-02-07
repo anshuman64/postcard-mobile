@@ -31,8 +31,8 @@ import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll
 import AddFriendScreenContainer   from './screens/add_friend_screen/add_friend_screen_container.js';
 import MenuScreen                 from './screens/menu_screen/menu_screen.js';
 
-import HeaderContainer            from './components/nav_bar_header/header_container.js';
-import FooterContainer            from './components/nav_bar_footer/footer_container.js';
+import HeaderContainer            from './components/header/header_container.js';
+import FooterContainer            from './components/footer/footer_container.js';
 
 //--------------------------------------------------------------------//
 

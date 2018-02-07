@@ -4,7 +4,7 @@ import { StyleSheet, Platform } from 'react-native';
 
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
-import { HEADER_HEIGHT } from '../nav_bar_header/header_styles.js';
+import { HEADER_HEIGHT } from '../header/header_styles.js';
 
 
 //--------------------------------------------------------------------//

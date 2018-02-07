@@ -4,8 +4,8 @@ import { StyleSheet, Platform } from 'react-native';
 
 // Local Imports
 import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles.js';
-import { HEADER_HEIGHT }         from '../nav_bar_header/header_styles.js';
-import { FOOTER_HEIGHT }         from '../nav_bar_footer/footer_styles.js';
+import { HEADER_HEIGHT }         from '../header/header_styles.js';
+import { FOOTER_HEIGHT }         from '../footer/footer_styles.js';
 import * as StyleUtility         from '../../utilities/style_utility.js';
 
 

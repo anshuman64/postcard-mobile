@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import HeaderContainer        from '../../components/nav_bar_header/header_container.js';
+import HeaderContainer        from '../../components/header/header_container.js';
 import ShareListItemContainer from '../../components/share_list_item/share_list_item_container.js';
 import { styles }             from './share_screen_styles.js';
 import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
