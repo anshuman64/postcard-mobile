@@ -9,6 +9,7 @@ import Ionicon                       from 'react-native-vector-icons/Ionicons';
 import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
+import UserInfoViewContainer                  from '../../user_info_view/user_info_view_container.js';
 import { styles, scaleHeart }                 from './post_list_item_styles.js';
 import { renderDate }                         from '../../../utilities/date_time_utility.js';
 import fontelloConfig                         from '../../../assets/fonts/config.json';
@@ -240,7 +241,7 @@ class PostListItem extends React.PureComponent {
           onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id })}
           disabled={this.props.client.id === this.props.item.author_id}
           >
-          <UserInfoView userId={this.props.item.author_id} marginLeft={0} />
+          <UserInfoViewContainer userId={this.props.item.author_id} marginLeft={0} />
         </RN.TouchableWithoutFeedback>
         {this._renderFollowText()}
       </RN.View>
