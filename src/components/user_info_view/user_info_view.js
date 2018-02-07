@@ -13,6 +13,19 @@ import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
 class UserInfoView extends React.PureComponent {
 
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      style:  UTILITY_STYLES.regularBlackText15,
+    }
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -45,6 +58,12 @@ class UserInfoView extends React.PureComponent {
     let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
 
     return (
+      <RN.TouchableWithoutFeedback
+        onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+        onPressOut={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText15})}
+        onPress={() => this.props.navigateToProfile({ userId: this.props.userId })}
+        disabled={this.props.disabled}
+        >
       <RN.View style={[styles.userView, {marginLeft: this.props.marginLeft}]}>
         <RN.View style={styles.frame}>
           {this._renderAvatar()}
@@ -53,6 +72,7 @@ class UserInfoView extends React.PureComponent {
           {username}
         </RN.Text>
       </RN.View>
+      </RN.TouchableWithoutFeedback>
     )
   }
 }

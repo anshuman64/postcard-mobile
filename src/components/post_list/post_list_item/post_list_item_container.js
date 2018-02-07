@@ -9,7 +9,6 @@ import { createLike, deleteLike }      from '../../../actions/like_actions.js';
 import { createFlag, deleteFlag }      from '../../../actions/flag_actions.js';
 import { createFollow, deleteFollow }  from '../../../actions/follow_actions.js';
 import { refreshCredsAndGetImage }     from '../../../actions/image_actions.js';
-import { navigateToProfile }           from '../../../actions/navigation_actions.js';
 
 
 //--------------------------------------------------------------------//
@@ -32,7 +31,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   removePost:              (deletedPost) => dispatch(removePost(deletedPost)),
   refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
   refreshAuthToken:        (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params)),
-  navigateToProfile:       (props) => dispatch(navigateToProfile(props))
 });
 
 export default connect(
