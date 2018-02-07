@@ -168,7 +168,7 @@ class ProfileHeader extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAvatar() {
-    let avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
+    let avatarUrl = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
 
     if (!avatarUrl) {
       return (
@@ -199,10 +199,12 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderUsername() {
+    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+
     return (
       <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.client.id != this.props.userId}>
         <RN.Text style={styles.usernameText}>
-          {this.props.usersCache[this.props.userId].username}
+          {username}
         </RN.Text>
         <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
       </RN.TouchableOpacity>
@@ -211,8 +213,9 @@ class ProfileHeader extends React.PureComponent {
 
   _renderButtons() {
     let friendString;
-    let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
+    let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
     let disableButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
+    let isFollowed = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_followed_by_client : false;
 
     if (friendshipStatus === FRIEND_TYPES.SENT) {
       friendString = 'Cancel';
@@ -241,11 +244,11 @@ class ProfileHeader extends React.PureComponent {
             </RN.Text>
           </RN.TouchableOpacity>
           <RN.TouchableOpacity
-            style={[styles.followButtonBackground, this.props.usersCache[this.props.userId].is_user_followed_by_client && styles.buttonBackgroundDisabled]}
+            style={[styles.followButtonBackground, isFollowed && styles.buttonBackgroundDisabled]}
             onPress={this._onPressFollow}
             >
-            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, UTILITY_STYLES.textHighlighted, this.props.usersCache[this.props.userId].is_user_followed_by_client && styles.buttonTextDisabled]}>
-              { this.props.usersCache[this.props.userId].is_user_followed_by_client ? 'Following' : 'Follow' }
+            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, UTILITY_STYLES.textHighlighted, isFollowed && styles.buttonTextDisabled]}>
+              { isFollowed ? 'Following' : 'Follow' }
             </RN.Text>
           </RN.TouchableOpacity>
         </RN.View>
