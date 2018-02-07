@@ -6,9 +6,7 @@ import LoginScreen              from './login_screen.js';
 import { getConfirmationCode }  from '../../actions/client_actions.js';
 import { navigateTo }           from '../../actions/navigation_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getConfirmationCode: (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),

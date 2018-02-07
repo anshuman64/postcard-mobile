@@ -3,11 +3,9 @@ import { Platform, Dimensions, PixelRatio, StyleSheet } from 'react-native';
 
 //--------------------------------------------------------------------//
 
-
 //--------------------------------------------------------------------//
 // Helpers
 //--------------------------------------------------------------------//
-
 
 // Determines if the phone is an iPhone X
 let isIphoneX = () => {
@@ -20,11 +18,9 @@ let isTablet = () => {
   return (DEVICE_DIM.width >= 520 || DEVICE_DIM.height >= 960);
 };
 
-
 //--------------------------------------------------------------------//
 // Interface
 //--------------------------------------------------------------------//
-
 
 export const DEVICE_DIM     = Dimensions.get('window');
 export const MAX_TABLET_DIM = { width: 480, height: 960 };

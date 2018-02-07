@@ -32,10 +32,10 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   // Friendship Actions
   //--------------------------------------------------------------------//
 
-  case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
-    newState[action.data.user.id] = action.data.user;
+    case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
+      newState[action.data.user.id] = action.data.user;
 
-    return newState;
+      return newState;
 
   //--------------------------------------------------------------------//
   // Friendship Actions
@@ -83,7 +83,7 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.RECEIVE_POSTS:
     case POST_ACTION_TYPES.REFRESH_POSTS:
       _.forEach(action.data.posts, (post) => {
-        newState[post.author_id] = _.merge(post.author, newState[post.author_id]);
+        newState[post.author_id] = _.merge(post.author, newState[post.author_id]); // use merge to keep friendship_status_with_client
       });
 
       return newState;

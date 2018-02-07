@@ -9,7 +9,6 @@ import { styles }             from './avatar_screen_styles.js';
 import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
 import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
-
 //--------------------------------------------------------------------//
 
 class AvatarScreen extends React.PureComponent {

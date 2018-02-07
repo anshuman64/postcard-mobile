@@ -8,9 +8,7 @@ import { createFollow, deleteFollow }                                           
 import { refreshCredsAndGetImage }                                                                               from '../../actions/image_actions.js';
 import { navigateTo }                                                                                            from '../../actions/navigation_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
   client:      client,

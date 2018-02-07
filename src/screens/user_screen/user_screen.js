@@ -10,7 +10,6 @@ import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-
 class UserScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -53,9 +52,11 @@ class UserScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
+    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        <HeaderContainer backIcon={true} backTitle={this.props.usersCache[this.props.userId].username + "'s Profile"} noBorder={true} />
+        <HeaderContainer backIcon={true} backTitle={username + "'s Profile"} noBorder={true} />
         <PostListContainer
           ref={(ref) => this.postList = ref}
           screen={'UserScreen'}

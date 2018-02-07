@@ -8,7 +8,6 @@ import { getFriendships } from '../../actions/friendship_actions.js';
 import { getPosts }       from '../../actions/post_actions.js';
 import { navigateTo }     from '../../actions/navigation_actions.js';
 
-
 //--------------------------------------------------------------------//
 
 const mapStateToProps = ({ client, usersCache }, ownProps) => ({

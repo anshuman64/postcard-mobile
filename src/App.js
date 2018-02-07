@@ -36,7 +36,6 @@ import FooterContainer            from './components/footer/footer_container.js'
 
 //--------------------------------------------------------------------//
 
-
 class App extends React.Component {
   store = configureStore();
 

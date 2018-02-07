@@ -9,7 +9,6 @@ import { setStateCallback }       from '../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
 import { defaultErrorAlert }      from '../../utilities/error_utility.js';
 
-
 //--------------------------------------------------------------------//
 
 class UsernameScreen extends React.PureComponent {
@@ -143,6 +142,8 @@ class UsernameScreen extends React.PureComponent {
   }
 
   _renderNextButton() {
+    let buttonText = this.props.currentScreen === 'UsernameScreenLogin' ? 'Next' : 'Done';
+
     return (
       <RN.TouchableOpacity
         style={[UTILITY_STYLES.nextButtonBackground, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonBackgroundDisabled]}
@@ -150,7 +151,7 @@ class UsernameScreen extends React.PureComponent {
         disabled={(this.state.inputtedText.length === 0) && !this.state.isLoading}
         >
         <RN.Text style={[UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonTextDisabled]}>
-          {this.props.currentScreen === 'UsernameScreenLogin' ? 'Next' : 'Done'}
+          {buttonText}
         </RN.Text>
       </RN.TouchableOpacity>
     )

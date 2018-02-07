@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import Footer          from './footer.js';
 import { navigateTo }  from '../../actions/navigation_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapStateToProps = ({ navigation }, ownProps) => ({
   currentScreen: navigation.currentScreen

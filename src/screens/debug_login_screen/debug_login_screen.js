@@ -9,9 +9,7 @@ import { setStateCallback } from '../../utilities/function_utility.js';
 import { styles }           from './debug_login_screen_styles.js';
 import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
-
 
 class DebugLoginScreen extends React.PureComponent {
 

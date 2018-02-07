@@ -8,9 +8,7 @@ import { getFriendships }                                           from '../../
 import { getPosts }                                                 from '../../actions/post_actions.js';
 import { navigateTo }                                               from '../../actions/navigation_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapStateToProps = ({ client, usersCache }, ownProps) => ({
   client:     client,

@@ -13,20 +13,16 @@ import { refreshAuthToken }              from '../actions/client_actions.js';
 
 //--------------------------------------------------------------------//
 
-
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
 
-
 let s3Client = null;
 export let postPlaceholders;
-
 
 //--------------------------------------------------------------------//
 // Helper Functions
 //--------------------------------------------------------------------//
-
 
 // Returns the right Bucket Name depending on environment setting
 let getBucketName = () => {
@@ -66,7 +62,6 @@ let getParamsForImage = (userId, imageType, buffer, folderPath) => {
     ContentType: imageType
   };
 };
-
 
 //--------------------------------------------------------------------//
 // Interface

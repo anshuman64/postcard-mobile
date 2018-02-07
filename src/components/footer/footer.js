@@ -1,14 +1,13 @@
 // Library Imports
-import React     from 'react';
-import RN        from 'react-native';
-import Icon      from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
+import RN    from 'react-native';
+import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import { styles }         from './footer_styles.js';
 import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
-
 
 class Footer extends React.PureComponent {
 
