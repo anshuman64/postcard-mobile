@@ -8,9 +8,7 @@ import CountryListItem                                 from './country_list_item
 import { UTILITY_STYLES, COLORS, getUsableDimensions } from '../../utilities/style_utility.js';
 import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
 
-
 //--------------------------------------------------------------------//
-
 
 class CountryListModal extends React.PureComponent {
 

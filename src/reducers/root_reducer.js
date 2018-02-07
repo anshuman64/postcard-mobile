@@ -12,7 +12,6 @@ import NavigationReducer  from './navigation_reducer.js';
 
 //--------------------------------------------------------------------//
 
-
 const RootReducer = combineReducers({
   client:      ClientReducer,
   posts:       PostsReducer,
@@ -22,7 +21,6 @@ const RootReducer = combineReducers({
   imagesCache: ImagesCacheReducer,
   navigation:  NavigationReducer
 });
-
 
 //--------------------------------------------------------------------//
 

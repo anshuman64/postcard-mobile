@@ -192,7 +192,7 @@ class ProfileHeader extends React.PureComponent {
     return (
       <RN.TouchableOpacity
         style={styles.usernameButton}
-        onPress={() => this.props.navigateTo('UsernameScreen')} 
+        onPress={() => this.props.navigateTo('UsernameScreen')}
         disabled={this.props.client.id != this.props.userId}
         >
         <RN.Text style={styles.usernameText}>

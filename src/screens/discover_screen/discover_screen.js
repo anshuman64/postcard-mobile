@@ -10,7 +10,6 @@ import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-
 class DiscoverScreen extends React.PureComponent {
 
   constructor(props) {

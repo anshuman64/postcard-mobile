@@ -6,11 +6,8 @@ import ShareScreen  from './share_screen.js';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, friendships, posts, navigation }, ownProps) => ({
-  client:        client.id,
+const mapStateToProps = ({ friendships }, ownProps) => ({
   friendships:   friendships,
-  posts:         posts,
-  currentScreen: navigation.currentScreen
 });
 
 export default connect(

@@ -7,9 +7,7 @@ import { editAvatar }               from '../../actions/client_actions.js';
 import { refreshCredsAndGetImage }  from '../../actions/image_actions.js';
 import { navigateTo, goBack }       from '../../actions/navigation_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
   client:      client,

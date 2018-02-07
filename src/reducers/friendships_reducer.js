@@ -6,13 +6,11 @@ import { FRIENDSHIP_ACTION_TYPES }  from '../actions/friendship_actions.js';
 
 //--------------------------------------------------------------------//
 
-
 const DEFAULT_STATE = {
   accepted: [],
   sent:     [],
   received: [],
 };
-
 
 const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);

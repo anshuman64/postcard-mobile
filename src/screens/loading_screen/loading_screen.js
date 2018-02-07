@@ -14,7 +14,6 @@ import { getPostPlaceholders } from '../../utilities/file_utility.js';
 
 //--------------------------------------------------------------------//
 
-
 class LoadingScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

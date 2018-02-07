@@ -12,7 +12,6 @@ import { styles }                 from './confirm_code_screen_styles.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
 import { defaultErrorAlert }      from '../../utilities/error_utility.js';
 
-
 //--------------------------------------------------------------------//
 
 class ConfirmCodeScreen extends React.PureComponent {
