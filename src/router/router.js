@@ -4,7 +4,6 @@ import { Router, Reducer } from 'react-native-router-flux';
 
 //--------------------------------------------------------------------//
 
-
 class CustomRouter extends React.Component {
   reducerCreate (params) {
     const defaultReducer = new Reducer(params);
@@ -26,7 +25,6 @@ class CustomRouter extends React.Component {
     )
   }
 }
-
 
 //--------------------------------------------------------------------//
 

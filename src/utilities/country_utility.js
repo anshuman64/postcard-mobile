@@ -2,7 +2,6 @@
 // Interface
 //--------------------------------------------------------------------//
 
-
 // List of countries and their country codes for CountryListModal
 export const COUNTRY_CODES = [
 	{

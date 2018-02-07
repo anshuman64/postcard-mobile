@@ -16,27 +16,6 @@ import { defaultErrorAlert } from '../../utilities/error_utility.js';
 class MenuScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
-  // Constructor
-  //--------------------------------------------------------------------//
-
-  constructor(props) {
-    super(props);
-
-    this.contactIcon   = null;
-    this.contactText   = null;
-    this.telegramIcon  = null;
-    this.telegramText  = null;
-    this.termsIcon     = null;
-    this.termsText     = null;
-    this.privacyIcon   = null;
-    this.privacyText   = null;
-    this.communityIcon = null;
-    this.communityText = null;
-    this.logOutIcon    = null;
-    this.logOutText    = null;
-  }
-
-  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -59,12 +38,12 @@ class MenuScreen extends React.PureComponent {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.iconRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          this.textRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          iconRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          textRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
-          this.iconRef.setNativeProps({style: styles.menuItemIcon})
-          this.textRef.setNativeProps({style: styles.menuItemText})
+          iconRef.setNativeProps({style: styles.menuItemIcon})
+          textRef.setNativeProps({style: styles.menuItemText})
         }}
         onPress={callback}
         >

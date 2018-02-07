@@ -13,7 +13,6 @@ import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility.js
 
 //--------------------------------------------------------------------//
 
-
 class NewPostScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

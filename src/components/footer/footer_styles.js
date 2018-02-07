@@ -5,7 +5,6 @@ import { StyleSheet } from 'react-native';
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
 
 export const FOOTER_HEIGHT = 45;

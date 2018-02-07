@@ -6,9 +6,7 @@ import RN     from 'react-native';
 import { styles } from './loading_modal_styles.js';
 import { COLORS } from '../../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
-
 
 class LoadingModal extends React.PureComponent {
 

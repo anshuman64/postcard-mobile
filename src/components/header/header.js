@@ -1,8 +1,8 @@
 // Library Imports
-import React       from 'react';
-import RN          from 'react-native';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon     from 'react-native-vector-icons/Ionicons';
+import React   from 'react';
+import RN      from 'react-native';
+import Icon    from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import LoadingModal          from '../loading_modal/loading_modal.js'
@@ -12,7 +12,6 @@ import { isStringEmpty }     from '../../utilities/function_utility.js';
 import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
-
 
 class Header extends React.PureComponent {
 

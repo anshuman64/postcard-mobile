@@ -7,7 +7,9 @@ import { styles }         from './tab_bar_styles.js';
 import { POST_TYPES }     from '../../actions/post_actions.js';
 import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
+
 //--------------------------------------------------------------------//
+
 
 class TabBar extends React.PureComponent {
 

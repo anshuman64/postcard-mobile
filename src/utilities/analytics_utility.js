@@ -6,11 +6,9 @@ import { ENV_TYPES, ANALYTICS_ENV_SETTING } from '../app_config.js';
 
 //--------------------------------------------------------------------//
 
-
 //--------------------------------------------------------------------//
 // Helper Functions
 //--------------------------------------------------------------------//
-
 
 // Chooses the right API key depending on environment setting
 let setupAmplitude = () => {
@@ -22,7 +20,6 @@ let setupAmplitude = () => {
     return new RNAmplitute('fa9aded0e5b7590482fffff78b2bd85c'); // key for insiya-dev
   }
 };
-
 
 //--------------------------------------------------------------------//
 // Interface

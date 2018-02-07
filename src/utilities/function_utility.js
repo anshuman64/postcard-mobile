@@ -2,7 +2,6 @@
 // Interface
 //--------------------------------------------------------------------//
 
-
 // Checks if string is empty (null, blank, or spaces only)
 export const isStringEmpty = (string) => {
   return string.length === 0 || !string.trim();

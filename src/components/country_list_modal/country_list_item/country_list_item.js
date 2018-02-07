@@ -6,9 +6,7 @@ import RN    from 'react-native';
 import { styles }         from './country_list_item_styles.js';
 import { UTILITY_STYLES } from '../../../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
-
 
 class CountryListItem extends React.PureComponent {
 
