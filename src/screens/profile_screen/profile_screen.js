@@ -1,15 +1,13 @@
 // Library Imports
-import React     from 'react';
-import RN        from 'react-native';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
-import HeaderContainer    from '../../components/nav_bar_header/header_container.js';
 import PostListContainer  from '../../components/post_list/post_list_container.js';
 import { POST_TYPES }     from '../../actions/post_actions.js';
 import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
-
 
 class ProfileScreen extends React.PureComponent {
 
@@ -29,18 +27,12 @@ class ProfileScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // Refresh AuthoredPosts and LikedPosts on mount
-  componentDidMount() {
-    this.postList.getWrappedInstance().refresh();
-    this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
-  }
-
   // Auto-refresh screen if coming back to it after > 1 minute
   componentWillReceiveProps(nextProps) {
     if (this.props.currentScreen != 'ProfileScreen' && nextProps.currentScreen === 'ProfileScreen') {
       let checkRefresh = (postType) => {
         let currentTime = new Date();
-        let lastUpdate = this.props.posts[this.props.user.id][postType].lastUpdated;
+        let lastUpdate = this.props.posts[this.props.client.id][postType].lastUpdated;
         let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
         if (minsDiff > 1) {
@@ -71,15 +63,18 @@ class ProfileScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
+    let username = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].username : null;
+    let avatarUrl = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].avatar_url : null;
+
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
         <PostListContainer
           ref={(ref) => this.postList = ref}
-          userId={this.props.user.id}
-          username={this.props.user.username}
-          avatarUrl={this.props.user.avatar_url}
+          screen={'ProfileScreen'}
+          userId={this.props.client.id}
+          username={username}
+          avatarUrl={avatarUrl}
           postType={this.state.postType}
-          scrollToTop={this.props.scrollToTop}
           setParentState={this.setParentState}
           />
       </RN.View>

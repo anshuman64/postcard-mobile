@@ -7,7 +7,6 @@ import { NAVIGATION_ACTION_TYPES }  from '../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
-
 const DEFAULT_STATE = {
   currentScreen: null
 };

@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import WelcomeScreen   from './welcome_screen.js';
 import { navigateTo }  from '../../actions/navigation_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   navigateTo:   (screen, props) => dispatch(navigateTo(screen, props)),

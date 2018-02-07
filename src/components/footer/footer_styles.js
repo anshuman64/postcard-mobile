@@ -5,9 +5,9 @@ import { StyleSheet } from 'react-native';
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
 
+export const FOOTER_HEIGHT = 45;
 
 export const styles = StyleSheet.create({
   footer: {
@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: 45,
+    height: FOOTER_HEIGHT,
     backgroundColor: 'white',
     borderTopColor: StyleUtility.COLORS.grey300,
     borderTopWidth: 1,
@@ -24,11 +24,15 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 150,
-    height: 45,
+    width: '19%',
+    height: FOOTER_HEIGHT,
   },
   icon: {
     fontSize: StyleUtility.scaleFont(19),
     color: StyleUtility.COLORS.grey900
+  },
+  iconBig: {
+    fontSize: StyleUtility.scaleFont(27),
+    color: StyleUtility.COLORS.appleRed,
   },
 })

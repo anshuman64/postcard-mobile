@@ -2,6 +2,8 @@ import { Keyboard } from 'react-native';
 import { Actions }  from 'react-native-router-flux';
 
 //--------------------------------------------------------------------//
+
+//--------------------------------------------------------------------//
 // Helper Functions
 //--------------------------------------------------------------------//
 
@@ -36,10 +38,18 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.AvatarScreen(props)
     } else if (screen === 'HomeScreen') {
       Actions.HomeScreen(props)
+    } else if (screen === 'DiscoverScreen') {
+      Actions.DiscoverScreen(props)
+    } else if (screen === 'FriendScreen') {
+      Actions.FriendScreen(props)
     } else if (screen === 'ProfileScreen') {
       Actions.ProfileScreen(props)
     } else if (screen === 'NewPostScreen') {
       Actions.NewPostScreen(props)
+    } else if (screen === 'ShareScreen') {
+      Actions.ShareScreen(props)
+    } else if (screen === 'AddFriendScreen') {
+      Actions.AddFriendScreen(props)
     } else if (screen === 'MenuScreen') {
       Actions.MenuScreen(props)
     } else if (screen === 'UsernameScreen') {

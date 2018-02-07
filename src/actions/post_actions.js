@@ -4,7 +4,7 @@ import { amplitude }              from '../utilities/analytics_utility.js';
 import * as APIUtility            from '../utilities/api_utility.js';
 import { setErrorDescription }    from '../utilities/error_utility.js';
 import { deleteFile, uploadFile } from '../utilities/file_utility.js';
-import { refreshAuthToken }       from './user_actions.js';
+import { refreshAuthToken }       from './client_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -13,7 +13,8 @@ import { refreshAuthToken }       from './user_actions.js';
 //--------------------------------------------------------------------//
 
 export const POST_TYPES = {
-  ALL:      'allPosts',
+  RECEIVED: 'receivedPosts',
+  PUBLIC:   'publicPosts',
   AUTHORED: 'authoredPosts',
   LIKED:    'likedPosts',
   FOLLOWED: 'followedPosts'
@@ -34,7 +35,7 @@ export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
 };
 
-export const refreshAndReceivePosts = (data) => {
+export const refreshPosts = (data) => {
   return { type: POST_ACTION_TYPES.REFRESH_POSTS, data: data };
 };
 
@@ -51,14 +52,24 @@ export const removePost = (data) => {
 //--------------------------------------------------------------------//
 
 // Returns API path for particular POST_TYPES
-let getRouteForPostType = (postType, userId) => {
+let getRouteForPostType = (postType, userId, isUser) => {
   switch(postType) {
-    case POST_TYPES.ALL:
+    case POST_TYPES.RECEIVED:
+      return '/received/';
+    case POST_TYPES.PUBLIC:
       return '';
     case POST_TYPES.AUTHORED:
-      return '/authored/' + userId;
+      if (isUser) {
+        return '/authored';
+      } else {
+        return '/authored/' + userId;
+      }
     case POST_TYPES.LIKED:
-      return '/liked/' + userId;
+      if (isUser) {
+        return '/liked';
+      } else {
+        return '/liked/' + userId;
+      }
     case POST_TYPES.FOLLOWED:
       return '/followed';
   }
@@ -69,43 +80,32 @@ let getRouteForPostType = (postType, userId) => {
 //--------------------------------------------------------------------//
 
 // GET posts from API and append to current PostList
-export const getPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
+export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams) => (dispatch) => {
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId, isUser), queryParams)
     .then((posts) => {
-      dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
+      if (isRefresh) {
+        dispatch(refreshPosts({ posts: posts, userId: userId, postType: postType }));
+      } else {
+        dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
+      }
+
       dispatch(getImagesFromPosts(posts));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, userId, postType, queryParams));
+        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, userId, postType, isUser, queryParams));
       }
 
       throw setErrorDescription(error, 'GET posts failed');
     });
 };
 
-// GET latest posts from API and merge with current PostList
-export const refreshPosts = (authToken, firebaseUserObj, userId, postType, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId), queryParams)
-    .then((posts) => {
-      dispatch(refreshAndReceivePosts({ posts: posts, userId: userId, postType: postType }));
-      dispatch(getImagesFromPosts(posts));
-    })
-    .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, refreshPosts, userId, postType, queryParams));
-      }
-
-      throw setErrorDescription(error, 'Refresh posts failed');
-    });
-};
-
 // Create post to API from Header of NewPostScreen
-export const createPost = (authToken, firebaseUserObj, userId, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, userId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
   let postPost = (imageKey) => {
-    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey })
+    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipients })
       .then((newPost) => {
-        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, placeholder_text: placeholderText });
+        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipients.length, placeholder_text: placeholderText });
         dispatch(receivePost({ post: newPost, userId: userId }));
         dispatch(getImagesFromPosts([newPost]));
       })
@@ -120,7 +120,7 @@ export const createPost = (authToken, firebaseUserObj, userId, postBody, postIma
 
   let postPostError = (error) => {
     error = setErrorDescription(error, 'POST post failed');
-    amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, error_description: error.description, error_message: error.message });
+    amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipients.length, error_description: error.description, error_message: error.message });
     throw error;
   }
 

@@ -2,23 +2,21 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import PostList                    from './post_list.js';
-import { getPosts, refreshPosts }  from '../../actions/post_actions.js';
-
+import PostList       from './post_list.js';
+import { getPosts }   from '../../actions/post_actions.js';
+import { navigateTo } from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
-
-const mapStateToProps = ({ user, posts, postsCache, navigation }, ownProps) => ({
-  authToken:       user.authToken,
-  firebaseUserObj: user.firebaseUserObj,
-  posts:           posts,
-  postsCache:      postsCache
+const mapStateToProps = ({ client, posts, postsCache }, ownProps) => ({
+  client:     client,
+  posts:      posts,
+  postsCache: postsCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getPosts:         (authToken, firebaseUserObj, userId, postType, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, userId, postType, queryParams)),
-  refreshPosts:     (authToken, firebaseUserObj, userId, postType, queryParams) => dispatch(refreshPosts(authToken, firebaseUserObj, userId, postType, queryParams)),
+  getPosts:   (authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams)),
+  navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
 });
 
 export default connect(

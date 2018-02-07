@@ -3,13 +3,12 @@ import React     from 'react';
 import RN        from 'react-native';
 
 // Local Imports
-import HeaderContainer    from '../../components/nav_bar_header/header_container.js';
+import HeaderContainer    from '../../components/header/header_container.js';
 import PostListContainer  from '../../components/post_list/post_list_container.js';
 import { POST_TYPES }     from '../../actions/post_actions.js';
 import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
-
 
 class UserScreen extends React.PureComponent {
 
@@ -22,7 +21,6 @@ class UserScreen extends React.PureComponent {
 
     this.state = {
       postType:   POST_TYPES.AUTHORED,
-      isFollowed: false
     };
   }
 
@@ -34,10 +32,6 @@ class UserScreen extends React.PureComponent {
   componentDidMount() {
     this.postList.getWrappedInstance().refresh();
     this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
-
-    if (this.props.isFollowed) {
-      this.setState({ isFollowed: true })
-    }
   }
 
   //--------------------------------------------------------------------//
@@ -53,28 +47,22 @@ class UserScreen extends React.PureComponent {
     return func;
   }
 
-  // Passed to ProfileHeader for switching follow button status
-  setFollowState = (state) => {
-    this.setState(state);
-  }
-
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
   render() {
+    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        <HeaderContainer backIcon={true} backTitle={this.props.username + "'s Profile"} noBorder={true} />
+        <HeaderContainer backIcon={true} backTitle={username + "'s Profile"} noBorder={true} />
         <PostListContainer
           ref={(ref) => this.postList = ref}
+          screen={'UserScreen'}
           userId={this.props.userId}
-          username={this.props.username}
-          avatarUrl={this.props.avatarUrl}
-          isFollowed={this.state.isFollowed}
           postType={this.state.postType}
           setParentState={this.setParentState}
-          setFollowState={this.setFollowState}
           />
       </RN.View>
     )

@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 // Local Imports
 import * as FileUtility     from '../utilities/file_utility.js';
-import { refreshAuthToken } from './user_actions.js';
+import { refreshAuthToken } from './client_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -52,8 +52,8 @@ export const getImagesFromPosts = (posts) => (dispatch) => {
       postImages.push({ key: post.image_url, url: FileUtility.getFile(post.image_url) });
     }
 
-    if (post.author_avatar_url) {
-      postImages.push({ key: post.author_avatar_url, url: FileUtility.getFile(post.author_avatar_url) });
+    if (post.author.avatar_url) {
+      postImages.push({ key: post.author.avatar_url, url: FileUtility.getFile(post.author.avatar_url) });
     }
   });
 

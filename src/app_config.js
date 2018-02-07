@@ -2,7 +2,6 @@
 // Interface
 //--------------------------------------------------------------------//
 
-
 export const ENV_TYPES = {
   DEV:        'DEV',
   TEST:       'TEST',
@@ -13,7 +12,7 @@ export const ENV_TYPES = {
  * - API url
  * - AWS S3 bucket
  */
-export const SERVER_ENV_SETTING    = ENV_TYPES.PRODUCTION
+export const SERVER_ENV_SETTING    = ENV_TYPES.DEV
 
 // WARNING -- affects the Amplitude Analytics project
-export const ANALYTICS_ENV_SETTING = ENV_TYPES.PRODUCTION
+export const ANALYTICS_ENV_SETTING = ENV_TYPES.DEV
