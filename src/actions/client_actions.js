@@ -223,23 +223,41 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
 }
 
 // PUT request to API to edit user avatar_url from AvatarScreen
-export const editAvatar = (authToken, firebaseUserObj, avatarUrl) => (dispatch) => {
-  return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
-  .then((editedUser) => {
-    amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
-    dispatch(receiveClient({ user: editedUser }));
+export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageType) => (dispatch) => {
+  let putUser = (avatarUrl) => {
+    return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
+      .then((editedUser) => {
+        amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
+        dispatch(receiveClient({ user: editedUser }));
 
-    if (editedUser.avatar_url) {
-      dispatch(getImage(editedUser.avatar_url));
-    }
-  })
-  .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, avatarUrl));
-    }
+        if (editedUser.avatar_url) {
+          dispatch(getImage(editedUser.avatar_url));
+        }
+      })
+      .catch((error) => {
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+          return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, avatarUrl));
+        }
 
+        putUserError(error);
+      });
+  }
+
+  let putUserError = (error) => {
     error = setErrorDescription(error, 'PUT user for avatarUrl failed');
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: false, avatar_url: avatarUrl, error_description: error.description, error_message: error.message });
     throw error;
-  });
+  }
+
+  if (imagePath) {
+    this.props.uploadFile(authToken, firebaseUserObj, imagePath, imageType, userId, 'profile_pictures/')
+      .then((data) => {
+        putUser(data);
+      })
+      .catch((error) => {
+        putUserError(error);
+      });
+  } else {
+    putUser();
+  }
 }
