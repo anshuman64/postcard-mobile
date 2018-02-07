@@ -1,18 +1,15 @@
 // Library Imports
-import React                         from 'react';
-import RN                            from 'react-native';
-import { createIconSetFromFontello } from 'react-native-vector-icons';
-import * as Animatable               from 'react-native-animatable';
-import { CachedImage }               from 'react-native-img-cache';
-import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon                       from 'react-native-vector-icons/Ionicons';
-import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
+import React           from 'react';
+import RN              from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { CachedImage } from 'react-native-img-cache';
+import Ionicon         from 'react-native-vector-icons/Ionicons';
+import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import UserInfoViewContainer                  from '../../user_info_view/user_info_view_container.js';
 import { styles, scaleHeart }                 from './post_list_item_styles.js';
 import { renderDate }                         from '../../../utilities/date_time_utility.js';
-import fontelloConfig                         from '../../../assets/fonts/config.json';
 import { defaultErrorAlert }                  from '../../../utilities/error_utility.js';
 import { setStateCallback, getReadableCount } from '../../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS }             from '../../../utilities/style_utility.js';
@@ -101,16 +98,10 @@ class PostListItem extends React.PureComponent {
         });
     // If post is not flagged, pop alert asking user to confirm
     } else {
-      RN.Alert.alert(
-        '',
-        'Are you sure you want to flag this post as inappropriate?',
-        [
-          {text: 'Cancel', onPress: () => this.isFlagDisabled = false, style: 'cancel'},
-          {text: 'Flag', onPress: this._onConfirmFlagPost},
-        ],
-        {
-          onDismiss: () => this.isFlagDisabled = false
-        }
+      RN.Alert.alert('', 'Are you sure you want to flag this post as inappropriate?',
+        [{text: 'Cancel', onPress: () => this.isFlagDisabled = false, style: 'cancel'},
+         {text: 'Flag', onPress: this._onConfirmFlagPost}],
+         {onDismiss: () => this.isFlagDisabled = false}
       )
     }
   }
@@ -132,16 +123,10 @@ class PostListItem extends React.PureComponent {
 
   // Alert that pops up when a user is about to delete a post
   _onPressDeletePost = () => {
-    RN.Alert.alert(
-      '',
-      'Are you sure you want to delete this post?',
-      [
-        {text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
-        {text: 'Delete', onPress: this._onConfirmDeletePost},
-      ],
-      {
-        onDismiss: () => this.isDeleteDisabled = false
-      }
+    RN.Alert.alert('', 'Are you sure you want to delete this post?',
+      [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
+       {text: 'Delete', onPress: this._onConfirmDeletePost}],
+       {onDismiss: () => this.isDeleteDisabled = false}
     )
   }
 
@@ -184,16 +169,10 @@ class PostListItem extends React.PureComponent {
 
     // If user is followed, pop alert confirming unfollow
     if (this.props.usersCache[this.props.item.author_id].is_user_followed_by_client) {
-      RN.Alert.alert(
-        '',
-        'Are you sure you want to unfollow this user?',
-        [
-          {text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
-          {text: 'Unfollow', onPress: this._onConfirmUnfollow},
-        ],
-        {
-          onDismiss: () => this.isFollowDisabled = false
-        }
+      RN.Alert.alert('', 'Are you sure you want to unfollow this user?',
+        [{text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
+         {text: 'Unfollow', onPress: this._onConfirmUnfollow}],
+         {onDismiss: () => this.isFollowDisabled = false}
       )
     // If user is not followed, create follow
     } else {
@@ -235,7 +214,7 @@ class PostListItem extends React.PureComponent {
   _renderUserView() {
     return (
       <RN.View style={styles.userView}>
-        <UserInfoViewContainer 
+        <UserInfoViewContainer
           disable={this.props.client.id === this.props.item.author_id}
           userId={this.props.item.author_id}
           marginLeft={0}
@@ -273,11 +252,7 @@ class PostListItem extends React.PureComponent {
           onPress={this._onPressDeletePost}
           >
           <RN.View style={styles.closeOrFlagButton}>
-            <EvilIcons
-              ref={(ref) => this.closeIcon = ref}
-              name={'close'}
-              style={styles.closeIcon}
-              />
+            <EvilIcons ref={(ref) => this.closeIcon = ref} name={'close'} style={styles.closeIcon} />
           </RN.View>
         </RN.TouchableWithoutFeedback>
       )
