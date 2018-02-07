@@ -1,21 +1,25 @@
 // Library Imports
-import React          from 'react';
-import { StyleSheet } from 'react-native';
+import React                    from 'react';
+import { StyleSheet, Platform } from 'react-native';
 
 // Local Imports
 import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles.js';
+import { HEADER_HEIGHT }         from '../header/header_styles.js';
+import { FOOTER_HEIGHT }         from '../footer/footer_styles.js';
 import * as StyleUtility         from '../../utilities/style_utility.js';
-
 
 //--------------------------------------------------------------------//
 
-const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(120);
+const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(200);
 
 export const styles = StyleSheet.create({
   postList: {
     width: '100%',
-    height: '100%',
+    height: StyleUtility.getUsableDimensions().height - HEADER_HEIGHT - FOOTER_HEIGHT - StyleUtility.getStatusBarHeight(),
     backgroundColor: StyleUtility.COLORS.grey50,
+  },
+  postListLongHeight: {
+    height: StyleUtility.getUsableDimensions().height - HEADER_HEIGHT - StyleUtility.getStatusBarHeight()
   },
   headerView: {
     flexDirection: 'column',

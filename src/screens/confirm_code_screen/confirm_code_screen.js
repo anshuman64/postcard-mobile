@@ -6,10 +6,11 @@ import { PhoneNumberUtil }  from 'google-libphonenumber';
 
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal.js';
+import { FRIEND_TYPES }           from '../../actions/friendship_actions.js';
+import { POST_TYPES }             from '../../actions/post_actions.js';
 import { styles }                 from './confirm_code_screen_styles.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
 import { defaultErrorAlert }      from '../../utilities/error_utility.js';
-
 
 //--------------------------------------------------------------------//
 
@@ -46,7 +47,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
         this.setState({ isLoading: true }, () => {
-          this.props.loginUser(firebaseUserObj)
+          this.props.loginClient(firebaseUserObj)
             .then(() => {
               this._navigateTo();
             })
@@ -93,14 +94,32 @@ class ConfirmCodeScreen extends React.PureComponent {
       this.unsubscribe();
     }
 
-    if (this.props.user.is_banned) {
+    if (this.props.client.is_banned) {
       RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
     } else {
-      if (!this.props.user.username) {
-        return this.props.navigateTo('UsernameScreenLogin');
-      } else {
-        return this.props.navigateTo('HomeScreen');
-      }
+      this._loadData()
+        .then(() => {
+          let client = this.props.usersCache[this.props.client.id];
+
+          if (client && client.username) {
+            return this.props.navigateTo('HomeScreen');
+          } else {
+            return this.props.navigateTo('UsernameScreenLogin');
+          }
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        });
+    }
+  }
+
+  async _loadData()  {
+    for (let postType in POST_TYPES) {
+      await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
+
+    for (let friendType in FRIEND_TYPES) {
+      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
   }
 
@@ -198,6 +217,8 @@ class ConfirmCodeScreen extends React.PureComponent {
   }
 
   _renderResendSMS() {
+    let timerText = this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : '';
+
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
@@ -216,8 +237,7 @@ class ConfirmCodeScreen extends React.PureComponent {
             Resend SMS
           </RN.Text>
           <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive]}>
-            {/* Displays countdown timer in clean format */}
-            {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
+            {timerText}
           </RN.Text>
         </RN.View>
       </RN.TouchableWithoutFeedback>

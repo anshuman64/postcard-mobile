@@ -5,9 +5,7 @@ import { StyleSheet } from 'react-native';
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
-
 
 export const styles = StyleSheet.create({
   codeInput: {
@@ -45,8 +43,5 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey400,
-  },
-  smsTextActive: {
-    color: StyleUtility.COLORS.grey900,
   },
 });

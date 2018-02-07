@@ -51,7 +51,14 @@ class CameraRollScreen extends React.PureComponent {
   _getPhotos = (first, after) => {
     this.isLoading = true;
 
-    RN.CameraRoll.getPhotos({first: first, after: after})
+    let params;
+    if (RN.Platform.OS === 'ios') {
+      params = {first: first, after: after, groupTypes: 'All'};
+    } else {
+      params = {first: first, after: after};
+    }
+
+    RN.CameraRoll.getPhotos(params)
       .then((data) => {
         if (!after && data.edges.length === 0) {
           RN.Alert.alert('', 'No images in gallery.', [{text: 'OK', style: 'cancel'}]);
@@ -65,7 +72,7 @@ class CameraRollScreen extends React.PureComponent {
       })
       .finally(() => {
         this.isLoading = false;
-      })
+      });
   }
 
   // Opens cropper on image selection
@@ -95,7 +102,7 @@ class CameraRollScreen extends React.PureComponent {
       .catch((error) => {
         // console.log(error); // Debug Test
         this.isImagePressed = false;
-      })
+      });
     }
   }
 

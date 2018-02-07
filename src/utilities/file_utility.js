@@ -9,24 +9,20 @@ import mime        from 'mime-types';
 import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config.js';
 import { setErrorDescription }           from './error_utility.js';
 import { amplitude }                     from './analytics_utility.js';
-import { refreshAuthToken }              from '../actions/user_actions.js';
+import { refreshAuthToken }              from '../actions/client_actions.js';
 
 //--------------------------------------------------------------------//
-
 
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
 
-
 let s3Client = null;
 export let postPlaceholders;
-
 
 //--------------------------------------------------------------------//
 // Helper Functions
 //--------------------------------------------------------------------//
-
 
 // Returns the right Bucket Name depending on environment setting
 let getBucketName = () => {
@@ -66,7 +62,6 @@ let getParamsForImage = (userId, imageType, buffer, folderPath) => {
     ContentType: imageType
   };
 };
-
 
 //--------------------------------------------------------------------//
 // Interface

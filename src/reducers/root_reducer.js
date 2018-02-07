@@ -2,23 +2,25 @@
 import { combineReducers } from 'redux';
 
 // Local Imports
-import UserReducer       from './user_reducer.js'
-import PostsReducer      from './posts_reducer.js';
-import PostsCacheReducer from './posts_cache_reducer.js';
-import ImageReducer      from './image_reducer.js';
-import NavigationReducer from './navigation_reducer.js';
+import ClientReducer      from './client_reducer.js'
+import PostsReducer       from './posts_reducer.js';
+import PostsCacheReducer  from './posts_cache_reducer.js';
+import UsersCacheReducer  from './users_cache_reducer.js';
+import FriendshipsReducer from './friendships_reducer.js';
+import ImagesCacheReducer from './images_cache_reducer.js';
+import NavigationReducer  from './navigation_reducer.js';
 
 //--------------------------------------------------------------------//
 
-
 const RootReducer = combineReducers({
-  user:       UserReducer,
-  posts:      PostsReducer,
-  postsCache: PostsCacheReducer,
-  images:     ImageReducer,
-  navigation: NavigationReducer
+  client:      ClientReducer,
+  posts:       PostsReducer,
+  postsCache:  PostsCacheReducer,
+  usersCache:  UsersCacheReducer,
+  friendships: FriendshipsReducer,
+  imagesCache: ImagesCacheReducer,
+  navigation:  NavigationReducer
 });
-
 
 //--------------------------------------------------------------------//
 

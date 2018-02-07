@@ -10,7 +10,6 @@ import { setStateCallback }                                 from '../../utilitie
 
 //--------------------------------------------------------------------//
 
-
 class WelcomeScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

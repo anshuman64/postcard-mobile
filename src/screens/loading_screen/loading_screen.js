@@ -5,13 +5,14 @@ import Firebase        from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
+import { FRIEND_TYPES }        from '../../actions/friendship_actions.js';
+import { POST_TYPES }          from '../../actions/post_actions.js';
 import { styles, pulseIcon }   from './loading_screen_styles.js';
 import { defaultErrorAlert }   from '../../utilities/error_utility.js';
 import { UTILITY_STYLES }      from '../../utilities/style_utility.js';
 import { getPostPlaceholders } from '../../utilities/file_utility.js';
 
 //--------------------------------------------------------------------//
-
 
 class LoadingScreen extends React.PureComponent {
 
@@ -40,24 +41,45 @@ class LoadingScreen extends React.PureComponent {
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
-        this.props.loginUser(firebaseUserObj)
+        this.props.loginClient(firebaseUserObj)
           .then(() => {
-            if (this.props.user.is_banned) {
+            if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
               this.setState({ iterationCount: 2, isBanned: true });
             } else {
-              this.setState({ iterationCount: 2, isLoggedIn: true });
+              this._loadData()
+                .then(() => {
+                  this.setState({ iterationCount: 2, isLoggedIn: true });
+                })
+                .catch((error) => {
+                  defaultErrorAlert(error);
+                });
             }
           })
           .catch((error) => {
             this.setState({ iterationCount: 2, isSuccessful: false });
             defaultErrorAlert(error);
-          })
+          });
       } else {
         // console.error('No Firebase cookie found'); // Debug Test
         this.setState({ iterationCount: 2, isLoggedIn: false });
       }
     });
+  }
+
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  async _loadData()  {
+    for (let postType in POST_TYPES) {
+      await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
+
+    for (let friendType in FRIEND_TYPES) {
+      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -74,10 +96,12 @@ class LoadingScreen extends React.PureComponent {
     }
 
     if (this.state.isLoggedIn) {
-      if (!this.props.user.username) {
-        return this.props.navigateTo('UsernameScreenLogin');
-      } else {
+      let client = this.props.usersCache[this.props.client.id];
+
+      if (client && client.username) {
         return this.props.navigateTo('HomeScreen');
+      } else {
+        return this.props.navigateTo('UsernameScreenLogin');
       }
     } else {
       return this.props.navigateTo('WelcomeScreen');

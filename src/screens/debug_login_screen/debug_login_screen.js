@@ -3,13 +3,13 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
+import { FRIEND_TYPES }     from '../../actions/friendship_actions.js';
+import { POST_TYPES }       from '../../actions/post_actions.js';
 import { setStateCallback } from '../../utilities/function_utility.js';
 import { styles }           from './debug_login_screen_styles.js';
 import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
-
 
 class DebugLoginScreen extends React.PureComponent {
 
@@ -21,7 +21,7 @@ class DebugLoginScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      emailInput:     'test@insiya.io',
+      emailInput:     'test2@insiya.io',
       passwordInput:  'socialnetwork',
     };
 
@@ -41,16 +41,38 @@ class DebugLoginScreen extends React.PureComponent {
 
     this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
       .then(() => {
-        if (!this.props.user.username) {
-          return this.props.navigateTo('UsernameScreenLogin');
-        } else {
-          return this.props.navigateTo('HomeScreen');
-        }
+        this._loadData()
+          .then(() => {
+            let client = this.props.usersCache[this.props.client.id];
+
+            if (client && client.username) {
+              return this.props.navigateTo('HomeScreen');
+            } else {
+              return this.props.navigateTo('UsernameScreenLogin');
+            }
+          })
+          .catch((error) => {
+            console.error(error); // Debug Test
+          })
       })
       .catch((error) => {
         // console.error(error); // Debug Test
         this.isNextPressed = false;
       });
+  }
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  async _loadData()  {
+    for (let postType in POST_TYPES) {
+      await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
+
+    for (let friendType in FRIEND_TYPES) {
+      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -96,7 +118,7 @@ class DebugLoginScreen extends React.PureComponent {
       <RN.TouchableHighlight
         style={[UTILITY_STYLES.nextButtonBackground, UTILITY_STYLES.marginTop50]}
         onPress={this._onNextButtonPress}
-        underlayColor='#0050a7'
+        underlayColor={'#0050a7'}
         >
         <RN.Text style={UTILITY_STYLES.lightWhiteText16}>
           Next

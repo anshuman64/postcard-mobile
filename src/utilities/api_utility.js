@@ -7,7 +7,6 @@ import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config.js';
 
 //--------------------------------------------------------------------//
 
-
 //--------------------------------------------------------------------//
 // Constants
 //--------------------------------------------------------------------//
@@ -18,11 +17,9 @@ const DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 };
 
-
 //--------------------------------------------------------------------//
 // Helpers
 //--------------------------------------------------------------------//
-
 
 // Chooses right API url based on environment setting
 let getBaseUrl = () => {
@@ -31,7 +28,7 @@ let getBaseUrl = () => {
   } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
     return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
   } else {
-    return 'http://192.168.2.15:3000/api';
+    return 'http://192.168.2.27:3000/api';
   }
 };
 
@@ -90,7 +87,6 @@ let callApi = (url, requestConfig) => {
       throw error;
     });
 };
-
 
 //--------------------------------------------------------------------//
 // Interface

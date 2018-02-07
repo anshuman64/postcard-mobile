@@ -2,12 +2,12 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import HomeScreen  from './home_screen.js';
+import HomeScreen from './home_screen.js';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ user, posts, navigation }, ownProps) => ({
-  user:          user.user,
+const mapStateToProps = ({ client, posts, navigation }, ownProps) => ({
+  client:        client,
   posts:         posts,
   currentScreen: navigation.currentScreen
 });
