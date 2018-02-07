@@ -46,7 +46,4 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: StyleUtility.COLORS.grey400,
   },
-  smsTextActive: {
-    color: StyleUtility.COLORS.grey900,
-  },
 });

@@ -100,10 +100,12 @@ class ConfirmCodeScreen extends React.PureComponent {
     } else {
       this._loadData()
         .then(() => {
-          if (!this.props.usersCache[this.props.client.id].username) {
-            return this.props.navigateTo('UsernameScreenLogin');
-          } else {
+          let client = this.props.usersCache[this.props.client.id];
+
+          if (client && client.username) {
             return this.props.navigateTo('HomeScreen');
+          } else {
+            return this.props.navigateTo('UsernameScreenLogin');
           }
         })
         .catch((error) => {
@@ -216,6 +218,8 @@ class ConfirmCodeScreen extends React.PureComponent {
   }
 
   _renderResendSMS() {
+    let timerText = this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : '';
+
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
@@ -234,8 +238,7 @@ class ConfirmCodeScreen extends React.PureComponent {
             Resend SMS
           </RN.Text>
           <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive]}>
-            {/* Displays countdown timer in clean format */}
-            {this.state.isResendSMSDisabled ? '0:' + (this.state.secsRemaining < 10 ? '0'+this.state.secsRemaining : this.state.secsRemaining) : ''}
+            {timerText}
           </RN.Text>
         </RN.View>
       </RN.TouchableWithoutFeedback>

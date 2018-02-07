@@ -72,7 +72,7 @@ class CameraRollScreen extends React.PureComponent {
       })
       .finally(() => {
         this.isLoading = false;
-      })
+      });
   }
 
   // Opens cropper on image selection
@@ -102,7 +102,7 @@ class CameraRollScreen extends React.PureComponent {
       .catch((error) => {
         // console.log(error); // Debug Test
         this.isImagePressed = false;
-      })
+      });
     }
   }
 

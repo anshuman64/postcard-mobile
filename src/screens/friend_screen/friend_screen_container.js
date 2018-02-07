@@ -14,7 +14,6 @@ const mapStateToProps = ({ client, usersCache, friendships }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  editUsername: (authToken, firebaseUserObj, username) => dispatch(editUsername(authToken, firebaseUserObj, username)),
   navigateTo:   (screen, props) => dispatch(navigateTo(screen, props)),
 });
 
