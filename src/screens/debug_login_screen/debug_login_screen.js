@@ -45,10 +45,12 @@ class DebugLoginScreen extends React.PureComponent {
       .then(() => {
         this._loadData()
           .then(() => {
-            if (!this.props.usersCache[this.props.client.id].username) {
-              return this.props.navigateTo('UsernameScreenLogin');
-            } else {
+            let client = this.props.usersCache[this.props.client.id];
+
+            if (client && client.username) {
               return this.props.navigateTo('HomeScreen');
+            } else {
+              return this.props.navigateTo('UsernameScreenLogin');
             }
           })
           .catch((error) => {
@@ -118,7 +120,7 @@ class DebugLoginScreen extends React.PureComponent {
       <RN.TouchableHighlight
         style={[UTILITY_STYLES.nextButtonBackground, UTILITY_STYLES.marginTop50]}
         onPress={this._onNextButtonPress}
-        underlayColor='#0050a7'
+        underlayColor={'#0050a7'}
         >
         <RN.Text style={UTILITY_STYLES.lightWhiteText16}>
           Next
