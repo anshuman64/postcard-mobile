@@ -16,6 +16,17 @@ import { defaultErrorAlert } from '../../utilities/error_utility.js';
 class MenuScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
+  constructor(props) {
+    super(props);
+
+    this.contactIcon = null;
+    this.contactText = null;
+  }
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -34,27 +45,27 @@ class MenuScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderContactButton() {
+  _renderButton(iconName, text, iconRef, textRef, callback) {
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => {
-          this.contactIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          this.contactText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.iconRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.textRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
         }}
         onPressOut={() => {
-          this.contactIcon.setNativeProps({style: styles.menuItemIcon})
-          this.contactText.setNativeProps({style: styles.menuItemText})
+          this.iconRef.setNativeProps({style: styles.menuItemIcon})
+          this.textRef.setNativeProps({style: styles.menuItemText})
         }}
-        onPress={() => RN.Linking.openURL('mailto:contact@insiya.io')}
+        onPress={callback}
         >
         <RN.View style={styles.menuItemView}>
           <Icon
-            ref={(ref) => this.contactIcon = ref}
-            name='envelope'
+            ref={(ref) => iconRef = ref}
+            name={iconName}
             style={styles.menuItemIcon}
             />
-          <RN.Text ref={(ref) => this.contactText = ref} style={styles.menuItemText}>
-            Contact
+          <RN.Text ref={(ref) => textRef = ref} style={styles.menuItemText}>
+            {text}
           </RN.Text>
         </RN.View>
      </RN.TouchableWithoutFeedback>
@@ -196,10 +207,39 @@ class MenuScreen extends React.PureComponent {
     )
   }
 
+
+
+  _renderContactButton() {
+    return (
+      <RN.TouchableWithoutFeedback
+        onPressIn={() => {
+          this.contactIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+          this.contactText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+        }}
+        onPressOut={() => {
+          this.contactIcon.setNativeProps({style: styles.menuItemIcon})
+          this.contactText.setNativeProps({style: styles.menuItemText})
+        }}
+        onPress={}
+        >
+        <RN.View style={styles.menuItemView}>
+          <Icon
+            ref={(ref) => this.contactIcon = ref}
+            name='envelope'
+            style={styles.menuItemIcon}
+            />
+          <RN.Text ref={(ref) => this.contactText = ref} style={styles.menuItemText}>
+            Contact
+          </RN.Text>
+        </RN.View>
+     </RN.TouchableWithoutFeedback>
+    )
+  }
+
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        {this._renderContactButton()}
+        {this._renderButton('envelope', 'Contact', this.contactIcon, this.contactText, () => RN.Linking.openURL('mailto:contact@insiya.io') )}
         {this._renderTelegramButton()}
         {this._renderTermsButton()}
         {this._renderPrivacyPolicyButton()}
