@@ -10,21 +10,7 @@ import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-
 class UserInfoView extends React.PureComponent {
-
-
-  //--------------------------------------------------------------------//
-  // Constructor
-  //--------------------------------------------------------------------//
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      style:  UTILITY_STYLES.regularBlackText15,
-    }
-  }
 
   //--------------------------------------------------------------------//
   // Render Methods
