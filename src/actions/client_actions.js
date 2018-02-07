@@ -3,11 +3,11 @@ import Firebase from 'react-native-firebase';
 import AWS      from 'aws-sdk/dist/aws-sdk-react-native';
 
 // Local Imports
-import { getImage }            from './image_actions.js';
-import { amplitude }           from '../utilities/analytics_utility.js';
-import * as APIUtility         from '../utilities/api_utility.js';
-import { setS3Client }         from '../utilities/file_utility.js';
-import { setErrorDescription } from '../utilities/error_utility.js';
+import { getImage }                from './image_actions.js';
+import { amplitude }               from '../utilities/analytics_utility.js';
+import * as APIUtility             from '../utilities/api_utility.js';
+import { setS3Client, uploadFile } from '../utilities/file_utility.js';
+import { setErrorDescription }     from '../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -250,14 +250,14 @@ export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageT
   }
 
   if (imagePath) {
-    this.props.uploadFile(authToken, firebaseUserObj, imagePath, imageType, userId, 'profile_pictures/')
+    return dispatch(uploadFile(authToken, firebaseUserObj, imagePath, imageType, userId, 'profile_pictures/'))
       .then((data) => {
-        putUser(data);
+        return putUser(data.key);
       })
       .catch((error) => {
         putUserError(error);
       });
   } else {
-    putUser();
+    return putUser(null);
   }
 }
