@@ -43,7 +43,7 @@ class AddFriendScreen extends React.PureComponent {
     this.setState({ isLoading: true, isSuccessful: false, isError: false, errorText: '' }, () => {
       this.props.createFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, null, this.state.inputtedText)
         .then(() => {
-          this.setState({ isSuccessful: true, errorText: 'Friendship request sent' });
+          this.setState({ isSuccessful: true, errorText: 'Friend request sent' });
         })
         .catch((error) => {
           if (error.message === 'User not found') {
