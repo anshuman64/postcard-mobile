@@ -261,6 +261,13 @@
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
 		};
+		5B89993A202AE1C500D53773 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8719A483F7C41A7991DE185 /* RNExitApp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 15209BEF1D250F63000D0F44;
+			remoteInfo = RNExitApp;
+		};
 		5B8EF2E81FFED4B600470DB8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5B8EF2DF1FFED4B600470DB8 /* RCTCameraRoll.xcodeproj */;
@@ -710,6 +717,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5B899912202AE1C500D53773 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5B89993B202AE1C500D53773 /* libRNExitApp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5B8EF2E01FFED4B600470DB8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1032,6 +1047,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 5B899912202AE1C500D53773 /* Products */;
+					ProjectRef = F8719A483F7C41A7991DE185 /* RNExitApp.xcodeproj */;
+				},
+				{
 					ProductGroup = 5B817B4E2000825900EA8F9E /* Products */;
 					ProjectRef = 5B817B4D2000825900EA8F9E /* RNFetchBlob.xcodeproj */;
 				},
@@ -1210,6 +1229,13 @@
 			fileType = archive.ar;
 			path = libRNFetchBlob.a;
 			remoteRef = 5B817B752000825A00EA8F9E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5B89993B202AE1C500D53773 /* libRNExitApp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNExitApp.a;
+			remoteRef = 5B89993A202AE1C500D53773 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		5B8EF2E91FFED4B600470DB8 /* libRCTCameraRoll.a */ = {
