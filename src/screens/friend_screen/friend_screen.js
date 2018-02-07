@@ -125,7 +125,7 @@ class FriendScreen extends React.PureComponent {
             {data: this.props.friendships.received, renderItem: this._renderItem.bind(this), title: 'Received Requests'},
             {data: this.props.friendships.sent, renderItem: this._renderItem.bind(this), title: 'Sent Requests'},
           ]}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
@@ -141,7 +141,7 @@ class FriendScreen extends React.PureComponent {
           sections={[
             {data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'},
           ]}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           initialListSize={20}

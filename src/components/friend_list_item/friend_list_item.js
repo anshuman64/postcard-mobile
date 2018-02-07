@@ -143,7 +143,7 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderAvatar() {
-    let avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
+    let avatarUrl = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
 
     if (avatarUrl && this.props.imagesCache[avatarUrl]) {
       return (
@@ -170,8 +170,10 @@ class FriendListItem extends React.PureComponent {
 
     return (
       <RN.View style={styles.userView}>
-        {this._renderAvatar()}
-        <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, {marginLeft: 20}]}>
+        <RN.View style={styles.frame}>
+          {this._renderAvatar()}
+        </RN.View>
+        <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
           {username}
         </RN.Text>
       </RN.View>

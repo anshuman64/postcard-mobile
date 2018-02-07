@@ -49,16 +49,29 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.SEND_FRIENDSHIP_REQUEST:
-      newState[action.data.friendship.requestee_id].friendship_status_with_client = FRIEND_TYPES.SENT;
+      requestee_id = action.data.friendship.requestee_id;
+
+      newState[requestee_id]                               = newState[requestee_id] || {};
+      newState[requestee_id].username                      = newState[requestee_id].username || action.data.username;
+      newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.SENT;
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.ACCEPT_FRIENDSHIP_REQUEST:
-      newState[action.data.friendship.requester_id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
+      requester_id = action.data.friendship.requester_id;
+
+      newState[requester_id]                               = newState[requester_id] || {};
+      newState[requester_id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
-      newState[action.data.friendship.requester_id].friendship_status_with_client = null;
-      newState[action.data.friendship.requestee_id].friendship_status_with_client = null;
+      requester_id = action.data.friendship.requester_id;
+      requestee_id = action.data.friendship.requestee_id;
+
+      newState[requester_id] = newState[requester_id] || {};
+      newState[requestee_id] = newState[requestee_id] || {};
+
+      newState[requester_id].friendship_status_with_client = null;
+      newState[requestee_id].friendship_status_with_client = null;
 
       return newState;
 
