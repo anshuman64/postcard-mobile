@@ -69,16 +69,10 @@ class FriendListItem extends React.PureComponent {
       cancelString = 'Delete';
     }
 
-    RN.Alert.alert(
-      '',
-      alertString,
-      [
-        {text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
-        {text: cancelString, onPress: this._onConfirmDelete},
-      ],
-      {
-        onDismiss: () => this.isFriendDisabled = false
-      }
+    RN.Alert.alert('', alertString,
+      [{text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
+       {text: cancelString, onPress: this._onConfirmDelete}],
+       {onDismiss: () => this.isFriendDisabled = false}
     )
   }
 
