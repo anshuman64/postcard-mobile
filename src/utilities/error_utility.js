@@ -6,7 +6,6 @@ import { amplitude } from './analytics_utility.js';
 
 //--------------------------------------------------------------------//
 
-
 //--------------------------------------------------------------------//
 // Interface
 //--------------------------------------------------------------------//
@@ -30,7 +29,7 @@ export const defaultErrorAlert = (error) => {
   }
 
   amplitude.logEvent('Error - General', { error_description: error.description, error_message: error.message });
-  // console.error(error.message); // Debug Test
+  console.error(error.message); // Debug Test
 
   setTimeout(() => {
     Alert.alert('', alertString,

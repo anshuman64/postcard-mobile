@@ -9,7 +9,6 @@ import { styles }             from './avatar_screen_styles.js';
 import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
 import { defaultErrorAlert }  from '../../utilities/error_utility.js';
 
-
 //--------------------------------------------------------------------//
 
 class AvatarScreen extends React.PureComponent {
@@ -37,8 +36,10 @@ class AvatarScreen extends React.PureComponent {
 
   // If user has an avatar, get image and render it
   componentDidMount() {
-    if (this.props.user.avatar_url) {
-      let avatarImageUrl = this.props.images[this.props.user.avatar_url].url;
+    let client = this.props.usersCache[this.props.client.id];
+
+    if (client && client.avatar_url) {
+      let avatarImageUrl = this.props.imagesCache[client.avatar_url].url;
 
       this.setState({ imagePath: avatarImageUrl });
       this.existingAvatar = avatarImageUrl;
@@ -56,23 +57,8 @@ class AvatarScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  // Uploads image to AWS S3
-  _uploadImage = (imagePath, imageType) => {
-    this.props.uploadFile(this.props.authToken, this.props.firebaseUserObj, imagePath, imageType, this.props.user.id, 'profile_pictures/')
-      .then((data) => {
-        this._setAvatarUrl(data.key);
-      })
-      .catch((error) => {
-        this.setState({ isLoading: false }, () => {
-          this.isNextPressed = false;
-          defaultErrorAlert(error);
-        });
-      });
-  }
-
-  // Changes user avatar_url with key from AWS S3
-  _setAvatarUrl = (imageKey) => {
-    this.props.editAvatar(this.props.authToken, this.props.firebaseUserObj, imageKey)
+  _setAvatarUrl = (imagePath, imageType) => {
+    this.props.editAvatar(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, imagePath, imageType)
       .then(() => {
         if (this.props.isLogin) {
           this.props.navigateTo('HomeScreen');
@@ -84,6 +70,7 @@ class AvatarScreen extends React.PureComponent {
         defaultErrorAlert(error);
       })
       .finally(() => {
+        this.isNextPressed = false;
         this.setState({ isLoading: false });
       })
   }
@@ -109,7 +96,7 @@ class AvatarScreen extends React.PureComponent {
       this.props.goBack();
     } else {
       this.setState({ isLoading: true }, () => {
-        this._uploadImage(this.props.imagePath, this.props.imageType);
+        this._setAvatarUrl(this.props.imagePath, this.props.imageType);
       });
     }
   }
@@ -117,22 +104,14 @@ class AvatarScreen extends React.PureComponent {
   // Alerts when about to skip avatar selection (if isLogin) or remove the avatar
   _onPressSkipOrRemove = () => {
     if (this.props.isLogin) {
-      RN.Alert.alert(
-        '',
-        'Are you sure you want to skip this step?',
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {text: 'Skip', onPress: () => this.props.navigateTo('HomeScreen')},
-        ],
+      RN.Alert.alert('', 'Are you sure you want to skip this step?',
+        [{text: 'Cancel', style: 'cancel'},
+         {text: 'Skip', onPress: () => this.props.navigateTo('HomeScreen')}],
       )
     } else {
-      RN.Alert.alert(
-        '',
-        'Are you sure you want to remove your profile photo?',
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {text: 'Remove', onPress: this._onConfirmRemove},
-        ],
+      RN.Alert.alert('', 'Are you sure you want to remove your profile photo?',
+        [{text: 'Cancel', style: 'cancel'},
+         {text: 'Remove', onPress: this._onConfirmRemove}],
       )
     }
   }
@@ -171,25 +150,24 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderAvatar() {
-    if (!this.props.user.avatar_url && !this.state.imagePath) {
+    let avatarUrl = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].avatar_url : null;
+
+    if (!avatarUrl && !this.state.imagePath) {
       return (
         <RN.View style={styles.frameBorder}>
           <Icon name='user' style={styles.userIcon} />
         </RN.View>
       )
-    } else if (this.props.user.avatar_url && !this.state.imagePath) {
+    } else if (avatarUrl && !this.state.imagePath) {
       return null;
     } else {
       return (
-        <RN.TouchableOpacity
-          onPress={this._onPressAddPhoto}
-          disabled={!this.state.imagePath || this.state.isLoading}
-          >
+        <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.imagePath || this.state.isLoading}>
           <RN.Image
             source={{uri: this.state.imagePath, cache: 'force-cache'}}
             style={styles.image}
             resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.user.avatar_url)}
+            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
             />
         </RN.TouchableOpacity>
       )
@@ -211,21 +189,37 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderNextButton() {
+    let onPressFunction = this.state.imagePath ? this._onPressNextOrDone : this._onPressAddPhoto;
+    let buttonText;
+
+    if (this.state.imagePath) {
+      if (this.props.isLogin) {
+        buttonText = 'Next';
+      } else {
+        buttonText = 'Done';
+      }
+    } else {
+      buttonText = 'Add Photo';
+    }
+
     return (
       <RN.TouchableOpacity
         style={[UTILITY_STYLES.nextButtonBackground, {marginTop: 25}]}
-        onPress={this.state.imagePath ? this._onPressNextOrDone : this._onPressAddPhoto}
+        onPress={onPressFunction}
         disabled={this.state.isLoading}
         >
         <RN.Text style={UTILITY_STYLES.lightWhiteText18}>
-          {this.state.imagePath ? (this.props.isLogin ? 'Next' : 'Done') : 'Add Photo'}
+          {buttonText}
         </RN.Text>
       </RN.TouchableOpacity>
     )
   }
 
   _renderSkipButton() {
-    if (this.props.isLogin || this.props.user.avatar_url) {
+    let avatarUrl = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].avatar_url : null;
+    let skipText = this.props.isLogin ? 'Skip' : 'Remove';
+
+    if (this.props.isLogin || avatarUrl) {
       return (
         <RN.TouchableOpacity
           style={styles.skipButton}
@@ -233,7 +227,7 @@ class AvatarScreen extends React.PureComponent {
           disabled={this.state.isLoading}
           >
           <RN.Text style={styles.skipButtonText}>
-            {this.props.isLogin ? 'Skip' : 'Remove'}
+            {skipText}
           </RN.Text>
         </RN.TouchableOpacity>
       )

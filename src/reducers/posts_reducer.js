@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 // Local Imports
-import { USER_ACTION_TYPES }             from '../actions/user_actions.js';
+import { CLIENT_ACTION_TYPES }             from '../actions/client_actions.js';
 import { POST_ACTION_TYPES, POST_TYPES } from '../actions/post_actions.js';
 import { LIKE_ACTION_TYPES }             from '../actions/like_actions.js';
 import { FOLLOW_ACTION_TYPES }           from '../actions/follow_actions.js';
@@ -11,8 +11,8 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 //--------------------------------------------------------------------//
 
 /* Data is in the form {
- *   thisUserId: {
- *     allPosts:      { data: [], lastUpdated: null, isEnd: false },
+ *   clientId: {
+ *     publicPosts:   { data: [], lastUpdated: null, isEnd: false },
  *     authoredPosts: { data: [], lastUpdated: null, isEnd: false },
  *     likedPosts:    { data: [], lastUpdated: null, isEnd: false },
  *     followedPosts: { data: [], lastUpdated: null, isEnd: false },
@@ -34,7 +34,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     // When a user logs in, instantiate blank objects in store for that userId
-    case USER_ACTION_TYPES.RECEIVE_USER:
+    case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
       userId = action.data.id;
 
       newState[userId] = newState[userId] || {};
@@ -113,7 +113,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the current user creates a post
-      newState[userId][POST_TYPES.ALL].data.unshift(action.data.post.id);
+      newState[userId][POST_TYPES.PUBLIC].data.unshift(action.data.post.id);
       newState[userId][POST_TYPES.AUTHORED].data.unshift(action.data.post.id);
 
       return newState;
@@ -123,7 +123,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the current user removes their own post
-      _.remove(newState[userId][POST_TYPES.ALL].data, (postsId) => {
+      _.remove(newState[userId][POST_TYPES.PUBLIC].data, (postsId) => {
         return postsId === postId;
       });
 
@@ -140,18 +140,18 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     // TODO: add the liked post in the correct chronological spot
     // Adds post to beginning of LikedPosts when user likes a post
     case LIKE_ACTION_TYPES.RECEIVE_LIKE:
-      userId = action.data.userId;
+      clientId = action.data.clientId;
       postId = action.data.like.post_id;
 
-      newState[userId][POST_TYPES.LIKED].data.unshift(postId);
+      newState[clientId][POST_TYPES.LIKED].data.unshift(postId);
 
       return newState;
     // Remove post from LikedPosts when user unlikes a post
     case LIKE_ACTION_TYPES.REMOVE_LIKE:
-      userId = action.data.userId;
+      clientId = action.data.clientId;
       postId = action.data.like.post_id;
 
-      _.remove(newState[userId][POST_TYPES.LIKED].data, (postsId) => {
+      _.remove(newState[clientId][POST_TYPES.LIKED].data, (postsId) => {
         return postsId === postId;
       });
 

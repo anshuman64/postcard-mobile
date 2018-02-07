@@ -5,14 +5,13 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 import EvilIcon    from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import HeaderContainer                    from '../../components/nav_bar_header/header_container.js';
+import HeaderContainer                    from '../../components/header/header_container.js';
 import { styles }                         from './new_post_screen_styles.js';
 import { getRandomInt, setStateCallback } from '../../utilities/function_utility.js';
 import { postPlaceholders }              from '../../utilities/file_utility.js';
 import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
-
 
 class NewPostScreen extends React.PureComponent {
 
@@ -104,7 +103,7 @@ class NewPostScreen extends React.PureComponent {
             <HeaderContainer
               backIcon={true}
               backTitle={'Create Post'}
-              shareButton={true}
+              nextButton={true}
               postText={this.state.postText}
               placeholderText={this.state.placeholderText}
               imagePath={this.state.imagePath}

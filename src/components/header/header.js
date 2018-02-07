@@ -1,8 +1,8 @@
 // Library Imports
-import React       from 'react';
-import RN          from 'react-native';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon     from 'react-native-vector-icons/Ionicons';
+import React   from 'react';
+import RN      from 'react-native';
+import Icon    from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import LoadingModal          from '../loading_modal/loading_modal.js'
@@ -12,7 +12,6 @@ import { isStringEmpty }     from '../../utilities/function_utility.js';
 import { defaultErrorAlert } from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
-
 
 class Header extends React.PureComponent {
 
@@ -27,6 +26,7 @@ class Header extends React.PureComponent {
       isLoading: false,
     }
 
+    this.isNextPressed   = false;
     this.isSharePressed  = false;
     this.isGoBackPressed = false;
   }
@@ -45,10 +45,25 @@ class Header extends React.PureComponent {
     this.props.goBack();
   }
 
+  _onPressNext = () => {
+    // Return if no post body or image selected
+    if ((isStringEmpty(this.props.postText) && !this.props.imagePath) || this.isNextPressed) {
+      return;
+    }
+
+    isNextPressed = true;
+
+    this.props.navigateTo('ShareScreen', {
+      postText: this.props.postText,
+      placeholderText: this.props.placeholderText,
+      imagePath: this.props.imagePath,
+      imageType: this.props.imageType,
+    });
+  }
+
   // Attempts to upload image to AWS S3 and save post to DB
   _onPressShare = () => {
-    // Return if no post body or image selected
-    if ((isStringEmpty(this.props.postText) && !this.props.imagePath) || this.isSharePressed) {
+    if (this.isSharePressed || (!this.props.isPublic && this.props.recipients.length === 0)) {
       return;
     }
 
@@ -57,9 +72,10 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
 
-      this.props.createPost(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
+      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
         .then(() => {
-          this.props.goBack({ scrollToTop: Date() }); // sets scrollToTop to new Date to signal to postList to scrollToTop
+          this.props.navigateTo('HomeScreen');
+          this.isGoBackPressed = true;
         })
         .catch((error) => {
           this.isSharePressed = false;
@@ -74,6 +90,14 @@ class Header extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
+
+  _renderBlank() {
+    if (this.props.blank) {
+      return (
+        <RN.View />
+      )
+    }
+  }
 
   _renderBackIcon() {
     if (this.props.backIcon) {
@@ -117,7 +141,7 @@ class Header extends React.PureComponent {
           onPress={() => this.props.navigateTo('MenuScreen')}
           >
           <RN.View style={styles.button}>
-            <Icon ref={(ref) => this.settingsIcon = ref} name='settings' style={styles.settingsIcon} />
+            <Icon ref={(ref) => this.settingsIcon = ref} name='options-vertical' style={styles.settingsIcon} />
           </RN.View>
         </RN.TouchableWithoutFeedback>
       )
@@ -136,21 +160,11 @@ class Header extends React.PureComponent {
     }
   }
 
-  _renderNoteIcon() {
-    if (this.props.noteIcon) {
-      return (
-        <RN.TouchableOpacity onPress={() => this.props.navigateTo('NewPostScreen')} style={styles.button} >
-          <Icon name='note' style={styles.noteIcon} />
-        </RN.TouchableOpacity>
-      )
-    }
-  }
-
   _renderShareButton() {
-    if (this.props.shareButton) {
+    if (this.props.shareButton || this.props.nextButton) {
       return (
-        <RN.TouchableOpacity onPress={this._onPressShare} style={styles.button} >
-          <RN.Text style={styles.shareButton}>Share</RN.Text>
+        <RN.TouchableOpacity onPress={this.props.shareButton ? this._onPressShare : this._onPressNext} style={styles.button} >
+          <RN.Text style={styles.shareButton}>{this.props.shareButton ? 'Share' : 'Next'}</RN.Text>
         </RN.TouchableOpacity>
       )
     }
@@ -165,10 +179,10 @@ class Header extends React.PureComponent {
   render() {
     return (
       <RN.View style={[styles.header, !this.props.noBorder && styles.border]}>
+        {this._renderBlank()}
         {(this.props.backTitle && !this.props.backIcon) ? this._renderBackTitle() : this._renderBackIcon()}
-        {this._renderSettingsIcon()}
         {this._renderLogo()}
-        {this._renderNoteIcon()}
+        {this._renderSettingsIcon()}
         {this._renderShareButton()}
         {this._renderLoadingModal()}
       </RN.View>

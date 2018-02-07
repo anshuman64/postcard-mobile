@@ -1,6 +1,6 @@
 // Library Imports
-import React                from 'react';
-import RN                   from 'react-native';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal.js';
@@ -8,7 +8,6 @@ import { styles }                 from './username_screen_styles.js';
 import { setStateCallback }       from '../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
 import { defaultErrorAlert }      from '../../utilities/error_utility.js';
-
 
 //--------------------------------------------------------------------//
 
@@ -38,7 +37,7 @@ class UsernameScreen extends React.PureComponent {
     if (this.state.isLoading) {
       return;
     }
-    
+
     this.setState({ isError: false, errorText: '' }, () => {
       let text = this.state.inputtedText;
 
@@ -63,7 +62,7 @@ class UsernameScreen extends React.PureComponent {
       }
 
       this.setState({ isLoading: true } , () => {
-        this.props.editUsername(this.props.authToken, this.props.firebaseUserObj, text)
+        this.props.editUsername(this.props.client.authToken, this.props.client.firebaseUserObj, text)
           .then(() => {
             if (this.props.currentScreen === 'UsernameScreenLogin') {
               this.props.navigateTo('AvatarScreen', { isLogin: true });
@@ -143,6 +142,8 @@ class UsernameScreen extends React.PureComponent {
   }
 
   _renderNextButton() {
+    let buttonText = this.props.currentScreen === 'UsernameScreenLogin' ? 'Next' : 'Done';
+
     return (
       <RN.TouchableOpacity
         style={[UTILITY_STYLES.nextButtonBackground, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonBackgroundDisabled]}
@@ -150,7 +151,7 @@ class UsernameScreen extends React.PureComponent {
         disabled={(this.state.inputtedText.length === 0) && !this.state.isLoading}
         >
         <RN.Text style={[UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonTextDisabled]}>
-          {this.props.currentScreen === 'UsernameScreenLogin' ? 'Next' : 'Done'}
+          {buttonText}
         </RN.Text>
       </RN.TouchableOpacity>
     )

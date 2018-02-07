@@ -3,11 +3,9 @@ import { Platform, Dimensions, PixelRatio, StyleSheet } from 'react-native';
 
 //--------------------------------------------------------------------//
 
-
 //--------------------------------------------------------------------//
 // Helpers
 //--------------------------------------------------------------------//
-
 
 // Determines if the phone is an iPhone X
 let isIphoneX = () => {
@@ -20,11 +18,9 @@ let isTablet = () => {
   return (DEVICE_DIM.width >= 520 || DEVICE_DIM.height >= 960);
 };
 
-
 //--------------------------------------------------------------------//
 // Interface
 //--------------------------------------------------------------------//
-
 
 export const DEVICE_DIM     = Dimensions.get('window');
 export const MAX_TABLET_DIM = { width: 480, height: 960 };
@@ -52,7 +48,7 @@ export const getUsableDimensions = () => {
 };
 
 export const getStatusBarHeight = () => {
-  return Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 0;
+  return Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 24;
 };
 
 // Scales image by PixelSize
@@ -169,7 +165,14 @@ export const UTILITY_STYLES = StyleSheet.create({
   },
   lightWhiteText16: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 18,
+    fontSize: 16,
+    fontWeight: '100',
+    textAlign: 'center',
+    color: 'white',
+  },
+  lightWhiteText15: {
+    fontFamily: setAndroidFont('Roboto-Light'),
+    fontSize: 15,
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',
