@@ -85,7 +85,7 @@ class ShareScreen extends React.PureComponent {
           />
         <RN.SectionList
           sections={[{data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'}]}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
