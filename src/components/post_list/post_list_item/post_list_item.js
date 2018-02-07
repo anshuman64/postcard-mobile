@@ -214,7 +214,7 @@ class PostListItem extends React.PureComponent {
     return (
       <RN.View style={styles.userView}>
         <UserInfoViewContainer
-          disable={this.props.client.id === this.props.item.author_id}
+          disabled={this.props.client.id === this.props.item.author_id}
           userId={this.props.item.author_id}
           marginLeft={0}
           />

@@ -10,7 +10,7 @@ import * as StyleUtility         from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(200);
+const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(190);
 
 export const styles = StyleSheet.create({
   postList: {
