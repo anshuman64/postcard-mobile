@@ -42,16 +42,6 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },
-  userIcon: {
-    fontSize: 24,
-    textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
-  },
-  avatarImage: {
-    height: 40,
-    width: 40,
-    borderRadius: StyleUtility.getImageBorderRadius(40),
-  },
   checkboxView: {
     flexDirection: 'column',
     justifyContent: 'center',
