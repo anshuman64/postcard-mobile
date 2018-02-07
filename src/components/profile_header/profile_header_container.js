@@ -6,7 +6,6 @@ import ProfileHeader                                                            
 import { createFriendRequest, acceptFriendRequest, acceptFriendshipRequest, deleteFriendship, removeFriendship } from '../../actions/friendship_actions.js';
 import { createFollow, deleteFollow }                                                                            from '../../actions/follow_actions.js';
 import { refreshCredsAndGetImage }                                                                               from '../../actions/image_actions.js';
-import { refreshAuthToken }                                                                                      from '../../actions/client_actions.js';
 import { navigateTo }                                                                                            from '../../actions/navigation_actions.js';
 
 
@@ -29,7 +28,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteFollow:            (authToken, firebaseUserObj, followeeId) => dispatch(deleteFollow(authToken, firebaseUserObj, followeeId)),
   refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
   navigateTo:              (screen, props) => dispatch(navigateTo(screen, props)),
-  refreshAuthToken:        (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params)),
 });
 
 export default connect(

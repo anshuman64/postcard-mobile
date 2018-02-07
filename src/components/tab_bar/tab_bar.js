@@ -25,50 +25,36 @@ class TabBar extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _renderTab(state, bool, text) {
+    return (
+      <RN.TouchableOpacity onPress={this.props.setParentState(state)} style={styles.button}>
+        <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, bool && UTILITY_STYLES.textHighlighted]}>
+          {text}
+        </RN.Text>
+      </RN.TouchableOpacity>
+    )
+  }
+
   render() {
     if (this.props.screen === 'DiscoverScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.PUBLIC })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, this.props.postType === POST_TYPES.PUBLIC && UTILITY_STYLES.textHighlighted]} >
-              Recent
-            </RN.Text>
-          </RN.TouchableOpacity>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.FOLLOWED })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, this.props.postType === POST_TYPES.FOLLOWED && UTILITY_STYLES.textHighlighted]} >
-              Following
-            </RN.Text>
-          </RN.TouchableOpacity>
+          {this._renderTab({ postType: POST_TYPES.PUBLIC }, this.props.postType === POST_TYPES.PUBLIC, 'Recent')}
+          {this._renderTab({ postType: POST_TYPES.FOLLOWED }, this.props.postType === POST_TYPES.FOLLOWED, 'Following')}
         </RN.View>
       )
     } else if (this.props.screen === 'FriendScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ tab: 'Pending' })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, this.props.tab === 'Pending' && UTILITY_STYLES.textHighlighted]} >
-              Pending
-            </RN.Text>
-          </RN.TouchableOpacity>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ tab: 'Friends' })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, this.props.tab === 'Friends' && UTILITY_STYLES.textHighlighted]} >
-              Friends
-            </RN.Text>
-          </RN.TouchableOpacity>
+          {this._renderTab({ tab: 'Pending' }, this.props.tab === 'Pending', 'Pending')}
+          {this._renderTab({ tab: 'Friends' }, this.props.tab === 'Friends', 'Friends')}
         </RN.View>
       )
     } else {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.AUTHORED })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, this.props.postType === POST_TYPES.AUTHORED && UTILITY_STYLES.textHighlighted]} >
-              Posts
-            </RN.Text>
-          </RN.TouchableOpacity>
-          <RN.TouchableOpacity onPress={this.props.setParentState({ postType: POST_TYPES.LIKED })} style={styles.button}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, this.props.postType === POST_TYPES.LIKED && UTILITY_STYLES.textHighlighted]} >
-              Liked
-            </RN.Text>
-          </RN.TouchableOpacity>
+          {this._renderTab({ postType: POST_TYPES.AUTHORED }, this.props.postType === POST_TYPES.AUTHORED, 'Posts')}
+          {this._renderTab({ postType: POST_TYPES.LIKED }, this.props.postType === POST_TYPES.LIKED, 'Liked')}
         </RN.View>
       )
     }

@@ -6,7 +6,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import HeaderContainer        from '../../components/header/header_container.js';
-import ShareListItemContainer from '../../components/share_list_item/share_list_item_container.js';
+import ShareListItem          from '../../components/share_list_item/share_list_item.js';
 import { styles }             from './share_screen_styles.js';
 import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
 import { setStateCallback }   from '../../utilities/function_utility.js';
@@ -45,7 +45,7 @@ class ShareScreen extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <ShareListItemContainer
+      <ShareListItem
         userId={item}
         recipients={this.state.recipients}
         setParentState={this.setParentState}
@@ -65,7 +65,7 @@ class ShareScreen extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <ShareListItemContainer setParentState={this.setParentState} isPublic={this.state.isPublic} />
+      <ShareListItem setParentState={this.setParentState} isPublic={this.state.isPublic} />
     )
   }
 

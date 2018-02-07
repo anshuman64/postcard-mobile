@@ -85,16 +85,10 @@ class ProfileHeader extends React.PureComponent {
       cancelString = 'Delete';
     }
 
-    RN.Alert.alert(
-      '',
-      alertString,
-      [
-        {text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
-        {text: cancelString, onPress: this._onConfirmUnfriend},
-      ],
-      {
-        onDismiss: () => this.isFriendDisabled = false
-      }
+    RN.Alert.alert('', alertString,
+      [{text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
+       {text: cancelString, onPress: this._onConfirmUnfriend}],
+       {onDismiss: () => this.isFriendDisabled = false}
     )
   }
 
@@ -139,16 +133,10 @@ class ProfileHeader extends React.PureComponent {
 
   // Alert for when a user is about to unfollow
   _onPressUnfollow = () => {
-    RN.Alert.alert(
-      '',
-      'Are you sure you want to unfollow this user?',
-      [
-        {text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
-        {text: 'Unfollow', onPress: this._onConfirmUnfollow},
-      ],
-      {
-        onDismiss: () => this.isFollowDisabled = false
-      }
+    RN.Alert.alert('', 'Are you sure you want to unfollow this user?',
+      [{text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
+       {text: 'Unfollow', onPress: this._onConfirmUnfollow}],
+       {onDismiss: () => this.isFollowDisabled = false}
     )
   }
 
@@ -202,7 +190,11 @@ class ProfileHeader extends React.PureComponent {
     let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
 
     return (
-      <RN.TouchableOpacity style={styles.usernameButton} onPress={() => this.props.navigateTo('UsernameScreen')} disabled={this.props.client.id != this.props.userId}>
+      <RN.TouchableOpacity
+        style={styles.usernameButton}
+        onPress={() => this.props.navigateTo('UsernameScreen')} 
+        disabled={this.props.client.id != this.props.userId}
+        >
         <RN.Text style={styles.usernameText}>
           {username}
         </RN.Text>

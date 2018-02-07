@@ -117,22 +117,14 @@ class AvatarScreen extends React.PureComponent {
   // Alerts when about to skip avatar selection (if isLogin) or remove the avatar
   _onPressSkipOrRemove = () => {
     if (this.props.isLogin) {
-      RN.Alert.alert(
-        '',
-        'Are you sure you want to skip this step?',
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {text: 'Skip', onPress: () => this.props.navigateTo('HomeScreen')},
-        ],
+      RN.Alert.alert('', 'Are you sure you want to skip this step?',
+        [{text: 'Cancel', style: 'cancel'},
+         {text: 'Skip', onPress: () => this.props.navigateTo('HomeScreen')}],
       )
     } else {
-      RN.Alert.alert(
-        '',
-        'Are you sure you want to remove your profile photo?',
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {text: 'Remove', onPress: this._onConfirmRemove},
-        ],
+      RN.Alert.alert('', 'Are you sure you want to remove your profile photo?',
+        [{text: 'Cancel', style: 'cancel'},
+         {text: 'Remove', onPress: this._onConfirmRemove}],
       )
     }
   }
