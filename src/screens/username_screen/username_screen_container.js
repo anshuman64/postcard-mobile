@@ -6,9 +6,7 @@ import UsernameScreen          from './username_screen.js';
 import { editUsername }        from '../../actions/client_actions.js';
 import { navigateTo, goBack }  from '../../actions/navigation_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapStateToProps = ({ client, navigation }, ownProps) => ({
   client:        client,

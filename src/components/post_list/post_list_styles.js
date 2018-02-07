@@ -8,7 +8,6 @@ import { HEADER_HEIGHT }         from '../header/header_styles.js';
 import { FOOTER_HEIGHT }         from '../footer/footer_styles.js';
 import * as StyleUtility         from '../../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
 
 const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(200);

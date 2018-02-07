@@ -11,7 +11,6 @@ import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-
 class FriendListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//

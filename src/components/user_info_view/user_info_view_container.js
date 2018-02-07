@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import UserInfoView          from './user_info_view.js';
 import { navigateToProfile } from '../../actions/navigation_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
   client:      client,

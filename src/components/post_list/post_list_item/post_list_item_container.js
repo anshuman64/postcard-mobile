@@ -9,9 +9,7 @@ import { createFlag, deleteFlag }      from '../../../actions/flag_actions.js';
 import { createFollow, deleteFollow }  from '../../../actions/follow_actions.js';
 import { refreshCredsAndGetImage }     from '../../../actions/image_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
   client:      client,

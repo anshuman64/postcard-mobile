@@ -6,7 +6,6 @@ import { StyleSheet, Platform } from 'react-native';
 import * as StyleUtility from '../../utilities/style_utility.js';
 import { HEADER_HEIGHT } from '../header/header_styles.js';
 
-
 //--------------------------------------------------------------------//
 
 export const TAB_BAR_HEIGHT = 30;

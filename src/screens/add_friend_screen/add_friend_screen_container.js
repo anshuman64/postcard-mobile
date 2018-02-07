@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import AddFriendScreen         from './add_friend_screen.js';
 import { createFriendRequest } from '../../actions/friendship_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapStateToProps = ({ client }, ownProps) => ({
   client: client,

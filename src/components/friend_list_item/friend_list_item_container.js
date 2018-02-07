@@ -2,12 +2,10 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import FriendListItem                                                                                            from './friend_list_item.js';
+import FriendListItem                                                                       from './friend_list_item.js';
 import { acceptFriendRequest, acceptFriendshipRequest, deleteFriendship, removeFriendship } from '../../actions/friendship_actions.js';
 
-
 //--------------------------------------------------------------------//
-
 
 const mapStateToProps = ({ client, usersCache }, ownProps) => ({
   client:      client,
