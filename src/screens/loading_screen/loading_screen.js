@@ -60,7 +60,7 @@ class LoadingScreen extends React.PureComponent {
           .catch((error) => {
             this.setState({ iterationCount: 2, isSuccessful: false });
             defaultErrorAlert(error);
-          })
+          });
       } else {
         // console.error('No Firebase cookie found'); // Debug Test
         this.setState({ iterationCount: 2, isLoggedIn: false });
@@ -97,10 +97,12 @@ class LoadingScreen extends React.PureComponent {
     }
 
     if (this.state.isLoggedIn) {
-      if (!this.props.usersCache[this.props.client.id].username) {
-        return this.props.navigateTo('UsernameScreenLogin');
-      } else {
+      let client = this.props.usersCache[this.props.client.id];
+
+      if (client && client.username) {
         return this.props.navigateTo('HomeScreen');
+      } else {
+        return this.props.navigateTo('UsernameScreenLogin');
       }
     } else {
       return this.props.navigateTo('WelcomeScreen');
