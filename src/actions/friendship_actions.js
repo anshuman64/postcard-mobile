@@ -64,7 +64,7 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
 export const createFriendRequest = (authToken, firebaseUserObj, userId, username) => (dispatch) => {
   return APIUtility.post(authToken, '/friendships', { requestee_id: userId, username: username })
     .then((friendship) => {
-      amplitude.logEvent('Friendship - Request Friendship', { is_successful: true });
+      amplitude.logEvent('Friendship - Request Friendship', { is_successful: true, isUsername: username ? true : false });
       dispatch(sendFriendshipRequest({ friendship: friendship, username: username }));
     })
     .catch((error) => {
@@ -78,6 +78,7 @@ export const createFriendRequest = (authToken, firebaseUserObj, userId, username
     });
 };
 
+// Note: acceptFriendshipRequest should be dispatched in component
 export const acceptFriendRequest = (authToken, firebaseUserObj, userId) => (dispatch) => {
   return APIUtility.put(authToken, '/friendships/accept', { requester_id: userId })
     .then((friendship) => {
@@ -95,10 +96,11 @@ export const acceptFriendRequest = (authToken, firebaseUserObj, userId) => (disp
     });
 };
 
+// Note: removeFriendship should be dispatched in component
 export const deleteFriendship = (authToken, firebaseUserObj, userId) => (dispatch) => {
   return APIUtility.del(authToken, '/friendships/' + userId)
     .then((friendship) => {
-      amplitude.logEvent('Friendship - Delete Friendship', { is_successful: true });
+      amplitude.logEvent('Friendship - Delete Friendship', { is_successful: true, status: friendship.status });
       return friendship;
     })
     .catch((error) => {

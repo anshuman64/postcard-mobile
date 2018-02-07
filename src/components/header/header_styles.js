@@ -5,7 +5,6 @@ import { StyleSheet, Platform } from 'react-native';
 // Local Imports
 import * as StyleUtility from '../../utilities/style_utility.js';
 
-
 //--------------------------------------------------------------------//
 
 export const HEADER_HEIGHT = 50;

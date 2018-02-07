@@ -16,39 +16,22 @@ class Footer extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _renderButton(screen, iconName) {
+    return (
+      <RN.TouchableOpacity onPress={() => this.props.navigateTo(screen)} style={styles.button}>
+        <Icon name={iconName} style={[styles.icon, this.props.currentScreen === screen && UTILITY_STYLES.textHighlighted]} />
+      </RN.TouchableOpacity>
+    )
+  }
+
   render() {
     return (
       <RN.View style={styles.footer}>
-        <RN.TouchableOpacity
-          onPress={() => this.props.navigateTo('HomeScreen')}
-          style={styles.button}
-          >
-          <Icon name='home' style={[styles.icon, this.props.currentScreen === 'HomeScreen' && UTILITY_STYLES.textHighlighted]} />
-        </RN.TouchableOpacity>
-        <RN.TouchableOpacity
-          onPress={() => this.props.navigateTo('DiscoverScreen')}
-          style={styles.button}
-          >
-          <Icon name='magnifier' style={[styles.icon, this.props.currentScreen === 'DiscoverScreen' && UTILITY_STYLES.textHighlighted]} />
-        </RN.TouchableOpacity>
-        <RN.TouchableOpacity
-          onPress={() => this.props.navigateTo('NewPostScreen')}
-          style={styles.button}
-          >
-          <Icon name='plus' style={styles.iconBig} />
-        </RN.TouchableOpacity>
-        <RN.TouchableOpacity
-          onPress={() => this.props.navigateTo('FriendScreen')}
-          style={styles.button}
-          >
-          <Icon name='people' style={[styles.icon, this.props.currentScreen === 'FriendScreen' && UTILITY_STYLES.textHighlighted]} />
-        </RN.TouchableOpacity>
-        <RN.TouchableOpacity
-          onPress={() => this.props.navigateTo('ProfileScreen')}
-          style={styles.button}
-          >
-          <Icon name='user' style={[styles.icon, this.props.currentScreen === 'ProfileScreen' && UTILITY_STYLES.textHighlighted]} />
-        </RN.TouchableOpacity>
+        {this._renderButton('HomeScreen', 'home')}
+        {this._renderButton('DiscoverScreen', 'magnifier')}
+        {this._renderButton('NewPostScreen', 'plus')}
+        {this._renderButton('FriendScreen', 'people')}
+        {this._renderButton('ProfileScreen', 'user')}
       </RN.View>
     )
   }
