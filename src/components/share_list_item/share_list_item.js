@@ -7,6 +7,7 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import UserInfoView         from '../user_info_view/user_info_view_container.js';
 import { styles }           from './share_list_item_styles.js';
 import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
 
@@ -57,7 +58,6 @@ class ShareListItem extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-
   _renderCheckbox() {
     if (this.state.isSelected) {
       return (
@@ -76,29 +76,6 @@ class ShareListItem extends React.PureComponent {
     }
   }
 
-  _renderAvatar() {
-    let avatarUrl = this.props.usersCache[this.props.userId].avatar_url;
-
-    if (avatarUrl && this.props.imagesCache[avatarUrl]) {
-      return (
-        <CachedImage
-          source={{uri: this.props.imagesCache[avatarUrl].url}}
-          style={styles.avatarImage}
-          resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
-          />
-      )
-    } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
-      return (
-        <RN.View style={{width: 40}} />
-      )
-    } else {
-      return (
-        <Icon name='user' style={styles.userIcon} />
-      )
-    }
-  }
-
   _renderUserView() {
     if (!this.props.userId) {
       return (
@@ -112,14 +89,7 @@ class ShareListItem extends React.PureComponent {
       )
     } else {
       return (
-        <RN.View style={styles.userView}>
-          <RN.View style={styles.frame}>
-            {this._renderAvatar()}
-          </RN.View>
-          <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
-            {this.props.usersCache[this.props.userId].username}
-          </RN.Text>
-        </RN.View>
+        <UserInfoView userId={this.props.userId} marginLeft={15} />
       )
     }
   }
