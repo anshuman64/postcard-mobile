@@ -7,6 +7,7 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import UserInfoView         from '../user_info_view/user_info_view_container.js';
 import { FRIEND_TYPES }     from '../../actions/friendship_actions.js';
 import { styles }           from './friend_list_item_styles.js';
 import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
@@ -103,7 +104,6 @@ class FriendListItem extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-
   _renderButtons() {
     let deleteString;
     let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
@@ -142,48 +142,10 @@ class FriendListItem extends React.PureComponent {
     )
   }
 
-  _renderAvatar() {
-    let avatarUrl = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
-
-    if (avatarUrl && this.props.imagesCache[avatarUrl]) {
-      return (
-        <CachedImage
-          source={{uri: this.props.imagesCache[avatarUrl].url}}
-          style={styles.avatarImage}
-          resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
-          />
-      )
-    } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
-      return (
-        <RN.View style={{width: 40}} />
-      )
-    } else {
-      return (
-        <Icon name='user' style={styles.userIcon} />
-      )
-    }
-  }
-
-  _renderUserView() {
-    let username = this.props.usersCache[this.props.userId].username;
-
-    return (
-      <RN.View style={styles.userView}>
-        <RN.View style={styles.frame}>
-          {this._renderAvatar()}
-        </RN.View>
-        <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
-          {username}
-        </RN.Text>
-      </RN.View>
-    )
-  }
-
   render() {
     return (
       <Animatable.View ref={(ref) => this.container = ref} style={styles.rowView}>
-        {this._renderUserView()}
+        <UserInfoView userId={this.props.userId} marginLeft={15} />
         <RN.View style={styles.checkboxView}>
           {this._renderButtons()}
         </RN.View>

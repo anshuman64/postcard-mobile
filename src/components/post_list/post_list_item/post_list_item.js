@@ -240,41 +240,11 @@ class PostListItem extends React.PureComponent {
           onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id })}
           disabled={this.props.client.id === this.props.item.author_id}
           >
-          <RN.View style={styles.usernameView}>
-            <RN.View style={styles.frame}>
-              {this._renderAvatar()}
-            </RN.View>
-            <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText15}>
-              {this.props.client.id === this.props.item.author_id ? this.props.usersCache[this.props.client.id].username : this.props.usersCache[this.props.item.author_id].username}
-            </RN.Text>
-          </RN.View>
+          <UserInfoView userId={this.props.item.author_id} marginLeft={0} />
         </RN.TouchableWithoutFeedback>
         {this._renderFollowText()}
       </RN.View>
     )
-  }
-
-  _renderAvatar() {
-    let avatarUrl = this.props.usersCache[this.props.item.author_id].avatar_url;
-
-    if (avatarUrl && this.props.imagesCache[avatarUrl]) {
-      return (
-        <CachedImage
-          source={{uri: this.props.imagesCache[avatarUrl].url}}
-          style={styles.avatarImage}
-          resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
-          />
-      )
-    } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
-      return (
-        <RN.View style={{width: 40}} />
-      )
-    } else {
-      return (
-        <Icon name='user' style={styles.userIcon} />
-      )
-    }
   }
 
   _renderFollowText() {
