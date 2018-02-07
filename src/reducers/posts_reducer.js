@@ -113,8 +113,10 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the current user creates a post
-      newState[userId][POST_TYPES.PUBLIC].data.unshift(action.data.post.id);
-      newState[userId][POST_TYPES.AUTHORED].data.unshift(action.data.post.id);
+      if (action.data.post.is_public) {
+        newState[userId][POST_TYPES.PUBLIC].data.unshift(postId);
+      }
+      newState[userId][POST_TYPES.AUTHORED].data.unshift(postId);
 
       return newState;
     // Remove post from AllPosts and AuthoredPosts when user deletes a post

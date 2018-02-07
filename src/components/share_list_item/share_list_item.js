@@ -79,7 +79,7 @@ class ShareListItem extends React.PureComponent {
       return (
         <RN.View style={styles.userView}>
           <RN.View style={styles.frame} />
-          <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText16}>
+          <RN.Text style={UTILITY_STYLES.regularBlackText16}>
             Public
           </RN.Text>
           <Icon name={'question'} onPress={this._onPressHelp} style={styles.helpIcon} />
@@ -95,14 +95,8 @@ class ShareListItem extends React.PureComponent {
   render() {
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={() => {
-          this.usernameText.setNativeProps({style: [UTILITY_STYLES.textHighlighted, !this.props.userId && UTILITY_STYLES.textRed]})
-          this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.userId && styles.checkboxRed]})
-        }}
-        onPressOut={() => {
-          this.usernameText.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, !this.props.userId && UTILITY_STYLES.regularBlackText16]})
-          this.checkbox.setNativeProps({style: styles.checkbox})
-        }}
+        onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.userId && styles.checkboxRed]})}
+        onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
         onPress={this._onPressItem}
         >
         <RN.View style={styles.rowView}>
