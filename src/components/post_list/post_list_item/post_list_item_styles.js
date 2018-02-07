@@ -46,26 +46,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: DEFAULT_MARGIN,
   },
-  frame: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    width: 40,
-    marginRight: 5
-  },
-  userIcon: {
-    fontSize: 24,
-    textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
-    marginRight: 8,
-    marginLeft: 2
-  },
-  avatarImage: {
-    height: 40,
-    width: 40,
-    borderRadius: StyleUtility.getImageBorderRadius(40),
-  },
   usernameView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',

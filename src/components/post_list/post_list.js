@@ -6,7 +6,6 @@ import RN     from 'react-native';
 import ProfileHeaderContainer     from '../profile_header/profile_header_container.js';
 import PostListItemContainer      from './post_list_item/post_list_item_container.js';
 import { PROFILE_HEADER_HEIGHT }  from '../profile_header/profile_header_styles.js';
-import { TAB_BAR_HEIGHT }         from '../tab_bar/tab_bar_styles.js';
 import { styles }                 from './post_list_styles.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
 import { defaultErrorAlert }      from '../../utilities/error_utility.js';
@@ -47,10 +46,9 @@ class PostList extends React.PureComponent {
         defaultErrorAlert(error);
       })
       .finally(() => {
-        this.setState({ isRefreshing: false }, () => {
-          this.isLoading = false;
-        });
-      })
+        this.setState({ isRefreshing: false });
+        this.isLoading = false;
+      });
   }
 
   //--------------------------------------------------------------------//
@@ -61,7 +59,7 @@ class PostList extends React.PureComponent {
   _onRefresh = (postType = this.props.postType) => {
     this.setState({ isRefreshing: true }, () => {
       this.refresh(postType);
-    })
+    });
   }
 
   // Gets more posts when end is reached
@@ -74,11 +72,11 @@ class PostList extends React.PureComponent {
       return;
     }
 
-
     this.isLoading = true;
     this.onEndReachedCalledDuringMomentum = true;
 
-    let lastPostId = this.props.posts[this.props.userId][this.props.postType].data[this.props.posts[this.props.userId][this.props.postType].data.length-1];
+    let listData = this.props.posts[this.props.userId][this.props.postType].data;
+    let lastPostId = listData[listData.length-1];
     this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId, this.props.postType, this.props.client.id === this.props.userId, {start_at: lastPostId})
       .catch((error) => {
         defaultErrorAlert(error)
@@ -97,13 +95,12 @@ class PostList extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderPostList = () => {
+    let postData = this.props.posts[this.props.userId];
+
     return (
       <AnimatedFlatList
         ref={(ref) => this.flatList = ref}
-        data={ (this.props.posts[this.props.userId] && this.props.posts[this.props.userId][this.props.postType]) ?
-          this.props.posts[this.props.userId][this.props.postType].data :
-          null
-        }
+        data={(postData && postData[this.props.postType]) ? postData[this.props.postType].data : null}
         renderItem={this._renderItem.bind(this)}
         keyExtractor={(item) => this.props.postsCache[item].id}
         style={[styles.postList, this.props.screen === 'UserScreen' && styles.postListLongHeight]}
@@ -134,7 +131,6 @@ class PostList extends React.PureComponent {
 
   _renderRefreshControl = () => {
     let offset;
-
     if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
       offset = PROFILE_HEADER_HEIGHT;
     } else {
@@ -180,7 +176,9 @@ class PostList extends React.PureComponent {
   }
 
   _renderFooter = () => {
-    if (this.props.posts[this.props.userId] && this.props.posts[this.props.userId][this.props.postType] && this.props.posts[this.props.userId][this.props.postType].isEnd) {
+    let postData = this.props.posts[this.props.userId];
+
+    if (postData && postData[this.props.postType] && postData[this.props.postType].isEnd) {
       return (
         <RN.TouchableWithoutFeedback onPress={this._onPressAddFriends}>
           <RN.View style={styles.footerView}>

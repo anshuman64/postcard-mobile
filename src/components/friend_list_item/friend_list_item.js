@@ -1,10 +1,7 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
-import * as _          from 'lodash';
-import { CachedImage } from 'react-native-img-cache';
 import * as Animatable from 'react-native-animatable';
-import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import UserInfoViewContainer from '../user_info_view/user_info_view_container.js';
@@ -106,7 +103,7 @@ class FriendListItem extends React.PureComponent {
 
   _renderButtons() {
     let deleteString;
-    let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
+    let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
@@ -121,19 +118,13 @@ class FriendListItem extends React.PureComponent {
     return (
       <RN.View style={styles.buttonView}>
         {friendshipStatus === 'received' ?
-          <RN.TouchableOpacity
-            style={styles.confirmButton}
-            onPress={this._onPressConfirm}
-            >
+          <RN.TouchableOpacity style={styles.confirmButton} onPress={this._onPressConfirm}>
             <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
               Confirm
             </RN.Text>
             </RN.TouchableOpacity> :
             null}
-        <RN.TouchableOpacity
-          style={styles.deleteButton}
-          onPress={this._onPressDelete}
-          >
+        <RN.TouchableOpacity style={styles.deleteButton} onPress={this._onPressDelete}>
           <RN.Text style={UTILITY_STYLES.lightBlackText15}>
             {deleteString}
           </RN.Text>

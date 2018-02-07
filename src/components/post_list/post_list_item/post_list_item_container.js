@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import PostListItem                    from './post_list_item.js';
-import { refreshAuthToken }            from '../../../actions/client_actions.js';
 import { deletePost, removePost }      from '../../../actions/post_actions.js';
 import { createLike, deleteLike }      from '../../../actions/like_actions.js';
 import { createFlag, deleteFlag }      from '../../../actions/flag_actions.js';
@@ -30,7 +29,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   deletePost:              (authToken, firebaseUserObj, postId) => dispatch(deletePost(authToken, firebaseUserObj, postId)),
   removePost:              (deletedPost) => dispatch(removePost(deletedPost)),
   refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
-  refreshAuthToken:        (firebaseUserObj, func, ...params) => dispatch(refreshAuthToken(firebaseUserObj, func, ...params)),
 });
 
 export default connect(
