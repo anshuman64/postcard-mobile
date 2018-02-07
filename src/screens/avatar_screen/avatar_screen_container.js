@@ -19,7 +19,7 @@ const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  editAvatar:              (authToken, firebaseUserObj, avatarUrl) => dispatch(editAvatar(authToken, firebaseUserObj, avatarUrl)),
+  editAvatar:              (authToken, firebaseUserObj, userId, imagePath, imageType) => dispatch(editAvatar(authToken, firebaseUserObj, userId, imagePath, imageType)),
   refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
   uploadFile:              (authToken, firebaseUserObj, imagePath, imageType, userId, folderPath) => dispatch(uploadFile(authToken, firebaseUserObj, imagePath, imageType, userId, folderPath)),
   navigateTo:              (screen, props) => dispatch(navigateTo(screen, props)),
