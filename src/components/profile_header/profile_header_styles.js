@@ -97,17 +97,25 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+  friendIcon: {
+    fontSize: StyleUtility.scaleFont(15),
+    textAlign: 'center',
+    color: 'white',
+    marginRight: 5
+  },
   friendButtonBackground: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     width: 110,
     height: 30,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue,
   },
   followButtonBackground: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     width: 110,
     height: 30,
     borderRadius: 4,
