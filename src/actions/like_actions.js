@@ -2,7 +2,7 @@
 import { amplitude }           from '../utilities/analytics_utility.js';
 import * as APIUtility         from '../utilities/api_utility.js';
 import { setErrorDescription } from '../utilities/error_utility.js';
-import { refreshAuthToken }    from './user_actions.js';
+import { refreshAuthToken }    from './client_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -33,15 +33,15 @@ export const removeLike = (data) => {
 
 // TODO: get post body of liked post and send it to amplitude
 // Creates like on a post from PostListItem
-export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
+export const createLike = (authToken, firebaseUserObj, clientId, postId) => (dispatch) => {
   return APIUtility.post(authToken, '/likes', { post_id: postId })
     .then((newLike) => {
       amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: true });
-      dispatch(receiveLike({ like: newLike, userId: userId }));
+      dispatch(receiveLike({ like: newLike, clientId: clientId }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createLike, userId, postId));
+        return dispatch(refreshAuthToken(firebaseUserObj, createLike, clientId, postId));
       }
 
       error = setErrorDescription(error, 'POST like failed');
@@ -51,15 +51,15 @@ export const createLike = (authToken, firebaseUserObj, userId, postId) => (dispa
 };
 
 // Deletes like on a post from PostListItem
-export const deleteLike = (authToken, firebaseUserObj, userId, postId) => (dispatch) => {
+export const deleteLike = (authToken, firebaseUserObj, clientId, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/likes/' + postId)
     .then((deletedLike) => {
       amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: false });
-      dispatch(removeLike({ like: deletedLike, userId: userId }));
+      dispatch(removeLike({ like: deletedLike, clientId: clientId }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, deleteLike, userId, postId));
+        return dispatch(refreshAuthToken(firebaseUserObj, deleteLike, clientId, postId));
       }
 
       error = setErrorDescription(error, 'DEL like failed');

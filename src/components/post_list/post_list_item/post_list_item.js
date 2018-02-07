@@ -1,21 +1,18 @@
 // Library Imports
-import React                         from 'react';
-import RN                            from 'react-native';
-import { createIconSetFromFontello } from 'react-native-vector-icons';
-import * as Animatable               from 'react-native-animatable';
-import { CachedImage }               from 'react-native-img-cache';
-import Icon                          from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon                       from 'react-native-vector-icons/Ionicons';
-import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
+import React           from 'react';
+import RN              from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { CachedImage } from 'react-native-img-cache';
+import Ionicon         from 'react-native-vector-icons/Ionicons';
+import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
+import UserInfoViewContainer                  from '../../user_info_view/user_info_view_container.js';
 import { styles, scaleHeart }                 from './post_list_item_styles.js';
 import { renderDate }                         from '../../../utilities/date_time_utility.js';
-import fontelloConfig                         from '../../../assets/fonts/config.json';
 import { defaultErrorAlert }                  from '../../../utilities/error_utility.js';
 import { setStateCallback, getReadableCount } from '../../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS }             from '../../../utilities/style_utility.js';
-
 
 //--------------------------------------------------------------------//
 
@@ -55,8 +52,8 @@ class PostListItem extends React.PureComponent {
 
     this.setState({ isLikingServer: true }, () => {
       // If post already liked, delete like
-      if (this.props.item.is_liked_by_user) {
-        this.props.deleteLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+      if (this.props.item.is_liked_by_client) {
+        this.props.deleteLike(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.item.id)
           .catch((error) => {
             defaultErrorAlert(error);
           })
@@ -65,7 +62,7 @@ class PostListItem extends React.PureComponent {
             this.setState({ isLikingServer: false });
           });
       } else {
-        this.props.createLike(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+        this.props.createLike(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.item.id)
           .catch((error) => {
             defaultErrorAlert(error);
           })
@@ -90,8 +87,8 @@ class PostListItem extends React.PureComponent {
     this.isFlagDisabled = true;
 
     // If post is flagged, delete flag
-    if (this.props.item.is_flagged_by_user) {
-      this.props.deleteFlag(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+    if (this.props.item.is_flagged_by_client) {
+      this.props.deleteFlag(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -100,23 +97,17 @@ class PostListItem extends React.PureComponent {
         });
     // If post is not flagged, pop alert asking user to confirm
     } else {
-      RN.Alert.alert(
-        '',
-        'Are you sure you want to flag this post as inappropriate?',
-        [
-          {text: 'Cancel', onPress: () => this.isFlagDisabled = false, style: 'cancel'},
-          {text: 'Flag', onPress: this._onConfirmFlagPost},
-        ],
-        {
-          onDismiss: () => this.isFlagDisabled = false
-        }
+      RN.Alert.alert('', 'Are you sure you want to flag this post as inappropriate?',
+        [{text: 'Cancel', onPress: () => this.isFlagDisabled = false, style: 'cancel'},
+         {text: 'Flag', onPress: this._onConfirmFlagPost}],
+         {onDismiss: () => this.isFlagDisabled = false}
       )
     }
   }
 
   // Creates flag
   _onConfirmFlagPost = () => {
-    this.props.createFlag(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.id)
+    this.props.createFlag(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -131,16 +122,10 @@ class PostListItem extends React.PureComponent {
 
   // Alert that pops up when a user is about to delete a post
   _onPressDeletePost = () => {
-    RN.Alert.alert(
-      '',
-      'Are you sure you want to delete this post?',
-      [
-        {text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
-        {text: 'Delete', onPress: this._onConfirmDeletePost},
-      ],
-      {
-        onDismiss: () => this.isDeleteDisabled = false
-      }
+    RN.Alert.alert('', 'Are you sure you want to delete this post?',
+      [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
+       {text: 'Delete', onPress: this._onConfirmDeletePost}],
+       {onDismiss: () => this.isDeleteDisabled = false}
     )
   }
 
@@ -153,13 +138,13 @@ class PostListItem extends React.PureComponent {
     this.isDeleteDisabled = true;
 
     // Delete post from DB
-    this.props.deletePost(this.props.authToken, this.props.firebaseUserObj, this.props.item.id)
+    this.props.deletePost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
         // Fade out post
         this.container.fadeOut(500)
           .finally(() => {
             // Remove post from store
-            this.props.removePost({ post: deletedPost, userId: this.props.user.id  });
+            this.props.removePost({ post: deletedPost, userId: this.props.client.id  });
             this.isDeleteDisabled = false;
           });
       })
@@ -182,27 +167,15 @@ class PostListItem extends React.PureComponent {
     this.isFollowDisabled = true;
 
     // If user is followed, pop alert confirming unfollow
-    if (this.props.item.is_author_followed_by_user) {
-      RN.Alert.alert(
-        '',
-        'Are you sure you want to unfollow this user?',
-        [
-          {text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
-          {text: 'Unfollow', onPress: this._onConfirmUnfollow},
-        ],
-        {
-          onDismiss: () => this.isFollowDisabled = false
-        }
+    if (this.props.usersCache[this.props.item.author_id].is_user_followed_by_client) {
+      RN.Alert.alert('', 'Are you sure you want to unfollow this user?',
+        [{text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
+         {text: 'Unfollow', onPress: this._onConfirmUnfollow}],
+         {onDismiss: () => this.isFollowDisabled = false}
       )
     // If user is not followed, create follow
     } else {
-      this.props.createFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
-        .then(() => {
-          // If on profileScreen, update follow state to make sure ProfileHeader is also updated
-          if (this.props.setFollowState) {
-            this.props.setFollowState({ isFollowed: true });
-          }
-        })
+      this.props.createFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.author_id)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -214,12 +187,7 @@ class PostListItem extends React.PureComponent {
 
   // Deletes follow from DB and updates ProfileScreen as necessary
   _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.authToken, this.props.firebaseUserObj, this.props.user.id, this.props.item.author_id)
-      .then(() => {
-        if (this.props.setFollowState) {
-          this.props.setFollowState({ isFollowed: false });
-        }
-      })
+    this.props.deleteFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.author_id)
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -228,19 +196,6 @@ class PostListItem extends React.PureComponent {
       });
   }
 
-  //--------------------------------------------------------------------//
-  // Other Callback Methods
-  //--------------------------------------------------------------------//
-
-  // Navigates to profile of user and sends appropriate props
-  _navigateToProfile = () => {
-    this.props.navigateToProfile({
-      userId: this.props.item.author_id,
-      username: this.props.item.author_username,
-      avatarUrl: this.props.item.author_avatar_url,
-      isFollowed: this.props.item.is_author_followed_by_user
-    });
-  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -258,65 +213,26 @@ class PostListItem extends React.PureComponent {
   _renderUserView() {
     return (
       <RN.View style={styles.userView}>
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-          onPressOut={() => this.usernameText.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]})}
-          onPress={this._navigateToProfile}
-          disabled={this.props.user.id === this.props.item.author_id}
-          >
-          <RN.View style={styles.usernameView}>
-            <RN.View style={styles.frame}>
-              {this._renderAvatar()}
-            </RN.View>
-            <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-              {this.props.user.id === this.props.item.author_id ? this.props.user.username : this.props.item.author_username}
-            </RN.Text>
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
+        <UserInfoViewContainer
+          disable={this.props.client.id === this.props.item.author_id}
+          userId={this.props.item.author_id}
+          marginLeft={0}
+          />
         {this._renderFollowText()}
       </RN.View>
     )
   }
 
-  _renderAvatar() {
-    let avatarUrl;
-
-    if (this.props.user.id === this.props.item.author_id && this.props.user.avatar_url) {
-      avatarUrl = this.props.user.avatar_url;
-    } else if (this.props.user.id != this.props.item.author_id && this.props.item.author_avatar_url) {
-      avatarUrl = this.props.item.author_avatar_url;
-    }
-
-    if (avatarUrl && this.props.images[avatarUrl]) {
-      return (
-        <CachedImage
-          source={{uri: this.props.images[avatarUrl].url}}
-          style={styles.avatarImage}
-          resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, avatarUrl)}
-          />
-      )
-    } else if (avatarUrl && !this.props.images[avatarUrl]) {
-      return (
-        <RN.View style={{width: 40}} />
-      )
-    } else {
-      return (
-        <Icon name='user' style={styles.userIcon} />
-      )
-    }
-  }
-
   _renderFollowText() {
-    if (this.props.user.id != this.props.item.author_id) {
+    if (this.props.client.id != this.props.item.author_id) {
       return (
         <RN.View style={styles.usernameView}>
           <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
             |
           </RN.Text>
           <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !this.props.item.is_author_followed_by_user && UTILITY_STYLES.textHighlighted]}>
-              {this.props.item.is_author_followed_by_user ? 'Following' : 'Follow'}
+            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !this.props.usersCache[this.props.item.author_id].is_user_followed_by_client && UTILITY_STYLES.textHighlighted]}>
+              {this.props.usersCache[this.props.item.author_id].is_user_followed_by_client ? 'Following' : 'Follow'}
             </RN.Text>
           </RN.TouchableOpacity>
         </RN.View>
@@ -327,7 +243,7 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderCloseOrFlag() {
-    if (this.props.user.id === this.props.item.author_id) {
+    if (this.props.client.id === this.props.item.author_id) {
       return (
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.closeIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
@@ -335,11 +251,7 @@ class PostListItem extends React.PureComponent {
           onPress={this._onPressDeletePost}
           >
           <RN.View style={styles.closeOrFlagButton}>
-            <EvilIcons
-              ref={(ref) => this.closeIcon = ref}
-              name={'close'}
-              style={styles.closeIcon}
-              />
+            <EvilIcons ref={(ref) => this.closeIcon = ref} name={'close'} style={styles.closeIcon} />
           </RN.View>
         </RN.TouchableWithoutFeedback>
       )
@@ -348,8 +260,8 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback onPress={this._onPressFlagPost} >
           <RN.View style={styles.closeOrFlagButton}>
             <Ionicon
-              name={this.props.item.is_flagged_by_user ? 'ios-flag' : 'ios-flag-outline'}
-              style={[styles.flagIcon, this.props.item.is_flagged_by_user && UTILITY_STYLES.textRed]}
+              name={this.props.item.is_flagged_by_client ? 'ios-flag' : 'ios-flag-outline'}
+              style={[styles.flagIcon, this.props.item.is_flagged_by_client && UTILITY_STYLES.textRed]}
               />
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -377,21 +289,21 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderImage() {
-    if (this.props.item.image_url && this.props.images[this.props.item.image_url]) {
+    if (this.props.item.image_url && this.props.imagesCache[this.props.item.image_url]) {
       return (
         <RN.View style={styles.bodyImageView}>
           <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
             <CachedImage
-              source={{uri: this.props.images[this.props.item.image_url].url}}
+              source={{uri: this.props.imagesCache[this.props.item.image_url].url}}
               style={styles.bodyImage}
               resizeMode={'contain'}
-              onError={() => this.props.refreshCredsAndGetImage(this.props.firebaseUserObj, this.props.item.image_url)}
+              onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, this.props.item.image_url)}
               />
           </RN.TouchableWithoutFeedback>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
-    } else if (this.props.item.image_url && !this.props.images[this.props.item.image_url]) {
+    } else if (this.props.item.image_url && !this.props.imagesCache[this.props.item.image_url]) {
       return (
         <RN.View style={styles.bodyImageView}>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
@@ -418,15 +330,15 @@ class PostListItem extends React.PureComponent {
           </RN.View>
         </RN.TouchableWithoutFeedback>
         <RN.Text style={styles.dateText}>
-          {renderDate(this.props.item.created_at)}
+          {(this.props.item.is_public ? 'Public | ' : '') + renderDate(this.props.item.created_at)}
         </RN.Text>
       </RN.View>
     )
   }
 
   _renderLike() {
-    if ((!this.props.item.is_liked_by_user && !(!this.state.isLikingServer && !this.state.isLikingAnimation))
-        || this.props.item.is_liked_by_user) {
+    if ((!this.props.item.is_liked_by_client && !(!this.state.isLikingServer && !this.state.isLikingAnimation))
+        || this.props.item.is_liked_by_client) {
       return (
         <AnimatedIonicon
           name='md-heart'

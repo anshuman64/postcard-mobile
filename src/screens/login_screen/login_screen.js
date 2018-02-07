@@ -14,9 +14,7 @@ import { setStateCallback }        from '../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS }  from '../../utilities/style_utility.js';
 import { defaultErrorAlert }       from '../../utilities/error_utility.js';
 
-
 //--------------------------------------------------------------------//
-
 
 class LoginScreen extends React.PureComponent {
 

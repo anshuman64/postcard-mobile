@@ -7,7 +7,6 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-
 export const styles = StyleSheet.create({
   modal: {
     flexDirection: 'column',
