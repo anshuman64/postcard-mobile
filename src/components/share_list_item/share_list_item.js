@@ -89,7 +89,7 @@ class ShareListItem extends React.PureComponent {
       )
     } else {
       return (
-        <UserInfoViewContainer userId={this.props.userId} marginLeft={15} />
+        <UserInfoViewContainer userId={this.props.userId} marginLeft={15} disabled={true} />
       )
     }
   }

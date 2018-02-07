@@ -235,14 +235,11 @@ class PostListItem extends React.PureComponent {
   _renderUserView() {
     return (
       <RN.View style={styles.userView}>
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-          onPressOut={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText15})}
-          onPress={() => this.props.navigateToProfile({ userId: this.props.item.author_id })}
-          disabled={this.props.client.id === this.props.item.author_id}
-          >
-          <UserInfoViewContainer userId={this.props.item.author_id} marginLeft={0} />
-        </RN.TouchableWithoutFeedback>
+        <UserInfoViewContainer 
+          disable={this.props.client.id === this.props.item.author_id}
+          userId={this.props.item.author_id}
+          marginLeft={0}
+          />
         {this._renderFollowText()}
       </RN.View>
     )
