@@ -216,12 +216,16 @@ class ProfileHeader extends React.PureComponent {
 
     if (friendshipStatus === FRIEND_TYPES.SENT) {
       friendString = 'Cancel';
+      iconName = 'user-unfollow';
     } else if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
-      friendString = 'Friends'
+      friendString = 'Friends';
+      iconName = 'user-following';
     } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
-      friendString = 'Accept'
+      friendString = 'Accept';
+      iconName = 'user-follow';
     } else {
       friendString = 'Add Friend';
+      iconName = 'user-follow';
     }
 
     if (this.props.client.id != this.props.userId) {
@@ -231,6 +235,7 @@ class ProfileHeader extends React.PureComponent {
             style={[styles.friendButtonBackground, disableButton && styles.buttonBackgroundDisabled]}
             onPress={this._onPressFriend}
             >
+            <Icon name={iconName} style={[styles.friendIcon, disableButton && styles.buttonTextDisabled]} />
             <RN.Text style={[UTILITY_STYLES.lightWhiteText15, disableButton && styles.buttonTextDisabled]}>
               {friendString}
             </RN.Text>
