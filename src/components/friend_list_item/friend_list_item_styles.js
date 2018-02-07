@@ -22,30 +22,6 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200
   },
-  userView: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginLeft: DEFAULT_MARGIN
-  },
-  frame: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    width: 40,
-    marginRight: 5
-  },
-  userIcon: {
-    fontSize: 24,
-    textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
-  },
-  avatarImage: {
-    height: 40,
-    width: 40,
-    borderRadius: StyleUtility.getImageBorderRadius(40),
-  },
   buttonView: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
