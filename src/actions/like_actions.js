@@ -27,6 +27,10 @@ export const removeLike = (data) => {
   return { type: LIKE_ACTION_TYPES.REMOVE_LIKE, data: data };
 };
 
+export const receiveUserLike = (data) => {
+  console.error('heyyy')
+}
+
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
