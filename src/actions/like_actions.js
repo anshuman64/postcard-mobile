@@ -11,16 +11,17 @@ import { refreshAuthToken }    from './client_actions.js';
 //--------------------------------------------------------------------//
 
 export const LIKE_ACTION_TYPES = {
-  RECEIVE_LIKE: 'RECEIVE_LIKE',
-  REMOVE_LIKE:  'REMOVE_LIKE'
+  RECEIVE_CLIENT_LIKE: 'RECEIVE_CLIENT_LIKE',
+  REMOVE_LIKE:         'REMOVE_LIKE',
+  RECEIVE_USER_LIKE:   'RECEIVE_USER_LIKE',
 };
 
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
 
-export const receiveLike = (data) => {
-  return { type: LIKE_ACTION_TYPES.RECEIVE_LIKE, data: data };
+export const receiveClientLike = (data) => {
+  return { type: LIKE_ACTION_TYPES.RECEIVE_CLIENT_LIKE, data: data };
 };
 
 export const removeLike = (data) => {
@@ -28,7 +29,7 @@ export const removeLike = (data) => {
 };
 
 export const receiveUserLike = (data) => {
-  console.error('heyyy')
+  return { type: LIKE_ACTION_TYPES.RECEIVE_USER_LIKE, data: data };
 }
 
 //--------------------------------------------------------------------//
@@ -41,7 +42,7 @@ export const createLike = (authToken, firebaseUserObj, clientId, postId) => (dis
   return APIUtility.post(authToken, '/likes', { post_id: postId })
     .then((newLike) => {
       amplitude.logEvent('Engagement - Click Like', { is_successful: true, is_create: true });
-      dispatch(receiveLike({ like: newLike, clientId: clientId }));
+      dispatch(receiveClientLike({ like: newLike, clientId: clientId }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

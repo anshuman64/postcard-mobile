@@ -67,7 +67,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     // When liking a post, increment the likes by 1 and set is_liked_by_client to true
-    case LIKE_ACTION_TYPES.RECEIVE_LIKE:
+    case LIKE_ACTION_TYPES.RECEIVE_CLIENT_LIKE:
       postToUpdate = newState[action.data.like.post_id];
 
       postToUpdate.num_likes++;
@@ -80,6 +80,12 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
       postToUpdate.num_likes--;
       postToUpdate.is_liked_by_client = false;
+
+      return newState;
+    // When another user likes client's post, increment the likes by 1
+    case LIKE_ACTION_TYPES.RECEIVE_USER_LIKE:
+      postToUpdate = newState[action.data.like.post_id];
+      postToUpdate.num_likes++;
 
       return newState;
 
