@@ -141,7 +141,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
     // TODO: add the liked post in the correct chronological spot
     // Adds post to beginning of LikedPosts when user likes a post
-    case LIKE_ACTION_TYPES.RECEIVE_LIKE:
+    case LIKE_ACTION_TYPES.RECEIVE_CLIENT_LIKE:
       clientId = action.data.clientId;
       postId = action.data.like.post_id;
 
