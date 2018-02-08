@@ -17,6 +17,11 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
+
+    //--------------------------------------------------------------------//
+    // Friendship Actions
+    //--------------------------------------------------------------------//
+
     case FRIENDSHIP_ACTION_TYPES.RECEIVE_FRIENDSHIPS:
       _.forEach(action.data.friends, (user) => {
         newState[action.data.friendType].unshift(user.id);
@@ -38,6 +43,7 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
       _.forEach(newState, (friendListType) => {
         _.remove(friendListType, (ids) => {
           return ids === action.data.friendship.requester_id;
@@ -47,6 +53,25 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
           return ids === action.data.friendship.requestee_id;
         });
       });
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Pusher Actions
+    //--------------------------------------------------------------------//
+
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
+      newState.received.unshift(action.data.friendship.requester_id);
+
+      return newState;
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP:
+      userId = action.data.friendship.requestee_id;
+
+      _.remove(newState.sent, (ids) => {
+        return ids === userId;
+      });
+
+      newState.accepted.unshift(userId);
 
       return newState;
     default:
