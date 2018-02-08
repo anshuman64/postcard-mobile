@@ -1,17 +1,24 @@
-
+// Library Imports
 import Pusher from 'pusher-js/react-native';
 
-import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config.js';
-import { getBaseUrl }                    from './api_utility.js';
-import { receiveUserLike }               from '../actions/like_actions.js';
+// Local Imports
+import { ENV_TYPES, PUSHER_ENV_SETTING }                                                                             from '../app_config.js';
+import { getBaseUrl }                                                                                                from './api_utility.js';
+import { pusherReceiveLike }                                                                                         from '../actions/like_actions.js';
+import { pusherCreateFriendship, pusherRecieveFriendship, pusherReceiveAcceptedFriendship, pusherDestroyFriendship } from '../actions/friendship_actions.js';
+import { pusherReceivePost }                                                                                         from '../actions/post_actions.js';
 
+//--------------------------------------------------------------------//
 
-// Enable pusher logging
-Pusher.logToConsole = true;
+//--------------------------------------------------------------------//
+// Constants
+//--------------------------------------------------------------------//
 
 let pusher    = null;
 let myChannel = null;
 
+// Enable pusher logging
+Pusher.logToConsole = true;
 
 //--------------------------------------------------------------------//
 // Helpers
@@ -49,7 +56,27 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   myChannel = pusher.subscribe('private-' + clientId);
 
-  myChannel.bind('create-like', (data) => {
-    dispatch(receiveUserLike({ like: data.like }));
+  myChannel.bind('receive-like', (data) => {
+    dispatch(pusherReceiveLike({ client: data.client, user: data.user, like: data.like }));
+  });
+
+  myChannel.bind('create-friendship', (data) => {
+    dispatch(pusherCreateFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+  });
+
+  myChannel.bind('receive-friendship', (data) => {
+    dispatch(pusherRecieveFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+  });
+
+  myChannel.bind('receive-accepted-friendship', (data) => {
+    dispatch(pusherReceiveAcceptedFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+  });
+
+  myChannel.bind('destroy-friendship', (data) => {
+    dispatch(pusherDestroyFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+  });
+
+  myChannel.bind('receive-post', (data) => {
+    dispatch(pusherReceivePost({ client: data.client, user: data.user, post: data.post }));
   });
 }
