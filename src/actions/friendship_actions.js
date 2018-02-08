@@ -17,10 +17,14 @@ export const FRIEND_TYPES = {
 }
 
 export const FRIENDSHIP_ACTION_TYPES = {
-  RECEIVE_FRIENDSHIPS:       'RECEIVE_FRIENDSHIPS',
-  SEND_FRIENDSHIP_REQUEST:   'SEND_FRIENDSHIP_REQUEST',
-  ACCEPT_FRIENDSHIP_REQUEST: 'ACCEPT_FRIENDSHIP_REQUEST',
-  REMOVE_FRIENDSHIP:         'REMOVE_FRIENDSHIP'
+  RECEIVE_FRIENDSHIPS:                'RECEIVE_FRIENDSHIPS',
+  SEND_FRIENDSHIP_REQUEST:            'SEND_FRIENDSHIP_REQUEST',
+  ACCEPT_FRIENDSHIP_REQUEST:          'ACCEPT_FRIENDSHIP_REQUEST',
+  REMOVE_FRIENDSHIP:                  'REMOVE_FRIENDSHIP',
+  PUSHER_CREATE_FRIENDSHIP:           'PUSHER_CREATE_FRIENDSHIP',
+  PUSHER_RECEIVE_FRIENDSHIP:          'PUSHER_RECEIVE_FRIENDSHIP',
+  PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP: 'PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP',
+  PUSHER_DESTROY_FRIENDSHIP:          'PUSHER_DESTROY_FRIENDSHIP',
 };
 
 //--------------------------------------------------------------------//
@@ -41,6 +45,22 @@ export const acceptFriendshipRequest = (data) => {
 
 export const removeFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP, data: data };
+};
+
+export const pusherCreateFriendship = (data) => {
+  return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_CREATE_FRIENDSHIP, data: data };
+};
+
+export const pusherRecieveFriendship = (data) => {
+  return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP, data: data };
+};
+
+export const pusherReceiveAcceptedFriendship = (data) => {
+  return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP, data: data };
+};
+
+export const pusherDestroyFriendship = (data) => {
+  return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP, data: data };
 };
 
 //--------------------------------------------------------------------//
