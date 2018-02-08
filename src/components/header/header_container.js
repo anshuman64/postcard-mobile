@@ -13,7 +13,7 @@ const mapStateToProps = ({ client }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createPost:       (authToken, firebaseUserObj, userId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText) => dispatch(createPost(authToken, firebaseUserObj, userId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText)),
+  createPost:       (authToken, firebaseUserObj, clientId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText) => dispatch(createPost(authToken, firebaseUserObj, clientId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText)),
   navigateTo:       (screen, props) => dispatch(navigateTo(screen, props)),
   goBack:           (props) => dispatch(goBack(props)),
 });

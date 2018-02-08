@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 // Local Imports
-import { CLIENT_ACTION_TYPES }             from '../actions/client_actions.js';
+import { CLIENT_ACTION_TYPES }           from '../actions/client_actions.js';
 import { POST_ACTION_TYPES, POST_TYPES } from '../actions/post_actions.js';
 import { LIKE_ACTION_TYPES }             from '../actions/like_actions.js';
 import { FOLLOW_ACTION_TYPES }           from '../actions/follow_actions.js';
@@ -12,6 +12,7 @@ import { mergeSorted }                   from '../utilities/function_utility.js'
 
 /* Data is in the form {
  *   clientId: {
+ *     receivedPosts: { data: [], lastUpdated: null, isEnd: false },
  *     publicPosts:   { data: [], lastUpdated: null, isEnd: false },
  *     authoredPosts: { data: [], lastUpdated: null, isEnd: false },
  *     likedPosts:    { data: [], lastUpdated: null, isEnd: false },
@@ -109,27 +110,27 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
     // Add new post to beginning of AllPosts and AuthoredPosts when user creates a post
     case POST_ACTION_TYPES.RECEIVE_POST:
-      userId = action.data.userId;
+      clientId = action.data.clientId;
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the current user creates a post
       if (action.data.post.is_public) {
-        newState[userId][POST_TYPES.PUBLIC].data.unshift(postId);
+        newState[clientId][POST_TYPES.PUBLIC].data.unshift(postId);
       }
-      newState[userId][POST_TYPES.AUTHORED].data.unshift(postId);
+      newState[clientId][POST_TYPES.AUTHORED].data.unshift(postId);
 
       return newState;
     // Remove post from AllPosts and AuthoredPosts when user deletes a post
     case POST_ACTION_TYPES.REMOVE_POST:
-      userId = action.data.userId;
+      clientId = action.data.clientId;
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the current user removes their own post
-      _.remove(newState[userId][POST_TYPES.PUBLIC].data, (postsId) => {
+      _.remove(newState[clientId][POST_TYPES.PUBLIC].data, (postsId) => {
         return postsId === postId;
       });
 
-      _.remove(newState[userId][POST_TYPES.AUTHORED].data, (postsId) => {
+      _.remove(newState[clientId][POST_TYPES.AUTHORED].data, (postsId) => {
         return postsId === postId;
       });
 
@@ -141,7 +142,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
     // TODO: add the liked post in the correct chronological spot
     // Adds post to beginning of LikedPosts when user likes a post
-    case LIKE_ACTION_TYPES.RECEIVE_CLIENT_LIKE:
+    case LIKE_ACTION_TYPES.RECEIVE_LIKE:
       clientId = action.data.clientId;
       postId = action.data.like.post_id;
 
@@ -156,6 +157,18 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       _.remove(newState[clientId][POST_TYPES.LIKED].data, (postsId) => {
         return postsId === postId;
       });
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Pusher Post Actions
+    //--------------------------------------------------------------------//
+
+    case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
+      clientId = action.data.user.id;
+      postId = action.data.post.id;
+
+      newState[clientId][POST_TYPES.RECEIVED].data.unshift(postId);
 
       return newState;
 
