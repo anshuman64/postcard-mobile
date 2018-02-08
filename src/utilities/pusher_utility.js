@@ -50,6 +50,6 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   myChannel = pusher.subscribe('private-' + clientId);
 
   myChannel.bind('create-like', (data) => {
-    dispatch(receiveUserLike);
+    dispatch(receiveUserLike({ like: data.like }));
   });
 }
