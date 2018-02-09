@@ -3,12 +3,13 @@ import React          from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../utilities/style_utility.js';
+import * as StyleUtility  from '../../utilities/style_utility.js';
+import { TAB_BAR_HEIGHT } from '../tab_bar/tab_bar_styles.js';
 
 //--------------------------------------------------------------------//
 
-export const PROFILE_HEADER_HEIGHT = 120;
-const IMAGE_SIZE = 70;
+export const PROFILE_HEADER_HEIGHT = StyleUtility.scaleImage(60);
+const IMAGE_SIZE = StyleUtility.scaleImage(35);
 
 export const styles = StyleSheet.create({
   container: {
@@ -27,8 +28,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
+    height: PROFILE_HEADER_HEIGHT - TAB_BAR_HEIGHT,
     marginLeft: 15,
-    marginBottom: 15
   },
   frame: {
     flexDirection: 'row',
@@ -76,7 +77,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: 200,
+    width: 210,
     marginBottom: 5,
   },
   usernameText: {
