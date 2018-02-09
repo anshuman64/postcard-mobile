@@ -21,10 +21,20 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     width: 40,
-    marginRight: 5
+    marginRight: 7
+  },
+  frameBorder: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 36,
+    width: 36,
+    borderWidth: 1.1,
+    borderColor: StyleUtility.COLORS.grey800,
+    borderRadius: 37 / 2,
   },
   userIcon: {
-    fontSize: 24,
+    fontSize: 17,
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
   },
