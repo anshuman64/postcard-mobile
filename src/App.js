@@ -3,6 +3,7 @@ import React                           from 'react';
 import { AppState, BackHandler, View } from 'react-native';
 import { Provider }                    from 'react-redux';
 import { Scene, Tabs, Actions }        from 'react-native-router-flux';
+import OneSignal                       from 'react-native-onesignal';
 import RNExitApp                       from 'react-native-exit-app';
 
 // Local Imports
@@ -46,6 +47,17 @@ class App extends React.Component {
     currentAppState = 'active';
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
+  componentWillMount() {
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('registered', this.onRegistered);
+    OneSignal.addEventListener('ids', this.onIds);
+  }
+
   // Listens to changes in AppState and when Android backButton is pressed
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
@@ -55,7 +67,40 @@ class App extends React.Component {
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
     BackHandler.removeEventListener("hardwareBackPress", this._onBackPress);
+
+    OneSignal.removeEventListener('received', this.onReceived);
+    OneSignal.removeEventListener('opened', this.onOpened);
+    OneSignal.removeEventListener('registered', this.onRegistered);
+    OneSignal.removeEventListener('ids', this.onIds);
   }
+
+
+  //--------------------------------------------------------------------//
+  // OneSignal Methods
+  //--------------------------------------------------------------------//
+
+    onReceived(notification) {
+      console.log("Notification received: ", notification);
+    }
+
+    onOpened(openResult) {
+      console.log('Message: ', openResult.notification.payload.body);
+      console.log('Data: ', openResult.notification.payload.additionalData);
+      console.log('isActive: ', openResult.notification.isAppInFocus);
+      console.log('openResult: ', openResult);
+    }
+
+    onRegistered(notifData) {
+      console.log("Device had been registered for push notifications!", notifData);
+    }
+
+    onIds(device) {
+		    console.log('Device info: ', device);
+    }
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
 
   // When AppState changes, log event
   _handleAppStateChange = (nextAppState) => {
