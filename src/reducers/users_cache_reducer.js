@@ -48,14 +48,6 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       })
 
       return newState;
-    case FRIENDSHIP_ACTION_TYPES.SEND_FRIENDSHIP_REQUEST:
-      requestee_id = action.data.friendship.requestee_id;
-
-      newState[requestee_id]                               = newState[requestee_id] || {};
-      newState[requestee_id].username                      = newState[requestee_id].username || action.data.username;
-      newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.SENT;
-
-      return newState;
     case FRIENDSHIP_ACTION_TYPES.ACCEPT_FRIENDSHIP_REQUEST:
       requester_id = action.data.friendship.requester_id;
 
@@ -110,6 +102,33 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       });
 
       return newState;
+
+  //--------------------------------------------------------------------//
+  // Friendship Actions
+  //--------------------------------------------------------------------//
+
+  case FRIENDSHIP_ACTION_TYPES.PUSHER_CREATE_FRIENDSHIP:
+    requestee_id = action.data.user.id;
+
+    newState[requestee_id] = action.data.user;
+    newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.SENT;
+
+    return newState;
+  case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
+    requester_id = action.data.user.id;
+
+    newState[requester_id] = action.data.user;
+    newState[requester_id].friendship_status_with_client = FRIEND_TYPES.RECEIVED;
+
+    return newState;
+  case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP:
+    userId = action.data.user.id;
+
+    newState[userId] = action.data.user;
+    newState[userId].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
+
+    return newState;
+
     default:
       return state;
   }
