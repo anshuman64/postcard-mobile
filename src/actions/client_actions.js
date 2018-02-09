@@ -8,7 +8,7 @@ import { getImage }                from './image_actions.js';
 import { amplitude }               from '../utilities/analytics_utility.js';
 import * as APIUtility             from '../utilities/api_utility.js';
 import { setS3Client, uploadFile } from '../utilities/file_utility.js';
-import { setPusherClient }         from '../utilities/pusher_utility.js';
+import { setPusherClient }         from '../utilities/push_utility.js';
 import { setErrorDescription }     from '../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
