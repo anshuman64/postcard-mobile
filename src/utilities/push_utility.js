@@ -1,12 +1,13 @@
 // Library Imports
-import Pusher from 'pusher-js/react-native';
+import Pusher    from 'pusher-js/react-native';
+import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { ENV_TYPES, PUSHER_ENV_SETTING }                                                                             from '../app_config.js';
-import { getBaseUrl }                                                                                                from './api_utility.js';
-import { pusherReceiveLike }                                                                                         from '../actions/like_actions.js';
-import { pusherCreateFriendship, pusherRecieveFriendship, pusherReceiveAcceptedFriendship, pusherDestroyFriendship } from '../actions/friendship_actions.js';
-import { pusherReceivePost }                                                                                         from '../actions/post_actions.js';
+import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config.js';
+import { getBaseUrl }                    from './api_utility.js';
+import { pusherReceiveLike }             from '../actions/like_actions.js';
+import * as FriendshipActions            from '../actions/friendship_actions.js';
+import { pusherReceivePost }             from '../actions/post_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -39,7 +40,7 @@ let getPusherApiKey = () => {
 };
 
 //--------------------------------------------------------------------//
-// Interface
+// Pusher Interface
 //--------------------------------------------------------------------//
 
 export const setPusherClient = (authToken, clientId) => (dispatch) => {
@@ -61,22 +62,48 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   });
 
   myChannel.bind('create-friendship', (data) => {
-    dispatch(pusherCreateFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(FriendshipActions.pusherCreateFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
   });
 
   myChannel.bind('receive-friendship', (data) => {
-    dispatch(pusherRecieveFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(FriendshipActions.pusherRecieveFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
   });
 
   myChannel.bind('receive-accepted-friendship', (data) => {
-    dispatch(pusherReceiveAcceptedFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(FriendshipActions.pusherReceiveAcceptedFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
   });
 
   myChannel.bind('destroy-friendship', (data) => {
-    dispatch(pusherDestroyFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(FriendshipActions.pusherDestroyFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
   });
 
   myChannel.bind('receive-post', (data) => {
     dispatch(pusherReceivePost({ client: data.client, user: data.user, post: data.post }));
   });
 }
+
+//--------------------------------------------------------------------//
+// OneSignal Interface
+//--------------------------------------------------------------------//
+
+  // OneSignal options
+  OneSignal.inFocusDisplaying(2); // Enables notifications in-app
+
+  export function onReceived(notification) {
+    console.log("Notification received: ", notification);
+  }
+
+  export function onOpened(openResult) {
+    console.log('Message: ', openResult.notification.payload.body);
+    console.log('Data: ', openResult.notification.payload.additionalData);
+    console.log('isActive: ', openResult.notification.isAppInFocus);
+    console.log('openResult: ', openResult);
+  }
+
+  export function onRegistered(notifData) {
+    console.log("Device had been registered for push notifications!", notifData);
+  }
+
+  export function onIds(device) {
+    console.log('Device info: ', device);
+  }
