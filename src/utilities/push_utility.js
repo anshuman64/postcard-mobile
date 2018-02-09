@@ -94,6 +94,8 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   }
 
   export function onOpened(openResult) {
+    OneSignal.clearOneSignalNotifications(); // clears all notifications on Android when one is opened
+
     console.log('Message: ', openResult.notification.payload.body);
     console.log('Data: ', openResult.notification.payload.additionalData);
     console.log('isActive: ', openResult.notification.isAppInFocus);
