@@ -7,7 +7,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_MARGIN = 15;
+const DEFAULT_MARGIN = 10;
 
 export const styles = StyleSheet.create({
   rowView: {

@@ -8,13 +8,13 @@ import { TAB_BAR_HEIGHT } from '../tab_bar/tab_bar_styles.js';
 
 //--------------------------------------------------------------------//
 
-export const PROFILE_HEADER_HEIGHT = StyleUtility.scaleImage(68);
+export const PROFILE_HEADER_HEIGHT = StyleUtility.scaleImage(70);
 const IMAGE_SIZE = StyleUtility.scaleImage(35);
 
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'flex-start',
     width: '100%',
     height: PROFILE_HEADER_HEIGHT,
@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     borderRadius: IMAGE_SIZE / 2,
   },
   userIcon: {
-    fontSize: 37,
+    fontSize: StyleUtility.scaleImage(16),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
