@@ -7,8 +7,6 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_MARGIN = 15;
-
 export const styles = StyleSheet.create({
   userView: {
     flexDirection: 'row',
@@ -42,5 +40,13 @@ export const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: StyleUtility.getImageBorderRadius(40),
+  },
+  usernameText: {
+    maxWidth: StyleUtility.scaleImage(60),
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
+    fontSize: 15,
+    fontWeight: '400',
+    textAlign: 'left',
+    color: StyleUtility.COLORS.grey900,
   },
 });
