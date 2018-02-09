@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     width: 36,
     borderWidth: 1.1,
     borderColor: StyleUtility.COLORS.grey800,
-    borderRadius: 37 / 2,
+    borderRadius: 36 / 2,
   },
   userIcon: {
     fontSize: 17,
