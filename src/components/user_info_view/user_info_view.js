@@ -35,7 +35,9 @@ class UserInfoView extends React.PureComponent {
       )
     } else {
       return (
-        <Icon name='user' style={styles.userIcon} />
+        <RN.View style={styles.frameBorder}>
+          <Icon name='user' style={styles.userIcon} />
+        </RN.View>
       )
     }
   }
