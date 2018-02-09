@@ -8,8 +8,6 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
-    <meta-data android:name="com.onesignal.NotificationAccentColor.DEFAULT" android:value="007AFF00" />
-
     <application
       android:name=".MainApplication"
       android:allowBackup="true"
