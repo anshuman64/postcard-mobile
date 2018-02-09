@@ -195,7 +195,7 @@ class ProfileHeader extends React.PureComponent {
         onPress={() => this.props.navigateTo('UsernameScreen')}
         disabled={this.props.client.id != this.props.userId}
         >
-        <RN.Text style={styles.usernameText}>
+        <RN.Text style={styles.usernameText} numberOfLines={1}>
           {username}
         </RN.Text>
         <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
@@ -246,9 +246,7 @@ class ProfileHeader extends React.PureComponent {
         </RN.View>
       )
     } else {
-      return (
-        <RN.View style={{ height: 30 }} />
-      )
+      return null;
     }
   }
 
