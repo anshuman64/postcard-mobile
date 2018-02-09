@@ -98,7 +98,7 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, userId, postType, isUser, queryParams));
+        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, isRefresh, userId, postType, isUser, queryParams));
       }
 
       throw setErrorDescription(error, 'GET posts failed');
@@ -116,7 +116,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, postBody, postImagePath, postImageType, placeholderText));
+          return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText));
         }
 
         postPostError(error);

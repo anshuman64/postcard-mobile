@@ -241,7 +241,7 @@ export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageT
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, avatarUrl));
+          return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, userId, imagePath, imageType));
         }
 
         putUserError(error);
