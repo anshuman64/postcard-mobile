@@ -19,9 +19,6 @@ import { pusherReceivePost }             from '../actions/post_actions.js';
 let pusher    = null;
 let myChannel = null;
 
-// Enable pusher logging
-Pusher.logToConsole = true;
-
 //--------------------------------------------------------------------//
 // Helpers
 //--------------------------------------------------------------------//
@@ -43,6 +40,9 @@ let getPusherApiKey = () => {
 //--------------------------------------------------------------------//
 // Pusher Interface
 //--------------------------------------------------------------------//
+
+// Enable pusher logging
+Pusher.logToConsole = true;
 
 export const setPusherClient = (authToken, clientId) => (dispatch) => {
   pusher = new Pusher(getPusherApiKey(), {
@@ -91,26 +91,26 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 // OneSignal Interface
 //--------------------------------------------------------------------//
 
-  // OneSignal options
-  OneSignal.inFocusDisplaying(2); // Enables notifications in-app
+// OneSignal options
+OneSignal.inFocusDisplaying(2); // Enables notifications in-app
 
-  export function onReceived(notification) {
-    console.log("Notification received: ", notification);
-  }
+export function onReceived(notification) {
+  // console.log("Notification received: ", notification);
+}
 
-  export function onOpened(openResult) {
-    OneSignal.clearOneSignalNotifications(); // clears all notifications on Android when one is opened
+export function onOpened(openResult) {
+  OneSignal.clearOneSignalNotifications(); // clears all notifications on Android when one is opened
 
-    console.log('Message: ', openResult.notification.payload.body);
-    console.log('Data: ', openResult.notification.payload.additionalData);
-    console.log('isActive: ', openResult.notification.isAppInFocus);
-    console.log('openResult: ', openResult);
-  }
+  // console.log('Message: ', openResult.notification.payload.body);
+  // console.log('Data: ', openResult.notification.payload.additionalData);
+  // console.log('isActive: ', openResult.notification.isAppInFocus);
+  // console.log('openResult: ', openResult);
+}
 
-  export function onRegistered(notifData) {
-    console.log("Device had been registered for push notifications!", notifData);
-  }
+export function onRegistered(notifData) {
+  // console.log("Device had been registered for push notifications!", notifData);
+}
 
-  export function onIds(device) {
-    console.log('Device info: ', device);
-  }
+export function onIds(device) {
+  // console.log('Device info: ', device);
+}
