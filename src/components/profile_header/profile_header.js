@@ -160,28 +160,20 @@ class ProfileHeader extends React.PureComponent {
 
     if (!avatarUrl) {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
-          <RN.View style={styles.frameBorder}>
-            <Icon name='user' style={styles.userIcon} />
-          </RN.View>
-          <Icon name='pencil' style={[styles.avatarPencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
-        </RN.TouchableOpacity>
+        <RN.View style={styles.frameBorder}>
+          <Icon name='user' style={styles.userIcon} />
+        </RN.View>
       )
     } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
-      return (
-        <RN.View style={styles.frame} />
-      )
+      return null;
     } else {
       return (
-        <RN.TouchableOpacity style={styles.frame} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
-          <CachedImage
-            source={{uri: this.props.imagesCache[avatarUrl].url}}
-            style={styles.image}
-            resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
-            />
-          <Icon name='pencil' style={[styles.avatarPencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
-        </RN.TouchableOpacity>
+        <CachedImage
+          source={{uri: this.props.imagesCache[avatarUrl].url}}
+          style={styles.image}
+          resizeMode={'cover'}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
+          />
       )
     }
   }
@@ -206,7 +198,7 @@ class ProfileHeader extends React.PureComponent {
   _renderButtons() {
     let friendString;
     let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
-    let disableButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
+    let deactivateButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
     let isFollowed = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_followed_by_client : false;
 
     if (friendshipStatus === FRIEND_TYPES.SENT) {
@@ -227,11 +219,11 @@ class ProfileHeader extends React.PureComponent {
       return (
         <RN.View style={styles.buttonView}>
           <RN.TouchableOpacity
-            style={[styles.friendButtonBackground, disableButton && styles.buttonBackgroundDisabled]}
+            style={[styles.friendButtonBackground, deactivateButton && styles.buttonBackgroundDisabled]}
             onPress={this._onPressFriend}
             >
-            <Icon name={iconName} style={[styles.friendIcon, disableButton && styles.buttonTextDisabled]} />
-            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, disableButton && styles.buttonTextDisabled]}>
+            <Icon name={iconName} style={[styles.friendIcon, deactivateButton && styles.buttonTextDisabled]} />
+            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, deactivateButton && styles.buttonTextDisabled]}>
               {friendString}
             </RN.Text>
           </RN.TouchableOpacity>
@@ -246,7 +238,9 @@ class ProfileHeader extends React.PureComponent {
         </RN.View>
       )
     } else {
-      return null;
+      return (
+        <RN.View style={{height: 30}} />
+      )
     }
   }
 
@@ -261,7 +255,14 @@ class ProfileHeader extends React.PureComponent {
       <RN.Animated.View style={[styles.container, { transform: [{translateY}] }]}
         >
         <RN.View style={styles.userView}>
-          {this._renderAvatar()}
+          <RN.TouchableOpacity style={styles.avatarView} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
+            <RN.View style={styles.frame}>
+              {this._renderAvatar()}
+            </RN.View>
+            <RN.Text style={[UTILITY_STYLES.lightBlackText14, UTILITY_STYLES.textHighlighted, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]}>
+              Change
+            </RN.Text>
+          </RN.TouchableOpacity>
           <RN.View style={styles.usernameView}>
             {this._renderUsername()}
             {this._renderButtons()}
