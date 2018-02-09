@@ -7,6 +7,7 @@ import { getImage }                from './image_actions.js';
 import { amplitude }               from '../utilities/analytics_utility.js';
 import * as APIUtility             from '../utilities/api_utility.js';
 import { setS3Client, uploadFile } from '../utilities/file_utility.js';
+import { setPusherClient }         from '../utilities/pusher_utility.js';
 import { setErrorDescription }     from '../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
@@ -65,13 +66,17 @@ export const debugSignIn = (email, password) => (dispatch) => {
       return dispatch(loginClient(firebaseUserObj));
     })
     .catch((error) => {
-      Firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((firebaseUserObj) => {
-          return dispatch(loginClient(firebaseUserObj));
-        })
-        .catch((error) => {
-          throw setErrorDescription(error, 'Firebase email sign-in failed');
-        });
+      if (error.message === 'There is no user record corresponding to this identifier. The user may have been deleted.') {
+        Firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then((firebaseUserObj) => {
+            return dispatch(loginClient(firebaseUserObj));
+          })
+          .catch((error) => {
+            throw setErrorDescription(error, 'Firebase email sign-in failed');
+          });
+      }
+
+      throw setErrorDescription(error, 'Firebase email sign-in failed');
     });
 }
 
@@ -108,11 +113,11 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
 export const loginClient = (firebaseUserObj) => (dispatch) => {
   let phoneNumber = firebaseUserObj._user.phoneNumber ? firebaseUserObj._user.phoneNumber : firebaseUserObj._user.email;
 
-  let setClient = (client, isNew) => {
+  let setClient = (client, authToken, isNew) => {
     amplitude.setUserId(client.id);
     amplitude.setUserProperties({ database_id: client.id, phone_number: client.phone_number, firebase_uid: client.firebase_uid, created_at: client.created_at });
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
-
+    dispatch(setPusherClient(authToken, client.id));
     dispatch(receiveClient({ user: client }));
 
     if (client.avatar_url) {
@@ -123,7 +128,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
   let handleExistingUser = (authToken) => {
     return APIUtility.get(authToken, '/users')
       .then((client) => {
-        setClient(client, false);
+        setClient(client, authToken, false);
       })
       .catch((error) => {
         if (error.message === 'Requester not found') {
@@ -139,7 +144,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
   let handleNewUser = (authToken) => {
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
       .then((newUser) => {
-        setClient(newUser, true);
+        setClient(newUser, authToken, true);
       })
       .catch((error) => {
         error = setErrorDescription(error, 'POST user failed');
@@ -236,7 +241,7 @@ export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageT
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, avatarUrl));
+          return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, userId, imagePath, imageType));
         }
 
         putUserError(error);

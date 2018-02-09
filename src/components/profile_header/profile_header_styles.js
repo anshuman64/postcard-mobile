@@ -3,17 +3,19 @@ import React          from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../utilities/style_utility.js';
+import * as StyleUtility  from '../../utilities/style_utility.js';
+import { TAB_BAR_HEIGHT } from '../tab_bar/tab_bar_styles.js';
 
 //--------------------------------------------------------------------//
 
-export const PROFILE_HEADER_HEIGHT = 140;
+export const PROFILE_HEADER_HEIGHT = StyleUtility.scaleImage(60);
+const IMAGE_SIZE = StyleUtility.scaleImage(35);
 
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     width: '100%',
     height: PROFILE_HEADER_HEIGHT,
     backgroundColor: 'white',
@@ -26,25 +28,26 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
-    paddingLeft: 30,
-    marginBottom: 15
+    height: PROFILE_HEADER_HEIGHT - TAB_BAR_HEIGHT,
+    marginLeft: 15,
   },
   frame: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    height: 90,
-    width: 100,
+    height: IMAGE_SIZE,
+    width: IMAGE_SIZE + 10,
+    marginRight: 3
   },
   frameBorder: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 90,
-    width: 90,
+    height: IMAGE_SIZE,
+    width: IMAGE_SIZE,
     borderWidth: 2,
     borderColor: StyleUtility.COLORS.grey900,
-    borderRadius: 90 / 2,
+    borderRadius: IMAGE_SIZE / 2,
     marginRight: 8
   },
   userIcon: {
@@ -53,9 +56,9 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
   },
   image: {
-    height: 90,
-    width: 90,
-    borderRadius: StyleUtility.getImageBorderRadius(90),
+    height: IMAGE_SIZE,
+    width: IMAGE_SIZE,
+    borderRadius: StyleUtility.getImageBorderRadius(IMAGE_SIZE),
     marginRight: 8
   },
   avatarPencil: {
@@ -69,14 +72,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginLeft: 20
   },
   usernameButton: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: 140,
-    marginBottom: 15,
+    width: 210,
+    marginBottom: 5,
   },
   usernameText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
@@ -106,7 +108,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 110,
+    width: 105,
     height: 30,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue,
@@ -115,7 +117,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 110,
+    width: 105,
     height: 30,
     borderRadius: 4,
     backgroundColor: 'white',

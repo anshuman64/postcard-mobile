@@ -21,17 +21,6 @@ const DEFAULT_HEADERS = {
 // Helpers
 //--------------------------------------------------------------------//
 
-// Chooses right API url based on environment setting
-let getBaseUrl = () => {
-  if (SERVER_ENV_SETTING === ENV_TYPES.PRODUCTION) {
-    return 'https://api.insiya.io/api';
-  } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
-    return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
-  } else {
-    return 'http://192.168.2.27:3000/api';
-  }
-};
-
 // Turns params into a URI string
 let getQueryString = (params) => {
   if (!params) {
@@ -91,6 +80,17 @@ let callApi = (url, requestConfig) => {
 //--------------------------------------------------------------------//
 // Interface
 //--------------------------------------------------------------------//
+
+// Chooses right API url based on environment setting
+export const getBaseUrl = () => {
+  if (SERVER_ENV_SETTING === ENV_TYPES.PRODUCTION) {
+    return 'https://api.insiya.io/api';
+  } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
+    return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
+  } else {
+    return 'http://192.168.2.27:3000/api';
+  }
+};
 
 // GET request to API. Returns status.
 export const get = (authToken, path, queryParams) => {

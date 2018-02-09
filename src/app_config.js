@@ -15,4 +15,7 @@ export const ENV_TYPES = {
 export const SERVER_ENV_SETTING    = ENV_TYPES.DEV
 
 // WARNING -- affects the Amplitude Analytics project
-export const ANALYTICS_ENV_SETTING = ENV_TYPES.DEV
+export const AMPLITUDE_ENV_SETTING = ENV_TYPES.DEV
+
+// WARNING -- affects the Amplitude Analytics project
+export const PUSHER_ENV_SETTING    = ENV_TYPES.DEV
