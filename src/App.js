@@ -3,9 +3,11 @@ import React                           from 'react';
 import { AppState, BackHandler, View } from 'react-native';
 import { Provider }                    from 'react-redux';
 import { Scene, Tabs, Actions }        from 'react-native-router-flux';
+import OneSignal                       from 'react-native-onesignal';
 import RNExitApp                       from 'react-native-exit-app';
 
 // Local Imports
+import * as PushUtility           from './utilities/push_utility.js';
 import { amplitude }              from './utilities/analytics_utility.js';
 import configureStore             from './store';
 import RouterContainer            from './router/router_container.js';
@@ -46,6 +48,17 @@ class App extends React.Component {
     currentAppState = 'active';
   }
 
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
+  componentWillMount() {
+    OneSignal.addEventListener('received', PushUtility.onReceived);
+    OneSignal.addEventListener('opened', PushUtility.onOpened);
+    OneSignal.addEventListener('registered', PushUtility.onRegistered);
+    OneSignal.addEventListener('ids', PushUtility.onIds);
+  }
+
   // Listens to changes in AppState and when Android backButton is pressed
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
@@ -55,7 +68,16 @@ class App extends React.Component {
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
     BackHandler.removeEventListener("hardwareBackPress", this._onBackPress);
+
+    OneSignal.removeEventListener('received', PushUtility.onReceived);
+    OneSignal.removeEventListener('opened', PushUtility.onOpened);
+    OneSignal.removeEventListener('registered', PushUtility.onRegistered);
+    OneSignal.removeEventListener('ids', PushUtility.onIds);
   }
+
+  //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
 
   // When AppState changes, log event
   _handleAppStateChange = (nextAppState) => {
@@ -99,9 +121,9 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true}  />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} initial={true} />
 
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} panHandlers={null} hideNavBar={true} initial={true} />
+            <Scene key='LoadingScreen' component={LoadingScreenContainer} panHandlers={null} hideNavBar={true}  />
             <Scene key='WelcomeScreen' component={WelcomeScreenContainer} panHandlers={null} hideNavBar={true} />
             <Scene key='LoginScreen'   component={LoginScreenContainer}   panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen' component={NewPostScreenContainer} panHandlers={null} hideNavBar={true} />
