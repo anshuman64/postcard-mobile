@@ -6,10 +6,10 @@ import uuid        from 'react-native-uuid';
 import mime        from 'mime-types';
 
 // Local Imports
-import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config.js';
-import { setErrorDescription }           from './error_utility.js';
-import { amplitude }                     from './analytics_utility.js';
-import { refreshAuthToken }              from '../actions/client_actions.js';
+import { ENV_TYPES, AWS_ENV_SETTING } from '../app_config.js';
+import { setErrorDescription }        from './error_utility.js';
+import { amplitude }                  from './analytics_utility.js';
+import { refreshAuthToken }           from '../actions/client_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -26,7 +26,7 @@ export let postPlaceholders;
 
 // Returns the right Bucket Name depending on environment setting
 let getBucketName = () => {
-  switch (SERVER_ENV_SETTING) {
+  switch (AWS_ENV_SETTING) {
     case ENV_TYPES.PRODUCTION:
       return 'insiya-users';
     case ENV_TYPES.TEST:

@@ -86,7 +86,7 @@ export const getBaseUrl = () => {
   if (SERVER_ENV_SETTING === ENV_TYPES.PRODUCTION) {
     return 'https://api.insiya.io/api';
   } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
-    return 'http://insiya-test.us-east-1.elasticbeanstalk.com/api';
+    return 'http://insiya-production-server-2.us-east-1.elasticbeanstalk.com/api';
   } else {
     return 'http://192.168.2.27:3000/api';
   }
