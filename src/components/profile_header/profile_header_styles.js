@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: 200,
-    marginBottom: 5,
+    marginBottom: 8,
   },
   usernameText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
