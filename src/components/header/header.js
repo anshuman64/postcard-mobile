@@ -5,11 +5,11 @@ import Icon    from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import LoadingModal          from '../loading_modal/loading_modal.js'
-import { styles }            from './header_styles.js';
-import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
-import { isStringEmpty }     from '../../utilities/function_utility.js';
-import { defaultErrorAlert } from '../../utilities/error_utility.js';
+import LoadingModal                   from '../loading_modal/loading_modal.js'
+import { styles }                     from './header_styles.js';
+import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility.js';
+import { isStringEmpty }              from '../../utilities/function_utility.js';
+import { defaultErrorAlert }          from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -125,7 +125,7 @@ class Header extends React.PureComponent {
   _renderBackTitle() {
     if (this.props.backTitle) {
       return (
-        <RN.Text style={[UTILITY_STYLES.regularBlackText18, !this.props.backIcon && {marginLeft: 50}]}>
+        <RN.Text numberOfLines={1} style={[UTILITY_STYLES.regularBlackText18, {maxWidth: scaleImage(125)}, !this.props.backIcon && {marginLeft: 50}]}>
           {this.props.backTitle}
         </RN.Text>
       )

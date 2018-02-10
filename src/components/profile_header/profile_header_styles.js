@@ -8,13 +8,13 @@ import { TAB_BAR_HEIGHT } from '../tab_bar/tab_bar_styles.js';
 
 //--------------------------------------------------------------------//
 
-export const PROFILE_HEADER_HEIGHT = StyleUtility.scaleImage(60);
+export const PROFILE_HEADER_HEIGHT = StyleUtility.scaleImage(70);
 const IMAGE_SIZE = StyleUtility.scaleImage(35);
 
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'flex-start',
     width: '100%',
     height: PROFILE_HEADER_HEIGHT,
@@ -30,14 +30,21 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: PROFILE_HEADER_HEIGHT - TAB_BAR_HEIGHT,
     marginLeft: 15,
+    marginBottom: 1
+  },
+  avatarView: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: IMAGE_SIZE,
   },
   frame: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: IMAGE_SIZE,
-    width: IMAGE_SIZE + 10,
-    marginRight: 3
+    width: IMAGE_SIZE,
+    marginBottom: 2,
   },
   frameBorder: {
     flexDirection: 'column',
@@ -48,10 +55,9 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: StyleUtility.COLORS.grey900,
     borderRadius: IMAGE_SIZE / 2,
-    marginRight: 8
   },
   userIcon: {
-    fontSize: 37,
+    fontSize: StyleUtility.scaleImage(16),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
@@ -59,25 +65,19 @@ export const styles = StyleSheet.create({
     height: IMAGE_SIZE,
     width: IMAGE_SIZE,
     borderRadius: StyleUtility.getImageBorderRadius(IMAGE_SIZE),
-    marginRight: 8
-  },
-  avatarPencil: {
-    fontSize: 14,
-    textAlign: 'center',
-    color: StyleUtility.COLORS.appleBlue + 'bf',
-    marginLeft: -15,
-    marginBottom: 3
   },
   usernameView: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
+    marginBottom: 20,
+    marginLeft: 15,
   },
   usernameButton: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: 210,
+    width: 200,
     marginBottom: 5,
   },
   usernameText: {

@@ -51,7 +51,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
     // When creating a new post, update the store with the new post
     case POST_ACTION_TYPES.RECEIVE_POST:
-    case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
       newState[action.data.post.id] = action.data.post;
 
       return newState;
@@ -102,6 +101,18 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
   // Pusher Actions
   //--------------------------------------------------------------------//
+
+  case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
+    postId = action.data.post.id;
+
+    newState[postId] = action.data.post;
+
+    newState[postId].num_likes            = 0;
+    newState[postId].is_liked_by_client   = false;
+    newState[postId].num_flags            = 0;
+    newState[postId].is_flagged_by_client = false;
+
+    return newState;
 
   // When another user likes client's post, increment the likes by 1
     case LIKE_ACTION_TYPES.PUSHER_RECEIVE_LIKE:
