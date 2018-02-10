@@ -1,13 +1,14 @@
 // Library Imports
-import Firebase from 'react-native-firebase';
-import AWS      from 'aws-sdk/dist/aws-sdk-react-native';
+import Firebase  from 'react-native-firebase';
+import AWS       from 'aws-sdk/dist/aws-sdk-react-native';
+import OneSignal from 'react-native-onesignal';
 
 // Local Imports
 import { getImage }                from './image_actions.js';
 import { amplitude }               from '../utilities/analytics_utility.js';
 import * as APIUtility             from '../utilities/api_utility.js';
 import { setS3Client, uploadFile } from '../utilities/file_utility.js';
-import { setPusherClient }         from '../utilities/pusher_utility.js';
+import { setPusherClient }         from '../utilities/push_utility.js';
 import { setErrorDescription }     from '../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
@@ -117,7 +118,10 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
     amplitude.setUserId(client.id);
     amplitude.setUserProperties({ database_id: client.id, phone_number: client.phone_number, firebase_uid: client.firebase_uid, created_at: client.created_at });
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
+
+    OneSignal.sendTag('user_id', String(client.id));
     dispatch(setPusherClient(authToken, client.id));
+
     dispatch(receiveClient({ user: client }));
 
     if (client.avatar_url) {
