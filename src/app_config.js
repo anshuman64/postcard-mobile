@@ -12,10 +12,10 @@ export const ENV_TYPES = {
  * - API url
  * - AWS S3 bucket
  */
-export const SERVER_ENV_SETTING    = ENV_TYPES.DEV
+export const SERVER_ENV_SETTING    = ENV_TYPES.PRODUCTION
 
 // WARNING -- affects the Amplitude Analytics project
-export const AMPLITUDE_ENV_SETTING = ENV_TYPES.DEV
+export const AMPLITUDE_ENV_SETTING = ENV_TYPES.PRODUCTION
 
 // WARNING -- affects the Amplitude Analytics project
-export const PUSHER_ENV_SETTING    = ENV_TYPES.DEV
+export const PUSHER_ENV_SETTING    = ENV_TYPES.PRODUCTION
