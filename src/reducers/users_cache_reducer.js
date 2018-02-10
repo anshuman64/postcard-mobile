@@ -48,6 +48,13 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       })
 
       return newState;
+    case FRIENDSHIP_ACTION_TYPES.SEND_FRIENDSHIP_REQUEST:
+      requestee_id = action.data.friendship.requestee_id;
+
+      newState[requestee_id]                               = newState[requestee_id] || {};
+      newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.SENT;
+
+      return newState;
     case FRIENDSHIP_ACTION_TYPES.ACCEPT_FRIENDSHIP_REQUEST:
       requester_id = action.data.friendship.requester_id;
 
