@@ -123,6 +123,9 @@ android {
         versionCode 8
         versionName "2.0.0"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+        manifestPlaceholders = [onesignal_app_id: "3b029fbc-71e5-41cb-b4a2-0ae911cc519a",
+                                onesignal_google_project_number: "REMOTE"]
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -168,6 +171,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-onesignal')
     compile project(':react-native-exit-app')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-fetch-blob')
@@ -181,9 +185,9 @@ dependencies {
       transitive = false
     }
 
-    compile "com.google.android.gms:play-services-base:11.6.0"
-    compile 'com.google.firebase:firebase-core:11.6.0'
-    compile 'com.google.firebase:firebase-auth:11.6.0'
+    compile "com.google.android.gms:play-services-base:11.8.0"
+    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.firebase:firebase-auth:11.8.0'
 
     compile project(':react-native-vector-icons')
 

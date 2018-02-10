@@ -115,17 +115,27 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
 
     return newState;
   case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
-    requester_id = action.data.user.id;
+    // NOTE: the user is the client that sent the Pusher notification
+    requester_id = action.data.client.id;
 
-    newState[requester_id] = action.data.user;
+    newState[requester_id] = action.data.client;
     newState[requester_id].friendship_status_with_client = FRIEND_TYPES.RECEIVED;
 
     return newState;
   case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP:
-    userId = action.data.user.id;
+    // NOTE: the user is the client that sent the Pusher notification
+    requestee_id = action.data.client.id;
 
-    newState[userId] = action.data.user;
-    newState[userId].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
+    newState[requestee_id] = action.data.client;
+    newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
+
+    return newState;
+  case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
+    // NOTE: the user is the client that sent the Pusher notification
+    userId = action.data.client.id;
+
+    newState[userId] = action.data.client;
+    newState[userId].friendship_status_with_client = null;
 
     return newState;
 
