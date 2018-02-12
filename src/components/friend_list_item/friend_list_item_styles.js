@@ -60,17 +60,17 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   messageText: {
-    fontFamily: setAndroidFont('Roboto-Light'),
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontSize: 15,
     fontWeight: '100',
     textAlign: 'center',
-    color: COLORS.grey700,
+    color: StyleUtility.COLORS.grey700,
   },
   dateText: {
-    fontFamily: setAndroidFont('Roboto-Light'),
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontSize: 15,
     fontWeight: '100',
     textAlign: 'center',
-    color: COLORS.grey700,
+    color: StyleUtility.COLORS.grey700,
   },
 });

@@ -1,11 +1,11 @@
 // Library Imports
-import React           from 'react';
-import RN              from 'react-native';
-import Icon            from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
+import RN    from 'react-native';
+import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }           from './user_info_view_styles.js';
-import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
+import { styles }         from './user_info_view_styles.js';
+import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
