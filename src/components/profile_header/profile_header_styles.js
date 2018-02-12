@@ -8,13 +8,14 @@ import { TAB_BAR_HEIGHT } from '../tab_bar/tab_bar_styles.js';
 
 //--------------------------------------------------------------------//
 
-export const PROFILE_HEADER_HEIGHT = StyleUtility.scaleImage(70);
-const IMAGE_SIZE = StyleUtility.scaleImage(35);
+export const PROFILE_HEADER_HEIGHT = 165;
+const IMAGE_SIZE = 70;
+const DEFAULT_MARGIN = 15;
 
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'flex-start',
     width: '100%',
     height: PROFILE_HEADER_HEIGHT,
@@ -28,13 +29,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
-    height: PROFILE_HEADER_HEIGHT - TAB_BAR_HEIGHT,
-    marginLeft: 15,
-    marginBottom: 1
+    marginLeft: DEFAULT_MARGIN,
   },
   avatarView: {
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
     width: IMAGE_SIZE,
   },
@@ -44,7 +43,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: IMAGE_SIZE,
     width: IMAGE_SIZE,
-    marginBottom: 2,
   },
   frameBorder: {
     flexDirection: 'column',
@@ -57,7 +55,7 @@ export const styles = StyleSheet.create({
     borderRadius: IMAGE_SIZE / 2,
   },
   userIcon: {
-    fontSize: StyleUtility.scaleImage(16),
+    fontSize: 32,
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
   },
@@ -66,19 +64,12 @@ export const styles = StyleSheet.create({
     width: IMAGE_SIZE,
     borderRadius: StyleUtility.getImageBorderRadius(IMAGE_SIZE),
   },
-  usernameView: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    marginBottom: 20,
-    marginLeft: 15,
-  },
   usernameButton: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: 200,
-    marginBottom: 8,
+    marginLeft: DEFAULT_MARGIN,
   },
   usernameText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
@@ -97,6 +88,9 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginLeft: DEFAULT_MARGIN,
+    marginBottom: DEFAULT_MARGIN,
+    marginTop: DEFAULT_MARGIN
   },
   friendIcon: {
     fontSize: StyleUtility.scaleFont(15),
@@ -108,7 +102,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 105,
+    width: 100,
     height: 30,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue,
@@ -117,7 +111,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 105,
+    width: 100,
     height: 30,
     borderRadius: 4,
     backgroundColor: 'white',
