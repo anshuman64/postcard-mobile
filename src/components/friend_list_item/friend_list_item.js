@@ -2,6 +2,7 @@
 import React           from 'react';
 import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import { styles }            from './friend_list_item_styles.js';
@@ -26,15 +27,21 @@ class FriendListItem extends React.PureComponent {
     this.isFriendDisabled = false;
   }
 
-
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
   _renderDate() {
+    let createdAtDate = null;
+    let user = this.props.usersCache[this.props.userId];
+
+    if (user && user.peek_message) {
+      createdAtDate = user.peek_message.created_at;
+    }
+
     return (
       <RN.Text style={styles.dateText}>
-        {renderMessageDate(this.props.item.createdAt)}
+        {createdAtDate ? renderMessageDate(createdAtDate) : ''}
       </RN.Text>
     )
   }
@@ -66,13 +73,41 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderUsernameView() {
+    let user = this.props.usersCache[this.props.userId];
+    let username = user ? user.username : null;
+    let message = '';
+
+    if (user.peek_message) {
+      if (user.peek_message.post) {
+        if (user.peek_message.post.body) {
+          message = user.peek_message.post.body;
+        } else {
+          if (user.id === client.id) {
+            message = 'You sent a post.';
+          } else {
+            message = user.username + ' share a post with you.';
+          }
+        }
+      } else {
+        if (user.peek_message.body) {
+          message = user.peek_message.body;
+        } else {
+          if (user.id === client.id) {
+            message = 'You sent an image.';
+          } else {
+            message = user.username + ' shared an image with you.';
+          }
+        }
+      }
+    }
+
     return (
       <RN.View style={styles.usernameView}>
         <RN.Text style={UTILITY_STYLES.lightBlackText15}>
-          {'username'}
+          {username}
         </RN.Text>
         <RN.Text style={styles.messageText}>
-          {'message'}
+          {message}
         </RN.Text>
       </RN.View>
     )
@@ -80,15 +115,17 @@ class FriendListItem extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={styles.rowView}>
-        <RN.View style={styles.userView}>
-          <RN.View style={styles.frame}>
-            {this._renderAvatar()}
+      <RN.TouchableHighlight onPress={() => this.props.navigateToMessages(this.props.userId)}>
+        <RN.View style={styles.rowView}>
+          <RN.View style={styles.userView}>
+            <RN.View style={styles.frame}>
+              {this._renderAvatar()}
+            </RN.View>
+            {this._renderUsernameView()}
           </RN.View>
-          {this._renderUsernameView()}
+          {this._renderDate()}
         </RN.View>
-        {this._renderDate()}
-      </RN.View>
+      </RN.TouchableHighlight>
     )
   }
 }

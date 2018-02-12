@@ -138,7 +138,7 @@ class CameraRollScreen extends React.PureComponent {
         onEndReached={this._onEndReached}
         onEndReachedThreshold={10000}
         scrollRenderAheadDistance={10000}
-      />
+        />
     )
   }
 
