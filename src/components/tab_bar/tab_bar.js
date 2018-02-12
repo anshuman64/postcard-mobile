@@ -30,7 +30,7 @@ class TabBar extends React.PureComponent {
   _renderTab(state, bool, text) {
     return (
       <RN.TouchableOpacity onPress={this.props.setParentState(state)} style={styles.button}>
-        <RN.Text style={[UTILITY_STYLES.lightBlackText16, this.isHeader && UTILITY_STYLES.lightBlackText18, {marginBottom: 5}, bool && UTILITY_STYLES.textHighlighted]}>
+        <RN.Text style={[UTILITY_STYLES.lightBlackText18, !this.isHeader && UTILITY_STYLES.lightBlackText16, !this.isHeader && {marginBottom: 5}, bool && UTILITY_STYLES.textHighlighted]}>
           {text}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -54,7 +54,7 @@ class TabBar extends React.PureComponent {
       )
     } else {
       return (
-        <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
+        <RN.View style={styles.tabs}>
           {this._renderTab({ postType: POST_TYPES.AUTHORED }, this.props.postType === POST_TYPES.AUTHORED, 'Posts')}
           {this._renderTab({ postType: POST_TYPES.LIKED }, this.props.postType === POST_TYPES.LIKED, 'Liked')}
         </RN.View>
