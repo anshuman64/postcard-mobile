@@ -76,16 +76,23 @@ export const navigateTo = (screen, props) => (dispatch) => {
   }
 }
 
-// Adds user ProfilseScreen to top of stack with props.
+// Adds UserScreen to top of stack with props.
 export const navigateToProfile = (props) => (dispatch) => {
-  Keyboard.dismiss();
+  dismissKeyBoard();
 
   Actions.push('UserScreen', props);
 }
 
+// Adds MessagesScreen to top of stack with props.
+export const navigateToMessages = (props) => (dispatch) => {
+  dismissKeyBoard();
+
+  Actions.push('MessagesScreen', props);
+}
+
 // Pops top of stack. If props, refreshes screen with props (only way sending props works).
 export const goBack = (props) => (dispatch) => {
-  Keyboard.dismiss();
+  dismissKeyBoard();
   Actions.pop();
 
   if (props) {
