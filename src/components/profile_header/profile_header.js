@@ -193,6 +193,7 @@ class ProfileHeader extends React.PureComponent {
       this.props.createBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
         .then(() => {
           this._onConfirmUnfriend();
+          this._onConfirmUnfollow();
         })
         .catch((error) => {
           defaultErrorAlert(error);
