@@ -7,7 +7,6 @@ import { PhoneNumberUtil }  from 'google-libphonenumber';
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal.js';
 import { FRIEND_TYPES }           from '../../actions/friendship_actions.js';
-import { POST_TYPES }             from '../../actions/post_actions.js';
 import { styles }                 from './confirm_code_screen_styles.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
 import { defaultErrorAlert }      from '../../utilities/error_utility.js';
@@ -116,10 +115,6 @@ class ConfirmCodeScreen extends React.PureComponent {
   }
 
   async _loadData()  {
-    for (let postType in POST_TYPES) {
-      await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
-    }
-
     for (let friendType in FRIEND_TYPES) {
       await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
