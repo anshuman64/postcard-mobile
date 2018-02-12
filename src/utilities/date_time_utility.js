@@ -8,8 +8,14 @@ export const MONTH_NAMES = ["January", "February", "March", "April", "May",
 
 export const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-// Prettifies date-time format
-export const renderDate = (date) => {
+export const SHORT_MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+  "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
+export const SHORT_DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+// Prettifies date-time format on posts
+export const renderPostDate = (date) => {
   let todayDate    = new Date();               // current date-time
   let creationDate = new Date(date);           // creation date-time
   let diff         = todayDate - creationDate; // time difference in milliseconds
@@ -46,8 +52,45 @@ export const renderDate = (date) => {
   } else if (diff < 604800000) {
     // If creationDate was within the last week, return format '[dayName] at xx:xx AM'
     return DAY_NAMES[creationDate.getDay()]+ ' at ' + hour + ':' + mins + m;
-  } else {
-    // Else, return format '[monthName] [date] at xx:xx AM'
+  } else if (todayDate.getFullYear() - creationDate.getFullYear() < 1) {
+    // If creationDate was some time this year, return format '[monthName] [date] at xx:xx AM'
     return MONTH_NAMES[creationDate.getMonth()] + ' ' + creationDate.getDate() + ' at ' + hour + ':' + mins + m;
+  } else {
+    // Else, return format [MON] [DAY], [YEAR] at [TIME]
+    return MONTH_NAMES[creationDate.getMonth()] + ' ' + creationDate.getDate() + ', ' + creationDate.getFullYear() + ' at ' + hour + ':' + mins + m;
+  }
+};
+
+// Prettifies date-time format on messages
+export const renderMessageDate = (date) => {
+  let todayDate    = new Date();               // current date-time
+  let creationDate = new Date(date);           // creation date-time
+  let diff         = todayDate - creationDate; // time difference in milliseconds
+  let minsDiff     = diff / (1000 * 60);       // time difference in minutes
+  let hoursDiff    = diff / (1000 * 3600);     // time difference in hours
+
+  let hour = creationDate.getHours();
+  let mins = (creationDate.getMinutes() < 10 ? '0' : '') + creationDate.getMinutes();
+  let m    = 'AM';
+
+  if (hour === 0) {         // If creationDate is at 00:xx, change to 12:xx
+    hour = 12;
+  } else if (hour >= 12) {  // If creationDate is after noon, change to 12:xx PM
+    m    = 'PM';
+    hour = hour % 12;
+  }
+
+  if (todayDate.getDate() - creationDate.getDate() < 1) {
+    // If creationDate was some time today, return the time
+    return hour + ':' + mins + m;
+  } else if (todayDate.getDate() - creationDate.getDate() < 7) {
+    // If creationDate was some time this week, return the day and time
+    return SHORT_DAY_NAMES[creationDate.getDay()]+ ' at ' + hour + ':' + mins + m;
+  } else if (todayDate.getFullYear() - creationDate.getFullYear() < 1) {
+    // If creationDate was some time this year, return month, day, and time
+    return SHORT_MONTH_NAMES[creationDate.getMonth()] + ' ' + creationDate.getDate() + ' at ' + hour + ':' + mins + m;
+  } else {
+    // Else, return month day, year and time
+    return SHORT_MONTH_NAMES[creationDate.getMonth()] + ' ' + creationDate.getDate() + ', ' + creationDate.getFullYear() + ' at ' + hour + ':' + mins + m;
   }
 };
