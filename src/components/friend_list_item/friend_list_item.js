@@ -24,35 +24,35 @@ class FriendListItem extends React.PureComponent {
       isSelected:  false,
     }
 
-    this.isFriendDisabled = false;
+    this.isButtonDisabled = false;
   }
 
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _onPressConfirm = () => {
-    if (this.isFriendDisabled) {
+  _onPressAcceptFriendship = () => {
+    if (this.isButtonDisabled) {
       return;
     }
 
-    this.isFriendDisabled = true;
+    this.isButtonDisabled = true;
 
     this.props.acceptFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
         this.container.fadeOut(500)
           .finally(() => {
             this.props.acceptFriendshipRequest({ friendship: friendship });
-            this.isFriendDisabled = false;
+            this.isButtonDisabled = false;
           });
       })
       .catch((error) => {
-        this.isFriendDisabled = false;
+        this.isButtonDisabled = false;
         defaultErrorAlert(error);
       });
   }
 
-  _onPressDelete = () => {
+  _onPressDeleteFriendship = () => {
     let alertString;
     let cancelString;
     let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;;
@@ -69,23 +69,44 @@ class FriendListItem extends React.PureComponent {
     }
 
     RN.Alert.alert('', alertString,
-      [{text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
-       {text: cancelString, onPress: this._onConfirmDelete}],
-       {onDismiss: () => this.isFriendDisabled = false}
+      [{text: 'Cancel', onPress: () => this.isButtonDisabled = false, style: 'cancel'},
+       {text: cancelString, onPress: this._onConfirmDeleteFriendship}],
+       {onDismiss: () => this.isButtonDisabled = false}
     )
   }
 
-  _onConfirmDelete = () => {
+  _onConfirmDeleteFriendship = () => {
     this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
         this.container.fadeOut(500)
           .finally(() => {
             this.props.removeFriendship({ friendship: friendship });
-            this.isFriendDisabled = false;
+            this.isButtonDisabled = false;
           });
       })
       .catch((error) => {
-        this.isFriendDisabled = false;
+        this.isButtonDisabled = false;
+        defaultErrorAlert(error);
+      });
+  }
+
+  _onPressUnblock = () => {
+    if (this.isButtonDisabled) {
+      return;
+    }
+
+    this.isButtonDisabled = true;
+
+    this.props.deleteBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+      .then((block) => {
+        this.container.fadeOut(500)
+          .finally(() => {
+            this.props.removeBlock({ block: block });
+            this.isButtonDisabled = false;
+          });
+      })
+      .catch((error) => {
+        this.isButtonDisabled = false;
         defaultErrorAlert(error);
       });
   }
@@ -97,6 +118,7 @@ class FriendListItem extends React.PureComponent {
   _renderButtons() {
     let deleteString;
     let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
+    let isBlocked = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_blocked_by_client : false;
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
@@ -108,16 +130,20 @@ class FriendListItem extends React.PureComponent {
       }
     }
 
+    if (isBlocked) {
+      deleteString = 'Unblock';
+    }
+
     return (
       <RN.View style={styles.buttonView}>
         {friendshipStatus === 'received' ?
-          <RN.TouchableOpacity style={styles.confirmButton} onPress={this._onPressConfirm}>
+          <RN.TouchableOpacity style={styles.confirmButton} onPress={this._onPressAcceptFriendship}>
             <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
               Confirm
             </RN.Text>
             </RN.TouchableOpacity> :
             null}
-        <RN.TouchableOpacity style={styles.deleteButton} onPress={this._onPressDelete}>
+        <RN.TouchableOpacity style={styles.deleteButton} onPress={isBlocked ? this._onPressUnblock : this._onPressDeleteFriendship}>
           <RN.Text style={UTILITY_STYLES.lightBlackText15}>
             {deleteString}
           </RN.Text>

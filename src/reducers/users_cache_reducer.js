@@ -30,7 +30,7 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   switch(action.type) {
 
   //--------------------------------------------------------------------//
-  // Friendship Actions
+  // Client Actions
   //--------------------------------------------------------------------//
 
     case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
@@ -114,6 +114,12 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
     // Block Actions
     //--------------------------------------------------------------------//
 
+      case BLOCK_ACTION_TYPES.RECEIVE_BLOCKED_USERS:
+        _.forEach(action.data.blockedUsers, (user) => {
+          newState[user.id] = user;
+        })
+
+        return newState;
       case BLOCK_ACTION_TYPES.RECEIVE_BLOCK:
         _.forEach(newState, (user) => {
           if (user.id === action.data.block.blockee_id) {
