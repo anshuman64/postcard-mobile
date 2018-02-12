@@ -6,6 +6,7 @@ import { CLIENT_ACTION_TYPES }                   from '../actions/client_actions
 import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions.js';
 import { POST_ACTION_TYPES }                     from '../actions/post_actions.js';
 import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions.js';
+import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -91,7 +92,6 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   // Follow Actions
   //--------------------------------------------------------------------//
 
-    // When following a new user, set is_user_followed_by_client to true for all posts with that author
     case FOLLOW_ACTION_TYPES.RECEIVE_FOLLOW:
       _.forEach(newState, (user) => {
         if (user.id === action.data.follow.followee_id) {
@@ -100,7 +100,6 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       });
 
       return newState;
-    // When unfollowing a user, set is_user_followed_by_client to false for all posts with that author
     case FOLLOW_ACTION_TYPES.REMOVE_FOLLOW:
       _.forEach(newState, (user) => {
         if (user.id === action.data.follow.followee_id) {
@@ -109,6 +108,28 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       });
 
       return newState;
+
+
+    //--------------------------------------------------------------------//
+    // Block Actions
+    //--------------------------------------------------------------------//
+
+      case BLOCK_ACTION_TYPES.RECEIVE_BLOCK:
+        _.forEach(newState, (user) => {
+          if (user.id === action.data.block.blockee_id) {
+            user.is_user_blocked_by_client = true;
+          }
+        });
+
+        return newState;
+      case BLOCK_ACTION_TYPES.REMOVE_BLOCK:
+        _.forEach(newState, (user) => {
+          if (user.id === action.data.block.blockee_id) {
+            user.is_user_blocked_by_client = false;
+          }
+        });
+
+        return newState;
 
   //--------------------------------------------------------------------//
   // Friendship Actions
