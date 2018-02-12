@@ -165,6 +165,9 @@ class ProfileHeader extends React.PureComponent {
 
       if (this.props.usersCache[this.props.userId].is_user_blocked_by_client) {
         this.props.deleteBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+          .then((block) => {
+            this.props.removeBlock({ block: block });
+          })
           .catch((error) => {
             defaultErrorAlert(error);
           })
@@ -188,6 +191,9 @@ class ProfileHeader extends React.PureComponent {
     // Deletes follow from DB and updates ProfileScreen as necessary
     _onConfirmBlock = () => {
       this.props.createBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+        .then(() => {
+          this._onConfirmUnfriend();
+        })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -276,7 +282,8 @@ class ProfileHeader extends React.PureComponent {
     if (this.props.client.id != this.props.userId) {
       return (
         <RN.View style={styles.buttonView}>
-          <RN.TouchableOpacity
+          {!isBlocked ?
+            <RN.TouchableOpacity
             style={[styles.friendButtonBackground, deactivateButton && styles.buttonBackgroundDisabled]}
             onPress={this._onPressFriend}
             >
@@ -284,7 +291,9 @@ class ProfileHeader extends React.PureComponent {
             <RN.Text style={[UTILITY_STYLES.lightWhiteText15, deactivateButton && styles.buttonTextDisabled]}>
               {friendString}
             </RN.Text>
-          </RN.TouchableOpacity>
+          </RN.TouchableOpacity> :
+          null }
+          {!isBlocked ?
           <RN.TouchableOpacity
             style={[styles.followButtonBackground, isFollowed && styles.buttonBackgroundDisabled]}
             onPress={this._onPressFollow}
@@ -292,13 +301,14 @@ class ProfileHeader extends React.PureComponent {
             <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.textHighlighted, isFollowed && styles.buttonTextDisabled]}>
               { isFollowed ? 'Following' : 'Follow' }
             </RN.Text>
-          </RN.TouchableOpacity>
+          </RN.TouchableOpacity> :
+          null }
           <RN.TouchableOpacity
             style={[styles.followButtonBackground, styles.buttonBackgroundDisabled]}
             onPress={this._onPressBlock}
             >
             <RN.Text style={[UTILITY_STYLES.lightBlackText15, isBlocked && styles.buttonTextDisabled]}>
-              { isBlocked ? 'Blocked' : 'Block' }
+              { isBlocked ? 'Unblock' : 'Block' }
             </RN.Text>
           </RN.TouchableOpacity>
         </RN.View>

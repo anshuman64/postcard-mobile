@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import ConfirmCodeScreen                                            from './confirm_code_screen.js';
 import { getConfirmationCode, verifyConfirmationCode, loginClient } from '../../actions/client_actions.js';
 import { getFriendships }                                           from '../../actions/friendship_actions.js';
+import { getBlockedUsers }                                          from '../../actions/block_actions.js';
 import { navigateTo }                                               from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
@@ -19,6 +20,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   verifyConfirmationCode: (confirmationCodeObj, inputtedCode) => dispatch(verifyConfirmationCode(confirmationCodeObj, inputtedCode)),
   loginClient:            (firebaseUserObj) => dispatch(loginClient(firebaseUserObj)),
   getFriendships:         (authToken, firebaseUserObj, friendType) => dispatch(getFriendships(authToken, firebaseUserObj, friendType)),
+  getBlockedUsers:        (authToken, firebaseUserObj) => dispatch(getBlockedUsers(authToken, firebaseUserObj)),
   navigateTo:             (screen, props) => dispatch(navigateTo(screen, props))
 });
 

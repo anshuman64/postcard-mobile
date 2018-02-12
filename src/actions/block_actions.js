@@ -3,6 +3,7 @@ import { amplitude }           from '../utilities/analytics_utility.js';
 import * as APIUtility         from '../utilities/api_utility.js';
 import { setErrorDescription } from '../utilities/error_utility.js';
 import { refreshAuthToken }    from './client_actions.js';
+import { deleteFriendship }    from './friendship_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -74,7 +75,7 @@ export const deleteBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch)
   return APIUtility.del(authToken, '/blocks/' + blockeeId)
     .then((deletedBlock) => {
       amplitude.logEvent('Safety - Click Block', { is_successful: true, is_create: false, blockee_id: blockeeId });
-      dispatch(removeBlock({ block: deletedBlock }));
+      return deletedBlock;
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

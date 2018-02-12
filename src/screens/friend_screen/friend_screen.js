@@ -120,6 +120,7 @@ class FriendScreen extends React.PureComponent {
           sections={[
             {data: this.props.friendships.received, renderItem: this._renderItem.bind(this), title: 'Received Requests'},
             {data: this.props.friendships.sent, renderItem: this._renderItem.bind(this), title: 'Sent Requests'},
+            {data: this.props.blocks.blockedUsers, renderItem: this._renderItem.bind(this), title: 'Blocked Users'},
           ]}
           keyExtractor={(item) => item}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
