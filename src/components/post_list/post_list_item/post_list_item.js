@@ -2,7 +2,6 @@
 import React           from 'react';
 import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { CachedImage } from 'react-native-img-cache';
 import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
@@ -97,7 +96,7 @@ class PostListItem extends React.PureComponent {
         });
     // If post is not flagged, pop alert asking user to confirm
     } else {
-      RN.Alert.alert('', 'Are you sure you want to flag this post as inappropriate?',
+      RN.Alert.alert('', 'Are you sure you want to flag this post as inappropriate and remove it?',
         [{text: 'Cancel', onPress: () => this.isFlagDisabled = false, style: 'cancel'},
          {text: 'Flag', onPress: this._onConfirmFlagPost}],
          {onDismiss: () => this.isFlagDisabled = false}
@@ -293,7 +292,7 @@ class PostListItem extends React.PureComponent {
       return (
         <RN.View style={styles.bodyImageView}>
           <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
-            <CachedImage
+            <RN.Image
               source={{uri: this.props.imagesCache[this.props.item.image_url].url}}
               style={styles.bodyImage}
               resizeMode={'contain'}

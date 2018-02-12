@@ -18,12 +18,12 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: TAB_BAR_HEIGHT,
     backgroundColor: 'white',
+    borderBottomColor: StyleUtility.COLORS.grey500,
+    borderBottomWidth: 0.5,
   },
   header: {
     height: (Platform.OS === 'ios') ? HEADER_HEIGHT + StyleUtility.getStatusBarHeight() : HEADER_HEIGHT,
     paddingTop: (Platform.OS === 'ios') ? StyleUtility.getStatusBarHeight() : 0,
-    borderBottomColor: StyleUtility.COLORS.grey500,
-    borderBottomWidth: 0.5,
   },
   button: {
     flexDirection: 'column',
