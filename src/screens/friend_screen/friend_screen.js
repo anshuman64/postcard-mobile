@@ -5,6 +5,7 @@ import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import TabBar                   from '../../components/tab_bar/tab_bar.js';
+import FriendListItemContainer  from '../../components/friend_list_item/friend_list_item_container.js';
 import PendingListItemContainer from '../../components/pending_list_item/pending_list_item_container.js';
 import { styles }               from './friend_screen_styles.js';
 import { UTILITY_STYLES }       from '../../utilities/style_utility.js';
@@ -23,6 +24,8 @@ class FriendScreen extends React.PureComponent {
     this.state = {
       tab: 'Friends',
     };
+
+    this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   }
 
   //--------------------------------------------------------------------//
@@ -92,6 +95,14 @@ class FriendScreen extends React.PureComponent {
     )
   }
 
+  _renderRow() {
+    return (
+      (rowData, sectionID, rowID) => (
+        <FriendListItemContainer userId={rowData} setParentState={this.setParentState} />
+      )
+    )
+  }
+
   _renderList() {
     if (this.state.tab === 'Pending') {
       return (
@@ -113,17 +124,19 @@ class FriendScreen extends React.PureComponent {
       )
     } else {
       return (
-        <RN.SectionList
-          sections={[{data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'}]}
-          keyExtractor={(item) => item}
-          renderSectionHeader={this._renderSectionHeader.bind(this)}
-          ListHeaderComponent={this._renderHeader()}
+        <RN.ListView
+          dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
+          style={styles.cameraRoll}
+          renderRow={this._renderRow()}
           initialListSize={20}
-          pageSize={80}
-          showsVerticalScrollIndicator={true}
+          pageSize={20}
+          contentContainerStyle={styles.contentContainerStyle}
+          enableEmptySections={true}
+          showsVerticalScrollIndicator={false}
+          onEndReached={this._onEndReached}
           onEndReachedThreshold={10000}
           scrollRenderAheadDistance={10000}
-        />
+          />
       )
     }
   }
