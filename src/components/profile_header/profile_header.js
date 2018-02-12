@@ -1,7 +1,6 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
-import { CachedImage } from 'react-native-img-cache';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
@@ -29,6 +28,7 @@ class ProfileHeader extends React.PureComponent {
 
     this.isFriendDisabled = false;
     this.isFollowDisabled = false;
+    this.isBlockDisabled  = false;
   }
 
 
@@ -151,9 +151,73 @@ class ProfileHeader extends React.PureComponent {
       });
   }
 
+    //--------------------------------------------------------------------//
+    // Block Callback Methods
+    //--------------------------------------------------------------------//
+
+    // Creates or deletes follow from DB
+    _onPressBlock = () => {
+      if (this.isBlockDisabled) {
+        return;
+      }
+
+      this.isBlockDisabled = true;
+
+      if (this.props.usersCache[this.props.userId].is_user_blocked_by_client) {
+        this.props.deleteBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+          .then((block) => {
+            this.props.removeBlock({ block: block });
+          })
+          .catch((error) => {
+            defaultErrorAlert(error);
+          })
+          .finally(() => {
+            this.isBlockDisabled = false;
+          });
+      } else {
+        this._onPressBlockAlert();
+      }
+    }
+
+    // Alert for when a user is about to block
+    _onPressBlockAlert = () => {
+      RN.Alert.alert('', "Are you sure you want to block this user? You can't be this user's friend and won't see this user's posts.",
+        [{text: 'Cancel', onPress: () => this.isBlockDisabled = false, style: 'cancel'},
+         {text: 'Block', onPress: this._onConfirmBlock}],
+         {onDismiss: () => this.isBlockDisabled = false}
+      )
+    }
+
+    // Deletes follow from DB and updates ProfileScreen as necessary
+    _onConfirmBlock = () => {
+      this.props.createBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+        .then(() => {
+          this._onConfirmUnfriend();
+          this._onConfirmUnfollow();
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.isBlockDisabled = false;
+        });
+    }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
+
+  _renderChangeText() {
+    if (this.props.client.id === this.props.userId) {
+      return (
+        <RN.Text style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
+          Change
+        </RN.Text>
+      )
+    } else {
+      return null;
+    }
+  }
 
   _renderAvatar() {
     let avatarUrl = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
@@ -168,7 +232,7 @@ class ProfileHeader extends React.PureComponent {
       return null;
     } else {
       return (
-        <CachedImage
+        <RN.Image
           source={{uri: this.props.imagesCache[avatarUrl].url}}
           style={styles.image}
           resizeMode={'cover'}
@@ -183,7 +247,7 @@ class ProfileHeader extends React.PureComponent {
 
     return (
       <RN.TouchableOpacity
-        style={styles.usernameButton}
+        style={[styles.usernameButton, this.props.client.id === this.props.userId && {marginBottom: 15}]}
         onPress={() => this.props.navigateTo('UsernameScreen')}
         disabled={this.props.client.id != this.props.userId}
         >
@@ -200,6 +264,7 @@ class ProfileHeader extends React.PureComponent {
     let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
     let deactivateButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
     let isFollowed = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_followed_by_client : false;
+    let isBlocked = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_blocked_by_client : false;
 
     if (friendshipStatus === FRIEND_TYPES.SENT) {
       friendString = 'Cancel';
@@ -218,7 +283,8 @@ class ProfileHeader extends React.PureComponent {
     if (this.props.client.id != this.props.userId) {
       return (
         <RN.View style={styles.buttonView}>
-          <RN.TouchableOpacity
+          {!isBlocked ?
+            <RN.TouchableOpacity
             style={[styles.friendButtonBackground, deactivateButton && styles.buttonBackgroundDisabled]}
             onPress={this._onPressFriend}
             >
@@ -226,13 +292,24 @@ class ProfileHeader extends React.PureComponent {
             <RN.Text style={[UTILITY_STYLES.lightWhiteText15, deactivateButton && styles.buttonTextDisabled]}>
               {friendString}
             </RN.Text>
-          </RN.TouchableOpacity>
+          </RN.TouchableOpacity> :
+          null }
+          {!isBlocked ?
           <RN.TouchableOpacity
             style={[styles.followButtonBackground, isFollowed && styles.buttonBackgroundDisabled]}
             onPress={this._onPressFollow}
             >
-            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, UTILITY_STYLES.textHighlighted, isFollowed && styles.buttonTextDisabled]}>
+            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.textHighlighted, isFollowed && styles.buttonTextDisabled]}>
               { isFollowed ? 'Following' : 'Follow' }
+            </RN.Text>
+          </RN.TouchableOpacity> :
+          null }
+          <RN.TouchableOpacity
+            style={[styles.followButtonBackground, styles.buttonBackgroundDisabled]}
+            onPress={this._onPressBlock}
+            >
+            <RN.Text style={[UTILITY_STYLES.lightBlackText15, isBlocked && styles.buttonTextDisabled]}>
+              { isBlocked ? 'Unblock' : 'Block' }
             </RN.Text>
           </RN.TouchableOpacity>
         </RN.View>
@@ -259,15 +336,11 @@ class ProfileHeader extends React.PureComponent {
             <RN.View style={styles.frame}>
               {this._renderAvatar()}
             </RN.View>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText14, UTILITY_STYLES.textHighlighted, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]}>
-              Change
-            </RN.Text>
+            {this._renderChangeText()}
           </RN.TouchableOpacity>
-          <RN.View style={styles.usernameView}>
-            {this._renderUsername()}
-            {this._renderButtons()}
-          </RN.View>
+          {this._renderUsername()}
         </RN.View>
+        {this._renderButtons()}
         <TabBar screen={this.props.screen} setParentState={this.props.setParentState} postType={this.props.postType} />
       </RN.Animated.View>
     )

@@ -6,7 +6,6 @@ import * as Animatable from 'react-native-animatable';
 
 // Local Imports
 import { FRIEND_TYPES }        from '../../actions/friendship_actions.js';
-import { POST_TYPES }          from '../../actions/post_actions.js';
 import { styles, pulseIcon }   from './loading_screen_styles.js';
 import { defaultErrorAlert }   from '../../utilities/error_utility.js';
 import { UTILITY_STYLES }      from '../../utilities/style_utility.js';
@@ -73,13 +72,11 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   async _loadData()  {
-    for (let postType in POST_TYPES) {
-      await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
-    }
-
     for (let friendType in FRIEND_TYPES) {
       await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
+
+    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
   }
 
   //--------------------------------------------------------------------//
