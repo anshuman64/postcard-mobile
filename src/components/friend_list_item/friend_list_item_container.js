@@ -2,24 +2,19 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import FriendListItem                                                                       from './friend_list_item.js';
-import { acceptFriendRequest, acceptFriendshipRequest, deleteFriendship, removeFriendship } from '../../actions/friendship_actions.js';
-import { deleteBlock, removeBlock }   from '../../actions/block_actions.js';
+import FriendListItem         from './friend_list_item.js';
+import { navigateToMessages } from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
+  imagesCache: imagesCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  acceptFriendRequest:     (authToken, firebaseUserObj, userId) => dispatch(acceptFriendRequest(authToken, firebaseUserObj, userId)),
-  acceptFriendshipRequest: (acceptedFriendship) => dispatch(acceptFriendshipRequest(acceptedFriendship)),
-  deleteFriendship:        (authToken, firebaseUserObj, userId) => dispatch(deleteFriendship(authToken, firebaseUserObj, userId)),
-  removeFriendship:        (deletedFriendship) => dispatch(removeFriendship(deletedFriendship)),
-  deleteBlock:             (authToken, firebaseUserObj, blockeeId) => dispatch(deleteBlock(authToken, firebaseUserObj, blockeeId)),
-  removeBlock:             (deletedBlock) => dispatch(removeBlock(deletedBlock)),
+  navigateToMessages: (props) => dispatch(navigateToMessages(props)),
 });
 
 export default connect(
