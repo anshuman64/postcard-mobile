@@ -2,12 +2,12 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import ProfileHeader                  from './profile_header.js';
-import * as FriendshipActions         from '../../actions/friendship_actions.js';
-import { createFollow, deleteFollow } from '../../actions/follow_actions.js';
-import { createBlock, deleteBlock }   from '../../actions/block_actions.js';
-import { refreshCredsAndGetImage }    from '../../actions/image_actions.js';
-import { navigateTo }                 from '../../actions/navigation_actions.js';
+import ProfileHeader                             from './profile_header.js';
+import * as FriendshipActions                    from '../../actions/friendship_actions.js';
+import { createFollow, deleteFollow }            from '../../actions/follow_actions.js';
+import { createBlock, deleteBlock, removeBlock } from '../../actions/block_actions.js';
+import { refreshCredsAndGetImage }               from '../../actions/image_actions.js';
+import { navigateTo }                            from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -27,6 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteFollow:            (authToken, firebaseUserObj, followeeId) => dispatch(deleteFollow(authToken, firebaseUserObj, followeeId)),
   createBlock:             (authToken, firebaseUserObj, blockeeId) => dispatch(createBlock(authToken, firebaseUserObj, blockeeId)),
   deleteBlock:             (authToken, firebaseUserObj, blockeeId) => dispatch(deleteBlock(authToken, firebaseUserObj, blockeeId)),
+  removeBlock:             (deletedBlock) => dispatch(removeBlock(deletedBlock)),
   refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
   navigateTo:              (screen, props) => dispatch(navigateTo(screen, props)),
 });

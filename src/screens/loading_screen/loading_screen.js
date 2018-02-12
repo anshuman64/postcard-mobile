@@ -75,6 +75,8 @@ class LoadingScreen extends React.PureComponent {
     for (let friendType in FRIEND_TYPES) {
       await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
+
+    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
   }
 
   //--------------------------------------------------------------------//
