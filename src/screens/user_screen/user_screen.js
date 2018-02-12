@@ -30,7 +30,7 @@ class UserScreen extends React.PureComponent {
 
   // Refresh AuthoredPosts and LikedPosts on mount
   componentDidMount() {
-    this.postList.getWrappedInstance().refresh();
+    this.postList.getWrappedInstance().refresh(POST_TYPES.AUTHORED);
     this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
   }
 
