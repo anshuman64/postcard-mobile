@@ -257,7 +257,7 @@ class ProfileHeader extends React.PureComponent {
     let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
     let deactivateButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
     let isFollowed = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_followed_by_client : false;
-    let isBlocked = false; // TODO
+    let isBlocked = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_blocked_by_client : false;
 
     if (friendshipStatus === FRIEND_TYPES.SENT) {
       friendString = 'Cancel';
