@@ -1,7 +1,6 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
-import { CachedImage } from 'react-native-img-cache';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
@@ -22,7 +21,7 @@ class UserInfoView extends React.PureComponent {
 
     if (avatarPath && avatarUrl) {
       return (
-        <CachedImage
+        <RN.Image
           source={{uri: avatarUrl}}
           style={styles.avatarImage}
           resizeMode={'cover'}
