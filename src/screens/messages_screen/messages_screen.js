@@ -11,6 +11,7 @@ import MessageListItemContainer            from '../../components/message_list_i
 import { styles }                          from './messages_screen_styles.js';
 import { setStateCallback, isStringEmpty } from '../../utilities/function_utility.js';
 import { UTILITY_STYLES, COLORS }          from '../../utilities/style_utility.js';
+import { defaultErrorAlert }               from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -91,7 +92,7 @@ class MessagesScreen extends React.PureComponent {
     this.onEndReachedCalledDuringMomentum = true;
 
     let messageData = messages.data;
-    let lastMessageId = messageData[messageData.length-1];
+    let lastMessageId = messageData[messageData.length-1].id;
     this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId, {start_at: lastMessageId})
       .catch((error) => {
         defaultErrorAlert(error)
@@ -202,7 +203,7 @@ class MessagesScreen extends React.PureComponent {
           <RN.View style={UTILITY_STYLES.containerStart}>
             <HeaderContainer
               backIcon={true}
-              backTitle={username + "'s Messages'"}
+              backTitle={username + "'s Messages"}
               />
             {this._renderMessageList()}
             {this._renderImage()}

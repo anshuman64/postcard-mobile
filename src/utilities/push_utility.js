@@ -65,7 +65,7 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   myChannel.bind('create-friendship', (data) => {
     dispatch(FriendshipActions.pusherCreateFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
-    dispatch(getImages(data.client));
+    dispatch(getImages(data.user));
   });
 
   myChannel.bind('receive-friendship', (data) => {

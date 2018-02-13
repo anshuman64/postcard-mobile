@@ -5,9 +5,10 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }            from './message_list_item_styles.js';
-import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
-import { renderMessageDate } from '../../utilities/date_time_utility.js';
+import AvatarContainer            from '../avatar/avatar_container.js';
+import { styles }                 from './message_list_item_styles.js';
+import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
+import { renderMessageDate }      from '../../utilities/date_time_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -25,7 +26,7 @@ class MessageListItem extends React.PureComponent {
     if (this.props.index === this.props.messages[this.props.userId].data.length - 1) {
       isHeader = true;
     } else {
-      let lastMessage = this.props.messages[this.props.userId].data[this.props.index - 1];
+      let lastMessage = this.props.messages[this.props.userId].data[this.props.index + 1];
       let lastMessageCreatedAt = null;
 
       if (lastMessage) {
@@ -50,35 +51,90 @@ class MessageListItem extends React.PureComponent {
     }
   }
 
-  _renderMessage() {
-    let isAuthoredByClient = this.props.message.author_id === this.props.client.id;
-    let avatarPath = this.props.usersCache[this.props.message.author_id] ? this.props.usersCache[this.props.message.author_id].avatar_url : null;
-    let avatarUrl = this.props.imagesCache[avatarPath] ? this.props.imagesCache[avatarPath].url : null;
+  _renderAvatar() {
+    let isAvatar = false;
 
-    if (isAuthoredByClient) {
+    if (this.props.index === 0) {
+      isAvatar = true;
+    } else {
+      let thisMessageAuthor = this.props.message.author_id;
+      let nextMessageAuthor = this.props.messages[this.props.userId].data[this.props.index - 1].author_id;
+
+      if (thisMessageAuthor != nextMessageAuthor) {
+        isAvatar = true;
+      }
+    }
+
+    if (isAvatar) {
       return (
-        <RN.TouchableOpacity>
-          <RN.View style={styles.messageViewClient}>
-            <RN.Text style={styles.bodyTextClient}>
-              {this.props.message.body}
-            </RN.Text>
-          </RN.View>
-        </RN.TouchableOpacity>
+        <AvatarContainer userId={this.props.message.author_id} avatarSize={25} iconSize={10} frameBorderWidth={1} />
       )
     } else {
       return (
-        <RN.View style={styles.messageView}>
-          <RN.Image
-            source={{uri: avatarUrl}}
-            style={styles.avatarImage}
-            resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarPath)}
-            />
+        <RN.View style={{width: 25, height: 25}} />
+      )
+    }
+  }
+
+  _renderBody(isAuthoredByClient) {
+    if (this.props.message.body) {
+      return (
+        <RN.Text style={isAuthoredByClient ? styles.bodyTextClient : styles.bodyTextUser}>
+          {this.props.message.body}
+        </RN.Text>
+      )
+    } else {
+      return null;
+    }
+  }
+
+  _renderImage() {
+    let imagePath = this.props.message.image_url;
+    let isBody = this.props.message.body ? true : false;
+
+    if (imagePath && this.props.imagesCache[imagePath]) {
+      return (
+        <RN.Image
+          source={{uri: this.props.imagesCache[imagePath].url}}
+          style={styles.image}
+          resizeMode={'contain'}
+          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
+          />
+      )
+    } else if (imagePath && !this.props.imagesCache[imagePath]) {
+      return (
+        <RN.View style={styles.image}>
+          <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
+        </RN.View>
+      )
+    } else {
+      return null;
+    }
+  }
+
+  _renderMessage() {
+    let isAuthoredByClient = this.props.message.author_id === this.props.client.id;
+
+    if (isAuthoredByClient) {
+      return (
+        <RN.View style={styles.messageContainerClient}>
           <RN.TouchableOpacity>
+            <RN.View style={styles.messageViewClient}>
+              {this._renderBody(isAuthoredByClient)}
+              {this._renderImage()}
+            </RN.View>
+          </RN.TouchableOpacity>
+          {this._renderAvatar()}
+        </RN.View>
+      )
+    } else {
+      return (
+        <RN.View style={styles.messageContainerUser}>
+        {this._renderAvatar()}
+        <RN.TouchableOpacity>
             <RN.View style={styles.messageViewUser}>
-              <RN.Text style={styles.bodyTextUser}>
-                {this.props.message.body}
-              </RN.Text>
+              {this._renderBody(isAuthoredByClient)}
+              {this._renderImage()}
             </RN.View>
           </RN.TouchableOpacity>
         </RN.View>

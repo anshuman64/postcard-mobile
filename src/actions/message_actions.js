@@ -4,6 +4,7 @@ import * as APIUtility         from '../utilities/api_utility.js';
 import { setErrorDescription } from '../utilities/error_utility.js';
 import { refreshAuthToken }    from './client_actions.js';
 import { getImages }           from './image_actions.js';
+import { uploadFile }          from '../utilities/file_utility.js';
 
 //--------------------------------------------------------------------//
 
