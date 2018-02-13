@@ -8,7 +8,7 @@ import { getBaseUrl }                    from './api_utility.js';
 import { pusherReceiveLike }             from '../actions/like_actions.js';
 import * as FriendshipActions            from '../actions/friendship_actions.js';
 import { pusherReceiveMessage }          from '../actions/message_actions.js';
-import { getImage }                      from '../actions/image_actions';
+import { getImages }                      from '../actions/image_actions';
 import { pusherReceivePost }             from '../actions/post_actions.js';
 
 //--------------------------------------------------------------------//
@@ -65,10 +65,12 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   myChannel.bind('create-friendship', (data) => {
     dispatch(FriendshipActions.pusherCreateFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(getImages(data.client));
   });
 
   myChannel.bind('receive-friendship', (data) => {
     dispatch(FriendshipActions.pusherRecieveFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(getImages(data.client));
   });
 
   myChannel.bind('receive-accepted-friendship', (data) => {
@@ -81,18 +83,12 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   myChannel.bind('receive-post', (data) => {
     dispatch(pusherReceivePost({ client: data.client, user: data.user, post: data.post }));
-
-    if (data.post.image_url) {
-      dispatch(getImage(data.post.image_url));
-    }
+    dispatch(getImages(data.post));
   });
 
   myChannel.bind('receive-message', (data) => {
     dispatch(pusherReceiveMessage({ client: data.client, user: data.user, message: data.message }));
-
-    if (data.message.image_url) {
-      dispatch(getImage(data.message.image_url));
-    }
+    dispatch(getImages(data.message));
   });
 }
 
@@ -101,7 +97,7 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 //--------------------------------------------------------------------//
 
 // OneSignal options
-OneSignal.inFocusDisplaying(2); // Enables notifications in-app
+OneSignal.inFocusDisplaying(0); // Disables notifications in-app
 
 export function onReceived(notification) {
   // console.log("Notification received: ", notification);
