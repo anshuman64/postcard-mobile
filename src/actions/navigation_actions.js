@@ -62,6 +62,7 @@ export const navigateTo = (screen, props) => (dispatch) => {
   }
 
   if (Actions.currentScene === 'LoginScreen'
+      || Actions.currentScene === 'MessagesScreen'
       || Actions.currentScene === 'ConfirmCodeScreen'
       || Actions.currentScene === 'UsernameScreenLogin'
       || Actions.currentScene === 'UsernameScreen'

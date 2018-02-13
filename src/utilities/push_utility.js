@@ -7,6 +7,7 @@ import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config.js';
 import { getBaseUrl }                    from './api_utility.js';
 import { pusherReceiveLike }             from '../actions/like_actions.js';
 import * as FriendshipActions            from '../actions/friendship_actions.js';
+import { pusherReceiveMessage }          from '../actions/message_actions.js';
 import { getImage }                      from '../actions/image_actions';
 import { pusherReceivePost }             from '../actions/post_actions.js';
 
@@ -83,6 +84,14 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
     if (data.post.image_url) {
       dispatch(getImage(data.post.image_url));
+    }
+  });
+
+  myChannel.bind('receive-message', (data) => {
+    dispatch(pusherReceiveMessage({ client: data.client, user: data.user, message: data.message }));
+
+    if (data.message.image_url) {
+      dispatch(getImage(data.message.image_url));
     }
   });
 }
