@@ -11,17 +11,12 @@ import { refreshAuthToken } from './client_actions.js';
 //--------------------------------------------------------------------//
 
 export const IMAGE_ACTION_TYPES = {
-  RECEIVE_IMAGE:  'RECEIVE_IMAGE',
   RECEIVE_IMAGES: 'RECEIVE_IMAGES',
 };
 
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
-
-export const receiveImage = (data) => {
-  return { type: IMAGE_ACTION_TYPES.RECEIVE_IMAGE, data: data };
-};
 
 export const receiveImages = (data) => {
   return { type: IMAGE_ACTION_TYPES.RECEIVE_IMAGES, data: data };
@@ -31,39 +26,46 @@ export const receiveImages = (data) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-// Gets signedUrl from S3 and stores it
-export const getImage = (avatarUrl) => (dispatch) => {
-  dispatch(receiveImage({ key: avatarUrl, url: FileUtility.getFile(avatarUrl) }));
-};
-
 export const refreshCredsAndGetImage = (firebaseUserObj, avatarUrl) => (dispatch) => {
   dispatch(refreshAuthToken(firebaseUserObj))
     .then(() => {
-      dispatch(getImage(avatarUrl));
+      dispatch(getImages(avatarUrl));
     })
 }
 
 // Gets signedUrl from S3 and stores it
-export const getImages = (array) => (dispatch) => {
+export const getImages = (object) => (dispatch) => {
   let images = [];
 
-  _.forEach(array, (obj) => {
+  let addImage = (obj) => {
+    // If the object is a post or message with an image
     if (obj.image_url) {
       images.push({ key: obj.image_url, url: FileUtility.getFile(obj.image_url) });
     }
 
+    // If the object is a post with an author with an avatar_url
     if (obj.author && obj.author.avatar_url) {
       images.push({ key: obj.author.avatar_url, url: FileUtility.getFile(obj.author.avatar_url) });
     }
 
+    // If the object is a message with a post with an image_url
     if (obj.post && obj.post.image_url) {
       images.push({ key: obj.post.image_url, url: FileUtility.getFile(obj.post.image_url) });
     }
 
+    // If the object is a user with an avatar_url
     if (obj.avatar_url) {
       images.push({ key: obj.avatar_url, url: FileUtility.getFile(obj.avatar_url) });
     }
-  });
+  }
+
+  if (Array.isArray(object)) {
+    _.forEach(object, (obj) => {
+      addImage(obj);
+    });
+  } else {
+    addImage(object);
+  }
 
   dispatch(receiveImages(images));
 };

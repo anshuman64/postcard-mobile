@@ -41,7 +41,7 @@ export const getMessages = (authToken, firebaseUserObj, userId, queryParams) => 
   return APIUtility.get(authToken, '/messages/direct/' + userId, queryParams)
     .then((messages) => {
       dispatch(receiveMessages({ messages: messages, userId: userId }));
-      dispatch(getImages([messages]));
+      dispatch(getImages(messages));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -59,7 +59,7 @@ export const createMessage = (authToken, firebaseUserObj, clientId, userId, mess
       .then((newMessage) => {
         amplitude.logEvent('Engagement - Create Message', { is_successful: true, body: messageBody, image: imageKey ? true : false });
         dispatch(receiveMessage({ message: newMessage, userId: userId }));
-        dispatch(getImages([newMessage]));
+        dispatch(getImages(newMessage));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
