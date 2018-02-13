@@ -8,7 +8,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 //--------------------------------------------------------------------//
 
 const DEFAULT_MARGIN = 15;
-const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(190);
+const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(150);
 
 export const styles = StyleSheet.create({
   messageList: {
