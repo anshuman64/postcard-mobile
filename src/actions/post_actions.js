@@ -112,7 +112,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
       .then((newPost) => {
         amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipients.length, placeholder_text: placeholderText });
         dispatch(receivePost({ post: newPost, clientId: clientId }));
-        dispatch(getImages([newPost]));
+        dispatch(getImages(newPost));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
