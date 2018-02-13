@@ -7,24 +7,39 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_MARGIN = 10;
-const IMAGE_SIZE = 50;
+const DEFAULT_MARGIN = 5;
+const IMAGE_SIZE = StyleUtility.getUsableDimensions().width * 0.75 - 15; // 75% width minus magic number
+
 
 export const styles = StyleSheet.create({
-  avatarImage: {
-    height: 30,
-    width: 30
+  messageContainerClient: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    alignSelf: 'flex-end',
+    maxWidth: '75%',
+    marginRight: DEFAULT_MARGIN,
+    marginLeft: DEFAULT_MARGIN,
+    marginTop: 2,
+    marginBottom: 2,
+  },
+  messageContainerUser: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    alignSelf: 'flex-start',
+    maxWidth: '75%',
+    marginRight: DEFAULT_MARGIN,
+    marginLeft: DEFAULT_MARGIN,
+    marginTop: 2,
+    marginBottom: 2,
   },
   messageViewClient: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    alignSelf: 'flex-end',
-    maxWidth: '80%',
-    marginRight: 15,
-    marginTop: 2,
-    marginBottom: 2,
-    borderRadius: 5,
+    marginRight: DEFAULT_MARGIN,
+    borderRadius: 10,
     backgroundColor: StyleUtility.COLORS.appleBlue,
   },
   messageViewUser: {
@@ -32,11 +47,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     alignSelf: 'flex-start',
-    maxWidth: '80%',
-    marginLeft: 15,
-    marginTop: 2,
-    marginBottom: 2,
-    borderRadius: 5,
+    marginLeft: DEFAULT_MARGIN,
+    borderRadius: 10,
     backgroundColor: StyleUtility.COLORS.appleRed,
   },
   bodyTextClient: {
@@ -54,6 +66,11 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
     color: 'white',
     margin: 10
+  },
+  image: {
+    width: IMAGE_SIZE,
+    height: IMAGE_SIZE,
+    borderRadius: 6,
   },
   dateHeader: {
     flexDirection: 'row',
