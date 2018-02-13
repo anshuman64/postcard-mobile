@@ -59,6 +59,10 @@ export const getImages = (array) => (dispatch) => {
     if (obj.post && obj.post.image_url) {
       images.push({ key: obj.post.image_url, url: FileUtility.getFile(obj.post.image_url) });
     }
+
+    if (obj.avatar_url) {
+      images.push({ key: obj.avatar_url, url: FileUtility.getFile(obj.avatar_url) });
+    }
   });
 
   dispatch(receiveImages(images));

@@ -22,7 +22,7 @@ class Avatar extends React.PureComponent {
       avatarUrl = this.props.avatarUrl;
     }
 
-    if (avatarPath && avatarUrl || this.props.avatarUrl) {
+    if ((avatarPath && avatarUrl) || this.props.avatarUrl) {
       return (
         <RN.Image
           source={{uri: avatarUrl}}
