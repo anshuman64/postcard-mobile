@@ -44,18 +44,22 @@ export const refreshCredsAndGetImage = (firebaseUserObj, avatarUrl) => (dispatch
 }
 
 // Gets signedUrl from S3 and stores it
-export const getImagesFromPosts = (posts) => (dispatch) => {
-  let postImages = [];
+export const getImages = (array) => (dispatch) => {
+  let images = [];
 
-  _.forEach(posts, (post) => {
-    if (post.image_url) {
-      postImages.push({ key: post.image_url, url: FileUtility.getFile(post.image_url) });
+  _.forEach(array, (obj) => {
+    if (obj.image_url) {
+      images.push({ key: obj.image_url, url: FileUtility.getFile(obj.image_url) });
     }
 
-    if (post.author.avatar_url) {
-      postImages.push({ key: post.author.avatar_url, url: FileUtility.getFile(post.author.avatar_url) });
+    if (obj.author && obj.author.avatar_url) {
+      images.push({ key: obj.author.avatar_url, url: FileUtility.getFile(obj.author.avatar_url) });
+    }
+
+    if (obj.post && obj.post.image_url) {
+      images.push({ key: obj.post.image_url, url: FileUtility.getFile(obj.post.image_url) });
     }
   });
 
-  dispatch(receiveImages(postImages));
+  dispatch(receiveImages(images));
 };

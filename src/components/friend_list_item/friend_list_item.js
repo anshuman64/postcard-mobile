@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import AvatarContainer       from '../avatar/avatar_container.js';
 import { styles }            from './friend_list_item_styles.js';
 import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
 import { renderMessageDate } from '../../utilities/date_time_utility.js';
@@ -46,32 +47,6 @@ class FriendListItem extends React.PureComponent {
     )
   }
 
-  _renderAvatar() {
-    let avatarPath = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
-    let avatarUrl = this.props.imagesCache[avatarPath] ? this.props.imagesCache[avatarPath].url : null;
-
-    if (avatarPath && avatarUrl) {
-      return (
-        <RN.Image
-          source={{uri: avatarUrl}}
-          style={styles.avatarImage}
-          resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarPath)}
-          />
-      )
-    } else if (avatarPath && !avatarUrl) {
-      return (
-        <RN.View style={{width: 40}} />
-      )
-    } else {
-      return (
-        <RN.View style={styles.frameBorder}>
-          <Icon name='user' style={styles.userIcon} />
-        </RN.View>
-      )
-    }
-  }
-
   _renderUsernameView() {
     let user = this.props.usersCache[this.props.userId];
     let username = user ? user.username : null;
@@ -103,10 +78,10 @@ class FriendListItem extends React.PureComponent {
 
     return (
       <RN.View style={styles.usernameView}>
-        <RN.Text style={UTILITY_STYLES.lightBlackText15}>
+        <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText16}>
           {username}
         </RN.Text>
-        <RN.Text style={styles.messageText}>
+        <RN.Text style={styles.messageText} numberOfLines={1}>
           {message}
         </RN.Text>
       </RN.View>
@@ -115,17 +90,21 @@ class FriendListItem extends React.PureComponent {
 
   render() {
     return (
-      <RN.TouchableHighlight onPress={() => this.props.navigateToMessages(this.props.userId)}>
+      <RN.TouchableOpacity onPress={() => this.props.navigateToMessages({ userId: this.props.userId })}>
         <RN.View style={styles.rowView}>
           <RN.View style={styles.userView}>
-            <RN.View style={styles.frame}>
-              {this._renderAvatar()}
-            </RN.View>
+            <RN.TouchableWithoutFeedback
+              onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+              onPressOut={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
+              onPress={() => this.props.navigateToProfile({ userId: this.props.userId })}
+              >
+              <AvatarContainer avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
+            </RN.TouchableWithoutFeedback>
             {this._renderUsernameView()}
           </RN.View>
           {this._renderDate()}
         </RN.View>
-      </RN.TouchableHighlight>
+      </RN.TouchableOpacity>
     )
   }
 }

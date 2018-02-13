@@ -1,5 +1,5 @@
 // Local Imports
-import { getImagesFromPosts }     from './image_actions.js';
+import { getImages }     from './image_actions.js';
 import { amplitude }              from '../utilities/analytics_utility.js';
 import * as APIUtility            from '../utilities/api_utility.js';
 import { setErrorDescription }    from '../utilities/error_utility.js';
@@ -94,7 +94,7 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
         dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
       }
 
-      dispatch(getImagesFromPosts(posts));
+      dispatch(getImages(posts));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -112,7 +112,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
       .then((newPost) => {
         amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipients.length, placeholder_text: placeholderText });
         dispatch(receivePost({ post: newPost, clientId: clientId }));
-        dispatch(getImagesFromPosts([newPost]));
+        dispatch(getImages([newPost]));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

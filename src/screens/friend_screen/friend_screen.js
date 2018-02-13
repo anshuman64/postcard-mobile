@@ -59,7 +59,7 @@ class FriendScreen extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PendingListItemContainer userId={item} setParentState={this.setParentState} />
+      <PendingListItemContainer userId={item} />
     )
   }
 
@@ -98,7 +98,7 @@ class FriendScreen extends React.PureComponent {
   _renderRow() {
     return (
       (rowData, sectionID, rowID) => (
-        <FriendListItemContainer userId={rowData} setParentState={this.setParentState} />
+        <FriendListItemContainer userId={rowData} />
       )
     )
   }
