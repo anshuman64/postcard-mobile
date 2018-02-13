@@ -57,20 +57,20 @@ class FriendListItem extends React.PureComponent {
         if (user.peek_message.post.body) {
           message = user.peek_message.post.body;
         } else {
-          if (user.id === client.id) {
-            message = 'You sent a post.';
+          if (user.peek_message.author_id === this.props.client.id) {
+            message = 'You shared a post.';
           } else {
-            message = user.username + ' share a post with you.';
+            message = user.username + ' shared a post.';
           }
         }
       } else {
         if (user.peek_message.body) {
           message = user.peek_message.body;
         } else {
-          if (user.id === client.id) {
-            message = 'You sent an image.';
+          if (user.peek_message.author_id === this.props.client.id) {
+            message = 'You shared an image.';
           } else {
-            message = user.username + ' shared an image with you.';
+            message = user.username + ' shared an image.';
           }
         }
       }
