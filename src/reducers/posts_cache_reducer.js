@@ -38,6 +38,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     // When receiving or refreshing posts, update the store with new post information
     case POST_ACTION_TYPES.RECEIVE_POSTS:
     case POST_ACTION_TYPES.REFRESH_POSTS:
+    case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
       _.forEach(action.data.posts, (post) => {
         newState[post.id] = _.omit(post, 'author');
       });

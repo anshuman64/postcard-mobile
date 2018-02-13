@@ -39,6 +39,11 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
+
+    //--------------------------------------------------------------------//
+    // Message Actions
+    //--------------------------------------------------------------------//
+
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES:
       userId = action.data.userId;
 
@@ -63,6 +68,7 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
       newState[userId].data.unshift(action.data.message);
 
       return newState;
+    case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
       userId = action.data.client.id;
 
@@ -73,6 +79,22 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
       newState[userId].data.unshift(action.data.message);
 
       return newState;
+
+    //--------------------------------------------------------------------//
+    // Post Actions
+    //--------------------------------------------------------------------//
+
+    case POST_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
+      userId = action.data.user.id;
+
+      newState[userId]       = newState[userId]       || {};
+      newState[userId].data  = newState[userId].data  || [];
+      newState[userId].isEnd = newState[userId].isEnd || false;
+
+      newState[userId].data.unshift(action.data.message);
+
+      return newState;
+
     default:
       return state;
   }
