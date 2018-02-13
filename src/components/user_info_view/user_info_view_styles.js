@@ -13,34 +13,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  frame: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    width: 40,
-    marginRight: 7
-  },
-  frameBorder: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 36,
-    width: 36,
-    borderWidth: 1.1,
-    borderColor: StyleUtility.COLORS.grey800,
-    borderRadius: 36 / 2,
-  },
-  userIcon: {
-    fontSize: 17,
-    textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
-  },
-  avatarImage: {
-    height: 40,
-    width: 40,
-    borderRadius: StyleUtility.getImageBorderRadius(40),
-  },
   usernameText: {
     maxWidth: StyleUtility.scaleImage(60),
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
@@ -48,5 +20,6 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
+    marginLeft: 7
   },
 });

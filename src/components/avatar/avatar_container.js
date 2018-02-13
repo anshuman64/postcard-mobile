@@ -2,23 +2,22 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import FriendListItem                            from './friend_list_item.js';
-import { navigateToMessages, navigateToProfile } from '../../actions/navigation_actions.js';
+import Avatar                      from './avatar.js';
+import { refreshCredsAndGetImage } from '../../actions/image_actions.js';
 
 //--------------------------------------------------------------------//
 
 const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
-  imagesCache: imagesCache
+  imagesCache: imagesCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  navigateToMessages: (props) => dispatch(navigateToMessages(props)),
-  navigateToProfile:  (props) => dispatch(navigateToProfile(props)),
+  refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FriendListItem);
+)(Avatar);
