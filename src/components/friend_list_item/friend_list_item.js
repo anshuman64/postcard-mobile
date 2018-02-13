@@ -88,6 +88,7 @@ class FriendListItem extends React.PureComponent {
     )
   }
 
+  // TODO: fix navigate to profile
   render() {
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateToMessages({ userId: this.props.userId })}>
@@ -98,7 +99,7 @@ class FriendListItem extends React.PureComponent {
               onPressOut={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
               onPress={() => this.props.navigateToProfile({ userId: this.props.userId })}
               >
-              <AvatarContainer avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
+              <AvatarContainer userId={this.props.userId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
             </RN.TouchableWithoutFeedback>
             {this._renderUsernameView()}
           </RN.View>

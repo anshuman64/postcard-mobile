@@ -3,6 +3,7 @@ import { amplitude }           from '../utilities/analytics_utility.js';
 import * as APIUtility         from '../utilities/api_utility.js';
 import { setErrorDescription } from '../utilities/error_utility.js';
 import { refreshAuthToken }    from './client_actions.js';
+import { getImages }           from './image_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -71,6 +72,7 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
   return APIUtility.get(authToken, '/friendships/' + friendType)
     .then((friends) => {
       dispatch(receiveFriendships({ friends: friends, friendType: friendType }));
+      dispatch(getImages(friends));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
