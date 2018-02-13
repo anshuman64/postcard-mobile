@@ -59,10 +59,6 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   myChannel = pusher.subscribe('private-' + clientId);
 
-  myChannel.bind('receive-like', (data) => {
-    dispatch(pusherReceiveLike({ client: data.client, user: data.user, like: data.like }));
-  });
-
   myChannel.bind('create-friendship', (data) => {
     dispatch(FriendshipActions.pusherCreateFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
     dispatch(getImages(data.user));
