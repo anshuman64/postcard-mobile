@@ -114,13 +114,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
     return newState;
 
-  // When another user likes client's post, increment the likes by 1
-    case LIKE_ACTION_TYPES.PUSHER_RECEIVE_LIKE:
-      postToUpdate = newState[action.data.like.post_id];
-      postToUpdate.num_likes++;
-
-      return newState;
-
     default:
       return state;
   }
