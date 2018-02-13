@@ -3,19 +3,16 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import UserInfoView                from './user_info_view.js';
-import { refreshCredsAndGetImage } from '../../actions/image_actions.js';
 import { navigateToProfile }       from '../../actions/navigation_actions.js';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
-  imagesCache: imagesCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
   navigateToProfile: (props) => dispatch(navigateToProfile(props))
 });
 

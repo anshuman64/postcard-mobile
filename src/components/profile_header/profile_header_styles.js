@@ -9,7 +9,6 @@ import { TAB_BAR_HEIGHT } from '../tab_bar/tab_bar_styles.js';
 //--------------------------------------------------------------------//
 
 export const PROFILE_HEADER_HEIGHT = 165;
-const IMAGE_SIZE = 70;
 const DEFAULT_MARGIN = 15;
 
 export const styles = StyleSheet.create({
@@ -35,34 +34,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: IMAGE_SIZE,
-  },
-  frame: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: IMAGE_SIZE,
-    width: IMAGE_SIZE,
-  },
-  frameBorder: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: IMAGE_SIZE,
-    width: IMAGE_SIZE,
-    borderWidth: 2,
-    borderColor: StyleUtility.COLORS.grey900,
-    borderRadius: IMAGE_SIZE / 2,
-  },
-  userIcon: {
-    fontSize: 32,
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey900,
-  },
-  image: {
-    height: IMAGE_SIZE,
-    width: IMAGE_SIZE,
-    borderRadius: StyleUtility.getImageBorderRadius(IMAGE_SIZE),
+    width: 70,
   },
   usernameButton: {
     flexDirection: 'row',

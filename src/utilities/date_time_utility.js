@@ -28,6 +28,8 @@ export const renderPostDate = (date) => {
 
   if (hour === 0) {         // If creationDate is at 00:xx, change to 12:xx
     hour = 12;
+  } else if (hour === 12) {  // If creationDate is after noon, change to 12:xx PM
+    m    = 'PM';
   } else if (hour >= 12) {  // If creationDate is after noon, change to 12:xx PM
     m    = 'PM';
     hour = hour % 12;
@@ -71,12 +73,14 @@ export const renderMessageDate = (date) => {
 
   let hour = creationDate.getHours();
   let mins = (creationDate.getMinutes() < 10 ? '0' : '') + creationDate.getMinutes();
-  let m    = 'AM';
+  let m    = ' AM';
 
   if (hour === 0) {         // If creationDate is at 00:xx, change to 12:xx
     hour = 12;
-  } else if (hour >= 12) {  // If creationDate is after noon, change to 12:xx PM
-    m    = 'PM';
+  } else if (hour === 12) {  // If creationDate is after noon, change to 12:xx PM
+    m    = ' PM';
+  } else if (hour > 12) {  // If creationDate is after noon, change to 1:xx PM
+    m    = ' PM';
     hour = hour % 12;
   }
 

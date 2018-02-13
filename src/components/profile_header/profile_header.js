@@ -5,6 +5,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import TabBar                            from '../tab_bar/tab_bar.js';
+import AvatarContainer                   from '../avatar/avatar_container.js';
 import { TAB_BAR_HEIGHT }                from '../tab_bar/tab_bar_styles.js';
 import { styles, PROFILE_HEADER_HEIGHT } from './profile_header_styles.js';
 import { FRIEND_TYPES }                  from '../../actions/friendship_actions.js';
@@ -219,29 +220,6 @@ class ProfileHeader extends React.PureComponent {
     }
   }
 
-  _renderAvatar() {
-    let avatarUrl = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
-
-    if (!avatarUrl) {
-      return (
-        <RN.View style={styles.frameBorder}>
-          <Icon name='user' style={styles.userIcon} />
-        </RN.View>
-      )
-    } else if (avatarUrl && !this.props.imagesCache[avatarUrl]) {
-      return null;
-    } else {
-      return (
-        <RN.Image
-          source={{uri: this.props.imagesCache[avatarUrl].url}}
-          style={styles.image}
-          resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
-          />
-      )
-    }
-  }
-
   _renderUsername() {
     let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
 
@@ -333,9 +311,7 @@ class ProfileHeader extends React.PureComponent {
         >
         <RN.View style={styles.userView}>
           <RN.TouchableOpacity style={styles.avatarView} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
-            <RN.View style={styles.frame}>
-              {this._renderAvatar()}
-            </RN.View>
+            <AvatarContainer userId={this.props.userId} avatarSize={70} iconSize={32} frameBorderWidth={2} />
             {this._renderChangeText()}
           </RN.TouchableOpacity>
           {this._renderUsername()}
