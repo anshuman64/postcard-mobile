@@ -1,10 +1,11 @@
 // Local Imports
-import { amplitude }           from '../utilities/analytics_utility.js';
-import * as APIUtility         from '../utilities/api_utility.js';
-import { setErrorDescription } from '../utilities/error_utility.js';
-import { refreshAuthToken }    from './client_actions.js';
-import { getImages }           from './image_actions.js';
-import { uploadFile }          from '../utilities/file_utility.js';
+import { amplitude }            from '../utilities/analytics_utility.js';
+import * as APIUtility          from '../utilities/api_utility.js';
+import { setErrorDescription }  from '../utilities/error_utility.js';
+import { refreshAuthToken }     from './client_actions.js';
+import { getImages }            from './image_actions.js';
+import { getPostsFromMessages } from './post_actions.js';
+import { uploadFile }           from '../utilities/file_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -13,9 +14,10 @@ import { uploadFile }          from '../utilities/file_utility.js';
 //--------------------------------------------------------------------//
 
 export const MESSAGE_ACTION_TYPES = {
-  RECEIVE_MESSAGES:       'RECEIVE_MESSAGES',
-  RECEIVE_MESSAGE:        'RECEIVE_MESSAGE',
-  PUSHER_RECEIVE_MESSAGE: 'PUSHER_RECEIVE_MESSAGE',
+  RECEIVE_MESSAGES:           'RECEIVE_MESSAGES',
+  RECEIVE_MESSAGE:            'RECEIVE_MESSAGE',
+  PUSHER_CREATE_POST_MESSAGE: 'PUSHER_CREATE_POST_MESSAGE',
+  PUSHER_RECEIVE_MESSAGE:     'PUSHER_RECEIVE_MESSAGE',
 };
 
 //--------------------------------------------------------------------//
@@ -28,6 +30,10 @@ export const receiveMessages = (data) => {
 
 export const receiveMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE, data: data };
+};
+
+export const pusherCreatePostMessage = (data) => {
+  return { type: MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE, data: data };
 };
 
 export const pusherReceiveMessage = (data) => {
@@ -43,6 +49,7 @@ export const getMessages = (authToken, firebaseUserObj, userId, queryParams) => 
     .then((messages) => {
       dispatch(receiveMessages({ messages: messages, userId: userId }));
       dispatch(getImages(messages));
+      dispatch(getPostsFromMessages(messages));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

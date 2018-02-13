@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 // Local Imports
 import { FRIENDSHIP_ACTION_TYPES }  from '../actions/friendship_actions.js';
+import { POST_ACTION_TYPES }        from '../actions/post_actions.js';
 import { MESSAGE_ACTION_TYPES }     from '../actions/message_actions.js';
 
 //--------------------------------------------------------------------//
@@ -77,6 +78,21 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
 
   //--------------------------------------------------------------------//
+  // Post Actions
+  //--------------------------------------------------------------------//
+
+    case POST_ACTION_TYPES.RECEIVE_POST:
+      _.forEach(action.data.recipients, (userIds) => {
+        _.remove(newState.accepted, (ids) => {
+          return ids === userIds;
+        });
+
+        newState.accepted.unshift(userIds);
+      });
+
+      return newState;
+
+  //--------------------------------------------------------------------//
   // Message Actions
   //--------------------------------------------------------------------//
 
@@ -90,6 +106,7 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
       newState.accepted.unshift(userId);
 
       return newState;
+    case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
       userId = action.data.client.id;
 

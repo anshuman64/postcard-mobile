@@ -53,9 +53,9 @@ class FriendListItem extends React.PureComponent {
     let message = '';
 
     if (user.peek_message) {
-      if (user.peek_message.post) {
-        if (user.peek_message.post.body) {
-          message = user.peek_message.post.body;
+      if (user.peek_message.post_id) {
+        if (this.props.postsCache[user.peek_message.post_id] && this.props.postsCache[user.peek_message.post_id].body) {
+          message = this.props.postsCache[user.peek_message.post_id].body;
         } else {
           if (user.peek_message.author_id === this.props.client.id) {
             message = 'You shared a post.';
