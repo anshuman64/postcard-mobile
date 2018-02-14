@@ -9,7 +9,6 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 const IMAGE_PADDING = 2;
 const IMAGE_WIDTH   = StyleUtility.getUsableDimensions().width / 3;
-const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(120);
 
 export const styles = StyleSheet.create({
   cameraRoll: {
@@ -60,20 +59,5 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 60,
-  },
-  footerText: {
-    width: FOOTER_TEXT_WIDTH,
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontWeight: '100',
-    fontSize: 14,
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey500
-  },
-  horizontalLine: {
-    alignSelf: 'flex-start',
-    width: (StyleUtility.getUsableDimensions().width - FOOTER_TEXT_WIDTH) / 2 - 20, // Device width minus footerText width over 2 minus aesthetic value
-    height: '50%',
-    borderBottomWidth: 1,
-    borderBottomColor: StyleUtility.COLORS.grey200
   },
 });
