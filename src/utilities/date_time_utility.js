@@ -89,7 +89,7 @@ export const renderMessageDate = (date) => {
     return hour + ':' + mins + m;
   } else if (todayDate.getDate() - creationDate.getDate() < 7) {
     // If creationDate was some time this week, return the day and time
-    return SHORT_DAY_NAMES[creationDate.getDay()]+ ' at ' + hour + ':' + mins + m;
+    return SHORT_DAY_NAMES[creationDate.getDay()]+ ' ' + hour + ':' + mins + m;
   } else if (todayDate.getFullYear() - creationDate.getFullYear() < 1) {
     // If creationDate was some time this year, return month, day, and time
     return SHORT_MONTH_NAMES[creationDate.getMonth()] + ' ' + creationDate.getDate() + ' at ' + hour + ':' + mins + m;
