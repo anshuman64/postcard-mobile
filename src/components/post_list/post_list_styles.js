@@ -15,11 +15,8 @@ const FOOTER_TEXT_WIDTH = StyleUtility.scaleFont(190);
 export const styles = StyleSheet.create({
   postList: {
     width: '100%',
-    height: StyleUtility.getUsableDimensions().height - HEADER_HEIGHT - FOOTER_HEIGHT - StyleUtility.getStatusBarHeight(),
+    flex: 1,
     backgroundColor: StyleUtility.COLORS.grey50,
-  },
-  postListLongHeight: {
-    height: StyleUtility.getUsableDimensions().height - HEADER_HEIGHT - StyleUtility.getStatusBarHeight()
   },
   headerView: {
     flexDirection: 'column',
