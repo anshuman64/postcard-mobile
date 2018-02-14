@@ -4,11 +4,12 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import TabBar                   from '../../components/tab_bar/tab_bar.js';
-import FriendListItemContainer  from '../../components/friend_list_item/friend_list_item_container.js';
-import PendingListItemContainer from '../../components/pending_list_item/pending_list_item_container.js';
-import { styles }               from './friend_screen_styles.js';
-import { UTILITY_STYLES }       from '../../utilities/style_utility.js';
+import ListFooter                    from '../../components/list_footer/list_footer.js';
+import TabBar                        from '../../components/tab_bar/tab_bar.js';
+import FriendListItemContainer       from '../../components/friend_list_item/friend_list_item_container.js';
+import PendingListItemContainer      from '../../components/pending_list_item/pending_list_item_container.js';
+import { styles }                    from './friend_screen_styles.js';
+import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -95,11 +96,19 @@ class FriendScreen extends React.PureComponent {
     )
   }
 
-  _renderRow() {
-    return (
-      (rowData, sectionID, rowID) => (
-        <FriendListItemContainer userId={rowData} />
+  _renderNoFriendsHeader = () => {
+    if (this.props.friendships.accepted.length === 0) {
+      return (
+        <ListFooter footerWidth={scaleFont(100)} text={'No Friends'} />
       )
+    } else {
+      return null;
+    }
+  }
+
+  _renderRow = (rowData, sectionID, rowID) => {
+    return (
+      <FriendListItemContainer userId={rowData} />
     )
   }
 
@@ -127,7 +136,8 @@ class FriendScreen extends React.PureComponent {
         <RN.ListView
           dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
           style={styles.cameraRoll}
-          renderRow={this._renderRow()}
+          renderRow={this._renderRow}
+          renderHeader={this._renderNoFriendsHeader}
           initialListSize={20}
           pageSize={20}
           contentContainerStyle={styles.contentContainerStyle}
