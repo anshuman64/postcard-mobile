@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import PostListItem                    from './post_list_item.js';
-import { deletePost, removePost }      from '../../../actions/post_actions.js';
-import { createLike, deleteLike }      from '../../../actions/like_actions.js';
-import { createFlag, deleteFlag }      from '../../../actions/flag_actions.js';
-import { createFollow, deleteFollow }  from '../../../actions/follow_actions.js';
-import { refreshCredsAndGetImage }     from '../../../actions/image_actions.js';
+import { deletePost, removePost }      from '../../actions/post_actions.js';
+import { createLike, deleteLike }      from '../../actions/like_actions.js';
+import { createFlag, deleteFlag }      from '../../actions/flag_actions.js';
+import { createFollow, deleteFollow }  from '../../actions/follow_actions.js';
+import { navigateToMessages }          from '../../actions/navigation_actions.js';
+import { refreshCredsAndGetImage }     from '../../actions/image_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteFlag:              (authToken, firebaseUserObj, postId) => dispatch(deleteFlag(authToken, firebaseUserObj, postId)),
   deletePost:              (authToken, firebaseUserObj, postId) => dispatch(deletePost(authToken, firebaseUserObj, postId)),
   removePost:              (deletedPost) => dispatch(removePost(deletedPost)),
+  navigateToMessages:      (props) => dispatch(navigateToMessages(props)),
   refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
 });
 

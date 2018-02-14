@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { CLIENT_ACTION_TYPES }                   from '../actions/client_actions.js';
 import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions.js';
 import { POST_ACTION_TYPES }                     from '../actions/post_actions.js';
+import { MESSAGE_ACTION_TYPES }                  from '../actions/message_actions.js';
 import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions.js';
 import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions.js';
 
@@ -109,70 +110,88 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
+  //--------------------------------------------------------------------//
+  // Block Actions
+  //--------------------------------------------------------------------//
 
-    //--------------------------------------------------------------------//
-    // Block Actions
-    //--------------------------------------------------------------------//
+    case BLOCK_ACTION_TYPES.RECEIVE_BLOCKED_USERS:
+      _.forEach(action.data.blockedUsers, (user) => {
+        newState[user.id] = user;
+      })
 
-      case BLOCK_ACTION_TYPES.RECEIVE_BLOCKED_USERS:
-        _.forEach(action.data.blockedUsers, (user) => {
-          newState[user.id] = user;
-        })
+      return newState;
+    case BLOCK_ACTION_TYPES.RECEIVE_BLOCK:
+      _.forEach(newState, (user) => {
+        if (user.id === action.data.block.blockee_id) {
+          user.is_user_blocked_by_client = true;
+        }
+      });
 
-        return newState;
-      case BLOCK_ACTION_TYPES.RECEIVE_BLOCK:
-        _.forEach(newState, (user) => {
-          if (user.id === action.data.block.blockee_id) {
-            user.is_user_blocked_by_client = true;
-          }
-        });
+      return newState;
+    case BLOCK_ACTION_TYPES.REMOVE_BLOCK:
+      _.forEach(newState, (user) => {
+        if (user.id === action.data.block.blockee_id) {
+          user.is_user_blocked_by_client = false;
+        }
+      });
 
-        return newState;
-      case BLOCK_ACTION_TYPES.REMOVE_BLOCK:
-        _.forEach(newState, (user) => {
-          if (user.id === action.data.block.blockee_id) {
-            user.is_user_blocked_by_client = false;
-          }
-        });
-
-        return newState;
+      return newState;
 
   //--------------------------------------------------------------------//
   // Friendship Actions
   //--------------------------------------------------------------------//
 
-  case FRIENDSHIP_ACTION_TYPES.PUSHER_CREATE_FRIENDSHIP:
-    requestee_id = action.data.user.id;
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_CREATE_FRIENDSHIP:
+      requestee_id = action.data.user.id;
 
-    newState[requestee_id] = action.data.user;
-    newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.SENT;
+      newState[requestee_id] = action.data.user;
+      newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.SENT;
 
-    return newState;
-  case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
-    // NOTE: the user is the client that sent the Pusher notification
-    requester_id = action.data.client.id;
+      return newState;
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
+      // NOTE: the user is the client that sent the Pusher notification
+      requester_id = action.data.client.id;
 
-    newState[requester_id] = action.data.client;
-    newState[requester_id].friendship_status_with_client = FRIEND_TYPES.RECEIVED;
+      newState[requester_id] = action.data.client;
+      newState[requester_id].friendship_status_with_client = FRIEND_TYPES.RECEIVED;
 
-    return newState;
-  case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP:
-    // NOTE: the user is the client that sent the Pusher notification
-    requestee_id = action.data.client.id;
+      return newState;
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP:
+      // NOTE: the user is the client that sent the Pusher notification
+      requestee_id = action.data.client.id;
 
-    newState[requestee_id] = action.data.client;
-    newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
+      newState[requestee_id] = action.data.client;
+      newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
 
-    return newState;
-  case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
-    // NOTE: the user is the client that sent the Pusher notification
-    userId = action.data.client.id;
+      return newState;
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
+      // NOTE: the user is the client that sent the Pusher notification
+      userId = action.data.client.id;
 
-    newState[userId] = action.data.client;
-    newState[userId].friendship_status_with_client = null;
+      newState[userId] = action.data.client;
+      newState[userId].friendship_status_with_client = null;
 
-    return newState;
+      return newState;
 
+  //--------------------------------------------------------------------//
+  // Message Actions
+  //--------------------------------------------------------------------//
+
+    case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
+      userId = action.data.userId;
+      newState[userId].peek_message = action.data.message;
+
+      return newState;
+    case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
+      userId = action.data.client.id;
+      newState[userId].peek_message = action.data.message;
+
+      return newState;
+    case MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
+      userId = action.data.user.id;
+      newState[userId].peek_message = action.data.message;
+
+      return newState;
     default:
       return state;
   }

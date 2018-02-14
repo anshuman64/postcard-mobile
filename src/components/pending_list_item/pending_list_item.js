@@ -6,12 +6,12 @@ import * as Animatable from 'react-native-animatable';
 // Local Imports
 import UserInfoViewContainer from '../user_info_view/user_info_view_container.js';
 import { FRIEND_TYPES }      from '../../actions/friendship_actions.js';
-import { styles }            from './friend_list_item_styles.js';
+import { styles }            from './pending_list_item_styles.js';
 import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-class FriendListItem extends React.PureComponent {
+class PendingListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -167,4 +167,4 @@ class FriendListItem extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default FriendListItem;
+export default PendingListItem;
