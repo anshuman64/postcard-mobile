@@ -81,14 +81,15 @@ class FriendListItem extends React.PureComponent {
         <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText16}>
           {username}
         </RN.Text>
-        <RN.Text style={styles.messageText} numberOfLines={1}>
-          {message}
-        </RN.Text>
+        {message.length > 0 ?
+          <RN.Text style={styles.messageText} numberOfLines={1}>
+            {message}
+          </RN.Text> :
+          null }
       </RN.View>
     )
   }
 
-  // TODO: fix navigate to profile
   render() {
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateToMessages({ userId: this.props.userId })}>
