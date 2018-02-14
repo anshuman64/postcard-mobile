@@ -19,8 +19,6 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: PROFILE_HEADER_HEIGHT,
     backgroundColor: 'white',
-    borderBottomColor: StyleUtility.COLORS.grey500,
-    borderBottomWidth: 0.5,
     position: 'absolute',
   },
   userView: {
