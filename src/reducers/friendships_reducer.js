@@ -3,6 +3,8 @@ import _ from 'lodash';
 
 // Local Imports
 import { FRIENDSHIP_ACTION_TYPES }  from '../actions/friendship_actions.js';
+import { POST_ACTION_TYPES }        from '../actions/post_actions.js';
+import { MESSAGE_ACTION_TYPES }     from '../actions/message_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -57,7 +59,7 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
 
     //--------------------------------------------------------------------//
-    // Pusher Actions
+    // Pusher Friendship Actions
     //--------------------------------------------------------------------//
 
     case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
@@ -68,6 +70,47 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
       userId = action.data.friendship.requestee_id;
 
       _.remove(newState.sent, (ids) => {
+        return ids === userId;
+      });
+
+      newState.accepted.unshift(userId);
+
+      return newState;
+
+  //--------------------------------------------------------------------//
+  // Post Actions
+  //--------------------------------------------------------------------//
+
+    case POST_ACTION_TYPES.RECEIVE_POST:
+      _.forEach(action.data.recipients, (userIds) => {
+        _.remove(newState.accepted, (ids) => {
+          return ids === userIds;
+        });
+
+        newState.accepted.unshift(userIds);
+      });
+
+      return newState;
+
+  //--------------------------------------------------------------------//
+  // Message Actions
+  //--------------------------------------------------------------------//
+
+    case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
+      userId = action.data.userId;
+
+      _.remove(newState.accepted, (ids) => {
+        return ids === userId;
+      });
+
+      newState.accepted.unshift(userId);
+
+      return newState;
+    case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
+    case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
+      userId = action.data.client.id;
+
+      _.remove(newState.accepted, (ids) => {
         return ids === userId;
       });
 

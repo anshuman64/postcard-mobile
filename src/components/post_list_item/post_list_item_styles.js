@@ -3,11 +3,11 @@ import React          from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_MARGIN = 13;
+export const DEFAULT_MARGIN = 13;
 
 export const styles = StyleSheet.create({
   container: {
@@ -68,8 +68,15 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey700,
     marginRight: 18
   },
+  bodyTextView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    width: StyleUtility.getUsableDimensions().width - 20,
+  },
   bodyText: {
-    width: StyleUtility.getUsableDimensions().width - DEFAULT_MARGIN * 2,
+    width: StyleUtility.getUsableDimensions().width - 20,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: 18,

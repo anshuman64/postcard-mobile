@@ -4,6 +4,7 @@ import RN          from 'react-native';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import AvatarContainer        from '../../components/avatar/avatar_container.js';
 import LoadingModal           from '../../components/loading_modal/loading_modal.js';
 import { styles }             from './avatar_screen_styles.js';
 import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
@@ -143,35 +144,10 @@ class AvatarScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
+      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5, {marginBottom: 25}]}>
         Choose a photo that represents you.
       </RN.Text>
     )
-  }
-
-  _renderAvatar() {
-    let avatarUrl = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].avatar_url : null;
-
-    if (!avatarUrl && !this.state.imagePath) {
-      return (
-        <RN.View style={styles.frameBorder}>
-          <Icon name='user' style={styles.userIcon} />
-        </RN.View>
-      )
-    } else if (avatarUrl && !this.state.imagePath) {
-      return null;
-    } else {
-      return (
-        <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.imagePath || this.state.isLoading}>
-          <RN.Image
-            source={{uri: this.state.imagePath, cache: 'force-cache'}}
-            style={styles.image}
-            resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarUrl)}
-            />
-        </RN.TouchableOpacity>
-      )
-    }
   }
 
   _renderChangePhotoText() {
@@ -247,9 +223,9 @@ class AvatarScreen extends React.PureComponent {
         <RN.View style={UTILITY_STYLES.containerStart}>
           {this._renderTitle()}
           {this._renderSubtitle()}
-          <RN.View style={styles.frame}>
-            {this._renderAvatar()}
-          </RN.View>
+          <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.imagePath || this.state.isLoading}>
+            <AvatarContainer userId={this.props.client.id} avatarSize={200} iconSize={75} avatarUrl={this.state.imagePath} frameBorderWidth={3} />
+          </RN.TouchableOpacity>
           {this._renderChangePhotoText()}
           {this._renderNextButton()}
           {this._renderSkipButton()}

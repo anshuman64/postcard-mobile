@@ -27,6 +27,7 @@ import FriendScreenContainer      from './screens/friend_screen/friend_screen_co
 import ProfileScreenContainer     from './screens/profile_screen/profile_screen_container.js';
 
 import UserScreenContainer        from './screens/user_screen/user_screen_container.js';
+import MessagesScreenContainer    from './screens/messages_screen/messages_screen_container.js';
 import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container.js';
 import ShareScreenContainer       from './screens/share_screen/share_screen_container.js';
 import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container.js';
@@ -123,12 +124,13 @@ class App extends React.Component {
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} initial={true} />
 
-            <Scene key='LoadingScreen' component={LoadingScreenContainer} panHandlers={null} hideNavBar={true}  />
-            <Scene key='WelcomeScreen' component={WelcomeScreenContainer} panHandlers={null} hideNavBar={true} />
-            <Scene key='LoginScreen'   component={LoginScreenContainer}   panHandlers={null} hideNavBar={true} />
-            <Scene key='NewPostScreen' component={NewPostScreenContainer} panHandlers={null} hideNavBar={true} />
-            <Scene key='ShareScreen'   component={ShareScreenContainer}   panHandlers={null} hideNavBar={true} />
-            <Scene key='UserScreen'    component={UserScreenContainer}    panHandlers={null} hideNavBar={true} />
+            <Scene key='LoadingScreen'  component={LoadingScreenContainer}  panHandlers={null} hideNavBar={true}  />
+            <Scene key='WelcomeScreen'  component={WelcomeScreenContainer}  panHandlers={null} hideNavBar={true} />
+            <Scene key='LoginScreen'    component={LoginScreenContainer}    panHandlers={null} hideNavBar={true} />
+            <Scene key='NewPostScreen'  component={NewPostScreenContainer}  panHandlers={null} hideNavBar={true} />
+            <Scene key='ShareScreen'    component={ShareScreenContainer}    panHandlers={null} hideNavBar={true} />
+            <Scene key='UserScreen'     component={UserScreenContainer}     panHandlers={null} hideNavBar={true} />
+            <Scene key='MessagesScreen' component={MessagesScreenContainer} panHandlers={null} hideNavBar={true} />
 
             <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username')} />

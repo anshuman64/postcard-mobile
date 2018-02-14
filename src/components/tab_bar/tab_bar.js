@@ -48,8 +48,8 @@ class TabBar extends React.PureComponent {
     } else if (this.props.screen === 'FriendScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          {this._renderTab({ tab: 'Pending' }, this.props.tab === 'Pending', 'Pending')}
           {this._renderTab({ tab: 'Friends' }, this.props.tab === 'Friends', 'Friends')}
+          {this._renderTab({ tab: 'Pending' }, this.props.tab === 'Pending', 'Pending')}
         </RN.View>
       )
     } else {

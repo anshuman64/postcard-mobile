@@ -4,10 +4,11 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import TabBar                  from '../../components/tab_bar/tab_bar.js';
-import FriendListItemContainer from '../../components/friend_list_item/friend_list_item_container.js';
-import { styles }              from './friend_screen_styles.js';
-import { UTILITY_STYLES }      from '../../utilities/style_utility.js';
+import TabBar                        from '../../components/tab_bar/tab_bar.js';
+import FriendListItemContainer       from '../../components/friend_list_item/friend_list_item_container.js';
+import PendingListItemContainer      from '../../components/pending_list_item/pending_list_item_container.js';
+import { styles }                    from './friend_screen_styles.js';
+import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -21,8 +22,10 @@ class FriendScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      tab: 'Pending',
+      tab: 'Friends',
     };
+
+    this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   }
 
   //--------------------------------------------------------------------//
@@ -56,7 +59,7 @@ class FriendScreen extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <FriendListItemContainer userId={item} setParentState={this.setParentState} />
+      <PendingListItemContainer userId={item} />
     )
   }
 
@@ -70,46 +73,31 @@ class FriendScreen extends React.PureComponent {
     )
   }
 
+  _renderHeaderItem = (iconName, title, callback) => {
+    return (
+      <RN.TouchableOpacity onPress={callback}>
+        <RN.View style={styles.headerItemView}>
+          <Icon name={iconName} style={[styles.headerItemIcon, UTILITY_STYLES.textHighlighted]} />
+          <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.textHighlighted]}>
+            {title}
+          </RN.Text>
+        </RN.View>
+      </RN.TouchableOpacity>
+    )
+  }
+
   _renderHeader = () => {
     return (
       <RN.View style={styles.headerView}>
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => {
-            this.addFriendIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-            this.addFriendText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          }}
-          onPressOut={() => {
-            this.addFriendIcon.setNativeProps({style: styles.headerItemIcon})
-            this.addFriendText.setNativeProps({style: UTILITY_STYLES.lightBlackText16})
-          }}
-          onPress={this._onPressAddFriend}
-          >
-          <RN.View style={styles.headerItemView}>
-            <Icon name={'user-follow'} ref={(ref) => this.addFriendIcon = ref} style={styles.headerItemIcon} />
-            <RN.Text ref={(ref) => this.addFriendText = ref} style={UTILITY_STYLES.lightBlackText16}>
-              Add Friend by Username
-            </RN.Text>
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => {
-            this.shareIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-            this.shareText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          }}
-          onPressOut={() => {
-            this.shareIcon.setNativeProps({style: styles.headerItemIcon})
-            this.shareText.setNativeProps({style: UTILITY_STYLES.lightBlackText16})
-          }}
-          onPress={this._onPressShare}
-          >
-          <RN.View style={styles.headerItemView}>
-            <Icon name={'share'} ref={(ref) => this.shareIcon = ref} style={styles.headerItemIcon} />
-            <RN.Text ref={(ref) => this.shareText = ref} style={UTILITY_STYLES.lightBlackText16}>
-              Share Username
-            </RN.Text>
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
+        {this._renderHeaderItem('user-follow', 'Add Friend by Username', this._onPressAddFriend)}
+        {this._renderHeaderItem('share', 'Share Username', this._onPressShare)}
       </RN.View>
+    )
+  }
+
+  _renderRow = (rowData, sectionID, rowID) => {
+    return (
+      <FriendListItemContainer userId={rowData} />
     )
   }
 
@@ -134,17 +122,20 @@ class FriendScreen extends React.PureComponent {
       )
     } else {
       return (
-        <RN.SectionList
-          sections={[{data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'}]}
-          keyExtractor={(item) => item}
-          renderSectionHeader={this._renderSectionHeader.bind(this)}
-          ListHeaderComponent={this._renderHeader()}
+        <RN.ListView
+          dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
+          style={styles.cameraRoll}
+          renderRow={this._renderRow}
+          renderHeader={this.props.friendships.accepted.length === 0 ? this._renderHeader : null}
           initialListSize={20}
-          pageSize={80}
-          showsVerticalScrollIndicator={true}
+          pageSize={20}
+          contentContainerStyle={styles.contentContainerStyle}
+          enableEmptySections={true}
+          showsVerticalScrollIndicator={false}
+          onEndReached={this._onEndReached}
           onEndReachedThreshold={10000}
           scrollRenderAheadDistance={10000}
-        />
+          />
       )
     }
   }

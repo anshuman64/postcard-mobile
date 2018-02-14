@@ -11,9 +11,8 @@ import { refreshAuthToken }    from './client_actions.js';
 //--------------------------------------------------------------------//
 
 export const LIKE_ACTION_TYPES = {
-  RECEIVE_LIKE:       'RECEIVE_LIKE',
-  REMOVE_LIKE:        'REMOVE_LIKE',
-  PUSHER_RECEIVE_LIKE: 'PUSHER_RECEIVE_LIKE',
+  RECEIVE_LIKE: 'RECEIVE_LIKE',
+  REMOVE_LIKE:  'REMOVE_LIKE',
 };
 
 //--------------------------------------------------------------------//
@@ -27,10 +26,6 @@ export const receiveLike = (data) => {
 export const removeLike = (data) => {
   return { type: LIKE_ACTION_TYPES.REMOVE_LIKE, data: data };
 };
-
-export const pusherReceiveLike = (data) => {
-  return { type: LIKE_ACTION_TYPES.PUSHER_RECEIVE_LIKE, data: data };
-}
 
 //--------------------------------------------------------------------//
 // Asynchronous Actions

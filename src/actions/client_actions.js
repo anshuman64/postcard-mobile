@@ -4,7 +4,7 @@ import AWS       from 'aws-sdk/dist/aws-sdk-react-native';
 import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { getImage }                from './image_actions.js';
+import { getImages }                from './image_actions.js';
 import { amplitude }               from '../utilities/analytics_utility.js';
 import * as APIUtility             from '../utilities/api_utility.js';
 import { setS3Client, uploadFile } from '../utilities/file_utility.js';
@@ -123,10 +123,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
     dispatch(setPusherClient(authToken, client.id));
 
     dispatch(receiveClient({ user: client }));
-
-    if (client.avatar_url) {
-      dispatch(getImage(client.avatar_url));
-    }
+    dispatch(getImages(client));
   }
 
   let handleExistingUser = (authToken) => {
@@ -238,10 +235,7 @@ export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageT
       .then((editedUser) => {
         amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
         dispatch(receiveClient({ user: editedUser }));
-
-        if (editedUser.avatar_url) {
-          dispatch(getImage(editedUser.avatar_url));
-        }
+        dispatch(getImages(editedUser));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

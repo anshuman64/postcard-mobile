@@ -3,12 +3,13 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import ProfileHeaderContainer     from '../profile_header/profile_header_container.js';
-import PostListItemContainer      from './post_list_item/post_list_item_container.js';
-import { PROFILE_HEADER_HEIGHT }  from '../profile_header/profile_header_styles.js';
-import { styles }                 from './post_list_styles.js';
-import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
-import { defaultErrorAlert }      from '../../utilities/error_utility.js';
+import ProfileHeaderContainer                from '../profile_header/profile_header_container.js';
+import PostListItemContainer                 from '../post_list_item/post_list_item_container.js';
+import ListFooter                            from '../list_footer/list_footer.js';
+import { PROFILE_HEADER_HEIGHT }             from '../profile_header/profile_header_styles.js';
+import { styles }                            from './post_list_styles.js';
+import { UTILITY_STYLES, COLORS, scaleFont } from '../../utilities/style_utility.js';
+import { defaultErrorAlert }                 from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -121,11 +122,7 @@ class PostList extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer
-        screen={this.props.screen}
-        item={this.props.postsCache[item]}
-        setFollowState={this.props.setFollowState}
-        />
+      <PostListItemContainer item={this.props.postsCache[item]} />
     )
   }
 
@@ -181,16 +178,7 @@ class PostList extends React.PureComponent {
     if (postData && postData[this.props.postType] && postData[this.props.postType].isEnd) {
       return (
         <RN.TouchableWithoutFeedback onPress={this._onPressAddFriends}>
-          <RN.View style={styles.footerView}>
-            <RN.View style={styles.horizontalLine} />
-            <RN.Text style={styles.footerText}>
-              No More Posts?
-              <RN.Text style={[styles.footerText, UTILITY_STYLES.textHighlighted]}>
-                {' Add Friends'}
-              </RN.Text>
-            </RN.Text>
-            <RN.View style={styles.horizontalLine} />
-          </RN.View>
+          <ListFooter footerWidth={scaleFont(200)} text={'No more Posts?'} highlightedText={' Add Friends'} />
         </RN.TouchableWithoutFeedback>
       )
     } else {
