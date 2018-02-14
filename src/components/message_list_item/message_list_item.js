@@ -165,7 +165,7 @@ class MessageListItem extends React.PureComponent {
     if (isAuthoredByClient) {
       return (
         <RN.View style={[styles.messageContainerClient, isFirstMessage && {marginBottom: 15}]}>
-          <RN.TouchableOpacity activeOpacity={0.7} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
+          <RN.TouchableOpacity activeOpacity={0.5} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
             <RN.View style={[styles.messageViewClient, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
@@ -179,7 +179,7 @@ class MessageListItem extends React.PureComponent {
       return (
         <RN.View style={[styles.messageContainerUser, isFirstMessage && {marginBottom: 15}]}>
         {this._renderAvatar()}
-        <RN.TouchableOpacity activeOpacity={0.7} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
+        <RN.TouchableOpacity activeOpacity={0.5} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
             <RN.View style={[styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
