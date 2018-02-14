@@ -5,14 +5,15 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { UTILITY_STYLES, COLORS, DEVICE_DIM, getUsableDimensions } from '../../utilities/style_utility.js';
-import { styles }                                                  from './camera_roll_screen_styles.js';
-import { defaultErrorAlert }                                       from '../../utilities/error_utility.js';
-import { amplitude }                                               from '../../utilities/analytics_utility.js';
+import ListFooter            from '../../components/list_footer/list_footer.js';
+import * as StyleUtility     from '../../utilities/style_utility.js';
+import { styles }            from './camera_roll_screen_styles.js';
+import { defaultErrorAlert } from '../../utilities/error_utility.js';
+import { amplitude }         from '../../utilities/analytics_utility.js';
 
 //--------------------------------------------------------------------//
 
-const PAGE_SIZE   = Math.ceil(DEVICE_DIM.height / (getUsableDimensions().width / 3)) * 3;
+const PAGE_SIZE   = Math.ceil(StyleUtility.DEVICE_DIM.height / (StyleUtility.getUsableDimensions().width / 3)) * 3;
 const SCROLL_SIZE = PAGE_SIZE * 16;
 
 class CameraRollScreen extends React.PureComponent {
@@ -168,18 +169,12 @@ class CameraRollScreen extends React.PureComponent {
   _renderFooter = () => {
     if (this.state.pageInfo && !this.state.pageInfo.has_next_page) {
       return (
-        <RN.View style={styles.footerView}>
-          <RN.View style={styles.horizontalLine} />
-          <RN.Text style={styles.footerText}>
-            No More Photos
-          </RN.Text>
-          <RN.View style={styles.horizontalLine} />
-        </RN.View>
+        <ListFooter footerWidth={StyleUtility.scaleFont(120)} text={'No More Photos'} />
       )
     } else {
       return (
         <RN.View style={styles.footerView}>
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} />
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
         </RN.View>
       )
     }
@@ -187,7 +182,7 @@ class CameraRollScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={UTILITY_STYLES.containerCenter}>
+      <RN.View style={StyleUtility.UTILITY_STYLES.containerCenter}>
         {this._renderCameraRoll()}
       </RN.View>
     )
