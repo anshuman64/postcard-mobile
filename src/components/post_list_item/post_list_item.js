@@ -296,10 +296,12 @@ class PostListItem extends React.PureComponent {
     if (this.props.item.body) {
       return (
         <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
-          <RN.View style={[styles.bodyTextView, this.props.width && {width: this.props.width - 20}]}>
-            <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText, this.props.width && {width: this.props.width - 20}]}>
-              {this.props.item.body}
-            </RN.Text>
+          <RN.View style={styles.bodyView}>
+            <RN.View style={styles.bodyTextView}>
+              <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
+                {this.props.item.body}
+              </RN.Text>
+            </RN.View>
           </RN.View>
         </RN.TouchableWithoutFeedback>
       )
