@@ -22,12 +22,7 @@ class LoadingScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      iterationCount: 8,
-      isLoggedIn:     false,
-      isSuccessful:   true,
-      isBanned:       false
-    }
+    this.isLoggedIn   = false;
   }
 
   //--------------------------------------------------------------------//
@@ -44,11 +39,11 @@ class LoadingScreen extends React.PureComponent {
           .then(() => {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
-              this.setState({ iterationCount: 2, isBanned: true });
             } else {
               this._loadData()
                 .then(() => {
-                  this.setState({ iterationCount: 2, isLoggedIn: true });
+                  this.isLoggedIn = true;
+                  this._onAnimationEnd();
                 })
                 .catch((error) => {
                   defaultErrorAlert(error);
@@ -56,12 +51,11 @@ class LoadingScreen extends React.PureComponent {
             }
           })
           .catch((error) => {
-            this.setState({ iterationCount: 2, isSuccessful: false });
             defaultErrorAlert(error);
           });
       } else {
         // console.error('No Firebase cookie found'); // Debug Test
-        this.setState({ iterationCount: 2, isLoggedIn: false });
+        this._onAnimationEnd();
       }
     });
   }
@@ -88,11 +82,7 @@ class LoadingScreen extends React.PureComponent {
       this.unsubscribe();
     }
 
-    if (this.state.isBanned || !this.state.isSuccessful) {
-      return;
-    }
-
-    if (this.state.isLoggedIn) {
+    if (this.isLoggedIn) {
       let client = this.props.usersCache[this.props.client.id];
 
       if (client && client.username) {
@@ -120,7 +110,7 @@ class LoadingScreen extends React.PureComponent {
         direction={'alternate'}
         easing={'ease-in'}
         duration={1500}
-        iterationCount={this.state.iterationCount}
+        iterationCount={8}
         onAnimationEnd={this._onAnimationEnd}
         />
     )
