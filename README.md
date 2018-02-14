@@ -66,6 +66,7 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 1. Comment all logging 'console.' and 'debugger' functions
 2. ENV_SETTING = ENV_TYPES.PRODUCTION in app_config.js
 3. LoadingScreen inital={true} in App.js
+4. Make sure push notification code in insiya-api is uncommented for production
 
 ## Release - Android
 1. Increment versionCode and versionName in android > app > build.gradle and AndroidManifest.xml
