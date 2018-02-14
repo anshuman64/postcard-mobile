@@ -128,7 +128,7 @@ class CameraRollScreen extends React.PureComponent {
       <RN.ListView
         dataSource={this.ds.cloneWithRows(this.state.images)}
         style={styles.cameraRoll}
-        renderRow={this._renderRow()}
+        renderRow={this._renderRow}
         renderFooter={this._renderFooter}
         initialListSize={SCROLL_SIZE}
         pageSize={SCROLL_SIZE}
@@ -142,26 +142,24 @@ class CameraRollScreen extends React.PureComponent {
     )
   }
 
-  _renderRow() {
+  _renderRow = (rowData, sectionID, rowID) => {
     return (
-      (rowData, sectionID, rowID) => (
-        <RN.View ref={(ref) => rowID = ref} style={styles.imageContainer}>
-          <RN.View style={styles.iconBackground}>
-            <Ionicon name='md-image' style={styles.imageIcon} />
-          </RN.View>
-          <RN.TouchableWithoutFeedback
-            onPressIn={() => rowID.setNativeProps({style: styles.imageHighlighted}) }
-            onPressOut={() => rowID.setNativeProps({style: styles.imageContainer}) }
-            onPress={() => this._onPressImage(rowData.node)}
-            >
-            <RN.Image
-              source={{uri: rowData.node.image.uri}}
-              resizeMode={'cover'}
-              style={styles.image}
-              />
-          </RN.TouchableWithoutFeedback>
+      <RN.View ref={(ref) => rowID = ref} style={styles.imageContainer}>
+        <RN.View style={styles.iconBackground}>
+          <Ionicon name='md-image' style={styles.imageIcon} />
         </RN.View>
-      )
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => rowID.setNativeProps({style: styles.imageHighlighted}) }
+          onPressOut={() => rowID.setNativeProps({style: styles.imageContainer}) }
+          onPress={() => this._onPressImage(rowData.node)}
+          >
+          <RN.Image
+            source={{uri: rowData.node.image.uri}}
+            resizeMode={'cover'}
+            style={styles.image}
+            />
+        </RN.TouchableWithoutFeedback>
+      </RN.View>
     )
   }
 
