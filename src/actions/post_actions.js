@@ -1,5 +1,8 @@
+// Library Imports
+import * as _ from 'lodash';
+
 // Local Imports
-import { getImagesFromPosts }     from './image_actions.js';
+import { getImages }              from './image_actions.js';
 import { amplitude }              from '../utilities/analytics_utility.js';
 import * as APIUtility            from '../utilities/api_utility.js';
 import { setErrorDescription }    from '../utilities/error_utility.js';
@@ -21,11 +24,12 @@ export const POST_TYPES = {
 }
 
 export const POST_ACTION_TYPES = {
-  RECEIVE_POSTS:       'RECEIVE_POSTS',
-  REFRESH_POSTS:       'REFRESH_POSTS',
-  RECEIVE_POST:        'RECEIVE_POST',
-  REMOVE_POST:         'REMOVE_POST',
-  PUSHER_RECEIVE_POST: 'PUSHER_RECEIVE_POST'
+  RECEIVE_POSTS:               'RECEIVE_POSTS',
+  REFRESH_POSTS:               'REFRESH_POSTS',
+  RECEIVE_POST:                'RECEIVE_POST',
+  REMOVE_POST:                 'REMOVE_POST',
+  RECEIVE_POSTS_FROM_MESSAGES: 'RECEIVE_POSTS_FROM_MESSAGES',
+  PUSHER_RECEIVE_POST:         'PUSHER_RECEIVE_POST'
 };
 
 //--------------------------------------------------------------------//
@@ -47,6 +51,10 @@ export const receivePost = (data) => {
 export const removePost = (data) => {
   return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
 };
+
+export const receivePostsFromMessages = (data) => {
+  return { type: POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES, data: data };
+}
 
 export const pusherReceivePost = (data) => {
   return { type: POST_ACTION_TYPES.PUSHER_RECEIVE_POST, data: data };
@@ -94,7 +102,7 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
         dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
       }
 
-      dispatch(getImagesFromPosts(posts));
+      dispatch(getImages(posts));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -111,8 +119,8 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
     return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipients })
       .then((newPost) => {
         amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipients.length, placeholder_text: placeholderText });
-        dispatch(receivePost({ post: newPost, clientId: clientId }));
-        dispatch(getImagesFromPosts([newPost]));
+        dispatch(receivePost({ post: newPost, clientId: clientId, recipients: recipients }));
+        dispatch(getImages(newPost));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -163,3 +171,21 @@ export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => 
       throw error;
     });
 };
+
+export const getPostsFromMessages = (object) => (dispatch) => {
+  let posts = [];
+
+  _.forEach(object, (obj) => {
+    // If object is an array of messages
+    if (obj.post) {
+      posts.push(obj.post);
+    }
+
+    // If object is an array of users
+    if (obj.peek_message && obj.peek_message.post) {
+      posts.push(obj.peek_message.post);
+    }
+  });
+
+  dispatch(receivePostsFromMessages({ posts: posts }));
+}

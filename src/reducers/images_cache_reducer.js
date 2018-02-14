@@ -21,23 +21,6 @@ const ImagesCacheReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    case IMAGE_ACTION_TYPES.RECEIVE_IMAGE:
-      if (newState[action.data.key] && newState[action.data.key].lastUpdated) {
-        let currentTime = new Date();
-        let lastUpdate = newState[action.data.key].lastUpdated;
-        let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
-
-        if (minsDiff < 59) {
-          return newState;
-        }
-      }
-
-      newState[action.data.key] = {
-        url: action.data.url,
-        lastUpdated: new Date()
-      }
-
-      return newState;
     case IMAGE_ACTION_TYPES.RECEIVE_IMAGES:
       let updateImage = (image) => {
         newState[image.key] = {
