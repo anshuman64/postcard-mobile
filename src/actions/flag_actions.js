@@ -36,7 +36,7 @@ export const removeFlag = (data) => {
 export const createFlag = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.post(authToken, '/flags', { post_id: postId })
     .then((newFlag) => {
-      amplitude.logEvent('Safety - Click Flag', { is_successful: true, is_create: true });
+      amplitude.logEvent('Safety - Create Flag', { is_successful: true, post_id: postId });
 
       dispatch(receiveFlag({ flag: newFlag }));
     })
@@ -46,7 +46,7 @@ export const createFlag = (authToken, firebaseUserObj, postId) => (dispatch) => 
       }
 
       error = setErrorDescription(error, 'POST flag failed');
-      amplitude.logEvent('Safety - Click Flag', { is_successful: false, is_create: true, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Safety - Create Flag', { is_successful: false, post_id: postId, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
@@ -55,7 +55,7 @@ export const createFlag = (authToken, firebaseUserObj, postId) => (dispatch) => 
 export const deleteFlag = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/flags/' + postId)
     .then((deletedFlag) => {
-      amplitude.logEvent('Safety - Click Flag', { is_successful: true, is_create: false });
+      amplitude.logEvent('Safety - Delete Flag', { is_successful: true, post_id: postId });
       dispatch(removeFlag({ flag: deletedFlag }));
     })
     .catch((error) => {
@@ -64,7 +64,7 @@ export const deleteFlag = (authToken, firebaseUserObj, postId) => (dispatch) => 
       }
 
       error = setErrorDescription(error, 'DEL flag failed');
-      amplitude.logEvent('Safety - Click Flag', { is_successful: false, is_create: false, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Safety - Delete Flag', { is_successful: false, post_id: postId, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
