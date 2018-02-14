@@ -68,8 +68,14 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey700,
     marginRight: 18
   },
+  bodyTextView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
+  },
   bodyText: {
-    width: StyleUtility.getUsableDimensions().width - DEFAULT_MARGIN * 2,
+    width: '100%',
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: 18,
