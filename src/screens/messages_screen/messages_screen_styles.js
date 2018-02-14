@@ -7,13 +7,19 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_MARGIN = 15;
-
 export const styles = StyleSheet.create({
   messageList: {
+    flex: 1,
     width: '100%',
     backgroundColor: StyleUtility.COLORS.grey50,
-    marginBottom: 20,
+  },
+  headerView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+    height: 50,
+    paddingRight: 10
   },
   footerView: {
     flexDirection: 'row',
@@ -62,9 +68,10 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   image: {
-    flex: 1,
-    width: StyleUtility.DEVICE_DIM.width * 0.9,
-    height: StyleUtility.DEVICE_DIM.width * 0.9,
+    alignSelf: 'flex-end',
+    width: StyleUtility.DEVICE_DIM.width * 0.5,
+    height: StyleUtility.DEVICE_DIM.width * 0.5,
+    marginRight: 15,
     backgroundColor: StyleUtility.COLORS.grey900
   },
   imageButton: {
@@ -77,7 +84,7 @@ export const styles = StyleSheet.create({
   imageButtonIcon: {
     textAlign: 'center',
     fontSize: StyleUtility.scaleFont(25),
-    color: StyleUtility.COLORS.appleBlue
+    color: StyleUtility.COLORS.grey600
   },
   sendButton: {
     flexDirection: 'row',
@@ -89,6 +96,6 @@ export const styles = StyleSheet.create({
   sendButtonIcon: {
     textAlign: 'center',
     fontSize: StyleUtility.scaleFont(20),
-    color: StyleUtility.COLORS.appleRed
+    color: StyleUtility.COLORS.appleBlue
   },
 });

@@ -29,6 +29,7 @@ class MessagesScreen extends React.PureComponent {
       messageText: '',
       imagePath:   null,
       imageType:   null,
+      isLoading:   false,
     };
 
     this.isSendPressed                    = false;
@@ -68,14 +69,19 @@ class MessagesScreen extends React.PureComponent {
     this.isSendPressed = true;
     let messageBody = isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
 
-    this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.userId, messageBody, this.state.imagePath, this.state.imageType)
-      .catch((error) => {
-        this.setState({ messageText: '', imagePath: null, imageType: null });
-        defaultErrorAlert(error);
-      })
-      .finally(() => {
-        this.isSendPressed = false;
-      });
+    this.setState({ isLoading: true }, () => {
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.userId, messageBody, this.state.imagePath, this.state.imageType)
+        .then(() => {
+          this.setState({ messageText: '', imagePath: null, imageType: null });
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.isSendPressed = false;
+          this.setState({ isLoading: false });
+        });
+    })
   }
 
   _onEndReached = () => {
@@ -131,20 +137,6 @@ class MessagesScreen extends React.PureComponent {
     )
   }
 
-  _renderImage() {
-    if (this.state.imagePath) {
-      return (
-        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'}>
-          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })}>
-            <RN.View style={styles.closeButtonBackground}>
-              <EvilIcon name='close' style={styles.closeIcon} />
-            </RN.View>
-          </RN.TouchableWithoutFeedback>
-        </RN.ImageBackground>
-      )
-    }
-  }
-
   _renderItem = ({item, index}) => {
     return (
       <MessageListItemContainer userId={this.props.userId} index={index} message={item} />
@@ -167,6 +159,28 @@ class MessagesScreen extends React.PureComponent {
     }
   }
 
+  _renderHeader = () => {
+    if (this.state.isLoading) {
+      return (
+        <RN.View style={styles.headerView}>
+          <RN.ActivityIndicator size='small' color={COLORS.grey400} />
+        </RN.View>
+      )
+    } else if (this.state.imagePath) {
+      return (
+        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'}>
+          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })}>
+            <RN.View style={styles.closeButtonBackground}>
+              <EvilIcon name='close' style={styles.closeIcon} />
+            </RN.View>
+          </RN.TouchableWithoutFeedback>
+        </RN.ImageBackground>
+      )
+    } else {
+      return null;
+    }
+  }
+
   _renderMessageList() {
     let messages = this.props.messages[this.props.userId];
 
@@ -183,6 +197,7 @@ class MessagesScreen extends React.PureComponent {
         inverted={true}
         onEndReached={this._onEndReached}
         ListFooterComponent={this._renderFooter}
+        ListHeaderComponent={this._renderHeader}
         onMomentumScrollBegin={() => this.onEndReachedCalledDuringMomentum = false}
         onEndReachedThreshold={0.01}
         />
@@ -201,7 +216,6 @@ class MessagesScreen extends React.PureComponent {
               backTitle={username + "'s Messages"}
               />
             {this._renderMessageList()}
-            {this._renderImage()}
             {this._renderTextInputRow()}
           </RN.View>
         </RN.TouchableWithoutFeedback>

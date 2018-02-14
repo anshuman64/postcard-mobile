@@ -7,7 +7,7 @@ import * as StyleUtility from '../../utilities/style_utility.js';
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_MARGIN = 13;
+export const DEFAULT_MARGIN = 13;
 
 export const styles = StyleSheet.create({
   container: {
@@ -72,10 +72,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: '100%',
+    alignSelf: 'flex-start',
+    width: StyleUtility.getUsableDimensions().width - 20,
   },
   bodyText: {
-    width: '100%',
+    width: StyleUtility.getUsableDimensions().width - 20,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: 18,
