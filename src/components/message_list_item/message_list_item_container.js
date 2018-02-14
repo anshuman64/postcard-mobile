@@ -7,9 +7,10 @@ import { refreshCredsAndGetImage } from '../../actions/image_actions.js';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, imagesCache, messages }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, postsCache, imagesCache, messages }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
+  postsCache:  postsCache,
   imagesCache: imagesCache,
   messages:    messages,
 });

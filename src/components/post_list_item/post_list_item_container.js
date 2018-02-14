@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import PostListItem                    from './post_list_item.js';
-import { deletePost, removePost }      from '../../../actions/post_actions.js';
-import { createLike, deleteLike }      from '../../../actions/like_actions.js';
-import { createFlag, deleteFlag }      from '../../../actions/flag_actions.js';
-import { createFollow, deleteFollow }  from '../../../actions/follow_actions.js';
-import { refreshCredsAndGetImage }     from '../../../actions/image_actions.js';
+import { deletePost, removePost }      from '../../actions/post_actions.js';
+import { createLike, deleteLike }      from '../../actions/like_actions.js';
+import { createFlag, deleteFlag }      from '../../actions/flag_actions.js';
+import { createFollow, deleteFollow }  from '../../actions/follow_actions.js';
+import { refreshCredsAndGetImage }     from '../../actions/image_actions.js';
 
 //--------------------------------------------------------------------//
 
