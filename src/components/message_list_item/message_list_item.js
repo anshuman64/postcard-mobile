@@ -41,14 +41,11 @@ class MessageListItem extends React.PureComponent {
       isHeader = true;
     } else {
       let lastMessage = this.props.messages[this.props.userId].data[this.props.index + 1];
-      debugger
 
       if (lastMessage) {
         let lastMessageCreatedAt = new Date(lastMessage.created_at);
-        debugger
 
         if (thisMessageCreatedAt - lastMessageCreatedAt > 600000) {
-          debugger
           isHeader = true;
         }
       }
