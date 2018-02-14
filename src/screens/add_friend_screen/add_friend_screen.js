@@ -51,6 +51,10 @@ class AddFriendScreen extends React.PureComponent {
             this.setState({ isError: true, errorText: 'Friend request already sent' });
           } else if (error.message === 'Requester and requestee cannot be the same') {
             this.setState({ isError: true, errorText: "Go to 'Recent' tab for more friends!" });
+          } else if (error.message === 'Requester blocked by requestee') {
+            this.setState({ isError: true, errorText: "This user has blocked you" });
+          } else if (error.message === 'Requestee blocked by requester') {
+            this.setState({ isError: true, errorText: "You have blocked this user" });
           } else {
             defaultErrorAlert(error);
           }
