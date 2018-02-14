@@ -10,10 +10,23 @@ import AvatarContainer       from '../avatar/avatar_container.js';
 import { styles }            from './message_list_item_styles.js';
 import * as StyleUtility     from '../../utilities/style_utility.js';
 import { renderMessageDate } from '../../utilities/date_time_utility.js';
+import { setStateCallback }  from '../../utilities/function_utility.js';
 
 //--------------------------------------------------------------------//
 
 class MessageListItem extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isDateShown: false,
+    };
+  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -28,12 +41,14 @@ class MessageListItem extends React.PureComponent {
       isHeader = true;
     } else {
       let lastMessage = this.props.messages[this.props.userId].data[this.props.index + 1];
-      let lastMessageCreatedAt = null;
+      debugger
 
       if (lastMessage) {
-        lastMessageCreatedAt = new Date(lastMessage.created_at);
+        let lastMessageCreatedAt = new Date(lastMessage.created_at);
+        debugger
 
-        if (lastMessageCreatedAt - thisMessageCreatedAt > 600000) {
+        if (thisMessageCreatedAt - lastMessageCreatedAt > 600000) {
+          debugger
           isHeader = true;
         }
       }
@@ -68,11 +83,11 @@ class MessageListItem extends React.PureComponent {
 
     if (isAvatar) {
       return (
-        <AvatarContainer userId={this.props.message.author_id} avatarSize={25} iconSize={10} frameBorderWidth={1} />
+        <AvatarContainer userId={this.props.message.author_id} avatarSize={30} iconSize={12} frameBorderWidth={1.1} />
       )
     } else {
       return (
-        <RN.View style={{width: 25, height: 25}} />
+        <RN.View style={{width: 30, height: 30}} />
       )
     }
   }
@@ -112,6 +127,18 @@ class MessageListItem extends React.PureComponent {
     }
   }
 
+  _renderDate(isAuthoredByClient) {
+    if (this.state.isDateShown) {
+      return (
+        <RN.Text style={[styles.date, isAuthoredByClient && {alignSelf: 'flex-end'}]}>
+          {renderMessageDate(this.props.message.created_at)}
+        </RN.Text>
+      )
+    } else {
+      return null;
+    }
+  }
+
   _renderPost() {
     let postId = this.props.message.post_id;
 
@@ -133,29 +160,32 @@ class MessageListItem extends React.PureComponent {
   _renderMessage() {
     let isAuthoredByClient = this.props.message.author_id === this.props.client.id;
     let isBackgroundColor  = this.props.message.body;
+    let isFirstMessage = this.props.index === 0;
 
     if (isAuthoredByClient) {
       return (
-        <RN.View style={styles.messageContainerClient}>
-          <RN.TouchableOpacity>
+        <RN.View style={[styles.messageContainerClient, isFirstMessage && {marginBottom: 15}]}>
+          <RN.TouchableOpacity activeOpacity={0.7} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
             <RN.View style={[styles.messageViewClient, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
               {this._renderImage()}
             </RN.View>
+            {this._renderDate(isAuthoredByClient)}
           </RN.TouchableOpacity>
         </RN.View>
       )
     } else {
       return (
-        <RN.View style={styles.messageContainerUser}>
+        <RN.View style={[styles.messageContainerUser, isFirstMessage && {marginBottom: 15}]}>
         {this._renderAvatar()}
-        <RN.TouchableOpacity>
+        <RN.TouchableOpacity activeOpacity={0.7} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
             <RN.View style={[styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
               {this._renderImage()}
             </RN.View>
+            {this._renderDate(isAuthoredByClient)}
           </RN.TouchableOpacity>
         </RN.View>
       )

@@ -75,17 +75,29 @@ export const styles = StyleSheet.create({
     height: IMAGE_SIZE,
     borderRadius: 10,
   },
+  date: {
+    alignSelf: 'flex-start',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
+    fontSize: 12,
+    fontWeight: '100',
+    color: StyleUtility.COLORS.grey700,
+    marginTop: 1,
+    marginBottom: 1,
+    marginLeft: 18,
+    marginRight: 18
+  },
   dateHeader: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
-    width: '100%'
+    width: '100%',
+    height: 30,
+    marginTop: 3
   },
   dateHeaderText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontSize: 12,
-    fontWeight: '400',
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
+    fontSize: 13,
+    fontWeight: '100',
     textAlign: 'center',
     color: StyleUtility.COLORS.grey700,
   },

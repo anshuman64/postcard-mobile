@@ -178,7 +178,7 @@ class PostList extends React.PureComponent {
     if (postData && postData[this.props.postType] && postData[this.props.postType].isEnd) {
       return (
         <RN.TouchableWithoutFeedback onPress={this._onPressAddFriends}>
-          <ListFooter footerWidth={scaleFont(190)} text={'No more Posts?'} highlightedText={' Add Friends'} />
+          <ListFooter footerWidth={scaleFont(200)} text={'No more Posts?'} highlightedText={' Add Friends'} />
         </RN.TouchableWithoutFeedback>
       )
     } else {
