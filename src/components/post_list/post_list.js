@@ -4,7 +4,7 @@ import RN     from 'react-native';
 
 // Local Imports
 import ProfileHeaderContainer     from '../profile_header/profile_header_container.js';
-import PostListItemContainer      from './post_list_item/post_list_item_container.js';
+import PostListItemContainer      from '../post_list_item/post_list_item_container.js';
 import { PROFILE_HEADER_HEIGHT }  from '../profile_header/profile_header_styles.js';
 import { styles }                 from './post_list_styles.js';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
@@ -121,11 +121,7 @@ class PostList extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer
-        screen={this.props.screen}
-        item={this.props.postsCache[item]}
-        setFollowState={this.props.setFollowState}
-        />
+      <PostListItemContainer item={this.props.postsCache[item]} />
     )
   }
 

@@ -5,10 +5,11 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import AvatarContainer            from '../avatar/avatar_container.js';
-import { styles }                 from './message_list_item_styles.js';
-import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
-import { renderMessageDate }      from '../../utilities/date_time_utility.js';
+import PostListItem          from '../post_list_item/post_list_item_container.js';
+import AvatarContainer       from '../avatar/avatar_container.js';
+import { styles }            from './message_list_item_styles.js';
+import * as StyleUtility     from '../../utilities/style_utility.js';
+import { renderMessageDate } from '../../utilities/date_time_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -90,7 +91,6 @@ class MessageListItem extends React.PureComponent {
 
   _renderImage() {
     let imagePath = this.props.message.image_url;
-    let isBody = this.props.message.body ? true : false;
 
     if (imagePath && this.props.imagesCache[imagePath]) {
       return (
@@ -104,7 +104,26 @@ class MessageListItem extends React.PureComponent {
     } else if (imagePath && !this.props.imagesCache[imagePath]) {
       return (
         <RN.View style={styles.image}>
-          <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
+        </RN.View>
+      )
+    } else {
+      return null;
+    }
+  }
+
+  _renderPost() {
+    debugger
+    let postId = this.props.message.post_id;
+
+    if (postId && this.props.postsCache[postId]) {
+      return (
+        <PostListItem item={this.props.postsCache[postId]} width={StyleUtility.getUsableDimensions().width * 0.75} />
+      )
+    } else if (postId && !this.props.postsCache[postId]) {
+      return (
+        <RN.View style={styles.image}>
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
     } else {
@@ -120,11 +139,11 @@ class MessageListItem extends React.PureComponent {
         <RN.View style={styles.messageContainerClient}>
           <RN.TouchableOpacity>
             <RN.View style={styles.messageViewClient}>
+              {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
               {this._renderImage()}
             </RN.View>
           </RN.TouchableOpacity>
-          {this._renderAvatar()}
         </RN.View>
       )
     } else {
@@ -133,6 +152,7 @@ class MessageListItem extends React.PureComponent {
         {this._renderAvatar()}
         <RN.TouchableOpacity>
             <RN.View style={styles.messageViewUser}>
+              {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
               {this._renderImage()}
             </RN.View>
@@ -144,8 +164,6 @@ class MessageListItem extends React.PureComponent {
 
 
   render() {
-
-
     return (
       <RN.View>
         {this._renderDateHeader()}
