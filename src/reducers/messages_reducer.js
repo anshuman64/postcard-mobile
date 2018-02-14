@@ -84,7 +84,8 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
     // Post Actions
     //--------------------------------------------------------------------//
 
-    case POST_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
+    // TODO: handle deleted posts
+    case MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
       userId = action.data.user.id;
 
       newState[userId]       = newState[userId]       || {};

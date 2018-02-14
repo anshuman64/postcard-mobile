@@ -46,19 +46,12 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       return newState;
 
   //--------------------------------------------------------------------//
-  // Create and Delete Post Actions
+  // Create Post Actions
   //--------------------------------------------------------------------//
 
     // When creating a new post, update the store with the new post
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState[action.data.post.id] = action.data.post;
-
-      return newState;
-    // When deleting a post, remove the post from the store
-    case POST_ACTION_TYPES.REMOVE_POST:
-      _.remove(newState, (postId) => {
-        return postId === action.data.post.id;
-      });
 
       return newState;
 
