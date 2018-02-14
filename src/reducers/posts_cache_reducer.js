@@ -38,6 +38,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     // When receiving or refreshing posts, update the store with new post information
     case POST_ACTION_TYPES.RECEIVE_POSTS:
     case POST_ACTION_TYPES.REFRESH_POSTS:
+    case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
       _.forEach(action.data.posts, (post) => {
         newState[post.id] = _.omit(post, 'author');
       });
@@ -45,19 +46,12 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       return newState;
 
   //--------------------------------------------------------------------//
-  // Create and Delete Post Actions
+  // Create Post Actions
   //--------------------------------------------------------------------//
 
     // When creating a new post, update the store with the new post
     case POST_ACTION_TYPES.RECEIVE_POST:
       newState[action.data.post.id] = action.data.post;
-
-      return newState;
-    // When deleting a post, remove the post from the store
-    case POST_ACTION_TYPES.REMOVE_POST:
-      _.remove(newState, (postId) => {
-        return postId === action.data.post.id;
-      });
 
       return newState;
 
@@ -112,13 +106,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     newState[postId].is_flagged_by_client = false;
 
     return newState;
-
-  // When another user likes client's post, increment the likes by 1
-    case LIKE_ACTION_TYPES.PUSHER_RECEIVE_LIKE:
-      postToUpdate = newState[action.data.like.post_id];
-      postToUpdate.num_likes++;
-
-      return newState;
 
     default:
       return state;

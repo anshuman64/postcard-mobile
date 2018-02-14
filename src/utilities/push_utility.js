@@ -3,12 +3,13 @@ import Pusher    from 'pusher-js/react-native';
 import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config.js';
-import { getBaseUrl }                    from './api_utility.js';
-import { pusherReceiveLike }             from '../actions/like_actions.js';
-import * as FriendshipActions            from '../actions/friendship_actions.js';
-import { getImage }                      from '../actions/image_actions';
-import { pusherReceivePost }             from '../actions/post_actions.js';
+import { ENV_TYPES, PUSHER_ENV_SETTING }                 from '../app_config.js';
+import { getBaseUrl }                                    from './api_utility.js';
+import { pusherReceiveLike }                             from '../actions/like_actions.js';
+import * as FriendshipActions                            from '../actions/friendship_actions.js';
+import { pusherReceiveMessage, pusherCreatePostMessage } from '../actions/message_actions.js';
+import { getImages }                                     from '../actions/image_actions';
+import { pusherReceivePost }                             from '../actions/post_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -58,16 +59,14 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   myChannel = pusher.subscribe('private-' + clientId);
 
-  myChannel.bind('receive-like', (data) => {
-    dispatch(pusherReceiveLike({ client: data.client, user: data.user, like: data.like }));
-  });
-
   myChannel.bind('create-friendship', (data) => {
     dispatch(FriendshipActions.pusherCreateFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(getImages(data.user));
   });
 
   myChannel.bind('receive-friendship', (data) => {
     dispatch(FriendshipActions.pusherRecieveFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(getImages(data.client));
   });
 
   myChannel.bind('receive-accepted-friendship', (data) => {
@@ -79,11 +78,18 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   });
 
   myChannel.bind('receive-post', (data) => {
-    dispatch(pusherReceivePost({ client: data.client, user: data.user, post: data.post }));
+    dispatch(pusherReceivePost({ client: data.client, user: data.user, post: data.post, message: data.message }));
+    dispatch(getImages(data.post));
+  });
 
-    if (data.post.image_url) {
-      dispatch(getImage(data.post.image_url));
-    }
+  myChannel.bind('create-post-message', (data) => {
+    dispatch(pusherCreatePostMessage({ client: data.client, user: data.user, message: data.message }));
+    dispatch(getImages(data.message));
+  });
+
+  myChannel.bind('receive-message', (data) => {
+    dispatch(pusherReceiveMessage({ client: data.client, user: data.user, message: data.message }));
+    dispatch(getImages(data.message));
   });
 }
 
@@ -92,7 +98,7 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 //--------------------------------------------------------------------//
 
 // OneSignal options
-OneSignal.inFocusDisplaying(2); // Enables notifications in-app
+OneSignal.inFocusDisplaying(0); // Disables notifications in-app
 
 export function onReceived(notification) {
   // console.log("Notification received: ", notification);
