@@ -99,7 +99,9 @@ class FriendListItem extends React.PureComponent {
               onPressOut={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
               onPress={() => this.props.navigateToProfile({ userId: this.props.userId })}
               >
-              <AvatarContainer userId={this.props.userId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
+              <RN.View>
+                <AvatarContainer userId={this.props.userId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
+              </RN.View>
             </RN.TouchableWithoutFeedback>
             {this._renderUsernameView()}
           </RN.View>

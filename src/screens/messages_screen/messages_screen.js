@@ -6,12 +6,13 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 import EvilIcon    from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import HeaderContainer                     from '../../components/header/header_container.js';
-import MessageListItemContainer            from '../../components/message_list_item/message_list_item_container';
-import { styles }                          from './messages_screen_styles.js';
-import { setStateCallback, isStringEmpty } from '../../utilities/function_utility.js';
-import { UTILITY_STYLES, COLORS }          from '../../utilities/style_utility.js';
-import { defaultErrorAlert }               from '../../utilities/error_utility.js';
+import ListFooter                            from '../../components/list_footer/list_footer.js';
+import HeaderContainer                       from '../../components/header/header_container.js';
+import MessageListItemContainer              from '../../components/message_list_item/message_list_item_container';
+import { styles }                            from './messages_screen_styles.js';
+import { setStateCallback, isStringEmpty }   from '../../utilities/function_utility.js';
+import { UTILITY_STYLES, COLORS, scaleFont } from '../../utilities/style_utility.js';
+import { defaultErrorAlert }                 from '../../utilities/error_utility.js';
 
 //--------------------------------------------------------------------//
 
@@ -155,13 +156,7 @@ class MessagesScreen extends React.PureComponent {
 
     if (messages && messages.isEnd) {
       return (
-        <RN.View style={styles.footerView}>
-          <RN.View style={styles.horizontalLine} />
-          <RN.Text style={styles.footerText}>
-            Begin Conversation
-          </RN.Text>
-          <RN.View style={styles.horizontalLine} />
-        </RN.View>
+        <ListFooter footerWidth={scaleFont(150)} text={'Begin Conversation'} />
       )
     } else {
       return (
