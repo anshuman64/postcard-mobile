@@ -7,6 +7,7 @@ import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import UserInfoViewContainer                  from '../user_info_view/user_info_view_container.js';
+import { FRIEND_TYPES }                       from '../../actions/friendship_actions.js';
 import { styles, scaleHeart }                 from './post_list_item_styles.js';
 import { renderPostDate }                     from '../../utilities/date_time_utility.js';
 import { defaultErrorAlert }                  from '../../utilities/error_utility.js';
@@ -143,7 +144,7 @@ class PostListItem extends React.PureComponent {
         this.container.fadeOut(500)
           .finally(() => {
             // Remove post from store
-            this.props.removePost({ post: deletedPost, userId: this.props.client.id  });
+            this.props.removePost({ post: deletedPost, clientId: this.props.client.id  });
             this.isDeleteDisabled = false;
           });
       })
@@ -195,6 +196,21 @@ class PostListItem extends React.PureComponent {
       });
   }
 
+  //--------------------------------------------------------------------//
+  // Navigation Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onNavigateToMessages = () => {
+    let isMessagesScreen = this.props.width;
+    let user = this.props.usersCache[this.props.item.author_id];
+    let userFriendshipStatus = user ? user.friendship_status_with_client : null;
+
+    if (!isMessagesScreen && userFriendshipStatus) {
+      if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
+        this.props.navigateToMessages({ userId: this.props.item.author_id });
+      }
+    }
+  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -242,7 +258,10 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderCloseOrFlag() {
-    if (this.props.client.id === this.props.item.author_id) {
+    // If in MessagesScreen and is own post, don't show the X
+    if (this.props.client.id === this.props.item.author_id && this.props.width) {
+      return null;
+    } else if (this.props.client.id === this.props.item.author_id && !this.props.width) {
       return (
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.closeIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
@@ -276,8 +295,8 @@ class PostListItem extends React.PureComponent {
   _renderBody() {
     if (this.props.item.body) {
       return (
-        <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
-          <RN.View>
+        <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
+          <RN.View style={styles.bodyTextView}>
             <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
               {this.props.item.body}
             </RN.Text>
@@ -292,11 +311,11 @@ class PostListItem extends React.PureComponent {
 
     if (imagePath && this.props.imagesCache[imagePath]) {
       return (
-        <RN.View style={styles.bodyImageView}>
-          <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
+        <RN.View style={[styles.bodyImageView, this.props.width && {height: this.props.width, width: this.props.width}]}>
+          <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
             <RN.Image
               source={{uri: this.props.imagesCache[imagePath].url}}
-              style={styles.bodyImage}
+              style={[styles.bodyImage, this.props.width && {height: this.props.width, width: this.props.width}]}
               resizeMode={'contain'}
               onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
               />
@@ -306,7 +325,7 @@ class PostListItem extends React.PureComponent {
       )
     } else if (imagePath && !this.props.imagesCache[imagePath]) {
       return (
-        <RN.View style={styles.bodyImageView}>
+        <RN.View style={[styles.bodyImageView, this.props.width && {height: this.props.width, width: this.props.width}]}>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
@@ -364,7 +383,7 @@ class PostListItem extends React.PureComponent {
   render() {
     return(
       <RN.View style={styles.container}>
-        <Animatable.View ref={(ref) => this.container = ref} style={styles.postContainer}>
+        <Animatable.View ref={(ref) => this.container = ref} style={[styles.postContainer, this.props.width && {width: this.props.width, elevation: 0, shadowRadius: 0, borderRadius: 20}]}>
           {this._renderHeader()}
           {this._renderBody()}
           {this._renderImage()}

@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'left',
     textAlignVertical: 'top',
-    marginTop: 2,
+    marginTop: 4,
     marginLeft: 5,
     marginRight: 5
   },

@@ -38,9 +38,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end',
+    alignSelf: 'flex-end',
     maxWidth: StyleUtility.getUsableDimensions().width * 0.75,
     marginRight: DEFAULT_MARGIN,
-    borderRadius: 10,
+    borderRadius: 15,
     backgroundColor: StyleUtility.COLORS.appleBlue,
   },
   messageViewUser: {
@@ -50,7 +51,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     maxWidth: StyleUtility.getUsableDimensions().width * 0.75,
     marginLeft: DEFAULT_MARGIN,
-    borderRadius: 10,
+    borderRadius: 15,
     backgroundColor: StyleUtility.COLORS.appleRed,
   },
   bodyTextClient: {
@@ -72,7 +73,7 @@ export const styles = StyleSheet.create({
   image: {
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
-    borderRadius: 6,
+    borderRadius: 10,
   },
   dateHeader: {
     flexDirection: 'row',

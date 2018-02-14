@@ -113,7 +113,6 @@ class MessageListItem extends React.PureComponent {
   }
 
   _renderPost() {
-    debugger
     let postId = this.props.message.post_id;
 
     if (postId && this.props.postsCache[postId]) {
@@ -133,12 +132,13 @@ class MessageListItem extends React.PureComponent {
 
   _renderMessage() {
     let isAuthoredByClient = this.props.message.author_id === this.props.client.id;
+    let isBackgroundColor  = this.props.message.body;
 
     if (isAuthoredByClient) {
       return (
         <RN.View style={styles.messageContainerClient}>
           <RN.TouchableOpacity>
-            <RN.View style={styles.messageViewClient}>
+            <RN.View style={[styles.messageViewClient, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
               {this._renderImage()}
@@ -151,7 +151,7 @@ class MessageListItem extends React.PureComponent {
         <RN.View style={styles.messageContainerUser}>
         {this._renderAvatar()}
         <RN.TouchableOpacity>
-            <RN.View style={styles.messageViewUser}>
+            <RN.View style={[styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
               {this._renderImage()}
