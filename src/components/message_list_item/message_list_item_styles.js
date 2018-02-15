@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     maxWidth: StyleUtility.getUsableDimensions().width * 0.75,
     marginLeft: DEFAULT_MARGIN,
     borderRadius: 15,
-    backgroundColor: StyleUtility.COLORS.appleRed + '1A',
+    backgroundColor: StyleUtility.COLORS.appleRed,
   },
   bodyTextClient: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '400',
     textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
+    color: 'white',
     margin: 10
   },
   image: {
