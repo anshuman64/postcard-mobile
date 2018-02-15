@@ -13,26 +13,40 @@ import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 class HomeScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
+  constructor(props) {
+    super(props);
+
+    this.currentAppState = 'active';
+  }
+
+  //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
   // Refresh ReceivedPosts on mount
   componentDidMount() {
+    RN.AppState.addEventListener('change', this._handleAppStateChange);
     this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
   }
 
-  // Auto-refresh screen if coming back to it after > 1 minute
-  // Pusher does not send posts if app is in background, so we still want regular refresh
-  componentWillReceiveProps(nextProps) {
-    if (this.props.currentScreen != 'HomeScreen' && nextProps.currentScreen === 'HomeScreen') {
-      let currentTime = new Date();
-      let lastUpdate = this.props.posts[this.props.client.id][POST_TYPES.RECEIVED].lastUpdated;
-      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+  componentWillUnmount() {
+    RN.AppState.removeEventListener('change', this._handleAppStateChange);
+  }
 
-      if (minsDiff > 1) {
-        this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
-      }
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  // When refocusing app, refresh received posts
+  _handleAppStateChange = (nextAppState) => {
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+      this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
     }
+
+    this.currentAppState = nextAppState;
   }
 
   //--------------------------------------------------------------------//

@@ -25,9 +25,7 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case FRIENDSHIP_ACTION_TYPES.RECEIVE_FRIENDSHIPS:
-      _.forEach(action.data.friends, (user) => {
-        newState[action.data.friendType].unshift(user.id);
-      })
+      _.merge(newState[action.data.friendType], action.data.friends.map(user => user.id));
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.SEND_FRIENDSHIP_REQUEST:
