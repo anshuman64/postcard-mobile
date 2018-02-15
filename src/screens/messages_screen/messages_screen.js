@@ -52,7 +52,7 @@ class MessagesScreen extends React.PureComponent {
 
   // If selected image from CameraRollScreen, adds image
   componentWillReceiveProps(nextProps) {
-    if (nextProps.imagePath) {
+    if (nextProps.imagePath && nextProps.imagePath != this.state.imagePath && nextProps.imagePath != this.props.imagePath) {
       this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
     }
   }
@@ -71,9 +71,6 @@ class MessagesScreen extends React.PureComponent {
 
     this.setState({ isLoading: true }, () => {
       this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.userId, messageBody, this.state.imagePath, this.state.imageType)
-        .then(() => {
-          this.setState({ messageText: '', imagePath: null, imageType: null });
-        })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -81,6 +78,9 @@ class MessagesScreen extends React.PureComponent {
           this.isSendPressed = false;
           this.setState({ isLoading: false });
         });
+
+        // Leave this out of .then for faster clearing
+        this.setState({ messageText: '', imagePath: null, imageType: null });
     })
   }
 
