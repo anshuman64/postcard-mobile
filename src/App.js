@@ -77,7 +77,7 @@ class App extends React.Component {
   }
 
   //--------------------------------------------------------------------//
-  // Private Methods
+  // Callback Methods
   //--------------------------------------------------------------------//
 
   // When AppState changes, log event
@@ -108,6 +108,10 @@ class App extends React.Component {
     Actions.pop();
     return true;
   };
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
 
   _renderHeader = (backTitle, backIcon) => {
     return () => {
