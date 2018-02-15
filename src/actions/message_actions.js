@@ -44,16 +44,16 @@ export const pusherReceiveMessage = (data) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-export const getMessages = (authToken, firebaseUserObj, userId, queryParams) => (dispatch) => {
+export const getMessages = (authToken, firebaseUserObj, isNew, userId, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/messages/direct/' + userId, queryParams)
     .then((messages) => {
-      dispatch(receiveMessages({ messages: messages, userId: userId }));
+      dispatch(receiveMessages({ messages: messages, userId: userId, isNew: isNew }));
       dispatch(getImages(messages));
       dispatch(getPostsFromMessages(messages));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, getMessages, userId, queryParams));
+        return dispatch(refreshAuthToken(firebaseUserObj, getMessages, isNew, userId, queryParams));
       }
 
       error = setErrorDescription(error, 'GET messages failed');

@@ -52,11 +52,15 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
       newState[userId].data  = newState[userId].data  || [];
       newState[userId].isEnd = newState[userId].isEnd || false;
 
-      if (action.data.messages.length < 20) {
+      if (!action.data.isNew && action.data.messages.length < 20) {
         newState[userId].isEnd = true;
       }
 
-      newState[userId].data = newState[userId].data.concat(action.data.messages);
+      if (action.data.isNew) {
+        newState[userId].data = action.data.messages.concat(newState[userId].data);
+      } else {
+        newState[userId].data = newState[userId].data.concat(action.data.messages);
+      }
 
       return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
