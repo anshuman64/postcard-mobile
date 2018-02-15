@@ -95,6 +95,7 @@ class DebugLoginScreen extends React.PureComponent {
         onChangeText={(value) => this.setState({ emailInput: value })}
         value={this.state.emailInput}
         underlineColorAndroid={'transparent'}
+        returnKeyType={RN.Platform.OS === 'ios' ? 'done' : null}
       />
     )
   }
@@ -106,6 +107,7 @@ class DebugLoginScreen extends React.PureComponent {
         onChangeText={(value) => this.setState({ emailInput: value })}
         value={this.state.passwordInput}
         underlineColorAndroid={'transparent'}
+        returnKeyType={RN.Platform.OS === 'ios' ? 'done' : null}
       />
     )
   }

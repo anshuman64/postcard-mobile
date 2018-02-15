@@ -123,11 +123,11 @@ class MessagesScreen extends React.PureComponent {
           style={styles.textInput}
           placeholderTextColor={COLORS.grey400}
           placeholder={'Write a message...'}
+          returnKeyType={RN.Platform.OS === 'ios' ? null : 'done'}
           onChangeText={(value) => this.setState({ messageText: value })}
           value={this.state.messageText}
           autoFocus={true}
           multiline={true}
-          returnKeyType={'done'}
           underlineColorAndroid={'transparent'}
           />
         <RN.TouchableOpacity style={styles.sendButton} onPress={this._onPressSend}>

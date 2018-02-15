@@ -199,6 +199,7 @@ class LoginScreen extends React.PureComponent {
             value={this.state.formattedPhoneNumber}
             placeholder='Phone Number'
             placeholderTextColor={COLORS.grey400}
+            returnKeyType={RN.Platform.OS === 'ios' ? 'done' : null}
             underlineColorAndroid={'transparent'}
             onFocus={this._onFocus}
             onEndEditing={() => this.phoneInput.setNativeProps({style: [styles.phoneNumberInput, this.state.isPhoneNumberInvalid && UTILITY_STYLES.borderRed]})}

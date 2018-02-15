@@ -62,7 +62,7 @@ class NewPostScreen extends React.PureComponent {
         value={this.state.postText}
         autoFocus={true}
         multiline={true}
-        returnKeyType={'done'}
+        returnKeyType={RN.Platform.OS === 'ios' ? null : 'done'}
         underlineColorAndroid={'transparent'}
         />
     )
