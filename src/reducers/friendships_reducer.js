@@ -2,9 +2,9 @@
 import _ from 'lodash';
 
 // Local Imports
-import { FRIENDSHIP_ACTION_TYPES }  from '../actions/friendship_actions.js';
-import { POST_ACTION_TYPES }        from '../actions/post_actions.js';
-import { MESSAGE_ACTION_TYPES }     from '../actions/message_actions.js';
+import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions.js';
+import { POST_ACTION_TYPES }                     from '../actions/post_actions.js';
+import { MESSAGE_ACTION_TYPES }                  from '../actions/message_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -25,7 +25,11 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case FRIENDSHIP_ACTION_TYPES.RECEIVE_FRIENDSHIPS:
-      _.merge(newState[action.data.friendType], action.data.friends.map(user => user.id));
+      newState[action.data.friendType] = [];
+
+      _.forEach(action.data.friends, (user) => {
+        newState[action.data.friendType].push(user.id);
+      })
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.SEND_FRIENDSHIP_REQUEST:

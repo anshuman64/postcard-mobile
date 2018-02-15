@@ -16,7 +16,11 @@ const BlocksReducer = (state = DEFAULT_STATE, action) => {
 
   switch(action.type) {
     case BLOCK_ACTION_TYPES.RECEIVE_BLOCKED_USERS:
-      _.merge(newState.blockedUsers, action.data.blockedUsers.map(user => user.id));
+      newState.blockedUsers = [];
+
+      _.forEach(action.data.blockedUsers, (user) => {
+        newState.blockedUsers.push(user.id);
+      })
 
       return newState;
     case BLOCK_ACTION_TYPES.RECEIVE_BLOCK:
