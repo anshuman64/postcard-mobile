@@ -50,27 +50,35 @@ class FriendListItem extends React.PureComponent {
   _renderUsernameView() {
     let user = this.props.usersCache[this.props.userId];
     let username = user ? user.username : null;
-    let message = '';
+    let message = null;
+    let messages = this.props.messages[this.props.userId];
+    let messagePreview = '';
 
-    if (user.peek_message) {
-      if (user.peek_message.post_id) {
-        if (this.props.postsCache[user.peek_message.post_id] && this.props.postsCache[user.peek_message.post_id].body) {
-          message = this.props.postsCache[user.peek_message.post_id].body;
+    if (messages && messages.length > 0) {
+      message = messages[0];
+    } else if (user.peek_message) {
+      message = user.peek_message
+    }
+
+    if (message) {
+      if (message.post_id) {
+        if (this.props.postsCache[message.post_id] && this.props.postsCache[message.post_id].body) {
+          messagePreview = this.props.postsCache[message.post_id].body;
         } else {
-          if (user.peek_message.author_id === this.props.client.id) {
-            message = 'You shared a post.';
+          if (message.author_id === this.props.client.id) {
+            messagePreview = 'You shared a post.';
           } else {
-            message = user.username + ' shared a post.';
+            messagePreview = user.username + ' shared a post.';
           }
         }
       } else {
-        if (user.peek_message.body) {
-          message = user.peek_message.body;
+        if (message.body) {
+          messagePreview = message.body;
         } else {
-          if (user.peek_message.author_id === this.props.client.id) {
-            message = 'You shared an image.';
+          if (message.author_id === this.props.client.id) {
+            messagePreview = 'You shared an image.';
           } else {
-            message = user.username + ' shared an image.';
+            messagePreview = user.username + ' shared an image.';
           }
         }
       }
@@ -81,9 +89,9 @@ class FriendListItem extends React.PureComponent {
         <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText16}>
           {username}
         </RN.Text>
-        {message.length > 0 ?
+        {messagePreview.length > 0 ?
           <RN.Text style={styles.messageText} numberOfLines={1}>
-            {message}
+            {messagePreview}
           </RN.Text> :
           null }
       </RN.View>
