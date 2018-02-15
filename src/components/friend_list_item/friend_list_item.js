@@ -52,7 +52,7 @@ class FriendListItem extends React.PureComponent {
     let username = user ? user.username : null;
     let message = null;
     let messages = this.props.messages[this.props.userId];
-    let messagePreview = '';
+    let messagePreview = 'Send a message...';
 
     if (messages && messages.length > 0) {
       message = messages[0];
@@ -89,11 +89,9 @@ class FriendListItem extends React.PureComponent {
         <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText16}>
           {username}
         </RN.Text>
-        {messagePreview.length > 0 ?
-          <RN.Text style={styles.messageText} numberOfLines={1}>
-            {messagePreview}
-          </RN.Text> :
-          null }
+        <RN.Text style={styles.messageText} numberOfLines={1}>
+          {messagePreview}
+        </RN.Text>
       </RN.View>
     )
   }
