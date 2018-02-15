@@ -104,6 +104,7 @@ class AddFriendScreen extends React.PureComponent {
         autoCapitalize={'none'}
         autoFocus={true}
         maxLength={12}
+        returnKeyType={RN.Platform.OS === 'ios' ? 'done' : null}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
         onFocus={this._onFocus}

@@ -118,7 +118,7 @@ class ConfirmCodeScreen extends React.PureComponent {
     for (let friendType in FRIEND_TYPES) {
       await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
-    
+
     await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
   }
 
@@ -199,6 +199,7 @@ class ConfirmCodeScreen extends React.PureComponent {
         placeholder='-  -  -  -  -  -'
         autoFocus={true}
         maxLength={6}
+        returnKeyType={RN.Platform.OS === 'ios' ? 'done' : null}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
         onFocus={this._onFocus}
