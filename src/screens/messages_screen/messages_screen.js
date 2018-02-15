@@ -35,6 +35,7 @@ class MessagesScreen extends React.PureComponent {
     this.isSendPressed                    = false;
     this.isLoading                        = false;
     this.onEndReachedCalledDuringMomentum = false;
+    this.currentAppState = 'active';
   }
 
   //--------------------------------------------------------------------//
@@ -42,8 +43,15 @@ class MessagesScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
+    RN.AppState.addEventListener('change', this._handleAppStateChange);
+
     if (!this.props.messages[this.props.userId]) {
-      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId)
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+    } else {
+      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -57,9 +65,25 @@ class MessagesScreen extends React.PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    RN.AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
+
+  // When refocusing app, refresh messages
+  _handleAppStateChange = (nextAppState) => {
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+    }
+
+    this.currentAppState = nextAppState;
+  }
 
   _onPressSend = () => {
     if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.imagePath)) {
