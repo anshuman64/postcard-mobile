@@ -80,7 +80,7 @@ class PendingListItem extends React.PureComponent {
       .then((friendship) => {
         this.container.fadeOut(500)
           .finally(() => {
-            this.props.removeFriendship({ friendship: friendship });
+            this.props.removeFriendship({ friendship: friendship, client: this.props.client });
             this.isButtonDisabled = false;
           });
       })
