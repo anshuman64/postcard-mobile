@@ -22,7 +22,8 @@ class LoadingScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.isLoggedIn   = false;
+    this.isLoggedIn = false;
+    this.isOver     = false;
   }
 
   //--------------------------------------------------------------------//
@@ -81,6 +82,12 @@ class LoadingScreen extends React.PureComponent {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
+
+    if (this.isOver) {
+      return;
+    }
+
+    this.isOver = true;
 
     if (this.isLoggedIn) {
       let client = this.props.usersCache[this.props.client.id];
