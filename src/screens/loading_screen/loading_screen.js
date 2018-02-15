@@ -22,8 +22,9 @@ class LoadingScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.isLoggedIn = false;
-    this.isOver     = false;
+    this.isLoggedIn      = false;
+    this.isOver          = false;
+    this.currentAppState = 'active';
   }
 
   //--------------------------------------------------------------------//
@@ -32,6 +33,7 @@ class LoadingScreen extends React.PureComponent {
 
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
+    RN.AppState.addEventListener('change', this._handleAppStateChange);
     getPostPlaceholders();
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
@@ -61,6 +63,9 @@ class LoadingScreen extends React.PureComponent {
     });
   }
 
+  componentWillUnmount() {
+    RN.AppState.removeEventListener('change', this._handleAppStateChange);
+  }
 
   //--------------------------------------------------------------------//
   // Private Methods
@@ -77,6 +82,18 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
+
+  // When refocusing app, refresh friendships
+  _handleAppStateChange = (nextAppState) => {
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+      this._loadData()
+        .catch((error) => {
+          defaultErrorAlert(error);
+        });
+    }
+
+    this.currentAppState = nextAppState;
+  }
 
   _onAnimationEnd = () => {
     if (this.unsubscribe) {
