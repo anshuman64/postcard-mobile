@@ -124,7 +124,7 @@ class MessagesScreen extends React.PureComponent {
 
     let messageData = messages.data;
     let lastMessageId = messageData[messageData.length-1].id;
-    this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId, {start_at: lastMessageId})
+    this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId, {start_at: lastMessageId})
       .catch((error) => {
         defaultErrorAlert(error)
       })
