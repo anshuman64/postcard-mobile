@@ -15,7 +15,7 @@ export const SERVER_ENV_SETTING    = ENV_TYPES.DEV
 export const AWS_ENV_SETTING       = ENV_TYPES.DEV
 
 // WARNING -- affects the Amplitude Analytics project
-export const AMPLITUDE_ENV_SETTING = ENV_TYPES.DEV
+export const PUSHER_ENV_SETTING    = ENV_TYPES.DEV
 
 // WARNING -- affects the Amplitude Analytics project
-export const PUSHER_ENV_SETTING    = ENV_TYPES.DEV
+export const AMPLITUDE_ENV_SETTING = ENV_TYPES.DEV
