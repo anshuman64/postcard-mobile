@@ -3,10 +3,10 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import { FRIEND_TYPES }     from '../../actions/friendship_actions.js';
-import { setStateCallback } from '../../utilities/function_utility.js';
-import { styles }           from './debug_login_screen_styles.js';
-import { UTILITY_STYLES }   from '../../utilities/style_utility.js';
+import { FRIEND_TYPES }     from '../../actions/friendship_actions';
+import { setStateCallback } from '../../utilities/function_utility';
+import { styles }           from './debug_login_screen_styles';
+import { UTILITY_STYLES }   from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

@@ -6,13 +6,13 @@ import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import UserInfoViewContainer                  from '../user_info_view/user_info_view_container.js';
-import { FRIEND_TYPES }                       from '../../actions/friendship_actions.js';
-import { styles, scaleHeart }                 from './post_list_item_styles.js';
-import { renderPostDate }                     from '../../utilities/date_time_utility.js';
-import { defaultErrorAlert }                  from '../../utilities/error_utility.js';
-import { setStateCallback, getReadableCount } from '../../utilities/function_utility.js';
-import { UTILITY_STYLES, COLORS }             from '../../utilities/style_utility.js';
+import UserInfoViewContainer                  from '../user_info_view/user_info_view_container';
+import { FRIEND_TYPES }                       from '../../actions/friendship_actions';
+import { styles, scaleHeart }                 from './post_list_item_styles';
+import { renderPostDate }                     from '../../utilities/date_time_utility';
+import { defaultErrorAlert }                  from '../../utilities/error_utility';
+import { setStateCallback, getReadableCount } from '../../utilities/function_utility';
+import { UTILITY_STYLES, COLORS }             from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

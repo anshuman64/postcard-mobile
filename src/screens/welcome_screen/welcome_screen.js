@@ -4,9 +4,9 @@ import RN               from 'react-native';
 import * as Animatable  from 'react-native-animatable';
 
 // Local Imports
-import { styles, fadeInIcon, translateIcon, translateLogo } from './welcome_screen_styles.js';
-import { UTILITY_STYLES }                                   from '../../utilities/style_utility.js';
-import { setStateCallback }                                 from '../../utilities/function_utility.js';
+import { styles, fadeInIcon, translateIcon, translateLogo } from './welcome_screen_styles';
+import { UTILITY_STYLES }                                   from '../../utilities/style_utility';
+import { setStateCallback }                                 from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -37,7 +37,7 @@ class WelcomeScreen extends React.PureComponent {
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='cover'
           animation={fadeInIcon}
-          duration={2000}
+          duration={2500}
           delay={1000}
           />
       )
@@ -62,10 +62,10 @@ class WelcomeScreen extends React.PureComponent {
           allowFontScaling={false}
           animation={'fadeIn'}
           duration={1800}
-          delay={3000}
+          delay={3400}
           onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
           >
-          Insiya
+          Postcard
         </Animatable.Text>
       )
     } else {
@@ -76,7 +76,7 @@ class WelcomeScreen extends React.PureComponent {
           animation={translateLogo}
           duration={2000}
           >
-          Insiya
+          Postcard
         </Animatable.Text>
       )
     }
