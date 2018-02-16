@@ -3,13 +3,13 @@ import Pusher    from 'pusher-js/react-native';
 import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { ENV_TYPES, PUSHER_ENV_SETTING }                 from '../app_config.js';
-import { getBaseUrl }                                    from './api_utility.js';
-import { pusherReceiveLike }                             from '../actions/like_actions.js';
-import * as FriendshipActions                            from '../actions/friendship_actions.js';
-import { pusherReceiveMessage, pusherCreatePostMessage } from '../actions/message_actions.js';
+import { ENV_TYPES, PUSHER_ENV_SETTING }                 from '../app_config';
+import { getBaseUrl }                                    from './api_utility';
+import { pusherReceiveLike }                             from '../actions/like_actions';
+import * as FriendshipActions                            from '../actions/friendship_actions';
+import { pusherReceiveMessage, pusherCreatePostMessage } from '../actions/message_actions';
 import { getImages }                                     from '../actions/image_actions';
-import { pusherReceivePost }                             from '../actions/post_actions.js';
+import { pusherReceivePost }                             from '../actions/post_actions';
 
 //--------------------------------------------------------------------//
 

@@ -2,12 +2,12 @@
 import _ from 'lodash';
 
 // Local Imports
-import { CLIENT_ACTION_TYPES }                   from '../actions/client_actions.js';
-import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions.js';
-import { POST_ACTION_TYPES }                     from '../actions/post_actions.js';
-import { MESSAGE_ACTION_TYPES }                  from '../actions/message_actions.js';
-import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions.js';
-import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions.js';
+import { CLIENT_ACTION_TYPES }                   from '../actions/client_actions';
+import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
+import { POST_ACTION_TYPES }                     from '../actions/post_actions';
+import { MESSAGE_ACTION_TYPES }                  from '../actions/message_actions';
+import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions';
+import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions';
 
 //--------------------------------------------------------------------//
 

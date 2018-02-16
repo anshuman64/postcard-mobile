@@ -2,11 +2,11 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import DebugLoginScreen    from './debug_login_screen.js';
-import { debugSignIn }     from '../../actions/client_actions.js';
-import { getFriendships }  from '../../actions/friendship_actions.js';
-import { getBlockedUsers } from '../../actions/block_actions.js';
-import { navigateTo }      from '../../actions/navigation_actions.js';
+import DebugLoginScreen    from './debug_login_screen';
+import { debugSignIn }     from '../../actions/client_actions';
+import { getFriendships }  from '../../actions/friendship_actions';
+import { getBlockedUsers } from '../../actions/block_actions';
+import { navigateTo }      from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

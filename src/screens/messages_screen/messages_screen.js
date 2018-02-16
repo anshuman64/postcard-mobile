@@ -6,13 +6,13 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 import EvilIcon    from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import ListFooter                            from '../../components/list_footer/list_footer.js';
-import HeaderContainer                       from '../../components/header/header_container.js';
+import ListFooter                            from '../../components/list_footer/list_footer';
+import HeaderContainer                       from '../../components/header/header_container';
 import MessageListItemContainer              from '../../components/message_list_item/message_list_item_container';
-import { styles }                            from './messages_screen_styles.js';
-import { setStateCallback, isStringEmpty }   from '../../utilities/function_utility.js';
-import { UTILITY_STYLES, COLORS, scaleFont } from '../../utilities/style_utility.js';
-import { defaultErrorAlert }                 from '../../utilities/error_utility.js';
+import { styles }                            from './messages_screen_styles';
+import { setStateCallback, isStringEmpty }   from '../../utilities/function_utility';
+import { UTILITY_STYLES, COLORS, scaleFont } from '../../utilities/style_utility';
+import { defaultErrorAlert }                 from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
