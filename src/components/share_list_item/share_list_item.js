@@ -5,9 +5,9 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import UserInfoViewContainer from '../user_info_view/user_info_view_container.js';
-import { styles }            from './share_list_item_styles.js';
-import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
+import UserInfoViewContainer from '../user_info_view/user_info_view_container';
+import { styles }            from './share_list_item_styles';
+import { UTILITY_STYLES }    from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import UsernameScreen          from './username_screen.js';
-import { editUsername }        from '../../actions/client_actions.js';
-import { navigateTo, goBack }  from '../../actions/navigation_actions.js';
+import UsernameScreen          from './username_screen';
+import { editUsername }        from '../../actions/client_actions';
+import { navigateTo, goBack }  from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

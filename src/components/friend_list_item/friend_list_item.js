@@ -5,10 +5,10 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import AvatarContainer       from '../avatar/avatar_container.js';
-import { styles }            from './friend_list_item_styles.js';
-import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
-import { renderMessageDate } from '../../utilities/date_time_utility.js';
+import AvatarContainer       from '../avatar/avatar_container';
+import { styles }            from './friend_list_item_styles';
+import { UTILITY_STYLES }    from '../../utilities/style_utility';
+import { renderMessageDate } from '../../utilities/date_time_utility';
 
 //--------------------------------------------------------------------//
 

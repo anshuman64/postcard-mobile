@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import LoginScreen              from './login_screen.js';
-import { getConfirmationCode }  from '../../actions/client_actions.js';
-import { navigateTo }           from '../../actions/navigation_actions.js';
+import LoginScreen              from './login_screen';
+import { getConfirmationCode }  from '../../actions/client_actions';
+import { navigateTo }           from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

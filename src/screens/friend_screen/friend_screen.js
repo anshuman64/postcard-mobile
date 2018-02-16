@@ -4,11 +4,11 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import TabBar                        from '../../components/tab_bar/tab_bar.js';
-import FriendListItemContainer       from '../../components/friend_list_item/friend_list_item_container.js';
-import PendingListItemContainer      from '../../components/pending_list_item/pending_list_item_container.js';
-import { styles }                    from './friend_screen_styles.js';
-import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility.js';
+import TabBar                        from '../../components/tab_bar/tab_bar';
+import FriendListItemContainer       from '../../components/friend_list_item/friend_list_item_container';
+import PendingListItemContainer      from '../../components/pending_list_item/pending_list_item_container';
+import { styles }                    from './friend_screen_styles';
+import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
@@ -50,7 +50,7 @@ class FriendScreen extends React.PureComponent {
   }
 
   _onPressShare = () => {
-    RN.Share.share({message: 'Add me on Insiya! My username is: ' + this.props.usersCache[this.props.client.id].username + '\nwww.insiya.io' })
+    RN.Share.share({message: 'Add me on Postcard! My username is: ' + this.props.usersCache[this.props.client.id].username + '\n\n- Download Now -\nwww.insiya.io' })
   }
 
   //--------------------------------------------------------------------//
@@ -114,10 +114,8 @@ class FriendScreen extends React.PureComponent {
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
-          pageSize={80}
+          pageSize={60}
           showsVerticalScrollIndicator={true}
-          onEndReachedThreshold={10000}
-          scrollRenderAheadDistance={10000}
         />
       )
     } else {
@@ -128,13 +126,11 @@ class FriendScreen extends React.PureComponent {
           renderRow={this._renderRow}
           renderHeader={this.props.friendships.accepted.length === 0 ? this._renderHeader : null}
           initialListSize={20}
-          pageSize={20}
+          pageSize={60}
           contentContainerStyle={styles.contentContainerStyle}
           enableEmptySections={true}
           showsVerticalScrollIndicator={false}
           onEndReached={this._onEndReached}
-          onEndReachedThreshold={10000}
-          scrollRenderAheadDistance={10000}
           />
       )
     }

@@ -3,8 +3,8 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import { styles }         from './country_list_item_styles.js';
-import { UTILITY_STYLES } from '../../../utilities/style_utility.js';
+import { styles }         from './country_list_item_styles';
+import { UTILITY_STYLES } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

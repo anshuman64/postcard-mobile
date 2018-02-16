@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import UserInfoView                from './user_info_view.js';
-import { navigateToProfile }       from '../../actions/navigation_actions.js';
+import UserInfoView                from './user_info_view';
+import { navigateToProfile }       from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

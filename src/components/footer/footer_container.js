@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import Footer          from './footer.js';
-import { navigateTo }  from '../../actions/navigation_actions.js';
+import Footer          from './footer';
+import { navigateTo }  from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

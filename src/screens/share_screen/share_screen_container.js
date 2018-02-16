@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import ShareScreen  from './share_screen.js';
+import ShareScreen  from './share_screen';
 
 //--------------------------------------------------------------------//
 

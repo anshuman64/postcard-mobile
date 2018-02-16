@@ -3,7 +3,7 @@ import React          from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
@@ -12,7 +12,7 @@ const DEFAULT_HEIGHT = 50;
 export const styles = StyleSheet.create({
   logo: {
     width: '100%',
-    height: 55,
+    height: 45,
   },
   countrySelectorView: {
     flexDirection: 'row',

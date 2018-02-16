@@ -2,10 +2,10 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import AvatarScreen                 from './avatar_screen.js';
-import { editAvatar }               from '../../actions/client_actions.js';
-import { refreshCredsAndGetImage }  from '../../actions/image_actions.js';
-import { navigateTo, goBack }       from '../../actions/navigation_actions.js';
+import AvatarScreen                 from './avatar_screen';
+import { editAvatar }               from '../../actions/client_actions';
+import { refreshCredsAndGetImage }  from '../../actions/image_actions';
+import { navigateTo, goBack }       from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
