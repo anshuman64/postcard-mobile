@@ -5,6 +5,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
+import MediaLibrary          from '../../components/media_library/media_library'; // don't add .js or else this won't work
 import ListFooter            from '../../components/list_footer/list_footer.js';
 import * as StyleUtility     from '../../utilities/style_utility.js';
 import { styles }            from './camera_roll_screen_styles.js';
@@ -29,11 +30,7 @@ class CameraRollScreen extends React.PureComponent {
 
     this.state = {
       images:   [],
-      pageInfo: null,
     };
-
-    this.isImagePressed = false;
-    this.isLoading = false;
   }
 
   //--------------------------------------------------------------------//
@@ -41,76 +38,50 @@ class CameraRollScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    this._getPhotos(SCROLL_SIZE);
+    // Note: data in different formats depending on iOS vs. Android, but both have uri param
+    MediaLibrary.fetchMedia()
+      .then((data) => {
+        if (data.length === 0) {
+          RN.Alert.alert('', 'No images in gallery.', [{text: 'OK', style: 'cancel'}]);
+        } else {
+          this.setState({ images: this.state.images.concat(data) });
+        }
+      })
+      .catch((error) => {
+        amplitude.logEvent('Error - Camera Roll', { error_description: 'Could not load images', error_message: error.message });
+        RN.Alert.alert('','Could not load images. Please try again later.',[{text: 'OK', style: 'cancel'}]);
+      });
   }
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
-  // Gets from cameraRoll and adds data to this.state.images
-  _getPhotos = (first, after) => {
-    this.isLoading = true;
-
-    RN.CameraRoll.getPhotos({first: first, after: after})
-      .then((data) => {
-        if (!after && data.edges.length === 0) {
-          RN.Alert.alert('', 'No images in gallery.', [{text: 'OK', style: 'cancel'}]);
-        } else {
-          this.setState({ images: this.state.images.concat(data.edges), pageInfo: data.page_info });
-        }
-      })
-      .catch((error) => {
-        amplitude.logEvent('Error - Camera Roll', { error_description: 'Could not load images', error_message: error.message });
-        RN.Alert.alert('','Could not load images. Please try again later.',[{text: 'OK', style: 'cancel'}]);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
-  }
-
   // Opens cropper on image selection
-  _onPressImage(imageNode) {
+  _onPressImage(imagePath) {
     if (this.isImagePressed) {
       return;
     }
 
     this.isImagePressed = true;
 
-    // If image selected is a gif, skip the cropping
-    if (imageNode.type === 'image/gif') {
-      this.props.goBack({ imagePath: imageNode.image.uri, imageType: imageNode.type });
-    } else {
-      ImagePicker.openCropper({
-        path: imageNode.image.uri,
-        width: 500,
-        height: 500,
-        cropperCircleOverlay: this.props.isAvatar, // If isAvatar, use the circular cropping overlay
-        showCropGuidelines: false,
-        hideBottomControls: true,
-        cropperToolbarColor: 'black',
-      })
-      .then((imageObj) => {
-        this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
-      })
-      .catch((error) => {
-        // console.log(error); // Debug Test
-        this.isImagePressed = false;
-      });
-    }
-  }
-
-  //--------------------------------------------------------------------//
-  // Private Methods
-  //--------------------------------------------------------------------//
-
-  _onEndReached = () => {
-    if (this.isLoading
-        || !this.state.pageInfo.has_next_page) {
-      return;
-    }
-
-    this._getPhotos(SCROLL_SIZE, this.state.pageInfo.end_cursor);
+    // TODO: add gif and video support
+    ImagePicker.openCropper({
+      path: imagePath,
+      width: 500,
+      height: 500,
+      cropperCircleOverlay: this.props.isAvatar, // If isAvatar, use the circular cropping overlay
+      showCropGuidelines: false,
+      hideBottomControls: true,
+      cropperToolbarColor: 'black',
+    })
+    .then((imageObj) => {
+      this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
+    })
+    .catch((error) => {
+      // console.log(error); // Debug Test
+      this.isImagePressed = false;
+    });
   }
 
   //--------------------------------------------------------------------//
@@ -129,7 +100,6 @@ class CameraRollScreen extends React.PureComponent {
         contentContainerStyle={styles.contentContainerStyle}
         enableEmptySections={true}
         showsVerticalScrollIndicator={false}
-        onEndReached={this._onEndReached}
         onEndReachedThreshold={10000}
         scrollRenderAheadDistance={10000}
         />
@@ -145,10 +115,10 @@ class CameraRollScreen extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => rowID.setNativeProps({style: styles.imageHighlighted}) }
           onPressOut={() => rowID.setNativeProps({style: styles.imageContainer}) }
-          onPress={() => this._onPressImage(rowData.node)}
+          onPress={() => this._onPressImage(rowData.uri)}
           >
           <RN.Image
-            source={{uri: rowData.node.image.uri}}
+            source={{uri: rowData.uri}}
             resizeMode={'cover'}
             style={styles.image}
             />
@@ -157,21 +127,11 @@ class CameraRollScreen extends React.PureComponent {
     )
   }
 
-
-
   _renderFooter = () => {
-    if (this.state.pageInfo && !this.state.pageInfo.has_next_page) {
-      return (
-        <ListFooter footerWidth={StyleUtility.scaleFont(120)} text={'No More Photos'} />
-      )
-    } else {
-      return (
-        <RN.View style={styles.footerView}>
-          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
-        </RN.View>
-      )
-    }
-  };
+    return (
+      <ListFooter footerWidth={StyleUtility.scaleFont(120)} text={'No More Photos'} />
+    )
+  }
 
   render() {
     return (
