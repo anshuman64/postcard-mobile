@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900
   },
   logo: {
-    height: StyleUtility.scaleFont(32),
+    height: StyleUtility.scaleFont(25),
     width: '100%'
   },
   noteIcon: {
