@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontSize: 15,
     fontWeight: '400',
-    textAlign: 'right',
+    textAlign: 'left',
     color: 'white',
     margin: 10
   },

@@ -13,12 +13,40 @@ import { UTILITY_STYLES } from '../../utilities/style_utility.js';
 class HomeScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
+  constructor(props) {
+    super(props);
+
+    this.currentAppState = 'active';
+  }
+
+  //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
   // Refresh ReceivedPosts on mount
   componentDidMount() {
+    RN.AppState.addEventListener('change', this._handleAppStateChange);
     this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
+  }
+
+  componentWillUnmount() {
+    RN.AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  // When refocusing app, refresh received posts
+  _handleAppStateChange = (nextAppState) => {
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+      this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
+    }
+
+    this.currentAppState = nextAppState;
   }
 
   //--------------------------------------------------------------------//

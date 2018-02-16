@@ -16,6 +16,8 @@ const BlocksReducer = (state = DEFAULT_STATE, action) => {
 
   switch(action.type) {
     case BLOCK_ACTION_TYPES.RECEIVE_BLOCKED_USERS:
+      newState.blockedUsers = [];
+
       _.forEach(action.data.blockedUsers, (user) => {
         newState.blockedUsers.push(user.id);
       })

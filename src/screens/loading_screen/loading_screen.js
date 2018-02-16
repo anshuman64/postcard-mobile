@@ -22,12 +22,9 @@ class LoadingScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      iterationCount: 8,
-      isLoggedIn:     false,
-      isSuccessful:   true,
-      isBanned:       false
-    }
+    this.isLoggedIn      = false;
+    this.isOver          = false;
+    this.currentAppState = 'active';
   }
 
   //--------------------------------------------------------------------//
@@ -36,6 +33,7 @@ class LoadingScreen extends React.PureComponent {
 
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
+    RN.AppState.addEventListener('change', this._handleAppStateChange);
     getPostPlaceholders();
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
@@ -44,11 +42,11 @@ class LoadingScreen extends React.PureComponent {
           .then(() => {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
-              this.setState({ iterationCount: 2, isBanned: true });
             } else {
               this._loadData()
                 .then(() => {
-                  this.setState({ iterationCount: 2, isLoggedIn: true });
+                  this.isLoggedIn = true;
+                  this._onAnimationEnd();
                 })
                 .catch((error) => {
                   defaultErrorAlert(error);
@@ -56,16 +54,18 @@ class LoadingScreen extends React.PureComponent {
             }
           })
           .catch((error) => {
-            this.setState({ iterationCount: 2, isSuccessful: false });
             defaultErrorAlert(error);
           });
       } else {
         // console.error('No Firebase cookie found'); // Debug Test
-        this.setState({ iterationCount: 2, isLoggedIn: false });
+        this._onAnimationEnd();
       }
     });
   }
 
+  componentWillUnmount() {
+    RN.AppState.removeEventListener('change', this._handleAppStateChange);
+  }
 
   //--------------------------------------------------------------------//
   // Private Methods
@@ -83,16 +83,30 @@ class LoadingScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
+  // When refocusing app, refresh friendships
+  _handleAppStateChange = (nextAppState) => {
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+      this._loadData()
+        .catch((error) => {
+          defaultErrorAlert(error);
+        });
+    }
+
+    this.currentAppState = nextAppState;
+  }
+
   _onAnimationEnd = () => {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
 
-    if (this.state.isBanned || !this.state.isSuccessful) {
+    if (this.isOver) {
       return;
     }
 
-    if (this.state.isLoggedIn) {
+    this.isOver = true;
+
+    if (this.isLoggedIn) {
       let client = this.props.usersCache[this.props.client.id];
 
       if (client && client.username) {
@@ -120,7 +134,7 @@ class LoadingScreen extends React.PureComponent {
         direction={'alternate'}
         easing={'ease-in'}
         duration={1500}
-        iterationCount={this.state.iterationCount}
+        iterationCount={8}
         onAnimationEnd={this._onAnimationEnd}
         />
     )
