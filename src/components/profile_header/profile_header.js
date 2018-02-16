@@ -49,7 +49,13 @@ class ProfileHeader extends React.PureComponent {
     if (!friendshipStatus) {
       this.props.createFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
         .catch((error) => {
-          defaultErrorAlert(error);
+          if (error.message === 'Requester blocked by requestee') {
+            RN.Alert.alert('', 'You have been blocked by this user.', [{text: 'OK', style: 'cancel'}]);
+          } else if (error.message === 'Requestee blocked by requester') {
+            RN.Alert.alert('', 'You have blocked this user.', [{text: 'OK', style: 'cancel'}]);
+          } else {
+            defaultErrorAlert(error);
+          }
         })
         .finally(() => {
           this.isFriendDisabled = false;
@@ -79,8 +85,8 @@ class ProfileHeader extends React.PureComponent {
       alertString = 'Are you sure you want to remove this friend?';
       cancelString = 'Remove';
     } else if (friendshipStatus === FRIEND_TYPES.SENT) {
-      alertString = 'Are you sure you want to cancel this friend request?';
-      cancelString = 'Cancel';
+      alertString = 'Are you sure you want to delete this friend request?';
+      cancelString = 'Delete';
     } else if (friendshipStatus === FRIEND_TYPES.RECEIVED){
       alertString = 'Are you sure you want to delete this friend request?';
       cancelString = 'Delete';
@@ -96,7 +102,7 @@ class ProfileHeader extends React.PureComponent {
   _onConfirmUnfriend = () => {
     this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.props.removeFriendship({ friendship: friendship });
+        this.props.removeFriendship({ friendship: friendship, client: this.props.client });
       })
       .catch((error) => {
         defaultErrorAlert(error);

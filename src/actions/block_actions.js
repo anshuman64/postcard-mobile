@@ -55,7 +55,7 @@ export const getBlockedUsers = (authToken, firebaseUserObj) => (dispatch) => {
 export const createBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch) => {
   return APIUtility.post(authToken, '/blocks', { blockee_id: blockeeId })
     .then((newBlock) => {
-      amplitude.logEvent('Safety - Click Block', { is_successful: true, is_create: true, blockee_id: blockeeId });
+      amplitude.logEvent('Safety - Create Block', { is_successful: true, blockee_id: blockeeId });
 
       dispatch(receiveBlock({ block: newBlock }));
     })
@@ -65,7 +65,7 @@ export const createBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch)
       }
 
       error = setErrorDescription(error, 'POST block failed');
-      amplitude.logEvent('Safety - Click Block', { is_successful: false, is_create: true, blockee_id: blockeeId, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Safety - Create Block', { is_successful: false, blockee_id: blockeeId, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
@@ -74,7 +74,7 @@ export const createBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch)
 export const deleteBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch) => {
   return APIUtility.del(authToken, '/blocks/' + blockeeId)
     .then((deletedBlock) => {
-      amplitude.logEvent('Safety - Click Block', { is_successful: true, is_create: false, blockee_id: blockeeId });
+      amplitude.logEvent('Safety - Delete Block', { is_successful: true, blockee_id: blockeeId });
       return deletedBlock;
     })
     .catch((error) => {
@@ -83,7 +83,7 @@ export const deleteBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch)
       }
 
       error = setErrorDescription(error, 'DEL block failed');
-      amplitude.logEvent('Safety - Click Block', { is_successful: false, is_create: false, blockee_id: blockeeId, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Safety - Delete Block', { is_successful: false, blockee_id: blockeeId, error_description: error.description, error_message: error.message });
       throw error;
     });
 };

@@ -35,6 +35,7 @@ class MessagesScreen extends React.PureComponent {
     this.isSendPressed                    = false;
     this.isLoading                        = false;
     this.onEndReachedCalledDuringMomentum = false;
+    this.currentAppState = 'active';
   }
 
   //--------------------------------------------------------------------//
@@ -42,8 +43,15 @@ class MessagesScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
+    RN.AppState.addEventListener('change', this._handleAppStateChange);
+
     if (!this.props.messages[this.props.userId]) {
-      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId)
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+    } else {
+      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -52,14 +60,30 @@ class MessagesScreen extends React.PureComponent {
 
   // If selected image from CameraRollScreen, adds image
   componentWillReceiveProps(nextProps) {
-    if (nextProps.imagePath) {
+    if (nextProps.imagePath && nextProps.imagePath != this.state.imagePath && nextProps.imagePath != this.props.imagePath) {
       this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
     }
+  }
+
+  componentWillUnmount() {
+    RN.AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
+
+  // When refocusing app, refresh messages
+  _handleAppStateChange = (nextAppState) => {
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+    }
+
+    this.currentAppState = nextAppState;
+  }
 
   _onPressSend = () => {
     if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.imagePath)) {
@@ -71,9 +95,6 @@ class MessagesScreen extends React.PureComponent {
 
     this.setState({ isLoading: true }, () => {
       this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.userId, messageBody, this.state.imagePath, this.state.imageType)
-        .then(() => {
-          this.setState({ messageText: '', imagePath: null, imageType: null });
-        })
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -81,6 +102,9 @@ class MessagesScreen extends React.PureComponent {
           this.isSendPressed = false;
           this.setState({ isLoading: false });
         });
+
+        // Leave this out of .then for faster clearing
+        this.setState({ messageText: '', imagePath: null, imageType: null });
     })
   }
 
@@ -123,11 +147,11 @@ class MessagesScreen extends React.PureComponent {
           style={styles.textInput}
           placeholderTextColor={COLORS.grey400}
           placeholder={'Write a message...'}
+          returnKeyType={RN.Platform.OS === 'ios' ? null : 'done'}
           onChangeText={(value) => this.setState({ messageText: value })}
           value={this.state.messageText}
           autoFocus={true}
           multiline={true}
-          returnKeyType={'done'}
           underlineColorAndroid={'transparent'}
           />
         <RN.TouchableOpacity style={styles.sendButton} onPress={this._onPressSend}>

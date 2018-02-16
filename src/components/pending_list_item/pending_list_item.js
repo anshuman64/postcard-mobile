@@ -61,8 +61,8 @@ class PendingListItem extends React.PureComponent {
       alertString = 'Are you sure you want to remove this friend?';
       cancelString = 'Remove';
     } else if (friendshipStatus === FRIEND_TYPES.SENT) {
-      alertString = 'Are you sure you want to cancel this friend request?';
-      cancelString = 'Cancel';
+      alertString = 'Are you sure you want to delete this friend request?';
+      cancelString = 'Delete';
     } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
       alertString = 'Are you sure you want to delete this friend request?';
       cancelString = 'Delete';
@@ -80,7 +80,7 @@ class PendingListItem extends React.PureComponent {
       .then((friendship) => {
         this.container.fadeOut(500)
           .finally(() => {
-            this.props.removeFriendship({ friendship: friendship });
+            this.props.removeFriendship({ friendship: friendship, client: this.props.client });
             this.isButtonDisabled = false;
           });
       })
