@@ -3,8 +3,8 @@ import React          from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports
-import * as StyleUtility  from '../../utilities/style_utility.js';
-import { TAB_BAR_HEIGHT } from '../tab_bar/tab_bar_styles.js';
+import * as StyleUtility  from '../../utilities/style_utility';
+import { TAB_BAR_HEIGHT } from '../tab_bar/tab_bar_styles';
 
 //--------------------------------------------------------------------//
 

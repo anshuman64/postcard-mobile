@@ -5,12 +5,12 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import PostListItem          from '../post_list_item/post_list_item_container.js';
-import AvatarContainer       from '../avatar/avatar_container.js';
-import { styles }            from './message_list_item_styles.js';
-import * as StyleUtility     from '../../utilities/style_utility.js';
-import { renderMessageDate } from '../../utilities/date_time_utility.js';
-import { setStateCallback }  from '../../utilities/function_utility.js';
+import PostListItem          from '../post_list_item/post_list_item_container';
+import AvatarContainer       from '../avatar/avatar_container';
+import { styles }            from './message_list_item_styles';
+import * as StyleUtility     from '../../utilities/style_utility';
+import { renderMessageDate } from '../../utilities/date_time_utility';
+import { setStateCallback }  from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 

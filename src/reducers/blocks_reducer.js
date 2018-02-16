@@ -2,7 +2,7 @@
 import _  from 'lodash';
 
 // Local Imports
-import { BLOCK_ACTION_TYPES } from '../actions/block_actions.js';
+import { BLOCK_ACTION_TYPES } from '../actions/block_actions';
 
 //--------------------------------------------------------------------//
 

@@ -5,11 +5,11 @@ import Firebase        from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import { FRIEND_TYPES }        from '../../actions/friendship_actions.js';
-import { styles, pulseIcon }   from './loading_screen_styles.js';
-import { defaultErrorAlert }   from '../../utilities/error_utility.js';
-import { UTILITY_STYLES }      from '../../utilities/style_utility.js';
-import { getPostPlaceholders } from '../../utilities/file_utility.js';
+import { FRIEND_TYPES }        from '../../actions/friendship_actions';
+import { styles, pulseIcon }   from './loading_screen_styles';
+import { defaultErrorAlert }   from '../../utilities/error_utility';
+import { UTILITY_STYLES }      from '../../utilities/style_utility';
+import { getPostPlaceholders } from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 

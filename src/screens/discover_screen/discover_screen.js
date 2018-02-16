@@ -3,10 +3,10 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import TabBar             from '../../components/tab_bar/tab_bar.js';
-import PostListContainer  from '../../components/post_list/post_list_container.js';
-import { POST_TYPES }     from '../../actions/post_actions.js';
-import { UTILITY_STYLES } from '../../utilities/style_utility.js';
+import TabBar             from '../../components/tab_bar/tab_bar';
+import PostListContainer  from '../../components/post_list/post_list_container';
+import { POST_TYPES }     from '../../actions/post_actions';
+import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

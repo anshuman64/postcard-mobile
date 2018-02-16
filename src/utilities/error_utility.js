@@ -2,7 +2,7 @@
 import { Alert } from 'react-native';
 
 // Local Imports
-import { amplitude } from './analytics_utility.js';
+import { amplitude } from './analytics_utility';
 
 //--------------------------------------------------------------------//
 
