@@ -104,7 +104,7 @@ class PostList extends React.PureComponent {
         data={(postData && postData[this.props.postType]) ? postData[this.props.postType].data : null}
         renderItem={this._renderItem.bind(this)}
         keyExtractor={(item) => this.props.postsCache[item].id}
-        style={[styles.postList, this.props.screen === 'UserScreen' && styles.postListLongHeight]}
+        style={styles.postList}
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
@@ -192,7 +192,7 @@ class PostList extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={[styles.postList, this.props.screen === 'UserScreen' && styles.postListLongHeight]}>
+      <RN.View style={styles.postList}>
         {this._renderPostList()}
         {this._renderProfileHeader()}
       </RN.View>

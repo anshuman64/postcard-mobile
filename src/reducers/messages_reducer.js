@@ -2,8 +2,9 @@
 import _ from 'lodash';
 
 // Local Imports
-import { MESSAGE_ACTION_TYPES } from '../actions/message_actions.js';
-import { POST_ACTION_TYPES }    from '../actions/post_actions.js';
+import { MESSAGE_ACTION_TYPES }    from '../actions/message_actions.js';
+import { POST_ACTION_TYPES }       from '../actions/post_actions.js';
+import { FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions.js';
 
 //--------------------------------------------------------------------//
 
@@ -51,11 +52,15 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
       newState[userId].data  = newState[userId].data  || [];
       newState[userId].isEnd = newState[userId].isEnd || false;
 
-      if (action.data.messages.length < 20) {
+      if (!action.data.isNew && action.data.messages.length < 20) {
         newState[userId].isEnd = true;
       }
 
-      newState[userId].data = newState[userId].data.concat(action.data.messages);
+      if (action.data.isNew) {
+        newState[userId].data = action.data.messages.concat(newState[userId].data);
+      } else {
+        newState[userId].data = newState[userId].data.concat(action.data.messages);
+      }
 
       return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
@@ -77,6 +82,20 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
       newState[userId].isEnd = newState[userId].isEnd || false;
 
       newState[userId].data.unshift(action.data.message);
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Friendship Actions
+    //--------------------------------------------------------------------//
+
+    case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
+      userId = action.data.client.id;
+
+      newState[userId]       = {};
+      newState[userId].data  = [];
+      newState[userId].isEnd = false;
 
       return newState;
 

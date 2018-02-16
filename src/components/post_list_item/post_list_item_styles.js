@@ -68,23 +68,26 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey700,
     marginRight: 18
   },
+  bodyView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
+  },
   bodyTextView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    alignSelf: 'flex-start',
-    width: StyleUtility.getUsableDimensions().width - 20,
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
+    marginTop: DEFAULT_MARGIN,
   },
   bodyText: {
-    width: StyleUtility.getUsableDimensions().width - 20,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: 18,
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
-    marginLeft: DEFAULT_MARGIN,
-    marginRight: DEFAULT_MARGIN,
-    marginTop: DEFAULT_MARGIN,
   },
   smallBodyText: {
     fontSize: 15,
