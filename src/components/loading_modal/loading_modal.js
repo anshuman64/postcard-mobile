@@ -3,8 +3,8 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles } from './loading_modal_styles.js';
-import { COLORS } from '../../utilities/style_utility.js';
+import { styles } from './loading_modal_styles';
+import { COLORS } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

@@ -2,12 +2,12 @@
 import * as _ from 'lodash';
 
 // Local Imports
-import { getImages }              from './image_actions.js';
-import { amplitude }              from '../utilities/analytics_utility.js';
-import * as APIUtility            from '../utilities/api_utility.js';
-import { setErrorDescription }    from '../utilities/error_utility.js';
-import { deleteFile, uploadFile } from '../utilities/file_utility.js';
-import { refreshAuthToken }       from './client_actions.js';
+import { getImages }              from './image_actions';
+import { amplitude }              from '../utilities/analytics_utility';
+import * as APIUtility            from '../utilities/api_utility';
+import { setErrorDescription }    from '../utilities/error_utility';
+import { deleteFile, uploadFile } from '../utilities/file_utility';
+import { refreshAuthToken }       from './client_actions';
 
 //--------------------------------------------------------------------//
 

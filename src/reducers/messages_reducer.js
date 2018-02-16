@@ -2,9 +2,9 @@
 import _ from 'lodash';
 
 // Local Imports
-import { MESSAGE_ACTION_TYPES }    from '../actions/message_actions.js';
-import { POST_ACTION_TYPES }       from '../actions/post_actions.js';
-import { FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions.js';
+import { MESSAGE_ACTION_TYPES }    from '../actions/message_actions';
+import { POST_ACTION_TYPES }       from '../actions/post_actions';
+import { FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
 
 //--------------------------------------------------------------------//
 

@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import MessagesScreen                 from './messages_screen.js';
-import { getMessages, createMessage } from '../../actions/message_actions.js';
-import { navigateTo }                 from '../../actions/navigation_actions.js';
+import MessagesScreen                 from './messages_screen';
+import { getMessages, createMessage } from '../../actions/message_actions';
+import { navigateTo }                 from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
