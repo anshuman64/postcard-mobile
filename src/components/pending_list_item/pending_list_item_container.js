@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import PendingListItem              from './pending_list_item.js';
-import * as FriendshipActions       from '../../actions/friendship_actions.js';
-import { deleteBlock, removeBlock } from '../../actions/block_actions.js';
+import PendingListItem              from './pending_list_item';
+import * as FriendshipActions       from '../../actions/friendship_actions';
+import { deleteBlock, removeBlock } from '../../actions/block_actions';
 
 //--------------------------------------------------------------------//
 

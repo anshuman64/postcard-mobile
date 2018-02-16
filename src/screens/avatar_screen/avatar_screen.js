@@ -4,11 +4,11 @@ import RN          from 'react-native';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import AvatarContainer        from '../../components/avatar/avatar_container.js';
-import LoadingModal           from '../../components/loading_modal/loading_modal.js';
-import { styles }             from './avatar_screen_styles.js';
-import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
-import { defaultErrorAlert }  from '../../utilities/error_utility.js';
+import AvatarContainer        from '../../components/avatar/avatar_container';
+import LoadingModal           from '../../components/loading_modal/loading_modal';
+import { styles }             from './avatar_screen_styles';
+import { UTILITY_STYLES }     from '../../utilities/style_utility';
+import { defaultErrorAlert }  from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
