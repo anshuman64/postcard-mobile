@@ -2,10 +2,10 @@
 import _ from 'lodash';
 
 // Local Imports
-import { CLIENT_ACTION_TYPES }           from '../actions/client_actions.js';
-import { POST_ACTION_TYPES, POST_TYPES } from '../actions/post_actions.js';
-import { LIKE_ACTION_TYPES }             from '../actions/like_actions.js';
-import { mergeSorted }                   from '../utilities/function_utility.js';
+import { CLIENT_ACTION_TYPES }           from '../actions/client_actions';
+import { POST_ACTION_TYPES, POST_TYPES } from '../actions/post_actions';
+import { LIKE_ACTION_TYPES }             from '../actions/like_actions';
+import { mergeSorted }                   from '../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 

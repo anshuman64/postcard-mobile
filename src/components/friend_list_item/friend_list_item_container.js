@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import FriendListItem                            from './friend_list_item.js';
-import { navigateToMessages, navigateToProfile } from '../../actions/navigation_actions.js';
+import FriendListItem                            from './friend_list_item';
+import { navigateToMessages, navigateToProfile } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

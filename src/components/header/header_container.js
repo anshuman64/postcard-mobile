@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import Header                  from './header.js';
-import { createPost }          from '../../actions/post_actions.js';
-import { navigateTo, goBack }  from '../../actions/navigation_actions.js';
+import Header                  from './header';
+import { createPost }          from '../../actions/post_actions';
+import { navigateTo, goBack }  from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

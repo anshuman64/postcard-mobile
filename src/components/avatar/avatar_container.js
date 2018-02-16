@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import Avatar                      from './avatar.js';
-import { refreshCredsAndGetImage } from '../../actions/image_actions.js';
+import Avatar                      from './avatar';
+import { refreshCredsAndGetImage } from '../../actions/image_actions';
 
 //--------------------------------------------------------------------//
 
