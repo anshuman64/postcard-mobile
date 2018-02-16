@@ -89,10 +89,8 @@ class ShareScreen extends React.PureComponent {
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
-          pageSize={80}
+          pageSize={60}
           showsVerticalScrollIndicator={true}
-          onEndReachedThreshold={10000}
-          scrollRenderAheadDistance={10000}
         />
       </RN.View>
     )
