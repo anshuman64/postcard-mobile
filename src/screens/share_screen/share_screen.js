@@ -5,11 +5,11 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import HeaderContainer        from '../../components/header/header_container.js';
-import ShareListItem          from '../../components/share_list_item/share_list_item.js';
-import { styles }             from './share_screen_styles.js';
-import { UTILITY_STYLES }     from '../../utilities/style_utility.js';
-import { setStateCallback }   from '../../utilities/function_utility.js';
+import HeaderContainer        from '../../components/header/header_container';
+import ShareListItem          from '../../components/share_list_item/share_list_item';
+import { styles }             from './share_screen_styles';
+import { UTILITY_STYLES }     from '../../utilities/style_utility';
+import { setStateCallback }   from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 

@@ -4,7 +4,7 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import * as StyleUtility from '../../utilities/style_utility.js';
+import * as StyleUtility from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

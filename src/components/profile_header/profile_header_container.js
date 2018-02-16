@@ -2,12 +2,12 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import ProfileHeader                             from './profile_header.js';
-import * as FriendshipActions                    from '../../actions/friendship_actions.js';
-import { createFollow, deleteFollow }            from '../../actions/follow_actions.js';
-import { createBlock, deleteBlock, removeBlock } from '../../actions/block_actions.js';
-import { refreshCredsAndGetImage }               from '../../actions/image_actions.js';
-import { navigateTo }                            from '../../actions/navigation_actions.js';
+import ProfileHeader                             from './profile_header';
+import * as FriendshipActions                    from '../../actions/friendship_actions';
+import { createFollow, deleteFollow }            from '../../actions/follow_actions';
+import { createBlock, deleteBlock, removeBlock } from '../../actions/block_actions';
+import { refreshCredsAndGetImage }               from '../../actions/image_actions';
+import { navigateTo }                            from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

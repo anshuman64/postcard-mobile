@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import NewPostScreen   from './new_post_screen.js';
-import { navigateTo }  from '../../actions/navigation_actions.js';
+import NewPostScreen   from './new_post_screen';
+import { navigateTo }  from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

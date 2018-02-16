@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import FriendScreen   from './friend_screen.js';
-import { navigateTo } from '../../actions/navigation_actions.js';
+import FriendScreen   from './friend_screen';
+import { navigateTo } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

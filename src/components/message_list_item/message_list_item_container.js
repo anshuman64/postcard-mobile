@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import MessageListItem         from './message_list_item.js';
-import { refreshCredsAndGetImage } from '../../actions/image_actions.js';
+import MessageListItem         from './message_list_item';
+import { refreshCredsAndGetImage } from '../../actions/image_actions';
 
 //--------------------------------------------------------------------//
 
