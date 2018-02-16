@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import PostList       from './post_list.js';
-import { getPosts }   from '../../actions/post_actions.js';
-import { navigateTo } from '../../actions/navigation_actions.js';
+import PostList       from './post_list';
+import { getPosts }   from '../../actions/post_actions';
+import { navigateTo } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 // Local Imports
-import { CLIENT_ACTION_TYPES } from '../actions/client_actions.js';
+import { CLIENT_ACTION_TYPES } from '../actions/client_actions';
 
 //--------------------------------------------------------------------//
 

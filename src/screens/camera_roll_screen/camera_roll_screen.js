@@ -6,11 +6,11 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import MediaLibrary          from '../../components/media_library/media_library'; // don't add .js or else this won't work
-import ListFooter            from '../../components/list_footer/list_footer.js';
-import * as StyleUtility     from '../../utilities/style_utility.js';
-import { styles }            from './camera_roll_screen_styles.js';
-import { defaultErrorAlert } from '../../utilities/error_utility.js';
-import { amplitude }         from '../../utilities/analytics_utility.js';
+import ListFooter            from '../../components/list_footer/list_footer';
+import * as StyleUtility     from '../../utilities/style_utility';
+import { styles }            from './camera_roll_screen_styles';
+import { defaultErrorAlert } from '../../utilities/error_utility';
+import { amplitude }         from '../../utilities/analytics_utility';
 
 //--------------------------------------------------------------------//
 

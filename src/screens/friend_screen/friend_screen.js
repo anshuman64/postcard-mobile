@@ -4,11 +4,11 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import TabBar                        from '../../components/tab_bar/tab_bar.js';
-import FriendListItemContainer       from '../../components/friend_list_item/friend_list_item_container.js';
-import PendingListItemContainer      from '../../components/pending_list_item/pending_list_item_container.js';
-import { styles }                    from './friend_screen_styles.js';
-import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility.js';
+import TabBar                        from '../../components/tab_bar/tab_bar';
+import FriendListItemContainer       from '../../components/friend_list_item/friend_list_item_container';
+import PendingListItemContainer      from '../../components/pending_list_item/pending_list_item_container';
+import { styles }                    from './friend_screen_styles';
+import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

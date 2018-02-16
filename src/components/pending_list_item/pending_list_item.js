@@ -4,10 +4,10 @@ import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import UserInfoViewContainer from '../user_info_view/user_info_view_container.js';
-import { FRIEND_TYPES }      from '../../actions/friendship_actions.js';
-import { styles }            from './pending_list_item_styles.js';
-import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
+import UserInfoViewContainer from '../user_info_view/user_info_view_container';
+import { FRIEND_TYPES }      from '../../actions/friendship_actions';
+import { styles }            from './pending_list_item_styles';
+import { UTILITY_STYLES }    from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

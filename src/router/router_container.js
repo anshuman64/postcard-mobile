@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import CustomRouter from './router.js';
+import CustomRouter from './router';
 
 //--------------------------------------------------------------------//
 

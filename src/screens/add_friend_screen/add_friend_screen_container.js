@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import AddFriendScreen         from './add_friend_screen.js';
-import { createFriendRequest } from '../../actions/friendship_actions.js';
+import AddFriendScreen         from './add_friend_screen';
+import { createFriendRequest } from '../../actions/friendship_actions';
 
 //--------------------------------------------------------------------//
 

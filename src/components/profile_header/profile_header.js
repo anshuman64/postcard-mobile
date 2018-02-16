@@ -4,13 +4,13 @@ import RN              from 'react-native';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import TabBar                            from '../tab_bar/tab_bar.js';
-import AvatarContainer                   from '../avatar/avatar_container.js';
-import { TAB_BAR_HEIGHT }                from '../tab_bar/tab_bar_styles.js';
-import { styles, PROFILE_HEADER_HEIGHT } from './profile_header_styles.js';
-import { FRIEND_TYPES }                  from '../../actions/friendship_actions.js';
-import { UTILITY_STYLES }                from '../../utilities/style_utility.js';
-import { defaultErrorAlert }             from '../../utilities/error_utility.js';
+import TabBar                            from '../tab_bar/tab_bar';
+import AvatarContainer                   from '../avatar/avatar_container';
+import { TAB_BAR_HEIGHT }                from '../tab_bar/tab_bar_styles';
+import { styles, PROFILE_HEADER_HEIGHT } from './profile_header_styles';
+import { FRIEND_TYPES }                  from '../../actions/friendship_actions';
+import { UTILITY_STYLES }                from '../../utilities/style_utility';
+import { defaultErrorAlert }             from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 

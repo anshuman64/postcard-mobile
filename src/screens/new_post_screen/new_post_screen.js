@@ -5,11 +5,11 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 import EvilIcon    from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import HeaderContainer                    from '../../components/header/header_container.js';
-import { styles }                         from './new_post_screen_styles.js';
-import { getRandomInt, setStateCallback } from '../../utilities/function_utility.js';
-import { postPlaceholders }              from '../../utilities/file_utility.js';
-import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility.js';
+import HeaderContainer                    from '../../components/header/header_container';
+import { styles }                         from './new_post_screen_styles';
+import { getRandomInt, setStateCallback } from '../../utilities/function_utility';
+import { postPlaceholders }              from '../../utilities/file_utility';
+import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

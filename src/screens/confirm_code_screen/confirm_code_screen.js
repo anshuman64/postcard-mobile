@@ -5,11 +5,11 @@ import Firebase             from 'react-native-firebase';
 import { PhoneNumberUtil }  from 'google-libphonenumber';
 
 // Local Imports
-import LoadingModal               from '../../components/loading_modal/loading_modal.js';
-import { FRIEND_TYPES }           from '../../actions/friendship_actions.js';
-import { styles }                 from './confirm_code_screen_styles.js';
-import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
-import { defaultErrorAlert }      from '../../utilities/error_utility.js';
+import LoadingModal               from '../../components/loading_modal/loading_modal';
+import { FRIEND_TYPES }           from '../../actions/friendship_actions';
+import { styles }                 from './confirm_code_screen_styles';
+import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
+import { defaultErrorAlert }      from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
