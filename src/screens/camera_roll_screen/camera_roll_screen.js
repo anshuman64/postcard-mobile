@@ -58,30 +58,33 @@ class CameraRollScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   // Opens cropper on image selection
-  _onPressImage(imagePath) {
+  _onPressImage(imagePath, isGif) {
     if (this.isImagePressed) {
       return;
     }
 
     this.isImagePressed = true;
 
-    // TODO: add gif and video support
-    ImagePicker.openCropper({
-      path: imagePath,
-      width: 500,
-      height: 500,
-      cropperCircleOverlay: this.props.isAvatar, // If isAvatar, use the circular cropping overlay
-      showCropGuidelines: false,
-      hideBottomControls: true,
-      cropperToolbarColor: 'black',
-    })
-    .then((imageObj) => {
-      this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
-    })
-    .catch((error) => {
-      // console.log(error); // Debug Test
-      this.isImagePressed = false;
-    });
+    if (isGif) {
+      this.props.goBack({ imagePath: imagePath, imageType: 'image/gif' });
+    } else {
+      ImagePicker.openCropper({
+        path: imagePath,
+        width: 500,
+        height: 500,
+        cropperCircleOverlay: this.props.isAvatar, // If isAvatar, use the circular cropping overlay
+        showCropGuidelines: false,
+        hideBottomControls: true,
+        cropperToolbarColor: 'black',
+      })
+      .then((imageObj) => {
+        this.props.goBack({ imagePath: imageObj.path, imageType: imageObj.mime });
+      })
+      .catch((error) => {
+        // console.log(error); // Debug Test
+        this.isImagePressed = false;
+      });
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -115,7 +118,7 @@ class CameraRollScreen extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => rowID.setNativeProps({style: styles.imageHighlighted}) }
           onPressOut={() => rowID.setNativeProps({style: styles.imageContainer}) }
-          onPress={() => this._onPressImage(rowData.uri)}
+          onPress={() => this._onPressImage(rowData.uri, rowData.type === 'image/gif')}
           >
           <RN.Image
             source={{uri: rowData.uri}}
