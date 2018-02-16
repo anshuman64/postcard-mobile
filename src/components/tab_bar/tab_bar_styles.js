@@ -3,8 +3,8 @@ import React                    from 'react';
 import { StyleSheet, Platform } from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../utilities/style_utility.js';
-import { HEADER_HEIGHT } from '../header/header_styles.js';
+import * as StyleUtility from '../../utilities/style_utility';
+import { HEADER_HEIGHT } from '../header/header_styles';
 
 //--------------------------------------------------------------------//
 

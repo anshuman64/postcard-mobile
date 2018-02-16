@@ -3,10 +3,10 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import { styles }                                      from './country_list_modal_styles.js';
-import CountryListItem                                 from './country_list_item/country_list_item.js';
-import { UTILITY_STYLES, COLORS, getUsableDimensions } from '../../utilities/style_utility.js';
-import { COUNTRY_CODES }                               from '../../utilities/country_utility.js';
+import { styles }                                      from './country_list_modal_styles';
+import CountryListItem                                 from './country_list_item/country_list_item';
+import { UTILITY_STYLES, COLORS, getUsableDimensions } from '../../utilities/style_utility';
+import { COUNTRY_CODES }                               from '../../utilities/country_utility';
 
 //--------------------------------------------------------------------//
 

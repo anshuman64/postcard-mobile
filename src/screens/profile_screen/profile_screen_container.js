@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import ProfileScreen  from './profile_screen.js';
+import ProfileScreen  from './profile_screen';
 
 //--------------------------------------------------------------------//
 
