@@ -3,11 +3,11 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import LoadingModal               from '../../components/loading_modal/loading_modal.js';
-import { styles }                 from './add_friend_screen_styles.js';
-import { setStateCallback }       from '../../utilities/function_utility.js';
-import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility.js';
-import { defaultErrorAlert }      from '../../utilities/error_utility.js';
+import LoadingModal               from '../../components/loading_modal/loading_modal';
+import { styles }                 from './add_friend_screen_styles';
+import { setStateCallback }       from '../../utilities/function_utility';
+import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
+import { defaultErrorAlert }      from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 

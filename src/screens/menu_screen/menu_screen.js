@@ -7,9 +7,9 @@ import { Actions } from 'react-native-router-flux';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }            from './menu_screen_styles.js';
-import { UTILITY_STYLES }    from '../../utilities/style_utility.js';
-import { defaultErrorAlert } from '../../utilities/error_utility.js';
+import { styles }            from './menu_screen_styles';
+import { UTILITY_STYLES }    from '../../utilities/style_utility';
+import { defaultErrorAlert } from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 

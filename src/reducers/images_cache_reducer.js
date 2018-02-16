@@ -2,7 +2,7 @@
 import _  from 'lodash';
 
 // Local Imports
-import { IMAGE_ACTION_TYPES } from '../actions/image_actions.js';
+import { IMAGE_ACTION_TYPES } from '../actions/image_actions';
 
 //--------------------------------------------------------------------//
 

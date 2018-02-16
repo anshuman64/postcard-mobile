@@ -3,10 +3,10 @@ import React                    from 'react';
 import { StyleSheet, Platform } from 'react-native';
 
 // Local Imports
-import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles.js';
-import { HEADER_HEIGHT }         from '../header/header_styles.js';
-import { FOOTER_HEIGHT }         from '../footer/footer_styles.js';
-import * as StyleUtility         from '../../utilities/style_utility.js';
+import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles';
+import { HEADER_HEIGHT }         from '../header/header_styles';
+import { FOOTER_HEIGHT }         from '../footer/footer_styles';
+import * as StyleUtility         from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

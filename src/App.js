@@ -7,35 +7,35 @@ import OneSignal                       from 'react-native-onesignal';
 import RNExitApp                       from 'react-native-exit-app';
 
 // Local Imports
-import * as PushUtility           from './utilities/push_utility.js';
-import { amplitude }              from './utilities/analytics_utility.js';
+import * as PushUtility           from './utilities/push_utility';
+import { amplitude }              from './utilities/analytics_utility';
 import configureStore             from './store';
-import RouterContainer            from './router/router_container.js';
+import RouterContainer            from './router/router_container';
 
-import DebugLoginScreenContainer  from './screens/debug_login_screen/debug_login_screen_container.js';
-import LoadingScreenContainer     from './screens/loading_screen/loading_screen_container.js';
+import DebugLoginScreenContainer  from './screens/debug_login_screen/debug_login_screen_container';
+import LoadingScreenContainer     from './screens/loading_screen/loading_screen_container';
 
-import WelcomeScreenContainer     from './screens/welcome_screen/welcome_screen_container.js';
-import LoginScreenContainer       from './screens/login_screen/login_screen_container.js';
-import ConfirmCodeScreenContainer from './screens/confirm_code_screen/confirm_code_screen_container.js';
-import UsernameScreenContainer    from './screens/username_screen/username_screen_container.js';
-import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container.js';
+import WelcomeScreenContainer     from './screens/welcome_screen/welcome_screen_container';
+import LoginScreenContainer       from './screens/login_screen/login_screen_container';
+import ConfirmCodeScreenContainer from './screens/confirm_code_screen/confirm_code_screen_container';
+import UsernameScreenContainer    from './screens/username_screen/username_screen_container';
+import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container';
 
-import HomeScreenContainer        from './screens/home_screen/home_screen_container.js';
-import DiscoverScreenContainer    from './screens/discover_screen/discover_screen_container.js';
-import FriendScreenContainer      from './screens/friend_screen/friend_screen_container.js';
-import ProfileScreenContainer     from './screens/profile_screen/profile_screen_container.js';
+import HomeScreenContainer        from './screens/home_screen/home_screen_container';
+import DiscoverScreenContainer    from './screens/discover_screen/discover_screen_container';
+import FriendScreenContainer      from './screens/friend_screen/friend_screen_container';
+import ProfileScreenContainer     from './screens/profile_screen/profile_screen_container';
 
-import UserScreenContainer        from './screens/user_screen/user_screen_container.js';
-import MessagesScreenContainer    from './screens/messages_screen/messages_screen_container.js';
-import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container.js';
-import ShareScreenContainer       from './screens/share_screen/share_screen_container.js';
-import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container.js';
-import AddFriendScreenContainer   from './screens/add_friend_screen/add_friend_screen_container.js';
-import MenuScreen                 from './screens/menu_screen/menu_screen.js';
+import UserScreenContainer        from './screens/user_screen/user_screen_container';
+import MessagesScreenContainer    from './screens/messages_screen/messages_screen_container';
+import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container';
+import ShareScreenContainer       from './screens/share_screen/share_screen_container';
+import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container';
+import AddFriendScreenContainer   from './screens/add_friend_screen/add_friend_screen_container';
+import MenuScreen                 from './screens/menu_screen/menu_screen';
 
-import HeaderContainer            from './components/header/header_container.js';
-import FooterContainer            from './components/footer/footer_container.js';
+import HeaderContainer            from './components/header/header_container';
+import FooterContainer            from './components/footer/footer_container';
 
 //--------------------------------------------------------------------//
 
@@ -128,7 +128,7 @@ class App extends React.Component {
           <Scene key='root' headerMode={'screen'} >
             <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true}  />
 
-            <Scene key='LoadingScreen'  component={LoadingScreenContainer}  panHandlers={null} hideNavBar={true}  />
+            <Scene key='LoadingScreen'  component={LoadingScreenContainer}  panHandlers={null} hideNavBar={true} initial={true} />
             <Scene key='WelcomeScreen'  component={WelcomeScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='LoginScreen'    component={LoginScreenContainer}    panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen'  component={NewPostScreenContainer}  panHandlers={null} hideNavBar={true} />
@@ -140,7 +140,7 @@ class App extends React.Component {
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username')} />
             <Scene key='UsernameScreen'      component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username', true)} />
             <Scene key='AvatarScreen'        component={AvatarScreenContainer}      panHandlers={null} navBar={this._renderHeader('Profile Photo', true)} />
-            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer} initial={true} panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
+            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
             <Scene key='AddFriendScreen'     component={AddFriendScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
 
