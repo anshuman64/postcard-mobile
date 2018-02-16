@@ -43,7 +43,7 @@ class HomeScreen extends React.PureComponent {
   // When refocusing app, refresh received posts
   _handleAppStateChange = (nextAppState) => {
     if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
-      this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
+      this.postList.getWrappedInstance()._onRefresh(POST_TYPES.RECEIVED);
     }
 
     this.currentAppState = nextAppState;
