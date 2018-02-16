@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import DiscoverScreen  from './discover_screen.js';
+import DiscoverScreen  from './discover_screen';
 
 //--------------------------------------------------------------------//
 

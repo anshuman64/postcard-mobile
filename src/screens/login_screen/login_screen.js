@@ -6,13 +6,13 @@ import { AsYouTypeFormatter }  from 'google-libphonenumber';
 import Icon                    from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import LoadingModal                from '../../components/loading_modal/loading_modal.js';
-import CountryListModal            from '../../components/country_list_modal/country_list_modal.js';
-import { styles }                  from './login_screen_styles.js';
-import { COUNTRY_CODES }           from '../../utilities/country_utility.js';
-import { setStateCallback }        from '../../utilities/function_utility.js';
-import { UTILITY_STYLES, COLORS }  from '../../utilities/style_utility.js';
-import { defaultErrorAlert }       from '../../utilities/error_utility.js';
+import LoadingModal                from '../../components/loading_modal/loading_modal';
+import CountryListModal            from '../../components/country_list_modal/country_list_modal';
+import { styles }                  from './login_screen_styles';
+import { COUNTRY_CODES }           from '../../utilities/country_utility';
+import { setStateCallback }        from '../../utilities/function_utility';
+import { UTILITY_STYLES, COLORS }  from '../../utilities/style_utility';
+import { defaultErrorAlert }       from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 

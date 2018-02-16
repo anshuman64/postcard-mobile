@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "500815057845-l8h2qecd1p58pkqfvlaik3dbqa6fltql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.insiya.android",
+            "certificate_hash": "eec86357c61a6c990e8ab9eeb6a9867b8beeeea5"
+          }
+        },
+        {
           "client_id": "500815057845-dtubleqv1qr5l19h1psqskhfnefafi2p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -56,10 +64,11 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "500815057845-phs657nkv5mjje7iuaps3nnhmh2g9vt9.apps.googleusercontent.com",
+              "client_id": "500815057845-rpaebclbpgeakdi48p2cjimgip5kh3ja.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "org.reactjs.native.example.Insiya"
+                "bundle_id": "com.insiya.apple",
+                "app_store_id": "1340099900"
               }
             },
             {

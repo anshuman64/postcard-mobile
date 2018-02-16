@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import _         from 'lodash';
 
 // Local Imports
-import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config.js';
+import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config';
 
 //--------------------------------------------------------------------//
 
