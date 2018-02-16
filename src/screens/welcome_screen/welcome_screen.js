@@ -37,7 +37,7 @@ class WelcomeScreen extends React.PureComponent {
           source={require('../../assets/images/icon/icon.png')}
           resizeMode='cover'
           animation={fadeInIcon}
-          duration={2000}
+          duration={2500}
           delay={1000}
           />
       )
@@ -62,7 +62,7 @@ class WelcomeScreen extends React.PureComponent {
           allowFontScaling={false}
           animation={'fadeIn'}
           duration={1800}
-          delay={3000}
+          delay={3400}
           onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
           >
           Postcard
