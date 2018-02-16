@@ -7,11 +7,12 @@ import { navigateToMessages, navigateToProfile } from '../../actions/navigation_
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, postsCache, imagesCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, postsCache, imagesCache, messages }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
   postsCache:  postsCache,
   imagesCache: imagesCache,
+  messages:    messages
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
