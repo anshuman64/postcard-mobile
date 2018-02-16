@@ -65,34 +65,11 @@ RCT_EXPORT_METHOD(getMedia:(NSDictionary *)options resolver:(RCTPromiseResolveBl
   NSMutableArray *images = [[NSMutableArray alloc] init];
   for (PHAsset *asset in fetchResult) {
     [images addObject:@{
-                        @"uri": [NSString stringWithFormat:@"photos://%@", asset.localIdentifier]
+                        @"uri": [NSString stringWithFormat:@"ph://%@", asset.localIdentifier]
                         }];
   }
 
   resolve(images);
-}
-
-RCT_EXPORT_METHOD(copyPhoto:(NSString *)id fileName:(NSString *)fileName resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    PHAsset *asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[id] options:nil].lastObject;
-    PHAssetResource *resource = [[PHAssetResource assetResourcesForAsset:asset] firstObject];
-    NSString *PATH_MOVIE_FILE = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
-    PHAssetResourceRequestOptions *option =[PHAssetResourceRequestOptions new];
-    option.networkAccessAllowed=YES;
-    [[NSFileManager defaultManager] removeItemAtPath:PATH_MOVIE_FILE error:nil];
-    [[PHAssetResourceManager defaultManager] writeDataForAssetResource:resource
-                                                                toFile:[NSURL fileURLWithPath:PATH_MOVIE_FILE]
-                                                               options:option
-                                                     completionHandler:^(NSError * _Nullable error) {
-                                                       if (error) {
-                                                         NSError * err=[NSError errorWithDomain:@"test" code:0 userInfo:nil];
-                                                         reject(@"0",error.description,err);
-                                                       } else {
-                                                         resolve(@{ @"path": PATH_MOVIE_FILE});
-                                                       }
-                                                     }];
-
-  });
 }
 
 @end
