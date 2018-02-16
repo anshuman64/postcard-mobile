@@ -103,8 +103,6 @@ class CameraRollScreen extends React.PureComponent {
         contentContainerStyle={styles.contentContainerStyle}
         enableEmptySections={true}
         showsVerticalScrollIndicator={false}
-        onEndReachedThreshold={10000}
-        scrollRenderAheadDistance={10000}
         />
     )
   }

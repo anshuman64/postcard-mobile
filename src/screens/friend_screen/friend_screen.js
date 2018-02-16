@@ -114,10 +114,8 @@ class FriendScreen extends React.PureComponent {
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
-          pageSize={80}
+          pageSize={60}
           showsVerticalScrollIndicator={true}
-          onEndReachedThreshold={10000}
-          scrollRenderAheadDistance={10000}
         />
       )
     } else {
@@ -128,13 +126,11 @@ class FriendScreen extends React.PureComponent {
           renderRow={this._renderRow}
           renderHeader={this.props.friendships.accepted.length === 0 ? this._renderHeader : null}
           initialListSize={20}
-          pageSize={20}
+          pageSize={60}
           contentContainerStyle={styles.contentContainerStyle}
           enableEmptySections={true}
           showsVerticalScrollIndicator={false}
           onEndReached={this._onEndReached}
-          onEndReachedThreshold={10000}
-          scrollRenderAheadDistance={10000}
           />
       )
     }
