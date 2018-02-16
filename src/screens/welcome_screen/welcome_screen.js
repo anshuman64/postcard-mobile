@@ -65,7 +65,7 @@ class WelcomeScreen extends React.PureComponent {
           delay={3000}
           onAnimationEnd={setStateCallback(this, { isLogoFading: false })}
           >
-          Insiya
+          Postcard
         </Animatable.Text>
       )
     } else {
@@ -76,7 +76,7 @@ class WelcomeScreen extends React.PureComponent {
           animation={translateLogo}
           duration={2000}
           >
-          Insiya
+          Postcard
         </Animatable.Text>
       )
     }

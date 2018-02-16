@@ -15,10 +15,10 @@ export const styles = StyleSheet.create({
   },
   logo: {
     fontFamily: 'SourceSansPro-ExtraLight',
-    fontSize: 45,
+    fontSize: 42,
     position: 'absolute',
-    transform: [{translateX: 26}],
-    color: '#333333'
+    transform: [{translateX: 24}],
+    color: StyleUtility.COLORS.grey900
   },
   animatableView: {
     flexDirection: 'column',
@@ -76,7 +76,7 @@ export const fadeInIcon = {
   },
   1: {
     opacity: 1,
-    translateX: -51,
+    translateX: -75,
     translateY: -5
   }
 }
@@ -84,21 +84,21 @@ export const fadeInIcon = {
 export const translateIcon = {
   0: {
     translateY: -5,
-    translateX: -51,
+    translateX: -75,
   },
   1: {
     translateY: -200,
-    translateX: -51,
+    translateX: -75,
   }
 }
 
 export const translateLogo = {
   0: {
     translateY: 0,
-    translateX: 26,
+    translateX: 24,
   },
   1: {
     translateY: -195,
-    translateX: 26,
+    translateX: 24,
   }
 }
