@@ -15,7 +15,11 @@ class MediaLibrary {
       const options = {...DEFAULT_MEDIA_OPTIONS, ...opts, after};
       return CameraRoll.getPhotos(options).then(data => {
         const assets = data.edges;
-        media = media.concat(assets.map(asset => asset.node.image));
+        media = media.concat(assets.map((asset) => {
+          image = asset.node.image;
+          image.type = asset.node.type;
+          return image;
+        }));
         return data.page_info.has_next_page ? getPhotos(media, data.page_info.end_cursor) : media;
       });
     };
