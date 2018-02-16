@@ -126,7 +126,7 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} initial={true} />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true}  />
 
             <Scene key='LoadingScreen'  component={LoadingScreenContainer}  panHandlers={null} hideNavBar={true}  />
             <Scene key='WelcomeScreen'  component={WelcomeScreenContainer}  panHandlers={null} hideNavBar={true} />
@@ -140,7 +140,7 @@ class App extends React.Component {
             <Scene key='UsernameScreenLogin' component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username')} />
             <Scene key='UsernameScreen'      component={UsernameScreenContainer}    panHandlers={null} navBar={this._renderHeader('Username', true)} />
             <Scene key='AvatarScreen'        component={AvatarScreenContainer}      panHandlers={null} navBar={this._renderHeader('Profile Photo', true)} />
-            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
+            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer} initial={true} panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
             <Scene key='AddFriendScreen'     component={AddFriendScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
 
