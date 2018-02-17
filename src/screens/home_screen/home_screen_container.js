@@ -6,10 +6,9 @@ import HomeScreen from './home_screen';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, posts, navigation }, ownProps) => ({
+const mapStateToProps = ({ client, posts }, ownProps) => ({
   client:        client,
   posts:         posts,
-  currentScreen: navigation.currentScreen
 });
 
 export default connect(
