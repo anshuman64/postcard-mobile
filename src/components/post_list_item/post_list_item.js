@@ -207,7 +207,7 @@ class PostListItem extends React.PureComponent {
 
     if (!isMessagesScreen && userFriendshipStatus) {
       if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
-        this.props.navigateToMessages({ userId: this.props.item.author_id });
+        this.props.navigateTo('MessagesScreen', { userId: this.props.item.author_id });
       }
     }
   }

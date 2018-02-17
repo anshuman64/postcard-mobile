@@ -108,7 +108,7 @@ class LoadingScreen extends React.PureComponent {
     } else if (data.type === 'receive-post') {
       this.props.navigateTo('HomeScreen');
     } else if (data.type === 'receive-message') {
-      this.props.navigateToMessages({ userId: data.client.id });
+      this.props.navigateTo('MessagesScreen', { userId: data.client.id });
     }
   }
 

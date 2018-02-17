@@ -48,6 +48,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.NewPostScreen(props)
     } else if (screen === 'ShareScreen') {
       Actions.ShareScreen(props)
+    } else if (screen === 'MessagesScreen') {
+      Actions.MessagesScreen(props)
     } else if (screen === 'AddFriendScreen') {
       Actions.AddFriendScreen(props)
     } else if (screen === 'MenuScreen') {
@@ -82,13 +84,6 @@ export const navigateToProfile = (props) => (dispatch) => {
   dismissKeyBoard();
 
   Actions.push('UserScreen', props);
-}
-
-// Adds MessagesScreen to top of stack with props.
-export const navigateToMessages = (props) => (dispatch) => {
-  dismissKeyBoard();
-
-  Actions.push('MessagesScreen', props);
 }
 
 // Pops top of stack. If props, refreshes screen with props (only way sending props works).
