@@ -51,7 +51,7 @@ class LoadingScreen extends React.PureComponent {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
               this._getPosts();
-              this._loadData()
+              this._loadAllData()
                 .then(() => {
                   this.isLoggedIn = true;
                   this._onAnimationEnd();
@@ -86,12 +86,16 @@ class LoadingScreen extends React.PureComponent {
     }
   }
 
+  async _loadAllData() {
+    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+
+    await this._loadData();
+  }
+
   async _loadData()  {
     for (let friendType in FRIEND_TYPES) {
       await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
-
-    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
   }
 
   _onOpened = (openResult) => {
