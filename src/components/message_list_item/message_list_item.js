@@ -2,6 +2,7 @@
 import React           from 'react';
 import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import Hyperlink       from 'react-native-hyperlink'
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
@@ -102,9 +103,11 @@ class MessageListItem extends React.PureComponent {
   _renderBody(isAuthoredByClient) {
     if (this.props.message.body) {
       return (
-        <RN.Text style={isAuthoredByClient ? styles.bodyTextClient : styles.bodyTextUser}>
-          {this.props.message.body}
-        </RN.Text>
+        <Hyperlink linkDefault={true} linkStyle={{color: StyleUtility.COLORS.grey900}}>
+          <RN.Text style={isAuthoredByClient ? styles.bodyTextClient : styles.bodyTextUser}>
+            {this.props.message.body}
+          </RN.Text>
+        </Hyperlink>
       )
     } else {
       return null;
