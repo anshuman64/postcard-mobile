@@ -91,7 +91,7 @@ class FriendListItem extends React.PureComponent {
 
   render() {
     return (
-      <RN.TouchableOpacity onPress={() => this.props.navigateToMessages({ userId: this.props.userId })}>
+      <RN.TouchableOpacity onPress={() => this.props.navigateTo('MessagesScreen', { userId: this.props.userId })}>
         <RN.View style={styles.rowView}>
           <RN.View style={styles.userView}>
             <RN.TouchableWithoutFeedback

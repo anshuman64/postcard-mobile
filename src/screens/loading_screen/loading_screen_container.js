@@ -2,12 +2,12 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import LoadingScreen                      from './loading_screen';
-import { loginClient }                    from '../../actions/client_actions';
-import { getPosts }                       from '../../actions/post_actions';
-import { getFriendships }                 from '../../actions/friendship_actions';
-import { getBlockedUsers }                from '../../actions/block_actions';
-import { navigateTo, navigateToMessages } from '../../actions/navigation_actions';
+import LoadingScreen       from './loading_screen';
+import { loginClient }     from '../../actions/client_actions';
+import { getPosts }        from '../../actions/post_actions';
+import { getFriendships }  from '../../actions/friendship_actions';
+import { getBlockedUsers } from '../../actions/block_actions';
+import { navigateTo }      from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
@@ -22,7 +22,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getPosts:           (authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams)),
   getFriendships:     (authToken, firebaseUserObj, friendType) => dispatch(getFriendships(authToken, firebaseUserObj, friendType)),
   getBlockedUsers:    (authToken, firebaseUserObj) => dispatch(getBlockedUsers(authToken, firebaseUserObj)),
-  navigateToMessages: (props) => dispatch(navigateToMessages(props)),
 });
 
 export default connect(

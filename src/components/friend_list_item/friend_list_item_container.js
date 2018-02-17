@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import FriendListItem                            from './friend_list_item';
-import { navigateToMessages, navigateToProfile } from '../../actions/navigation_actions';
+import FriendListItem                    from './friend_list_item';
+import { navigateTo, navigateToProfile } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
@@ -16,7 +16,7 @@ const mapStateToProps = ({ client, usersCache, postsCache, imagesCache, messages
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  navigateToMessages: (props) => dispatch(navigateToMessages(props)),
+  navigateTo:         (screen, props) => dispatch(navigateTo(screen, props)),
   navigateToProfile:  (props) => dispatch(navigateToProfile(props)),
 });
 
