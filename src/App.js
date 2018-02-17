@@ -88,7 +88,7 @@ class App extends React.Component {
         || Actions.currentScene === 'LoadingScreen'
         || Actions.currentScene === 'DebugLoginScreen'
         || Actions.currentScene === 'UsernameScreenLogin') {
-      RNExitApp.exitApp();
+      // RNExitApp.exitApp();
       return false;
     }
 
