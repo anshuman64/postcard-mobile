@@ -24,12 +24,6 @@ class DiscoverScreen extends React.PureComponent {
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // Refresh ReceivedPosts on mount
-  componentDidMount() {
-    this.postList.getWrappedInstance().refresh(POST_TYPES.PUBLIC);
-    this.postList.getWrappedInstance().refresh(POST_TYPES.FOLLOWED);
-  }
-
   // Auto-refresh screen if coming back to it after > 1 minute
   componentWillReceiveProps(nextProps) {
     if (this.props.currentScreen != 'DiscoverScreen' && nextProps.currentScreen === 'DiscoverScreen') {
@@ -38,8 +32,8 @@ class DiscoverScreen extends React.PureComponent {
         let lastUpdate = this.props.posts[this.props.client.id][postType].lastUpdated;
         let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
-        if (minsDiff > 1) {
-          this.postList.getWrappedInstance().refresh(postType);
+        if (minsDiff > 2) {
+          this.postList.getWrappedInstance()._onRefresh(postType);
         }
       }
 

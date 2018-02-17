@@ -8,7 +8,7 @@ import EvilIcon    from 'react-native-vector-icons/EvilIcons';
 import HeaderContainer                    from '../../components/header/header_container';
 import { styles }                         from './new_post_screen_styles';
 import { getRandomInt, setStateCallback } from '../../utilities/function_utility';
-import { postPlaceholders }              from '../../utilities/file_utility';
+import { postPlaceholders }               from '../../utilities/file_utility';
 import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
