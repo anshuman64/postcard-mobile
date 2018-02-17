@@ -3,6 +3,7 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
+import { POST_TYPES }       from '../../actions/post_actions';
 import { FRIEND_TYPES }     from '../../actions/friendship_actions';
 import { setStateCallback } from '../../utilities/function_utility';
 import { styles }           from './debug_login_screen_styles';
@@ -40,6 +41,7 @@ class DebugLoginScreen extends React.PureComponent {
 
     this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
       .then(() => {
+        this._getPosts();
         this._loadData()
           .then(() => {
             let client = this.props.usersCache[this.props.client.id];
@@ -63,6 +65,12 @@ class DebugLoginScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
+
+  _getPosts = () => {
+    for (let postType in POST_TYPES) {
+      this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
+  }
 
   async _loadData()  {
     for (let friendType in FRIEND_TYPES) {

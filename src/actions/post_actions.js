@@ -65,20 +65,20 @@ export const pusherReceivePost = (data) => {
 //--------------------------------------------------------------------//
 
 // Returns API path for particular POST_TYPES
-let getRouteForPostType = (postType, userId, isUser) => {
+let getRouteForPostType = (postType, userId, isClient) => {
   switch(postType) {
     case POST_TYPES.RECEIVED:
       return '/received/';
     case POST_TYPES.PUBLIC:
       return '';
     case POST_TYPES.AUTHORED:
-      if (isUser) {
+      if (isClient) {
         return '/authored';
       } else {
         return '/authored/' + userId;
       }
     case POST_TYPES.LIKED:
-      if (isUser) {
+      if (isClient) {
         return '/liked';
       } else {
         return '/liked/' + userId;
@@ -93,8 +93,8 @@ let getRouteForPostType = (postType, userId, isUser) => {
 //--------------------------------------------------------------------//
 
 // GET posts from API and append to current PostList
-export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType, isUser, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId, isUser), queryParams)
+export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams) => (dispatch) => {
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId, isClient), queryParams)
     .then((posts) => {
       if (isRefresh) {
         dispatch(refreshPosts({ posts: posts, userId: userId, postType: postType }));
@@ -106,7 +106,7 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, isRefresh, userId, postType, isUser, queryParams));
+        return dispatch(refreshAuthToken(firebaseUserObj, getPosts, isRefresh, userId, postType, isClient, queryParams));
       }
 
       throw setErrorDescription(error, 'GET posts failed');
