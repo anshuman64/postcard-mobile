@@ -32,7 +32,7 @@ class DiscoverScreen extends React.PureComponent {
         let lastUpdate = this.props.posts[this.props.client.id][postType].lastUpdated;
         let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
-        if (minsDiff > 1) {
+        if (minsDiff > 2) {
           this.postList.getWrappedInstance()._onRefresh(postType);
         }
       }
