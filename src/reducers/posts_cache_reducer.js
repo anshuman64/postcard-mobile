@@ -42,6 +42,11 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
       _.forEach(action.data.posts, (post) => {
         newState[post.id] = _.omit(post, 'author');
+
+        newState[post.id].num_likes            = newState[post.id].num_likes || 0;
+        newState[post.id].is_liked_by_client   = newState[post.id].is_liked_by_client || false;
+        newState[post.id].num_flags            = newState[post.id].num_flags || 0;
+        newState[post.id].is_flagged_by_client = newState[post.id].is_flagged_by_client || false;
       });
 
       return newState;
