@@ -3,13 +3,15 @@ import React           from 'react';
 import RN              from 'react-native';
 import Firebase        from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
+import OneSignal       from 'react-native-onesignal';
 
 // Local Imports
-import { FRIEND_TYPES }        from '../../actions/friendship_actions';
-import { styles, pulseIcon }   from './loading_screen_styles';
-import { defaultErrorAlert }   from '../../utilities/error_utility';
-import { UTILITY_STYLES }      from '../../utilities/style_utility';
-import { getPostPlaceholders } from '../../utilities/file_utility';
+import { POST_TYPES }                               from '../../actions/post_actions';
+import { FRIEND_TYPES }                             from '../../actions/friendship_actions';
+import { styles, pulseIcon }                        from './loading_screen_styles';
+import { defaultErrorAlert }                        from '../../utilities/error_utility';
+import { UTILITY_STYLES }                           from '../../utilities/style_utility';
+import { getPostPlaceholders, getCameraRollPhotos } from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
@@ -25,16 +27,22 @@ class LoadingScreen extends React.PureComponent {
     this.isLoggedIn      = false;
     this.isOver          = false;
     this.currentAppState = 'active';
+    this.lastUpdate      = new Date();
   }
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
+  componentWillMount() {
+    OneSignal.addEventListener('opened', this._onOpened);
+  }
+
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
     RN.AppState.addEventListener('change', this._handleAppStateChange);
     getPostPlaceholders();
+    getCameraRollPhotos();
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
@@ -43,7 +51,8 @@ class LoadingScreen extends React.PureComponent {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
-              this._loadData()
+              this._getPosts();
+              this._loadAllData()
                 .then(() => {
                   this.isLoggedIn = true;
                   this._onAnimationEnd();
@@ -65,18 +74,43 @@ class LoadingScreen extends React.PureComponent {
 
   componentWillUnmount() {
     RN.AppState.removeEventListener('change', this._handleAppStateChange);
+    OneSignal.removeEventListener('opened', this._onOpened);
   }
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
+  _getPosts = () => {
+    for (let postType in POST_TYPES) {
+      this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
+  }
+
+  async _loadAllData() {
+    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+
+    await this._loadData();
+  }
+
   async _loadData()  {
     for (let friendType in FRIEND_TYPES) {
       await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
+  }
 
-    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+  _onOpened = (openResult) => {
+    let data = openResult.notification.payload.additionalData;
+
+    if (data.type === 'receive-like') {
+      this.props.navigateTo('ProfileScreen');
+    } else if (data.type === 'receive-friendship' || data.type === 'receive-accepted-friendship') {
+      this.props.navigateTo('FriendScreen');
+    } else if (data.type === 'receive-post') {
+      this.props.navigateTo('HomeScreen');
+    } else if (data.type === 'receive-message') {
+      this.props.navigateTo('MessagesScreen', { userId: data.client.id });
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -86,10 +120,18 @@ class LoadingScreen extends React.PureComponent {
   // When refocusing app, refresh friendships
   _handleAppStateChange = (nextAppState) => {
     if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
-      this._loadData()
-        .catch((error) => {
-          defaultErrorAlert(error);
-        });
+      let currentTime = new Date();
+      let minsDiff = (currentTime - this.lastUpdate) / (1000 * 60);
+
+      if (minsDiff > 1) {
+        this._loadData()
+          .then(() => {
+            this.lastUpdate = new Date();
+          })
+          .catch((error) => {
+            defaultErrorAlert(error);
+          });
+      }
     }
 
     this.currentAppState = nextAppState;

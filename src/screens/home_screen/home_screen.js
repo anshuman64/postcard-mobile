@@ -29,7 +29,6 @@ class HomeScreen extends React.PureComponent {
   // Refresh ReceivedPosts on mount
   componentDidMount() {
     RN.AppState.addEventListener('change', this._handleAppStateChange);
-    this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
   }
 
   componentWillUnmount() {
@@ -43,7 +42,13 @@ class HomeScreen extends React.PureComponent {
   // When refocusing app, refresh received posts
   _handleAppStateChange = (nextAppState) => {
     if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
-      this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
+      let currentTime = new Date();
+      let lastUpdate = this.props.posts[this.props.client.id][POST_TYPES.RECEIVED].lastUpdated;
+      let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+
+      if (minsDiff > 1) {
+        this.postList.getWrappedInstance()._onRefresh(POST_TYPES.RECEIVED);
+      }
     }
 
     this.currentAppState = nextAppState;

@@ -83,7 +83,7 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   });
 
   myChannel.bind('create-post-message', (data) => {
-    dispatch(pusherCreatePostMessage({ client: data.client, user: data.user, message: data.message }));
+    dispatch(pusherCreatePostMessage({ client: data.client, user: data.user, message: data.message, post: data.post }));
     dispatch(getImages(data.message));
   });
 
@@ -99,24 +99,3 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
 // OneSignal options
 OneSignal.inFocusDisplaying(0); // Disables notifications in-app
-
-export function onReceived(notification) {
-  // console.log("Notification received: ", notification);
-}
-
-export function onOpened(openResult) {
-  OneSignal.clearOneSignalNotifications(); // clears all notifications on Android when one is opened
-
-  // console.log('Message: ', openResult.notification.payload.body);
-  // console.log('Data: ', openResult.notification.payload.additionalData);
-  // console.log('isActive: ', openResult.notification.isAppInFocus);
-  // console.log('openResult: ', openResult);
-}
-
-export function onRegistered(notifData) {
-  // console.log("Device had been registered for push notifications!", notifData);
-}
-
-export function onIds(device) {
-  // console.log('Device info: ', device);
-}

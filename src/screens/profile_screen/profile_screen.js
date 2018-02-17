@@ -24,34 +24,6 @@ class ProfileScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Lifecycle Methods
-  //--------------------------------------------------------------------//
-
-  // Refresh AuthoredPosts and LikedPosts on mount
-  componentDidMount() {
-    this.postList.getWrappedInstance().refresh(POST_TYPES.AUTHORED);
-    this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
-  }
-
-  // Auto-refresh screen if coming back to it after > 1 minute
-  componentWillReceiveProps(nextProps) {
-    if (this.props.currentScreen != 'ProfileScreen' && nextProps.currentScreen === 'ProfileScreen') {
-      let checkRefresh = (postType) => {
-        let currentTime = new Date();
-        let lastUpdate = this.props.posts[this.props.client.id][postType].lastUpdated;
-        let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
-
-        if (minsDiff > 1) {
-          this.postList.getWrappedInstance().refresh(postType);
-        }
-      }
-
-      checkRefresh(POST_TYPES.AUTHORED);
-      checkRefresh(POST_TYPES.LIKED);
-    }
-  }
-
-  //--------------------------------------------------------------------//
   // Public Methods
   //--------------------------------------------------------------------//
 

@@ -2,6 +2,7 @@
 import React           from 'react';
 import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import Hyperlink       from 'react-native-hyperlink'
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
@@ -37,6 +38,9 @@ class MessageListItem extends React.PureComponent {
     let isHeader = false;
     let thisMessageCreatedAt = new Date(this.props.message.created_at);
 
+    // Show date if:
+    // 1) the message is the first message in the conversation
+    // 2) the last message was sent more than 10 mins ago
     if (this.props.index === this.props.messages[this.props.userId].data.length - 1) {
       isHeader = true;
     } else {
@@ -67,13 +71,20 @@ class MessageListItem extends React.PureComponent {
   _renderAvatar() {
     let isAvatar = false;
 
+    // Show avatar on other user's message if:
+    // 1) the message is the newest message
+    // 2) the next message is by the client
+    // 3) the next message was sent more than 10 mins later
     if (this.props.index === 0) {
       isAvatar = true;
     } else {
-      let thisMessageAuthor = this.props.message.author_id;
-      let nextMessageAuthor = this.props.messages[this.props.userId].data[this.props.index - 1].author_id;
+      let thisMessage = this.props.message;
+      let nextMessage = this.props.messages[this.props.userId].data[this.props.index - 1];
+      let thisMessageCreatedAt = new Date(thisMessage.created_at);
+      let nextMessageCreatedAt = new Date(nextMessage.created_at);
 
-      if (thisMessageAuthor != nextMessageAuthor) {
+      if (thisMessage.author_id != nextMessage.author_id
+          || nextMessageCreatedAt - thisMessageCreatedAt > 600000) {
         isAvatar = true;
       }
     }
@@ -92,9 +103,11 @@ class MessageListItem extends React.PureComponent {
   _renderBody(isAuthoredByClient) {
     if (this.props.message.body) {
       return (
-        <RN.Text style={isAuthoredByClient ? styles.bodyTextClient : styles.bodyTextUser}>
-          {this.props.message.body}
-        </RN.Text>
+        <Hyperlink linkDefault={true} linkStyle={{color: StyleUtility.COLORS.grey900}}>
+          <RN.Text style={isAuthoredByClient ? styles.bodyTextClient : styles.bodyTextUser}>
+            {this.props.message.body}
+          </RN.Text>
+        </Hyperlink>
       )
     } else {
       return null;
