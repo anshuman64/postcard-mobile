@@ -27,6 +27,7 @@ class LoadingScreen extends React.PureComponent {
     this.isLoggedIn      = false;
     this.isOver          = false;
     this.currentAppState = 'active';
+    this.lastUpdate      = new Date();
   }
 
   //--------------------------------------------------------------------//
@@ -119,10 +120,18 @@ class LoadingScreen extends React.PureComponent {
   // When refocusing app, refresh friendships
   _handleAppStateChange = (nextAppState) => {
     if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
-      this._loadData()
-        .catch((error) => {
-          defaultErrorAlert(error);
-        });
+      let currentTime = new Date();
+      let minsDiff = (currentTime - this.lastUpdate) / (1000 * 60);
+
+      if (minsDiff > 1) {
+        this._loadData()
+          .then(() => {
+            this.lastUpdate = new Date();
+          })
+          .catch((error) => {
+            defaultErrorAlert(error);
+          });
+      }
     }
 
     this.currentAppState = nextAppState;
