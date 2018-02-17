@@ -50,15 +50,8 @@ class FriendListItem extends React.PureComponent {
   _renderUsernameView() {
     let user = this.props.usersCache[this.props.userId];
     let username = user ? user.username : null;
-    let message = null;
-    let messages = this.props.messages[this.props.userId];
+    let message = user ? user.peek_message : null;
     let messagePreview = 'Send a message...';
-
-    if (messages && messages.length > 0) {
-      message = messages[0];
-    } else if (user.peek_message) {
-      message = user.peek_message
-    }
 
     if (message) {
       if (message.post_id) {
@@ -98,7 +91,7 @@ class FriendListItem extends React.PureComponent {
 
   render() {
     return (
-      <RN.TouchableOpacity onPress={() => this.props.navigateToMessages({ userId: this.props.userId })}>
+      <RN.TouchableOpacity onPress={() => this.props.navigateTo('MessagesScreen', { userId: this.props.userId })}>
         <RN.View style={styles.rowView}>
           <RN.View style={styles.userView}>
             <RN.TouchableWithoutFeedback

@@ -26,10 +26,11 @@ class MessagesScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      messageText: '',
-      imagePath:   null,
-      imageType:   null,
-      isLoading:   false,
+      messageText:  '',
+      imagePath:    null,
+      imageType:    null,
+      isLoading:    false,
+      isLoadingNew: false
     };
 
     this.isSendPressed                    = false;
@@ -49,12 +50,17 @@ class MessagesScreen extends React.PureComponent {
       this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId)
         .catch((error) => {
           defaultErrorAlert(error);
-        })
-    } else {
-      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
+        });
+    } else if (this.props.messages[this.props.userId] && this.props.messages[this.props.userId].data.length > 0) {
+      this.setState({ isLoadingNew: true }, () => {
+        this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
+          .catch((error) => {
+            defaultErrorAlert(error);
+          })
+          .finally(() => {
+            this.setState({ isLoadingNew: false });
+          });
+      });
     }
   }
 
@@ -75,11 +81,16 @@ class MessagesScreen extends React.PureComponent {
 
   // When refocusing app, refresh messages
   _handleAppStateChange = (nextAppState) => {
-    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
-      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active' && this.props.messages[this.props.userId] && this.props.messages[this.props.userId].data.length > 0) {
+      this.setState({ isLoadingNew: true }, () => {
+        this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
+          .catch((error) => {
+            defaultErrorAlert(error);
+          })
+          .finally(() => {
+            this.setState({ isLoadingNew: false });
+          });
+      });
     }
 
     this.currentAppState = nextAppState;
@@ -184,9 +195,9 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _renderHeader = () => {
-    if (this.state.isLoading) {
+    if (this.state.isLoading || this.state.isLoadingNew) {
       return (
-        <RN.View style={styles.headerView}>
+        <RN.View style={[styles.headerView, this.state.isLoadingNew && {justifyContent: 'center'}]}>
           <RN.ActivityIndicator size='small' color={COLORS.grey400} />
         </RN.View>
       )
