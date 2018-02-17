@@ -6,6 +6,7 @@ import * as Animatable from 'react-native-animatable';
 import OneSignal       from 'react-native-onesignal';
 
 // Local Imports
+import { POST_TYPES }                               from '../../actions/post_actions';
 import { FRIEND_TYPES }                             from '../../actions/friendship_actions';
 import { styles, pulseIcon }                        from './loading_screen_styles';
 import { defaultErrorAlert }                        from '../../utilities/error_utility';
@@ -49,6 +50,7 @@ class LoadingScreen extends React.PureComponent {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
+              this._getPosts();
               this._loadData()
                 .then(() => {
                   this.isLoggedIn = true;
@@ -77,6 +79,12 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
+
+  _getPosts = () => {
+    for (let postType in POST_TYPES) {
+      this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
+  }
 
   async _loadData()  {
     for (let friendType in FRIEND_TYPES) {

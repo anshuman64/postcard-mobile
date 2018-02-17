@@ -6,6 +6,7 @@ import { PhoneNumberUtil }  from 'google-libphonenumber';
 
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal';
+import { POST_TYPES }             from '../../actions/post_actions';
 import { FRIEND_TYPES }           from '../../actions/friendship_actions';
 import { styles }                 from './confirm_code_screen_styles';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
@@ -95,6 +96,7 @@ class ConfirmCodeScreen extends React.PureComponent {
       this.setState({ isLoading: false });
       RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
     } else {
+      this._getPosts();
       this._loadData()
         .then(() => {
           let client = this.props.usersCache[this.props.client.id];
@@ -111,6 +113,12 @@ class ConfirmCodeScreen extends React.PureComponent {
         .finally(() => {
           this.setState({ isLoading: false });
         });
+    }
+  }
+
+  _getPosts = () => {
+    for (let postType in POST_TYPES) {
+      this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
   }
 

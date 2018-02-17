@@ -29,7 +29,6 @@ class HomeScreen extends React.PureComponent {
   // Refresh ReceivedPosts on mount
   componentDidMount() {
     RN.AppState.addEventListener('change', this._handleAppStateChange);
-    this.postList.getWrappedInstance().refresh(POST_TYPES.RECEIVED);
   }
 
   componentWillUnmount() {
