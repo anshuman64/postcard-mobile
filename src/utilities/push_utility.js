@@ -83,7 +83,7 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   });
 
   myChannel.bind('create-post-message', (data) => {
-    dispatch(pusherCreatePostMessage({ client: data.client, user: data.user, message: data.message }));
+    dispatch(pusherCreatePostMessage({ client: data.client, user: data.user, message: data.message, post: data.post }));
     dispatch(getImages(data.message));
   });
 
