@@ -86,8 +86,6 @@ class LoadingScreen extends React.PureComponent {
   }
 
   _onOpened = (openResult) => {
-    OneSignal.clearOneSignalNotifications(); // clears all notifications on Android when one is opened
-
     let data = openResult.notification.payload.additionalData;
 
     if (data.type === 'receive-like') {
