@@ -2,6 +2,7 @@
 import React           from 'react';
 import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import Hyperlink       from 'react-native-hyperlink'
 import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
@@ -298,9 +299,11 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
           <RN.View style={styles.bodyView}>
             <RN.View style={styles.bodyTextView}>
-              <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
-                {this.props.item.body}
-              </RN.Text>
+              <Hyperlink linkDefault={true} linkStyle={UTILITY_STYLES.textHighlighted}>
+                <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
+                  {this.props.item.body}
+                </RN.Text>
+              </Hyperlink>
             </RN.View>
           </RN.View>
         </RN.TouchableWithoutFeedback>
