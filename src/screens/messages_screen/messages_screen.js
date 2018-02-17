@@ -50,7 +50,7 @@ class MessagesScreen extends React.PureComponent {
         .catch((error) => {
           defaultErrorAlert(error);
         })
-    } else {
+    } else if (this.props.messages[this.props.userId] && this.props.messages[this.props.userId].data.length > 0) {
       this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
         .catch((error) => {
           defaultErrorAlert(error);
@@ -75,7 +75,7 @@ class MessagesScreen extends React.PureComponent {
 
   // When refocusing app, refresh messages
   _handleAppStateChange = (nextAppState) => {
-    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active' && this.props.messages[this.props.userId] && this.props.messages[this.props.userId].data.length > 0) {
       this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
         .catch((error) => {
           defaultErrorAlert(error);
