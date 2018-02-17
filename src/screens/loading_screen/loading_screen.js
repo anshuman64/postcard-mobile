@@ -3,6 +3,7 @@ import React           from 'react';
 import RN              from 'react-native';
 import Firebase        from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
+import OneSignal       from 'react-native-onesignal';
 
 // Local Imports
 import { FRIEND_TYPES }        from '../../actions/friendship_actions';
@@ -30,6 +31,10 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
+
+  componentWillMount() {
+    OneSignal.addEventListener('opened', this._onOpened);
+  }
 
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
@@ -65,6 +70,7 @@ class LoadingScreen extends React.PureComponent {
 
   componentWillUnmount() {
     RN.AppState.removeEventListener('change', this._handleAppStateChange);
+    OneSignal.removeEventListener('opened', this._onOpened);
   }
 
   //--------------------------------------------------------------------//
@@ -77,6 +83,22 @@ class LoadingScreen extends React.PureComponent {
     }
 
     await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+  }
+
+  _onOpened = (openResult) => {
+    OneSignal.clearOneSignalNotifications(); // clears all notifications on Android when one is opened
+
+    let data = openResult.notification.payload.additionalData;
+
+    if (data.type === 'receive-like') {
+      this.props.navigateTo('ProfileScreen');
+    } else if (data.type === 'receive-friendship' || data.type === 'receive-accepted-friendship') {
+      this.props.navigateTo('FriendScreen');
+    } else if (data.type === 'receive-post') {
+      this.props.navigateTo('HomeScreen');
+    } else if (data.type === 'receive-message') {
+      this.props.navigateToMessages({ userId: data.client.id });
+    }
   }
 
   //--------------------------------------------------------------------//
