@@ -79,6 +79,7 @@ class App extends React.Component {
   }
 
   // When on the screens listed, close the app. Else, go back one screen.
+  // TODO: improve this behavior
   _onBackPress = () => {
     if (Actions.currentScene === '_HomeScreen'
         || Actions.currentScene === '_DiscoverScreen'
@@ -88,7 +89,7 @@ class App extends React.Component {
         || Actions.currentScene === 'LoadingScreen'
         || Actions.currentScene === 'DebugLoginScreen'
         || Actions.currentScene === 'UsernameScreenLogin') {
-      // RNExitApp.exitApp();
+      RNExitApp.exitApp();
       return false;
     }
 
