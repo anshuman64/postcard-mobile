@@ -2,9 +2,10 @@
 import _ from 'lodash';
 
 // Local Imports
-import { POST_ACTION_TYPES }   from '../actions/post_actions';
-import { LIKE_ACTION_TYPES }   from '../actions/like_actions';
-import { FLAG_ACTION_TYPES }   from '../actions/flag_actions';
+import { POST_ACTION_TYPES }    from '../actions/post_actions';
+import { MESSAGE_ACTION_TYPES } from '../actions/message_actions';
+import { LIKE_ACTION_TYPES }    from '../actions/like_actions';
+import { FLAG_ACTION_TYPES }    from '../actions/flag_actions';
 
 //--------------------------------------------------------------------//
 
@@ -96,6 +97,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
   case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
+  case MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
     postId = action.data.post.id;
 
     newState[postId] = action.data.post;
