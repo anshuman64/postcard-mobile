@@ -5,7 +5,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import MediaLibrary          from '../../components/media_library/media_library'; // don't add .js or else this won't work
+import { cameraRollPhotos }  from '../../utilities/file_utility';
 import ListFooter            from '../../components/list_footer/list_footer';
 import * as StyleUtility     from '../../utilities/style_utility';
 import { styles }            from './camera_roll_screen_styles';
@@ -15,7 +15,7 @@ import { amplitude }         from '../../utilities/analytics_utility';
 //--------------------------------------------------------------------//
 
 const PAGE_SIZE   = Math.ceil(StyleUtility.DEVICE_DIM.height / (StyleUtility.getUsableDimensions().width / 3)) * 3;
-const SCROLL_SIZE = PAGE_SIZE * 16;
+const SCROLL_SIZE = PAGE_SIZE * 5;
 
 class CameraRollScreen extends React.PureComponent {
 
@@ -27,30 +27,6 @@ class CameraRollScreen extends React.PureComponent {
     super(props);
 
     this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-    this.state = {
-      images:   [],
-    };
-  }
-
-  //--------------------------------------------------------------------//
-  // Lifecycle Methods
-  //--------------------------------------------------------------------//
-
-  componentDidMount() {
-    // Note: data in different formats depending on iOS vs. Android, but both have uri param
-    MediaLibrary.fetchMedia()
-      .then((data) => {
-        if (data.length === 0) {
-          RN.Alert.alert('', 'No images in gallery.', [{text: 'OK', style: 'cancel'}]);
-        } else {
-          this.setState({ images: this.state.images.concat(data) });
-        }
-      })
-      .catch((error) => {
-        amplitude.logEvent('Error - Camera Roll', { error_description: 'Could not load images', error_message: error.message });
-        RN.Alert.alert('','Could not load images. Please try again later.',[{text: 'OK', style: 'cancel'}]);
-      });
   }
 
   //--------------------------------------------------------------------//
@@ -94,11 +70,11 @@ class CameraRollScreen extends React.PureComponent {
   _renderCameraRoll() {
     return (
       <RN.ListView
-        dataSource={this.ds.cloneWithRows(this.state.images)}
+        dataSource={this.ds.cloneWithRows(cameraRollPhotos)}
         style={styles.cameraRoll}
         renderRow={this._renderRow}
         renderFooter={this._renderFooter}
-        initialListSize={SCROLL_SIZE}
+        initialListSize={PAGE_SIZE * 2}
         pageSize={SCROLL_SIZE}
         contentContainerStyle={styles.contentContainerStyle}
         enableEmptySections={true}

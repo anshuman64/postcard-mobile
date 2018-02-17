@@ -6,11 +6,11 @@ import * as Animatable from 'react-native-animatable';
 import OneSignal       from 'react-native-onesignal';
 
 // Local Imports
-import { FRIEND_TYPES }        from '../../actions/friendship_actions';
-import { styles, pulseIcon }   from './loading_screen_styles';
-import { defaultErrorAlert }   from '../../utilities/error_utility';
-import { UTILITY_STYLES }      from '../../utilities/style_utility';
-import { getPostPlaceholders } from '../../utilities/file_utility';
+import { FRIEND_TYPES }                             from '../../actions/friendship_actions';
+import { styles, pulseIcon }                        from './loading_screen_styles';
+import { defaultErrorAlert }                        from '../../utilities/error_utility';
+import { UTILITY_STYLES }                           from '../../utilities/style_utility';
+import { getPostPlaceholders, getCameraRollPhotos } from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
@@ -40,6 +40,7 @@ class LoadingScreen extends React.PureComponent {
   componentDidMount() {
     RN.AppState.addEventListener('change', this._handleAppStateChange);
     getPostPlaceholders();
+    getCameraRollPhotos();
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
