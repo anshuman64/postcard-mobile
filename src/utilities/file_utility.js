@@ -1,6 +1,7 @@
 // Library Imports
 import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
+import Contacts    from 'react-native-contacts';
 import { Buffer }  from 'buffer';
 import uuid        from 'react-native-uuid';
 import mime        from 'mime-types';
@@ -21,6 +22,7 @@ import { refreshAuthToken }           from '../actions/client_actions';
 let s3Client = null;
 export let postPlaceholders;
 export let cameraRollPhotos = [];
+export let contacts = [];
 
 //--------------------------------------------------------------------//
 // Helper Functions
@@ -145,4 +147,12 @@ export const getCameraRollPhotos = () => {
     .then((data) => {
       cameraRollPhotos = data;
     })
+}
+
+export const getContacts = () => {
+  Contacts.getAllWithoutPhotos((error, contacts) => {
+    if (error != 'denied') {
+      contacts = contacts;
+    }
+  });
 }
