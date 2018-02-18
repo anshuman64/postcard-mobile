@@ -26,6 +26,7 @@ class FriendScreen extends React.PureComponent {
     };
 
     this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.isSharedPressed = false;
   }
 
   //--------------------------------------------------------------------//
@@ -50,7 +51,16 @@ class FriendScreen extends React.PureComponent {
   }
 
   _onPressShare = () => {
+    if (this.isSharedPressed) {
+      return;
+    }
+
+    this.isSharedPressed = true;
+
     RN.Share.share({message: 'Add me on Postcard! My username is: ' + this.props.usersCache[this.props.client.id].username + '\n\n- Download Now -\nwww.insiya.io' })
+      .finally(() => {
+        this.isSharedPressed = false;
+      });
   }
 
   //--------------------------------------------------------------------//
