@@ -20,6 +20,8 @@ target 'Insiya' do
 
   # pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
+  # pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
+
   target 'InsiyaTests' do
     inherit! :search_paths
     # Pods for testing
