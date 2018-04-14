@@ -56,11 +56,9 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
-<<<<<<< ours
 # Internal Tools
 tools/
 process-palette.json
-=======
+
 # Bundle artifact
 *.jsbundle
->>>>>>> theirs
