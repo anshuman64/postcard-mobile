@@ -2,6 +2,7 @@
 import { amplitude }            from '../utilities/analytics_utility';
 import * as APIUtility          from '../utilities/api_utility';
 import { setErrorDescription }  from '../utilities/error_utility';
+import { getContacts }          from '../utilities/file_utility';
 import { refreshAuthToken }     from './client_actions';
 import { getImages }            from './image_actions';
 import { getPostsFromMessages } from './post_actions';
@@ -136,4 +137,22 @@ export const deleteFriendship = (authToken, firebaseUserObj, userId) => (dispatc
       amplitude.logEvent('Friendship - Delete Friendship', { is_successful: false, error_description: error.description, error_message: error.message });
       throw error;
     });
+};
+
+export const findFriendsFromContacts = (authToken, firebaseUserObj, clientPhoneNumber) => (dispatch) => {
+  return getContacts(clientPhoneNumber)
+    .then((data) => {
+      return APIUtility.get(authToken, '/friendships/contacts', { contacts: data })
+        .then((friends) => {
+          dispatch(receiveFriendships({ friends: friends, friendType: 'contacts' }));
+          dispatch(getImages(friends));
+        })
+        .catch((error) => {
+          if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+            return dispatch(refreshAuthToken(firebaseUserObj, findFriendsFromContacts, clientPhoneNumber));
+          }
+
+          throw setErrorDescription(error, 'GET friendships from contacts failed');
+        });
+    })
 };

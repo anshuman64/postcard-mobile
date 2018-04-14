@@ -11,6 +11,7 @@ import { FRIEND_TYPES }           from '../../actions/friendship_actions';
 import { styles }                 from './confirm_code_screen_styles';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
 import { defaultErrorAlert }      from '../../utilities/error_utility';
+import { getContacts }            from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
@@ -97,6 +98,7 @@ class ConfirmCodeScreen extends React.PureComponent {
       RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
     } else {
       this._getPosts();
+      getContacts(this.props.usersCache[this.props.client.id].phone_number);
       this._loadData()
         .then(() => {
           let client = this.props.usersCache[this.props.client.id];

@@ -23,7 +23,7 @@ const ClientReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case CLIENT_ACTION_TYPES.RECEIVE_AUTH_TOKEN:
       newState.authToken = action.data.authToken;
-      // console.log(action.data); // Debug Test
+      console.log(action.data); // Debug Test
 
       return newState;
     case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:

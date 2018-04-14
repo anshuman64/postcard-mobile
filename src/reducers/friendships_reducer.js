@@ -12,6 +12,7 @@ const DEFAULT_STATE = {
   accepted: [],
   sent:     [],
   received: [],
+  contacts: [],
 };
 
 const FriendshipsReducer = (state = DEFAULT_STATE, action) => {

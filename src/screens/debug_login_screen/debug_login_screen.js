@@ -3,6 +3,7 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
+import * as FileUtility     from '../../utilities/file_utility';
 import { POST_TYPES }       from '../../actions/post_actions';
 import { FRIEND_TYPES }     from '../../actions/friendship_actions';
 import { setStateCallback } from '../../utilities/function_utility';
@@ -41,6 +42,9 @@ class DebugLoginScreen extends React.PureComponent {
 
     this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
       .then(() => {
+        FileUtility.getPostPlaceholders();
+        FileUtility.getCameraRollPhotos();
+        this.props.findFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.usersCache[this.props.client.id].phone_number);
         this._getPosts();
         this._loadData()
           .then(() => {

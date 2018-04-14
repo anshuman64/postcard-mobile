@@ -43,7 +43,6 @@ class LoadingScreen extends React.PureComponent {
     RN.AppState.addEventListener('change', this._handleAppStateChange);
     FileUtility.getPostPlaceholders();
     FileUtility.getCameraRollPhotos();
-    FileUtility.getContacts();
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
@@ -53,6 +52,8 @@ class LoadingScreen extends React.PureComponent {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
               this._getPosts();
+              FileUtility.getContacts(this.props.usersCache[this.props.client.id].phone_number);
+
               this._loadAllData()
                 .then(() => {
                   this.isLoggedIn = true;
