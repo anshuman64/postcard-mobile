@@ -16,6 +16,11 @@ import { defaultErrorAlert }                 from '../../utilities/error_utility
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  userId (int): other user's id 
+*/
+
 class MessagesScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
