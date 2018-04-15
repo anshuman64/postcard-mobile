@@ -11,14 +11,14 @@ import { mergeSorted }                   from '../utilities/function_utility';
 
 /*
 Data is in the form {
-    clientId: {
-      receivedPosts: { data: [], lastUpdated: null, isEnd: false },
-      publicPosts:   { data: [], lastUpdated: null, isEnd: false },
-      authoredPosts: { data: [], lastUpdated: null, isEnd: false },
-      likedPosts:    { data: [], lastUpdated: null, isEnd: false },
-      followedPosts: { data: [], lastUpdated: null, isEnd: false },
-    },
-    userId2: { ...
+  clientId: {
+    receivedPosts: { data: [], lastUpdated: null, isEnd: false },
+    publicPosts:   { data: [], lastUpdated: null, isEnd: false },
+    authoredPosts: { data: [], lastUpdated: null, isEnd: false },
+    likedPosts:    { data: [], lastUpdated: null, isEnd: false },
+    followedPosts: { data: [], lastUpdated: null, isEnd: false },
+  },
+  userId2: { ...
 */
 
 // AllPosts and FollowedPosts are stored in the current user's userId
