@@ -95,19 +95,11 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     case FOLLOW_ACTION_TYPES.RECEIVE_FOLLOW:
-      _.forEach(newState, (user) => {
-        if (user.id === action.data.follow.followee_id) {
-          user.is_user_followed_by_client = true;
-        }
-      });
+      newState[action.data.follow.followee_id].is_user_followed_by_client = true;
 
       return newState;
     case FOLLOW_ACTION_TYPES.REMOVE_FOLLOW:
-      _.forEach(newState, (user) => {
-        if (user.id === action.data.follow.followee_id) {
-          user.is_user_followed_by_client = false;
-        }
-      });
+      newState[action.data.follow.followee_id].is_user_followed_by_client = false;
 
       return newState;
 
@@ -122,19 +114,11 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case BLOCK_ACTION_TYPES.RECEIVE_BLOCK:
-      _.forEach(newState, (user) => {
-        if (user.id === action.data.block.blockee_id) {
-          user.is_user_blocked_by_client = true;
-        }
-      });
+      newState[action.data.block.blockee_id].is_user_blocked_by_client = true;
 
       return newState;
     case BLOCK_ACTION_TYPES.REMOVE_BLOCK:
-      _.forEach(newState, (user) => {
-        if (user.id === action.data.block.blockee_id) {
-          user.is_user_blocked_by_client = false;
-        }
-      });
+      newState[action.data.block.blockee_id].is_user_blocked_by_client = false;
 
       return newState;
 
