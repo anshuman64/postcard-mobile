@@ -11,18 +11,18 @@ import { FLAG_ACTION_TYPES }    from '../actions/flag_actions';
 
 /*
 Data is in the form {
-    postId1: {
-       "id":                   30,
-      "body":                 "hello world!",
-       "author_id":            1,
-       "image_url":            "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
-       "created_at":           "2018-01-18T23:48:06.000Z",
-       "updated_at":           "2018-01-18T23:48:06.000Z",
-       "num_likes":            0,
-       "is_liked_by_client":   false,
-       "is_flagged_by_client": false,
-   },
-    postId2: {...
+  postId1: {
+    "id":                   30,
+    "body":                 "hello world!",
+    "author_id":            1,
+    "image_url":            "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
+    "created_at":           "2018-01-18T23:48:06.000Z",
+    "updated_at":           "2018-01-18T23:48:06.000Z",
+    "num_likes":            0,
+    "is_liked_by_client":   false,
+    "is_flagged_by_client": false,
+  },
+  postId2: {...
 */
 
 const DEFAULT_STATE = {};

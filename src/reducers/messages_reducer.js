@@ -10,28 +10,28 @@ import { FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
 
 /*
 Data is in the form {
-    userId1: [{
+  userId1: [{
+    "id":            30,
+    "body":          "hello world!",
+    "author_id":     1,
+    "image_url":     "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
+    "friendship_id": 0,
+    "post_id":       false,
+    "created_at":    "2018-01-18T23:48:06.000Z",
+    "updated_at":    "2018-01-18T23:48:06.000Z",
+    "post": {
       "id":            30,
       "body":          "hello world!",
       "author_id":     1,
       "image_url":     "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
-      "friendship_id": 0,
-      "post_id":       false,
+      "is_public":     "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
       "created_at":    "2018-01-18T23:48:06.000Z",
       "updated_at":    "2018-01-18T23:48:06.000Z",
-      "post": {
-        "id":            30,
-        "body":          "hello world!",
-        "author_id":     1,
-        "image_url":     "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
-        "is_public":     "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
-        "created_at":    "2018-01-18T23:48:06.000Z",
-        "updated_at":    "2018-01-18T23:48:06.000Z",
-       }
-    }, {
-      ...another message object
-    }]
-    userId2: {...
+    }
+  }, {
+  ...another message object
+  }]
+  userId2: {...
 */
 
 const DEFAULT_STATE = {};
