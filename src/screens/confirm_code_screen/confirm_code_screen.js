@@ -14,6 +14,12 @@ import { defaultErrorAlert }      from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  phoneNumber (string): inputted phone number to display
+  confirmationCodeObj (object): used to test if confirmation code matches sent SMS
+*/
+
 class ConfirmCodeScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

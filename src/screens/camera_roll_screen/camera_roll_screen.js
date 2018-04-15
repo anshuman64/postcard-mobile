@@ -17,6 +17,11 @@ import { amplitude }         from '../../utilities/analytics_utility';
 const PAGE_SIZE   = Math.ceil(StyleUtility.DEVICE_DIM.height / (StyleUtility.getUsableDimensions().width / 3)) * 3;
 const SCROLL_SIZE = PAGE_SIZE * 5;
 
+/*
+Optional Screen Props:
+  isAvatar (bool): determines if cropping shadow should be square or circle
+*/
+
 class CameraRollScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
