@@ -12,6 +12,10 @@ import { defaultErrorAlert }  from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+
+*/
+
 class AvatarScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
