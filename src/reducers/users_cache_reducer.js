@@ -11,16 +11,17 @@ import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions'
 
 //--------------------------------------------------------------------//
 
-/* Data is in the form {
- *   userId1: {
- *      "id":                            30,
- *      "username":                      "anshu",
- *      "avatar_url":                    "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
- *      "is_user_followed_by_client":    false,
- *      "friendship_status_with_client": "accepted",
- *  },
- *   userId2: {...
- */
+/*
+Data is in the form {
+    userId1: {
+       "id":                            30,
+       "username":                      "anshu",
+       "avatar_url":                    "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
+       "is_user_followed_by_client":    false,
+       "friendship_status_with_client": "accepted",
+   },
+    userId2: {...
+*/
 
 const DEFAULT_STATE = {};
 
