@@ -8,11 +8,11 @@ import { IMAGE_ACTION_TYPES } from '../actions/image_actions';
 
 /*
 Data is in the form {
-   imagePath1: {
-      url:         string,
-      lastUpdated: Date()
-    },
-    imagePath2: { ...
+  imagePath1: {
+    url:         string,
+    lastUpdated: Date()
+  },
+  imagePath2: { ...
 */
 
 const DEFAULT_STATE = {};
