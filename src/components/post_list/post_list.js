@@ -105,7 +105,7 @@ class PostList extends React.PureComponent {
         renderItem={this._renderItem.bind(this)}
         keyExtractor={(item) => this.props.postsCache[item].id}
         style={styles.postList}
-        initialNumToRender={10}
+        initialNumToRender={3}
         maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
         onEndReached={this._onEndReached}
