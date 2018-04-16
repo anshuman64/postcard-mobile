@@ -4,7 +4,6 @@ import * as APIUtility          from '../utilities/api_utility';
 import { setErrorDescription }  from '../utilities/error_utility';
 import { refreshAuthToken }     from './client_actions';
 import { getImages }            from './image_actions';
-import { getPostsFromMessages } from './post_actions';
 import { uploadFile }           from '../utilities/file_utility';
 
 //--------------------------------------------------------------------//
@@ -16,7 +15,6 @@ import { uploadFile }           from '../utilities/file_utility';
 export const MESSAGE_ACTION_TYPES = {
   RECEIVE_MESSAGES:           'RECEIVE_MESSAGES',
   RECEIVE_MESSAGE:            'RECEIVE_MESSAGE',
-  PUSHER_CREATE_POST_MESSAGE: 'PUSHER_CREATE_POST_MESSAGE',
   PUSHER_RECEIVE_MESSAGE:     'PUSHER_RECEIVE_MESSAGE',
 };
 
@@ -42,13 +40,6 @@ export const receiveMessage = (data) => {
 };
 
 /*
-flag (flag object): flag object of created flag
-*/
-export const pusherCreatePostMessage = (data) => {
-  return { type: MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE, data: data };
-};
-
-/*
 client (user object): client's user object
 user (user object): other user's user object
 message (message object): message object
@@ -66,7 +57,6 @@ export const getMessages = (authToken, firebaseUserObj, isNew, userId, queryPara
     .then((messages) => {
       dispatch(receiveMessages({ messages: messages, userId: userId, isNew: isNew }));
       dispatch(getImages(messages));
-      dispatch(getPostsFromMessages(messages));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
