@@ -36,7 +36,7 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
-      newState[action.data.user.id] = action.data.user;
+      newState[action.data.client.id] = action.data.client;
 
       return newState;
 
@@ -65,6 +65,7 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[requester_id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
 
       return newState;
+    // Since we don't know if user is requester or requestee, delete friendships for both
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
       requester_id = action.data.friendship.requester_id;
       requestee_id = action.data.friendship.requestee_id;
@@ -160,12 +161,8 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
-      userId = action.data.userId;
-      newState[userId].peek_message = action.data.message;
-
-      return newState;
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.user.id;
+      userId = action.data.userId;
       newState[userId].peek_message = action.data.message;
 
       return newState;
