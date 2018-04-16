@@ -127,33 +127,30 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     case FRIENDSHIP_ACTION_TYPES.PUSHER_CREATE_FRIENDSHIP:
-      requestee_id = action.data.user.id;
+      userId = action.data.user.id;
 
-      newState[requestee_id] = action.data.user;
-      newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.SENT;
+      newState[userId] = action.data.user;
+      newState[userId].friendship_status_with_client = FRIEND_TYPES.SENT;
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
-      // NOTE: the user is the client that sent the Pusher notification
-      requester_id = action.data.client.id;
+      userId = action.data.user.id;
 
-      newState[requester_id] = action.data.client;
-      newState[requester_id].friendship_status_with_client = FRIEND_TYPES.RECEIVED;
+      newState[userId] = action.data.user;
+      newState[userId].friendship_status_with_client = FRIEND_TYPES.RECEIVED;
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP:
-      // NOTE: the user is the client that sent the Pusher notification
-      requestee_id = action.data.client.id;
+      userId = action.data.user.id;
 
-      newState[requestee_id] = action.data.client;
-      newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
+      newState[userId] = action.data.user;
+      newState[userId].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
-      // NOTE: the user is the client that sent the Pusher notification
-      userId = action.data.client.id;
+      userId = action.data.user.id;
 
-      newState[userId] = action.data.client;
+      newState[userId] = action.data.user;
       newState[userId].friendship_status_with_client = null;
 
       return newState;
@@ -168,7 +165,7 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.client.id;
+      userId = action.data.user.id;
       newState[userId].peek_message = action.data.message;
 
       return newState;

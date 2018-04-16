@@ -65,11 +65,11 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
-      newState.received.unshift(action.data.friendship.requester_id);
+      newState.received.unshift(action.data.user.id);
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP:
-      userId = action.data.friendship.requestee_id;
+      userId = action.data.user.id;
 
       _.remove(newState.sent, (ids) => {
         return ids === userId;
@@ -110,7 +110,7 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.client.id;
+      userId = action.data.user.id;
 
       _.remove(newState.accepted, (ids) => {
         return ids === userId;
