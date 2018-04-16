@@ -55,44 +55,34 @@ export const acceptFriendshipRequest = (data) => {
 };
 
 /*
-TODO: why is client necessary?
 friendship (friendship object): friendship object of removed friendship
-client (user object): user object of client
 */
 export const removeFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP, data: data };
 };
 
 /*
-TODO: fix client definition to actually be front-end client
-client (user object): client's user object
 user (user object): other user's user object
-friendship (friendship object): joint friendship object
 */
 export const pusherCreateFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_CREATE_FRIENDSHIP, data: data };
 };
 
 /*
-client (user object): client's user object
 user (user object): other user's user object
-friendship (friendship object): joint friendship object
 */
 export const pusherRecieveFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP, data: data };
 };
 
 /*
-client (user object): client's user object
 user (user object): other user's user object
-friendship (friendship object): joint friendship object
 */
 export const pusherReceiveAcceptedFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP, data: data };
 };
 
 /*
-client (user object): client's user object
 user (user object): other user's user object
 friendship (friendship object): joint friendship object
 */

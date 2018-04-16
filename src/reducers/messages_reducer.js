@@ -54,17 +54,8 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
-      userId = action.data.userId;
-
-      newState[userId]       = newState[userId]       || {};
-      newState[userId].data  = newState[userId].data  || [];
-      newState[userId].isEnd = newState[userId].isEnd || false;
-
-      newState[userId].data.unshift(action.data.message);
-
-      return newState;
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.user.id;
+      userId = action.data.userId;
 
       newState[userId]       = newState[userId]       || {};
       newState[userId].data  = newState[userId].data  || [];
@@ -78,13 +69,20 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
     // Friendship Actions
     //--------------------------------------------------------------------//
 
+    // Since we don't know if user is requester or requestee, delete messages for both
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
     case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
-      userId = action.data.user.id;
+      requester_id = action.data.friendship.requester_id;
 
-      newState[userId]       = {};
-      newState[userId].data  = [];
-      newState[userId].isEnd = false;
+      newState[requester_id]       = {};
+      newState[requester_id].data  = [];
+      newState[requester_id].isEnd = false;
+
+      requestee_id = action.data.friendship.requestee_id;
+
+      newState[requestee_id]       = {};
+      newState[requestee_id].data  = [];
+      newState[requestee_id].isEnd = false;
 
       return newState;
 

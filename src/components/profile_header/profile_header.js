@@ -102,7 +102,7 @@ class ProfileHeader extends React.PureComponent {
   _onConfirmUnfriend = () => {
     this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.props.removeFriendship({ friendship: friendship, client: this.props.client });
+        this.props.removeFriendship({ friendship: friendship });
       })
       .catch((error) => {
         defaultErrorAlert(error);

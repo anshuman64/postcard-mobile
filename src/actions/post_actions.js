@@ -71,8 +71,7 @@ export const removePost = (data) => {
 };
 
 /*
-client (user object): client's user object
-user (user object): other user's user object
+clientId (int): client's id
 post (post object): post object
 */
 export const pusherReceivePost = (data) => {
