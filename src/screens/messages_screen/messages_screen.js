@@ -230,7 +230,7 @@ class MessagesScreen extends React.PureComponent {
         renderItem={this._renderItem.bind(this)}
         keyExtractor={(item) => item.id}
         style={styles.messageList}
-        initialNumToRender={25}
+        initialNumToRender={10}
         maxToRenderPerBatch={25}
         showsVerticalScrollIndicator={false}
         inverted={true}
