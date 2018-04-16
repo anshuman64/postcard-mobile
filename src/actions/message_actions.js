@@ -25,14 +25,17 @@ export const MESSAGE_ACTION_TYPES = {
 //--------------------------------------------------------------------//
 
 /*
-flag (flag object): flag object of created flag
+messages (array): flag object of created flag
+userId (int): user id of other user
+isNew (bool): bool if messsages are new messages or older ones
 */
 export const receiveMessages = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES, data: data };
 };
 
 /*
-flag (flag object): flag object of created flag
+message (message object): message object of created message
+userId (int): user id of other user
 */
 export const receiveMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE, data: data };
@@ -46,7 +49,9 @@ export const pusherCreatePostMessage = (data) => {
 };
 
 /*
-flag (flag object): flag object of created flag
+client (user object): client's user object
+user (user object): other user's user object
+message (message object): message object
 */
 export const pusherReceiveMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE, data: data };
