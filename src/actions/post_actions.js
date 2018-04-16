@@ -28,7 +28,6 @@ export const POST_ACTION_TYPES = {
   REFRESH_POSTS:               'REFRESH_POSTS',
   RECEIVE_POST:                'RECEIVE_POST',
   REMOVE_POST:                 'REMOVE_POST',
-  RECEIVE_POSTS_FROM_MESSAGES: 'RECEIVE_POSTS_FROM_MESSAGES',
   PUSHER_RECEIVE_POST:         'PUSHER_RECEIVE_POST'
 };
 
@@ -70,13 +69,6 @@ clientId (int): client's id
 export const removePost = (data) => {
   return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
 };
-
-/*
-flag (flag object): flag object of created flag
-*/
-export const receivePostsFromMessages = (data) => {
-  return { type: POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES, data: data };
-}
 
 /*
 client (user object): client's user object
@@ -198,21 +190,3 @@ export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => 
       throw error;
     });
 };
-
-export const getPostsFromMessages = (object) => (dispatch) => {
-  let posts = [];
-
-  _.forEach(object, (obj) => {
-    // If object is an array of messages
-    if (obj.post) {
-      posts.push(obj.post);
-    }
-
-    // If object is an array of users
-    if (obj.peek_message && obj.peek_message.post) {
-      posts.push(obj.peek_message.post);
-    }
-  });
-
-  dispatch(receivePostsFromMessages({ posts: posts }));
-}
