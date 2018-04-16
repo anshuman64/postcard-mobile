@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 // Local Imports
 import { POST_ACTION_TYPES }    from '../actions/post_actions';
-import { MESSAGE_ACTION_TYPES } from '../actions/message_actions';
 import { LIKE_ACTION_TYPES }    from '../actions/like_actions';
 import { FLAG_ACTION_TYPES }    from '../actions/flag_actions';
 
@@ -40,7 +39,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     // When receiving or refreshing posts, update the store with new post information
     case POST_ACTION_TYPES.RECEIVE_POSTS:
     case POST_ACTION_TYPES.REFRESH_POSTS:
-    case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
       _.forEach(action.data.posts, (post) => {
         newState[post.id] = _.omit(post, 'author');
 
@@ -103,7 +101,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
   case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
-  case MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
     postId = action.data.post.id;
 
     newState[postId] = action.data.post;

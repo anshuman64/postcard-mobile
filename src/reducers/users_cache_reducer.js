@@ -172,11 +172,6 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[userId].peek_message = action.data.message;
 
       return newState;
-    case MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
-      userId = action.data.user.id;
-      newState[userId].peek_message = action.data.message;
-
-      return newState;
     default:
       return state;
   }

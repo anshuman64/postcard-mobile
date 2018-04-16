@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 // Local Imports
 import { MESSAGE_ACTION_TYPES }    from '../actions/message_actions';
-import { POST_ACTION_TYPES }       from '../actions/post_actions';
 import { FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
 
 //--------------------------------------------------------------------//
@@ -16,20 +15,10 @@ Data is in the form {
     "author_id":     1,
     "image_url":     "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
     "friendship_id": 0,
-    "post_id":       false,
     "created_at":    "2018-01-18T23:48:06.000Z",
     "updated_at":    "2018-01-18T23:48:06.000Z",
-    "post": {
-      "id":            30,
-      "body":          "hello world!",
-      "author_id":     1,
-      "image_url":     "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
-      "is_public":     "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
-      "created_at":    "2018-01-18T23:48:06.000Z",
-      "updated_at":    "2018-01-18T23:48:06.000Z",
-    }
   }, {
-  ...another message object
+    ...another message object
   }]
   userId2: {...
 */
@@ -74,7 +63,6 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
       newState[userId].data.unshift(action.data.message);
 
       return newState;
-    case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
       userId = action.data.client.id;
 
@@ -97,22 +85,6 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
       newState[userId]       = {};
       newState[userId].data  = [];
       newState[userId].isEnd = false;
-
-      return newState;
-
-    //--------------------------------------------------------------------//
-    // Post Actions
-    //--------------------------------------------------------------------//
-
-    // TODO: handle deleted posts
-    case MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
-      userId = action.data.user.id;
-
-      newState[userId]       = newState[userId]       || {};
-      newState[userId].data  = newState[userId].data  || [];
-      newState[userId].isEnd = newState[userId].isEnd || false;
-
-      newState[userId].data.unshift(action.data.message);
 
       return newState;
 

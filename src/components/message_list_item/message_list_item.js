@@ -6,7 +6,6 @@ import Hyperlink       from 'react-native-hyperlink'
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import PostListItem          from '../post_list_item/post_list_item_container';
 import AvatarContainer       from '../avatar/avatar_container';
 import { styles }            from './message_list_item_styles';
 import * as StyleUtility     from '../../utilities/style_utility';
@@ -149,24 +148,6 @@ class MessageListItem extends React.PureComponent {
     }
   }
 
-  _renderPost() {
-    let postId = this.props.message.post_id;
-
-    if (postId && this.props.postsCache[postId]) {
-      return (
-        <PostListItem item={this.props.postsCache[postId]} width={StyleUtility.getUsableDimensions().width * 0.75} />
-      )
-    } else if (postId && !this.props.postsCache[postId]) {
-      return (
-        <RN.View style={styles.image}>
-          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
-        </RN.View>
-      )
-    } else {
-      return null;
-    }
-  }
-
   _renderMessage() {
     let isAuthoredByClient = this.props.message.author_id === this.props.client.id;
     let isBackgroundColor  = this.props.message.body;
@@ -177,7 +158,6 @@ class MessageListItem extends React.PureComponent {
         <RN.View style={[styles.messageContainerClient, isFirstMessage && {marginBottom: 15}]}>
           <RN.TouchableOpacity activeOpacity={0.5} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
             <RN.View style={[styles.messageViewClient, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
-              {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
               {this._renderImage()}
             </RN.View>
@@ -191,7 +171,6 @@ class MessageListItem extends React.PureComponent {
         {this._renderAvatar()}
         <RN.TouchableOpacity activeOpacity={0.5} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
             <RN.View style={[styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
-              {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
               {this._renderImage()}
             </RN.View>
