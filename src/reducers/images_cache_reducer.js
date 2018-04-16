@@ -30,7 +30,7 @@ const ImagesCacheReducer = (state = DEFAULT_STATE, action) => {
         }
       }
 
-      _.forEach(action.data, (imageObj) => {
+      _.forEach(action.data.images, (imageObj) => {
         if (newState[imageObj.key] && newState[imageObj.key].lastUpdated) {
           let currentTime = new Date();
           let lastUpdate = newState[imageObj.key].lastUpdated;
