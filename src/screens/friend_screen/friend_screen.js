@@ -4,7 +4,7 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import TabBar                        from '../../components/tab_bar/tab_bar';
+import TabBarContainer               from '../../components/tab_bar/tab_bar_container';
 import FriendListItemContainer       from '../../components/friend_list_item/friend_list_item_container';
 import PendingListItemContainer      from '../../components/pending_list_item/pending_list_item_container';
 import { styles }                    from './friend_screen_styles';
@@ -12,6 +12,10 @@ import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Optional Screen Props:
+  tab (bool): false = 'Friends' tab, true = 'Pending' tab
+*/
 class FriendScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -21,24 +25,7 @@ class FriendScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      tab: 'Friends',
-    };
-
     this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  }
-
-  //--------------------------------------------------------------------//
-  // Public Methods
-  //--------------------------------------------------------------------//
-
-  // Passed to ProfileHeader for tab switching
-  setParentState = (state) => {
-    let func = () => {
-      this.setState(state);
-    }
-
-    return func;
   }
 
   //--------------------------------------------------------------------//
@@ -102,7 +89,7 @@ class FriendScreen extends React.PureComponent {
   }
 
   _renderList() {
-    if (this.state.tab === 'Pending') {
+    if (this.props.tab) {
       return (
         <RN.SectionList
           sections={[
@@ -139,7 +126,7 @@ class FriendScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        <TabBar screen={'FriendScreen'} tab={this.state.tab} setParentState={this.setParentState} />
+        <TabBarContainer screen={'FriendScreen'} tab={this.props.tab} />
         {this._renderList()}
       </RN.View>
     )
