@@ -17,7 +17,6 @@ target 'Insiya' do
 
   # pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
   # pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
   # pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
   target 'InsiyaTests' do
