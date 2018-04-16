@@ -19,6 +19,9 @@ export const IMAGE_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const receiveImages = (data) => {
   return { type: IMAGE_ACTION_TYPES.RECEIVE_IMAGES, data: data };
 };

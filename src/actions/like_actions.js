@@ -19,10 +19,16 @@ export const LIKE_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const receiveLike = (data) => {
   return { type: LIKE_ACTION_TYPES.RECEIVE_LIKE, data: data };
 };
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const removeLike = (data) => {
   return { type: LIKE_ACTION_TYPES.REMOVE_LIKE, data: data };
 };
