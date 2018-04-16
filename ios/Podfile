@@ -10,13 +10,14 @@ target 'Insiya' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
 
+  pod 'react-native-amplitude-analytics', :path => '../node_modules/react-native-amplitude-analytics'
+
   pod 'RSKImageCropper'
   pod 'QBImagePickerController'
 
-  pod 'react-native-amplitude-analytics', :path => '../node_modules/react-native-amplitude-analytics'
-
   # pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
   # pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   # pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
   target 'InsiyaTests' do
