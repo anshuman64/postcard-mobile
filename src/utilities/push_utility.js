@@ -3,13 +3,13 @@ import Pusher    from 'pusher-js/react-native';
 import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { ENV_TYPES, PUSHER_ENV_SETTING }                 from '../app_config';
-import { getBaseUrl }                                    from './api_utility';
-import { pusherReceiveLike }                             from '../actions/like_actions';
-import * as FriendshipActions                            from '../actions/friendship_actions';
-import { pusherReceiveMessage, pusherCreatePostMessage } from '../actions/message_actions';
-import { getImages }                                     from '../actions/image_actions';
-import { pusherReceivePost }                             from '../actions/post_actions';
+import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config';
+import { getBaseUrl }                    from './api_utility';
+import { pusherReceiveLike }             from '../actions/like_actions';
+import * as FriendshipActions            from '../actions/friendship_actions';
+import { pusherReceiveMessage }          from '../actions/message_actions';
+import { getImages }                     from '../actions/image_actions';
+import { pusherReceivePost }             from '../actions/post_actions';
 
 //--------------------------------------------------------------------//
 
@@ -80,11 +80,6 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   myChannel.bind('receive-post', (data) => {
     dispatch(pusherReceivePost({ client: data.client, user: data.user, post: data.post, message: data.message }));
     dispatch(getImages(data.post));
-  });
-
-  myChannel.bind('create-post-message', (data) => {
-    dispatch(pusherCreatePostMessage({ client: data.client, user: data.user, message: data.message, post: data.post }));
-    dispatch(getImages(data.message));
   });
 
   myChannel.bind('receive-message', (data) => {

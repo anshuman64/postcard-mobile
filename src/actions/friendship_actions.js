@@ -4,7 +4,6 @@ import * as APIUtility          from '../utilities/api_utility';
 import { setErrorDescription }  from '../utilities/error_utility';
 import { refreshAuthToken }     from './client_actions';
 import { getImages }            from './image_actions';
-import { getPostsFromMessages } from './post_actions';
 
 //--------------------------------------------------------------------//
 
@@ -110,7 +109,6 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
     .then((friends) => {
       dispatch(receiveFriendships({ friends: friends, friendType: friendType }));
       dispatch(getImages(friends));
-      dispatch(getPostsFromMessages(friends));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
