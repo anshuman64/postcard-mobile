@@ -24,18 +24,30 @@ export const MESSAGE_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const receiveMessages = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES, data: data };
 };
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const receiveMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE, data: data };
 };
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const pusherCreatePostMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE, data: data };
 };
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const pusherReceiveMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE, data: data };
 };
