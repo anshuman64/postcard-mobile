@@ -64,7 +64,7 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.client.id;
+      userId = action.data.user.id;
 
       newState[userId]       = newState[userId]       || {};
       newState[userId].data  = newState[userId].data  || [];
@@ -80,7 +80,7 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
 
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
     case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
-      userId = action.data.client.id;
+      userId = action.data.user.id;
 
       newState[userId]       = {};
       newState[userId].data  = [];
