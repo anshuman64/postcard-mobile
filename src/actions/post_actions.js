@@ -36,26 +36,44 @@ export const POST_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
 };
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const refreshPosts = (data) => {
   return { type: POST_ACTION_TYPES.REFRESH_POSTS, data: data };
 };
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const receivePost = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POST, data: data };
 };
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const removePost = (data) => {
   return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
 };
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const receivePostsFromMessages = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES, data: data };
 }
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const pusherReceivePost = (data) => {
   return { type: POST_ACTION_TYPES.PUSHER_RECEIVE_POST, data: data };
 };

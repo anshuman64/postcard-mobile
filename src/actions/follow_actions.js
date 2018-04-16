@@ -19,10 +19,16 @@ export const FOLLOW_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
+/*
+follow (follow object): follow object of created follow
+*/
 export const receiveFollow = (data) => {
   return { type: FOLLOW_ACTION_TYPES.RECEIVE_FOLLOW, data: data };
 };
 
+/*
+follow (follow object): follow object of created follow
+*/
 export const removeFollow = (data) => {
   return { type: FOLLOW_ACTION_TYPES.REMOVE_FOLLOW, data: data };
 };
