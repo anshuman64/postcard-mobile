@@ -19,18 +19,14 @@ export const LIKE_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
-/*
-like (like object): like object of created like
-clientId (int): id of client to add post to liked posts
-*/
+// like (like object): like object of created like
+// clientId (int): id of client to add post to liked posts
 export const receiveLike = (data) => {
   return { type: LIKE_ACTION_TYPES.RECEIVE_LIKE, data: data };
 };
 
-/*
-like (like object): like object of destroyed like
-clientId (int): id of client to remove post from liked posts
-*/
+// like (like object): like object of destroyed like
+// clientId (int): id of client to remove post from liked posts
 export const removeLike = (data) => {
   return { type: LIKE_ACTION_TYPES.REMOVE_LIKE, data: data };
 };

@@ -35,45 +35,35 @@ export const POST_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
-/*
-posts (array): array of post objects
-userId (int): user id of who the post belongs to
-postType (string): one of POST_TYPES
-*/
+// posts (array): array of post objects
+// userId (int): user id of who the post belongs to
+// postType (string): one of POST_TYPES
 export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
 };
 
-/*
-posts (array): array of post objects
-userId (int): user id of who the post belongs to
-postType (string): one of POST_TYPES
-*/
+// posts (array): array of post objects
+// userId (int): user id of who the post belongs to
+// postType (string): one of POST_TYPES
 export const refreshPosts = (data) => {
   return { type: POST_ACTION_TYPES.REFRESH_POSTS, data: data };
 };
 
-/*
-post (post object): post object of created post
-clientId (int): client's id
-recipients (array): array of ints of userId's of recipients
-*/
+// post (post object): post object of created post
+// clientId (int): client's id
+// recipients (array): array of ints of userId's of recipients
 export const receivePost = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POST, data: data };
 };
 
-/*
-post (post object): post object of deleted post
-clientId (int): client's id
-*/
+// post (post object): post object of deleted post
+// clientId (int): client's id
 export const removePost = (data) => {
   return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
 };
 
-/*
-clientId (int): client's id
-post (post object): post object
-*/
+// clientId (int): client's id
+// post (post object): post object
 export const pusherReceivePost = (data) => {
   return { type: POST_ACTION_TYPES.PUSHER_RECEIVE_POST, data: data };
 };
