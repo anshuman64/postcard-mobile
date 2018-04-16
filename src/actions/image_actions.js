@@ -20,7 +20,7 @@ export const IMAGE_ACTION_TYPES = {
 //--------------------------------------------------------------------//
 
 /*
-flag (flag object): flag object of created flag
+images (array of strings): array of image urls for caching
 */
 export const receiveImages = (data) => {
   return { type: IMAGE_ACTION_TYPES.RECEIVE_IMAGES, data: data };
@@ -71,5 +71,5 @@ export const getImages = (object) => (dispatch) => {
     addImage(object);
   }
 
-  dispatch(receiveImages(images));
+  dispatch(receiveImages({ images: images }));
 };

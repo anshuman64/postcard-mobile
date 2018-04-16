@@ -37,28 +37,35 @@ export const POST_ACTION_TYPES = {
 //--------------------------------------------------------------------//
 
 /*
-flag (flag object): flag object of created flag
+posts (array): array of post objects
+userId (int): user id of who the post belongs to
+postType (string): one of POST_TYPES
 */
 export const receivePosts = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POSTS, data: data };
 };
 
 /*
-flag (flag object): flag object of created flag
+posts (array): array of post objects
+userId (int): user id of who the post belongs to
+postType (string): one of POST_TYPES
 */
 export const refreshPosts = (data) => {
   return { type: POST_ACTION_TYPES.REFRESH_POSTS, data: data };
 };
 
 /*
-flag (flag object): flag object of created flag
+post (post object): post object of created post
+clientId (int): client's id
+recipients (array): array of ints of userId's of recipients
 */
 export const receivePost = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POST, data: data };
 };
 
 /*
-flag (flag object): flag object of created flag
+post (post object): post object of deleted post
+clientId (int): client's id
 */
 export const removePost = (data) => {
   return { type: POST_ACTION_TYPES.REMOVE_POST, data: data };
@@ -72,7 +79,9 @@ export const receivePostsFromMessages = (data) => {
 }
 
 /*
-flag (flag object): flag object of created flag
+client (user object): client's user object
+user (user object): other user's user object
+post (post object): post object
 */
 export const pusherReceivePost = (data) => {
   return { type: POST_ACTION_TYPES.PUSHER_RECEIVE_POST, data: data };
@@ -168,7 +177,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
   }
 };
 
-// Delete post to API from PostListItem
+// Delete post to API from PostListItem. Call removePost from component.
 export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {
