@@ -59,31 +59,37 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   myChannel = pusher.subscribe('private-' + clientId);
 
+  // Used to send user data when adding friend by username
   myChannel.bind('create-friendship', (data) => {
     dispatch(FriendshipActions.pusherCreateFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
     dispatch(getImages(data.user));
   });
 
+  // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-friendship', (data) => {
-    dispatch(FriendshipActions.pusherRecieveFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(FriendshipActions.pusherRecieveFriendship({ client: data.user, user: data.client, friendship: data.friendship }));
     dispatch(getImages(data.client));
   });
 
+  // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-accepted-friendship', (data) => {
-    dispatch(FriendshipActions.pusherReceiveAcceptedFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(FriendshipActions.pusherReceiveAcceptedFriendship({ client: data.user, user: data.client, friendship: data.friendship }));
   });
 
+  // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('destroy-friendship', (data) => {
-    dispatch(FriendshipActions.pusherDestroyFriendship({ client: data.client, user: data.user, friendship: data.friendship }));
+    dispatch(FriendshipActions.pusherDestroyFriendship({ client: data.user, user: data.client, friendship: data.friendship }));
   });
 
+  // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-post', (data) => {
-    dispatch(pusherReceivePost({ client: data.client, user: data.user, post: data.post, message: data.message }));
+    dispatch(pusherReceivePost({ client: data.user, user: data.client, post: data.post, message: data.message }));
     dispatch(getImages(data.post));
   });
 
+  // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-message', (data) => {
-    dispatch(pusherReceiveMessage({ client: data.client, user: data.user, message: data.message }));
+    dispatch(pusherReceiveMessage({ client: data.user, user: data.client, message: data.message }));
     dispatch(getImages(data.message));
   });
 }
