@@ -21,23 +21,17 @@ export const BLOCK_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
-/*
-blockedUsers (array): array of user objects
-*/
+// blockedUsers (array): array of user objects
 export const receiveBlockedUsers = (data) => {
   return { type: BLOCK_ACTION_TYPES.RECEIVE_BLOCKED_USERS, data: data };
 };
 
-/*
-block (block object): block object of created block
-*/
+// block (block object): block object of created block
 export const receiveBlock = (data) => {
   return { type: BLOCK_ACTION_TYPES.RECEIVE_BLOCK, data: data };
 };
 
-/*
-block (block object): block object of removed block
-*/
+// block (block object): block object of removed block
 export const removeBlock = (data) => {
   return { type: BLOCK_ACTION_TYPES.REMOVE_BLOCK, data: data };
 };
@@ -50,6 +44,7 @@ export const getBlockedUsers = (authToken, firebaseUserObj) => (dispatch) => {
   return APIUtility.get(authToken, '/blocks')
     .then((blockedUsers) => {
       dispatch(receiveBlockedUsers({ blockedUsers: blockedUsers }));
+      dispatch(getImages(blockedUsers));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

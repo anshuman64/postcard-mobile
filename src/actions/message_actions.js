@@ -22,27 +22,21 @@ export const MESSAGE_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
-/*
-messages (array): flag object of created flag
-userId (int): user id of other user
-isNew (bool): bool if messsages are new messages or older ones
-*/
+// messages (array): flag object of created flag
+// userId (int): user id of other user
+// isNew (bool): bool if messsages are new messages or older ones
 export const receiveMessages = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES, data: data };
 };
 
-/*
-userId (int): user id of other user
-message (message object): message object of created message
-*/
+// userId (int): user id of other user
+// message (message object): message object of created message
 export const receiveMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE, data: data };
 };
 
-/*
-userId (int): user id of other user
-message (message object): message object
-*/
+// userId (int): user id of other user
+// message (message object): message object
 export const pusherReceiveMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE, data: data };
 };

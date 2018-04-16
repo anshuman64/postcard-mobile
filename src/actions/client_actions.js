@@ -27,23 +27,17 @@ export const CLIENT_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
-/*
-firebaseUserObj (object): firebaseUserObj returned from Firebase auth
-*/
+// firebaseUserObj (object): firebaseUserObj returned from Firebase auth
 export const receiveFirebaseUserObj = (data) => {
   return { type: CLIENT_ACTION_TYPES.RECEIVE_FIREBASE_USER_OBJ, data: data };
 };
 
-/*
-authToken (object): authToken generated from Firebase auth
-*/
+// authToken (object): authToken generated from Firebase auth
 export const receiveAuthToken = (data) => {
   return { type: CLIENT_ACTION_TYPES.RECEIVE_AUTH_TOKEN, data: data }
 };
 
-/*
-client (user object): user object of client
-*/
+// client (user object): user object of client
 export const receiveClient = (data) => {
   return { type: CLIENT_ACTION_TYPES.RECEIVE_CLIENT, data: data }
 };
