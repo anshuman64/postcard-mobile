@@ -105,7 +105,7 @@ class LoadingScreen extends React.PureComponent {
     if (data.type === 'receive-like') {
       this.props.navigateTo('ProfileScreen');
     } else if (data.type === 'receive-friendship' || data.type === 'receive-accepted-friendship') {
-      this.props.navigateTo('FriendScreen');
+      this.props.navigateTo('FriendScreen', { tab: true });
     } else if (data.type === 'receive-post') {
       this.props.navigateTo('HomeScreen');
     } else if (data.type === 'receive-message') {

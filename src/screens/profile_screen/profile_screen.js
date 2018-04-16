@@ -9,32 +9,11 @@ import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Optional Screen Props:
+  tab (bool): false = 'Authored' tab, true = 'Liked' tab
+*/
 class ProfileScreen extends React.PureComponent {
-
-  //--------------------------------------------------------------------//
-  // Constructor
-  //--------------------------------------------------------------------//
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      postType:  POST_TYPES.AUTHORED,
-    };
-  }
-
-  //--------------------------------------------------------------------//
-  // Public Methods
-  //--------------------------------------------------------------------//
-
-  // Passed to ProfileHeader for tab switching
-  setParentState = (state) => {
-    let func = () => {
-      this.setState(state);
-    }
-
-    return func;
-  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -52,8 +31,8 @@ class ProfileScreen extends React.PureComponent {
           userId={this.props.client.id}
           username={username}
           avatarUrl={avatarUrl}
-          postType={this.state.postType}
-          setParentState={this.setParentState}
+          tab={this.props.tab}
+          postType={this.props.tab ? POST_TYPES.LIKED : POST_TYPES.AUTHORED}
           />
       </RN.View>
     )
