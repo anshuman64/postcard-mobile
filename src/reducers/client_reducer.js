@@ -27,7 +27,7 @@ const ClientReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
-      newState.id = action.data.user.id;
+      newState.id = action.data.client.id;
 
       return newState;
     default:

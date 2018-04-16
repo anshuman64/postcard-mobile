@@ -42,7 +42,7 @@ export const receiveAuthToken = (data) => {
 };
 
 /*
-user (user object): user object of client
+client (user object): user object of client
 */
 export const receiveClient = (data) => {
   return { type: CLIENT_ACTION_TYPES.RECEIVE_CLIENT, data: data }
@@ -131,7 +131,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
     OneSignal.sendTag('user_id', String(client.id));
     dispatch(setPusherClient(authToken, client.id));
 
-    dispatch(receiveClient({ user: client }));
+    dispatch(receiveClient({ client: client }));
     dispatch(getImages(client));
   }
 
@@ -217,7 +217,7 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
   return APIUtility.put(authToken, '/users', { username: username })
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: true, username: username });
-    dispatch(receiveClient({ user: editedUser }));
+    dispatch(receiveClient({ client: editedUser }));
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -243,7 +243,7 @@ export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageT
     return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
       .then((editedUser) => {
         amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
-        dispatch(receiveClient({ user: editedUser }));
+        dispatch(receiveClient({ client: editedUser }));
         dispatch(getImages(editedUser));
       })
       .catch((error) => {

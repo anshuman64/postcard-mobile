@@ -36,15 +36,15 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
     // When a user logs in, instantiate blank objects in store for that userId
     case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
-      userId = action.data.id;
+      clientId = action.data.client.id;
 
-      newState[userId] = newState[userId] || {};
+      newState[clientId] = newState[clientId] || {};
 
       _.forEach(POST_TYPES, (postTypes) => {
-        newState[userId][postTypes]             = newState[userId][postTypes]             || {};
-        newState[userId][postTypes].data        = newState[userId][postTypes].data        || [];
-        newState[userId][postTypes].lastUpdated = newState[userId][postTypes].lastUpdated || new Date();
-        newState[userId][postTypes].isEnd       = newState[userId][postTypes].isEnd       || false;
+        newState[clientId][postTypes]             = newState[clientId][postTypes]             || {};
+        newState[clientId][postTypes].data        = newState[clientId][postTypes].data        || [];
+        newState[clientId][postTypes].lastUpdated = newState[clientId][postTypes].lastUpdated || new Date();
+        newState[clientId][postTypes].isEnd       = newState[clientId][postTypes].isEnd       || false;
       })
 
       return newState;
@@ -113,7 +113,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       clientId = action.data.clientId;
       postId = action.data.post.id;
 
-      // Assumes that this case is only hit when the current user creates a post
+      // Assumes that this case is only hit when the client creates a post
       if (action.data.post.is_public) {
         newState[clientId][POST_TYPES.PUBLIC].data.unshift(postId);
       }
@@ -125,7 +125,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       clientId = action.data.clientId;
       postId = action.data.post.id;
 
-      // Assumes that this case is only hit when the current user removes their own post
+      // Assumes that this case is only hit when the client removes their own post
       _.remove(newState[clientId][POST_TYPES.PUBLIC].data, (postsId) => {
         return postsId === postId;
       });
@@ -165,7 +165,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
-      clientId = action.data.client.id;
+      clientId = action.data.clientId;
       postId = action.data.post.id;
 
       newState[clientId][POST_TYPES.RECEIVED].data.unshift(postId);
