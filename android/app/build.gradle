@@ -171,21 +171,19 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
     compile project(':react-native-exit-app')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-fetch-blob')
-    compile project(':react-native-vector-icons')
-
-    compile(project(':react-native-onesignal')){
-      exclude group: "com.google.android.gms"
-    }
-
     compile 'com.amplitude:android-sdk:2.13.4'
     compile project(':react-native-amplitude-analytics')
-
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
+
+    compile(project(':react-native-onesignal')){
+        exclude group: "com.google.android.gms"
+    }
 
     compile(project(':react-native-firebase')) {
       transitive = false
