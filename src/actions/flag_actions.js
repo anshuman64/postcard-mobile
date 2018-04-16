@@ -19,10 +19,16 @@ export const FLAG_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
+/*
+flag (flag object): flag object of created flag
+*/
 export const receiveFlag = (data) => {
   return { type: FLAG_ACTION_TYPES.RECEIVE_FLAG, data: data };
 };
 
+/*
+flag (flag object): flag object of deleted flag
+*/
 export const removeFlag = (data) => {
   return { type: FLAG_ACTION_TYPES.REMOVE_FLAG, data: data };
 };
