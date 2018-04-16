@@ -27,9 +27,9 @@ class TabBar extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderTab(state, bool, text) {
+  _renderTab(props, bool, text) {
     return (
-      <RN.TouchableOpacity onPress={this.props.setParentState(state)} style={styles.button}>
+      <RN.TouchableOpacity onPress={() => this.props.navigateTo(this.props.screen, props)} style={styles.button}>
         <RN.Text style={[UTILITY_STYLES.lightBlackText18, !this.isHeader && UTILITY_STYLES.lightBlackText16, !this.isHeader && {marginBottom: 5}, bool && UTILITY_STYLES.textHighlighted]}>
           {text}
         </RN.Text>
@@ -41,22 +41,22 @@ class TabBar extends React.PureComponent {
     if (this.props.screen === 'DiscoverScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          {this._renderTab({ postType: POST_TYPES.PUBLIC }, this.props.postType === POST_TYPES.PUBLIC, 'Recent')}
-          {this._renderTab({ postType: POST_TYPES.FOLLOWED }, this.props.postType === POST_TYPES.FOLLOWED, 'Following')}
+          {this._renderTab({ tab: false }, !this.props.tab, 'Recent')}
+          {this._renderTab({ tab: true }, this.props.tab, 'Following')}
         </RN.View>
       )
     } else if (this.props.screen === 'FriendScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          {this._renderTab({ tab: 'Friends' }, this.props.tab === 'Friends', 'Friends')}
-          {this._renderTab({ tab: 'Pending' }, this.props.tab === 'Pending', 'Pending')}
+          {this._renderTab({ tab: false }, !this.props.tab, 'Friends')}
+          {this._renderTab({ tab: true }, this.props.tab, 'Pending')}
         </RN.View>
       )
     } else {
       return (
         <RN.View style={styles.tabs}>
-          {this._renderTab({ postType: POST_TYPES.AUTHORED }, this.props.postType === POST_TYPES.AUTHORED, 'Posts')}
-          {this._renderTab({ postType: POST_TYPES.LIKED }, this.props.postType === POST_TYPES.LIKED, 'Liked')}
+          {this._renderTab({ tab: false, userId: this.props.userId }, !this.props.tab, 'Posts')}
+          {this._renderTab({ tab: true, userId: this.props.userId }, this.props.tab, 'Liked')}
         </RN.View>
       )
     }

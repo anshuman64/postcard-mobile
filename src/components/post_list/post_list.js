@@ -88,7 +88,7 @@ class PostList extends React.PureComponent {
   }
 
   _onPressAddFriends = () => {
-    this.props.navigateTo('FriendScreen');
+    this.props.navigateTo('FriendScreen', { tab: true });
   }
 
   //--------------------------------------------------------------------//
@@ -151,8 +151,7 @@ class PostList extends React.PureComponent {
           screen={this.props.screen}
           scrollY={this.state.scrollY}
           userId={this.props.userId}
-          postType={this.props.postType}
-          setParentState={this.props.setParentState}
+          tab={this.props.tab}
           />
       )
     } else {
@@ -178,7 +177,9 @@ class PostList extends React.PureComponent {
     if (postData && postData[this.props.postType] && postData[this.props.postType].isEnd) {
       return (
         <RN.TouchableWithoutFeedback onPress={this._onPressAddFriends}>
-          <ListFooter footerWidth={scaleFont(200)} text={'No more Posts?'} highlightedText={' Add Friends'} />
+          <RN.View>
+            <ListFooter footerWidth={scaleFont(200)} text={'No more Posts?'} highlightedText={' Add Friends'} />
+          </RN.View>
         </RN.TouchableWithoutFeedback>
       )
     } else {

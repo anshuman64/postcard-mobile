@@ -10,19 +10,11 @@ import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Optional Screen Props:
+  tab (bool): false = 'Authored' tab, true = 'Liked' tab
+*/
 class UserScreen extends React.PureComponent {
-
-  //--------------------------------------------------------------------//
-  // Constructor
-  //--------------------------------------------------------------------//
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      postType:   POST_TYPES.AUTHORED,
-    };
-  }
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
@@ -32,19 +24,6 @@ class UserScreen extends React.PureComponent {
   componentDidMount() {
     this.postList.getWrappedInstance().refresh(POST_TYPES.AUTHORED);
     this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
-  }
-
-  //--------------------------------------------------------------------//
-  // Public Methods
-  //--------------------------------------------------------------------//
-
-  // Passed to ProfileHeader for tab switching
-  setParentState = (state) => {
-    let func = () => {
-      this.setState(state);
-    }
-
-    return func;
   }
 
   //--------------------------------------------------------------------//
@@ -61,8 +40,8 @@ class UserScreen extends React.PureComponent {
           ref={(ref) => this.postList = ref}
           screen={'UserScreen'}
           userId={this.props.userId}
-          postType={this.state.postType}
-          setParentState={this.setParentState}
+          tab={this.props.tab}
+          postType={this.props.tab ? POST_TYPES.LIKED : POST_TYPES.AUTHORED}
           />
       </RN.View>
     )
