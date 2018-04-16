@@ -4,6 +4,7 @@ import * as APIUtility         from '../utilities/api_utility';
 import { setErrorDescription } from '../utilities/error_utility';
 import { refreshAuthToken }    from './client_actions';
 import { deleteFriendship }    from './friendship_actions';
+import { getImages }           from './image_actions';
 
 //--------------------------------------------------------------------//
 

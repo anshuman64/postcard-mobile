@@ -119,7 +119,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
 
   let setClient = (client, authToken, isNew) => {
     amplitude.setUserId(client.id);
-    amplitude.setUserProperties({ database_id: client.id, phone_number: client.phone_number, firebase_uid: client.firebase_uid, created_at: client.created_at });
+    amplitude.setUserProperties({ username: client.username, database_id: client.id, phone_number: client.phone_number, email: client.email, firebase_uid: client.firebase_uid, created_at: client.created_at });
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
 
     OneSignal.sendTag('user_id', String(client.id));
