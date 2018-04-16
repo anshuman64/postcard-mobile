@@ -32,16 +32,15 @@ export const receiveMessages = (data) => {
 };
 
 /*
-message (message object): message object of created message
 userId (int): user id of other user
+message (message object): message object of created message
 */
 export const receiveMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE, data: data };
 };
 
 /*
-client (user object): client's user object
-user (user object): other user's user object
+userId (int): user id of other user
 message (message object): message object
 */
 export const pusherReceiveMessage = (data) => {
