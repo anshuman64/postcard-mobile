@@ -3,22 +3,18 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import TabBar             from '../../components/tab_bar/tab_bar';
+import TabBarContainer    from '../../components/tab_bar/tab_bar_container';
 import PostListContainer  from '../../components/post_list/post_list_container';
 import { POST_TYPES }     from '../../actions/post_actions';
 import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Optional Screen Props:
+  tab (bool): false = 'Recent' tab, true = 'Following' tab
+*/
 class DiscoverScreen extends React.PureComponent {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      postType:  POST_TYPES.PUBLIC,
-    };
-  }
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
@@ -43,31 +39,18 @@ class DiscoverScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Public Methods
-  //--------------------------------------------------------------------//
-
-  // Passed to ProfileHeader for tab switching
-  setParentState = (state) => {
-    let func = () => {
-      this.setState(state);
-    }
-
-    return func;
-  }
-
-  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        <TabBar screen={'DiscoverScreen'} postType={this.state.postType} setParentState={this.setParentState} />
+        <TabBarContainer screen={'DiscoverScreen'} tab={this.props.tab} setParentState={this.setParentState} />
         <PostListContainer
           ref={(ref) => this.postList = ref}
           screen={'DiscoverScreen'}
           userId={this.props.client.id}
-          postType={this.state.postType}
+          postType={this.props.tab ? POST_TYPES.FOLLOWED : POST_TYPES.PUBLIC}
           setParentState={this.setParentState}
           />
       </RN.View>

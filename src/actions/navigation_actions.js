@@ -63,6 +63,14 @@ export const navigateTo = (screen, props) => (dispatch) => {
     }
   }
 
+  let checkRefresh = () => {
+    if (screen === Actions.currentScene.replace(/^_/, '')) {
+      Actions.refresh(props);
+    } else {
+      navigateScreens();
+    }
+  }
+
   if (Actions.currentScene === 'LoginScreen'
       || Actions.currentScene === 'MessagesScreen'
       || Actions.currentScene === 'ConfirmCodeScreen'
@@ -72,10 +80,10 @@ export const navigateTo = (screen, props) => (dispatch) => {
       || Actions.currentScene === 'DebugLoginScreen') {
     dismissKeyBoard()
       .then(() => {
-        navigateScreens();
+        checkRefresh();
       })
   } else {
-    navigateScreens();
+    checkRefresh();
   }
 }
 
