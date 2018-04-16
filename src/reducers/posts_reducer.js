@@ -165,7 +165,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
-      clientId = action.data.user.id;
+      clientId = action.data.client.id;
       postId = action.data.post.id;
 
       newState[clientId][POST_TYPES.RECEIVED].data.unshift(postId);
