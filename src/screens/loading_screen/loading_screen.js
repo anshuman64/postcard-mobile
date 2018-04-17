@@ -109,7 +109,7 @@ class LoadingScreen extends React.PureComponent {
 
         this.navigateToNotification = null;
         this.navigateToMessages     = null;
-      // If opening the app normally, go to HomeScreen
+      // If opening the app normally, go to HomeScreen. TODO: should this be FriendScreen instead?
       } else if (client && client.username) {
         this.props.navigateTo('HomeScreen');
       // If opening the app normally and haven't created username, go to create username
@@ -199,7 +199,7 @@ class LoadingScreen extends React.PureComponent {
         direction={'alternate'}
         easing={'ease-in'}
         duration={1500}
-        iterationCount={12}
+        iterationCount={13}
         onAnimationEnd={this._onAnimationEnd}
         />
     )
