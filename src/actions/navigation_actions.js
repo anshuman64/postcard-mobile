@@ -50,6 +50,10 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.AuthoredScreen(props)
     } else if (screen === 'LikedScreen') {
       Actions.LikedScreen(props)
+    } else if (screen === 'UserAuthoredScreen') {
+      Actions.UserAuthoredScreen(props)
+    } else if (screen === 'UserLikedScreen') {
+      Actions.UserLikedScreen(props)
     } else if (screen === 'NewPostScreen') {
       Actions.NewPostScreen(props)
     } else if (screen === 'ShareScreen') {
@@ -93,11 +97,12 @@ export const navigateTo = (screen, props) => (dispatch) => {
   }
 }
 
-// Adds UserScreen to top of stack with props.
+// Adds UserTabs to top of stack with props.
 export const navigateToProfile = (props) => (dispatch) => {
   dismissKeyBoard();
 
-  Actions.push('UserScreen', props);
+  Actions.push('UserTabs'); // has to be UserTabs to get a new screen on stack
+  Actions.refresh(props); // router-flux has a bug where props aren't being passed to tabs when using 'push'
 }
 
 // Pops top of stack. If props, refreshes screen with props (only way sending props works).

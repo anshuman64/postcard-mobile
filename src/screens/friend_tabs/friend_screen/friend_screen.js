@@ -4,10 +4,10 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import FriendListItemContainer       from '../../components/friend_list_item/friend_list_item_container';
-import ListFooter                    from '../../components/list_footer/list_footer'
+import FriendListItemContainer       from '../../../components/friend_list_item/friend_list_item_container';
+import ListFooter                    from '../../../components/list_footer/list_footer'
 import { styles }                    from './friend_screen_styles';
-import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
+import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

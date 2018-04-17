@@ -9,29 +9,19 @@ import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
-/*
-Optional Screen Props:
-  tab (bool): false = 'Authored' tab, true = 'Liked' tab
-*/
-class ProfileScreen extends React.PureComponent {
+class HomeScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
   render() {
-    let username = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].username : null;
-    let avatarUrl = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].avatar_url : null;
-
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
         <PostListContainer
           ref={(ref) => this.postList = ref}
-          screen={'ProfileScreen'}
           userId={this.props.client.id}
-          username={username}
-          avatarUrl={avatarUrl}
-          postType={this.props.currentScreen === 'AuthoredScreen' ? POST_TYPES.AUTHORED : POST_TYPES.LIKED}
+          postType={POST_TYPES.RECEIVED}
           />
       </RN.View>
     )
@@ -41,4 +31,4 @@ class ProfileScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default ProfileScreen;
+export default HomeScreen;
