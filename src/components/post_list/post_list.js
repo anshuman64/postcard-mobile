@@ -27,11 +27,21 @@ class PostList extends React.PureComponent {
     this.state = {
       isRefreshing: false,
       scrollY:      new RN.Animated.Value(0),
+      isScreenMounted:     false,
     };
 
     this.onEndReachedCalledDuringMomentum = true;
     this.isLoading = false;
     this._onRefresh = this._onRefresh.bind(this);
+  }
+
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
+  // Renders the FlatList after other modal contents are mounted for performance
+  componentDidMount() {
+    setTimeout(() => this.setState({ isScreenMounted: true }), 10);
   }
 
   //--------------------------------------------------------------------//
@@ -88,7 +98,7 @@ class PostList extends React.PureComponent {
   }
 
   _onPressAddFriends = () => {
-    this.props.navigateTo('FriendScreen', { tab: true });
+    this.props.navigateTo('PendingScreen');
   }
 
   //--------------------------------------------------------------------//
@@ -98,26 +108,28 @@ class PostList extends React.PureComponent {
   _renderPostList = () => {
     let postData = this.props.posts[this.props.userId];
 
-    return (
-      <AnimatedFlatList
-        ref={(ref) => this.flatList = ref}
-        data={(postData && postData[this.props.postType]) ? postData[this.props.postType].data : null}
-        renderItem={this._renderItem.bind(this)}
-        keyExtractor={(item) => this.props.postsCache[item].id}
-        style={styles.postList}
-        initialNumToRender={3}
-        maxToRenderPerBatch={10}
-        showsVerticalScrollIndicator={false}
-        onEndReached={this._onEndReached}
-        refreshControl={this._renderRefreshControl()}
-        ListHeaderComponent={this._renderHeader}
-        ListFooterComponent={this._renderFooter}
-        onMomentumScrollBegin={() => this.onEndReachedCalledDuringMomentum = false}
-        onEndReachedThreshold={0.01}
-        onScroll={RN.Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}], {useNativeDriver: true})}
-        scrollEventThrottle={16}
-        />
-    )
+    if (this.state.isScreenMounted) {
+      return (
+        <AnimatedFlatList
+          ref={(ref) => this.flatList = ref}
+          data={(postData && postData[this.props.postType]) ? postData[this.props.postType].data : null}
+          renderItem={this._renderItem.bind(this)}
+          keyExtractor={(item) => this.props.postsCache[item].id}
+          style={styles.postList}
+          initialNumToRender={3}
+          maxToRenderPerBatch={10}
+          showsVerticalScrollIndicator={false}
+          onEndReached={this._onEndReached}
+          refreshControl={this._renderRefreshControl()}
+          ListHeaderComponent={this._renderHeader}
+          ListFooterComponent={this._renderFooter}
+          onMomentumScrollBegin={() => this.onEndReachedCalledDuringMomentum = false}
+          onEndReachedThreshold={0.01}
+          onScroll={RN.Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}], {useNativeDriver: true})}
+          scrollEventThrottle={16}
+          />
+      )
+    }
   }
 
   _renderItem = ({item}) => {
@@ -128,7 +140,7 @@ class PostList extends React.PureComponent {
 
   _renderRefreshControl = () => {
     let offset;
-    if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
+    if (this.props.isProfile) {
       offset = PROFILE_HEADER_HEIGHT;
     } else {
       offset = 0;
@@ -145,13 +157,11 @@ class PostList extends React.PureComponent {
   }
 
   _renderProfileHeader = () => {
-    if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
+    if (this.props.isProfile) {
       return (
         <ProfileHeaderContainer
-          screen={this.props.screen}
           scrollY={this.state.scrollY}
           userId={this.props.userId}
-          tab={this.props.tab}
           />
       )
     } else {
@@ -160,7 +170,7 @@ class PostList extends React.PureComponent {
   }
 
   _renderHeader = () => {
-    if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
+    if (this.props.isProfile) {
       return (
         <RN.View style={[styles.headerView, { height: PROFILE_HEADER_HEIGHT }]}>
           <RN.ActivityIndicator size='large' color={COLORS.grey400} style={{marginBottom: 20}} />

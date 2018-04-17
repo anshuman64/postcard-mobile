@@ -2,14 +2,14 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import HomeScreen  from './home_screen';
+import UserLikedScreen  from './user_liked_screen';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client }, ownProps) => ({
-  client:        client,
+const mapStateToProps = ({ usersCache }, ownProps) => ({
+  usersCache: usersCache,
 });
 
 export default connect(
   mapStateToProps,
-)(HomeScreen);
+)(UserLikedScreen);
