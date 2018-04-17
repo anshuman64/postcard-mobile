@@ -3,17 +3,13 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import PostListContainer  from '../../components/post_list/post_list_container';
-import { POST_TYPES }     from '../../actions/post_actions';
-import { UTILITY_STYLES } from '../../utilities/style_utility';
+import PostListContainer  from '../../../components/post_list/post_list_container';
+import { POST_TYPES }     from '../../../actions/post_actions';
+import { UTILITY_STYLES } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
-/*
-Optional Screen Props:
-  tab (bool): false = 'Authored' tab, true = 'Liked' tab
-*/
-class ProfileScreen extends React.PureComponent {
+class AuthoredScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -27,12 +23,11 @@ class ProfileScreen extends React.PureComponent {
       <RN.View style={UTILITY_STYLES.containerStart}>
         <PostListContainer
           ref={(ref) => this.postList = ref}
-          screen={'ProfileScreen'}
+          isProfile={true}
           userId={this.props.client.id}
           username={username}
           avatarUrl={avatarUrl}
-          tab={this.props.tab}
-          postType={this.props.tab ? POST_TYPES.LIKED : POST_TYPES.AUTHORED}
+          postType={POST_TYPES.AUTHORED}
           />
       </RN.View>
     )
@@ -42,4 +37,4 @@ class ProfileScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default ProfileScreen;
+export default AuthoredScreen;

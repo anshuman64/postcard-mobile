@@ -3,27 +3,26 @@ import React     from 'react';
 import RN        from 'react-native';
 
 // Local Imports
-import HeaderContainer    from '../../components/header/header_container';
-import PostListContainer  from '../../components/post_list/post_list_container';
-import { POST_TYPES }     from '../../actions/post_actions';
-import { UTILITY_STYLES } from '../../utilities/style_utility';
+import HeaderContainer    from '../../../components/header/header_container';
+import PostListContainer  from '../../../components/post_list/post_list_container';
+import { POST_TYPES }     from '../../../actions/post_actions';
+import { UTILITY_STYLES } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
 /*
-Optional Screen Props:
-  tab (bool): false = 'Authored' tab, true = 'Liked' tab
+Required Screen Props:
+  userId (int): userId of selected user
 */
-class UserScreen extends React.PureComponent {
+class UserAuthoredScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // Refresh AuthoredPosts and LikedPosts on mount
+  // Refresh AuthoredPosts on mount
   componentDidMount() {
     this.postList.getWrappedInstance().refresh(POST_TYPES.AUTHORED);
-    this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
   }
 
   //--------------------------------------------------------------------//
@@ -38,10 +37,9 @@ class UserScreen extends React.PureComponent {
         <HeaderContainer backIcon={true} backTitle={username + "'s Profile"} noBorder={true} />
         <PostListContainer
           ref={(ref) => this.postList = ref}
-          screen={'UserScreen'}
+          isProfile={true}
           userId={this.props.userId}
-          tab={this.props.tab}
-          postType={this.props.tab ? POST_TYPES.LIKED : POST_TYPES.AUTHORED}
+          postType={POST_TYPES.AUTHORED}
           />
       </RN.View>
     )
@@ -51,4 +49,4 @@ class UserScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default UserScreen;
+export default UserAuthoredScreen;
