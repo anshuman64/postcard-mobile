@@ -31,8 +31,7 @@ class ProfileScreen extends React.PureComponent {
           userId={this.props.client.id}
           username={username}
           avatarUrl={avatarUrl}
-          tab={this.props.tab}
-          postType={this.props.tab ? POST_TYPES.LIKED : POST_TYPES.AUTHORED}
+          postType={this.props.currentScreen === 'AuthoredScreen' ? POST_TYPES.AUTHORED : POST_TYPES.LIKED}
           />
       </RN.View>
     )

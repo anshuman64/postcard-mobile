@@ -15,10 +15,10 @@ class Footer extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderButton(screen, iconName, isCenter) {
+  _renderButton(screen, iconName, isCenter, secondTab) {
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateTo(screen)} style={styles.button}>
-        <Icon name={iconName} style={[styles.icon, isCenter && styles.iconBig, this.props.currentScreen === screen && UTILITY_STYLES.textHighlighted]} />
+        <Icon name={iconName} style={[styles.icon, isCenter && styles.iconBig, (this.props.currentScreen === screen || this.props.currentScreen === secondTab) && UTILITY_STYLES.textHighlighted]} />
       </RN.TouchableOpacity>
     )
   }
@@ -27,10 +27,10 @@ class Footer extends React.PureComponent {
     return (
       <RN.View style={styles.footer}>
         {this._renderButton('HomeScreen', 'home')}
-        {this._renderButton('DiscoverScreen', 'magnifier')}
+        {this._renderButton('RecentScreen', 'magnifier', false, 'FollowingScreen')}
         {this._renderButton('NewPostScreen', 'plus', true)}
-        {this._renderButton('FriendScreen', 'people')}
-        {this._renderButton('ProfileScreen', 'user')}
+        {this._renderButton('FriendScreen', 'people', false, 'PendingScreen')}
+        {this._renderButton('AuthoredScreen', 'user', false, 'LikedScreen')}
       </RN.View>
     )
   }
