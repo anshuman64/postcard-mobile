@@ -20,17 +20,17 @@ class TabBar extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.isHeader = this.props.screen === 'DiscoverScreen' || this.props.screen === 'FriendScreen';
+    this.isHeader = this.props.currentScreen === 'RecentScreen' || this.props.currentScreen === 'FollowingScreen' || this.props.currentScreen === 'FriendScreen' || this.props.currentScreen === 'PendingScreen';
   }
 
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderTab(props, bool, text) {
+  _renderTab(text, screen, props) {
     return (
-      <RN.TouchableOpacity onPress={() => this.props.navigateTo(this.props.screen, props)} style={styles.button}>
-        <RN.Text style={[UTILITY_STYLES.lightBlackText18, !this.isHeader && UTILITY_STYLES.lightBlackText16, !this.isHeader && {marginBottom: 5}, bool && UTILITY_STYLES.textHighlighted]}>
+      <RN.TouchableOpacity onPress={() => this.props.navigateTo(screen, props)} style={styles.button}>
+        <RN.Text style={[UTILITY_STYLES.lightBlackText18, !this.isHeader && UTILITY_STYLES.lightBlackText16, !this.isHeader && {marginBottom: 5}, this.props.currentScreen === screen && UTILITY_STYLES.textHighlighted]}>
           {text}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -38,25 +38,32 @@ class TabBar extends React.PureComponent {
   }
 
   render() {
-    if (this.props.screen === 'DiscoverScreen') {
+    if (this.props.currentScreen === 'RecentScreen' || this.props.currentScreen === 'FollowingScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          {this._renderTab({ tab: false }, !this.props.tab, 'Recent')}
-          {this._renderTab({ tab: true }, this.props.tab, 'Following')}
+          {this._renderTab('Recent', 'RecentScreen')}
+          {this._renderTab('Following', 'FollowingScreen')}
         </RN.View>
       )
-    } else if (this.props.screen === 'FriendScreen') {
+    } else if (this.props.currentScreen === 'FriendScreen' || this.props.currentScreen === 'PendingScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          {this._renderTab({ tab: false }, !this.props.tab, 'Friends')}
-          {this._renderTab({ tab: true }, this.props.tab, 'Pending')}
+          {this._renderTab('Friends', 'FriendScreen')}
+          {this._renderTab('Pending', 'PendingScreen')}
+        </RN.View>
+      )
+    } else if (this.props.currentScreen === 'AuthoredScreen' || this.props.currentScreen === 'LikedScreen') {
+      return (
+        <RN.View style={styles.tabs}>
+          {this._renderTab('Posts', 'AuthoredScreen', { userId: this.props.userId })}
+          {this._renderTab('Liked', 'LikedScreen', { userId: this.props.userId })}
         </RN.View>
       )
     } else {
       return (
         <RN.View style={styles.tabs}>
-          {this._renderTab({ tab: false, userId: this.props.userId }, !this.props.tab, 'Posts')}
-          {this._renderTab({ tab: true, userId: this.props.userId }, this.props.tab, 'Liked')}
+          {this._renderTab('Posts', 'UserAuthoredScreen', { userId: this.props.userId })}
+          {this._renderTab('Liked', 'UserLikedScreen', { userId: this.props.userId })}
         </RN.View>
       )
     }

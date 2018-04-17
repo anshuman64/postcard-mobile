@@ -7,12 +7,15 @@ import { navigateTo } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
+const mapStateToProps = ({ navigation }, ownProps) => ({
+  currentScreen: navigation.currentScreen
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(TabBar);
