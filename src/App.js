@@ -20,12 +20,16 @@ import ConfirmCodeScreenContainer from './screens/confirm_code_screen/confirm_co
 import UsernameScreenContainer    from './screens/username_screen/username_screen_container';
 import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container';
 
-import PostScreenContainer        from './screens/post_screen/post_screen_container';
-import FriendScreenContainer      from './screens/friend_screen/friend_screen_container';
-import PendingScreenContainer     from './screens/pending_screen/pending_screen_container';
-import ProfileScreenContainer     from './screens/profile_screen/profile_screen_container';
+import HomeScreenContainer        from './screens/home_screen/home_screen_container';
+import RecentScreenContainer      from './screens/discover_tabs/recent_screen/recent_screen_container';
+import FollowingScreenContainer   from './screens/discover_tabs/following_screen/following_screen_container';
+import FriendScreenContainer      from './screens/friend_tabs/friend_screen/friend_screen_container';
+import PendingScreenContainer     from './screens/friend_tabs/pending_screen/pending_screen_container';
+import AuthoredScreenContainer    from './screens/profile_tabs/authored_screen/authored_screen_container';
+import LikedScreenContainer       from './screens/profile_tabs/liked_screen/liked_screen_container';
 
-import UserScreenContainer        from './screens/user_screen/user_screen_container';
+import UserAuthoredScreenContainer from './screens/user_tabs/user_authored_screen/user_authored_screen_container';
+import UserLikedScreenContainer    from './screens/user_tabs/user_liked_screen/user_liked_screen_container';
 import MessagesScreenContainer    from './screens/messages_screen/messages_screen_container';
 import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container';
 import ShareScreenContainer       from './screens/share_screen/share_screen_container';
@@ -113,19 +117,19 @@ class App extends React.Component {
     };
   }
 
+  //WARNING/NOTE: All screens with PostLists have to be on different screens for performance benefits
   render() {
     return (
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true}  />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} />
 
-            <Scene key='LoadingScreen'  component={LoadingScreenContainer}  panHandlers={null} hideNavBar={true} initial={true}  />
+            <Scene key='LoadingScreen'  component={LoadingScreenContainer}  panHandlers={null} hideNavBar={true}  initial={true} />
             <Scene key='WelcomeScreen'  component={WelcomeScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='LoginScreen'    component={LoginScreenContainer}    panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen'  component={NewPostScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='ShareScreen'    component={ShareScreenContainer}    panHandlers={null} hideNavBar={true} />
-            <Scene key='UserScreen'     component={UserScreenContainer}     panHandlers={null} hideNavBar={true} />
             <Scene key='MessagesScreen' component={MessagesScreenContainer} panHandlers={null} hideNavBar={true} />
 
             <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
@@ -136,22 +140,27 @@ class App extends React.Component {
             <Scene key='AddFriendScreen'     component={AddFriendScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
 
-            <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
-              <Scene key='HomeScreen'     component={PostScreenContainer} panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
+            <Tabs key='UserTabs' tabBarComponent={() => <View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+              <Scene key='UserAuthoredScreen' component={UserAuthoredScreenContainer} panHandlers={null} hideNavBar={true}/>
+              <Scene key='UserLikedScreen'    component={UserLikedScreenContainer}    panHandlers={null} hideNavBar={true}/>
+            </Tabs>
 
-              <Tabs key='DiscoverScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
-                <Scene key='RecentScreen'    component={PostScreenContainer} panHandlers={null} hideNavBar={true} />
-                <Scene key='FollowingScreen' component={PostScreenContainer} panHandlers={null} hideNavBar={true} />
+            <Tabs key='MainTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+              <Scene key='HomeScreen'     component={HomeScreenContainer} panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
+
+              <Tabs key='DiscoverTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+                <Scene key='RecentScreen'    component={RecentScreenContainer}    panHandlers={null} hideNavBar={true} />
+                <Scene key='FollowingScreen' component={FollowingScreenContainer} panHandlers={null} hideNavBar={true} />
               </Tabs>
 
-              <Tabs key='FriendScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+              <Tabs key='FriendTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
                 <Scene key='FriendScreen'  component={FriendScreenContainer}  panHandlers={null} hideNavBar={true} />
                 <Scene key='PendingScreen' component={PendingScreenContainer} panHandlers={null} hideNavBar={true} />
               </Tabs>
 
-              <Tabs key='ProfileScreenTabs' tabBarComponent={() => <View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
-                <Scene key='AuthoredScreen' component={ProfileScreenContainer} panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
-                <Scene key='LikedScreen'    component={ProfileScreenContainer} panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
+              <Tabs key='ProfileTabs' tabBarComponent={() => <View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+                <Scene key='AuthoredScreen' component={AuthoredScreenContainer} panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
+                <Scene key='LikedScreen'    component={LikedScreenContainer}    panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
               </Tabs>
             </Tabs>
 

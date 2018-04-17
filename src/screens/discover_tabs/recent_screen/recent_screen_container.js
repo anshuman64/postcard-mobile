@@ -2,17 +2,16 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import ProfileScreen  from './profile_screen';
+import RecentScreen  from './recent_screen';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, posts, navigation }, ownProps) => ({
+const mapStateToProps = ({ client, posts, navigation }, ownProps) => ({
   client:        client,
-  usersCache:    usersCache,
   posts:         posts,
   currentScreen: navigation.currentScreen
 });
 
 export default connect(
   mapStateToProps,
-)(ProfileScreen);
+)(RecentScreen);

@@ -3,14 +3,13 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import TabBarContainer    from '../../components/tab_bar/tab_bar_container';
-import PostListContainer  from '../../components/post_list/post_list_container';
-import { POST_TYPES }     from '../../actions/post_actions';
-import { UTILITY_STYLES } from '../../utilities/style_utility';
+import PostListContainer  from '../../../components/post_list/post_list_container';
+import { POST_TYPES }     from '../../../actions/post_actions';
+import { UTILITY_STYLES } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
-class PostScreen extends React.PureComponent {
+class RecentScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
@@ -20,8 +19,6 @@ class PostScreen extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     if (this.props.currentScreen != 'RecentScreen' && nextProps.currentScreen === 'RecentScreen') {
       this._checkRefresh(POST_TYPES.PUBLIC);
-    } else if (this.props.currentScreen != 'FollowingScreen' && nextProps.currentScreen === 'FollowingScreen') {
-      this._checkRefresh(POST_TYPES.FOLLOWED);
     }
   }
 
@@ -44,20 +41,12 @@ class PostScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let postType = POST_TYPES.RECEIVED;
-
-    if (this.props.currentScreen === 'RecentScreen') {
-      postType = POST_TYPES.PUBLIC;
-    } else if (this.props.currentScreen === 'FollowingScreen') {
-      postType = POST_TYPES.FOLLOWED;
-    }
-
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
         <PostListContainer
           ref={(ref) => this.postList = ref}
           userId={this.props.client.id}
-          postType={postType}
+          postType={POST_TYPES.PUBLIC}
           />
       </RN.View>
     )
@@ -67,4 +56,4 @@ class PostScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default PostScreen;
+export default RecentScreen;
