@@ -24,9 +24,12 @@ class LoadingScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.isAnimationEnd  = false;
-    this.currentAppState = 'active';
-    this.lastUpdate      = new Date();
+    this.isAnimationEnd          = false;
+    this.isLoggedIn              = false;
+    this.navigateToNotification  = null;
+    this.navigateToMessages      = null;
+    this.currentAppState         = 'active';
+    this.lastUpdate              = new Date();
   }
 
   //--------------------------------------------------------------------//
@@ -34,12 +37,12 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentWillMount() {
+    RN.AppState.addEventListener('change', this._handleAppStateChange);
     OneSignal.addEventListener('opened', this._onOpened);
   }
 
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
-    RN.AppState.addEventListener('change', this._handleAppStateChange);
     getPostPlaceholders();
     getCameraRollPhotos();
 
@@ -50,7 +53,13 @@ class LoadingScreen extends React.PureComponent {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
-              this._onLogin();
+              this._loadData()
+                .then(() => {
+                  this._onLogin();
+                })
+                .catch((error) => {
+                  defaultErrorAlert(error);
+                });
             }
           })
           .catch((error) => {
@@ -72,15 +81,44 @@ class LoadingScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _loadData = () => {
+  async _loadData() {
     for (let postType in POST_TYPES) {
-      this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+      await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
 
-    this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
 
     for (let friendType in FRIEND_TYPES) {
-      this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+    }
+  }
+
+  _navigateFromLoading = () => {
+    // Make sure you are logged in
+    if (this.isLoggedIn) {
+      let client = this.props.usersCache[this.props.client.id];
+
+      // If opening app via notification, go to the screen you intended to go to
+      if (this.navigateToNotification) {
+        if (this.navigateToNotification === 'MessagesScreen') {
+          this.props.navigateTo('FriendScreen'); // Go to FriendScreen first so that back button on messages goes to right place
+          this.props.navigateTo('MessagesScreen', { userId: this.navigateToMessages });
+        } else {
+          this.props.navigateTo(this.navigateToNotification);
+        }
+
+        this.navigateToNotification = null;
+        this.navigateToMessages     = null;
+      // If opening the app normally, go to HomeScreen
+      } else if (client && client.username) {
+        this.props.navigateTo('HomeScreen');
+      // If opening the app normally and haven't created username, go to create username
+      } else {
+        this.props.navigateTo('UsernameScreenLogin');
+      }
+    // If haven't logged in and somehow on this screen, go to WelcomeScreen
+  } else if (!this.navigateToNotification) {
+      this.props.navigateTo('WelcomeScreen');
     }
   }
 
@@ -88,14 +126,20 @@ class LoadingScreen extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  // When refocusing app, refresh friendships
+  // When refocusing app and logged in, reload data after 1 min
   _handleAppStateChange = (nextAppState) => {
-    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active' && this.isLoggedIn) {
+      // If you pressed back and are refocusing, end up on HomeScreen
+      if (this.props.currentScreen === 'LoadingScreen' || this.navigateToNotification) {
+        this._navigateFromLoading();
+      }
+
       let currentTime = new Date();
       let minsDiff = (currentTime - this.lastUpdate) / (1000 * 60);
 
       if (minsDiff > 1) {
         this._loadData();
+        getCameraRollPhotos();
         this.lastUpdate = new Date();
       }
     }
@@ -106,14 +150,17 @@ class LoadingScreen extends React.PureComponent {
   _onOpened = (openResult) => {
     let data = openResult.notification.payload.additionalData;
 
-    if (data.type === 'receive-like') {
-      this.props.navigateTo('LikedScreen');
-    } else if (data.type === 'receive-friendship' || data.type === 'receive-accepted-friendship') {
-      this.props.navigateTo('FriendScreen', { tab: true });
-    } else if (data.type === 'receive-post') {
-      this.props.navigateTo('HomeScreen');
-    } else if (data.type === 'receive-message') {
-      this.props.navigateTo('MessagesScreen', { userId: data.client.id });
+    switch (data.type) {
+      case 'receive-like':
+        this.navigateToNotification = 'AuthoredScreen';
+      case 'receive-friendship':
+      case 'receive-accepted-friendship':
+        this.navigateToNotification = 'FriendScreen';
+      case 'receive-post':
+        this.navigateToNotification = 'HomeScreen';
+      case 'receive-message':
+        this.navigateToNotification = 'MessagesScreen';
+        this.navigateToMessages     = data.client.id;
     }
   }
 
@@ -123,14 +170,9 @@ class LoadingScreen extends React.PureComponent {
     }
 
     this.isAnimationEnd = true;
-    let client = this.props.usersCache[this.props.client.id];
-    this._loadData();
+    this.isLoggedIn     = true;
 
-    if (client && client.username) {
-      this.props.navigateTo('HomeScreen');
-    } else {
-      this.props.navigateTo('UsernameScreenLogin');
-    }
+    this._navigateFromLoading();
   }
 
   _onAnimationEnd = () => {
@@ -139,7 +181,7 @@ class LoadingScreen extends React.PureComponent {
     }
 
     this.isAnimationEnd = true;
-    this.props.navigateTo('WelcomeScreen');
+    this._navigateFromLoading();
   }
 
   //--------------------------------------------------------------------//
@@ -157,7 +199,7 @@ class LoadingScreen extends React.PureComponent {
         direction={'alternate'}
         easing={'ease-in'}
         duration={1500}
-        iterationCount={8}
+        iterationCount={12}
         onAnimationEnd={this._onAnimationEnd}
         />
     )
