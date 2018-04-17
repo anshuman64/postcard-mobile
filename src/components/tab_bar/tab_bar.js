@@ -62,8 +62,8 @@ class TabBar extends React.PureComponent {
     } else {
       return (
         <RN.View style={styles.tabs}>
-          {this._renderTab('Posts', 'UserScreen', { userId: this.props.userId })}
-          {this._renderTab('Liked', 'UserScreen', { userId: this.props.userId })}
+          {this._renderTab('Posts', 'UserAuthoredScreen', { userId: this.props.userId })}
+          {this._renderTab('Liked', 'UserLikedScreen', { userId: this.props.userId })}
         </RN.View>
       )
     }

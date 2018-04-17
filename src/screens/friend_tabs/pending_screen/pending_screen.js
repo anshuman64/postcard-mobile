@@ -4,9 +4,9 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import PendingListItemContainer      from '../../components/pending_list_item/pending_list_item_container';
+import PendingListItemContainer      from '../../../components/pending_list_item/pending_list_item_container';
 import { styles }                    from './pending_screen_styles';
-import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
+import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

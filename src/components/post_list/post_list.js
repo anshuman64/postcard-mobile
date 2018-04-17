@@ -128,7 +128,7 @@ class PostList extends React.PureComponent {
 
   _renderRefreshControl = () => {
     let offset;
-    if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
+    if (this.props.isProfile) {
       offset = PROFILE_HEADER_HEIGHT;
     } else {
       offset = 0;
@@ -145,13 +145,11 @@ class PostList extends React.PureComponent {
   }
 
   _renderProfileHeader = () => {
-    if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
+    if (this.props.isProfile) {
       return (
         <ProfileHeaderContainer
-          screen={this.props.screen}
           scrollY={this.state.scrollY}
           userId={this.props.userId}
-          tab={this.props.tab}
           />
       )
     } else {
@@ -160,7 +158,7 @@ class PostList extends React.PureComponent {
   }
 
   _renderHeader = () => {
-    if (this.props.screen === 'ProfileScreen' || this.props.screen === 'UserScreen') {
+    if (this.props.isProfile) {
       return (
         <RN.View style={[styles.headerView, { height: PROFILE_HEADER_HEIGHT }]}>
           <RN.ActivityIndicator size='large' color={COLORS.grey400} style={{marginBottom: 20}} />
