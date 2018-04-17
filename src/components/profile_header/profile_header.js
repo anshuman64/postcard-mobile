@@ -323,7 +323,7 @@ class ProfileHeader extends React.PureComponent {
           {this._renderUsername()}
         </RN.View>
         {this._renderButtons()}
-        <TabBarContainer screen={this.props.screen} tab={this.props.tab} userId={this.props.userId} />
+        <TabBarContainer userId={this.props.userId} />
       </RN.Animated.View>
     )
   }
