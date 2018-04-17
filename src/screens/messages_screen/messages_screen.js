@@ -247,18 +247,14 @@ class MessagesScreen extends React.PureComponent {
     let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
 
     return (
-      <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>
-        <RN.TouchableWithoutFeedback onPress={RN.Keyboard.dismiss} accessible={false}>
-          <RN.View style={UTILITY_STYLES.containerStart}>
-            <HeaderContainer
-              backIcon={true}
-              backTitle={username + "'s Messages"}
-              />
-            {this._renderMessageList()}
-            {this._renderTextInputRow()}
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
-      </RN.KeyboardAvoidingView>
+      <RN.View style={UTILITY_STYLES.containerStart}>
+        <HeaderContainer
+          backIcon={true}
+          backTitle={username + "'s Messages"}
+          />
+        {this._renderMessageList()}
+        {this._renderTextInputRow()}
+      </RN.View>
     )
   }
 }

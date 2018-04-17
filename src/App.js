@@ -58,6 +58,7 @@ class App extends React.Component {
   //--------------------------------------------------------------------//
 
   // Listens to changes in AppState and when Android backButton is pressed
+  // NOTE: don't try to move these to LoadingScreen--it doesn't work!
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
     BackHandler.addEventListener("hardwareBackPress", this._onBackPress);
@@ -84,7 +85,6 @@ class App extends React.Component {
   }
 
   // When on the screens listed, close the app. Else, go back one screen.
-  // TODO: improve this behavior
   _onBackPress = () => {
     let currentScene = Actions.currentScene.replace(/^_/, '');
 
