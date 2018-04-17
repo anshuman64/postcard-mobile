@@ -20,9 +20,9 @@ import ConfirmCodeScreenContainer from './screens/confirm_code_screen/confirm_co
 import UsernameScreenContainer    from './screens/username_screen/username_screen_container';
 import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container';
 
-import HomeScreenContainer        from './screens/home_screen/home_screen_container';
-import DiscoverScreenContainer    from './screens/discover_screen/discover_screen_container';
+import PostScreenContainer        from './screens/post_screen/post_screen_container';
 import FriendScreenContainer      from './screens/friend_screen/friend_screen_container';
+import PendingScreenContainer     from './screens/pending_screen/pending_screen_container';
 import ProfileScreenContainer     from './screens/profile_screen/profile_screen_container';
 
 import UserScreenContainer        from './screens/user_screen/user_screen_container';
@@ -35,6 +35,7 @@ import MenuScreen                 from './screens/menu_screen/menu_screen';
 
 import HeaderContainer            from './components/header/header_container';
 import FooterContainer            from './components/footer/footer_container';
+import TabBarContainer            from './components/tab_bar/tab_bar_container';
 
 //--------------------------------------------------------------------//
 
@@ -81,14 +82,17 @@ class App extends React.Component {
   // When on the screens listed, close the app. Else, go back one screen.
   // TODO: improve this behavior
   _onBackPress = () => {
-    if (Actions.currentScene === '_HomeScreen'
-        || Actions.currentScene === '_DiscoverScreen'
-        || Actions.currentScene === '_FriendScreen'
-        || Actions.currentScene === '_ProfileScreen'
-        || Actions.currentScene === 'WelcomeScreen'
-        || Actions.currentScene === 'LoadingScreen'
-        || Actions.currentScene === 'DebugLoginScreen'
-        || Actions.currentScene === 'UsernameScreenLogin') {
+    let currentScene = Actions.currentScene.replace(/^_/, '');
+
+    if (currentScene === 'HomeScreen'
+        || currentScene === 'RecentScreen'
+        || currentScene === 'FollowingScreen'
+        || currentScene === 'FriendScreen'
+        || currentScene === 'ProfileScreen'
+        || currentScene === 'WelcomeScreen'
+        || currentScene === 'LoadingScreen'
+        || currentScene === 'DebugLoginScreen'
+        || currentScene === 'UsernameScreenLogin') {
       RNExitApp.exitApp();
       return false;
     }
@@ -132,19 +136,25 @@ class App extends React.Component {
             <Scene key='AddFriendScreen'     component={AddFriendScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
 
-            <Tabs key='MainScreenTabs'
-              tabBarPosition={'bottom'}
-              tabBarComponent={FooterContainer}
-              swipeEnabled={false}
-              lazy={true}
-              animationEnabled={false}
-              panHandlers={null}
-              >
-              <Scene key='HomeScreen'     component={HomeScreenContainer}     panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
-              <Scene key='DiscoverScreen' component={DiscoverScreenContainer} panHandlers={null} hideNavBar={true} />
-              <Scene key='FriendScreen'   component={FriendScreenContainer}   panHandlers={null} hideNavBar={true} />
-              <Scene key='ProfileScreen'  component={ProfileScreenContainer}  panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
+            <Tabs key='MainScreenTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+              <Scene key='HomeScreen'     component={PostScreenContainer} panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
+
+              <Tabs key='DiscoverScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+                <Scene key='RecentScreen'    component={PostScreenContainer} panHandlers={null} hideNavBar={true} />
+                <Scene key='FollowingScreen' component={PostScreenContainer} panHandlers={null} hideNavBar={true} />
+              </Tabs>
+
+              <Tabs key='FriendScreenTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+                <Scene key='FriendScreen'  component={FriendScreenContainer}  panHandlers={null} hideNavBar={true} />
+                <Scene key='PendingScreen' component={PendingScreenContainer} panHandlers={null} hideNavBar={true} />
+              </Tabs>
+
+              <Tabs key='ProfileScreenTabs' tabBarComponent={() => <View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+                <Scene key='AuthoredScreen' component={ProfileScreenContainer} panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
+                <Scene key='LikedScreen'    component={ProfileScreenContainer} panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
+              </Tabs>
             </Tabs>
+
           </Scene>
         </RouterContainer>
       </Provider>
