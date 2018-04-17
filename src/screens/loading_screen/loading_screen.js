@@ -69,6 +69,22 @@ class LoadingScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  _loadData = () => {
+    for (let postType in POST_TYPES) {
+      this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
+    }
+
+    this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+
+    for (let friendType in FRIEND_TYPES) {
+      this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+    }
+  }
+
+  //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
@@ -79,13 +95,8 @@ class LoadingScreen extends React.PureComponent {
       let minsDiff = (currentTime - this.lastUpdate) / (1000 * 60);
 
       if (minsDiff > 1) {
-        this._loadData()
-          .then(() => {
-            this.lastUpdate = new Date();
-          })
-          .catch((error) => {
-            defaultErrorAlert(error);
-          });
+        this._loadData();
+        this.lastUpdate = new Date();
       }
     }
 
@@ -96,7 +107,7 @@ class LoadingScreen extends React.PureComponent {
     let data = openResult.notification.payload.additionalData;
 
     if (data.type === 'receive-like') {
-      this.props.navigateTo('ProfileScreen');
+      this.props.navigateTo('LikedScreen');
     } else if (data.type === 'receive-friendship' || data.type === 'receive-accepted-friendship') {
       this.props.navigateTo('FriendScreen', { tab: true });
     } else if (data.type === 'receive-post') {
@@ -113,16 +124,7 @@ class LoadingScreen extends React.PureComponent {
 
     this.isAnimationEnd = true;
     let client = this.props.usersCache[this.props.client.id];
-
-    for (let postType in POST_TYPES) {
-      this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
-    }
-
-    this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
-
-    for (let friendType in FRIEND_TYPES) {
-      this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
-    }
+    this._loadData();
 
     if (client && client.username) {
       this.props.navigateTo('HomeScreen');

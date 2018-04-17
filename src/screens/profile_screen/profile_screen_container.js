@@ -6,10 +6,11 @@ import ProfileScreen  from './profile_screen';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, posts }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, posts, navigation }, ownProps) => ({
   client:        client,
   usersCache:    usersCache,
   posts:         posts,
+  currentScreen: navigation.currentScreen
 });
 
 export default connect(
