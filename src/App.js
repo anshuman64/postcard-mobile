@@ -88,16 +88,12 @@ class App extends React.Component {
   _onBackPress = () => {
     let currentScene = Actions.currentScene.replace(/^_/, '');
 
-    if (currentScene === 'HomeScreen'
-        || currentScene === 'RecentScreen'
-        || currentScene === 'FollowingScreen'
-        || currentScene === 'FriendScreen'
-        || currentScene === 'ProfileScreen'
+    if (currentScene === 'LoadingScreen'
         || currentScene === 'WelcomeScreen'
-        || currentScene === 'LoadingScreen'
-        || currentScene === 'DebugLoginScreen'
-        || currentScene === 'UsernameScreenLogin') {
-      RNExitApp.exitApp();
+        || currentScene === 'UsernameScreenLogin'
+        || currentScene === 'HomeScreen'
+        || currentScene === 'DebugLoginScreen') {
+      BackHandler.exitApp();
       return false;
     }
 
@@ -123,9 +119,9 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true}  />
 
-            <Scene key='LoadingScreen'  component={LoadingScreenContainer}  panHandlers={null} hideNavBar={true}  initial={true} />
+            <Scene key='LoadingScreen'  component={LoadingScreenContainer}  panHandlers={null} hideNavBar={true} initial={true} />
             <Scene key='WelcomeScreen'  component={WelcomeScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='LoginScreen'    component={LoginScreenContainer}    panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen'  component={NewPostScreenContainer}  panHandlers={null} hideNavBar={true} />
