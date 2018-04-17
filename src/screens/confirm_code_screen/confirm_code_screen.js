@@ -85,6 +85,7 @@ class ConfirmCodeScreen extends React.PureComponent {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
         .then(() => {
           this.setState({ isCodeIncorrect: false });
+          this.props.navigateTo('LoadingScreen'); // go back to LoadingScreen while logging in. TODO: come up with better UX
         })
         .catch((error) => {
           if (error.description === 'Firebase code verification failed') {
