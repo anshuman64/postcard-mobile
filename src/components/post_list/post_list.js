@@ -88,7 +88,7 @@ class PostList extends React.PureComponent {
   }
 
   _onPressAddFriends = () => {
-    this.props.navigateTo('FriendScreen', { tab: true });
+    this.props.navigateTo('PendingScreen');
   }
 
   //--------------------------------------------------------------------//
