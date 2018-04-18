@@ -54,13 +54,25 @@ class FriendListItem extends React.PureComponent {
     let messagePreview = 'Send a message...';
 
     if (message) {
-      if (message.body) {
-        messagePreview = message.body;
-      } else {
-        if (message.author_id === this.props.client.id) {
-          messagePreview = 'You shared an image.';
+      if (message.post_id) {
+        if (this.props.postsCache[message.post_id] && this.props.postsCache[message.post_id].body) {
+          messagePreview = this.props.postsCache[message.post_id].body;
         } else {
-          messagePreview = user.username + ' shared an image.';
+          if (message.author_id === this.props.client.id) {
+            messagePreview = 'You shared a post.';
+          } else {
+            messagePreview = user.username + ' shared a post.';
+          }
+        }
+      } else {
+        if (message.body) {
+          messagePreview = message.body;
+        } else {
+          if (message.author_id === this.props.client.id) {
+            messagePreview = 'You shared an image.';
+          } else {
+            messagePreview = user.username + ' shared an image.';
+          }
         }
       }
     }
