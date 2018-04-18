@@ -2,7 +2,6 @@
 import React                from 'react';
 import RN                   from 'react-native';
 import Firebase             from 'react-native-firebase';
-import { PhoneNumberUtil }  from 'google-libphonenumber';
 
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal';
@@ -14,6 +13,11 @@ import { defaultErrorAlert }      from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  phoneNumber (string): inputted phone number to display
+  confirmationCodeObj (object): used to test if confirmation code matches sent SMS
+*/
 class ConfirmCodeScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -32,8 +36,6 @@ class ConfirmCodeScreen extends React.PureComponent {
     };
 
     this.timer = null;
-    this.phoneUtil = PhoneNumberUtil.getInstance();
-
     this.render = this.render.bind(this);
   }
 
@@ -43,21 +45,6 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   componentDidMount() {
     this._startTimer();
-
-    this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
-      if (firebaseUserObj) {
-        this.setState({ isLoading: true }, () => {
-          this.props.loginClient(firebaseUserObj)
-            .then(() => {
-              this._navigateTo();
-            })
-            .catch((error) => {
-              this.setState({ isLoading: false });
-              defaultErrorAlert(error);
-            })
-        });
-      }
-    });
   }
 
   //--------------------------------------------------------------------//
@@ -85,51 +72,6 @@ class ConfirmCodeScreen extends React.PureComponent {
     });
   }
 
-  _navigateTo() {
-    this._stopTimer();
-
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-
-    if (this.props.client.is_banned) {
-      this.setState({ isLoading: false });
-      RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
-    } else {
-      this._getPosts();
-      this._loadData()
-        .then(() => {
-          let client = this.props.usersCache[this.props.client.id];
-
-          if (client && client.username) {
-            return this.props.navigateTo('HomeScreen');
-          } else {
-            return this.props.navigateTo('UsernameScreenLogin');
-          }
-        })
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
-        .finally(() => {
-          this.setState({ isLoading: false });
-        });
-    }
-  }
-
-  _getPosts = () => {
-    for (let postType in POST_TYPES) {
-      this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
-    }
-  }
-
-  async _loadData()  {
-    for (let friendType in FRIEND_TYPES) {
-      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
-    }
-
-    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
-  }
-
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
@@ -143,6 +85,7 @@ class ConfirmCodeScreen extends React.PureComponent {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
         .then(() => {
           this.setState({ isCodeIncorrect: false });
+          this.props.navigateTo('LoadingScreen'); // go back to LoadingScreen while logging in. TODO: come up with better UX
         })
         .catch((error) => {
           if (error.description === 'Firebase code verification failed') {

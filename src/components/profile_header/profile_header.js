@@ -4,7 +4,7 @@ import RN              from 'react-native';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import TabBar                            from '../tab_bar/tab_bar';
+import TabBarContainer                   from '../tab_bar/tab_bar_container';
 import AvatarContainer                   from '../avatar/avatar_container';
 import { TAB_BAR_HEIGHT }                from '../tab_bar/tab_bar_styles';
 import { styles, PROFILE_HEADER_HEIGHT } from './profile_header_styles';
@@ -102,7 +102,7 @@ class ProfileHeader extends React.PureComponent {
   _onConfirmUnfriend = () => {
     this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.props.removeFriendship({ friendship: friendship, client: this.props.client });
+        this.props.removeFriendship({ friendship: friendship });
       })
       .catch((error) => {
         defaultErrorAlert(error);
@@ -323,7 +323,7 @@ class ProfileHeader extends React.PureComponent {
           {this._renderUsername()}
         </RN.View>
         {this._renderButtons()}
-        <TabBar screen={this.props.screen} setParentState={this.props.setParentState} postType={this.props.postType} />
+        <TabBarContainer userId={this.props.userId} />
       </RN.Animated.View>
     )
   }

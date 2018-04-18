@@ -16,6 +16,10 @@ import { defaultErrorAlert }                 from '../../utilities/error_utility
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  userId (int): other user's id
+*/
 class MessagesScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -226,7 +230,7 @@ class MessagesScreen extends React.PureComponent {
         renderItem={this._renderItem.bind(this)}
         keyExtractor={(item) => item.id}
         style={styles.messageList}
-        initialNumToRender={25}
+        initialNumToRender={10}
         maxToRenderPerBatch={25}
         showsVerticalScrollIndicator={false}
         inverted={true}
@@ -243,18 +247,14 @@ class MessagesScreen extends React.PureComponent {
     let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
 
     return (
-      <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>
-        <RN.TouchableWithoutFeedback onPress={RN.Keyboard.dismiss} accessible={false}>
-          <RN.View style={UTILITY_STYLES.containerStart}>
-            <HeaderContainer
-              backIcon={true}
-              backTitle={username + "'s Messages"}
-              />
-            {this._renderMessageList()}
-            {this._renderTextInputRow()}
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
-      </RN.KeyboardAvoidingView>
+      <RN.View style={UTILITY_STYLES.containerStart}>
+        <HeaderContainer
+          backIcon={true}
+          backTitle={username + "'s Messages"}
+          />
+        {this._renderMessageList()}
+        {this._renderTextInputRow()}
+      </RN.View>
     )
   }
 }
