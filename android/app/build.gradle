@@ -189,7 +189,14 @@ dependencies {
       transitive = false
     }
 
-    compile "com.google.android.gms:play-services-base:11.8.0"
+    compile ("com.google.android.gms:play-services-base:11.8.0") {
+        force = true;
+    }
+
+    compile ("com.google.android.gms:play-services-gcm:11.8.0") {
+        force = true;
+    }
+
     compile 'com.google.firebase:firebase-core:11.8.0'
     compile 'com.google.firebase:firebase-auth:11.8.0'
 

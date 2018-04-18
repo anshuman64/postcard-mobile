@@ -38,12 +38,22 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.AvatarScreen(props)
     } else if (screen === 'HomeScreen') {
       Actions.HomeScreen(props)
-    } else if (screen === 'DiscoverScreen') {
-      Actions.DiscoverScreen(props)
+    } else if (screen === 'RecentScreen') {
+      Actions.RecentScreen(props)
+    } else if (screen === 'FollowingScreen') {
+      Actions.FollowingScreen(props)
     } else if (screen === 'FriendScreen') {
       Actions.FriendScreen(props)
-    } else if (screen === 'ProfileScreen') {
-      Actions.ProfileScreen(props)
+    } else if (screen === 'PendingScreen') {
+      Actions.PendingScreen(props)
+    } else if (screen === 'AuthoredScreen') {
+      Actions.AuthoredScreen(props)
+    } else if (screen === 'LikedScreen') {
+      Actions.LikedScreen(props)
+    } else if (screen === 'UserAuthoredScreen') {
+      Actions.UserAuthoredScreen(props)
+    } else if (screen === 'UserLikedScreen') {
+      Actions.UserLikedScreen(props)
     } else if (screen === 'NewPostScreen') {
       Actions.NewPostScreen(props)
     } else if (screen === 'ShareScreen') {
@@ -63,6 +73,14 @@ export const navigateTo = (screen, props) => (dispatch) => {
     }
   }
 
+  let checkRefresh = () => {
+    if (screen === Actions.currentScene.replace(/^_/, '')) {
+      Actions.refresh(props);
+    } else {
+      navigateScreens();
+    }
+  }
+
   if (Actions.currentScene === 'LoginScreen'
       || Actions.currentScene === 'MessagesScreen'
       || Actions.currentScene === 'ConfirmCodeScreen'
@@ -72,18 +90,19 @@ export const navigateTo = (screen, props) => (dispatch) => {
       || Actions.currentScene === 'DebugLoginScreen') {
     dismissKeyBoard()
       .then(() => {
-        navigateScreens();
+        checkRefresh();
       })
   } else {
-    navigateScreens();
+    checkRefresh();
   }
 }
 
-// Adds UserScreen to top of stack with props.
+// Adds UserTabs to top of stack with props.
 export const navigateToProfile = (props) => (dispatch) => {
   dismissKeyBoard();
 
-  Actions.push('UserScreen', props);
+  Actions.push('UserTabs'); // has to be UserTabs to get a new screen on stack
+  Actions.refresh(props); // router-flux has a bug where props aren't being passed to tabs when using 'push'
 }
 
 // Pops top of stack. If props, refreshes screen with props (only way sending props works).

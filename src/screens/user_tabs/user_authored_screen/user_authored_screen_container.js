@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import UserScreen  from './user_screen';
+import UserAuthoredScreen from './user_authored_screen';
 
 //--------------------------------------------------------------------//
 
@@ -12,4 +12,4 @@ const mapStateToProps = ({ usersCache }, ownProps) => ({
 
 export default connect(
   mapStateToProps,
-)(UserScreen);
+)(UserAuthoredScreen);
