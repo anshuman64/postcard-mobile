@@ -48,6 +48,9 @@ class ProfileHeader extends React.PureComponent {
 
     if (!friendshipStatus) {
       this.props.createFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+        .then((friendship) => {
+          this.props.sendFriendshipRequest({ friendship: friendship });
+        })
         .catch((error) => {
           if (error.message === 'Requester blocked by requestee') {
             RN.Alert.alert('', 'You have been blocked by this user.', [{text: 'OK', style: 'cancel'}]);
