@@ -7,6 +7,7 @@ import { deletePost, removePost }      from '../../actions/post_actions';
 import { createLike, deleteLike }      from '../../actions/like_actions';
 import { createFlag, deleteFlag }      from '../../actions/flag_actions';
 import { createFollow, deleteFollow }  from '../../actions/follow_actions';
+import { createMessage }               from '../../actions/message_actions';
 import { navigateTo }                  from '../../actions/navigation_actions';
 import { refreshCredsAndGetImage }     from '../../actions/image_actions';
 
@@ -27,6 +28,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteFlag:              (authToken, firebaseUserObj, postId) => dispatch(deleteFlag(authToken, firebaseUserObj, postId)),
   deletePost:              (authToken, firebaseUserObj, postId) => dispatch(deletePost(authToken, firebaseUserObj, postId)),
   removePost:              (deletedPost) => dispatch(removePost(deletedPost)),
+  createMessage:           (authToken, firebaseUserObj, clientId, userId, messageBody, messageImagePath, messageImageType, postId) => dispatch(createMessage(authToken, firebaseUserObj, clientId, userId, messageBody, messageImagePath, messageImageType, postId)),
   navigateTo:              (screen, props) => dispatch(navigateTo(screen, props)),
   refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
 });
