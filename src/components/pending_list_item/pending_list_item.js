@@ -31,6 +31,27 @@ class PendingListItem extends React.PureComponent {
   // Callback Methods
   //--------------------------------------------------------------------//
 
+  _onPressAddFriend = () => {
+    if (this.isButtonDisabled) {
+      return;
+    }
+
+    this.isButtonDisabled = true;
+
+    this.props.createFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+      .then((friendship) => {
+        this.container.fadeOut(500)
+          .finally(() => {
+            this.props.sendFriendshipRequest({ friendship: friendship });
+            this.isButtonDisabled = false;
+          });
+      })
+      .catch((error) => {
+        this.isButtonDisabled = false;
+        defaultErrorAlert(error);
+      });
+  }
+
   _onPressAcceptFriendship = () => {
     if (this.isButtonDisabled) {
       return;
@@ -141,7 +162,7 @@ class PendingListItem extends React.PureComponent {
     return (
       <RN.View style={styles.buttonView}>
         {friendshipStatus === 'received' || friendshipStatus === 'contacts' ?
-          <RN.TouchableOpacity style={styles.confirmButton} onPress={this._onPressAcceptFriendship}>
+          <RN.TouchableOpacity style={styles.confirmButton} onPress={friendshipStatus === 'received' ? this._onPressAcceptFriendship : this._onPressAddFriend}>
             <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
               {acceptString}
             </RN.Text>
