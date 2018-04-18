@@ -66,7 +66,7 @@ class LoadingScreen extends React.PureComponent {
             defaultErrorAlert(error);
           });
       } else {
-        // console.error('No Firebase cookie found'); // Debug Test
+        console.error('No Firebase cookie found'); // Debug Test
         this._onAnimationEnd();
       }
     });
@@ -82,6 +82,7 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   async _loadData() {
+
     for (let postType in POST_TYPES) {
       await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
