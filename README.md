@@ -36,7 +36,7 @@ Change lines 335 and 359 (approximately) to:
 //line 335:
 _moveAndScaleLabel.text = RSKLocalizedString(@"", @"Move and Scale label");
 
-//line 359: 
+//line 359:
 [_chooseButton setTitle:RSKLocalizedString(@"Done", @"Choose button") forState:UIControlStateNormal];
 ````
 NOTE: If you forget to do this step before installing pods below, also make the same changes in ````./ios/Pods/RSKImageCropper/RSKImageCropper/RSKImageCropViewController.m````
@@ -74,12 +74,12 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 3. Generate signed release APK
 
 ````
-cd android && ./gradlew assembleRelease
+cd android && ./gradlew assembleRelease && cd ..
 ````
 3. Run signed release APK
 
 ````
-cd .. && react-native run-android --variant=release
+react-native run-android --variant=release
 ````
 
 ## Release - iOS
@@ -88,4 +88,3 @@ cd .. && react-native run-android --variant=release
 3. Turn on Push Notifications in Capabilities
 4. Set Build Configuration to Release in Product > Scheme > Edit Scheme
 5. Increment Version and Build in XCode
-
