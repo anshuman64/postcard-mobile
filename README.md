@@ -81,6 +81,7 @@ cd android && ./gradlew assembleRelease && cd ..
 ````
 react-native run-android --variant=release
 ````
+4. Search for "app-release.apk" in ````insiya-mobile/android/app/build/outputs/apk/release/app-release.apk```` and drag into Google Play Console
 
 ## Release - iOS
 1. Change Bundle Identifier to com.insiya.apple
