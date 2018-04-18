@@ -23,7 +23,7 @@ export const MESSAGE_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
-// messages (array): flag object of created flag
+// messages (array): array of messages in conversation with user
 // userId (int): user id of other user
 // isNew (bool): bool if messsages are new messages or older ones
 export const receiveMessages = (data) => {
@@ -63,17 +63,25 @@ export const getMessages = (authToken, firebaseUserObj, isNew, userId, queryPara
     });
 };
 
-export const createMessage = (authToken, firebaseUserObj, clientId, userId, messageBody, messageImagePath, messageImageType) => (dispatch) => {
+export const createMessage = (authToken, firebaseUserObj, clientId, userId, messageBody, messageImagePath, messageImageType, postId) => (dispatch) => {
   let postMessage = (imageKey) => {
-    return APIUtility.post(authToken, '/messages', { body: messageBody, image_url: imageKey, recipient_id: userId })
+    return APIUtility.post(authToken, '/messages', { body: messageBody, image_url: imageKey, recipient_id: userId, post_id: postId })
       .then((newMessage) => {
-        amplitude.logEvent('Engagement - Create Message', { is_successful: true, body: messageBody, image: imageKey ? true : false });
-        dispatch(receiveMessage({ message: newMessage, userId: userId }));
-        dispatch(getImages(newMessage));
+        amplitude.logEvent('Engagement - Create Message', { is_successful: true, body: messageBody, image: imageKey ? true : false, is_post: postId ? true : false });
+
+        // If message is a post, will be refreshed automatically
+        if (!postId) {
+          dispatch(receiveMessage({ message: newMessage, userId: userId }));
+          dispatch(getImages(newMessage));
+        }
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
           return dispatch(refreshAuthToken(firebaseUserObj, createMessage, userId, messageBody, messageImagePath, messageImageType));
+        }
+
+        if (error.message === 'Post as message already exists') {
+          return;
         }
 
         postMessageError(error);
