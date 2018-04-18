@@ -33,7 +33,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: 80,
     height: 30,
-    marginRight: 5,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue
   },
@@ -43,6 +42,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: 80,
     height: 30,
+    marginLeft: 5,
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.grey50,
     borderColor: StyleUtility.COLORS.grey900,
