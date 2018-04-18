@@ -9,20 +9,21 @@ import { FLAG_ACTION_TYPES }    from '../actions/flag_actions';
 
 //--------------------------------------------------------------------//
 
-/* Data is in the form {
- *   postId1: {
- *      "id":                   30,
- *      "body":                 "hello world!",
- *      "author_id":            1,
- *      "image_url":            "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
- *      "created_at":           "2018-01-18T23:48:06.000Z",
- *      "updated_at":           "2018-01-18T23:48:06.000Z",
- *      "num_likes":            0,
- *      "is_liked_by_client":   false,
- *      "is_flagged_by_client": false,
- *  },
- *   postId2: {...
- */
+/*
+Data is in the form {
+  postId1: {
+    "id":                   30,
+    "body":                 "hello world!",
+    "author_id":            1,
+    "image_url":            "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
+    "created_at":           "2018-01-18T23:48:06.000Z",
+    "updated_at":           "2018-01-18T23:48:06.000Z",
+    "num_likes":            0,
+    "is_liked_by_client":   false,
+    "is_flagged_by_client": false,
+  },
+  postId2: {...
+*/
 
 const DEFAULT_STATE = {};
 
@@ -42,11 +43,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
       _.forEach(action.data.posts, (post) => {
         newState[post.id] = _.omit(post, 'author');
-
-        newState[post.id].num_likes            = newState[post.id].num_likes || 0;
-        newState[post.id].is_liked_by_client   = newState[post.id].is_liked_by_client || false;
-        newState[post.id].num_flags            = newState[post.id].num_flags || 0;
-        newState[post.id].is_flagged_by_client = newState[post.id].is_flagged_by_client || false;
       });
 
       return newState;
@@ -102,11 +98,11 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
   case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
-  case MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
     postId = action.data.post.id;
 
     newState[postId] = action.data.post;
 
+    // Initialize jbuilder data, knowing that new posts will have these default values
     newState[postId].num_likes            = 0;
     newState[postId].is_liked_by_client   = false;
     newState[postId].num_flags            = 0;

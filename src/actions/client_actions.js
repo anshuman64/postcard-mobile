@@ -27,14 +27,17 @@ export const CLIENT_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
+// firebaseUserObj (object): firebaseUserObj returned from Firebase auth
 export const receiveFirebaseUserObj = (data) => {
   return { type: CLIENT_ACTION_TYPES.RECEIVE_FIREBASE_USER_OBJ, data: data };
 };
 
+// authToken (object): authToken generated from Firebase auth
 export const receiveAuthToken = (data) => {
   return { type: CLIENT_ACTION_TYPES.RECEIVE_AUTH_TOKEN, data: data }
 };
 
+// client (user object): user object of client
 export const receiveClient = (data) => {
   return { type: CLIENT_ACTION_TYPES.RECEIVE_CLIENT, data: data }
 };
@@ -116,13 +119,13 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
 
   let setClient = (client, authToken, isNew) => {
     amplitude.setUserId(client.id);
-    amplitude.setUserProperties({ database_id: client.id, phone_number: client.phone_number, firebase_uid: client.firebase_uid, created_at: client.created_at });
+    amplitude.setUserProperties({ username: client.username, database_id: client.id, phone_number: client.phone_number, email: client.email, firebase_uid: client.firebase_uid, created_at: client.created_at });
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
 
     OneSignal.sendTag('user_id', String(client.id));
     dispatch(setPusherClient(authToken, client.id));
 
-    dispatch(receiveClient({ user: client }));
+    dispatch(receiveClient({ client: client }));
     dispatch(getImages(client));
   }
 
@@ -208,7 +211,7 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
   return APIUtility.put(authToken, '/users', { username: username })
   .then((editedUser) => {
     amplitude.logEvent('Onboarding - Edit Username', { is_successful: true, username: username });
-    dispatch(receiveClient({ user: editedUser }));
+    dispatch(receiveClient({ client: editedUser }));
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -234,7 +237,7 @@ export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageT
     return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
       .then((editedUser) => {
         amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
-        dispatch(receiveClient({ user: editedUser }));
+        dispatch(receiveClient({ client: editedUser }));
         dispatch(getImages(editedUser));
       })
       .catch((error) => {

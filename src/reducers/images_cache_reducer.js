@@ -6,13 +6,14 @@ import { IMAGE_ACTION_TYPES } from '../actions/image_actions';
 
 //--------------------------------------------------------------------//
 
-/* Data is in the form {
- *   imagePath1: {
- *     url:         string,
- *     lastUpdated: Date()
- *   },
- *   imagePath2: { ...
- */
+/*
+Data is in the form {
+  imagePath1: {
+    url:         string,
+    lastUpdated: Date()
+  },
+  imagePath2: { ...
+*/
 
 const DEFAULT_STATE = {};
 
@@ -29,7 +30,7 @@ const ImagesCacheReducer = (state = DEFAULT_STATE, action) => {
         }
       }
 
-      _.forEach(action.data, (imageObj) => {
+      _.forEach(action.data.images, (imageObj) => {
         if (newState[imageObj.key] && newState[imageObj.key].lastUpdated) {
           let currentTime = new Date();
           let lastUpdate = newState[imageObj.key].lastUpdated;

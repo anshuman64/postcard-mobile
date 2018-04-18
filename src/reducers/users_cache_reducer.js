@@ -11,16 +11,17 @@ import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions'
 
 //--------------------------------------------------------------------//
 
-/* Data is in the form {
- *   userId1: {
- *      "id":                            30,
- *      "username":                      "anshu",
- *      "avatar_url":                    "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
- *      "is_user_followed_by_client":    false,
- *      "friendship_status_with_client": "accepted",
- *  },
- *   userId2: {...
- */
+/*
+Data is in the form {
+  userId1: {
+    "id":                            30,
+    "username":                      "anshu",
+    "avatar_url":                    "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
+    "is_user_followed_by_client":    false,
+    "friendship_status_with_client": "accepted",
+  },
+  userId2: {...
+*/
 
 const DEFAULT_STATE = {};
 
@@ -35,7 +36,7 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
-      newState[action.data.user.id] = action.data.user;
+      newState[action.data.client.id] = action.data.client;
 
       return newState;
 
@@ -64,6 +65,7 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[requester_id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
 
       return newState;
+    // Since we don't know if user is requester or requestee, delete friendships for both
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
       requester_id = action.data.friendship.requester_id;
       requestee_id = action.data.friendship.requestee_id;
@@ -94,19 +96,11 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     case FOLLOW_ACTION_TYPES.RECEIVE_FOLLOW:
-      _.forEach(newState, (user) => {
-        if (user.id === action.data.follow.followee_id) {
-          user.is_user_followed_by_client = true;
-        }
-      });
+      newState[action.data.follow.followee_id].is_user_followed_by_client = true;
 
       return newState;
     case FOLLOW_ACTION_TYPES.REMOVE_FOLLOW:
-      _.forEach(newState, (user) => {
-        if (user.id === action.data.follow.followee_id) {
-          user.is_user_followed_by_client = false;
-        }
-      });
+      newState[action.data.follow.followee_id].is_user_followed_by_client = false;
 
       return newState;
 
@@ -121,19 +115,11 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case BLOCK_ACTION_TYPES.RECEIVE_BLOCK:
-      _.forEach(newState, (user) => {
-        if (user.id === action.data.block.blockee_id) {
-          user.is_user_blocked_by_client = true;
-        }
-      });
+      newState[action.data.block.blockee_id].is_user_blocked_by_client = true;
 
       return newState;
     case BLOCK_ACTION_TYPES.REMOVE_BLOCK:
-      _.forEach(newState, (user) => {
-        if (user.id === action.data.block.blockee_id) {
-          user.is_user_blocked_by_client = false;
-        }
-      });
+      newState[action.data.block.blockee_id].is_user_blocked_by_client = false;
 
       return newState;
 
@@ -142,33 +128,30 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     case FRIENDSHIP_ACTION_TYPES.PUSHER_CREATE_FRIENDSHIP:
-      requestee_id = action.data.user.id;
+      userId = action.data.user.id;
 
-      newState[requestee_id] = action.data.user;
-      newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.SENT;
+      newState[userId] = action.data.user;
+      newState[userId].friendship_status_with_client = FRIEND_TYPES.SENT;
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
-      // NOTE: the user is the client that sent the Pusher notification
-      requester_id = action.data.client.id;
+      userId = action.data.user.id;
 
-      newState[requester_id] = action.data.client;
-      newState[requester_id].friendship_status_with_client = FRIEND_TYPES.RECEIVED;
+      newState[userId] = action.data.user;
+      newState[userId].friendship_status_with_client = FRIEND_TYPES.RECEIVED;
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP:
-      // NOTE: the user is the client that sent the Pusher notification
-      requestee_id = action.data.client.id;
+      userId = action.data.user.id;
 
-      newState[requestee_id] = action.data.client;
-      newState[requestee_id].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
+      newState[userId] = action.data.user;
+      newState[userId].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
 
       return newState;
     case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
-      // NOTE: the user is the client that sent the Pusher notification
-      userId = action.data.client.id;
+      userId = action.data.user.id;
 
-      newState[userId] = action.data.client;
+      newState[userId] = action.data.user;
       newState[userId].friendship_status_with_client = null;
 
       return newState;
@@ -178,18 +161,16 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
+    case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
       userId = action.data.userId;
       newState[userId].peek_message = action.data.message;
 
       return newState;
-    case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.client.id;
-      newState[userId].peek_message = action.data.message;
-
-      return newState;
-    case MESSAGE_ACTION_TYPES.PUSHER_CREATE_POST_MESSAGE:
-      userId = action.data.user.id;
-      newState[userId].peek_message = action.data.message;
+    case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES:
+      if (action.data.isNew && action.data.messages.length != 0) {
+        userId = action.data.userId;
+        newState[userId].peek_message = action.data.messages[0];
+      }
 
       return newState;
     default:

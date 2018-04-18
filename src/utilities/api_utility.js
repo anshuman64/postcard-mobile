@@ -38,35 +38,20 @@ let getQueryString = (params) => {
   return '?' + paramList.join("&");
 };
 
-// Checks status of an API response and return either the body or an error
-// If there's no status (no internet connection), returns.
-let checkStatus = (response) => {
-  if (!response.status) {
-    return;
-  }
-
-  let body;
-
-  try {
-    body = JSON.parse(response._bodyText);
-  } catch (e) {
-    body = response._bodyText;
-  }
-
-  if (response.status >= 200 && response.status < 300) {
-    return JSON.parse(response._bodyText);
-  } else {
-    let error    = new Error(body);
-    error.status = response.status;
-    throw error;
-  }
-};
-
-// Calls API and checks status
+// Calls API, checks status, and returns response or error
 let callApi = (url, requestConfig) => {
   return fetch(url, requestConfig)
     .then((response) => {
-      return checkStatus(response);
+      return response.json()
+        .then((responseJson) =>{
+          if (response.ok) {
+            return responseJson;
+          } else {
+            let error = new Error(responseJson);
+            error.status = response.status;
+            throw error;
+          }
+        });
     })
     .catch((error) => {
       if (!error.status) {
@@ -88,7 +73,7 @@ export const getBaseUrl = () => {
   } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
     return 'http://insiya-production-server-2.us-east-1.elasticbeanstalk.com/api';
   } else {
-    return 'http://192.168.2.13:3000/api';
+    return 'http://192.168.0.65:3000/api';
   }
 };
 
