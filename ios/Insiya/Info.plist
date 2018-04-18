@@ -61,6 +61,8 @@
 	<string>LaunchScreen</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This lets you share photos from your camera roll.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This lets you add friends from your contact list.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
