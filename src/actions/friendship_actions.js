@@ -17,6 +17,7 @@ export const FRIEND_TYPES = {
   ACCEPTED: 'accepted',
   SENT:     'sent',
   RECEIVED: 'received',
+  CONTACTS: 'contacts'
 }
 
 export const FRIENDSHIP_ACTION_TYPES = {
@@ -80,20 +81,31 @@ export const pusherDestroyFriendship = (data) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispatch) => {
-  return APIUtility.get(authToken, '/friendships/' + friendType)
-    .then((friends) => {
-      dispatch(receiveFriendships({ friends: friends, friendType: friendType }));
-      dispatch(getImages(friends));
-      dispatch(getPostsFromMessages(friends));
-    })
-    .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, getFriendships, friendType));
-      }
+export const getFriendships = (authToken, firebaseUserObj, friendType, clientPhoneNumber) => (dispatch) => {
+  let getFriends = (data) => {
+    return APIUtility.get(authToken, '/friendships/' + friendType, { contacts: data })
+      .then((friends) => {
+        dispatch(receiveFriendships({ friends: friends, friendType: friendType }));
+        dispatch(getImages(friends));
+        dispatch(getPostsFromMessages(friends));
+      })
+      .catch((error) => {
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+          return dispatch(refreshAuthToken(firebaseUserObj, getFriendships, friendType));
+        }
 
-      throw setErrorDescription(error, 'GET friendships failed');
-    });
+        throw setErrorDescription(error, 'GET friendships failed');
+      });
+  }
+
+  if (friendType === FRIEND_TYPES.CONTACTS) {
+    return getContacts(clientPhoneNumber)
+      .then((data) => {
+        return getFriends(data);
+      });
+  } else {
+    return getFriends();
+  }
 };
 
 export const createFriendRequest = (authToken, firebaseUserObj, userId, username) => (dispatch) => {
@@ -147,22 +159,4 @@ export const deleteFriendship = (authToken, firebaseUserObj, userId) => (dispatc
       amplitude.logEvent('Friendship - Delete Friendship', { is_successful: false, error_description: error.description, error_message: error.message });
       throw error;
     });
-};
-
-export const findFriendsFromContacts = (authToken, firebaseUserObj, clientPhoneNumber) => (dispatch) => {
-  return getContacts(clientPhoneNumber)
-    .then((data) => {
-      return APIUtility.get(authToken, '/friendships/contacts', { contacts: data })
-        .then((friends) => {
-          dispatch(receiveFriendships({ friends: friends, friendType: 'contacts' }));
-          dispatch(getImages(friends));
-        })
-        .catch((error) => {
-          if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-            return dispatch(refreshAuthToken(firebaseUserObj, findFriendsFromContacts, clientPhoneNumber));
-          }
-
-          throw setErrorDescription(error, 'GET friendships from contacts failed');
-        });
-    })
 };

@@ -116,17 +116,21 @@ class PendingListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderButtons() {
+    let acceptString;
     let deleteString;
     let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
     let isBlocked = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_blocked_by_client : false;
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
+        acceptString = 'Confirm';
         deleteString = 'Remove';
       } else if (friendshipStatus === FRIEND_TYPES.SENT) {
         deleteString = 'Cancel';
       } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
         deleteString = 'Delete';
+      } else {
+        acceptString = 'Add';
       }
     }
 
@@ -136,18 +140,20 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <RN.View style={styles.buttonView}>
-        {friendshipStatus === 'received' ?
+        {friendshipStatus === 'received' || friendshipStatus === 'contacts' ?
           <RN.TouchableOpacity style={styles.confirmButton} onPress={this._onPressAcceptFriendship}>
             <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
-              Confirm
+              {acceptString}
             </RN.Text>
             </RN.TouchableOpacity> :
             null}
-        <RN.TouchableOpacity style={styles.deleteButton} onPress={isBlocked ? this._onPressUnblock : this._onPressDeleteFriendship}>
-          <RN.Text style={UTILITY_STYLES.lightBlackText15}>
-            {deleteString}
-          </RN.Text>
-        </RN.TouchableOpacity>
+        {friendshipStatus != 'contacts' ?
+          <RN.TouchableOpacity style={styles.deleteButton} onPress={isBlocked ? this._onPressUnblock : this._onPressDeleteFriendship}>
+            <RN.Text style={UTILITY_STYLES.lightBlackText15}>
+              {deleteString}
+            </RN.Text>
+          </RN.TouchableOpacity> :
+          null}
       </RN.View>
     )
   }
