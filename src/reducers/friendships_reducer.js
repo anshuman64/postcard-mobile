@@ -11,6 +11,7 @@ const DEFAULT_STATE = {
   accepted: [],
   sent:     [],
   received: [],
+  contacts: [],
 };
 
 const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
@@ -38,7 +39,7 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case FRIENDSHIP_ACTION_TYPES.ACCEPT_FRIENDSHIP_REQUEST:
       userId = action.data.friendship.requester_id;
-      
+
       _.remove(newState.received, (ids) => {
         return ids === userId;
       });
