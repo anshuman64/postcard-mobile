@@ -201,15 +201,20 @@ class PostListItem extends React.PureComponent {
   // Navigation Callback Methods
   //--------------------------------------------------------------------//
 
+  // TODO: add loading state
   _onNavigateToMessages = () => {
-    let isMessagesScreen = this.props.width;
+    let isMessagesScreen = this.props.width; // width is only passed if on MessagesScreen
     let user = this.props.usersCache[this.props.item.author_id];
     let userFriendshipStatus = user ? user.friendship_status_with_client : null;
 
-    if (!isMessagesScreen && userFriendshipStatus) {
-      if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
-        this.props.navigateTo('MessagesScreen', { userId: this.props.item.author_id });
-      }
+    if (!isMessagesScreen && userFriendshipStatus && userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, user.id, null, null, null, this.props.item.id)
+        .then(() => {
+          this.props.navigateTo('MessagesScreen', { userId: this.props.item.author_id });
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        });
     }
   }
 

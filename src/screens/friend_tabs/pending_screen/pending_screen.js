@@ -17,7 +17,7 @@ class PendingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressAddFriend = () => {
-    this.props.navigateTo('AddPendingScreen');
+    this.props.navigateTo('AddFriendScreen');
   }
 
   _onPressShare = () => {
