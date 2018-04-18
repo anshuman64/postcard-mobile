@@ -87,14 +87,10 @@ class LoadingScreen extends React.PureComponent {
     }
 
     for (let friendType in FRIEND_TYPES) {
-      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType], this.props.usersCache[this.props.client.id].phone_number);
     }
 
     await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
-
-    // TODO: do we want this to run every time the app is refocused?
-    await FileUtility.getContacts(this.props.usersCache[this.props.client.id].phone_number);
-    await this.props.findFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.usersCache[this.props.client.id].phone_number);
   }
 
   _navigateFromLoading = () => {
@@ -203,7 +199,7 @@ class LoadingScreen extends React.PureComponent {
         direction={'alternate'}
         easing={'ease-in'}
         duration={1500}
-        iterationCount={13}
+        iterationCount={18}
         onAnimationEnd={this._onAnimationEnd}
         />
     )

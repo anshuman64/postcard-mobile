@@ -91,6 +91,7 @@ class PendingScreen extends React.PureComponent {
         sections={[
           {data: this.props.friendships.received, renderItem: this._renderItem.bind(this), title: 'Received Requests'},
           {data: this.props.friendships.sent, renderItem: this._renderItem.bind(this), title: 'Sent Requests'},
+          {data: this.props.friendships.contacts, renderItem: this._renderItem.bind(this), title: 'Contacts on Postcard'},
           {data: this.props.blocks.blockedUsers, renderItem: this._renderItem.bind(this), title: 'Blocked Users'},
         ]}
         keyExtractor={(item) => item}
