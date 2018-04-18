@@ -1,9 +1,12 @@
 // Library Imports
-import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
-import { Buffer }  from 'buffer';
-import uuid        from 'react-native-uuid';
-import mime        from 'mime-types';
+import AWS                 from 'aws-sdk/dist/aws-sdk-react-native';
+import RNFetchBlob         from 'react-native-fetch-blob';
+import Contacts            from 'react-native-contacts';
+import * as _              from 'lodash';
+import { Buffer }          from 'buffer';
+import uuid                from 'react-native-uuid';
+import mime                from 'mime-types';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 // Local Imports
 import MediaLibrary                   from '../components/media_library/media_library';
@@ -145,4 +148,35 @@ export const getCameraRollPhotos = () => {
     .then((data) => {
       cameraRollPhotos = data;
     })
+}
+
+export const getContacts = (clientPhoneNumber) => {
+  clientPhoneNumber = '+14082551245' // Debug Test
+
+  let contactPhoneNumbers = [];
+  let number;
+  let index;
+  let fullNumber;
+
+  return new Promise((resolve, reject) => {
+    Contacts.getAllWithoutPhotos((error, contacts) => {
+      phoneUtil = PhoneNumberUtil.getInstance();
+      clientNumber = phoneUtil.parse(clientPhoneNumber);
+
+      if (error != 'denied') {
+        _.forEach(contacts, (contact) => {
+          _.forEach(contact.phoneNumbers, (phoneNumber) => {
+            number = phoneUtil.parse(phoneNumber.number, phoneUtil.getRegionCodeForNumber(clientNumber));
+
+            fullNumber = '+' + number.getCountryCode() + number.getNationalNumber();
+            contactPhoneNumbers.push(fullNumber);
+          });
+        });
+
+        resolve(contactPhoneNumbers);
+      } else {
+        reject(error);
+      }
+    });
+  });
 }

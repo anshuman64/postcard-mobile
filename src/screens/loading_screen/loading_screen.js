@@ -6,12 +6,12 @@ import * as Animatable from 'react-native-animatable';
 import OneSignal       from 'react-native-onesignal';
 
 // Local Imports
-import { POST_TYPES }                               from '../../actions/post_actions';
-import { FRIEND_TYPES }                             from '../../actions/friendship_actions';
-import { styles, pulseIcon }                        from './loading_screen_styles';
-import { defaultErrorAlert }                        from '../../utilities/error_utility';
-import { UTILITY_STYLES }                           from '../../utilities/style_utility';
-import { getPostPlaceholders, getCameraRollPhotos } from '../../utilities/file_utility';
+import { POST_TYPES }        from '../../actions/post_actions';
+import { FRIEND_TYPES }      from '../../actions/friendship_actions';
+import { styles, pulseIcon } from './loading_screen_styles';
+import { defaultErrorAlert } from '../../utilities/error_utility';
+import { UTILITY_STYLES }    from '../../utilities/style_utility';
+import * as FileUtility      from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
@@ -43,8 +43,8 @@ class LoadingScreen extends React.PureComponent {
 
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
-    getPostPlaceholders();
-    getCameraRollPhotos();
+    FileUtility.getPostPlaceholders();
+    FileUtility.getCameraRollPhotos();
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
@@ -86,11 +86,15 @@ class LoadingScreen extends React.PureComponent {
       await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
 
-    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
-
     for (let friendType in FRIEND_TYPES) {
       await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
     }
+
+    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+
+    // TODO: do we want this to run every time the app is refocused?
+    await FileUtility.getContacts(this.props.usersCache[this.props.client.id].phone_number);
+    await this.props.findFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.usersCache[this.props.client.id].phone_number);
   }
 
   _navigateFromLoading = () => {
@@ -139,7 +143,7 @@ class LoadingScreen extends React.PureComponent {
 
       if (minsDiff > 1) {
         this._loadData();
-        getCameraRollPhotos();
+        FileUtility.getCameraRollPhotos();
         this.lastUpdate = new Date();
       }
     }
