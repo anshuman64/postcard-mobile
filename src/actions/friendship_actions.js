@@ -33,34 +33,44 @@ export const FRIENDSHIP_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
+// friends (array): array of user objects
+// friendType (string): FRIEND_TYPE of array
 export const receiveFriendships = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.RECEIVE_FRIENDSHIPS, data: data };
 };
 
+// friendship (friendship object): friendship object of created friendship
 export const sendFriendshipRequest = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.SEND_FRIENDSHIP_REQUEST, data: data };
 };
 
+// friendship (friendship object): friendship object of accepted friendship
 export const acceptFriendshipRequest = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.ACCEPT_FRIENDSHIP_REQUEST, data: data };
 };
 
+// friendship (friendship object): friendship object of removed friendship
 export const removeFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP, data: data };
 };
 
+// user (user object): other user's user object
 export const pusherCreateFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_CREATE_FRIENDSHIP, data: data };
 };
 
+// user (user object): other user's user object
 export const pusherRecieveFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP, data: data };
 };
 
+// user (user object): other user's user object
 export const pusherReceiveAcceptedFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP, data: data };
 };
 
+// user (user object): other user's user object
+// friendship (friendship object): joint friendship object
 export const pusherDestroyFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP, data: data };
 };
@@ -89,7 +99,7 @@ export const createFriendRequest = (authToken, firebaseUserObj, userId, username
   return APIUtility.post(authToken, '/friendships', { requestee_id: userId, username: username })
     .then((friendship) => {
       amplitude.logEvent('Friendship - Request Friendship', { is_successful: true, isUsername: username ? true : false });
-      dispatch(sendFriendshipRequest({ friendship: friendship, username: username }));
+      dispatch(sendFriendshipRequest({ friendship: friendship }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

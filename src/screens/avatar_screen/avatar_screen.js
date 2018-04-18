@@ -12,6 +12,11 @@ import { defaultErrorAlert }  from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Optional Screen Props:
+  isLogin (bool): determines what screen to go to after pressing 'Done'
+*/
+
 class AvatarScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

@@ -4,6 +4,7 @@ import * as APIUtility         from '../utilities/api_utility';
 import { setErrorDescription } from '../utilities/error_utility';
 import { refreshAuthToken }    from './client_actions';
 import { deleteFriendship }    from './friendship_actions';
+import { getImages }           from './image_actions';
 
 //--------------------------------------------------------------------//
 
@@ -21,14 +22,17 @@ export const BLOCK_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
+// blockedUsers (array): array of user objects
 export const receiveBlockedUsers = (data) => {
   return { type: BLOCK_ACTION_TYPES.RECEIVE_BLOCKED_USERS, data: data };
 };
 
+// block (block object): block object of created block
 export const receiveBlock = (data) => {
   return { type: BLOCK_ACTION_TYPES.RECEIVE_BLOCK, data: data };
 };
 
+// block (block object): block object of removed block
 export const removeBlock = (data) => {
   return { type: BLOCK_ACTION_TYPES.REMOVE_BLOCK, data: data };
 };
@@ -41,6 +45,7 @@ export const getBlockedUsers = (authToken, firebaseUserObj) => (dispatch) => {
   return APIUtility.get(authToken, '/blocks')
     .then((blockedUsers) => {
       dispatch(receiveBlockedUsers({ blockedUsers: blockedUsers }));
+      dispatch(getImages(blockedUsers));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -51,7 +56,7 @@ export const getBlockedUsers = (authToken, firebaseUserObj) => (dispatch) => {
     });
 };
 
-// Creates block between this user and another user or ProfileHeader
+// Creates block between this user and another user
 export const createBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch) => {
   return APIUtility.post(authToken, '/blocks', { blockee_id: blockeeId })
     .then((newBlock) => {
@@ -70,7 +75,7 @@ export const createBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch)
     });
 };
 
-// Deletes block between this user and another user or ProfileHeader
+// Deletes block between this user and another user. removeBlock has to be called from component
 export const deleteBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch) => {
   return APIUtility.del(authToken, '/blocks/' + blockeeId)
     .then((deletedBlock) => {

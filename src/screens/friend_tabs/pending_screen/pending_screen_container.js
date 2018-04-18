@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import FriendScreen   from './friend_screen';
-import { navigateTo } from '../../actions/navigation_actions';
+import PendingScreen   from './pending_screen';
+import { navigateTo } from '../../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
@@ -21,4 +21,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FriendScreen);
+)(PendingScreen);
