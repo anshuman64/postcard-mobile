@@ -150,6 +150,7 @@ export const getCameraRollPhotos = () => {
     })
 }
 
+// TODO: add email support
 export const getContacts = (clientPhoneNumber) => {
   clientPhoneNumber = '+14082551245' // Debug Test
 
