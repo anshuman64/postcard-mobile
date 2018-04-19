@@ -24,12 +24,16 @@ export const defaultErrorAlert = (error) => {
 
   if (error.description === 'No internet connection') {
     alertString = 'No internet connection.';
+  } else if (error.description === 'Circle name has already been taken') {
+    alertString = 'Circle name has already been taken.';
+  } else if (error.description === 'Minimum 2 user_ids required') {
+    alertString = 'Add at least two friends to the circle.';
   } else {
     alertString = 'Something went wrong. Please try again later.';
   }
 
   amplitude.logEvent('Error - General', { error_description: error.description, error_message: error.message });
-  console.error(error); // Debug Test
+  // console.error(error); // Debug Test
 
   setTimeout(() => {
     Alert.alert('', alertString,
