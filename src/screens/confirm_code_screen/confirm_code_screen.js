@@ -184,10 +184,10 @@ class ConfirmCodeScreen extends React.PureComponent {
         disabled={this.state.isResendSMSDisabled}
         >
         <RN.View ref={(ref) => this.resendSMSView = ref} style={styles.resendSMSView}>
-          <RN.Text ref={(ref) => this.resendSMSText = ref} style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive]}>
+          <RN.Text ref={(ref) => this.resendSMSText = ref} style={[styles.resendSMSText, !this.state.isResendSMSDisabled && UTILITY_STYLES.lightBlackText16]}>
             Resend SMS
           </RN.Text>
-          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && styles.smsTextActive]}>
+          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && UTILITY_STYLES.lightBlackText16]}>
             {timerText}
           </RN.Text>
         </RN.View>

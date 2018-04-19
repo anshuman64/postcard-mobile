@@ -88,6 +88,12 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   async _loadData() {
+    await this._refreshData();
+    await this.props.getCircles(this.props.client.authToken, this.props.client.firebaseUserObj);
+    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+  }
+
+  async _refreshData() {
     for (let postType in POST_TYPES) {
       await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
@@ -97,8 +103,6 @@ class LoadingScreen extends React.PureComponent {
         await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
       }
     }
-
-    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
   }
 
   _navigateFromLoading = () => {
@@ -146,7 +150,7 @@ class LoadingScreen extends React.PureComponent {
       let minsDiff = (currentTime - this.lastUpdate) / (1000 * 60);
 
       if (minsDiff > 1) {
-        this._loadData();
+        this._refreshData();
         FileUtility.getCameraRollPhotos();
         this.lastUpdate = new Date();
       }
