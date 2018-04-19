@@ -11,13 +11,19 @@ import { refreshAuthToken }    from './client_actions';
 //--------------------------------------------------------------------//
 
 export const CIRCLE_ACTION_TYPES = {
-  RECEIVE_CIRCLE: 'RECEIVE_CIRCLE',
-  REMOVE_CIRCLE:  'REMOVE_CIRCLE',
+  RECEIVE_CIRCLES: 'RECEIVE_CIRCLES',
+  RECEIVE_CIRCLE:  'RECEIVE_CIRCLE',
+  REMOVE_CIRCLE:   'REMOVE_CIRCLE',
 };
 
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
+
+// circles (array): array of circle objects
+export const receiveCircles = (data) => {
+  return { type: CIRCLE_ACTION_TYPES.RECEIVE_CIRCLES, data: data };
+};
 
 // circle (circle object): circle object of created circle
 export const receiveCircle = (data) => {
@@ -32,6 +38,21 @@ export const removeCircle = (data) => {
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
+
+// Gets all circles for client
+export const getCircles = (authToken, firebaseUserObj) => (dispatch) => {
+  return APIUtility.get(authToken, '/circles')
+    .then((circles) => {
+      dispatch(receiveCircles({ circles: circles }));
+    })
+    .catch((error) => {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshAuthToken(firebaseUserObj, getCircles));
+      }
+
+      throw setErrorDescription(error, 'GET circles failed');
+    });
+};
 
 // Creates circle with list of user_ids
 export const createCircle = (authToken, firebaseUserObj, name, users) => (dispatch) => {
