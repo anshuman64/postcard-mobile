@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import CreateCircleScreen from './create_circle_screen';
+import CreateGroupScreen from './create_group_screen';
 import { navigateTo }     from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
@@ -18,4 +18,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CreateCircleScreen);
+)(CreateGroupScreen);
