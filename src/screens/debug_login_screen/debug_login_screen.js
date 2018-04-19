@@ -3,9 +3,6 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import { POST_TYPES }       from '../../actions/post_actions';
-import { FRIEND_TYPES }     from '../../actions/friendship_actions';
-import { setStateCallback } from '../../utilities/function_utility';
 import { styles }           from './debug_login_screen_styles';
 import { UTILITY_STYLES }   from '../../utilities/style_utility';
 
@@ -41,43 +38,11 @@ class DebugLoginScreen extends React.PureComponent {
 
     this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
       .then(() => {
-        this._getPosts();
-        this._loadData()
-          .then(() => {
-            let client = this.props.usersCache[this.props.client.id];
-
-            if (client && client.username) {
-              return this.props.navigateTo('HomeScreen');
-            } else {
-              return this.props.navigateTo('UsernameScreenLogin');
-            }
-          })
-          .catch((error) => {
-            // console.error(error); // Debug Test
-          })
+        this.props.navigateTo('LoadingScreen');
       })
-      .catch((error) => {
-        // console.error(error); // Debug Test
+      .finally(() => {
         this.isNextPressed = false;
       });
-  }
-
-  //--------------------------------------------------------------------//
-  // Private Methods
-  //--------------------------------------------------------------------//
-
-  _getPosts = () => {
-    for (let postType in POST_TYPES) {
-      this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
-    }
-  }
-
-  async _loadData()  {
-    for (let friendType in FRIEND_TYPES) {
-      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
-    }
-
-    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
   }
 
   //--------------------------------------------------------------------//
