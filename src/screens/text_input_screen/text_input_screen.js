@@ -140,6 +140,8 @@ class TextInputScreen extends React.PureComponent {
       titleString = 'Choose Username';
     } else if (this.props.currentScreen === 'AddFriendScreen') {
       titleString = 'Enter Username';
+    } else if (this.props.currentScreen === 'NameCircleScreen') {
+      titleString = 'Choose Circle Name';
     }
 
     return (
@@ -156,6 +158,8 @@ class TextInputScreen extends React.PureComponent {
       subtitleString = 'You can change it at any time.';
     } else if (this.props.currentScreen === 'AddFriendScreen') {
       subtitleString = 'A friend request will be sent directly to the user.';
+    } else if (this.props.currentScreen === 'NameCircleScreen') {
+      subtitleString = 'Circles let you easily select friends to send posts to. Your friends will still receive individually.';
     }
 
     return (
@@ -169,7 +173,9 @@ class TextInputScreen extends React.PureComponent {
     let placeholderText;
 
     if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'AddFriendScreen') {
-      subtitleString = 'username';
+      placeholderText = 'Enter username';
+    } else if (this.props.currentScreen === 'NameCircleScreen') {
+      placeholderText = 'Enter circle name';
     }
 
     return (
@@ -212,6 +218,9 @@ class TextInputScreen extends React.PureComponent {
     } else if (this.props.currentScreen === 'AddFriendScreen') {
       buttonText = 'Add Friend';
       buttonFunction = this._onPressAddFriendScreen;
+    } else if (this.props.currentScreen === 'NameCircleScreen') {
+      buttonText = 'Next';
+      buttonFunction = () => this.props.navigateTo('CreateCircleScreen', { name: inputtedText });
     }
 
     return (
