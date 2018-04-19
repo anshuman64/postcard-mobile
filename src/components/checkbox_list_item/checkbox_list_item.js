@@ -6,6 +6,7 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import LoadingModal          from '../loading_modal/loading_modal.js';
 import UserInfoViewContainer from '../user_info_view/user_info_view_container';
 import { styles }            from './checkbox_list_item_styles';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
@@ -25,7 +26,10 @@ class CheckboxListItem extends React.PureComponent {
 
     this.state = {
       isSelected: false,
+      isLoading:  false,
     }
+
+    this.isDeletePressed = false;
   }
 
   //--------------------------------------------------------------------//
@@ -92,7 +96,22 @@ class CheckboxListItem extends React.PureComponent {
   }
 
   _onPressDelete = () => {
-    RN.Alert.alert('', "Checking 'Public' makes your post visible to everyone in the 'Recent' tab.", [{text: 'OK', style: 'cancel'}]);
+    if (this.isDeletePressed) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    this.setState({ isLoading: true },() => {
+      this.props.deleteCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.circle.id)
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.isButtonPressed = false;
+          this.setState({ isLoading: false });
+        });
+    });
   }
 
   _onPressHelp = () => {
@@ -150,6 +169,12 @@ class CheckboxListItem extends React.PureComponent {
     }
   }
 
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading}/>
+    )
+  }
+
   render() {
     let func;
 
@@ -162,18 +187,21 @@ class CheckboxListItem extends React.PureComponent {
     }
 
     return (
-      <RN.TouchableWithoutFeedback
-        onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.userId && styles.checkboxRed]})}
-        onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
-        onPress={func}
-        >
-        <RN.View style={styles.rowView}>
-          {this._renderItemView()}
-          <RN.View style={styles.checkboxView}>
-            {this._renderCheckbox()}
+      <RN.View>
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.userId && styles.checkboxRed]})}
+          onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
+          onPress={func}
+          >
+          <RN.View style={styles.rowView}>
+            {this._renderItemView()}
+            <RN.View style={styles.checkboxView}>
+              {this._renderCheckbox()}
+            </RN.View>
           </RN.View>
-        </RN.View>
-      </RN.TouchableWithoutFeedback>
+        </RN.TouchableWithoutFeedback>
+        {this._renderLoadingModal()}
+      </RN.View>
     )
   }
 }
