@@ -91,7 +91,7 @@ export const getFriendships = (authToken, firebaseUserObj, friendType, clientPho
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, getFriendships, friendType));
+          return dispatch(refreshAuthToken(firebaseUserObj, getFriendships, friendType, clientPhoneNumber));
         }
 
         throw setErrorDescription(error, 'GET friendships failed');
