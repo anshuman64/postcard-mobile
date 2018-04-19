@@ -9,6 +9,7 @@ import MessagesReducer    from './messages_reducer';
 import UsersCacheReducer  from './users_cache_reducer';
 import FriendshipsReducer from './friendships_reducer';
 import BlocksReducer      from './blocks_reducer';
+import CirclesReducer     from './circles_reducer';
 import ImagesCacheReducer from './images_cache_reducer';
 import NavigationReducer  from './navigation_reducer';
 
@@ -23,6 +24,7 @@ const RootReducer = combineReducers({
   friendships: FriendshipsReducer,
   imagesCache: ImagesCacheReducer,
   blocks:      BlocksReducer,
+  circles:     CirclesReducer,
   navigation:  NavigationReducer
 });
 
