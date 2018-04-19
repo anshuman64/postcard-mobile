@@ -67,6 +67,10 @@ class CreateCircleScreen extends React.PureComponent {
           createCircleButton={true}
           circleName={this.props.circleName}
           recipients={this.state.recipients}
+          postText={this.props.postText}
+          placeholderText={this.props.placeholderText}
+          imagePath={this.props.imagePath}
+          imageType={this.props.imageType}
           />
         <RN.ListView
           dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
