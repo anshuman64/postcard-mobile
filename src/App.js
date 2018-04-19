@@ -33,7 +33,7 @@ import UserLikedScreenContainer    from './screens/user_tabs/user_liked_screen/u
 import MessagesScreenContainer    from './screens/messages_screen/messages_screen_container';
 import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container';
 import ShareScreenContainer       from './screens/share_screen/share_screen_container';
-import CreateCircleScreenContainer from './screens/create_circle_screen/create_circle_screen_container';
+import CreateGroupScreenContainer from './screens/create_group_screen/create_group_screen_container';
 import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container';
 import MenuScreen                 from './screens/menu_screen/menu_screen';
 
@@ -126,7 +126,8 @@ class App extends React.Component {
             <Scene key='LoginScreen'        component={LoginScreenContainer}        panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen'      component={NewPostScreenContainer}      panHandlers={null} hideNavBar={true} />
             <Scene key='ShareScreen'        component={ShareScreenContainer}        panHandlers={null} hideNavBar={true} />
-            <Scene key='CreateCircleScreen' component={CreateCircleScreenContainer} panHandlers={null} hideNavBar={true} />
+            <Scene key='CreateCircleScreen' component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
+            <Scene key='CreateGroupScreen'  component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='MessagesScreen'     component={MessagesScreenContainer}     panHandlers={null} hideNavBar={true} />
 
             <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
