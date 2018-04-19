@@ -144,11 +144,11 @@ class PendingListItem extends React.PureComponent {
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
-        acceptString = 'Confirm';
         deleteString = 'Remove';
       } else if (friendshipStatus === FRIEND_TYPES.SENT) {
         deleteString = 'Cancel';
       } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
+        acceptString = 'Confirm';
         deleteString = 'Delete';
       } else {
         acceptString = 'Add';
