@@ -1,9 +1,12 @@
 // Library Imports
-import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
-import { Buffer }  from 'buffer';
-import uuid        from 'react-native-uuid';
-import mime        from 'mime-types';
+import AWS                 from 'aws-sdk/dist/aws-sdk-react-native';
+import RNFetchBlob         from 'react-native-fetch-blob';
+import Contacts            from 'react-native-contacts';
+import * as _              from 'lodash';
+import { Buffer }          from 'buffer';
+import uuid                from 'react-native-uuid';
+import mime                from 'mime-types';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 // Local Imports
 import MediaLibrary                   from '../components/media_library/media_library';
@@ -145,4 +148,43 @@ export const getCameraRollPhotos = () => {
     .then((data) => {
       cameraRollPhotos = data;
     })
+}
+
+// TODO: add email support
+export const getContacts = (clientPhoneNumber) => {
+  let clientNumber;
+  let contactPhoneNumbers = [];
+  let number;
+  let index;
+  let fullNumber;
+
+  return new Promise((resolve, reject) => {
+    Contacts.getAllWithoutPhotos((error, contacts) => {
+      phoneUtil = PhoneNumberUtil.getInstance();
+
+      try {
+        clientNumber = phoneUtil.parse(clientPhoneNumber);
+      } catch (err) {
+        clientNumber = phoneUtil.parse('+14082551245');
+      }
+
+      if (error != 'denied') {
+        _.forEach(contacts, (contact) => {
+          _.forEach(contact.phoneNumbers, (phoneNumber) => {
+            try {
+              number = phoneUtil.parse(phoneNumber.number, phoneUtil.getRegionCodeForNumber(clientNumber));
+              fullNumber = '+' + number.getCountryCode() + number.getNationalNumber();
+              contactPhoneNumbers.push(fullNumber);
+            } catch (err) {
+              console.log(err);
+            }
+          });
+        });
+
+        resolve(contactPhoneNumbers);
+      } else {
+        reject(error);
+      }
+    });
+  });
 }
