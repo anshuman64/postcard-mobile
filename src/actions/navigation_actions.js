@@ -58,6 +58,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.NewPostScreen(props)
     } else if (screen === 'ShareScreen') {
       Actions.ShareScreen(props)
+    } else if (screen === 'CreateCircleScreen') {
+      Actions.CreateCircleScreen(props)
     } else if (screen === 'MessagesScreen') {
       Actions.MessagesScreen(props)
     } else if (screen === 'AddFriendScreen') {
