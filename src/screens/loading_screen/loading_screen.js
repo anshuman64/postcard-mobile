@@ -48,13 +48,19 @@ class LoadingScreen extends React.PureComponent {
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
+        // console.log('Firebase cookie found'); // Debug Test
+
         this.props.loginClient(firebaseUserObj)
           .then(() => {
+            // console.log('Logged in'); // Debug Test
+
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
+              this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES.CONTACTS, this.props.usersCache[this.props.client.id].phone_number); // run this here because it takes forever
               this._loadData()
                 .then(() => {
+                  // console.log('Data loaded'); // Debug Test
                   this._onLogin();
                 })
                 .catch((error) => {
@@ -66,7 +72,7 @@ class LoadingScreen extends React.PureComponent {
             defaultErrorAlert(error);
           });
       } else {
-        console.error('No Firebase cookie found'); // Debug Test
+        // console.log('No Firebase cookie found'); // Debug Test
         this._onAnimationEnd();
       }
     });
@@ -82,13 +88,14 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   async _loadData() {
-
     for (let postType in POST_TYPES) {
       await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
 
     for (let friendType in FRIEND_TYPES) {
-      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType], this.props.usersCache[this.props.client.id].phone_number);
+      if (FRIEND_TYPES[friendType] != FRIEND_TYPES.CONTACTS) {
+        await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+      }
     }
 
     await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
