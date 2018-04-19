@@ -41,6 +41,19 @@ class ShareScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressAddCircle = () => {
+    this.props.navigateTo('NameCircleScreen', {
+      postText: this.props.postText,
+      placeholderText: this.props.placeholderText,
+      imagePath: this.props.imagePath,
+      imageType: this.props.imageType,
+    });
+  }
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -68,7 +81,7 @@ class ShareScreen extends React.PureComponent {
   _renderSectionHeader = ({section}) => {
     if (section.title === 'Circles') {
       return (
-        <RN.TouchableOpacity onPress={() => this.props.navigateTo('NameCircleScreen')} style={styles.sectionHeader}>
+        <RN.TouchableOpacity onPress={this._onPressAddCircle} style={styles.sectionHeader}>
           <RN.Text style={styles.sectionHeaderText}>
             {section.title}
           </RN.Text>
