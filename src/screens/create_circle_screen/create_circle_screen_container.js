@@ -2,14 +2,13 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import ShareScreen    from './share_screen';
-import { navigateTo } from '../../actions/navigation_actions';
+import CreateCircleScreen from './create_circle_screen';
+import { navigateTo }     from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ friendships, circles }, ownProps) => ({
-  friendships: friendships,
-  circles:     circles.circles,
+const mapStateToProps = ({ friendships }, ownProps) => ({
+  friendships:   friendships,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -19,4 +18,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ShareScreen);
+)(CreateCircleScreen);

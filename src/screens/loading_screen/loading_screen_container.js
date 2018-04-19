@@ -6,6 +6,7 @@ import LoadingScreen        from './loading_screen';
 import { loginClient }      from '../../actions/client_actions';
 import { getPosts }         from '../../actions/post_actions';
 import { getFriendships }   from '../../actions/friendship_actions';
+import { getCircles }       from '../../actions/circle_actions';
 import { getBlockedUsers }  from '../../actions/block_actions';
 import { navigateTo }       from '../../actions/navigation_actions';
 
@@ -22,6 +23,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   loginClient:              (firebaseUserObj) => dispatch(loginClient(firebaseUserObj)),
   getPosts:                 (authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams)),
   getFriendships:           (authToken, firebaseUserObj, friendType, clientPhoneNumber) => dispatch(getFriendships(authToken, firebaseUserObj, friendType, clientPhoneNumber)),
+  getCircles:               (authToken, firebaseUserObj) => dispatch(getCircles(authToken, firebaseUserObj)),
   getBlockedUsers:          (authToken, firebaseUserObj) => dispatch(getBlockedUsers(authToken, firebaseUserObj)),
 });
 
