@@ -17,7 +17,7 @@ class UserInfoView extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+    let username = this.props.usersCache[this.props.userId] && this.props.usersCache[this.props.userId].username ? this.props.usersCache[this.props.userId].username : 'anonymous'; // handles the case if user from contacts and hasn't selected username
 
     return (
       <RN.TouchableWithoutFeedback

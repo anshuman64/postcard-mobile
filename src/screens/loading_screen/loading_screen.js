@@ -6,12 +6,12 @@ import * as Animatable from 'react-native-animatable';
 import OneSignal       from 'react-native-onesignal';
 
 // Local Imports
-import { POST_TYPES }                               from '../../actions/post_actions';
-import { FRIEND_TYPES }                             from '../../actions/friendship_actions';
-import { styles, pulseIcon }                        from './loading_screen_styles';
-import { defaultErrorAlert }                        from '../../utilities/error_utility';
-import { UTILITY_STYLES }                           from '../../utilities/style_utility';
-import { getPostPlaceholders, getCameraRollPhotos } from '../../utilities/file_utility';
+import { POST_TYPES }        from '../../actions/post_actions';
+import { FRIEND_TYPES }      from '../../actions/friendship_actions';
+import { styles, pulseIcon } from './loading_screen_styles';
+import { defaultErrorAlert } from '../../utilities/error_utility';
+import { UTILITY_STYLES }    from '../../utilities/style_utility';
+import * as FileUtility      from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
@@ -43,18 +43,24 @@ class LoadingScreen extends React.PureComponent {
 
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
-    getPostPlaceholders();
-    getCameraRollPhotos();
+    FileUtility.getPostPlaceholders();
+    FileUtility.getCameraRollPhotos();
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
+        // console.log('Firebase cookie found'); // Debug Test
+
         this.props.loginClient(firebaseUserObj)
           .then(() => {
+            // console.log('Logged in'); // Debug Test
+
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
+              this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES.CONTACTS, this.props.usersCache[this.props.client.id].phone_number); // run this here because it takes forever
               this._loadData()
                 .then(() => {
+                  // console.log('Data loaded'); // Debug Test
                   this._onLogin();
                 })
                 .catch((error) => {
@@ -66,7 +72,7 @@ class LoadingScreen extends React.PureComponent {
             defaultErrorAlert(error);
           });
       } else {
-        // console.error('No Firebase cookie found'); // Debug Test
+        // console.log('No Firebase cookie found'); // Debug Test
         this._onAnimationEnd();
       }
     });
@@ -86,11 +92,13 @@ class LoadingScreen extends React.PureComponent {
       await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
 
-    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
-
     for (let friendType in FRIEND_TYPES) {
-      await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+      if (FRIEND_TYPES[friendType] != FRIEND_TYPES.CONTACTS) {
+        await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
+      }
     }
+
+    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
   }
 
   _navigateFromLoading = () => {
@@ -139,7 +147,7 @@ class LoadingScreen extends React.PureComponent {
 
       if (minsDiff > 1) {
         this._loadData();
-        getCameraRollPhotos();
+        FileUtility.getCameraRollPhotos();
         this.lastUpdate = new Date();
       }
     }
@@ -199,7 +207,7 @@ class LoadingScreen extends React.PureComponent {
         direction={'alternate'}
         easing={'ease-in'}
         duration={1500}
-        iterationCount={13}
+        iterationCount={18}
         onAnimationEnd={this._onAnimationEnd}
         />
     )
