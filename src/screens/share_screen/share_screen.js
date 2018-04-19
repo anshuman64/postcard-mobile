@@ -54,13 +54,26 @@ class ShareScreen extends React.PureComponent {
   }
 
   _renderSectionHeader = ({section}) => {
-    return (
-      <RN.View style={styles.sectionHeader}>
-        <RN.Text style={styles.sectionHeaderText}>
-          {section.title}
-        </RN.Text>
-      </RN.View>
-    )
+    if (section.title === 'Circles') {
+      return (
+        <RN.TouchableOpacity onPress={() => this.props.navigateTo('NameCircleScreen')} style={styles.sectionHeader}>
+          <RN.Text style={styles.sectionHeaderText}>
+            {section.title}
+          </RN.Text>
+          <RN.Text style={UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.textHighlighted}>
+            {' +'}
+          </RN.Text>
+        </RN.TouchableOpacity>
+      )
+    } else {
+      return (
+        <RN.View style={styles.sectionHeader}>
+          <RN.Text style={styles.sectionHeaderText}>
+            {section.title}
+          </RN.Text>
+        </RN.View>
+      )
+    }
   }
 
   _renderHeader = () => {
@@ -84,7 +97,10 @@ class ShareScreen extends React.PureComponent {
           isPublic={this.state.isPublic}
           />
         <RN.SectionList
-          sections={[{data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'}]}
+          sections={[
+            {data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Circles'},
+            {data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'}
+          ]}
           keyExtractor={(item) => item}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
