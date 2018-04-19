@@ -6,7 +6,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import HeaderContainer        from '../../components/header/header_container';
-import CheckboxListItem          from '../../components/checkbox_list_item/checkbox_list_item';
+import CheckboxListItemContainer from '../../components/checkbox_list_item/checkbox_list_item_container';
 import { styles }             from './create_circle_screen_styles';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
 import { setStateCallback }   from '../../utilities/function_utility';
@@ -50,17 +50,11 @@ class CreateCircleScreen extends React.PureComponent {
 
   _renderRow = (rowData, sectionID, rowID) => {
     return (
-      <CheckboxListItem
+      <CheckboxListItemContainer
         userId={rowData}
         recipients={this.state.recipients}
         setParentState={this.setParentState}
         />
-    )
-  }
-
-  _renderHeader = () => {
-    return (
-      <CheckboxListItem setParentState={this.setParentState} />
     )
   }
 
