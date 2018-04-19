@@ -62,7 +62,6 @@ class FriendScreen extends React.PureComponent {
         contentContainerStyle={styles.contentContainerStyle}
         enableEmptySections={true}
         showsVerticalScrollIndicator={false}
-        onEndReached={this._onEndReached}
         renderFooter={this._renderFooter}
         />
     )
