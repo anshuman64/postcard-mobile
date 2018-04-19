@@ -24,4 +24,11 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey600,
     marginLeft: 20
   },
+  plusButton: {
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Bold'),
+    fontSize: 30,
+    fontWeight: '800',
+    textAlign: 'center',
+    color: StyleUtility.COLORS.grey900,
+  }
 });

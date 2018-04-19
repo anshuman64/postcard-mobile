@@ -62,6 +62,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.MessagesScreen(props)
     } else if (screen === 'AddFriendScreen') {
       Actions.AddFriendScreen(props)
+    } else if (screen === 'NameCircleScreen') {
+      Actions.NameCircleScreen(props)
     } else if (screen === 'MenuScreen') {
       Actions.MenuScreen(props)
     } else if (screen === 'UsernameScreen') {
