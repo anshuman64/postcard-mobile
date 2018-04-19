@@ -66,15 +66,9 @@ let configureAWS = (authToken) => {
 // Logs in using email and password via Firebase auth from DebugLoginScreen
 export const debugSignIn = (email, password) => (dispatch) => {
   return Firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((firebaseUserObj) => {
-      return dispatch(loginClient(firebaseUserObj));
-    })
     .catch((error) => {
       if (error.message === 'There is no user record corresponding to this identifier. The user may have been deleted.') {
         Firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then((firebaseUserObj) => {
-            return dispatch(loginClient(firebaseUserObj));
-          })
           .catch((error) => {
             throw setErrorDescription(error, 'Firebase email sign-in failed');
           });
