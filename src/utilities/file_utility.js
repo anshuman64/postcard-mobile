@@ -152,8 +152,7 @@ export const getCameraRollPhotos = () => {
 
 // TODO: add email support
 export const getContacts = (clientPhoneNumber) => {
-  clientPhoneNumber = '+14082551245' // Debug Test
-
+  let clientNumber;
   let contactPhoneNumbers = [];
   let number;
   let index;
@@ -162,15 +161,23 @@ export const getContacts = (clientPhoneNumber) => {
   return new Promise((resolve, reject) => {
     Contacts.getAllWithoutPhotos((error, contacts) => {
       phoneUtil = PhoneNumberUtil.getInstance();
-      clientNumber = phoneUtil.parse(clientPhoneNumber);
+
+      try {
+        clientNumber = phoneUtil.parse(clientPhoneNumber);
+      } catch (err) {
+        clientNumber = phoneUtil.parse('+14082551245');
+      }
 
       if (error != 'denied') {
         _.forEach(contacts, (contact) => {
           _.forEach(contact.phoneNumbers, (phoneNumber) => {
-            number = phoneUtil.parse(phoneNumber.number, phoneUtil.getRegionCodeForNumber(clientNumber));
-
-            fullNumber = '+' + number.getCountryCode() + number.getNationalNumber();
-            contactPhoneNumbers.push(fullNumber);
+            try {
+              number = phoneUtil.parse(phoneNumber.number, phoneUtil.getRegionCodeForNumber(clientNumber));
+              fullNumber = '+' + number.getCountryCode() + number.getNationalNumber();
+              contactPhoneNumbers.push(fullNumber);
+            } catch (err) {
+              console.log(err);
+            }
           });
         });
 
