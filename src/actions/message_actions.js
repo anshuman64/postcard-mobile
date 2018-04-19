@@ -77,7 +77,7 @@ export const createMessage = (authToken, firebaseUserObj, clientId, userId, mess
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, createMessage, userId, messageBody, messageImagePath, messageImageType));
+          return dispatch(refreshAuthToken(firebaseUserObj, createMessage, clientId, userId, messageBody, messageImagePath, messageImageType, postId));
         }
 
         if (error.message === 'Post as message already exists') {
