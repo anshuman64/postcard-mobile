@@ -48,16 +48,6 @@ class CreateCircleScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderItem = ({item}) => {
-    return (
-      <ShareListItem
-        userId={item}
-        recipients={this.state.recipients}
-        setParentState={this.setParentState}
-        />
-    )
-  }
-
   _renderRow = (rowData, sectionID, rowID) => {
     return (
       <ShareListItem

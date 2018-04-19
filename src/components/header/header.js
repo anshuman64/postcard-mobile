@@ -27,7 +27,7 @@ class Header extends React.PureComponent {
     }
 
     this.isNextPressed   = false;
-    this.isSharePressed  = false;
+    this.isButtonPressed  = false;
     this.isGoBackPressed = false;
   }
 
@@ -64,11 +64,11 @@ class Header extends React.PureComponent {
 
   // Share button from ShareScreen
   _onPressSharePost = () => {
-    if (this.isSharePressed || (!this.props.isPublic && this.props.recipients.length === 0)) {
+    if (this.isButtonPressed || (!this.props.isPublic && this.props.recipients.length === 0)) {
       return;
     }
 
-    this.isSharePressed = true;
+    this.isButtonPressed = true;
 
     this.setState({ isLoading: true },() => {
       let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
@@ -79,7 +79,7 @@ class Header extends React.PureComponent {
           this.isGoBackPressed = true;
         })
         .catch((error) => {
-          this.isSharePressed = false;
+          this.isButtonPressed = false;
           defaultErrorAlert(error);
         })
         .finally(() => {
@@ -90,22 +90,20 @@ class Header extends React.PureComponent {
 
   // Create button from CreateCircleScreen
   _onPressCreateCircle = () => {
-    if (this.isSharePressed || (!this.props.isPublic && this.props.recipients.length === 0)) {
+    if (this.isButtonPressed || this.props.recipients.length === 0) {
       return;
     }
 
-    this.isSharePressed = true;
+    this.isButtonPressed = true;
 
     this.setState({ isLoading: true },() => {
-      let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
-
-      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
+      this.props.createCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.name, this.props.recipients)
         .then(() => {
-          this.props.navigateTo('HomeScreen');
+          this.props.navigateTo('ShareScreen'); // TODO: figure out better behavior for this
           this.isGoBackPressed = true;
         })
         .catch((error) => {
-          this.isSharePressed = false;
+          this.isButtonPressed = false;
           defaultErrorAlert(error);
         })
         .finally(() => {
