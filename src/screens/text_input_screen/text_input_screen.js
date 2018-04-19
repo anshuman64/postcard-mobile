@@ -220,7 +220,7 @@ class TextInputScreen extends React.PureComponent {
       buttonFunction = this._onPressAddFriendScreen;
     } else if (this.props.currentScreen === 'NameCircleScreen') {
       buttonText = 'Next';
-      buttonFunction = () => this.props.navigateTo('CreateCircleScreen', { name: this.state.inputtedText });
+      buttonFunction = () => this.props.navigateTo('CreateCircleScreen', { circleName: this.state.inputtedText });
     }
 
     return (
