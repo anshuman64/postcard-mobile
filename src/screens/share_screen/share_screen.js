@@ -6,7 +6,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import HeaderContainer        from '../../components/header/header_container';
-import ShareListItem          from '../../components/share_list_item/share_list_item';
+import CheckboxListItem          from '../../components/checkbox_list_item/checkbox_list_item';
 import { styles }             from './share_screen_styles';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
 import { setStateCallback }   from '../../utilities/function_utility';
@@ -26,6 +26,7 @@ class ShareScreen extends React.PureComponent {
 
     this.state = {
       isPublic:   false,
+      circles:    [],
       recipients: [],
     };
   }
@@ -34,7 +35,7 @@ class ShareScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
-  // Passed to ShareListItem for updating state
+  // Passed to CheckboxListItem for updating state
   setParentState = (state) => {
     this.setState(state);
   }
@@ -43,11 +44,22 @@ class ShareScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderItem = ({item}) => {
+  _renderUserItem = ({item}) => {
     return (
-      <ShareListItem
+      <CheckboxListItem
         userId={item}
         recipients={this.state.recipients}
+        setParentState={this.setParentState}
+        />
+    )
+  }
+
+  _renderCircleItem = ({item}) => {
+    return (
+      <CheckboxListItem
+        circle={item}
+        recipients={this.state.recipients}
+        circles={this.state.circles}
         setParentState={this.setParentState}
         />
     )
@@ -78,11 +90,12 @@ class ShareScreen extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <ShareListItem setParentState={this.setParentState} isPublic={this.state.isPublic} />
+      <CheckboxListItem setParentState={this.setParentState} isPublic={this.state.isPublic} />
     )
   }
 
   render() {
+    console.log(this.state.recipients)
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
         <HeaderContainer
@@ -98,8 +111,8 @@ class ShareScreen extends React.PureComponent {
           />
         <RN.SectionList
           sections={[
-            {data: this.props.circles, renderItem: this._renderItem.bind(this), title: 'Circles'},
-            {data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'}
+            {data: this.props.circles, renderItem: this._renderCircleItem.bind(this), title: 'Circles'},
+            {data: this.props.friendships.accepted, renderItem: this._renderUserItem.bind(this), title: 'Friends'}
           ]}
           keyExtractor={(item) => item}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
