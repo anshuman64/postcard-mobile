@@ -121,6 +121,16 @@ class TextInputScreen extends React.PureComponent {
     });
   }
 
+  _onPressNameCircleScreen = () => {
+    this.props.navigateTo('CreateCircleScreen', {
+      circleName: this.state.inputtedText,
+      postText: this.props.postText,
+      placeholderText: this.props.placeholderText,
+      imagePath: this.props.imagePath,
+      imageType: this.props.imageType,
+    });
+  }
+
   _onFocus = () => {
     if (this.state.isError) {
       this.textInput.setNativeProps({style: [UTILITY_STYLES.borderRed, UTILITY_STYLES.textHighlighted]});
@@ -159,11 +169,11 @@ class TextInputScreen extends React.PureComponent {
     } else if (this.props.currentScreen === 'AddFriendScreen') {
       subtitleString = 'A friend request will be sent directly to the user.';
     } else if (this.props.currentScreen === 'NameCircleScreen') {
-      subtitleString = 'Circles let you easily select friends to send posts to. Your friends will still receive individually.';
+      subtitleString = 'Circles make it easier to select friends to send posts to.';
     }
 
     return (
-      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
+      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5, {width: 300}]}>
         {subtitleString}
       </RN.Text>
     )
@@ -220,7 +230,7 @@ class TextInputScreen extends React.PureComponent {
       buttonFunction = this._onPressAddFriendScreen;
     } else if (this.props.currentScreen === 'NameCircleScreen') {
       buttonText = 'Next';
-      buttonFunction = () => this.props.navigateTo('CreateCircleScreen', { circleName: this.state.inputtedText });
+      buttonFunction = this._onPressNameCircleScreen;
     }
 
     return (

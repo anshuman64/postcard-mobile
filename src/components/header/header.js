@@ -99,7 +99,13 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       this.props.createCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.circleName, this.props.recipients)
         .then(() => {
-          this.props.navigateTo('ShareScreen'); // TODO: figure out better behavior for this
+          // TODO: figure out better behavior for this
+          this.props.navigateTo('ShareScreen', {
+            postText: this.props.postText,
+            placeholderText: this.props.placeholderText,
+            imagePath: this.props.imagePath,
+            imageType: this.props.imageType,
+          });
           this.isGoBackPressed = true;
         })
         .catch((error) => {
