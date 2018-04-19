@@ -6,7 +6,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import HeaderContainer        from '../../components/header/header_container';
-import ShareListItem          from '../../components/share_list_item/share_list_item';
+import CheckboxListItem          from '../../components/checkbox_list_item/checkbox_list_item';
 import { styles }             from './create_circle_screen_styles';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
 import { setStateCallback }   from '../../utilities/function_utility';
@@ -39,7 +39,7 @@ class CreateCircleScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
-  // Passed to ShareListItem for updating state
+  // Passed to CheckboxListItem for updating state
   setParentState = (state) => {
     this.setState(state);
   }
@@ -50,7 +50,7 @@ class CreateCircleScreen extends React.PureComponent {
 
   _renderRow = (rowData, sectionID, rowID) => {
     return (
-      <ShareListItem
+      <CheckboxListItem
         userId={rowData}
         recipients={this.state.recipients}
         setParentState={this.setParentState}
@@ -60,7 +60,7 @@ class CreateCircleScreen extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <ShareListItem setParentState={this.setParentState} />
+      <CheckboxListItem setParentState={this.setParentState} />
     )
   }
 
