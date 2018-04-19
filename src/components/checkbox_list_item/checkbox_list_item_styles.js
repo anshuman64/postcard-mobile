@@ -35,9 +35,9 @@ export const styles = StyleSheet.create({
     width: 40,
     marginRight: 5
   },
-  helpIcon: {
-    width: 40,
-    fontSize: 20,
+  icon: {
+    width: 36,
+    fontSize: 18,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },

@@ -66,7 +66,14 @@ export const createCircle = (authToken, firebaseUserObj, name, users) => (dispat
         return dispatch(refreshAuthToken(firebaseUserObj, createCircle, name, users));
       }
 
-      error = setErrorDescription(error, 'POST circle failed');
+      if (error.message === 'Name has already been taken') {
+        error = setErrorDescription(error, 'Circle name has already been taken');
+      } else if (error.message === 'Minimum 2 user_ids required') {
+        error = setErrorDescription(error, 'Minimum 2 user_ids required');
+      } else {
+        error = setErrorDescription(error, 'POST circles failed');
+      }
+
       amplitude.logEvent('Engagement - Create Circle', { is_successful: false, name: name, num_users: users.length, error_description: error.description, error_message: error.message });
       throw error;
     });

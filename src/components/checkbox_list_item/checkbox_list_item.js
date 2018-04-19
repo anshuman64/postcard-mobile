@@ -55,7 +55,13 @@ class CheckboxListItem extends React.PureComponent {
     let circleArray = this.props.circles.slice();
 
     if (!this.state.isSelected) {
-      this.props.setParentState({ circles: circleArray.concat(this.props.circle.id), recipients: _.merge(recipientArray, this.props.circle.user_ids)  });
+      _.forEach(this.props.circle.user_ids, (removeId) => {
+        _.remove(recipientArray, (id) => {
+          return id === removeId;
+        });
+      });
+
+      this.props.setParentState({ circles: circleArray.concat(this.props.circle.id), recipients: recipientArray.concat(this.props.circle.user_ids) });
     } else {
       _.forEach(this.props.circle.user_ids, (removeId) => {
         _.remove(recipientArray, (id) => {
@@ -83,6 +89,10 @@ class CheckboxListItem extends React.PureComponent {
 
       this.props.setParentState({ recipients: recipientArray });
     }
+  }
+
+  _onPressDelete = () => {
+    RN.Alert.alert('', "Checking 'Public' makes your post visible to everyone in the 'Recent' tab.", [{text: 'OK', style: 'cancel'}]);
   }
 
   _onPressHelp = () => {
@@ -124,6 +134,7 @@ class CheckboxListItem extends React.PureComponent {
           <RN.Text style={UTILITY_STYLES.regularBlackText16}>
             {this.props.circle.name}
           </RN.Text>
+          <Icon name={'close'} onPress={this._onPressDelete} style={styles.icon} />
         </RN.View>
       )
     } else {
@@ -133,7 +144,7 @@ class CheckboxListItem extends React.PureComponent {
           <RN.Text style={UTILITY_STYLES.regularBlackText16}>
             Public
           </RN.Text>
-          <Icon name={'question'} onPress={this._onPressHelp} style={styles.helpIcon} />
+          <Icon name={'question'} onPress={this._onPressHelp} style={styles.icon} />
         </RN.View>
       )
     }

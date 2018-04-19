@@ -17,7 +17,7 @@ const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 /*
 Required Screen Props:
-  name (string): proposed name of circle
+  circleName (string): proposed circleName of circle
 */
 class CreateCircleScreen extends React.PureComponent {
 
@@ -71,7 +71,7 @@ class CreateCircleScreen extends React.PureComponent {
           backIcon={true}
           backTitle={'Select Friends'}
           createCircleButton={true}
-          name={this.props.name}
+          circleName={this.props.circleName}
           recipients={this.state.recipients}
           />
         <RN.ListView
