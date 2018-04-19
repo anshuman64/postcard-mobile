@@ -6,7 +6,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import HeaderContainer        from '../../components/header/header_container';
-import CheckboxListItem          from '../../components/checkbox_list_item/checkbox_list_item';
+import CheckboxListItemContainer  from '../../components/checkbox_list_item/checkbox_list_item_container';
 import { styles }             from './share_screen_styles';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
 import { setStateCallback }   from '../../utilities/function_utility';
@@ -46,7 +46,7 @@ class ShareScreen extends React.PureComponent {
 
   _renderUserItem = ({item}) => {
     return (
-      <CheckboxListItem
+      <CheckboxListItemContainer
         userId={item}
         recipients={this.state.recipients}
         setParentState={this.setParentState}
@@ -56,7 +56,7 @@ class ShareScreen extends React.PureComponent {
 
   _renderCircleItem = ({item}) => {
     return (
-      <CheckboxListItem
+      <CheckboxListItemContainer
         circle={item}
         recipients={this.state.recipients}
         circles={this.state.circles}
@@ -90,12 +90,11 @@ class ShareScreen extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <CheckboxListItem setParentState={this.setParentState} isPublic={this.state.isPublic} />
+      <CheckboxListItemContainer setParentState={this.setParentState} isPublic={this.state.isPublic} />
     )
   }
 
   render() {
-    console.log(this.state.recipients)
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
         <HeaderContainer

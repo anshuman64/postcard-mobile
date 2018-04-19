@@ -79,20 +79,20 @@ export const createCircle = (authToken, firebaseUserObj, name, users) => (dispat
     });
 };
 
-// Deletes circle on a post from PostListItem
-export const deleteCircle = (authToken, firebaseUserObj, clientId, postId) => (dispatch) => {
-  return APIUtility.del(authToken, '/circles/' + postId)
+// Deletes circle
+export const deleteCircle = (authToken, firebaseUserObj, circleId) => (dispatch) => {
+  return APIUtility.del(authToken, '/circles/' + circleId)
     .then((deletedCircle) => {
-      amplitude.logEvent('Engagement - Click Circle', { is_successful: true, is_create: false });
-      dispatch(removeCircle({ circle: deletedCircle, clientId: clientId }));
+      amplitude.logEvent('Engagement - Delete Circle', { is_successful: true });
+      dispatch(removeCircle({ circle: deletedCircle }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, deleteCircle, clientId, postId));
+        return dispatch(refreshAuthToken(firebaseUserObj, deleteCircle, circleId));
       }
 
       error = setErrorDescription(error, 'DEL circle failed');
-      amplitude.logEvent('Engagement - Click Circle', { is_successful: false, is_create: false, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Engagement - Delete Circle', { is_successful: false, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
