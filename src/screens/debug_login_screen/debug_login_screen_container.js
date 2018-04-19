@@ -19,7 +19,7 @@ const mapStateToProps = ({ client, usersCache }, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   debugSignIn:     (email, password) => dispatch(debugSignIn(email, password)),
   getPosts:               (authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams)),
-  getFriendships:  (authToken, firebaseUserObj, friendType) => dispatch(getFriendships(authToken, firebaseUserObj, friendType)),
+  getFriendships:  (authToken, firebaseUserObj, friendType, clientPhoneNumber) => dispatch(getFriendships(authToken, firebaseUserObj, friendType, clientPhoneNumber)),
   getBlockedUsers: (authToken, firebaseUserObj) => dispatch(getBlockedUsers(authToken, firebaseUserObj)),
   navigateTo:      (screen, props) => dispatch(navigateTo(screen, props))
 });

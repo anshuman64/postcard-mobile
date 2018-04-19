@@ -66,15 +66,9 @@ let configureAWS = (authToken) => {
 // Logs in using email and password via Firebase auth from DebugLoginScreen
 export const debugSignIn = (email, password) => (dispatch) => {
   return Firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((firebaseUserObj) => {
-      return dispatch(loginClient(firebaseUserObj));
-    })
     .catch((error) => {
       if (error.message === 'There is no user record corresponding to this identifier. The user may have been deleted.') {
         Firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then((firebaseUserObj) => {
-            return dispatch(loginClient(firebaseUserObj));
-          })
           .catch((error) => {
             throw setErrorDescription(error, 'Firebase email sign-in failed');
           });
@@ -115,7 +109,8 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
 
 // Generates authToken from Firebase using firebaseUserObj. Logs in user from database. Creates new user if firebase_uid has never been seen before.
 export const loginClient = (firebaseUserObj) => (dispatch) => {
-  let phoneNumber = firebaseUserObj._user.phoneNumber ? firebaseUserObj._user.phoneNumber : firebaseUserObj._user.email;
+  let phoneNumber = firebaseUserObj._user.phoneNumber;
+  let email       = firebaseUserObj._user.email;
 
   let setClient = (client, authToken, isNew) => {
     amplitude.setUserId(client.id);
@@ -140,19 +135,19 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
         }
 
         error = setErrorDescription(error, 'GET user failed');
-        amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
+        amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, email: email, error_description: error.description, error_message: error.message });
         throw error;
       });
   };
 
   let handleNewUser = (authToken) => {
-    return APIUtility.post(authToken, '/users', { phone_number: phoneNumber })
+    return APIUtility.post(authToken, '/users', { phone_number: phoneNumber, email: email })
       .then((newUser) => {
         setClient(newUser, authToken, true);
       })
       .catch((error) => {
         error = setErrorDescription(error, 'POST user failed');
-        amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
+        amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, email: email, error_description: error.description, error_message: error.message });
         throw error;
       });
   };
@@ -164,7 +159,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
     })
     .catch((error) => {
       error = setErrorDescription(error, 'Firebase getIdToken failed');
-      amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, email: email, error_description: error.description, error_message: error.message });
       throw error;
     });
 }
