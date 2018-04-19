@@ -97,7 +97,7 @@ class Header extends React.PureComponent {
     this.isButtonPressed = true;
 
     this.setState({ isLoading: true },() => {
-      this.props.createCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.name, this.props.recipients)
+      this.props.createCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.circleName, this.props.recipients)
         .then(() => {
           this.props.navigateTo('ShareScreen'); // TODO: figure out better behavior for this
           this.isGoBackPressed = true;
