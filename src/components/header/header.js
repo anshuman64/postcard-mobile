@@ -27,7 +27,7 @@ class Header extends React.PureComponent {
     }
 
     this.isNextPressed   = false;
-    this.isSharePressed  = false;
+    this.isButtonPressed  = false;
     this.isGoBackPressed = false;
   }
 
@@ -45,7 +45,8 @@ class Header extends React.PureComponent {
     this.props.goBack();
   }
 
-  _onPressNext = () => {
+  // Next button from NewPostScreen
+  _onPressToShare = () => {
     // Return if no post body or image selected
     if ((isStringEmpty(this.props.postText) && !this.props.imagePath) || this.isNextPressed) {
       return;
@@ -61,13 +62,13 @@ class Header extends React.PureComponent {
     });
   }
 
-  // Attempts to upload image to AWS S3 and save post to DB
-  _onPressShare = () => {
-    if (this.isSharePressed || (!this.props.isPublic && this.props.recipients.length === 0)) {
+  // Share button from ShareScreen
+  _onPressSharePost = () => {
+    if (this.isButtonPressed || (!this.props.isPublic && this.props.recipients.length === 0)) {
       return;
     }
 
-    this.isSharePressed = true;
+    this.isButtonPressed = true;
 
     this.setState({ isLoading: true },() => {
       let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
@@ -78,7 +79,37 @@ class Header extends React.PureComponent {
           this.isGoBackPressed = true;
         })
         .catch((error) => {
-          this.isSharePressed = false;
+          this.isButtonPressed = false;
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
+    });
+  }
+
+  // Create button from CreateCircleScreen
+  _onPressCreateCircle = () => {
+    if (this.isButtonPressed || this.props.recipients.length === 0) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    this.setState({ isLoading: true },() => {
+      this.props.createCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.circleName, this.props.recipients)
+        .then(() => {
+          // TODO: figure out better behavior for this
+          this.props.navigateTo('ShareScreen', {
+            postText: this.props.postText,
+            placeholderText: this.props.placeholderText,
+            imagePath: this.props.imagePath,
+            imageType: this.props.imageType,
+          });
+          this.isGoBackPressed = true;
+        })
+        .catch((error) => {
+          this.isButtonPressed = false;
           defaultErrorAlert(error);
         })
         .finally(() => {
@@ -160,11 +191,25 @@ class Header extends React.PureComponent {
     }
   }
 
-  _renderShareButton() {
-    if (this.props.shareButton || this.props.nextButton) {
+  _renderCustomButton() {
+    if (this.props.shareButton || this.props.nextButton || this.props.createCircleButton) {
+      let text;
+      let func;
+
+      if (this.props.shareButton) {
+        text = 'Share';
+        func = this._onPressSharePost;
+      } else if (this.props.nextButton) {
+        text = 'Next';
+        func = this._onPressToShare;
+      } else if (this.props.createCircleButton) {
+        text = 'Create';
+        func = this._onPressCreateCircle;
+      }
+
       return (
-        <RN.TouchableOpacity onPress={this.props.shareButton ? this._onPressShare : this._onPressNext} style={styles.button} >
-          <RN.Text style={styles.shareButton}>{this.props.shareButton ? 'Share' : 'Next'}</RN.Text>
+        <RN.TouchableOpacity onPress={func} style={styles.button} >
+          <RN.Text style={styles.customButton}>{text}</RN.Text>
         </RN.TouchableOpacity>
       )
     }
@@ -183,7 +228,7 @@ class Header extends React.PureComponent {
         {(this.props.backTitle && !this.props.backIcon) ? this._renderBackTitle() : this._renderBackIcon()}
         {this._renderLogo()}
         {this._renderSettingsIcon()}
-        {this._renderShareButton()}
+        {this._renderCustomButton()}
         {this._renderLoadingModal()}
       </RN.View>
     )
