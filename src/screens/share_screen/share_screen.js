@@ -6,7 +6,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import HeaderContainer        from '../../components/header/header_container';
-import ShareListItem          from '../../components/share_list_item/share_list_item';
+import CheckboxListItemContainer  from '../../components/checkbox_list_item/checkbox_list_item_container';
 import { styles }             from './share_screen_styles';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
 import { setStateCallback }   from '../../utilities/function_utility';
@@ -26,6 +26,7 @@ class ShareScreen extends React.PureComponent {
 
     this.state = {
       isPublic:   false,
+      circles:    [],
       recipients: [],
     };
   }
@@ -34,18 +35,31 @@ class ShareScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
-  // Passed to ShareListItem for updating state
+  // Passed to CheckboxListItem for updating state
   setParentState = (state) => {
     this.setState(state);
+  }
+
+  //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressAddCircle = () => {
+    this.props.navigateTo('NameCircleScreen', {
+      postText: this.props.postText,
+      placeholderText: this.props.placeholderText,
+      imagePath: this.props.imagePath,
+      imageType: this.props.imageType,
+    });
   }
 
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderItem = ({item}) => {
+  _renderUserItem = ({item}) => {
     return (
-      <ShareListItem
+      <CheckboxListItemContainer
         userId={item}
         recipients={this.state.recipients}
         setParentState={this.setParentState}
@@ -53,19 +67,43 @@ class ShareScreen extends React.PureComponent {
     )
   }
 
-  _renderSectionHeader = ({section}) => {
+  _renderCircleItem = ({item}) => {
     return (
-      <RN.View style={styles.sectionHeader}>
-        <RN.Text style={styles.sectionHeaderText}>
-          {section.title}
-        </RN.Text>
-      </RN.View>
+      <CheckboxListItemContainer
+        circle={item}
+        recipients={this.state.recipients}
+        circles={this.state.circles}
+        setParentState={this.setParentState}
+        />
     )
+  }
+
+  _renderSectionHeader = ({section}) => {
+    if (section.title === 'Circles') {
+      return (
+        <RN.TouchableOpacity onPress={this._onPressAddCircle} style={styles.sectionHeader}>
+          <RN.Text style={styles.sectionHeaderText}>
+            {section.title}
+          </RN.Text>
+          <RN.Text style={UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.textHighlighted}>
+            {' +'}
+          </RN.Text>
+        </RN.TouchableOpacity>
+      )
+    } else {
+      return (
+        <RN.View style={styles.sectionHeader}>
+          <RN.Text style={styles.sectionHeaderText}>
+            {section.title}
+          </RN.Text>
+        </RN.View>
+      )
+    }
   }
 
   _renderHeader = () => {
     return (
-      <ShareListItem setParentState={this.setParentState} isPublic={this.state.isPublic} />
+      <CheckboxListItemContainer setParentState={this.setParentState} isPublic={this.state.isPublic} />
     )
   }
 
@@ -84,8 +122,10 @@ class ShareScreen extends React.PureComponent {
           isPublic={this.state.isPublic}
           />
         <RN.SectionList
-          sections={[{data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Friends'}]}
-          keyExtractor={(item) => item}
+          sections={[
+            {data: this.props.circles, renderItem: this._renderCircleItem.bind(this), title: 'Circles'},
+            {data: this.props.friendships.accepted, renderItem: this._renderUserItem.bind(this), title: 'Friends'}
+          ]}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
