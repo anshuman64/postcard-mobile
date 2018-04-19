@@ -7,7 +7,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 // Local Imports
 import HeaderContainer        from '../../components/header/header_container';
 import CheckboxListItemContainer from '../../components/checkbox_list_item/checkbox_list_item_container';
-import { styles }             from './create_circle_screen_styles';
+import { styles }             from './create_group_screen_styles';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
 import { setStateCallback }   from '../../utilities/function_utility';
 
@@ -17,9 +17,10 @@ const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 /*
 Required Screen Props:
+  isCircle (bool): true = is circle, false = is group
   circleName (string): proposed circleName of circle
 */
-class CreateCircleScreen extends React.PureComponent {
+class CreateGroupScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -64,7 +65,8 @@ class CreateCircleScreen extends React.PureComponent {
         <HeaderContainer
           backIcon={true}
           backTitle={'Select Friends'}
-          createCircleButton={true}
+          createGroupButton={!this.props.isCircle}
+          createCircleButton={this.props.isCircle}
           circleName={this.props.circleName}
           recipients={this.state.recipients}
           postText={this.props.postText}
@@ -74,11 +76,9 @@ class CreateCircleScreen extends React.PureComponent {
           />
         <RN.ListView
           dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
-          style={styles.cameraRoll}
           renderRow={this._renderRow}
           initialListSize={20}
           pageSize={60}
-          contentContainerStyle={styles.contentContainerStyle}
           enableEmptySections={true}
           showsVerticalScrollIndicator={true}
           onEndReached={this._onEndReached}
@@ -92,4 +92,4 @@ class CreateCircleScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default CreateCircleScreen;
+export default CreateGroupScreen;

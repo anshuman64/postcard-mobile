@@ -14,16 +14,6 @@ import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
 class FriendScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
-  // Constructor
-  //--------------------------------------------------------------------//
-
-  constructor(props) {
-    super(props);
-
-    this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  }
-
-  //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
@@ -31,13 +21,27 @@ class FriendScreen extends React.PureComponent {
     this.props.navigateTo('PendingScreen');
   }
 
+  _onPressCreateGroup = () => {
+    this.props.navigateTo('CreateGroupScreen');
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderRow = (rowData, sectionID, rowID) => {
+  _renderItem = ({item}) => {
     return (
-      <FriendListItemContainer userId={rowData} />
+      <FriendListItemContainer userId={item} />
+    )
+  }
+
+  _renderSectionHeader = ({section}) => {
+    return (
+      <RN.View style={styles.sectionHeader}>
+        <RN.Text style={styles.sectionHeaderText}>
+          {section.title}
+        </RN.Text>
+      </RN.View>
     )
   }
 
@@ -51,19 +55,31 @@ class FriendScreen extends React.PureComponent {
     )
   }
 
+  _renderHeader = () => {
+    return (
+      <RN.TouchableOpacity onPress={this._onPressCreateGroup}>
+        <RN.View style={styles.headerItemView}>
+          <Icon name={'people'} style={[styles.headerItemIcon, UTILITY_STYLES.textHighlighted]} />
+          <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.textHighlighted]}>
+            {'Create Group'}
+          </RN.Text>
+        </RN.View>
+      </RN.TouchableOpacity>
+    )
+  }
+
   _renderList() {
     return (
-      <RN.ListView
-        dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
-        style={styles.cameraRoll}
-        renderRow={this._renderRow}
+      <RN.SectionList
+        sections={[{data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Conversations'}]}
+        keyExtractor={(item) => item}
+        renderSectionHeader={this._renderSectionHeader.bind(this)}
+        ListHeaderComponent={this._renderHeader()}
+        ListFooterComponent={this._renderFooter()}
         initialListSize={20}
         pageSize={60}
-        contentContainerStyle={styles.contentContainerStyle}
-        enableEmptySections={true}
         showsVerticalScrollIndicator={false}
-        renderFooter={this._renderFooter}
-        />
+      />
     )
   }
 
