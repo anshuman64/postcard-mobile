@@ -39,7 +39,30 @@ class GroupMenuScreen extends React.PureComponent {
   }
 
   _onPressDeleteGroup = () => {
+    if (this.isDeleteDisabled) {
+      return;
+    }
 
+    this.isDeleteDisabled = true;
+
+    RN.Alert.alert('', 'Are you sure you want to delete this group? This action cannot be undone.',
+      [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
+       {text: 'Delete', onPress: this._onConfirmDeleteGroup}],
+       {onDismiss: () => this.isDeleteDisabled = false}
+    )
+  }
+
+  _onConfirmDeleteGroup = () => {
+    this.props.deleteGroup(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId)
+      .then(() => {
+        this.props.navigateTo('FriendScreen');
+      })
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.isDeleteDisabled = false;
+      });
   }
 
   _onPressDeleteMember(userId, isClient) {
@@ -117,12 +140,14 @@ class GroupMenuScreen extends React.PureComponent {
   }
 
   _renderHeader() {
+    let isClientGroupOwner = this.props.client.id === this.props.groupsCache[this.props.convoId].owner_id;
+
     return (
       <RN.View>
         {this._renderButton('pencil', 'Change Group Name', this.pencilIcon, this.pencilText, this._onPressChangeName)}
         {this._renderButton('user-follow', 'Add Members', this.followIcon, this.followText, this._onPressAddMembers)}
         {this._renderButton('logout', 'Leave Group', this.logoutIcon, this.logoutText, () => this._onPressDeleteMember(this.props.client.id, true))}
-        {this._renderButton('close', 'Delete Group', this.closeIcon, this.closeText, this._onPressDeleteGroup)}
+        {isClientGroupOwner ? this._renderButton('close', 'Delete Group', this.closeIcon, this.closeText, this._onPressDeleteGroup) : null}
      </RN.View>
     )
   }
