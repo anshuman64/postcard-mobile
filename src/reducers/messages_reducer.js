@@ -46,20 +46,20 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES:
-      userId = action.data.userId;
+      convoId = action.data.convoId;
 
-      newState[userId]       = newState[userId]       || {};
-      newState[userId].data  = newState[userId].data  || [];
-      newState[userId].isEnd = newState[userId].isEnd || false;
+      newState[convoId]       = newState[convoId]       || {};
+      newState[convoId].data  = newState[convoId].data  || [];
+      newState[convoId].isEnd = newState[convoId].isEnd || false;
 
       if (!action.data.isNew && action.data.messages.length < 20) {
-        newState[userId].isEnd = true;
+        newState[convoId].isEnd = true;
       }
 
       if (action.data.isNew) {
-        newState[userId].data = action.data.messages.concat(newState[userId].data);
+        newState[convoId].data = action.data.messages.concat(newState[convoId].data);
       } else {
-        newState[userId].data = newState[userId].data.concat(action.data.messages);
+        newState[convoId].data = newState[convoId].data.concat(action.data.messages);
       }
 
       return newState;

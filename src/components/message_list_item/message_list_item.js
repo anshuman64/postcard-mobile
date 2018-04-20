@@ -41,10 +41,10 @@ class MessageListItem extends React.PureComponent {
     // Show date if:
     // 1) the message is the first message in the conversation
     // 2) the last message was sent more than 10 mins ago
-    if (this.props.index === this.props.messages[this.props.userId].data.length - 1) {
+    if (this.props.index === this.props.messages[this.props.convoId].data.length - 1) {
       isHeader = true;
     } else {
-      let lastMessage = this.props.messages[this.props.userId].data[this.props.index + 1];
+      let lastMessage = this.props.messages[this.props.convoId].data[this.props.index + 1];
 
       if (lastMessage) {
         let lastMessageCreatedAt = new Date(lastMessage.created_at);
@@ -79,7 +79,7 @@ class MessageListItem extends React.PureComponent {
       isAvatar = true;
     } else {
       let thisMessage = this.props.message;
-      let nextMessage = this.props.messages[this.props.userId].data[this.props.index - 1];
+      let nextMessage = this.props.messages[this.props.convoId].data[this.props.index - 1];
       let thisMessageCreatedAt = new Date(thisMessage.created_at);
       let nextMessageCreatedAt = new Date(nextMessage.created_at);
 
