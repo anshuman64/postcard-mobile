@@ -86,7 +86,7 @@ class MessagesScreen extends React.PureComponent {
 
   _loadNewMessages = () => {
     this.setState({ isLoadingNew: true }, () => {
-      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.convoId, { start_at: messages.data[0].id, is_new: true })
+      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.convoId, { start_at: this.props.messages[this.props.convoId].data[0].id, is_new: true })
         .catch((error) => {
           defaultErrorAlert(error);
         })
