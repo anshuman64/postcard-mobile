@@ -38,30 +38,34 @@ class GroupMenuScreen extends React.PureComponent {
 
   }
 
-  _onPressLeaveGroup = () => {
-
-  }
-
   _onPressDeleteGroup = () => {
 
   }
 
-  _onPressDeleteMember(userId) {
+  _onPressDeleteMember(userId, isClient) {
     if (this.isDeleteDisabled) {
       return;
     }
 
     this.isDeleteDisabled = true;
 
-    RN.Alert.alert('', 'Are you sure you want to remove this member from the group?',
+    let alertString = isClient ? 'Are you sure you want to leave this group?' : 'Are you sure you want to remove this member from the group?';
+    let cancelString = isClient ? 'Leave' : 'Remove';
+
+    RN.Alert.alert('', alertString,
       [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
-       {text: 'Remove', onPress: () => this._onConfirmDeleteMember(userId)}],
+       {text: cancelString, onPress: () => this._onConfirmDeleteMember(userId, isClient)}],
        {onDismiss: () => this.isDeleteDisabled = false}
     )
   }
 
-  _onConfirmDeleteMember(userId) {
-    this.props.removeGroupMember(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId, userId)
+  _onConfirmDeleteMember(userId, isClient) {
+    this.props.removeGroupMember(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId, userId, isClient)
+      .then(() => {
+        if (isClient) {
+          this.props.navigateTo('FriendScreen');
+        }
+      })
       .catch((error) => {
         defaultErrorAlert(error);
       })
@@ -117,7 +121,7 @@ class GroupMenuScreen extends React.PureComponent {
       <RN.View>
         {this._renderButton('pencil', 'Change Group Name', this.pencilIcon, this.pencilText, this._onPressChangeName)}
         {this._renderButton('user-follow', 'Add Members', this.followIcon, this.followText, this._onPressAddMembers)}
-        {this._renderButton('logout', 'Leave Group', this.logoutIcon, this.logoutText, this._onPressLeaveGroup)}
+        {this._renderButton('logout', 'Leave Group', this.logoutIcon, this.logoutText, () => this._onPressDeleteMember(this.props.client.id, true))}
         {this._renderButton('close', 'Delete Group', this.closeIcon, this.closeText, this._onPressDeleteGroup)}
      </RN.View>
     )
