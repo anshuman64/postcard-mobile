@@ -181,7 +181,7 @@ class PendingListItem extends React.PureComponent {
 
   render() {
     return (
-      <Animatable.View ref={(ref) => this.container = ref} style={styles.rowView}>
+      <Animatable.View ref={(ref) => this.container = ref} style={UTILITY_STYLES.rowView}>
         <UserInfoViewContainer userId={this.props.userId} marginLeft={15} />
         <RN.View style={styles.checkboxView}>
           {this._renderButtons()}

@@ -120,7 +120,7 @@ class ConversationListItem extends React.PureComponent {
 
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateTo('MessagesScreen', { convoId: this.props.convoId })}>
-        <RN.View style={styles.rowView}>
+        <RN.View style={UTILITY_STYLES.rowView}>
           <RN.View style={styles.userView}>
             <RN.TouchableWithoutFeedback
               onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}

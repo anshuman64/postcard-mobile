@@ -198,7 +198,7 @@ class CheckboxListItem extends React.PureComponent {
           onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
           onPress={func}
           >
-          <RN.View style={styles.rowView}>
+          <RN.View style={UTILITY_STYLES.rowView}>
             {this._renderItemView()}
             <RN.View style={styles.checkboxView}>
               {this._renderCheckbox()}
