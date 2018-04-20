@@ -102,21 +102,21 @@ export const getMessages = (authToken, firebaseUserObj, isNew, convoId, queryPar
     });
 };
 
-export const createMessage = (authToken, firebaseUserObj, clientId, userId, messageBody, messageImagePath, messageImageType, postId) => (dispatch) => {
+export const createMessage = (authToken, firebaseUserObj, clientId, convoId, messageBody, messageImagePath, messageImageType, postId) => (dispatch) => {
   let postMessage = (imageKey) => {
-    return APIUtility.post(authToken, '/messages', { body: messageBody, image_url: imageKey, recipient_id: userId, post_id: postId })
+    return APIUtility.post(authToken, route, { body: messageBody, image_url: imageKey, recipient_id: idToSend, post_id: postId })
       .then((newMessage) => {
-        amplitude.logEvent('Engagement - Create Message', { is_successful: true, body: messageBody, image: imageKey ? true : false, is_post: postId ? true : false });
+        amplitude.logEvent('Engagement - Create Message', { is_successful: true, body: messageBody, image: imageKey ? true : false, is_post: postId ? true : false, isGroup: isGroup });
 
         // If message is a post, will be refreshed automatically
         if (!postId) {
-          dispatch(receiveMessage({ message: newMessage, userId: userId }));
+          dispatch(receiveMessage({ message: newMessage, convoId: convoId }));
           dispatch(getImages(newMessage));
         }
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, createMessage, clientId, userId, messageBody, messageImagePath, messageImageType, postId));
+          return dispatch(refreshAuthToken(firebaseUserObj, createMessage, clientId, convoId, messageBody, messageImagePath, messageImageType, postId));
         }
 
         if (error.message === 'Post as message already exists') {
@@ -133,8 +133,12 @@ export const createMessage = (authToken, firebaseUserObj, clientId, userId, mess
     throw error;
   }
 
+  let isGroup = convoId > 0 ? false : true;
+  let route = isGroup ? '/messages/group' : '/messages/direct';
+  let idToSend = isGroup ? -1 * convoId : convoId;
+
   if (messageImagePath) {
-    return dispatch(uploadFile(authToken, firebaseUserObj, messageImagePath, messageImageType, clientId, 'messages/direct/' + userId + '/'))
+    return dispatch(uploadFile(authToken, firebaseUserObj, messageImagePath, messageImageType, clientId, route + '/' + idToSend + '/'))
       .then((data) => {
         return postMessage(data.key);
       })

@@ -43,7 +43,7 @@ const ConversationsReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
     // Friendship Actions
     //--------------------------------------------------------------------//
-    
+
     case FRIENDSHIP_ACTION_TYPES.ACCEPT_FRIENDSHIP_REQUEST:
       userId = action.data.friendship.requester_id;
 
@@ -80,13 +80,13 @@ const ConversationsReducer = (state = DEFAULT_STATE, action) => {
 
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.userId;
+      convoId = action.data.convoId;
 
       _.remove(newState.conversations, (ids) => {
-        return ids === userId;
+        return ids === convoId;
       });
 
-      newState.conversations.unshift(userId);
+      newState.conversations.unshift(convoId);
 
       return newState;
     default:
