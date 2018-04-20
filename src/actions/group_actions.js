@@ -107,6 +107,23 @@ export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dis
   });
 }
 
+// DEL request to API to remove member from group
+export const removeGroupMember = (authToken, firebaseUserObj, groupId, userId) => (dispatch) => {
+  return APIUtility.del(authToken, '/groups/' + -1 * groupId + '/' + userId)
+  .then((editedGroup) => {
+    amplitude.logEvent('Groups - Remove Member', { is_successful: true });
+    dispatch(receiveGroup({ group: editedGroup }));
+  })
+  .catch((error) => {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshAuthToken(firebaseUserObj, removeGroupMember, groupId, userId));
+    }
+
+    amplitude.logEvent('Groups - Remove Member', { is_successful: false, error_description: error.description, error_message: error.message });
+    throw setErrorDescription(error, 'DEL group member failed');
+  });
+}
+
 // Deletes group
 // export const deleteGroup = (authToken, firebaseUserObj, groupId) => (dispatch) => {
 //   return APIUtility.del(authToken, '/groups/' + groupId)

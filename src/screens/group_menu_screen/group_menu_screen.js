@@ -7,6 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import UserInfoViewContainer from '../../components/user_info_view/user_info_view_container';
 import { styles }            from './group_menu_screen_styles';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
 import { defaultErrorAlert } from '../../utilities/error_utility';
@@ -14,6 +15,16 @@ import { defaultErrorAlert } from '../../utilities/error_utility';
 //--------------------------------------------------------------------//
 
 class GroupMenuScreen extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
+  constructor(props) {
+    super(props);
+
+    this.isDeleteDisabled = false;
+  }
 
   //--------------------------------------------------------------------//
   // Callback Methods
@@ -33,6 +44,30 @@ class GroupMenuScreen extends React.PureComponent {
 
   _onPressDeleteGroup = () => {
 
+  }
+
+  _onPressDeleteMember(userId) {
+    if (this.isDeleteDisabled) {
+      return;
+    }
+
+    this.isDeleteDisabled = true;
+
+    RN.Alert.alert('', 'Are you sure you want to remove this member from the group?',
+      [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
+       {text: 'Remove', onPress: () => this._onConfirmDeleteMember(userId)}],
+       {onDismiss: () => this.isDeleteDisabled = false}
+    )
+  }
+
+  _onConfirmDeleteMember(userId) {
+    this.props.removeGroupMember(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId, userId)
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.isDeleteDisabled = false;
+      });
   }
 
   //--------------------------------------------------------------------//
@@ -67,7 +102,14 @@ class GroupMenuScreen extends React.PureComponent {
   }
 
   _renderItem = ({item}) => {
-    return null
+    return (
+      <RN.View style={UTILITY_STYLES.rowView}>
+        <RN.View style={styles.userView}>
+          <UserInfoViewContainer convoId={item.id} marginLeft={15} />
+          <Icon name={'close'} onPress={() => this._onPressDeleteMember(item.id)} style={styles.icon} />
+        </RN.View>
+      </RN.View>
+    )
   }
 
   _renderHeader() {
@@ -95,7 +137,6 @@ class GroupMenuScreen extends React.PureComponent {
     return (
       <RN.SectionList
         sections={[{data: this.props.groupsCache[this.props.convoId].users, renderItem: this._renderItem.bind(this), title: 'Members'}]}
-        keyExtractor={(item) => item}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
         initialListSize={20}
