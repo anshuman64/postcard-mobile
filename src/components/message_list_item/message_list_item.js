@@ -68,12 +68,47 @@ class MessageListItem extends React.PureComponent {
     }
   }
 
+  _renderUsername() {
+    let isUsername = false;
+
+    // Show username on top of other user's message if:
+    // 1) the message is the newest message
+    // 2) the last message is by someone else
+    // 3) the last message was sent more than 10 mins later
+    // 4) this is a group chat
+    if (this.props.convoId < 0) {
+      if (this.props.index === this.props.messages[this.props.convoId].data.length - 1) {
+        isUsername = true;
+      } else {
+        let thisMessage = this.props.message;
+        let lastMessage = this.props.messages[this.props.convoId].data[this.props.index + 1];
+        let thisMessageCreatedAt = new Date(thisMessage.created_at);
+        let lastMessageCreatedAt = new Date(lastMessage.created_at);
+
+        if (thisMessage.author_id != lastMessage.author_id
+            || thisMessageCreatedAt - lastMessageCreatedAt > 600000) {
+          isUsername = true;
+        }
+      }
+    }
+
+    if (isUsername) {
+      return (
+        <RN.Text style={styles.date}>
+          {this.props.usersCache[this.props.message.author_id].username}
+        </RN.Text>
+      )
+    } else {
+      return null;
+    }
+  }
+
   _renderAvatar() {
     let isAvatar = false;
 
     // Show avatar on other user's message if:
     // 1) the message is the newest message
-    // 2) the next message is by the client
+    // 2) the next message is by someone else
     // 3) the next message was sent more than 10 mins later
     if (this.props.index === 0) {
       isAvatar = true;
@@ -190,6 +225,7 @@ class MessageListItem extends React.PureComponent {
         <RN.View style={[styles.messageContainerUser, isFirstMessage && {marginBottom: 15}]}>
         {this._renderAvatar()}
         <RN.TouchableOpacity activeOpacity={0.5} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
+            {this._renderUsername()}
             <RN.View style={[styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
