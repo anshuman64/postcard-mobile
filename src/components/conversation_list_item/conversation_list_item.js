@@ -95,10 +95,16 @@ class ConversationListItem extends React.PureComponent {
     )
   }
 
-
-    // <AvatarContainer userId={this.props.userId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} /> // TODO
-
   render() {
+    let authorId;
+
+    if (this.props.convoId > 0) {
+      authorId = this.props.convoId;
+    } else {
+      peek_message = this.props.groupsCache[this.props.convoId].peek_message;
+      authorId = peek_message ? peek_message.author_id : null;
+    }
+
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateTo('MessagesScreen', { convoId: this.props.convoId })}>
         <RN.View style={styles.rowView}>
@@ -109,6 +115,7 @@ class ConversationListItem extends React.PureComponent {
               onPress={() => this.props.navigateToProfile({ userId: this.props.userId })}
               >
               <RN.View>
+                <AvatarContainer userId={authorId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
               </RN.View>
             </RN.TouchableWithoutFeedback>
             {this._renderUsernameView()}
