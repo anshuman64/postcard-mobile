@@ -50,6 +50,8 @@ class MessagesScreen extends React.PureComponent {
   componentDidMount() {
     RN.AppState.addEventListener('change', this._handleAppStateChange);
 
+    this.props.getUsersFromGroup(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId);
+
     let messages = this.props.messages[this.props.convoId];
 
     if (!messages) {
