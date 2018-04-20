@@ -113,8 +113,8 @@ class ConversationListItem extends React.PureComponent {
     if (this.props.convoId > 0) {
       authorId = this.props.convoId;
     } else {
-      peek_message = this.props.groupsCache[this.props.convoId].peek_message;
-      authorId = peek_message ? peek_message.author_id : null;
+      convo = this.props.groupsCache[this.props.convoId];
+      authorId = convo && convo.peek_message ? convo.peek_message.author_id : null;
     }
 
     return (

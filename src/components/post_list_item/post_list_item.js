@@ -210,7 +210,7 @@ class PostListItem extends React.PureComponent {
     if (!isMessagesScreen && userFriendshipStatus && userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
       this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, user.id, null, null, null, this.props.item.id)
         .then(() => {
-          this.props.navigateTo('MessagesScreen', { userId: this.props.item.author_id });
+          this.props.navigateTo('MessagesScreen', { convoId: this.props.item.author_id });
         })
         .catch((error) => {
           defaultErrorAlert(error);
@@ -236,7 +236,7 @@ class PostListItem extends React.PureComponent {
       <RN.View style={styles.userView}>
         <UserInfoViewContainer
           disabled={this.props.client.id === this.props.item.author_id}
-          userId={this.props.item.author_id}
+          convoId={this.props.item.author_id}
           marginLeft={0}
           />
         {this._renderFollowText()}
