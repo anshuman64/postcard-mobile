@@ -37,8 +37,8 @@ class CheckboxListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userId) {
-      this.setState({ isSelected: nextProps.recipients.includes(nextProps.userId) });
+    if (nextProps.convoId) {
+      this.setState({ isSelected: nextProps.recipients.includes(nextProps.convoId) });
     } else if (nextProps.circle) {
       this.setState({ isSelected: nextProps.circles.includes(nextProps.circle.id) });
     } else {
@@ -57,22 +57,27 @@ class CheckboxListItem extends React.PureComponent {
   _onPressCircleItem = () => {
     let recipientArray = this.props.recipients.slice();
     let circleArray = this.props.circles.slice();
+    let group_ids = [];
+
+    let removeFromRecipientArray = (removeId) => {
+      _.remove(recipientArray, (id) => {
+        return id === removeId;
+      });
+    }
+
+    _.forEach(this.props.circle.user_ids, (removeId) => {
+      removeFromRecipientArray(removeId);
+    });
+
+    _.forEach(this.props.circle.group_ids, (removeId) => {
+      negativeId = -1 * removeId;
+      group_ids.push(negativeId);
+      removeFromRecipientArray(negativeId);
+    });
 
     if (!this.state.isSelected) {
-      _.forEach(this.props.circle.user_ids, (removeId) => {
-        _.remove(recipientArray, (id) => {
-          return id === removeId;
-        });
-      });
-
-      this.props.setParentState({ circles: circleArray.concat(this.props.circle.id), recipients: recipientArray.concat(this.props.circle.user_ids) });
+      this.props.setParentState({ circles: circleArray.concat(this.props.circle.id), recipients: recipientArray.concat(this.props.circle.user_ids, group_ids) });
     } else {
-      _.forEach(this.props.circle.user_ids, (removeId) => {
-        _.remove(recipientArray, (id) => {
-          return id === removeId;
-        });
-      });
-
       _.remove(circleArray, (id) => {
         return id === this.props.circle.id;
       });
@@ -81,14 +86,14 @@ class CheckboxListItem extends React.PureComponent {
     }
   }
 
-  _onPressUserItem = () => {
+  _onPressConvoItem = () => {
     let recipientArray = this.props.recipients.slice();
 
     if (!this.state.isSelected) {
-      this.props.setParentState({ recipients: recipientArray.concat(this.props.userId) });
+      this.props.setParentState({ recipients: recipientArray.concat(this.props.convoId) });
     } else {
       _.remove(recipientArray, (id) => {
-        return id === this.props.userId;
+        return id === this.props.convoId;
       });
 
       this.props.setParentState({ recipients: recipientArray });
@@ -128,7 +133,7 @@ class CheckboxListItem extends React.PureComponent {
         <AnimatedIcon
           ref={(ref) => this.checkbox = ref}
           name='check'
-          style={[styles.checkIcon, !this.props.userId && UTILITY_STYLES.textRed]}
+          style={[styles.checkIcon, !this.props.convoId && UTILITY_STYLES.textRed]}
           animation={'flipInY'}
           duration={200}
           />
@@ -141,9 +146,9 @@ class CheckboxListItem extends React.PureComponent {
   }
 
   _renderItemView() {
-    if (this.props.userId) {
+    if (this.props.convoId) {
       return (
-        <UserInfoViewContainer userId={this.props.userId} marginLeft={15} disabled={true} />
+        <UserInfoViewContainer convoId={this.props.convoId} marginLeft={15} disabled={true} />
 
       )
     } else if (this.props.circle) {
@@ -178,8 +183,8 @@ class CheckboxListItem extends React.PureComponent {
   render() {
     let func;
 
-    if (this.props.userId) {
-      func = this._onPressUserItem;
+    if (this.props.convoId) {
+      func = this._onPressConvoItem;
     } else if (this.props.circle) {
       func = this._onPressCircleItem;
     } else {
@@ -189,7 +194,7 @@ class CheckboxListItem extends React.PureComponent {
     return (
       <RN.View>
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.userId && styles.checkboxRed]})}
+          onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.convoId && styles.checkboxRed]})}
           onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
           onPress={func}
           >

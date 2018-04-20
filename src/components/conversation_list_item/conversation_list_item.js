@@ -15,6 +15,18 @@ import { renderMessageDate } from '../../utilities/date_time_utility';
 class ConversationListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressAvatar = () => {
+    if (this.props.convoId < 0) {
+      return;
+    }
+
+    this.props.navigateToProfile({ userId: this.props.convoId });
+  }
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -112,7 +124,7 @@ class ConversationListItem extends React.PureComponent {
             <RN.TouchableWithoutFeedback
               onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
               onPressOut={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
-              onPress={() => this.props.navigateToProfile({ userId: this.props.userId })}
+              onPress={this._onPressAvatar}
               >
               <RN.View>
                 <AvatarContainer userId={authorId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />

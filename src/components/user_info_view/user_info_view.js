@@ -13,23 +13,48 @@ import { UTILITY_STYLES } from '../../utilities/style_utility';
 class UserInfoView extends React.PureComponent {
 
   //--------------------------------------------------------------------//
+  // Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressAvatar = () => {
+    if (this.props.convoId < 0) {
+      return;
+    }
+
+    this.props.navigateToProfile({ userId: this.props.convoId });
+  }
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
   render() {
-    let username = this.props.usersCache[this.props.userId] && this.props.usersCache[this.props.userId].username ? this.props.usersCache[this.props.userId].username : 'anonymous'; // handles the case if user from contacts and hasn't selected username
+    let convo;
+    let displayName;
+    let authorId;
+
+    if (this.props.convoId > 0) {
+      convo = this.props.usersCache[this.props.convoId];
+      displayName = convo && convo.username ? convo.username : 'anonymous';
+      authorId = this.props.convoId;
+    } else {
+      convo = this.props.groupsCache[this.props.convoId];
+      displayName = convo && convo.name ? convo.name : 'unknown';
+      peek_message = this.props.groupsCache[this.props.convoId].peek_message;
+      authorId = peek_message ? peek_message.author_id : null;
+    }
 
     return (
       <RN.TouchableWithoutFeedback
         onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
         onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
-        onPress={() => this.props.navigateToProfile({ userId: this.props.userId })}
+        onPress={this._onPressAvatar}
         disabled={this.props.disabled}
         >
       <RN.View style={[styles.userView, {marginLeft: this.props.marginLeft}]}>
-        <AvatarContainer userId={this.props.userId} avatarSize={40} iconSize={17} frameBorderWidth={1.1} />
+        <AvatarContainer userId={authorId} avatarSize={40} iconSize={17} frameBorderWidth={1.1} />
         <RN.Text ref={(ref) => this.usernameText = ref} style={styles.usernameText} numberOfLines={1}>
-          {username}
+          {displayName}
         </RN.Text>
       </RN.View>
       </RN.TouchableWithoutFeedback>
