@@ -70,6 +70,8 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.NameCircleScreen(props)
     } else if (screen === 'MenuScreen') {
       Actions.MenuScreen(props)
+    } else if (screen === 'GroupMenuScreen') {
+      Actions.GroupMenuScreen(props)
     } else if (screen === 'UsernameScreen') {
       Actions.UsernameScreen(props)
     } else if (screen === 'CameraRollScreen') {

@@ -55,8 +55,8 @@ class PendingScreen extends React.PureComponent {
 
   _renderSectionHeader = ({section}) => {
     return (
-      <RN.View style={styles.sectionHeader}>
-        <RN.Text style={styles.sectionHeaderText}>
+      <RN.View style={UTILITY_STYLES.sectionHeader}>
+        <RN.Text style={UTILITY_STYLES.sectionHeaderText}>
           {section.title}
         </RN.Text>
       </RN.View>

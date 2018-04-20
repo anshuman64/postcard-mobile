@@ -7,7 +7,6 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 // Local Imports
 import HeaderContainer        from '../../components/header/header_container';
 import CheckboxListItemContainer  from '../../components/checkbox_list_item/checkbox_list_item_container';
-import { styles }             from './share_screen_styles';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
 import { setStateCallback }   from '../../utilities/function_utility';
 
@@ -81,8 +80,8 @@ class ShareScreen extends React.PureComponent {
   _renderSectionHeader = ({section}) => {
     if (section.title === 'Circles') {
       return (
-        <RN.TouchableOpacity onPress={this._onPressAddCircle} style={styles.sectionHeader}>
-          <RN.Text style={styles.sectionHeaderText}>
+        <RN.TouchableOpacity onPress={this._onPressAddCircle} style={UTILITY_STYLES.sectionHeader}>
+          <RN.Text style={UTILITY_STYLES.sectionHeaderText}>
             {section.title}
           </RN.Text>
           <RN.Text style={UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.textHighlighted}>
@@ -92,8 +91,8 @@ class ShareScreen extends React.PureComponent {
       )
     } else {
       return (
-        <RN.View style={styles.sectionHeader}>
-          <RN.Text style={styles.sectionHeaderText}>
+        <RN.View style={UTILITY_STYLES.sectionHeader}>
+          <RN.Text style={UTILITY_STYLES.sectionHeaderText}>
             {section.title}
           </RN.Text>
         </RN.View>
