@@ -118,6 +118,32 @@ class Header extends React.PureComponent {
     });
   }
 
+
+  // Create button from CreateGroupScreen
+  _onPressCreateGroup = () => {
+    if (this.isButtonPressed || this.props.recipients.length === 0) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    this.setState({ isLoading: true },() => {
+      this.props.createGroup(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.recipients)
+        .then(() => {
+          // TODO: figure out better behavior for this
+          this.props.navigateTo('FriendScreen');
+          this.isGoBackPressed = true;
+        })
+        .catch((error) => {
+          this.isButtonPressed = false;
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
+    });
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -192,7 +218,7 @@ class Header extends React.PureComponent {
   }
 
   _renderCustomButton() {
-    if (this.props.shareButton || this.props.nextButton || this.props.createCircleButton) {
+    if (this.props.shareButton || this.props.nextButton || this.props.createCircleButton || this.props.createGroupButton) {
       let text;
       let func;
 
@@ -205,6 +231,9 @@ class Header extends React.PureComponent {
       } else if (this.props.createCircleButton) {
         text = 'Create';
         func = this._onPressCreateCircle;
+      } else if (this.props.createGroupButton) {
+        text = 'Create';
+        func = this._onPressCreateGroup;
       }
 
       return (
