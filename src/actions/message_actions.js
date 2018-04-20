@@ -3,6 +3,8 @@ import { amplitude }            from '../utilities/analytics_utility';
 import * as APIUtility          from '../utilities/api_utility';
 import { setErrorDescription }  from '../utilities/error_utility';
 import { refreshAuthToken }     from './client_actions';
+import { FRIEND_TYPES }         from './friendship_actions';
+import { receiveGroups }        from './group_actions';
 import { getImages }            from './image_actions';
 import { getPostsFromMessages } from './post_actions';
 import { uploadFile }           from '../utilities/file_utility';
@@ -14,6 +16,7 @@ import { uploadFile }           from '../utilities/file_utility';
 //--------------------------------------------------------------------//
 
 export const MESSAGE_ACTION_TYPES = {
+  RECEIVE_CONVERSATIONS:      'RECEIVE_CONVERSATIONS',
   RECEIVE_MESSAGES:           'RECEIVE_MESSAGES',
   RECEIVE_MESSAGE:            'RECEIVE_MESSAGE',
   PUSHER_RECEIVE_MESSAGE:     'PUSHER_RECEIVE_MESSAGE',
@@ -22,6 +25,12 @@ export const MESSAGE_ACTION_TYPES = {
 //--------------------------------------------------------------------//
 // Action Creators
 //--------------------------------------------------------------------//
+
+// friends (array): array of users with accepted friendships
+// groups (array): array of groups
+export const receiveConversations = (data) => {
+  return { type: MESSAGE_ACTION_TYPES.RECEIVE_CONVERSATIONS, data: data };
+};
 
 // messages (array): array of messages in conversation with user
 // userId (int): user id of other user
@@ -45,6 +54,32 @@ export const pusherReceiveMessage = (data) => {
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
+
+// TODO: refactor this so that it doesn't have to hit API twice for accepted friendships
+export const getConversations = (authToken, firebaseUserObj) => (dispatch) => {
+  let getConversationsError = (error) => {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshAuthToken(firebaseUserObj, getConversations));
+    }
+
+    throw setErrorDescription(error, 'GET conversations failed');
+  }
+
+  return APIUtility.get(authToken, '/friendships/' + FRIEND_TYPES.ACCEPTED)
+    .then((friends) => {
+      return APIUtility.get(authToken, '/groups')
+        .then((groups) => {
+          dispatch(receiveConversations({ friends: friends, groups: groups }));
+          dispatch(receiveGroups({ groups: groups }));
+        })
+        .catch((error) => {
+          getConversationsError(error);
+        });
+    })
+    .catch((error) => {
+      getConversationsError(error);
+    });
+}
 
 export const getMessages = (authToken, firebaseUserObj, isNew, userId, queryParams) => (dispatch) => {
   return APIUtility.get(authToken, '/messages/direct/' + userId, queryParams)
