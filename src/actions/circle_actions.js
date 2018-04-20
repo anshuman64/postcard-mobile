@@ -58,7 +58,7 @@ export const getCircles = (authToken, firebaseUserObj) => (dispatch) => {
 export const createCircle = (authToken, firebaseUserObj, name, users) => (dispatch) => {
   return APIUtility.post(authToken, '/circles', { name: name, user_ids: users })
     .then((newCircle) => {
-      amplitude.logEvent('Engagement - Create Circle', { is_successful: true, name: name, num_users: users.length });
+      amplitude.logEvent('Groups - Create Circle', { is_successful: true, name: name, num_users: users.length });
       dispatch(receiveCircle({ circle: newCircle }));
     })
     .catch((error) => {
@@ -74,7 +74,7 @@ export const createCircle = (authToken, firebaseUserObj, name, users) => (dispat
         error = setErrorDescription(error, 'POST circles failed');
       }
 
-      amplitude.logEvent('Engagement - Create Circle', { is_successful: false, name: name, num_users: users.length, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Groups - Create Circle', { is_successful: false, name: name, num_users: users.length, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
@@ -83,7 +83,7 @@ export const createCircle = (authToken, firebaseUserObj, name, users) => (dispat
 export const deleteCircle = (authToken, firebaseUserObj, circleId) => (dispatch) => {
   return APIUtility.del(authToken, '/circles/' + circleId)
     .then((deletedCircle) => {
-      amplitude.logEvent('Engagement - Delete Circle', { is_successful: true });
+      amplitude.logEvent('Groups - Delete Circle', { is_successful: true });
       dispatch(removeCircle({ circle: deletedCircle }));
     })
     .catch((error) => {
@@ -92,7 +92,7 @@ export const deleteCircle = (authToken, firebaseUserObj, circleId) => (dispatch)
       }
 
       error = setErrorDescription(error, 'DEL circle failed');
-      amplitude.logEvent('Engagement - Delete Circle', { is_successful: false, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Groups - Delete Circle', { is_successful: false, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
