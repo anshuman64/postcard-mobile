@@ -22,6 +22,7 @@ let isTablet = () => {
 // Interface
 //--------------------------------------------------------------------//
 
+export const DEFAULT_MARGIN = 10;
 export const DEVICE_DIM     = Dimensions.get('window');
 export const MAX_TABLET_DIM = { width: 480, height: 960 };
 
@@ -209,6 +210,18 @@ export const UTILITY_STYLES = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.grey600,
     marginLeft: 20
+  },
+
+  rowView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: getUsableDimensions().width - 2 * DEFAULT_MARGIN,
+    height: 70,
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.grey200
   },
 
   // Margin Styles
