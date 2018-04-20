@@ -7,8 +7,9 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 // Local Imports
 import AvatarContainer       from '../avatar/avatar_container';
 import { styles }            from './conversation_list_item_styles';
-import { UTILITY_STYLES }    from '../../utilities/style_utility';
+import { UTILITY_STYLES, scaleImage }    from '../../utilities/style_utility';
 import { renderMessageDate } from '../../utilities/date_time_utility';
+import { getTempGroupName }  from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -60,7 +61,7 @@ class ConversationListItem extends React.PureComponent {
       displayName = convo && convo.username ? convo.username : 'anonymous';
     } else {
       convo = this.props.groupsCache[this.props.convoId];
-      displayName = convo && convo.name ? convo.name : 'unknown';
+      displayName = convo && convo.name ? convo.name : getTempGroupName(convo.users, this.props.usersCache);
     }
 
     let message = convo ? convo.peek_message : null;
@@ -97,7 +98,7 @@ class ConversationListItem extends React.PureComponent {
 
     return (
       <RN.View style={styles.usernameView}>
-        <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText16}>
+        <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: scaleImage(130)}]} numberOfLines={1}>
           {displayName}
         </RN.Text>
         <RN.Text style={styles.messageText} numberOfLines={1}>
