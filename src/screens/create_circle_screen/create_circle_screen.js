@@ -7,7 +7,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 // Local Imports
 import HeaderContainer        from '../../components/header/header_container';
 import CheckboxListItemContainer from '../../components/checkbox_list_item/checkbox_list_item_container';
-import { styles }             from './create_group_screen_styles';
+import { styles }             from './create_circle_screen_styles';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
 import { setStateCallback }   from '../../utilities/function_utility';
 
@@ -20,7 +20,7 @@ Required Screen Props:
   isCircle (bool): true = is circle, false = is group
   circleName (string): proposed circleName of circle
 */
-class CreateGroupScreen extends React.PureComponent {
+class CreateCircleScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -65,11 +65,16 @@ class CreateGroupScreen extends React.PureComponent {
         <HeaderContainer
           backIcon={true}
           backTitle={'Select Friends'}
-          createGroupButton={!this.props.isCircle}
+          createCircleButton={this.props.isCircle}
+          circleName={this.props.circleName}
           recipients={this.state.recipients}
+          postText={this.props.postText}
+          placeholderText={this.props.placeholderText}
+          imagePath={this.props.imagePath}
+          imageType={this.props.imageType}
           />
         <RN.ListView
-          dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
+          dataSource={this.ds.cloneWithRows(this.props.conversations)}
           renderRow={this._renderRow}
           initialListSize={20}
           pageSize={60}
@@ -86,4 +91,4 @@ class CreateGroupScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default CreateGroupScreen;
+export default CreateCircleScreen;

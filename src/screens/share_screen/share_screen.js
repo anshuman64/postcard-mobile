@@ -60,7 +60,7 @@ class ShareScreen extends React.PureComponent {
   _renderUserItem = ({item}) => {
     return (
       <CheckboxListItemContainer
-        userId={item}
+        convoId={item}
         recipients={this.state.recipients}
         setParentState={this.setParentState}
         />
@@ -124,7 +124,7 @@ class ShareScreen extends React.PureComponent {
         <RN.SectionList
           sections={[
             {data: this.props.circles, renderItem: this._renderCircleItem.bind(this), title: 'Circles'},
-            {data: this.props.friendships.accepted, renderItem: this._renderUserItem.bind(this), title: 'Friends'}
+            {data: this.props.conversations, renderItem: this._renderUserItem.bind(this), title: 'Friends'}
           ]}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
