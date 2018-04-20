@@ -31,28 +31,13 @@ export const receiveGroup = (data) => {
 };
 
 // group (group object): group object of destroyed group
-export const removeGroup = (data) => {
-  return { type: GROUP_ACTION_TYPES.REMOVE_GROUP, data: data };
-};
+// export const removeGroup = (data) => {
+//   return { type: GROUP_ACTION_TYPES.REMOVE_GROUP, data: data };
+// };
 
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
-
-// Gets all groups for client
-export const getGroups = (authToken, firebaseUserObj) => (dispatch) => {
-  return APIUtility.get(authToken, '/groups')
-    .then((groups) => {
-      dispatch(receiveGroups({ groups: groups }));
-    })
-    .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, getGroups));
-      }
-
-      throw setErrorDescription(error, 'GET groups failed');
-    });
-};
 
 // Creates group with list of user_ids
 // TODO: revise amplitude names
@@ -79,19 +64,19 @@ export const createGroup = (authToken, firebaseUserObj, users) => (dispatch) => 
 };
 
 // Deletes group
-export const deleteGroup = (authToken, firebaseUserObj, groupId) => (dispatch) => {
-  return APIUtility.del(authToken, '/groups/' + groupId)
-    .then((deletedGroup) => {
-      amplitude.logEvent('Groups - Delete Group', { is_successful: true });
-      dispatch(removeGroup({ group: deletedGroup }));
-    })
-    .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, deleteGroup, groupId));
-      }
-
-      error = setErrorDescription(error, 'DEL group failed');
-      amplitude.logEvent('Groups - Delete Group', { is_successful: false, error_description: error.description, error_message: error.message });
-      throw error;
-    });
-};
+// export const deleteGroup = (authToken, firebaseUserObj, groupId) => (dispatch) => {
+//   return APIUtility.del(authToken, '/groups/' + groupId)
+//     .then((deletedGroup) => {
+//       amplitude.logEvent('Groups - Delete Group', { is_successful: true });
+//       dispatch(removeGroup({ group: deletedGroup }));
+//     })
+//     .catch((error) => {
+//       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+//         return dispatch(refreshAuthToken(firebaseUserObj, deleteGroup, groupId));
+//       }
+//
+//       error = setErrorDescription(error, 'DEL group failed');
+//       amplitude.logEvent('Groups - Delete Group', { is_successful: false, error_description: error.description, error_message: error.message });
+//       throw error;
+//     });
+// };
