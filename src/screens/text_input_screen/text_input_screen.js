@@ -132,6 +132,25 @@ class TextInputScreen extends React.PureComponent {
     });
   }
 
+  _onPressNameGroupScreen = () => {
+    if (this.state.isLoading) {
+      return;
+    }
+
+    this.setState({ isLoading: true, isSuccessful: false, isError: false, errorText: '' }, () => {
+      this.props.editGroupName(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId, this.state.inputtedText)
+        .then(() => {
+          this.props.goBack();
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
+    });
+  }
+
   _onFocus = () => {
     if (this.state.isError) {
       this.textInput.setNativeProps({style: [UTILITY_STYLES.borderRed, UTILITY_STYLES.textHighlighted]});
@@ -153,6 +172,8 @@ class TextInputScreen extends React.PureComponent {
       titleString = 'Enter Username';
     } else if (this.props.currentScreen === 'NameCircleScreen') {
       titleString = 'Choose Circle Name';
+    } else if (this.props.currentScreen === 'NameGroupScreen') {
+      titleString = 'Choose Group Name';
     }
 
     return (
@@ -171,6 +192,8 @@ class TextInputScreen extends React.PureComponent {
       subtitleString = 'A friend request will be sent directly to the user.';
     } else if (this.props.currentScreen === 'NameCircleScreen') {
       subtitleString = 'Circles make it easier to select friends to send posts to.';
+    } else if (this.props.currentScreen === 'NameGroupScreen') {
+      subtitleString = 'Group name will be seen by all members.';
     }
 
     return (
@@ -187,6 +210,8 @@ class TextInputScreen extends React.PureComponent {
       placeholderText = 'Enter username';
     } else if (this.props.currentScreen === 'NameCircleScreen') {
       placeholderText = 'Enter circle name';
+    } else if (this.props.currentScreen === 'NameGroupScreen') {
+      placeholderText = 'Enter group name';
     }
 
     return (
@@ -232,6 +257,9 @@ class TextInputScreen extends React.PureComponent {
     } else if (this.props.currentScreen === 'NameCircleScreen') {
       buttonText = 'Next';
       buttonFunction = this._onPressNameCircleScreen;
+    } else if (this.props.currentScreen === 'NameGroupScreen') {
+      buttonText = 'Done';
+      buttonFunction = this._onPressNameGroupScreen;
     }
 
     return (
