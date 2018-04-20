@@ -1,3 +1,6 @@
+// Library Imports
+import * as _ from 'lodash';
+
 //--------------------------------------------------------------------//
 // Interface
 //--------------------------------------------------------------------//
@@ -18,6 +21,18 @@ export const setStateCallback = (component, state) => {
     component.setState(state);
   };
 };
+
+export const getTempGroupName = (users, usersCache) => {
+  let string = '';
+
+  for (i = 0; i < users.length - 1; i++) {
+    string += usersCache[users[i].id].username + ', '
+  }
+
+  string += usersCache[users[users.length-1].id].username
+
+  return string;
+}
 
 export const getReadableCount = (count) => {
   // If likes < 1000, render the number as-is
