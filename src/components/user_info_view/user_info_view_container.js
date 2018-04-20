@@ -7,9 +7,10 @@ import { navigateToProfile }       from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, groupsCache }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
+  groupsCache: groupsCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
