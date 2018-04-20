@@ -94,13 +94,13 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
 
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.userId;
+      convoId = action.data.convoId;
 
       _.remove(newState.accepted, (ids) => {
-        return ids === userId;
+        return ids === convoId;
       });
 
-      newState.accepted.unshift(userId);
+      newState.accepted.unshift(convoId);
 
       return newState;
     default:
