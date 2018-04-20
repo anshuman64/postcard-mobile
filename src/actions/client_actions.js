@@ -215,9 +215,9 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
 
     if (!error.description) {
       if (error.message === 'Username has already been taken') {
-        error.description = 'Username taken';
+        error = setErrorDescription(error, 'Username taken');
       } else {
-        error.description = 'PUT user for username failed'
+        error = setErrorDescription(error, 'PUT user for username failed');
       }
     }
 

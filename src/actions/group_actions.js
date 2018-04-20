@@ -56,6 +56,7 @@ export const createGroup = (authToken, firebaseUserObj, users) => (dispatch) => 
     .then((newGroup) => {
       amplitude.logEvent('Groups - Create Group', { is_successful: true, num_users: users.length });
       dispatch(receiveGroup({ group: newGroup }));
+      dispatch(getUserFromGroups(newGroup));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -73,15 +74,37 @@ export const createGroup = (authToken, firebaseUserObj, users) => (dispatch) => 
     });
 };
 
-export const getUserFromGroups = (groups) => (dispatch) => {
+export const getUserFromGroups = (object) => (dispatch) => {
   let users = [];
 
-  _.forEach(groups, (group) => {
-    users.concat(group.users);
-  });
+  if (Array.isArray(object)) {
+    _.forEach(object, (obj) => {
+      users.concat(obj.users);
+    });
+  } else {
+    users.concat(object.users);
+  }
 
   dispatch(receiveUsersFromGroups({ users: users }));
   dispatch(getImages(users));
+}
+
+
+// PUT request to API to edit group name from GroupMenuScreen
+export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dispatch) => {
+  return APIUtility.put(authToken, '/groups', { group_id: -1 * groupId, name: name })
+  .then((editedGroup) => {
+    amplitude.logEvent('Groups - Edit Name', { is_successful: true, name: name });
+    dispatch(receiveGroup({ group: editedGroup }));
+  })
+  .catch((error) => {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshAuthToken(firebaseUserObj, editGroupName, groupId, name));
+    }
+
+    amplitude.logEvent('Groups - Edit Name', { is_successful: false, name: name, error_description: error.description, error_message: error.message });
+    throw setErrorDescription(error, 'PUT group for name failed');
+  });
 }
 
 // Deletes group
