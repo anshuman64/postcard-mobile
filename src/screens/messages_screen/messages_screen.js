@@ -6,13 +6,13 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 import EvilIcon    from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import ListFooter                            from '../../components/list_footer/list_footer';
-import HeaderContainer                       from '../../components/header/header_container';
-import MessageListItemContainer              from '../../components/message_list_item/message_list_item_container';
-import { styles }                            from './messages_screen_styles';
-import { setStateCallback, isStringEmpty }   from '../../utilities/function_utility';
-import { UTILITY_STYLES, COLORS, scaleFont } from '../../utilities/style_utility';
-import { defaultErrorAlert }                 from '../../utilities/error_utility';
+import ListFooter                                              from '../../components/list_footer/list_footer';
+import HeaderContainer                                         from '../../components/header/header_container';
+import MessageListItemContainer                                from '../../components/message_list_item/message_list_item_container';
+import { styles }                                              from './messages_screen_styles';
+import { setStateCallback, isStringEmpty, getTempGroupName }   from '../../utilities/function_utility';
+import { UTILITY_STYLES, COLORS, scaleFont }                   from '../../utilities/style_utility';
+import { defaultErrorAlert }                                   from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -49,8 +49,6 @@ class MessagesScreen extends React.PureComponent {
 
   componentDidMount() {
     RN.AppState.addEventListener('change', this._handleAppStateChange);
-
-    this.props.getUsersFromGroup(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId);
 
     let messages = this.props.messages[this.props.convoId];
 
@@ -258,7 +256,7 @@ class MessagesScreen extends React.PureComponent {
       displayName = convo && convo.username ? convo.username : 'anonymous';
     } else {
       convo = this.props.groupsCache[this.props.convoId];
-      displayName = convo && convo.name ? convo.name : 'unknown';
+      displayName = convo && convo.name ? convo.name : getTempGroupName(convo.users, this.props.usersCache);
     }
 
     return (

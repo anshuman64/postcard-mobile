@@ -73,36 +73,11 @@ export const createGroup = (authToken, firebaseUserObj, users) => (dispatch) => 
     });
 };
 
-// Gets user info for all users in group. Handles the case where one user in group is not your friend
-export const getUsersFromGroup = (authToken, firebaseUserObj, convoId) => (dispatch) => {
-  let idToSend;
-  if (convoId < 0) {
-    idToSend = -1 * convoId;
-  } else {
-    return;
-  }
-
-  return APIUtility.get(authToken, '/groups/users/' + idToSend)
-    .then((users) => {
-      dispatch(receiveUsersFromGroups({ users: users }));
-      dispatch(getImages(users));
-    })
-    .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, getUsersFromGroup, convoId));
-      }
-
-      throw setErrorDescription(error, 'GET users from group failed');
-    });
-}
-
 export const getUserFromGroups = (groups) => (dispatch) => {
   let users = [];
 
   _.forEach(groups, (group) => {
-    if (group.peek_message) {
-      users.push(group.peek_message.author);
-    }
+    users.concat(group.users);
   });
 
   dispatch(receiveUsersFromGroups({ users: users }));
