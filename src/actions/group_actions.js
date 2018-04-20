@@ -41,9 +41,9 @@ export const receiveUsersFromGroups = (data) => {
 };
 
 // group (group object): group object of destroyed group
-// export const removeGroup = (data) => {
-//   return { type: GROUP_ACTION_TYPES.REMOVE_GROUP, data: data };
-// };
+export const removeGroup = (data) => {
+  return { type: GROUP_ACTION_TYPES.REMOVE_GROUP, data: data };
+};
 
 //--------------------------------------------------------------------//
 // Asynchronous Actions
@@ -108,18 +108,29 @@ export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dis
 }
 
 // DEL request to API to remove member from group
-export const removeGroupMember = (authToken, firebaseUserObj, groupId, userId) => (dispatch) => {
+export const removeGroupMember = (authToken, firebaseUserObj, groupId, userId, isClient) => (dispatch) => {
   return APIUtility.del(authToken, '/groups/' + -1 * groupId + '/' + userId)
   .then((editedGroup) => {
-    amplitude.logEvent('Groups - Remove Member', { is_successful: true });
-    dispatch(receiveGroup({ group: editedGroup }));
+    if (isClient) {
+      amplitude.logEvent('Groups - Leave Group', { is_successful: true });
+      dispatch(removeGroup({ group: editedGroup }));
+      console.log(userId + ' ' + editedGroup.owner_id)
+    } else {
+      amplitude.logEvent('Groups - Remove Member', { is_successful: true });
+      dispatch(receiveGroup({ group: editedGroup }));
+    }
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
       return dispatch(refreshAuthToken(firebaseUserObj, removeGroupMember, groupId, userId));
     }
 
-    amplitude.logEvent('Groups - Remove Member', { is_successful: false, error_description: error.description, error_message: error.message });
+    if (isClient) {
+      amplitude.logEvent('Groups - Leave Group', { is_successful: false, error_description: error.description, error_message: error.message });
+    } else {
+      amplitude.logEvent('Groups - Remove Member', { is_successful: false, error_description: error.description, error_message: error.message });
+    }
+
     throw setErrorDescription(error, 'DEL group member failed');
   });
 }
