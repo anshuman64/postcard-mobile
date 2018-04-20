@@ -8,15 +8,16 @@ import { navigateTo }                 from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, imagesCache, messages }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, groupsCache, imagesCache, messages }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
+  groupsCache: groupsCache,
   imagesCache: imagesCache,
   messages:    messages
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getMessages:   (authToken, firebaseUserObj, isNew, userId, queryParams) => dispatch(getMessages(authToken, firebaseUserObj, isNew, userId, queryParams)),
+  getMessages:   (authToken, firebaseUserObj, isNew, convoId, queryParams) => dispatch(getMessages(authToken, firebaseUserObj, isNew, convoId, queryParams)),
   createMessage: (authToken, firebaseUserObj, clientId, userId, messageBody, messageImagePath, messageImageType, postId) => dispatch(createMessage(authToken, firebaseUserObj, clientId, userId, messageBody, messageImagePath, messageImageType, postId)),
   navigateTo:    (screen, props) => dispatch(navigateTo(screen, props)),
 });

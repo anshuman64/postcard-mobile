@@ -29,8 +29,6 @@ const GroupsCacheReducer = (state = DEFAULT_STATE, action) => {
         newState[-1 * group.id] = group; //WARNING/NOTE: using negative values for groups
       });
 
-      debugger
-
       return newState;
     case GROUP_ACTION_TYPES.RECEIVE_GROUP:
       group = action.data.group;

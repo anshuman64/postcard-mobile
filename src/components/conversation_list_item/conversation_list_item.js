@@ -96,11 +96,11 @@ class ConversationListItem extends React.PureComponent {
   }
 
 
-    // <AvatarContainer userId={this.props.userId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
+    // <AvatarContainer userId={this.props.userId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} /> // TODO
 
   render() {
     return (
-      <RN.TouchableOpacity onPress={() => this.props.navigateTo('MessagesScreen', { userId: this.props.userId })}>
+      <RN.TouchableOpacity onPress={() => this.props.navigateTo('MessagesScreen', { convoId: this.props.convoId })}>
         <RN.View style={styles.rowView}>
           <RN.View style={styles.userView}>
             <RN.TouchableWithoutFeedback
