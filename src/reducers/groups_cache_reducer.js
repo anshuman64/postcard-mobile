@@ -3,6 +3,7 @@ import _  from 'lodash';
 
 // Local Imports
 import { GROUP_ACTION_TYPES } from '../actions/group_actions';
+import { MESSAGE_ACTION_TYPES } from '../actions/message_actions';
 
 //--------------------------------------------------------------------//
 
@@ -33,6 +34,20 @@ const GroupsCacheReducer = (state = DEFAULT_STATE, action) => {
     case GROUP_ACTION_TYPES.RECEIVE_GROUP:
       group = action.data.group;
       newState[-1 * group.id] = group;
+
+      return newState;
+
+  //--------------------------------------------------------------------//
+  // Message Actions
+  //--------------------------------------------------------------------//
+
+    case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
+    case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
+      convoId = action.data.convoId;
+
+      if (convoId < 0) {
+        newState[convoId].peek_message = action.data.message;
+      }
 
       return newState;
     default:

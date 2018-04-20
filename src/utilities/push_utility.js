@@ -89,7 +89,7 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-message', (data) => {
-    dispatch(pusherReceiveMessage({ userId: data.client.id, message: data.message }));
+    dispatch(pusherReceiveMessage({ convoId: data.client.id, message: data.message }));
     dispatch(getImages(data.message));
   });
 }
