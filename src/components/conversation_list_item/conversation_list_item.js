@@ -6,27 +6,13 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import AvatarContainer       from '../avatar/avatar_container';
-import { styles }            from './friend_list_item_styles';
+import { styles }            from './conversation_list_item_styles';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
 import { renderMessageDate } from '../../utilities/date_time_utility';
 
 //--------------------------------------------------------------------//
 
-class FriendListItem extends React.PureComponent {
-
-  //--------------------------------------------------------------------//
-  // Constructor
-  //--------------------------------------------------------------------//
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSelected:  false,
-    }
-
-    this.isFriendDisabled = false;
-  }
+class ConversationListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -34,10 +20,16 @@ class FriendListItem extends React.PureComponent {
 
   _renderDate() {
     let createdAtDate = null;
-    let user = this.props.usersCache[this.props.userId];
+    let convo;
 
-    if (user && user.peek_message) {
-      createdAtDate = user.peek_message.created_at;
+    if (this.props.convoId > 0) {
+      convo = this.props.usersCache[this.props.convoId];
+    } else {
+      convo = this.props.groupsCache[this.props.convoId];
+    }
+
+    if (convo) {
+      createdAtDate = convo.peek_message ? convo.peek_message.created_at : convo.created_at;
     }
 
     return (
@@ -48,20 +40,34 @@ class FriendListItem extends React.PureComponent {
   }
 
   _renderUsernameView() {
-    let user = this.props.usersCache[this.props.userId];
-    let username = user ? user.username : null;
-    let message = user ? user.peek_message : null;
+    let convo;
+    let displayName;
+
+    if (this.props.convoId > 0) {
+      convo = this.props.usersCache[this.props.convoId];
+      displayName = convo && convo.username ? convo.username : 'anonymous';
+    } else {
+      convo = this.props.groupsCache[this.props.convoId];
+      displayName = convo && convo.name ? convo.name : 'unknown';
+    }
+
+    let message = convo ? convo.peek_message : null;
     let messagePreview = 'Send a message...';
 
     if (message) {
+      let lastAuthor = this.props.usersCache[message.author_id];
+      let lastAuthorUsername = lastAuthor && lastAuthor.username ? lastAuthorUsername : 'anonymous';
+
       if (message.post_id) {
-        if (this.props.postsCache[message.post_id] && this.props.postsCache[message.post_id].body) {
-          messagePreview = this.props.postsCache[message.post_id].body;
+        let post = this.props.postsCache[message.post_id];
+
+        if (post && post.body) {
+          messagePreview = post.body;
         } else {
           if (message.author_id === this.props.client.id) {
             messagePreview = 'You shared a post.';
           } else {
-            messagePreview = user.username + ' shared a post.';
+            messagePreview = lastAuthorUsername + ' shared a post.';
           }
         }
       } else {
@@ -71,7 +77,7 @@ class FriendListItem extends React.PureComponent {
           if (message.author_id === this.props.client.id) {
             messagePreview = 'You shared an image.';
           } else {
-            messagePreview = user.username + ' shared an image.';
+            messagePreview = lastAuthorUsername + ' shared an image.';
           }
         }
       }
@@ -80,7 +86,7 @@ class FriendListItem extends React.PureComponent {
     return (
       <RN.View style={styles.usernameView}>
         <RN.Text ref={(ref) => this.usernameText = ref} style={UTILITY_STYLES.regularBlackText16}>
-          {username}
+          {displayName}
         </RN.Text>
         <RN.Text style={styles.messageText} numberOfLines={1}>
           {messagePreview}
@@ -88,6 +94,9 @@ class FriendListItem extends React.PureComponent {
       </RN.View>
     )
   }
+
+
+    // <AvatarContainer userId={this.props.userId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
 
   render() {
     return (
@@ -100,7 +109,6 @@ class FriendListItem extends React.PureComponent {
               onPress={() => this.props.navigateToProfile({ userId: this.props.userId })}
               >
               <RN.View>
-                <AvatarContainer userId={this.props.userId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
               </RN.View>
             </RN.TouchableWithoutFeedback>
             {this._renderUsernameView()}
@@ -115,4 +123,4 @@ class FriendListItem extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default FriendListItem;
+export default ConversationListItem;

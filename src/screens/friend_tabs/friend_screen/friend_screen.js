@@ -4,7 +4,7 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import FriendListItemContainer       from '../../../components/friend_list_item/friend_list_item_container';
+import ConversationListItemContainer       from '../../../components/conversation_list_item/conversation_list_item_container';
 import ListFooter                    from '../../../components/list_footer/list_footer'
 import { styles }                    from './friend_screen_styles';
 import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
@@ -22,7 +22,7 @@ class FriendScreen extends React.PureComponent {
   }
 
   _onPressCreateGroup = () => {
-    this.props.navigateTo('CreateGroupScreen');
+    this.props.navigateTo('CreateGroupScreen', { isCircle: false });
   }
 
   //--------------------------------------------------------------------//
@@ -31,7 +31,7 @@ class FriendScreen extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <FriendListItemContainer userId={item} />
+      <ConversationListItemContainer convoId={item} />
     )
   }
 
@@ -71,7 +71,7 @@ class FriendScreen extends React.PureComponent {
   _renderList() {
     return (
       <RN.SectionList
-        sections={[{data: this.props.friendships.accepted, renderItem: this._renderItem.bind(this), title: 'Conversations'}]}
+        sections={[{data: this.props.conversations, renderItem: this._renderItem.bind(this), title: 'Conversations'}]}
         keyExtractor={(item) => item}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
