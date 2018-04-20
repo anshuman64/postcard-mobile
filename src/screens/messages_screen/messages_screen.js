@@ -18,7 +18,7 @@ import { defaultErrorAlert }                 from '../../utilities/error_utility
 
 /*
 Required Screen Props:
-  userId (int): other user's id
+  convoId (int): other user's id
 */
 class MessagesScreen extends React.PureComponent {
 
@@ -50,21 +50,12 @@ class MessagesScreen extends React.PureComponent {
   componentDidMount() {
     RN.AppState.addEventListener('change', this._handleAppStateChange);
 
-    if (!this.props.messages[this.props.userId]) {
-      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId)
-        .catch((error) => {
-          defaultErrorAlert(error);
-        });
-    } else if (this.props.messages[this.props.userId] && this.props.messages[this.props.userId].data.length > 0) {
-      this.setState({ isLoadingNew: true }, () => {
-        this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
-          .catch((error) => {
-            defaultErrorAlert(error);
-          })
-          .finally(() => {
-            this.setState({ isLoadingNew: false });
-          });
-      });
+    let messages = this.props.messages[this.props.convoId];
+
+    if (!messages) {
+      this._loadOldMessages();
+    } else if (messages && messages.data.length > 0) {
+      this._loadNewMessages();
     }
   }
 
@@ -80,21 +71,39 @@ class MessagesScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  _loadOldMessages = (queryParams) => {
+    this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.convoId, queryParams)
+      .catch((error) => {
+        defaultErrorAlert(error)
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  }
+
+  _loadNewMessages = () => {
+    this.setState({ isLoadingNew: true }, () => {
+      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.convoId, { start_at: messages.data[0].id, is_new: true })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoadingNew: false });
+        });
+    });
+  }
+
+  //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
   // When refocusing app, refresh messages
   _handleAppStateChange = (nextAppState) => {
-    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active' && this.props.messages[this.props.userId] && this.props.messages[this.props.userId].data.length > 0) {
-      this.setState({ isLoadingNew: true }, () => {
-        this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
-          .catch((error) => {
-            defaultErrorAlert(error);
-          })
-          .finally(() => {
-            this.setState({ isLoadingNew: false });
-          });
-      });
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active' && this.props.messages[this.props.convoId] && this.props.messages[this.props.convoId].data.length > 0) {
+      this._loadNewMessages();
     }
 
     this.currentAppState = nextAppState;
@@ -109,7 +118,7 @@ class MessagesScreen extends React.PureComponent {
     let messageBody = isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
 
     this.setState({ isLoading: true }, () => {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.userId, messageBody, this.state.imagePath, this.state.imageType)
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.imagePath, this.state.imageType)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -124,7 +133,7 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _onEndReached = () => {
-    let messages = this.props.messages[this.props.userId];
+    let messages = this.props.messages[this.props.convoId];
 
     if (this.isLoading
         || this.onEndReachedCalledDuringMomentum
@@ -139,13 +148,8 @@ class MessagesScreen extends React.PureComponent {
 
     let messageData = messages.data;
     let lastMessageId = messageData[messageData.length-1].id;
-    this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId, {start_at: lastMessageId})
-      .catch((error) => {
-        defaultErrorAlert(error)
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+
+    this._loadOldMessages({ start_at: lastMessageId });
   }
 
   //--------------------------------------------------------------------//
@@ -178,12 +182,12 @@ class MessagesScreen extends React.PureComponent {
 
   _renderItem = ({item, index}) => {
     return (
-      <MessageListItemContainer userId={this.props.userId} index={index} message={item} />
+      <MessageListItemContainer convoId={this.props.convoId} index={index} message={item} />
     )
   }
 
   _renderFooter = () => {
-    let messages = this.props.messages[this.props.userId];
+    let messages = this.props.messages[this.props.convoId];
 
     if (messages && messages.isEnd) {
       return (
@@ -221,7 +225,7 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _renderMessageList() {
-    let messages = this.props.messages[this.props.userId];
+    let messages = this.props.messages[this.props.convoId];
 
     return (
       <RN.FlatList
@@ -244,13 +248,22 @@ class MessagesScreen extends React.PureComponent {
   }
 
   render() {
-    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+    let convo;
+    let displayName;
+
+    if (this.props.convoId > 0) {
+      convo = this.props.usersCache[this.props.convoId];
+      displayName = convo && convo.username ? convo.username : 'anonymous';
+    } else {
+      convo = this.props.groupsCache[this.props.convoId];
+      displayName = convo && convo.name ? convo.name : 'unknown';
+    }
 
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
         <HeaderContainer
           backIcon={true}
-          backTitle={username + "'s Messages"}
+          backTitle={displayName + "'s Messages"}
           />
         {this._renderMessageList()}
         {this._renderTextInputRow()}

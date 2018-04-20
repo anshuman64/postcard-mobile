@@ -81,16 +81,20 @@ export const getConversations = (authToken, firebaseUserObj) => (dispatch) => {
     });
 }
 
-export const getMessages = (authToken, firebaseUserObj, isNew, userId, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/messages/direct/' + userId, queryParams)
+export const getMessages = (authToken, firebaseUserObj, isNew, convoId, queryParams) => (dispatch) => {
+  let isGroup = convoId > 0 ? false : true;
+  let route = isGroup ? '/messages/group/' : '/messages/direct/';
+  let idToSend = isGroup ? -1 * convoId : convoId;
+
+  return APIUtility.get(authToken, route + idToSend, queryParams)
     .then((messages) => {
-      dispatch(receiveMessages({ messages: messages, userId: userId, isNew: isNew }));
+      dispatch(receiveMessages({ messages: messages, convoId: convoId, isNew: isNew }));
       dispatch(getImages(messages));
       dispatch(getPostsFromMessages(messages));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, getMessages, isNew, userId, queryParams));
+        return dispatch(refreshAuthToken(firebaseUserObj, getMessages, isNew, convoId, queryParams));
       }
 
       error = setErrorDescription(error, 'GET messages failed');
