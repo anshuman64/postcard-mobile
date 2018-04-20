@@ -42,7 +42,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.REFRESH_POSTS:
     case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
       _.forEach(action.data.posts, (post) => {
-        newState[post.id] = _.omit(post, 'author');
+        newState[post.id] = post;
       });
 
       return newState;

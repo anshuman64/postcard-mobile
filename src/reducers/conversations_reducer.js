@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 // Local Imports
 import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
+import { GROUP_ACTION_TYPES }                    from '../actions/group_actions';
 import { MESSAGE_ACTION_TYPES }                  from '../actions/message_actions';
 
 //--------------------------------------------------------------------//
@@ -74,9 +75,20 @@ const ConversationsReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
-  //--------------------------------------------------------------------//
-  // Message Actions
-  //--------------------------------------------------------------------//
+    //--------------------------------------------------------------------//
+    // Group Actions
+    //--------------------------------------------------------------------//
+
+    case GROUP_ACTION_TYPES.RECEIVE_GROUP:
+      group = action.data.group;
+
+      newState.conversations.unshift(-1 * group.id);
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Message Actions
+    //--------------------------------------------------------------------//
 
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
