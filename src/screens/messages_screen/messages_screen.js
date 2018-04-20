@@ -264,6 +264,8 @@ class MessagesScreen extends React.PureComponent {
         <HeaderContainer
           backIcon={true}
           backTitle={displayName + "'s Messages"}
+          settingsIcon={this.props.convoId < 0}
+          convoId={this.props.convoId}
           />
         {this._renderMessageList()}
         {this._renderTextInputRow()}

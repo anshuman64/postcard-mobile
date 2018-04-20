@@ -37,6 +37,7 @@ import CreateGroupScreenContainer from './screens/create_group_screen/create_gro
 import CreateCircleScreenContainer from './screens/create_circle_screen/create_circle_screen_container';
 import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container';
 import MenuScreen                 from './screens/menu_screen/menu_screen';
+import GroupMenuScreenContainer   from './screens/group_menu_screen/group_menu_screen_container';
 
 import HeaderContainer            from './components/header/header_container';
 import FooterContainer            from './components/footer/footer_container';
@@ -127,7 +128,7 @@ class App extends React.Component {
             <Scene key='LoginScreen'        component={LoginScreenContainer}        panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen'      component={NewPostScreenContainer}      panHandlers={null} hideNavBar={true} />
             <Scene key='ShareScreen'        component={ShareScreenContainer}        panHandlers={null} hideNavBar={true} />
-            <Scene key='CreateCircleScreen' component={CreateCircleScreenContainer}  panHandlers={null} hideNavBar={true} />
+            <Scene key='CreateCircleScreen' component={CreateCircleScreenContainer} panHandlers={null} hideNavBar={true} />
             <Scene key='CreateGroupScreen'  component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='MessagesScreen'     component={MessagesScreenContainer}     panHandlers={null} hideNavBar={true} />
 
@@ -139,6 +140,7 @@ class App extends React.Component {
             <Scene key='AddFriendScreen'     component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
             <Scene key='NameCircleScreen'    component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Create Circle', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
+            <Scene key='GroupMenuScreen'     component={GroupMenuScreenContainer}   panHandlers={null} navBar={this._renderHeader('Group Settings', true)} />
 
             <Tabs key='UserTabs' tabBarComponent={() => <View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
               <Scene key='UserAuthoredScreen' component={UserAuthoredScreenContainer} panHandlers={null} hideNavBar={true}/>

@@ -33,18 +33,4 @@ export const styles = StyleSheet.create({
     marginLeft: DEFAULT_MARGIN,
     marginRight: 20
   },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 50,
-  },
-  sectionHeaderText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontSize: 16,
-    fontWeight: '400',
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey600,
-    marginLeft: 20
-  },
 });
