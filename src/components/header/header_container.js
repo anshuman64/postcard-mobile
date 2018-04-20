@@ -16,7 +16,7 @@ const mapStateToProps = ({ client }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   createPost:   (authToken, firebaseUserObj, clientId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText) => dispatch(createPost(authToken, firebaseUserObj, clientId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText)),
-  createCircle: (authToken, firebaseUserObj, name, users) => dispatch(createCircle(authToken, firebaseUserObj, name, users)),
+  createCircle: (authToken, firebaseUserObj, name, recipientIds) => dispatch(createCircle(authToken, firebaseUserObj, name, recipientIds)),
   createGroup:  (authToken, firebaseUserObj, users) => dispatch(createGroup(authToken, firebaseUserObj, users)),
   navigateTo:   (screen, props) => dispatch(navigateTo(screen, props)),
   goBack:       (props) => dispatch(goBack(props)),
