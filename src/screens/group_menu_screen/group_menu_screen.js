@@ -7,28 +7,32 @@ import { Actions } from 'react-native-router-flux';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }            from './menu_screen_styles';
+import { styles }            from './group_menu_screen_styles';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
 import { defaultErrorAlert } from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
-class MenuScreen extends React.PureComponent {
+class GroupMenuScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
-  _logOut = () => {
-    Firebase.auth().signOut()
-      .then(() => {
-        AWS.config.credentials.clearCachedId();
-        AWS.config.credentials = null;
-        Actions.reset('WelcomeScreen');
-      })
-      .catch((error) => {
-        defaultErrorAlert(error);
-      });
+  _onPressChangeName = () => {
+
+  }
+
+  _onPressAddMembers = () => {
+
+  }
+
+  _onPressLeaveGroup = () => {
+
+  }
+
+  _onPressDeleteGroup = () => {
+
   }
 
   //--------------------------------------------------------------------//
@@ -62,20 +66,54 @@ class MenuScreen extends React.PureComponent {
     )
   }
 
+  _renderItem = ({item}) => {
+    return null
+  }
+
+  _renderHeader() {
+    return (
+      <RN.View>
+        {this._renderButton('pencil', 'Change Group Name', this.pencilIcon, this.pencilText, this._onPressChangeName)}
+        {this._renderButton('user-follow', 'Add Members', this.followIcon, this.followText, this._onPressAddMembers)}
+        {this._renderButton('logout', 'Leave Group', this.logoutIcon, this.logoutText, this._onPressLeaveGroup)}
+        {this._renderButton('close', 'Delete Group', this.closeIcon, this.closeText, this._onPressDeleteGroup)}
+     </RN.View>
+    )
+  }
+
+  _renderSectionHeader = ({section}) => {
+    return (
+      <RN.View style={UTILITY_STYLES.sectionHeader}>
+        <RN.Text style={UTILITY_STYLES.sectionHeaderText}>
+          {section.title}
+        </RN.Text>
+      </RN.View>
+    )
+  }
+
+  _renderList() {
+    return (
+      <RN.SectionList
+        sections={[{data: this.props.groupsCache[this.props.convoId].users, renderItem: this._renderItem.bind(this), title: 'Members'}]}
+        keyExtractor={(item) => item}
+        renderSectionHeader={this._renderSectionHeader.bind(this)}
+        ListHeaderComponent={this._renderHeader()}
+        initialListSize={20}
+        pageSize={60}
+        showsVerticalScrollIndicator={true}
+      />
+    )
+  }
+
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        {this._renderButton('envelope', 'Contact', this.contactIcon, this.contactText, () => RN.Linking.openURL('mailto:contact@insiya.io'))}
-        {this._renderButton('paper-plane', 'Telegram Community', this.telegramIcon, this.telegramText, () => RN.Linking.openURL('https://t.me/insiyaapp'))}
-        {this._renderButton('docs', 'Terms of Use', this.termsIcon, this.termsText, () => RN.Linking.openURL('https://medium.com/@InsiyaInc/terms-of-use-de17e7b76742'))}
-        {this._renderButton('lock', 'Privacy Policy', this.privacyIcon, this.privacyText, () => RN.Linking.openURL('https://medium.com/@InsiyaInc/privacy-policy-a18b33e9d916'))}
-        {this._renderButton('people', 'Community Guidelines', this.communityIcon, this.community, () => RN.Linking.openURL('mailto:contact@insiya.io'))}
-        {this._renderButton('logout', 'Log Out', this.logOutIcon, this.logOutText, this._logOut)}
-     </RN.View>
+        {this._renderList()}
+      </RN.View>
     )
   }
 }
 
 //--------------------------------------------------------------------//
 
-export default MenuScreen;
+export default GroupMenuScreen;

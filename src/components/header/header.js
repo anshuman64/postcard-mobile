@@ -144,6 +144,16 @@ class Header extends React.PureComponent {
     });
   }
 
+  _onPressSettings = () => {
+    // If coming from ProfileTabs
+    if (this.props.blank) {
+      this.props.navigateTo('MenuScreen');
+    // If coming from MessagesScreen
+    } else {
+      this.props.navigateTo('GroupMenuScreen', { convoId: this.props.convoId });
+    }
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -195,7 +205,7 @@ class Header extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.settingsIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
           onPressOut={() => this.settingsIcon.setNativeProps({style: styles.settingsIcon})}
-          onPress={() => this.props.navigateTo('MenuScreen')}
+          onPress={this._onPressSettings}
           >
           <RN.View style={styles.button}>
             <Icon ref={(ref) => this.settingsIcon = ref} name='options-vertical' style={styles.settingsIcon} />
