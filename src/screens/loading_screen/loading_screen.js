@@ -94,6 +94,8 @@ class LoadingScreen extends React.PureComponent {
   }
 
   async _refreshData() {
+    await this.props.getConversations(this.props.client.authToken, this.props.client.firebaseUserObj);
+
     for (let postType in POST_TYPES) {
       await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
