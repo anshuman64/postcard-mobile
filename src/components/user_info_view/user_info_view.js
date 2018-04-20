@@ -40,8 +40,7 @@ class UserInfoView extends React.PureComponent {
     } else {
       convo = this.props.groupsCache[this.props.convoId];
       displayName = convo && convo.name ? convo.name : 'unknown';
-      peek_message = this.props.groupsCache[this.props.convoId].peek_message;
-      authorId = peek_message ? peek_message.author_id : null;
+      authorId = convo && convo.peek_message ? convo.peek_message.author_id : null;
     }
 
     return (
