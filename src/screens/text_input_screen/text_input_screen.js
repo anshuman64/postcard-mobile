@@ -147,7 +147,7 @@ class TextInputScreen extends React.PureComponent {
   _renderTitle() {
     let titleString;
 
-    if (this.props.currentScreen === 'UsernameScreen') {
+    if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'UsernameScreenLogin') {
       titleString = 'Choose Username';
     } else if (this.props.currentScreen === 'AddFriendScreen') {
       titleString = 'Enter Username';
@@ -165,7 +165,7 @@ class TextInputScreen extends React.PureComponent {
   _renderSubtitle() {
     let subtitleString;
 
-    if (this.props.currentScreen === 'UsernameScreen') {
+    if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'UsernameScreenLogin') {
       subtitleString = 'You can change it at any time.';
     } else if (this.props.currentScreen === 'AddFriendScreen') {
       subtitleString = 'A friend request will be sent directly to the user.';
@@ -183,7 +183,7 @@ class TextInputScreen extends React.PureComponent {
   _renderTextInput() {
     let placeholderText;
 
-    if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'AddFriendScreen') {
+    if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'UsernameScreenLogin' || this.props.currentScreen === 'AddFriendScreen') {
       placeholderText = 'Enter username';
     } else if (this.props.currentScreen === 'NameCircleScreen') {
       placeholderText = 'Enter circle name';
@@ -210,7 +210,7 @@ class TextInputScreen extends React.PureComponent {
 
   _renderErrorText() {
     return (
-      <RN.Text style={[styles.errorText, !this.state.isError && UTILITY_STYLES.transparentText]}>
+      <RN.Text style={[styles.errorText, this.state.errorText.length === 0 && UTILITY_STYLES.transparentText, this.state.isSuccessful && UTILITY_STYLES.textHighlighted]}>
         {this.state.errorText}
       </RN.Text>
     )
