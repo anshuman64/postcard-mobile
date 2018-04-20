@@ -65,13 +65,13 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
     case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.userId;
+      convoId = action.data.convoId;
 
-      newState[userId]       = newState[userId]       || {};
-      newState[userId].data  = newState[userId].data  || [];
-      newState[userId].isEnd = newState[userId].isEnd || false;
+      newState[convoId]       = newState[convoId]       || {};
+      newState[convoId].data  = newState[convoId].data  || [];
+      newState[convoId].isEnd = newState[convoId].isEnd || false;
 
-      newState[userId].data.unshift(action.data.message);
+      newState[convoId].data.unshift(action.data.message);
 
       return newState;
 
