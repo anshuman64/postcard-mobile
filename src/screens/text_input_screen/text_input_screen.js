@@ -5,7 +5,6 @@ import RN    from 'react-native';
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal';
 import { styles }                 from './text_input_screen_styles';
-import { setStateCallback }       from '../../utilities/function_utility';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
 import { defaultErrorAlert }      from '../../utilities/error_utility';
 
