@@ -128,7 +128,7 @@ class PostList extends React.PureComponent {
           showsVerticalScrollIndicator={false}
           onEndReached={this._onEndReached}
           refreshControl={this._renderRefreshControl()}
-          ListHeaderComponent={this._renderHeader}
+          ListHeaderComponent={this._renderActivityIndicatorHeader}
           ListFooterComponent={this._renderFooter}
           onMomentumScrollBegin={() => this.onEndReachedCalledDuringMomentum = false}
           onEndReachedThreshold={0.01}
@@ -146,11 +146,9 @@ class PostList extends React.PureComponent {
   }
 
   _renderRefreshControl = () => {
-    let offset;
+    let offset = 0;
     if (this.props.isProfile) {
       offset = PROFILE_HEADER_HEIGHT;
-    } else {
-      offset = 0;
     }
 
     return (
@@ -173,7 +171,7 @@ class PostList extends React.PureComponent {
     }
   }
 
-  _renderHeader = () => {
+  _renderActivityIndicatorHeader = () => {
     if (this.props.isProfile) {
       return (
         <RN.View style={[styles.headerView, { height: PROFILE_HEADER_HEIGHT }]}>
@@ -190,11 +188,7 @@ class PostList extends React.PureComponent {
 
     if (postData && postData[this.props.postType] && postData[this.props.postType].isEnd) {
       return (
-        <RN.TouchableWithoutFeedback onPress={this._onPressAddFriends}>
-          <RN.View>
-            <ListFooter footerWidth={scaleFont(200)} text={'No more Posts?'} highlightedText={' Add Friends'} />
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
+        <ListFooter footerWidth={scaleFont(200)} text={'No more Posts?'} highlightedText={' Add Friends'} callback={this._onPressAddFriends} />
       )
     } else {
       return (
