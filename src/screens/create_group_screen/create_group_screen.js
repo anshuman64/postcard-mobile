@@ -16,7 +16,6 @@ const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 /*
 Required Screen Props:
-  isCircle (bool): true = is circle, false = is group
   circleName (string): proposed circleName of circle
 */
 class CreateGroupScreen extends React.PureComponent {
@@ -49,13 +48,18 @@ class CreateGroupScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderRow = (rowData, sectionID, rowID) => {
-    return (
-      <CheckboxListItemContainer
-        convoId={rowData}
-        recipients={this.state.recipients}
-        setParentState={this.setParentState}
-        />
-    )
+    // If the group already has the user, don't add it
+    if (this.props.convoId && this.props.groupsCache[this.props.convoId].users.map(a => a.id).includes(rowData)) {
+      return null;
+    } else {
+      return (
+        <CheckboxListItemContainer
+          convoId={rowData}
+          recipients={this.state.recipients}
+          setParentState={this.setParentState}
+          />
+      )
+    }
   }
 
   render() {
@@ -64,7 +68,9 @@ class CreateGroupScreen extends React.PureComponent {
         <HeaderContainer
           backIcon={true}
           backTitle={'Select Friends'}
-          createGroupButton={!this.props.isCircle}
+          createGroupButton={this.props.convoId ? false : true}
+          addGroupMembersButton={this.props.convoId ? true : false}
+          convoId={this.props.convoId}
           recipients={this.state.recipients}
           />
         <RN.ListView

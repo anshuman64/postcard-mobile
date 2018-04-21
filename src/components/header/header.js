@@ -144,6 +144,30 @@ class Header extends React.PureComponent {
     });
   }
 
+  _onPressAddGroupMembers = () => {
+    if (this.isButtonPressed || this.props.recipients.length === 0) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    this.setState({ isLoading: true },() => {
+      this.props.addGroupMembers(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId, this.props.recipients)
+        .then(() => {
+          this.props.goBack();
+          this.isGoBackPressed = true;
+        })
+        .catch((error) => {
+          this.isButtonPressed = false;
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
+    });
+
+  }
+
   _onPressSettings = () => {
     // If coming from ProfileTabs
     if (this.props.blank) {
@@ -228,7 +252,7 @@ class Header extends React.PureComponent {
   }
 
   _renderCustomButton() {
-    if (this.props.shareButton || this.props.nextButton || this.props.createCircleButton || this.props.createGroupButton) {
+    if (this.props.shareButton || this.props.nextButton || this.props.createCircleButton || this.props.createGroupButton || this.props.addGroupMembersButton) {
       let text;
       let func;
 
@@ -244,6 +268,9 @@ class Header extends React.PureComponent {
       } else if (this.props.createGroupButton) {
         text = 'Create';
         func = this._onPressCreateGroup;
+      } else if (this.props.addGroupMembersButton) {
+        text = 'Add';
+        func = this._onPressAddGroupMembers;
       }
 
       return (

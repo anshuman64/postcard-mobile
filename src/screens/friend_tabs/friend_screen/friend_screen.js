@@ -22,7 +22,7 @@ class FriendScreen extends React.PureComponent {
   }
 
   _onPressCreateGroup = () => {
-    this.props.navigateTo('CreateGroupScreen', { isCircle: false });
+    this.props.navigateTo('CreateGroupScreen', { isCreateGroup: true });
   }
 
   //--------------------------------------------------------------------//

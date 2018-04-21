@@ -17,7 +17,6 @@ const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 /*
 Required Screen Props:
-  isCircle (bool): true = is circle, false = is group
   circleName (string): proposed circleName of circle
 */
 class CreateCircleScreen extends React.PureComponent {
@@ -65,7 +64,7 @@ class CreateCircleScreen extends React.PureComponent {
         <HeaderContainer
           backIcon={true}
           backTitle={'Select Friends'}
-          createCircleButton={this.props.isCircle}
+          createCircleButton={true}
           circleName={this.props.circleName}
           recipients={this.state.recipients}
           postText={this.props.postText}

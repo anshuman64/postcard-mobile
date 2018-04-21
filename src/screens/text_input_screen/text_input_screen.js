@@ -123,7 +123,6 @@ class TextInputScreen extends React.PureComponent {
 
   _onPressNameCircleScreen = () => {
     this.props.navigateTo('CreateCircleScreen', {
-      isCircle: true,
       circleName: this.state.inputtedText,
       postText: this.props.postText,
       placeholderText: this.props.placeholderText,
