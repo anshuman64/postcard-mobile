@@ -28,7 +28,6 @@ export const FRIENDSHIP_ACTION_TYPES = {
   PUSHER_CREATE_FRIENDSHIP:           'PUSHER_CREATE_FRIENDSHIP',
   PUSHER_RECEIVE_FRIENDSHIP:          'PUSHER_RECEIVE_FRIENDSHIP',
   PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP: 'PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP',
-  PUSHER_DESTROY_FRIENDSHIP:          'PUSHER_DESTROY_FRIENDSHIP',
 };
 
 //--------------------------------------------------------------------//
@@ -69,12 +68,6 @@ export const pusherRecieveFriendship = (data) => {
 // user (user object): other user's user object
 export const pusherReceiveAcceptedFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP, data: data };
-};
-
-// user (user object): other user's user object
-// friendship (friendship object): joint friendship object
-export const pusherDestroyFriendship = (data) => {
-  return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP, data: data };
 };
 
 //--------------------------------------------------------------------//
