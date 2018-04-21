@@ -11,6 +11,16 @@ import { UTILITY_STYLES }    from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  userId (int): id of user
+Optional Passed Props:
+  -
+*/
 class PendingListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//

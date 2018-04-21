@@ -15,6 +15,17 @@ import { defaultErrorAlert }                 from '../../utilities/error_utility
 
 const AnimatedFlatList = RN.Animated.createAnimatedComponent(RN.FlatList);
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  userId (int): user id of which the posts were retrieved
+  postType (string): one of POST_TYPES
+Optional Passed Props:
+  isProfile (bool): determines if there should be a ProfileHeader
+*/
 class PostList extends React.PureComponent {
 
   //--------------------------------------------------------------------//

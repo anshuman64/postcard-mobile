@@ -10,7 +10,16 @@ import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
-
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  -
+Optional Passed Props:
+  userId (int): user id if on ProfileTabs or UserTabs
+*/
 class TabBar extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -20,7 +29,10 @@ class TabBar extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.isHeader = this.props.currentScreen === 'RecentScreen' || this.props.currentScreen === 'FollowingScreen' || this.props.currentScreen === 'FriendScreen' || this.props.currentScreen === 'PendingScreen';
+    this.isHeader = this.props.currentScreen === 'RecentScreen'
+      || this.props.currentScreen === 'FollowingScreen'
+      || this.props.currentScreen === 'FriendScreen'
+      || this.props.currentScreen === 'PendingScreen';
   }
 
   //--------------------------------------------------------------------//

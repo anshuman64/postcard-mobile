@@ -8,6 +8,19 @@ import * as StyleUtility from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  avatarSize (int): how big the avatar frame should be
+  frameBorderWidth (int): how thick the frame should be
+  iconSize (int): how big the person icon should be
+Optional Passed Props:
+  userId (int): userId of user to fetch avatar_url
+  avatarUrl (string): passed from AvatarScreen to render pending avatar
+*/
 class Avatar extends React.PureComponent {
 
   //--------------------------------------------------------------------//
