@@ -7,7 +7,6 @@ import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 import ListHeader                    from '../../../components/list_header/list_header';
 import PendingListItemContainer      from '../../../components/pending_list_item/pending_list_item_container';
 import SectionListHeader             from '../../../components/section_list_header/section_list_header';
-import { styles }                    from './pending_screen_styles';
 import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
@@ -69,7 +68,7 @@ class PendingScreen extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <RN.View style={styles.headerView}>
+      <RN.View>
         <ListHeader text={'Add Friend by Username'} iconName={'user-follow'} callback={this._onPressAddFriend} />
         <ListHeader text={'Share Username'} iconName={'share'} callback={this._onPressShare} />
       </RN.View>
