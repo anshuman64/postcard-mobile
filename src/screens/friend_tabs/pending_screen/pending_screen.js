@@ -5,6 +5,7 @@ import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import PendingListItemContainer      from '../../../components/pending_list_item/pending_list_item_container';
+import SectionListHeader             from '../../../components/section_list_header/section_list_header';
 import { styles }                    from './pending_screen_styles';
 import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
 
@@ -61,11 +62,7 @@ class PendingScreen extends React.PureComponent {
 
   _renderSectionHeader = ({section}) => {
     return (
-      <RN.View style={UTILITY_STYLES.sectionHeader}>
-        <RN.Text style={UTILITY_STYLES.sectionHeaderText}>
-          {section.title}
-        </RN.Text>
-      </RN.View>
+      <SectionListHeader title={section.title} />
     )
   }
 
