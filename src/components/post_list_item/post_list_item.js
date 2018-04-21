@@ -19,6 +19,16 @@ import { UTILITY_STYLES, COLORS }             from '../../utilities/style_utilit
 
 const AnimatedIonicon = Animatable.createAnimatableComponent(Ionicon);
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  item (object): post object to render
+Optional Passed Props:
+  width (int): width of messages; only passed if on MessagesScreen
+*/
 class PostListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//

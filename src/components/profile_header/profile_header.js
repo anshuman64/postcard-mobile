@@ -14,6 +14,17 @@ import { defaultErrorAlert }             from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  userId (int): id of user to render header for
+  scrollY (object): animation object
+Optional Passed Props:
+  -
+*/
 class ProfileHeader extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -247,11 +258,12 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderButtons() {
+    let user = this.props.usersCache[this.props.userId];
     let friendString;
-    let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
+    let friendshipStatus = user ? user.friendship_status_with_client : null;
     let deactivateButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
-    let isFollowed = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_followed_by_client : false;
-    let isBlocked = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_blocked_by_client : false;
+    let isFollowed = user ? user.is_user_followed_by_client : false;
+    let isBlocked = user ? user.is_user_blocked_by_client : false;
 
     if (friendshipStatus === FRIEND_TYPES.SENT) {
       friendString = 'Cancel';

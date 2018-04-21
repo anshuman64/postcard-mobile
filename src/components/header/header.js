@@ -13,6 +13,33 @@ import { defaultErrorAlert }          from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  -
+Optional Passed Props:
+  postText (string): text of the post to be shared, coming from NewPostScreen and/or CreateCircleScreen
+  imagePath (string): folder path of image to upload to AWS
+  placeholderText (string): placeholder text of NewPostScreen to send to analytics
+  imageType (string): type of image for AWS uploading purposed
+  isPublic (bool): if new post should be public or not from NewPostScreen
+  recipients (array): users to be passed to API from 1) CreateCircleScreen, 2) CreateGroupScreen, or 3) AddGroupMembersScreen
+  convoId (int): group id when adding members to the group
+  blank (bool): leave blank space for ProfileTabs
+  backIcon (bool): add a back icon
+  backTitle (string): title for back icon
+  settingsIcon (bool): add the three-dots settings icon for ProfileTabs or GroupMenuScreen
+  logo (bool): add a logo for HomeScreen
+  noBorder (bool): remove bottom border for ProfileTabs
+  shareButton (bool): ShareScreen share button
+  nextButton (bool): NewPostScreen next button
+  createCircleButton (bool): CreateCircleScreen create button
+  createGroupButton (bool): CreateGroupScreen create button
+  addGroupMembersButton (bool): AddGroupMembersScreen add button 
+*/
 class Header extends React.PureComponent {
 
   //--------------------------------------------------------------------//
