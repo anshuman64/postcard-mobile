@@ -4,6 +4,7 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import ListHeader                    from '../../../components/list_header/list_header';
 import PendingListItemContainer      from '../../../components/pending_list_item/pending_list_item_container';
 import SectionListHeader             from '../../../components/section_list_header/section_list_header';
 import { styles }                    from './pending_screen_styles';
@@ -66,24 +67,11 @@ class PendingScreen extends React.PureComponent {
     )
   }
 
-  _renderHeaderItem = (iconName, title, callback) => {
-    return (
-      <RN.TouchableOpacity onPress={callback}>
-        <RN.View style={styles.headerItemView}>
-          <Icon name={iconName} style={[styles.headerItemIcon, UTILITY_STYLES.textHighlighted]} />
-          <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.textHighlighted]}>
-            {title}
-          </RN.Text>
-        </RN.View>
-      </RN.TouchableOpacity>
-    )
-  }
-
   _renderHeader = () => {
     return (
       <RN.View style={styles.headerView}>
-        {this._renderHeaderItem('user-follow', 'Add Friend by Username', this._onPressAddFriend)}
-        {this._renderHeaderItem('share', 'Share Username', this._onPressShare)}
+        <ListHeader text={'Add Friend by Username'} iconName={'user-follow'} callback={this._onPressAddFriend} />
+        <ListHeader text={'Share Username'} iconName={'share'} callback={this._onPressShare} />
       </RN.View>
     )
   }
