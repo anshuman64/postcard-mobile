@@ -4,7 +4,8 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import ConversationListItemContainer       from '../../../components/conversation_list_item/conversation_list_item_container';
+import ListHeader                    from '../../../components/list_header/list_header';
+import ConversationListItemContainer from '../../../components/conversation_list_item/conversation_list_item_container';
 import ListFooter                    from '../../../components/list_footer/list_footer';
 import SectionListHeader             from '../../../components/section_list_header/section_list_header';
 import { styles }                    from './friend_screen_styles';
@@ -56,14 +57,7 @@ class FriendScreen extends React.PureComponent {
 
   _renderHeader = () => {
     return (
-      <RN.TouchableOpacity onPress={this._onPressCreateGroup}>
-        <RN.View style={styles.headerItemView}>
-          <Icon name={'people'} style={[styles.headerItemIcon, UTILITY_STYLES.textHighlighted]} />
-          <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.textHighlighted]}>
-            {'Create Group'}
-          </RN.Text>
-        </RN.View>
-      </RN.TouchableOpacity>
+      <ListHeader text={'Create Group'} iconName={'people'} callback={this._onPressCreateGroup} />
     )
   }
 
