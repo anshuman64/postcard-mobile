@@ -74,22 +74,6 @@ export const createGroup = (authToken, firebaseUserObj, users) => (dispatch) => 
     });
 };
 
-export const getUsersFromGroups = (object) => (dispatch) => {
-  let users = [];
-
-  if (Array.isArray(object)) {
-    _.forEach(object, (obj) => {
-      users = users.concat(obj.users);
-    });
-  } else {
-    users = users.concat(object.users);
-  }
-
-  dispatch(receiveUsersFromGroups({ users: users }));
-  dispatch(getImages(users));
-}
-
-
 // PUT request to API to edit group name from GroupMenuScreen
 export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dispatch) => {
   return APIUtility.put(authToken, '/groups', { group_id: -1 * groupId, name: name })
@@ -102,8 +86,27 @@ export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dis
       return dispatch(refreshAuthToken(firebaseUserObj, editGroupName, groupId, name));
     }
 
+    error = setErrorDescription(error, 'PUT group for name failed');
     amplitude.logEvent('Groups - Edit Name', { is_successful: false, name: name, error_description: error.description, error_message: error.message });
-    throw setErrorDescription(error, 'PUT group for name failed');
+    throw error;
+  });
+}
+
+// POST request to API to add group member from AddGroupMembersScreen
+export const addGroupMembers = (authToken, firebaseUserObj, groupId, userIds) => (dispatch) => {
+  return APIUtility.post(authToken, '/groups/add', { group_id: -1 * groupId, user_ids: userIds })
+  .then((editedGroup) => {
+    amplitude.logEvent('Groups - Add Members', { is_successful: true });
+    dispatch(receiveGroup({ group: editedGroup }));
+  })
+  .catch((error) => {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshAuthToken(firebaseUserObj, addGroupMember, groupId, userIds));
+    }
+
+    error = setErrorDescription(error, 'POST group to add members failed');
+    amplitude.logEvent('Groups - Add Members', { is_successful: false, error_description: error.description, error_message: error.message });
+    throw error;
   });
 }
 
@@ -125,13 +128,15 @@ export const removeGroupMember = (authToken, firebaseUserObj, groupId, userId, i
       return dispatch(refreshAuthToken(firebaseUserObj, removeGroupMember, groupId, userId));
     }
 
+    error = setErrorDescription(error, 'DEL group member failed');
+
     if (isClient) {
       amplitude.logEvent('Groups - Leave Group', { is_successful: false, error_description: error.description, error_message: error.message });
     } else {
       amplitude.logEvent('Groups - Remove Member', { is_successful: false, error_description: error.description, error_message: error.message });
     }
 
-    throw setErrorDescription(error, 'DEL group member failed');
+    throw error;
   });
 }
 
@@ -152,3 +157,19 @@ export const deleteGroup = (authToken, firebaseUserObj, groupId) => (dispatch) =
       throw error;
     });
 };
+
+// Gets user info from groups for rendering username, avatar_url, etc.
+export const getUsersFromGroups = (object) => (dispatch) => {
+  let users = [];
+
+  if (Array.isArray(object)) {
+    _.forEach(object, (obj) => {
+      users = users.concat(obj.users);
+    });
+  } else {
+    users = users.concat(object.users);
+  }
+
+  dispatch(receiveUsersFromGroups({ users: users }));
+  dispatch(getImages(users));
+}
