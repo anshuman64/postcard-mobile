@@ -104,7 +104,9 @@ class MessagesScreen extends React.PureComponent {
 
   // When refocusing app, refresh messages
   _handleAppStateChange = (nextAppState) => {
-    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active' && this.props.messages[this.props.convoId] && this.props.messages[this.props.convoId].data.length > 0) {
+    let messages = this.props.messages[this.props.convoId];
+
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active' && messages && messages.data.length > 0) {
       this._loadNewMessages();
     }
 

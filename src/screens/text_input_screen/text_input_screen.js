@@ -193,14 +193,15 @@ class TextInputScreen extends React.PureComponent {
 
   _renderSubtitle() {
     let subtitleString;
+    let currentScreen = this.props.currentScreen;
 
-    if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'UsernameScreenLogin') {
+    if (currentScreen === 'UsernameScreen' || currentScreen === 'UsernameScreenLogin') {
       subtitleString = 'You can change it at any time.';
-    } else if (this.props.currentScreen === 'AddFriendScreen') {
+    } else if (currentScreen === 'AddFriendScreen') {
       subtitleString = 'A friend request will be sent directly to the user.';
-    } else if (this.props.currentScreen === 'NameCircleScreen') {
+    } else if (currentScreen === 'NameCircleScreen') {
       subtitleString = 'Circles make it easier to select friends to send posts to.';
-    } else if (this.props.currentScreen === 'NameGroupScreen') {
+    } else if (currentScreen === 'NameGroupScreen') {
       subtitleString = 'Group name will be seen by all members.';
     }
 
@@ -213,12 +214,13 @@ class TextInputScreen extends React.PureComponent {
 
   _renderTextInput() {
     let placeholderText;
+    let currentScreen = this.props.currentScreen;
 
-    if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'UsernameScreenLogin' || this.props.currentScreen === 'AddFriendScreen') {
+    if (currentScreen === 'UsernameScreen' || currentScreen === 'UsernameScreenLogin' || currentScreen === 'AddFriendScreen') {
       placeholderText = 'Enter username';
-    } else if (this.props.currentScreen === 'NameCircleScreen') {
+    } else if (currentScreen === 'NameCircleScreen') {
       placeholderText = 'Enter circle name';
-    } else if (this.props.currentScreen === 'NameGroupScreen') {
+    } else if (currentScreen === 'NameGroupScreen') {
       placeholderText = 'Enter group name';
     }
 
@@ -252,20 +254,21 @@ class TextInputScreen extends React.PureComponent {
   _renderNextButton() {
     let buttonText;
     let buttonFunction;
+    let currentScreen = this.props.currentScreen;
 
-    if (this.props.currentScreen === 'UsernameScreen') {
+    if (currentScreen === 'UsernameScreen') {
       buttonText = 'Done';
       buttonFunction = this._onPressUsernameScreen;
-    } else if (this.props.currentScreen === 'UsernameScreenLogin') {
+    } else if (currentScreen === 'UsernameScreenLogin') {
       buttonText = 'Next';
       buttonFunction = this._onPressUsernameScreen;
-    } else if (this.props.currentScreen === 'AddFriendScreen') {
+    } else if (currentScreen === 'AddFriendScreen') {
       buttonText = 'Add Friend';
       buttonFunction = this._onPressAddFriendScreen;
-    } else if (this.props.currentScreen === 'NameCircleScreen') {
+    } else if (currentScreen === 'NameCircleScreen') {
       buttonText = 'Next';
       buttonFunction = this._onPressNameCircleScreen;
-    } else if (this.props.currentScreen === 'NameGroupScreen') {
+    } else if (currentScreen === 'NameGroupScreen') {
       buttonText = 'Done';
       buttonFunction = this._onPressNameGroupScreen;
     }

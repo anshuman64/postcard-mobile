@@ -142,11 +142,32 @@ class PendingListItem extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _renderAcceptButton(friendshipStatus, acceptString) {
+    return (
+      <RN.TouchableOpacity style={styles.confirmButton} onPress={friendshipStatus === 'received' ? this._onPressAcceptFriendship : this._onPressAddFriend}>
+        <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
+          {acceptString}
+        </RN.Text>
+      </RN.TouchableOpacity>
+    )
+  }
+
+  _renderDeleteButton(isBlocked, deleteString) {
+    return (
+      <RN.TouchableOpacity style={styles.deleteButton} onPress={isBlocked ? this._onPressUnblock : this._onPressDeleteFriendship}>
+        <RN.Text style={UTILITY_STYLES.lightBlackText15}>
+          {deleteString}
+        </RN.Text>
+      </RN.TouchableOpacity>
+    )
+  }
+
   _renderButtons() {
     let acceptString;
     let deleteString;
-    let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
-    let isBlocked = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_blocked_by_client : false;
+    let user = this.props.usersCache[this.props.userId];
+    let friendshipStatus = user ? user.friendship_status_with_client : null;
+    let isBlocked = user ? user.is_user_blocked_by_client : false;
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
@@ -167,20 +188,8 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <RN.View style={styles.buttonView}>
-        {friendshipStatus === 'received' || friendshipStatus === 'contacts' ?
-          <RN.TouchableOpacity style={styles.confirmButton} onPress={friendshipStatus === 'received' ? this._onPressAcceptFriendship : this._onPressAddFriend}>
-            <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
-              {acceptString}
-            </RN.Text>
-            </RN.TouchableOpacity> :
-            null}
-        {friendshipStatus != 'contacts' ?
-          <RN.TouchableOpacity style={styles.deleteButton} onPress={isBlocked ? this._onPressUnblock : this._onPressDeleteFriendship}>
-            <RN.Text style={UTILITY_STYLES.lightBlackText15}>
-              {deleteString}
-            </RN.Text>
-          </RN.TouchableOpacity> :
-          null}
+        {friendshipStatus === 'received' || friendshipStatus === 'contacts' ? this._renderAcceptButton(friendshipStatus, acceptString) : null}
+        {friendshipStatus != 'contacts' ? this._renderDeleteButton(isBlocked, deleteString) : null}
       </RN.View>
     )
   }

@@ -24,8 +24,10 @@ class Avatar extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAvatar() {
-    let avatarPath = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
-    let avatarUrl = this.props.imagesCache[avatarPath] ? this.props.imagesCache[avatarPath].url : null;
+    let user = this.props.usersCache[this.props.userId];
+    let avatarPath = user ? user.avatar_url : null;
+    let avatarImage = this.props.imagesCache[avatarPath];
+    let avatarUrl = avatarImage ? avatarImage.url : null;
 
     if (this.props.avatarUrl) {
       avatarUrl = this.props.avatarUrl;
