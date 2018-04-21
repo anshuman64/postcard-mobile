@@ -64,7 +64,6 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
-    case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
       convoId = action.data.convoId;
 
       newState[convoId]       = newState[convoId]       || {};
