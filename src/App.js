@@ -130,6 +130,7 @@ class App extends React.Component {
             <Scene key='ShareScreen'        component={ShareScreenContainer}        panHandlers={null} hideNavBar={true} />
             <Scene key='CreateCircleScreen' component={CreateCircleScreenContainer} panHandlers={null} hideNavBar={true} />
             <Scene key='CreateGroupScreen'  component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
+            <Scene key='AddGroupMembersScreen' component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='MessagesScreen'     component={MessagesScreenContainer}     panHandlers={null} hideNavBar={true} />
 
             <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />

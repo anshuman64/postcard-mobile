@@ -98,8 +98,7 @@ export const getMessages = (authToken, firebaseUserObj, isNew, convoId, queryPar
         return dispatch(refreshAuthToken(firebaseUserObj, getMessages, isNew, convoId, queryParams));
       }
 
-      error = setErrorDescription(error, 'GET messages failed');
-      throw error;
+      throw setErrorDescription(error, 'GET messages failed');
     });
 };
 
