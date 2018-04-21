@@ -196,22 +196,6 @@ export const UTILITY_STYLES = StyleSheet.create({
    color: '#ffffffb3',
   },
 
-  // Section Header Styles
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 50,
-  },
-  sectionHeaderText: {
-    fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: 16,
-    fontWeight: '400',
-    textAlign: 'center',
-    color: COLORS.grey600,
-    marginLeft: 20
-  },
-
   rowView: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -8,6 +8,7 @@ import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import MenuListItem          from '../../components/menu_list_item/menu_list_item';
+import SectionListHeader     from '../../components/section_list_header/section_list_header';
 import UserInfoViewContainer from '../../components/user_info_view/user_info_view_container';
 import { styles }            from './group_menu_screen_styles';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
@@ -134,11 +135,7 @@ class GroupMenuScreen extends React.PureComponent {
 
   _renderSectionHeader = ({section}) => {
     return (
-      <RN.View style={UTILITY_STYLES.sectionHeader}>
-        <RN.Text style={UTILITY_STYLES.sectionHeaderText}>
-          {section.title}
-        </RN.Text>
-      </RN.View>
+      <SectionListHeader title={section.title} />
     )
   }
 
