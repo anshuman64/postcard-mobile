@@ -50,11 +50,7 @@ class FriendScreen extends React.PureComponent {
 
   _renderFooter = () => {
     return (
-      <RN.TouchableWithoutFeedback onPress={this._onPressAddFriends}>
-        <RN.View>
-          <ListFooter footerWidth={scaleFont(200)} text={'No more Friends?'} highlightedText={' Add Friends'} />
-        </RN.View>
-      </RN.TouchableWithoutFeedback>
+      <ListFooter footerWidth={scaleFont(200)} text={'No more Friends?'} highlightedText={' Add Friends'} callback={this._onPressAddFriends} />
     )
   }
 
