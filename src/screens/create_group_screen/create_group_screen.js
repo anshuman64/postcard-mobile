@@ -16,7 +16,9 @@ const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 /*
 Required Screen Props:
-  circleName (string): proposed circleName of circle
+  convoId (int): id of group when adding members
+Optional Screen Props:
+  -
 */
 class CreateGroupScreen extends React.PureComponent {
 

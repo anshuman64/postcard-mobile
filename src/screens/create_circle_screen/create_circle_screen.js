@@ -17,7 +17,17 @@ const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 /*
 Required Screen Props:
+*/
+/*
+Required Screen Props:
   circleName (string): proposed circleName of circle
+  recipients (array): array of ids to add to circle
+  postText (string): preserve data from ShareScreen to pass to HeaderContainer
+  placeholderText (string): preserve data from ShareScreen to pass to HeaderContainer
+  imagePath (string): preserve data from ShareScreen to pass to HeaderContainer
+  imageType (string): preserve data from ShareScreen to pass to HeaderContainer
+Optional Screen Props:
+  -
 */
 class CreateCircleScreen extends React.PureComponent {
 

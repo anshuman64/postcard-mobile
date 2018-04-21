@@ -11,6 +11,12 @@ import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class FriendScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

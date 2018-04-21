@@ -18,10 +18,11 @@ const PAGE_SIZE   = Math.ceil(StyleUtility.DEVICE_DIM.height / (StyleUtility.get
 const SCROLL_SIZE = PAGE_SIZE * 5;
 
 /*
+Required Screen Props:
+  -
 Optional Screen Props:
   isAvatar (bool): determines if cropping shadow should be square or circle
 */
-
 class CameraRollScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

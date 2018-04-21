@@ -14,6 +14,12 @@ import { defaultErrorAlert } from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  convoId (int): id of group
+Optional Screen Props:
+  -
+*/
 class GroupMenuScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

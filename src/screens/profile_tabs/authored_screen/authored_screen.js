@@ -9,6 +9,12 @@ import { UTILITY_STYLES } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class AuthoredScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

@@ -10,10 +10,6 @@ import { UTILITY_STYLES, getUsableDimensions } from '../../utilities/style_utili
 //--------------------------------------------------------------------//
 
 /*
-Required Screen Props:
-  -
-Optional Screen Props:
-  -
 Required Passed Props:
   footerWidth (int): how wide the screen is
   text (string): black text to put

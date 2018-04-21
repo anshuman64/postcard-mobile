@@ -14,10 +14,6 @@ import { getTempGroupName }  from '../../utilities/function_utility';
 //--------------------------------------------------------------------//
 
 /*
-Required Screen Props:
-  -
-Optional Screen Props:
-  -
 Required Passed Props:
   convoId (int): id of the user or group of the conversation
 Optional Passed Props:
