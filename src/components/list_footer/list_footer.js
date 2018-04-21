@@ -13,9 +13,9 @@ import { UTILITY_STYLES, getUsableDimensions } from '../../utilities/style_utili
 Required Passed Props:
   footerWidth (int): how wide the screen is
   text (string): black text to put
-  highlightedText (string): blue text to put
 Optional Passed Props:
-  -
+  highlightedText (string): blue text to put
+  callback (func): callback when footer is pressed
 */
 class ListFooter extends React.PureComponent {
 
@@ -23,28 +23,22 @@ class ListFooter extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderButton(screen, iconName, isCenter) {
-    return (
-      <RN.TouchableOpacity onPress={() => this.props.navigateTo(screen)} style={styles.button}>
-        <Icon name={iconName} style={[styles.icon, isCenter && styles.iconBig, this.props.currentScreen === screen && UTILITY_STYLES.textHighlighted]} />
-      </RN.TouchableOpacity>
-    )
-  }
-
   render() {
     let lineWidth = (getUsableDimensions().width - this.props.footerWidth) / 2 - 20;
 
     return (
-      <RN.View style={styles.footerView}>
-        <RN.View style={[styles.horizontalLine, {width: lineWidth}]} />
-        <RN.Text style={[styles.footerText, {width: this.props.footerWidth}]}>
-          {this.props.text}
-          <RN.Text style={[styles.footerText, UTILITY_STYLES.textHighlighted, {width: this.props.footerWidth}]}>
-            {this.props.highlightedText}
+      <RN.TouchableWithoutFeedback onPress={this.props.callback} disabled={!this.props.callback}>
+        <RN.View style={styles.footerView}>
+          <RN.View style={[styles.horizontalLine, {width: lineWidth}]} />
+          <RN.Text style={[styles.footerText, {width: this.props.footerWidth}]}>
+            {this.props.text}
+            <RN.Text style={[styles.footerText, UTILITY_STYLES.textHighlighted, {width: this.props.footerWidth}]}>
+              {this.props.highlightedText}
+            </RN.Text>
           </RN.Text>
-        </RN.Text>
-        <RN.View style={[styles.horizontalLine, {width: lineWidth}]} />
-      </RN.View>
+          <RN.View style={[styles.horizontalLine, {width: lineWidth}]} />
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
     )
   }
 }
