@@ -11,6 +11,16 @@ import { getTempGroupName } from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  convoId (int): group or user to render
+Optional Passed Props:
+  disabled (bool): if should disable click on profile to go to it
+*/
 class UserInfoView extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -31,14 +41,14 @@ class UserInfoView extends React.PureComponent {
 
   render() {
     let convo;
-    let displayName;
+    let displayName = 'unknown';
     let authorId;
 
     if (this.props.convoId > 0) {
       convo = this.props.usersCache[this.props.convoId];
       displayName = convo && convo.username ? convo.username : 'anonymous';
       authorId = this.props.convoId;
-    } else {
+    } else if (this.props.convoId < 0) {
       convo = this.props.groupsCache[this.props.convoId];
       displayName = convo && convo.name ? convo.name : getTempGroupName(convo.users, this.props.usersCache);
       authorId = convo && convo.peek_message ? convo.peek_message.author_id : null;
@@ -49,7 +59,7 @@ class UserInfoView extends React.PureComponent {
         onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
         onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
         onPress={this._onPressAvatar}
-        disabled={this.props.disabled}
+        disabled={this.props.convoId < 0 ? true : this.props.disabled}
         >
       <RN.View style={[styles.userView, {marginLeft: this.props.marginLeft}]}>
         <AvatarContainer userId={authorId} avatarSize={40} iconSize={17} frameBorderWidth={1.1} />

@@ -8,6 +8,16 @@ import { COLORS } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  -
+Optional Passed Props:
+  isLoading (bool): if the screen is loading so that the modal should render
+*/
 class LoadingModal extends React.PureComponent {
 
   //--------------------------------------------------------------------//

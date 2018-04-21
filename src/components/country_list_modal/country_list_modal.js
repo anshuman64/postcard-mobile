@@ -10,6 +10,18 @@ import { COUNTRY_CODES }                               from '../../utilities/cou
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  countryIndex (int): index of selected country in country_utility to determine scroll position
+  setCountry (func): changes LoginScreen state with new country and country code
+  setParentState (func): used on CancelButton to close modal
+Optional Passed Props:
+  -
+*/
 class CountryListModal extends React.PureComponent {
 
   //--------------------------------------------------------------------//
