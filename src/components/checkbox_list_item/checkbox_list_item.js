@@ -16,10 +16,6 @@ import { UTILITY_STYLES }    from '../../utilities/style_utility';
 const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 /*
-Required Screen Props:
-  -
-Optional Screen Props:
-  -
 Required Passed Props:
   setParentState (func): to set parent state with updated recipients
   recipients (array): array of user and group id's that are selected

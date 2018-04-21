@@ -14,10 +14,6 @@ import { defaultErrorAlert }          from '../../utilities/error_utility';
 //--------------------------------------------------------------------//
 
 /*
-Required Screen Props:
-  -
-Optional Screen Props:
-  -
 Required Passed Props:
   -
 Optional Passed Props:
@@ -38,7 +34,7 @@ Optional Passed Props:
   nextButton (bool): NewPostScreen next button
   createCircleButton (bool): CreateCircleScreen create button
   createGroupButton (bool): CreateGroupScreen create button
-  addGroupMembersButton (bool): AddGroupMembersScreen add button 
+  addGroupMembersButton (bool): AddGroupMembersScreen add button
 */
 class Header extends React.PureComponent {
 

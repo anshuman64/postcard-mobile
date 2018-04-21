@@ -14,6 +14,14 @@ import { setStateCallback }   from '../../utilities/function_utility';
 
 const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
+/*
+Required Screen Props:
+  placeholderText (string): placeholder text of NewPostScreen to send to analytics
+Optional Screen Props:
+  postText (string): text of the post to be shared, coming from NewPostScreen and/or CreateCircleScreen
+  imagePath (string): folder path of image to upload to AWS
+  imageType (string): type of image for AWS uploading purposed
+*/
 class ShareScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

@@ -10,6 +10,12 @@ import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class PendingScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

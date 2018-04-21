@@ -13,6 +13,8 @@ import { UTILITY_STYLES } from '../../../utilities/style_utility';
 /*
 Required Screen Props:
   userId (int): userId of selected user
+Optional Screen Props:
+  -
 */
 class UserLikedScreen extends React.PureComponent {
 
