@@ -18,7 +18,9 @@ import { defaultErrorAlert }                                   from '../../utili
 
 /*
 Required Screen Props:
-  convoId (int): other user's id
+  convoId (id): id of group or user whose conversation it is with
+Optional Screen Props:
+  imagePath (string): path of image if coming from CameraRollScreen
 */
 class MessagesScreen extends React.PureComponent {
 

@@ -15,10 +15,6 @@ import { defaultErrorAlert }             from '../../utilities/error_utility';
 //--------------------------------------------------------------------//
 
 /*
-Required Screen Props:
-  -
-Optional Screen Props:
-  -
 Required Passed Props:
   userId (int): id of user to render header for
   scrollY (object): animation object

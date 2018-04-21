@@ -13,6 +13,12 @@ import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class NewPostScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

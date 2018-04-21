@@ -12,11 +12,15 @@ import { defaultErrorAlert }  from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+
 /*
+Required Screen Props:
+  -
 Optional Screen Props:
   isLogin (bool): determines what screen to go to after pressing 'Done'
+  imagePath (string): passed from CameraRollScreen when updating picture
+  imageType (string): passed from CameraRollScreen
 */
-
 class AvatarScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

@@ -15,6 +15,12 @@ import * as FileUtility      from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class LoadingScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

@@ -9,10 +9,6 @@ import { UTILITY_STYLES } from '../../../utilities/style_utility';
 //--------------------------------------------------------------------//
 
 /*
-Required Screen Props:
-  -
-Optional Screen Props:
-  -
 Required Passed Props:
   countryIndex (int): index of country to update LoginScreen state
   item (object): country_utility object with country_name and dialing_code

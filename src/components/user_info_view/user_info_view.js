@@ -12,10 +12,6 @@ import { getTempGroupName } from '../../utilities/function_utility';
 //--------------------------------------------------------------------//
 
 /*
-Required Screen Props:
-  -
-Optional Screen Props:
-  -
 Required Passed Props:
   convoId (int): group or user to render
 Optional Passed Props:
