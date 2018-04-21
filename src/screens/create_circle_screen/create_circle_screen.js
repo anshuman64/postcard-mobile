@@ -8,7 +8,6 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 import HeaderContainer        from '../../components/header/header_container';
 import CheckboxListItemContainer from '../../components/checkbox_list_item/checkbox_list_item_container';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
-import { setStateCallback }   from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
