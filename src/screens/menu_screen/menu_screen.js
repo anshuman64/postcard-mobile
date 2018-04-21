@@ -13,6 +13,12 @@ import { defaultErrorAlert } from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class MenuScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//

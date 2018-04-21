@@ -11,7 +11,16 @@ import { defaultErrorAlert }      from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
-
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  convoId (int): id of group when on NameGroupScreen
+  postText (string): preserve data from ShareScreen to pass to HeaderContainer
+  placeholderText (string): preserve data from ShareScreen to pass to HeaderContainer
+  imagePath (string): preserve data from ShareScreen to pass to HeaderContainer
+  imageType (string): preserve data from ShareScreen to pass to HeaderContainer
+*/
 class TextInputScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
