@@ -19,7 +19,6 @@ export const MESSAGE_ACTION_TYPES = {
   RECEIVE_CONVERSATIONS:      'RECEIVE_CONVERSATIONS',
   RECEIVE_MESSAGES:           'RECEIVE_MESSAGES',
   RECEIVE_MESSAGE:            'RECEIVE_MESSAGE',
-  PUSHER_RECEIVE_MESSAGE:     'PUSHER_RECEIVE_MESSAGE',
 };
 
 //--------------------------------------------------------------------//
@@ -33,22 +32,16 @@ export const receiveConversations = (data) => {
 };
 
 // messages (array): array of messages in conversation with user
-// userId (int): user id of other user
+// convoId (int): id of group or user
 // isNew (bool): bool if messsages are new messages or older ones
 export const receiveMessages = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES, data: data };
 };
 
-// userId (int): user id of other user
+// convoId (int): id of group or user
 // message (message object): message object of created message
 export const receiveMessage = (data) => {
   return { type: MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE, data: data };
-};
-
-// userId (int): user id of other user
-// message (message object): message object
-export const pusherReceiveMessage = (data) => {
-  return { type: MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE, data: data };
 };
 
 //--------------------------------------------------------------------//
