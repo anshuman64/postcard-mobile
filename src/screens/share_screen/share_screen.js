@@ -9,7 +9,6 @@ import HeaderContainer        from '../../components/header/header_container';
 import CheckboxListItemContainer  from '../../components/checkbox_list_item/checkbox_list_item_container';
 import SectionListHeader      from '../../components/section_list_header/section_list_header';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
-import { setStateCallback }   from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
