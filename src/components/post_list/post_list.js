@@ -166,10 +166,7 @@ class PostList extends React.PureComponent {
   _renderProfileHeader = () => {
     if (this.props.isProfile) {
       return (
-        <ProfileHeaderContainer
-          scrollY={this.state.scrollY}
-          userId={this.props.userId}
-          />
+        <ProfileHeaderContainer scrollY={this.state.scrollY} userId={this.props.userId}/>
       )
     } else {
       return null;
