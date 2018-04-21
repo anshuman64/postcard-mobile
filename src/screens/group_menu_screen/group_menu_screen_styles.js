@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    alignSelf: 'center',
     height: 50,
     width: 0.95 * StyleUtility.getUsableDimensions().width,
     marginTop: 15,
