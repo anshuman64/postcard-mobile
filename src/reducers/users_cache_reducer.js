@@ -149,13 +149,6 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[userId].friendship_status_with_client = FRIEND_TYPES.ACCEPTED;
 
       return newState;
-    case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
-      userId = action.data.user.id;
-
-      newState[userId] = action.data.user;
-      newState[userId].friendship_status_with_client = null;
-
-      return newState;
 
   //--------------------------------------------------------------------//
   // Message Actions

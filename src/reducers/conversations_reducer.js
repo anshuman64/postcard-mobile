@@ -53,7 +53,6 @@ const ConversationsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     // Since we don't know if user is requester or requestee, delete ids for both
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
-    case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
       _.remove(newState.conversations, (ids) => {
         return ids === action.data.friendship.requester_id;
       });

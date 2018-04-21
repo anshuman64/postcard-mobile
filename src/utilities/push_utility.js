@@ -78,7 +78,7 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('destroy-friendship', (data) => {
-    dispatch(FriendshipActions.pusherDestroyFriendship({ user: data.client, friendship: data.friendship }));
+    dispatch(FriendshipActions.removeFriendship({ friendship: data.friendship }));
   });
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
