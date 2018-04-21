@@ -5,7 +5,8 @@ import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import ConversationListItemContainer       from '../../../components/conversation_list_item/conversation_list_item_container';
-import ListFooter                    from '../../../components/list_footer/list_footer'
+import ListFooter                    from '../../../components/list_footer/list_footer';
+import SectionListHeader             from '../../../components/section_list_header/section_list_header';
 import { styles }                    from './friend_screen_styles';
 import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
 
@@ -43,11 +44,7 @@ class FriendScreen extends React.PureComponent {
 
   _renderSectionHeader = ({section}) => {
     return (
-      <RN.View style={UTILITY_STYLES.sectionHeader}>
-        <RN.Text style={UTILITY_STYLES.sectionHeaderText}>
-          {section.title}
-        </RN.Text>
-      </RN.View>
+      <SectionListHeader title={section.title} />
     )
   }
 
