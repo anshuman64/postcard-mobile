@@ -237,7 +237,8 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderUsername() {
-    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+    let user = this.props.usersCache[this.props.userId];
+    let username = user ? user.username : null;
 
     return (
       <RN.TouchableOpacity

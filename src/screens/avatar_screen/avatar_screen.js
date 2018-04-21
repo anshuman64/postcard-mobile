@@ -201,7 +201,8 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderSkipButton() {
-    let avatarUrl = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].avatar_url : null;
+    let client = this.props.usersCache[this.props.client.id];
+    let avatarUrl = client ? client.avatar_url : null;
     let skipText = this.props.isLogin ? 'Skip' : 'Remove';
 
     if (this.props.isLogin || avatarUrl) {

@@ -32,7 +32,8 @@ class UserLikedScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+    let user = this.props.usersCache[this.props.userId];
+    let username = user ? user.username : null;
 
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>

@@ -252,14 +252,16 @@ class PostListItem extends React.PureComponent {
 
   _renderFollowText() {
     if (this.props.client.id != this.props.item.author_id) {
+      let isFollowedByClient = this.props.usersCache[this.props.item.author_id].is_user_followed_by_client;
+
       return (
         <RN.View style={styles.usernameView}>
           <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
             |
           </RN.Text>
           <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !this.props.usersCache[this.props.item.author_id].is_user_followed_by_client && UTILITY_STYLES.textHighlighted]}>
-              {this.props.usersCache[this.props.item.author_id].is_user_followed_by_client ? 'Following' : 'Follow'}
+            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !isFollowedByClient && UTILITY_STYLES.textHighlighted]}>
+              {isFollowedByClient ? 'Following' : 'Follow'}
             </RN.Text>
           </RN.TouchableOpacity>
         </RN.View>
@@ -286,12 +288,14 @@ class PostListItem extends React.PureComponent {
         </RN.TouchableWithoutFeedback>
       )
     } else {
+      let isFlaggedByClient = this.props.item.is_flagged_by_client;
+
       return (
         <RN.TouchableWithoutFeedback onPress={this._onPressFlagPost} >
           <RN.View style={styles.closeOrFlagButton}>
             <Ionicon
-              name={this.props.item.is_flagged_by_client ? 'ios-flag' : 'ios-flag-outline'}
-              style={[styles.flagIcon, this.props.item.is_flagged_by_client && UTILITY_STYLES.textRed]}
+              name={isFlaggedByClient ? 'ios-flag' : 'ios-flag-outline'}
+              style={[styles.flagIcon, isFlaggedByClient && UTILITY_STYLES.textRed]}
               />
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -305,14 +309,16 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderBody() {
-    if (this.props.item.body) {
+    let body = this.props.item.body;
+
+    if (body) {
       return (
         <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
           <RN.View style={styles.bodyView}>
             <RN.View style={styles.bodyTextView}>
               <Hyperlink linkDefault={true} linkStyle={UTILITY_STYLES.textHighlighted}>
-                <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
-                  {this.props.item.body}
+                <RN.Text style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
+                  {body}
                 </RN.Text>
               </Hyperlink>
             </RN.View>
@@ -324,14 +330,15 @@ class PostListItem extends React.PureComponent {
 
   _renderImage() {
     let imagePath = this.props.item.image_url;
+    let width = this.props.width;
 
     if (imagePath && this.props.imagesCache[imagePath]) {
       return (
-        <RN.View style={[styles.bodyImageView, this.props.width && {height: this.props.width, width: this.props.width}]}>
+        <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
           <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
             <RN.Image
               source={{uri: this.props.imagesCache[imagePath].url}}
-              style={[styles.bodyImage, this.props.width && {height: this.props.width, width: this.props.width}]}
+              style={[styles.bodyImage, width && {height: width, width: width}]}
               resizeMode={'contain'}
               onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
               />
@@ -341,7 +348,7 @@ class PostListItem extends React.PureComponent {
       )
     } else if (imagePath && !this.props.imagesCache[imagePath]) {
       return (
-        <RN.View style={[styles.bodyImageView, this.props.width && {height: this.props.width, width: this.props.width}]}>
+        <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
