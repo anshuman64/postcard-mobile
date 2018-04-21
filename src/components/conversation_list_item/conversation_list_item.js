@@ -8,7 +8,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 import AvatarContainer       from '../avatar/avatar_container';
 import { styles }            from './conversation_list_item_styles';
 import { UTILITY_STYLES, scaleImage }    from '../../utilities/style_utility';
-import { renderMessageDate } from '../../utilities/date_time_utility';
+import { renderConversationDate } from '../../utilities/date_time_utility';
 import { getTempGroupName }  from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
@@ -53,7 +53,7 @@ class ConversationListItem extends React.PureComponent {
 
     return (
       <RN.Text style={styles.dateText}>
-        {createdAtDate ? renderMessageDate(createdAtDate) : ''}
+        {createdAtDate ? renderConversationDate(createdAtDate) : ''}
       </RN.Text>
     )
   }
