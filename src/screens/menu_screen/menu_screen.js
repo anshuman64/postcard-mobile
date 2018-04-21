@@ -40,12 +40,6 @@ class MenuScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderButton(iconName, text, iconRef, textRef, callback) {
-    return (
-      <MenuListItem iconName={iconName} text={text} iconRef={iconRef} textRef={textRef} callback={callback}/>
-    )
-  }
-
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
