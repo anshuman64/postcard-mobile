@@ -7,6 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
+import MenuListItem          from '../../components/menu_list_item/menu_list_item';
 import UserInfoViewContainer from '../../components/user_info_view/user_info_view_container';
 import { styles }            from './group_menu_screen_styles';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
@@ -107,33 +108,6 @@ class GroupMenuScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderButton(iconName, text, iconRef, textRef, callback) {
-    return (
-      <RN.TouchableWithoutFeedback
-        onPressIn={() => {
-          iconRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          textRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-        }}
-        onPressOut={() => {
-          iconRef.setNativeProps({style: styles.menuItemIcon})
-          textRef.setNativeProps({style: styles.menuItemText})
-        }}
-        onPress={callback}
-        >
-        <RN.View style={styles.menuItemView}>
-          <Icon
-            ref={(ref) => iconRef = ref}
-            name={iconName}
-            style={styles.menuItemIcon}
-            />
-          <RN.Text ref={(ref) => textRef = ref} style={styles.menuItemText}>
-            {text}
-          </RN.Text>
-        </RN.View>
-     </RN.TouchableWithoutFeedback>
-    )
-  }
-
   _renderItem = ({item}) => {
     return (
       <RN.View style={UTILITY_STYLES.rowView}>
@@ -150,10 +124,10 @@ class GroupMenuScreen extends React.PureComponent {
 
     return (
       <RN.View>
-        {this._renderButton('pencil', 'Change Group Name', this.pencilIcon, this.pencilText, this._onPressChangeName)}
-        {this._renderButton('user-follow', 'Add Members', this.followIcon, this.followText, this._onPressAddMembers)}
-        {this._renderButton('logout', 'Leave Group', this.logoutIcon, this.logoutText, () => this._onPressDeleteMember(this.props.client.id, true))}
-        {isClientGroupOwner ? this._renderButton('close', 'Delete Group', this.closeIcon, this.closeText, this._onPressDeleteGroup) : null}
+        <MenuListItem iconName={'pencil'} text={'Change Group Name'} callback={this._onPressChangeName} />
+        <MenuListItem iconName={'user-follow'} text={'Add Members'} callback={this._onPressAddMembers} />
+        <MenuListItem iconName={'logout'} text={'Leave Group'} callback={() => this._onPressDeleteMember(this.props.client.id, true)} />
+        {isClientGroupOwner ? <MenuListItem iconName={'close'} text={'Delete Group'} callback={this._onPressDeleteGroup} /> : null}
      </RN.View>
     )
   }
