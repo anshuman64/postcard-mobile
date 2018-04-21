@@ -159,17 +159,18 @@ class MessageListItem extends React.PureComponent {
 
   _renderImage() {
     let imagePath = this.props.message.image_url;
+    let cachedImage = this.props.imagesCache[imagePath];
 
-    if (imagePath && this.props.imagesCache[imagePath]) {
+    if (imagePath && cachedImage) {
       return (
         <RN.Image
-          source={{uri: this.props.imagesCache[imagePath].url}}
+          source={{uri: cachedImage.url}}
           style={styles.image}
           resizeMode={'contain'}
           onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
           />
       )
-    } else if (imagePath && !this.props.imagesCache[imagePath]) {
+    } else if (imagePath && !cachedImage) {
       return (
         <RN.View style={styles.image}>
           <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
@@ -194,12 +195,13 @@ class MessageListItem extends React.PureComponent {
 
   _renderPost() {
     let postId = this.props.message.post_id;
+    let cachedPost = this.props.postsCache[postId];
 
-    if (postId && this.props.postsCache[postId]) {
+    if (postId && cachedPost) {
       return (
-        <PostListItem item={this.props.postsCache[postId]} width={StyleUtility.getUsableDimensions().width * 0.75} />
+        <PostListItem item={cachedPost} width={StyleUtility.getUsableDimensions().width * 0.75} />
       )
-    } else if (postId && !this.props.postsCache[postId]) {
+    } else if (postId && !cachedPost) {
       return (
         <RN.View style={styles.image}>
           <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
