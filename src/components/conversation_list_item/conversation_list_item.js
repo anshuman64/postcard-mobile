@@ -13,6 +13,16 @@ import { getTempGroupName }  from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  convoId (int): id of the user or group of the conversation
+Optional Passed Props:
+  -
+*/
 class ConversationListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -37,7 +47,7 @@ class ConversationListItem extends React.PureComponent {
 
     if (this.props.convoId > 0) {
       convo = this.props.usersCache[this.props.convoId];
-    } else {
+    } else if (this.props.convoId < 0) {
       convo = this.props.groupsCache[this.props.convoId];
     }
 
@@ -54,12 +64,12 @@ class ConversationListItem extends React.PureComponent {
 
   _renderUsernameView() {
     let convo;
-    let displayName;
+    let displayName = 'unknown';
 
     if (this.props.convoId > 0) {
       convo = this.props.usersCache[this.props.convoId];
       displayName = convo && convo.username ? convo.username : 'anonymous';
-    } else {
+    } else if (this.props.convoId < 0) {
       convo = this.props.groupsCache[this.props.convoId];
       displayName = convo && convo.name ? convo.name : getTempGroupName(convo.users, this.props.usersCache);
     }
@@ -113,7 +123,7 @@ class ConversationListItem extends React.PureComponent {
 
     if (this.props.convoId > 0) {
       authorId = this.props.convoId;
-    } else {
+    } else if (this.props.convoId < 0) {
       convo = this.props.groupsCache[this.props.convoId];
       authorId = convo && convo.peek_message ? convo.peek_message.author_id : null;
     }

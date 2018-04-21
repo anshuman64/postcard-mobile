@@ -15,6 +15,18 @@ import { setStateCallback }  from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+Required Passed Props:
+  index (int): index of message in conversation to get next or last message
+  message (object): message object to render
+  convoId (int): userId or groupId of conversation 
+Optional Passed Props:
+  -
+*/
 class MessageListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
