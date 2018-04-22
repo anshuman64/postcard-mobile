@@ -10,6 +10,7 @@ import * as FriendshipActions            from '../actions/friendship_actions';
 import { pusherReceiveMessage }          from '../actions/message_actions';
 import { getImages }                     from '../actions/image_actions';
 import { pusherReceivePost }             from '../actions/post_actions';
+import * as GroupActions                 from '../actions/group_actions';
 
 //--------------------------------------------------------------------//
 
@@ -83,7 +84,7 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-post', (data) => {
-    dispatch(pusherReceivePost({ clientId: data.user.id, post: data.post }));
+    dispatch(pusherReceivePost({ clientId: data.user_id, post: data.post }));
     dispatch(getImages(data.post));
   });
 
@@ -91,6 +92,19 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   myChannel.bind('receive-message', (data) => {
     dispatch(receiveMessage({ convoId: data.client.id, message: data.message }));
     dispatch(getImages(data.message));
+  });
+
+  myChannel.bind('receive-group', (data) => {
+    dispatch(GroupActions.receiveGroup({ group: data.group }));
+    dispatch(GroupActions.getUsersFromGroups(data.group));
+  });
+
+  myChannel.bind('remove-group', (data) => {
+    dispatch(GroupActions.removeGroup({ groupId: data.group_id }));
+  });
+
+  myChannel.bind('edit-group', (data) => {
+    dispatch(GroupActions.editGroup({ group: data.group }));
   });
 }
 

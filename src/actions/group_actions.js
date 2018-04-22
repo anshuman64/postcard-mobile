@@ -17,6 +17,7 @@ import { getImages }           from './image_actions';
 export const GROUP_ACTION_TYPES = {
   RECEIVE_GROUPS: 'RECEIVE_GROUPS',
   RECEIVE_GROUP:  'RECEIVE_GROUP',
+  EDIT_GROUP:     'EDIT_GROUP',
   REMOVE_GROUP:   'REMOVE_GROUP',
   RECEIVE_USERS_FROM_GROUPS: 'RECEIVE_USERS_FROM_GROUPS',
 };
@@ -35,12 +36,17 @@ export const receiveGroup = (data) => {
   return { type: GROUP_ACTION_TYPES.RECEIVE_GROUP, data: data };
 };
 
+// group (group object): group object of created group
+export const editGroup = (data) => {
+  return { type: GROUP_ACTION_TYPES.EDIT_GROUP, data: data };
+};
+
 // users (array): array of users in group
 export const receiveUsersFromGroups = (data) => {
   return { type: GROUP_ACTION_TYPES.RECEIVE_USERS_FROM_GROUPS, data: data };
 };
 
-// group (group object): group object of destroyed group
+// groupId (int): id of destroyed group
 export const removeGroup = (data) => {
   return { type: GROUP_ACTION_TYPES.REMOVE_GROUP, data: data };
 };
@@ -79,7 +85,7 @@ export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dis
   return APIUtility.put(authToken, '/groups', { group_id: -1 * groupId, name: name })
   .then((editedGroup) => {
     amplitude.logEvent('Groups - Edit Name', { is_successful: true, name: name });
-    dispatch(receiveGroup({ group: editedGroup }));
+    dispatch(editGroup({ group: editedGroup }));
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -97,7 +103,7 @@ export const addGroupMembers = (authToken, firebaseUserObj, groupId, userIds) =>
   return APIUtility.post(authToken, '/groups/add', { group_id: -1 * groupId, user_ids: userIds })
   .then((editedGroup) => {
     amplitude.logEvent('Groups - Add Members', { is_successful: true });
-    dispatch(receiveGroup({ group: editedGroup }));
+    dispatch(editGroup({ group: editedGroup }));
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -117,10 +123,9 @@ export const removeGroupMember = (authToken, firebaseUserObj, groupId, userId, i
     if (isClient) {
       amplitude.logEvent('Groups - Leave Group', { is_successful: true });
       dispatch(removeGroup({ group: editedGroup }));
-      console.log(userId + ' ' + editedGroup.owner_id)
     } else {
       amplitude.logEvent('Groups - Remove Member', { is_successful: true });
-      dispatch(receiveGroup({ group: editedGroup }));
+      dispatch(editGroup({ group: editedGroup }));
     }
   })
   .catch((error) => {
@@ -145,7 +150,7 @@ export const deleteGroup = (authToken, firebaseUserObj, groupId) => (dispatch) =
   return APIUtility.del(authToken, '/groups/' + -1 * groupId)
     .then((deletedGroup) => {
       amplitude.logEvent('Groups - Delete Group', { is_successful: true });
-      dispatch(removeGroup({ group: deletedGroup }));
+      dispatch(removeGroup({ groupId: deletedGroup.id }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
