@@ -175,6 +175,7 @@ class LoadingScreen extends React.PureComponent {
         this.navigateToNotification = 'AuthoredScreen';
       case 'receive-friendship':
       case 'receive-accepted-friendship':
+      case 'receive-group':
         this.navigateToNotification = 'FriendScreen';
       case 'receive-post':
         this.navigateToNotification = 'HomeScreen';

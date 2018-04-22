@@ -85,10 +85,10 @@ const ConversationsReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case GROUP_ACTION_TYPES.REMOVE_GROUP:
-      group = action.data.group;
+      groupId = action.data.groupId;
 
       _.remove(newState.conversations, (ids) => {
-        return ids === -1 * group.id;
+        return ids === -1 * groupId;
       });
 
       return newState;
