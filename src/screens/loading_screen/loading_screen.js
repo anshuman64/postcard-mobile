@@ -122,7 +122,7 @@ class LoadingScreen extends React.PureComponent {
       if (this.navigateToNotification) {
         if (this.navigateToNotification === 'MessagesScreen') {
           this.props.navigateTo('FriendScreen'); // Go to FriendScreen first so that back button on messages goes to right place
-          this.props.navigateTo('MessagesScreen', { userId: this.navigateToMessages });
+          this.props.navigateTo('MessagesScreen', { convoId: this.navigateToMessages });
         } else {
           this.props.navigateTo(this.navigateToNotification);
         }
@@ -181,7 +181,7 @@ class LoadingScreen extends React.PureComponent {
         this.navigateToNotification = 'HomeScreen';
       case 'receive-message':
         this.navigateToNotification = 'MessagesScreen';
-        this.navigateToMessages     = data.client.id;
+        this.navigateToMessages     = data.client_id ? data.client_id : -1 * data.group_id;
     }
   }
 
