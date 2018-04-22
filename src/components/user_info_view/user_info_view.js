@@ -16,6 +16,7 @@ Required Passed Props:
   convoId (int): group or user to render
 Optional Passed Props:
   disabled (bool): if should disable click on profile to go to it
+  marginLeft (int): amount of left margin
 */
 class UserInfoView extends React.PureComponent {
 
