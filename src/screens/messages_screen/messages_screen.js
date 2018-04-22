@@ -252,16 +252,8 @@ class MessagesScreen extends React.PureComponent {
   }
 
   render() {
-    let convo;
-    let displayName = 'unknown';
-
-    if (this.props.convoId > 0) {
-      convo = this.props.usersCache[this.props.convoId];
-      displayName = convo && convo.username ? convo.username : 'anonymous';
-    } else if (this.props.convoId < 0) {
-      convo = this.props.groupsCache[this.props.convoId];
-      displayName = convo && convo.name ? convo.name : getTempGroupName(convo.users, this.props.usersCache);
-    }
+    let convo = getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let displayName = getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
