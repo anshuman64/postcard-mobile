@@ -10,7 +10,7 @@ import ListFooter                                              from '../../compo
 import HeaderContainer                                         from '../../components/header/header_container';
 import MessageListItemContainer                                from '../../components/message_list_item/message_list_item_container';
 import { styles }                                              from './messages_screen_styles';
-import { setStateCallback, isStringEmpty, getTempGroupName }   from '../../utilities/function_utility';
+import { setStateCallback, isStringEmpty, getConvo, getConvoDisplayName }   from '../../utilities/function_utility';
 import { UTILITY_STYLES, COLORS, scaleFont }                   from '../../utilities/style_utility';
 import { defaultErrorAlert }                                   from '../../utilities/error_utility';
 
