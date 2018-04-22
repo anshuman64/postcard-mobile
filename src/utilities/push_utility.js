@@ -7,7 +7,7 @@ import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config';
 import { getBaseUrl }                    from './api_utility';
 import { pusherReceiveLike }             from '../actions/like_actions';
 import * as FriendshipActions            from '../actions/friendship_actions';
-import { pusherReceiveMessage }          from '../actions/message_actions';
+import { receiveMessage }                from '../actions/message_actions';
 import { getImages }                     from '../actions/image_actions';
 import { pusherReceivePost }             from '../actions/post_actions';
 import * as GroupActions                 from '../actions/group_actions';
@@ -90,7 +90,8 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-message', (data) => {
-    dispatch(receiveMessage({ convoId: data.client.id, message: data.message }));
+    convoId = data.client_id ? data.client_id : -1 * data.group_id;
+    dispatch(receiveMessage({ convoId: convoId, message: data.message }));
     dispatch(getImages(data.message));
   });
 
