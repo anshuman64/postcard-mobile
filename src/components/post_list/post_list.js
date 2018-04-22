@@ -121,7 +121,7 @@ class PostList extends React.PureComponent {
           ref={(ref) => this.flatList = ref}
           data={(postData && postData[this.props.postType]) ? postData[this.props.postType].data : null}
           renderItem={this._renderItem.bind(this)}
-          keyExtractor={(item) => this.props.postsCache[item].id}
+          keyExtractor={(item, index) => 'list-item-${index}'}
           style={styles.postList}
           initialNumToRender={3}
           maxToRenderPerBatch={10}
