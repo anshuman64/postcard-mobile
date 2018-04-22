@@ -7,7 +7,7 @@ import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 import AvatarContainer      from '../avatar/avatar_container';
 import { styles }           from './user_info_view_styles';
 import { UTILITY_STYLES }   from '../../utilities/style_utility';
-import { getTempGroupName } from '../../utilities/function_utility';
+import { getConvo, getConvoDisplayName, getConvoAuthorId } from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -37,19 +37,9 @@ class UserInfoView extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let convo;
-    let displayName = 'unknown';
-    let authorId;
-
-    if (this.props.convoId > 0) {
-      convo = this.props.usersCache[this.props.convoId];
-      displayName = convo && convo.username ? convo.username : 'anonymous';
-      authorId = this.props.convoId;
-    } else if (this.props.convoId < 0) {
-      convo = this.props.groupsCache[this.props.convoId];
-      displayName = convo && convo.name ? convo.name : getTempGroupName(convo.users, this.props.usersCache);
-      authorId = convo && convo.peek_message ? convo.peek_message.author_id : null;
-    }
+    let convo = getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let displayName = getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let authorId = getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
       <RN.TouchableWithoutFeedback
