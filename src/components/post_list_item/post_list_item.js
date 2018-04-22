@@ -7,12 +7,13 @@ import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
+import ListModalContainer                     from '../list_modal/list_modal_container';
 import UserInfoViewContainer                  from '../user_info_view/user_info_view_container';
 import { FRIEND_TYPES }                       from '../../actions/friendship_actions';
 import { styles, scaleHeart }                 from './post_list_item_styles';
 import { renderPostDate }                     from '../../utilities/date_time_utility';
 import { defaultErrorAlert }                  from '../../utilities/error_utility';
-import { setStateCallback, getReadableCount } from '../../utilities/function_utility';
+import { setStateCallback, getReadableCount, getConvoDisplayName } from '../../utilities/function_utility';
 import { UTILITY_STYLES, COLORS }             from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
@@ -37,12 +38,22 @@ class PostListItem extends React.PureComponent {
     this.state = {
       isLikingAnimation: false, // if the liking animation is still playing
       isLikingServer:    false, // if the server is still registering the create/delete like
+      isModalVisible:    false,
     }
 
     this.isLikeDisabled   = false;
     this.isFlagDisabled   = false;
     this.isDeleteDisabled = false;
     this.isFollowDisabled = false;
+  }
+
+  //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
+  // Callback function used for Cancel button in ListModal
+  setParentState = (state) => {
+    this.setState(state);
   }
 
   //--------------------------------------------------------------------//
@@ -225,7 +236,7 @@ class PostListItem extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Render Methods
+  // Post Header Render Methods
   //--------------------------------------------------------------------//
 
   _renderHeader() {
@@ -245,22 +256,59 @@ class PostListItem extends React.PureComponent {
           convoId={this.props.item.author_id}
           marginLeft={0}
           />
-        {this._renderFollowText()}
+        {this._renderAuthoredRecipients()}
       </RN.View>
     )
   }
 
+  _renderAuthoredRecipients() {
+    if (this.props.currentScreen === 'AuthoredScreen') {
+      let numRecipients = this.props.item.recipient_ids.length;
+      let displayString  = '';
+      let callback;
+
+      if (numRecipients === 0) {
+        return null;
+      } else if (numRecipients === 1) {
+        convoId = this.props.item.recipient_ids[0];
+        displayString = getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
+        callback = () => this.props.navigateTo('MessagesScreen', { convoId: convoId });
+      } else {
+        displayString = numRecipients + ' recipients';
+        callback = setStateCallback(this, { isModalVisible: true });
+      }
+
+      return (
+        <RN.View style={styles.usernameView}>
+          <RN.Text style={UTILITY_STYLES.regularBlackText15}>{'>  '}</RN.Text>
+          <RN.TouchableWithoutFeedback
+            onPressIn={() => this.displayString.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+            onPressOut={() => this.displayString.setNativeProps({style: UTILITY_STYLES.regularBlackText15})}
+            style={styles.usernameView}
+            onPress={callback}
+            >
+            <RN.View>
+              <RN.Text ref={(ref) => this.displayString = ref}  style={UTILITY_STYLES.regularBlackText15}>
+                {displayString}
+              </RN.Text>
+            </RN.View>
+          </RN.TouchableWithoutFeedback>
+        </RN.View>
+      )
+    } else {
+      return null;
+    }
+  }
+
   _renderFollowText() {
-    if (this.props.client.id != this.props.item.author_id) {
+    if (this.props.currentScreen != 'HomeScreen' && this.props.client.id != this.props.item.author_id) {
       let isFollowedByClient = this.props.usersCache[this.props.item.author_id].is_user_followed_by_client;
 
       return (
         <RN.View style={styles.usernameView}>
-          <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-            |
-          </RN.Text>
+          <RN.Text style={UTILITY_STYLES.regularBlackText15}>{' | '}</RN.Text>
           <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !isFollowedByClient && UTILITY_STYLES.textHighlighted]}>
+            <RN.Text style={[UTILITY_STYLES.lightBlackText15, !isFollowedByClient && UTILITY_STYLES.textHighlighted]}>
               {isFollowedByClient ? 'Following' : 'Follow'}
             </RN.Text>
           </RN.TouchableOpacity>
@@ -399,6 +447,12 @@ class PostListItem extends React.PureComponent {
     }
   }
 
+  _renderListModal() {
+    return (
+      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={this.props.item.recipient_ids} setParentState={this.setParentState} />
+    )
+  }
+
   //--------------------------------------------------------------------//
   // Other Render Methods
   //--------------------------------------------------------------------//
@@ -412,6 +466,7 @@ class PostListItem extends React.PureComponent {
           {this._renderImage()}
           {this._renderFooter()}
         </Animatable.View>
+        {this._renderListModal()}
       </RN.View>
     )
   }
