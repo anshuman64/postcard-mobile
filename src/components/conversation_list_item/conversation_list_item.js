@@ -9,7 +9,7 @@ import AvatarContainer       from '../avatar/avatar_container';
 import { styles }            from './conversation_list_item_styles';
 import { UTILITY_STYLES, scaleImage }    from '../../utilities/style_utility';
 import { renderConversationDate } from '../../utilities/date_time_utility';
-import { getTempGroupName }  from '../../utilities/function_utility';
+import { getConvo, getConvoDisplayName, getConvoAuthorId }  from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -38,18 +38,8 @@ class ConversationListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderDate() {
-    let createdAtDate = null;
-    let convo;
-
-    if (this.props.convoId > 0) {
-      convo = this.props.usersCache[this.props.convoId];
-    } else if (this.props.convoId < 0) {
-      convo = this.props.groupsCache[this.props.convoId];
-    }
-
-    if (convo) {
-      createdAtDate = convo.peek_message ? convo.peek_message.created_at : convo.created_at;
-    }
+    let convo = getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let createdAtDate = convo && convo.peek_message ? convo.peek_message.created_at : convo.created_at;
 
     return (
       <RN.Text style={styles.dateText}>
@@ -59,16 +49,8 @@ class ConversationListItem extends React.PureComponent {
   }
 
   _renderUsernameView() {
-    let convo;
-    let displayName = 'unknown';
-
-    if (this.props.convoId > 0) {
-      convo = this.props.usersCache[this.props.convoId];
-      displayName = convo && convo.username ? convo.username : 'anonymous';
-    } else if (this.props.convoId < 0) {
-      convo = this.props.groupsCache[this.props.convoId];
-      displayName = convo && convo.name ? convo.name : getTempGroupName(convo.users, this.props.usersCache);
-    }
+    let convo = getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let displayName = getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     let message = convo ? convo.peek_message : null;
     let messagePreview = 'Send a message...';
@@ -115,14 +97,7 @@ class ConversationListItem extends React.PureComponent {
   }
 
   render() {
-    let authorId;
-
-    if (this.props.convoId > 0) {
-      authorId = this.props.convoId;
-    } else if (this.props.convoId < 0) {
-      convo = this.props.groupsCache[this.props.convoId];
-      authorId = convo && convo.peek_message ? convo.peek_message.author_id : null;
-    }
+    let authorId = getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateTo('MessagesScreen', { convoId: this.props.convoId })}>
