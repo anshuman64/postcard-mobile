@@ -52,8 +52,8 @@ class CameraRollScreen extends React.PureComponent {
     } else {
       ImagePicker.openCropper({
         path: imagePath,
-        width: 500,
-        height: 500,
+        width: this.props.isAvatar ? 200 : 400, //TODO: enable dynamic resizing
+        height: this.props.isAvatar ? 200 : 400,
         cropperCircleOverlay: this.props.isAvatar, // If isAvatar, use the circular cropping overlay
         showCropGuidelines: false,
         hideBottomControls: true,
