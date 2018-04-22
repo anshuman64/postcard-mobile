@@ -43,6 +43,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
       _.forEach(action.data.posts, (post) => {
         newState[post.id] = post;
+        newState[post.id].recipient_ids = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
       });
 
       return newState;
