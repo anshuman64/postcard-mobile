@@ -10,6 +10,7 @@ import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 import ListModalContainer                     from '../list_modal/list_modal_container';
 import UserInfoViewContainer                  from '../user_info_view/user_info_view_container';
 import { FRIEND_TYPES }                       from '../../actions/friendship_actions';
+import { POST_TYPES }                       from '../../actions/post_actions';
 import { styles, scaleHeart }                 from './post_list_item_styles';
 import { renderPostDate }                     from '../../utilities/date_time_utility';
 import { defaultErrorAlert }                  from '../../utilities/error_utility';
@@ -23,6 +24,7 @@ const AnimatedIonicon = Animatable.createAnimatableComponent(Ionicon);
 /*
 Required Passed Props:
   item (object): post object to render
+  postType (string): used as a proxy for which screen we are on
 Optional Passed Props:
   width (int): width of messages; only passed if on MessagesScreen
 */
@@ -45,6 +47,7 @@ class PostListItem extends React.PureComponent {
     this.isFlagDisabled   = false;
     this.isDeleteDisabled = false;
     this.isFollowDisabled = false;
+    this.recipients       = null;
   }
 
   //--------------------------------------------------------------------//
@@ -256,13 +259,43 @@ class PostListItem extends React.PureComponent {
           convoId={this.props.item.author_id}
           marginLeft={0}
           />
+        {this._renderReceivedRecipients()}
         {this._renderAuthoredRecipients()}
+        {this._renderFollowText()}
       </RN.View>
     )
   }
 
+  _renderReceivedRecipients() {
+    if (this.props.postType === POST_TYPES.RECEIVED) {
+      let numRecipients = this.props.item.recipient_ids_with_client.length;
+      let displayString  = '';
+      let callback;
+
+      if (numRecipients === 0) {
+        return null;
+      } else if (numRecipients === 1) {
+        convoId = this.props.item.recipient_ids_with_client[0];
+        if (convoId > 0) {
+          displayString = 'You';
+          callback = () => this.props.navigateTo('MessagesScreen', { convoId: this.props.item.author_id });
+        } else {
+          displayString = getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
+          callback = () => this.props.navigateTo('MessagesScreen', { convoId: this.props.item.recipient_ids_with_client[0] }); //NOTE: don't use convoId variable, because callback is in different scope
+        }
+      } else {
+        displayString = numRecipients + ' groups';
+        callback = setStateCallback(this, { isModalVisible: true });
+      }
+
+      return this._renderRecipients(displayString, callback);
+    } else {
+      return null;
+    }
+  }
+
   _renderAuthoredRecipients() {
-    if (this.props.currentScreen === 'AuthoredScreen') {
+    if (this.props.postType === POST_TYPES.AUTHORED) {
       let numRecipients = this.props.item.recipient_ids.length;
       let displayString  = '';
       let callback;
@@ -272,36 +305,40 @@ class PostListItem extends React.PureComponent {
       } else if (numRecipients === 1) {
         convoId = this.props.item.recipient_ids[0];
         displayString = getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
-        callback = () => this.props.navigateTo('MessagesScreen', { convoId: convoId });
+        callback = () => this.props.navigateTo('MessagesScreen', { convoId: this.props.item.recipient_ids[0] });
       } else {
         displayString = numRecipients + ' recipients';
         callback = setStateCallback(this, { isModalVisible: true });
       }
 
-      return (
-        <RN.View style={styles.usernameView}>
-          <RN.Text style={UTILITY_STYLES.regularBlackText15}>{'>  '}</RN.Text>
-          <RN.TouchableWithoutFeedback
-            onPressIn={() => this.displayString.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-            onPressOut={() => this.displayString.setNativeProps({style: UTILITY_STYLES.regularBlackText15})}
-            style={styles.usernameView}
-            onPress={callback}
-            >
-            <RN.View>
-              <RN.Text ref={(ref) => this.displayString = ref}  style={UTILITY_STYLES.regularBlackText15}>
-                {displayString}
-              </RN.Text>
-            </RN.View>
-          </RN.TouchableWithoutFeedback>
-        </RN.View>
-      )
+      return this._renderRecipients(displayString, callback);
     } else {
       return null;
     }
   }
 
+  _renderRecipients(displayString, callback) {
+    return (
+      <RN.View style={styles.usernameView}>
+        <RN.Text style={UTILITY_STYLES.regularBlackText15}>{'>  '}</RN.Text>
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => this.displayString.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+          onPressOut={() => this.displayString.setNativeProps({style: UTILITY_STYLES.regularBlackText15})}
+          style={styles.usernameView}
+          onPress={callback}
+          >
+          <RN.View>
+            <RN.Text ref={(ref) => this.displayString = ref}  style={UTILITY_STYLES.regularBlackText15}>
+              {displayString}
+            </RN.Text>
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+      </RN.View>
+    )
+  }
+
   _renderFollowText() {
-    if (this.props.currentScreen != 'HomeScreen' && this.props.client.id != this.props.item.author_id) {
+    if (this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
       let isFollowedByClient = this.props.usersCache[this.props.item.author_id].is_user_followed_by_client;
 
       return (
@@ -448,8 +485,10 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderListModal() {
+    let recipientIds = this.props.postType === POST_TYPES.RECEIVED ? this.props.item.recipient_ids_with_client : this.props.item.recipient_ids;
+
     return (
-      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={this.props.item.recipient_ids} setParentState={this.setParentState} />
+      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={recipientIds} authorId={this.props.item.author_id} setParentState={this.setParentState} />
     )
   }
 
