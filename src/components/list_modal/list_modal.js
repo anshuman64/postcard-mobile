@@ -18,6 +18,7 @@ Required Passed Props:
 Optional Passed Props:
   recipientIds (array): array of convoIds of recipient users and groups
   authorId (int): id of author of post; used to go to right messages
+  postId (int): id of post to send to messages
   countryIndex (int): index of selected country in country_utility to determine scroll position
   setCountry (func): changes LoginScreen state with new country and country code. Used as proxy for login screen
 */
@@ -59,8 +60,16 @@ class ListModal extends React.PureComponent {
 
   // Navigates to messages of selected group or user
   _onNavigateToMessages(convoId) {
-    this.props.navigateTo('MessagesScreen', { convoId: this.props.client.id === convoId ? this.props.authorId : convoId });
-    this.props.setParentState({ isModalVisible: false });
+    let revisedConvoId = this.props.client.id === convoId ? this.props.authorId : convoId;
+
+    this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, revisedConvoId, null, null, null, this.props.postId)
+      .then(() => {
+        this.props.navigateTo('MessagesScreen', { convoId: revisedConvoId });
+        this.props.setParentState({ isModalVisible: false });
+      })
+      .catch((error) => {
+        defaultErrorAlert(error);
+      });
   }
 
   //--------------------------------------------------------------------//
