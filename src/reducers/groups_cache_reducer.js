@@ -1,5 +1,5 @@
 // Library Imports
-import _  from 'lodash';
+import _ from 'lodash';
 
 // Local Imports
 import { GROUP_ACTION_TYPES } from '../actions/group_actions';

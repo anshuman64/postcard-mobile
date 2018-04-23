@@ -1,5 +1,5 @@
 // Library Imports
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 // Local Imports
 import { CLIENT_ACTION_TYPES }                   from '../actions/client_actions';
@@ -165,7 +165,7 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES:
       convoId = action.data.convoId;
       messages = action.data.messages;
-      
+
       if (action.data.isNew && messages.length != 0 && convoId > 0) {
         newState[convoId].peek_message = messages[0];
       }

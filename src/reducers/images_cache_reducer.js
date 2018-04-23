@@ -1,5 +1,5 @@
 // Library Imports
-import _  from 'lodash';
+import _ from 'lodash';
 
 // Local Imports
 import { IMAGE_ACTION_TYPES } from '../actions/image_actions';
