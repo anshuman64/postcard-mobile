@@ -3,7 +3,7 @@ import React                   from 'react';
 import RN                      from 'react-native';
 import _                       from 'lodash';
 import { AsYouTypeFormatter }  from 'google-libphonenumber';
-import Icon                    from 'react-native-vector-icons/Ionicons';
+import Ionicon                 from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import LoadingModal                from '../../components/loading_modal/loading_modal';
@@ -180,7 +180,7 @@ class LoginScreen extends React.PureComponent {
           <RN.Text ref={(ref) => this.countrySelectorText = ref} style={[UTILITY_STYLES.lightBlackText18, styles.countrySelectorTextWidth]}>
             {COUNTRY_CODES[this.state.countryIndex].country_name}
           </RN.Text>
-          <Icon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
+          <Ionicon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
         </RN.View>
       </RN.TouchableWithoutFeedback>
     )
