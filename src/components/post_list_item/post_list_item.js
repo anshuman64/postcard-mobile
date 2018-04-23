@@ -349,12 +349,12 @@ class PostListItem extends React.PureComponent {
         <Ionicon name={'md-play'} style={[styles.playIcon, UTILITY_STYLES.marginLeft5]}/>
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.displayString.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-          onPressOut={() => this.displayString.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]})}
+          onPressOut={() => this.displayString.setNativeProps({style: [UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5]})}
           style={styles.usernameView}
           onPress={callback}
           >
           <RN.View>
-            <RN.Text ref={(ref) => this.displayString = ref}  style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
+            <RN.Text ref={(ref) => this.displayString = ref}  style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5]}>
               {displayString}
             </RN.Text>
           </RN.View>
