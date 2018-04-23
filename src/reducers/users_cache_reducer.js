@@ -163,9 +163,11 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES:
-      if (action.data.isNew && action.data.messages.length != 0) {
-        userId = action.data.userId;
-        newState[userId].peek_message = action.data.messages[0];
+      convoId = action.data.convoId;
+      messages = action.data.messages;
+      
+      if (action.data.isNew && messages.length != 0 && convoId > 0) {
+        newState[convoId].peek_message = messages[0];
       }
 
       return newState;
