@@ -84,7 +84,7 @@ class PendingScreen extends React.PureComponent {
           {data: this.props.friendships.contacts, renderItem: this._renderItem.bind(this), title: 'Contacts on Postcard'},
           {data: this.props.blocks.blockedUsers, renderItem: this._renderItem.bind(this), title: 'Blocked Users'},
         ]}
-        keyExtractor={(item, index) => 'list-item-${index}'}
+        keyExtractor={(item, index) => String(index)}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
         initialListSize={20}
