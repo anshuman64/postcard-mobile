@@ -2,11 +2,11 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import Header                  from './header';
-import { createPost }          from '../../actions/post_actions';
-import { createCircle }        from '../../actions/circle_actions';
+import Header                           from './header';
+import { createPost }                   from '../../actions/post_actions';
+import { createCircle }                 from '../../actions/circle_actions';
 import { createGroup, addGroupMembers } from '../../actions/group_actions';
-import { navigateTo, goBack }  from '../../actions/navigation_actions';
+import { navigateTo, goBack }           from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

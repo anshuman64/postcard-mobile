@@ -4,10 +4,10 @@ import RN     from 'react-native';
 import * as _ from 'lodash';
 
 // Local Imports
-import { styles }                                      from './list_modal_styles';
-import UserInfoViewContainer                           from '../user_info_view/user_info_view_container';
-import { UTILITY_STYLES, COLORS, getUsableDimensions } from '../../utilities/style_utility';
-import { COUNTRY_CODES }                               from '../../utilities/country_utility';
+import { styles }            from './list_modal_styles';
+import UserInfoViewContainer from '../user_info_view/user_info_view_container';
+import * as StyleUtility     from '../../utilities/style_utility';
+import { COUNTRY_CODES }     from '../../utilities/country_utility';
 
 //--------------------------------------------------------------------//
 
@@ -52,7 +52,7 @@ class ListModal extends React.PureComponent {
 
   // Scrolls directly to the currently selected country when RN.ScrollView is opened
   _onListViewContentSizeChange = () => {
-    let height = 0.85 * getUsableDimensions().height;
+    let height = 0.85 * StyleUtility.getUsableDimensions().height;
     let countryPosition = this.props.countryIndex * 45 - 2; // countryIndex * height of each bar minus aesthetic two pixels
     let maxPosition = COUNTRY_CODES.length * 45 - (height - 50 - 45); // length of full list minus length of one page of scrollView
     this.scrollView.scrollTo({x: 0, y: Math.min(countryPosition, maxPosition), animated: true})
@@ -81,7 +81,7 @@ class ListModal extends React.PureComponent {
 
     return (
       <RN.View style={styles.titleView}>
-        <RN.Text style={UTILITY_STYLES.regularBlackText16}>
+        <RN.Text style={StyleUtility.UTILITY_STYLES.regularBlackText16}>
           {titleString}
         </RN.Text>
       </RN.View>
@@ -102,7 +102,7 @@ class ListModal extends React.PureComponent {
       )
     } else {
       return (
-        <RN.ActivityIndicator size='small' color={COLORS.grey400}  />
+        <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400}  />
       )
     }
   }
@@ -115,12 +115,12 @@ class ListModal extends React.PureComponent {
         rows.push(
           <RN.TouchableWithoutFeedback
             onPressIn={() => {
-              this.countryText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-              this.dialingCodeText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
+              this.countryText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
+              this.dialingCodeText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
             }}
             onPressOut={() => {
-              this.countryText.setNativeProps({style: UTILITY_STYLES.lightBlackText15})
-              this.dialingCodeText.setNativeProps({style: UTILITY_STYLES.lightBlackText15})
+              this.countryText.setNativeProps({style: StyleUtility.UTILITY_STYLES.lightBlackText15})
+              this.dialingCodeText.setNativeProps({style: StyleUtility.UTILITY_STYLES.lightBlackText15})
             }}
             onPress={this.props.setCountry(i)}
             key={i}
@@ -128,12 +128,12 @@ class ListModal extends React.PureComponent {
             <RN.View style={styles.rowContainer}>
               <RN.Text
                 ref={(ref) => this.countryText = ref}
-                style={UTILITY_STYLES.lightBlackText15}
+                style={StyleUtility.UTILITY_STYLES.lightBlackText15}
                 numberOfLines={1}
                 ellipsizeMode={'tail'}>
                 {COUNTRY_CODES[i].country_name}
               </RN.Text>
-              <RN.Text ref={(ref) => this.dialingCodeText = ref} style={UTILITY_STYLES.lightBlackText15}>
+              <RN.Text ref={(ref) => this.dialingCodeText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
                 {COUNTRY_CODES[i].dialing_code}
               </RN.Text>
             </RN.View>
@@ -175,12 +175,12 @@ class ListModal extends React.PureComponent {
 
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={() => this.cancelButtonText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-        onPressOut={() => this.cancelButtonText.setNativeProps({style: UTILITY_STYLES.lightBlackText15})}
+        onPressIn={() => this.cancelButtonText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
+        onPressOut={() => this.cancelButtonText.setNativeProps({style: StyleUtility.UTILITY_STYLES.lightBlackText15})}
         onPress={() => this.props.setParentState({ isModalVisible: false })}
       >
         <RN.View style={styles.cancelButtonView}>
-          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={UTILITY_STYLES.lightBlackText15}>
+          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
             {cancelString}
           </RN.Text>
         </RN.View>
@@ -196,7 +196,7 @@ class ListModal extends React.PureComponent {
         transparent={false}
         animationType={'none'}
         >
-        <RN.View style={UTILITY_STYLES.containerCenter}>
+        <RN.View style={StyleUtility.UTILITY_STYLES.containerCenter}>
           <RN.View style={styles.container}>
             {this._renderTitle()}
             {this._renderScrollView()}
