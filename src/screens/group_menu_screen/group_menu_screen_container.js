@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import GroupMenuScreen   from './group_menu_screen';
+import GroupMenuScreen                    from './group_menu_screen';
 import { removeGroupMember, deleteGroup } from '../../actions/group_actions';
-import { navigateTo } from '../../actions/navigation_actions';
+import { navigateTo }                     from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

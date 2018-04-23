@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import HomeScreen  from './home_screen';
+import HomeScreen from './home_screen';
 
 //--------------------------------------------------------------------//
 

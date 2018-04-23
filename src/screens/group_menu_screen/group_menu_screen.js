@@ -1,10 +1,7 @@
 // Library Imports
-import React       from 'react';
-import RN          from 'react-native';
-import Firebase    from 'react-native-firebase';
-import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
-import { Actions } from 'react-native-router-flux';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
+import RN    from 'react-native';
+import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import MenuListItem          from '../../components/menu_list_item/menu_list_item';

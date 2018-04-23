@@ -3,8 +3,8 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import { styles }           from './debug_login_screen_styles';
-import { UTILITY_STYLES }   from '../../utilities/style_utility';
+import { styles }         from './debug_login_screen_styles';
+import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

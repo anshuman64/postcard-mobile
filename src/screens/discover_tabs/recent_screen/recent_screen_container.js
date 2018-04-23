@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import RecentScreen  from './recent_screen';
+import RecentScreen from './recent_screen';
 
 //--------------------------------------------------------------------//
 
