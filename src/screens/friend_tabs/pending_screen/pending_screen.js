@@ -75,6 +75,7 @@ class PendingScreen extends React.PureComponent {
     )
   }
 
+  // NOTE/WARNING: leave keyExtractor exactly as is, or else fadeOut messes up other items around it!
   _renderList() {
     return (
       <RN.SectionList
@@ -84,7 +85,7 @@ class PendingScreen extends React.PureComponent {
           {data: this.props.friendships.contacts, renderItem: this._renderItem.bind(this), title: 'Contacts on Postcard'},
           {data: this.props.blocks.blockedUsers, renderItem: this._renderItem.bind(this), title: 'Blocked Users'},
         ]}
-        keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item) => item}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
         initialListSize={20}
