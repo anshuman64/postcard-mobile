@@ -104,15 +104,11 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
   case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
-    postId = action.data.post.id;
+    post = action.data.post;
 
-    newState[postId] = action.data.post;
-
-    // Initialize jbuilder data, knowing that new posts will have these default values
-    newState[postId].num_likes            = 0;
-    newState[postId].is_liked_by_client   = false;
-    newState[postId].num_flags            = 0;
-    newState[postId].is_flagged_by_client = false;
+    newState[post.id]                           = post;
+    newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
+    newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
 
     return newState;
 
