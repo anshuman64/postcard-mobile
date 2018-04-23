@@ -1,7 +1,7 @@
 // Library Imports
-import React           from 'react';
-import RN              from 'react-native';
-import Icon            from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
+import RN    from 'react-native';
+import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import TabBarContainer                   from '../tab_bar/tab_bar_container';

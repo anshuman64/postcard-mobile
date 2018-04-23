@@ -7,7 +7,7 @@ import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 import AvatarContainer      from '../avatar/avatar_container';
 import { styles }           from './user_info_view_styles';
 import { UTILITY_STYLES }   from '../../utilities/style_utility';
-import { getConvo, getConvoDisplayName, getConvoAuthorId } from '../../utilities/function_utility';
+import * as FunctionUtility from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -37,9 +37,9 @@ class UserInfoView extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let convo = getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-    let displayName = getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-    let authorId = getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let authorId = FunctionUtility.getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
       <RN.TouchableWithoutFeedback

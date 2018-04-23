@@ -4,7 +4,7 @@ import AWS       from 'aws-sdk/dist/aws-sdk-react-native';
 import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { getImages }                from './image_actions';
+import { getImages }               from './image_actions';
 import { amplitude }               from '../utilities/analytics_utility';
 import * as APIUtility             from '../utilities/api_utility';
 import { setS3Client, uploadFile } from '../utilities/file_utility';

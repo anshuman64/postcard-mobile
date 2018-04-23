@@ -1,11 +1,9 @@
 // Library Imports
-import React                    from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import React          from 'react';
+import { StyleSheet } from 'react-native';
 
 // Local Imports
 import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles';
-import { HEADER_HEIGHT }         from '../header/header_styles';
-import { FOOTER_HEIGHT }         from '../footer/footer_styles';
 import * as StyleUtility         from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
