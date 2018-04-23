@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import AuthoredScreen  from './authored_screen';
+import AuthoredScreen from './authored_screen';
 
 //--------------------------------------------------------------------//
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import CreateGroupScreen from './create_group_screen';
-import { navigateTo }     from '../../actions/navigation_actions';
+import { navigateTo }    from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

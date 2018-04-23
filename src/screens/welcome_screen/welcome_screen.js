@@ -1,7 +1,7 @@
 // Library Imports
-import React            from 'react';
-import RN               from 'react-native';
-import * as Animatable  from 'react-native-animatable';
+import React           from 'react';
+import RN              from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 // Local Imports
 import { styles, fadeInIcon, translateIcon, translateLogo } from './welcome_screen_styles';

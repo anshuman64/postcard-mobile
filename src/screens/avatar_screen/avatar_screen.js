@@ -1,7 +1,6 @@
 // Library Imports
-import React       from 'react';
-import RN          from 'react-native';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
 import AvatarContainer        from '../../components/avatar/avatar_container';

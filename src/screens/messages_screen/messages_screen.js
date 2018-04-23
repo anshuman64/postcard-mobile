@@ -1,18 +1,18 @@
 // Library Imports
-import React       from 'react';
-import RN          from 'react-native';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon     from 'react-native-vector-icons/Ionicons';
-import EvilIcon    from 'react-native-vector-icons/EvilIcons';
+import React    from 'react';
+import RN       from 'react-native';
+import Icon     from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon  from 'react-native-vector-icons/Ionicons';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import ListFooter                                              from '../../components/list_footer/list_footer';
-import HeaderContainer                                         from '../../components/header/header_container';
-import MessageListItemContainer                                from '../../components/message_list_item/message_list_item_container';
-import { styles }                                              from './messages_screen_styles';
-import { setStateCallback, isStringEmpty, getConvo, getConvoDisplayName }   from '../../utilities/function_utility';
-import { UTILITY_STYLES, COLORS, scaleFont }                   from '../../utilities/style_utility';
-import { defaultErrorAlert }                                   from '../../utilities/error_utility';
+import ListFooter               from '../../components/list_footer/list_footer';
+import HeaderContainer          from '../../components/header/header_container';
+import MessageListItemContainer from '../../components/message_list_item/message_list_item_container';
+import { styles }               from './messages_screen_styles';
+import * as FunctionUtility     from '../../utilities/function_utility';
+import * as StyleUtility        from '../../utilities/style_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -114,12 +114,12 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _onPressSend = () => {
-    if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.imagePath)) {
+    if (this.isSendPressed || (FunctionUtility.isStringEmpty(this.state.messageText) && !this.state.imagePath)) {
       return;
     }
 
     this.isSendPressed = true;
-    let messageBody = isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
+    let messageBody = FunctionUtility.isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
 
     this.setState({ isLoading: true }, () => {
       this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.imagePath, this.state.imageType)
@@ -168,7 +168,7 @@ class MessagesScreen extends React.PureComponent {
         </RN.TouchableOpacity>
         <RN.TextInput
           style={styles.textInput}
-          placeholderTextColor={COLORS.grey400}
+          placeholderTextColor={StyleUtility.COLORS.grey400}
           placeholder={'Write a message...'}
           returnKeyType={RN.Platform.OS === 'ios' ? null : 'done'}
           onChangeText={(value) => this.setState({ messageText: value })}
@@ -195,12 +195,12 @@ class MessagesScreen extends React.PureComponent {
 
     if (messages && messages.isEnd) {
       return (
-        <ListFooter footerWidth={scaleFont(150)} text={'Begin Conversation'} />
+        <ListFooter footerWidth={StyleUtility.scaleFont(150)} text={'Begin Conversation'} />
       )
     } else {
       return (
         <RN.View style={styles.footerView}>
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} />
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
         </RN.View>
       )
     }
@@ -210,13 +210,13 @@ class MessagesScreen extends React.PureComponent {
     if (this.state.isLoading || this.state.isLoadingNew) {
       return (
         <RN.View style={[styles.headerView, this.state.isLoadingNew && {justifyContent: 'center'}]}>
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} />
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
         </RN.View>
       )
     } else if (this.state.imagePath) {
       return (
         <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'}>
-          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })}>
+          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={FunctionUtility.setStateCallback(this, { imagePath: null, imageType: null })}>
             <RN.View style={styles.closeButtonBackground}>
               <EvilIcon name='close' style={styles.closeIcon} />
             </RN.View>
@@ -252,11 +252,11 @@ class MessagesScreen extends React.PureComponent {
   }
 
   render() {
-    let convo = getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-    let displayName = getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
-      <RN.View style={UTILITY_STYLES.containerStart}>
+      <RN.View style={StyleUtility.UTILITY_STYLES.containerStart}>
         <HeaderContainer
           backIcon={true}
           backTitle={displayName + "'s Messages"}

@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import WelcomeScreen   from './welcome_screen';
-import { navigateTo }  from '../../actions/navigation_actions';
+import WelcomeScreen  from './welcome_screen';
+import { navigateTo } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

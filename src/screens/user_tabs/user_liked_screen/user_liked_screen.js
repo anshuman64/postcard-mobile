@@ -1,6 +1,6 @@
 // Library Imports
-import React     from 'react';
-import RN        from 'react-native';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
 import HeaderContainer    from '../../../components/header/header_container';
