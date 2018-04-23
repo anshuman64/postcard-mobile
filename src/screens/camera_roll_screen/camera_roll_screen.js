@@ -9,8 +9,6 @@ import { cameraRollPhotos }  from '../../utilities/file_utility';
 import ListFooter            from '../../components/list_footer/list_footer';
 import * as StyleUtility     from '../../utilities/style_utility';
 import { styles }            from './camera_roll_screen_styles';
-import { defaultErrorAlert } from '../../utilities/error_utility';
-import { amplitude }         from '../../utilities/analytics_utility';
 
 //--------------------------------------------------------------------//
 

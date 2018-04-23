@@ -1,8 +1,8 @@
 // Library Imports
-import React       from 'react';
-import RN          from 'react-native';
-import Ionicon     from 'react-native-vector-icons/Ionicons';
-import EvilIcon    from 'react-native-vector-icons/EvilIcons';
+import React    from 'react';
+import RN       from 'react-native';
+import Ionicon  from 'react-native-vector-icons/Ionicons';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import HeaderContainer                    from '../../components/header/header_container';
