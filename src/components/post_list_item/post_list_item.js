@@ -24,9 +24,9 @@ const AnimatedIonicon = Animatable.createAnimatableComponent(Ionicon);
 /*
 Required Passed Props:
   item (object): post object to render
-  postType (string): used as a proxy for which screen we are on
 Optional Passed Props:
   width (int): width of messages; only passed if on MessagesScreen
+  postType (string): used as a proxy for which screen we are on
 */
 class PostListItem extends React.PureComponent {
 
@@ -223,14 +223,45 @@ class PostListItem extends React.PureComponent {
 
   // TODO: add loading state
   _onNavigateToMessages = () => {
-    let isMessagesScreen = this.props.width; // width is only passed if on MessagesScreen
-    let user = this.props.usersCache[this.props.item.author_id];
-    let userFriendshipStatus = user ? user.friendship_status_with_client : null;
+    if (this.props.width) { // width is only passed if on MessagesScreen
+      return;
+    }
 
-    if (!isMessagesScreen && userFriendshipStatus && userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, user.id, null, null, null, this.props.item.id)
+    let convoId;
+    let recipients;
+
+    // For Discover and Liked tabs, go to author's messages if friends with client
+    if (this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
+      let user = this.props.usersCache[this.props.item.author_id];
+      let userFriendshipStatus = user ? user.friendship_status_with_client : null;
+
+      if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
+        convoId = this.props.item.author_id;
+      } else {
+        return;
+      }
+    // For HomeScreen, either go to author if post was sent directly, or group that that post was sent to
+    } else if (this.props.postType === POST_TYPES.RECEIVED) {
+      recipients = this.props.item.recipient_ids_with_client;
+      if (recipients.length === 1) {
+        convoId = this.props.item.recipient_ids_with_client[0] > 0 ? this.props.item.author_id : this.props.item.recipient_ids_with_client[0];
+      } else {
+        return;
+      }
+    // For AuthoredScreen, go to recipient which is either a user or group
+    } else if (this.props.postType === POST_TYPES.AUTHORED) {
+      recipients = this.props.item.recipient_ids;
+      if (recipients.length === 1) {
+        convoId = this.props.item.recipient_ids[0];
+      } else {
+        return;
+      }
+    }
+
+    if (convoId) {
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
         .then(() => {
-          this.props.navigateTo('MessagesScreen', { convoId: this.props.item.author_id });
+          this.props.navigateTo('MessagesScreen', { convoId: convoId });
         })
         .catch((error) => {
           defaultErrorAlert(error);
@@ -276,13 +307,8 @@ class PostListItem extends React.PureComponent {
         return null;
       } else if (numRecipients === 1) {
         convoId = this.props.item.recipient_ids_with_client[0];
-        if (convoId > 0) {
-          displayString = 'You';
-          callback = () => this.props.navigateTo('MessagesScreen', { convoId: this.props.item.author_id });
-        } else {
-          displayString = getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
-          callback = () => this.props.navigateTo('MessagesScreen', { convoId: this.props.item.recipient_ids_with_client[0] }); //NOTE: don't use convoId variable, because callback is in different scope
-        }
+        displayString = getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
+        callback = this._onNavigateToMessages;
       } else {
         displayString = numRecipients + ' groups';
         callback = setStateCallback(this, { isModalVisible: true });
@@ -305,7 +331,7 @@ class PostListItem extends React.PureComponent {
       } else if (numRecipients === 1) {
         convoId = this.props.item.recipient_ids[0];
         displayString = getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
-        callback = () => this.props.navigateTo('MessagesScreen', { convoId: this.props.item.recipient_ids[0] });
+        callback = this._onNavigateToMessages;
       } else {
         displayString = numRecipients + ' recipients';
         callback = setStateCallback(this, { isModalVisible: true });
@@ -338,7 +364,7 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderFollowText() {
-    if (this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
+    if (!this.props.width && this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
       let isFollowedByClient = this.props.usersCache[this.props.item.author_id].is_user_followed_by_client;
 
       return (
@@ -488,7 +514,7 @@ class PostListItem extends React.PureComponent {
     let recipientIds = this.props.postType === POST_TYPES.RECEIVED ? this.props.item.recipient_ids_with_client : this.props.item.recipient_ids;
 
     return (
-      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={recipientIds} authorId={this.props.item.author_id} setParentState={this.setParentState} />
+      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={recipientIds} postId={this.props.item.id} authorId={this.props.item.author_id} setParentState={this.setParentState} />
     )
   }
 
