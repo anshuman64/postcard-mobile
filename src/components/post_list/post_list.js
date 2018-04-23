@@ -142,7 +142,7 @@ class PostList extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer item={this.props.postsCache[item]} />
+      <PostListItemContainer item={this.props.postsCache[item]} postType={this.props.postType} />
     )
   }
 
