@@ -236,7 +236,7 @@ class MessagesScreen extends React.PureComponent {
         ref={(ref) => this.flatList = ref}
         data={messages ? messages.data : null}
         renderItem={this._renderItem.bind(this)}
-        keyExtractor={(item, index) => 'list-item-${index}'}
+        keyExtractor={(item, index) => String(index)}
         style={styles.messageList}
         initialNumToRender={10}
         maxToRenderPerBatch={25}
