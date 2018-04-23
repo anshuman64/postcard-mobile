@@ -43,9 +43,9 @@ class UserInfoView extends React.PureComponent {
 
     return (
       <RN.TouchableWithoutFeedback
-        onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-        onPressOut={() => this.usernameText.setNativeProps({style: styles.usernameText})}
-        onPress={this._onPressAvatar}
+        onPressIn={this.props.convoId < 0 ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+        onPressOut={this.props.convoId < 0 ? null : () => this.usernameText.setNativeProps({style: styles.usernameText})}
+        onPress={this.props.convoId < 0 ? null : this._onPressAvatar}
         disabled={this.props.convoId < 0 ? true : this.props.disabled}
         >
       <RN.View style={[styles.userView, {marginLeft: this.props.marginLeft}]}>
