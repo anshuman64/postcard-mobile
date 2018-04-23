@@ -1,7 +1,6 @@
 // Library Imports
 import React from 'react';
 import RN    from 'react-native';
-import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import { styles }                              from './list_footer_styles';

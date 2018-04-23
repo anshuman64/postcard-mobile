@@ -1,15 +1,13 @@
 // Library Imports
-import React           from 'react';
-import RN              from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import Icon            from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
-import AvatarContainer       from '../avatar/avatar_container';
-import { styles }            from './conversation_list_item_styles';
-import { UTILITY_STYLES, scaleImage }    from '../../utilities/style_utility';
-import { renderConversationDate } from '../../utilities/date_time_utility';
-import { getConvo, getConvoDisplayName, getConvoAuthorId }  from '../../utilities/function_utility';
+import AvatarContainer                from '../avatar/avatar_container';
+import { styles }                     from './conversation_list_item_styles';
+import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility';
+import { renderConversationDate }     from '../../utilities/date_time_utility';
+import * as FunctionUtility           from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -38,7 +36,7 @@ class ConversationListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderDate() {
-    let convo = getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
     let createdAtDate = convo && convo.peek_message ? convo.peek_message.created_at : convo.created_at;
 
     return (
@@ -49,8 +47,8 @@ class ConversationListItem extends React.PureComponent {
   }
 
   _renderUsernameView() {
-    let convo = getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-    let displayName = getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     let message = convo ? convo.peek_message : null;
     let messagePreview = 'Send a message...';
@@ -97,7 +95,7 @@ class ConversationListItem extends React.PureComponent {
   }
 
   render() {
-    let authorId = getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let authorId = FunctionUtility.getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateTo('MessagesScreen', { convoId: this.props.convoId })}>

@@ -3,13 +3,13 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import ProfileHeaderContainer                from '../profile_header/profile_header_container';
-import PostListItemContainer                 from '../post_list_item/post_list_item_container';
-import ListFooter                            from '../list_footer/list_footer';
-import { PROFILE_HEADER_HEIGHT }             from '../profile_header/profile_header_styles';
-import { styles }                            from './post_list_styles';
-import { UTILITY_STYLES, COLORS, scaleFont } from '../../utilities/style_utility';
-import { defaultErrorAlert }                 from '../../utilities/error_utility';
+import ProfileHeaderContainer    from '../profile_header/profile_header_container';
+import PostListItemContainer     from '../post_list_item/post_list_item_container';
+import ListFooter                from '../list_footer/list_footer';
+import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles';
+import { styles }                from './post_list_styles';
+import { COLORS, scaleFont }     from '../../utilities/style_utility';
+import { defaultErrorAlert }     from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 

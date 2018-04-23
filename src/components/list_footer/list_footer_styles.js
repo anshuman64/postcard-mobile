@@ -3,8 +3,7 @@ import React          from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports
-import { FOOTER_TEXT_WIDTH } from './list_footer';
-import * as StyleUtility     from '../../utilities/style_utility';
+import * as StyleUtility from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 

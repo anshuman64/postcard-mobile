@@ -1,10 +1,10 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles } from './menu_list_item_styles';
+import { styles }         from './menu_list_item_styles';
 import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
