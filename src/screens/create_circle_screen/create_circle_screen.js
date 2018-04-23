@@ -1,17 +1,13 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import HeaderContainer        from '../../components/header/header_container';
+import HeaderContainer           from '../../components/header/header_container';
 import CheckboxListItemContainer from '../../components/checkbox_list_item/checkbox_list_item_container';
-import { UTILITY_STYLES }     from '../../utilities/style_utility';
+import { UTILITY_STYLES }        from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
-
-const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 /*
 Required Screen Props:

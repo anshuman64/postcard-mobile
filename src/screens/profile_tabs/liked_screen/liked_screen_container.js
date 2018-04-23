@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import LikedScreen  from './liked_screen';
+import LikedScreen from './liked_screen';
 
 //--------------------------------------------------------------------//
 

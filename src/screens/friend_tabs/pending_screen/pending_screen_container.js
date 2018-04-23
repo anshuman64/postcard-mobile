@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import PendingScreen   from './pending_screen';
+import PendingScreen  from './pending_screen';
 import { navigateTo } from '../../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
