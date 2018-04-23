@@ -1,9 +1,8 @@
 // Library Imports
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 // Local Imports
 import { POST_ACTION_TYPES }    from '../actions/post_actions';
-import { MESSAGE_ACTION_TYPES } from '../actions/message_actions';
 import { LIKE_ACTION_TYPES }    from '../actions/like_actions';
 import { FLAG_ACTION_TYPES }    from '../actions/flag_actions';
 

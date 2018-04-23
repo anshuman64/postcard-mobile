@@ -1,5 +1,5 @@
 // Library Imports
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 // Local Imports
 import { CLIENT_ACTION_TYPES }           from '../actions/client_actions';
