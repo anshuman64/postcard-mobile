@@ -41,7 +41,7 @@ const getTempGroupName = (users, usersCache) => {
 
   // If there's only one person in a group, denote it
   if (users.length === 1) {
-    return usersCache[users[0].id].username + ' (group)';
+    return '(Group) ' + usersCache[users[0].id].username;
   }
 
   // Else, return comma separated list of usernames

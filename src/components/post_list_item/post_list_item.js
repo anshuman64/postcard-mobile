@@ -346,15 +346,15 @@ class PostListItem extends React.PureComponent {
   _renderRecipients(displayString, callback) {
     return (
       <RN.View style={styles.usernameView}>
-        <RN.Text style={UTILITY_STYLES.regularBlackText15}>{'>  '}</RN.Text>
+        <Ionicon name={'md-play'} style={[styles.playIcon, UTILITY_STYLES.marginLeft5]}/>
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.displayString.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-          onPressOut={() => this.displayString.setNativeProps({style: UTILITY_STYLES.regularBlackText15})}
+          onPressOut={() => this.displayString.setNativeProps({style: [UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]})}
           style={styles.usernameView}
           onPress={callback}
           >
           <RN.View>
-            <RN.Text ref={(ref) => this.displayString = ref}  style={UTILITY_STYLES.regularBlackText15}>
+            <RN.Text ref={(ref) => this.displayString = ref}  style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
               {displayString}
             </RN.Text>
           </RN.View>
@@ -369,9 +369,9 @@ class PostListItem extends React.PureComponent {
 
       return (
         <RN.View style={styles.usernameView}>
-          <RN.Text style={UTILITY_STYLES.regularBlackText15}>{' | '}</RN.Text>
+          <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>{'|'}</RN.Text>
           <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, !isFollowedByClient && UTILITY_STYLES.textHighlighted]}>
+            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !isFollowedByClient && UTILITY_STYLES.textHighlighted]}>
               {isFollowedByClient ? 'Following' : 'Follow'}
             </RN.Text>
           </RN.TouchableOpacity>

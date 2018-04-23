@@ -134,6 +134,12 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: StyleUtility.COLORS.grey400,
     marginRight: 18
+  },
+  playIcon: {
+    fontSize: 8,
+    textAlign: 'center',
+    color: StyleUtility.COLORS.grey900,
+    marginTop: 1
   }
 });
 
