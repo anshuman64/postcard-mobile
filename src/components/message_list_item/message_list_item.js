@@ -3,7 +3,6 @@ import React           from 'react';
 import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Hyperlink       from 'react-native-hyperlink'
-import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import PostListItem          from '../post_list_item/post_list_item_container';

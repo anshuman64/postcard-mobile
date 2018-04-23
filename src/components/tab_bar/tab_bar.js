@@ -4,7 +4,6 @@ import RN    from 'react-native';
 
 // Local Imports
 import { styles }         from './tab_bar_styles';
-import { POST_TYPES }     from '../../actions/post_actions';
 import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 
