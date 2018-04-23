@@ -17,6 +17,7 @@ Required Passed Props:
   setParentState (func): used on CancelButton to close modal
 Optional Passed Props:
   recipientIds (array): array of convoIds of recipient users and groups
+  authorId (int): id of author of post; used to go to right messages
   countryIndex (int): index of selected country in country_utility to determine scroll position
   setCountry (func): changes LoginScreen state with new country and country code. Used as proxy for login screen
 */
@@ -58,7 +59,7 @@ class ListModal extends React.PureComponent {
 
   // Navigates to messages of selected group or user
   _onNavigateToMessages(convoId) {
-    this.props.navigateTo('MessagesScreen', { convoId: convoId });
+    this.props.navigateTo('MessagesScreen', { convoId: this.props.client.id === convoId ? this.props.authorId : convoId });
     this.props.setParentState({ isModalVisible: false });
   }
 
@@ -141,15 +142,18 @@ class ListModal extends React.PureComponent {
     if (!this.props.setCountry) {
       let rows = [];
 
-      for (i = 0; i < this.props.recipientIds.length; i++) {
+      i = 0;
+      _.forEach(this.props.recipientIds, (recipientId) => {
         rows.push(
-          <RN.TouchableOpacity key={i} onPress={() => this._onNavigateToMessages(this.props.recipientIds[i])}>
+          <RN.TouchableOpacity key={i} onPress={() => this._onNavigateToMessages(recipientId)}>
             <RN.View style={[styles.rowContainer, {height: 60}]}>
-                <UserInfoViewContainer convoId={this.props.recipientIds[i]} marginLeft={10} />
+                <UserInfoViewContainer convoId={recipientId} marginLeft={10} disabled={true} />
             </RN.View>
           </RN.TouchableOpacity>
-        )
-      }
+        );
+
+        i++;
+      })
 
       return rows;
     } else {

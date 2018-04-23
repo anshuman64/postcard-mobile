@@ -42,8 +42,9 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.REFRESH_POSTS:
     case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
       _.forEach(action.data.posts, (post) => {
-        newState[post.id] = post;
-        newState[post.id].recipient_ids = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
+        newState[post.id]                           = post;
+        newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
+        newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
       });
 
       return newState;
@@ -54,7 +55,11 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
     // When creating a new post, update the store with the new post
     case POST_ACTION_TYPES.RECEIVE_POST:
-      newState[action.data.post.id] = action.data.post;
+      post = action.data.post;
+
+      newState[post.id]                           = post;
+      newState[post.id].recipient_ids             = action.data.recipientIds;
+      newState[post.id].recipient_ids_with_client = [];
 
       return newState;
 
