@@ -98,7 +98,7 @@ class Header extends React.PureComponent {
 
       this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
         .then(() => {
-          this.props.navigateTo('HomeScreen');
+          this.props.navigateTo('AuthoredScreen');
           this.isGoBackPressed = true;
         })
         .catch((error) => {

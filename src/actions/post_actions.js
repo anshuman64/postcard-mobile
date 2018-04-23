@@ -52,6 +52,7 @@ export const refreshPosts = (data) => {
 
 // post (post object): post object of created post
 // clientId (int): client's id
+// recipientIds (array): array of user and group ids
 export const receivePost = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POST, data: data };
 };
@@ -143,7 +144,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
     return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipient_ids, group_ids: group_ids })
       .then((newPost) => {
         amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipientIds.length, placeholder_text: placeholderText });
-        dispatch(receivePost({ post: newPost, clientId: clientId }));
+        dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds }));
         dispatch(getImages(newPost));
       })
       .catch((error) => {
