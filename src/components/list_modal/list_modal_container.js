@@ -14,7 +14,7 @@ const mapStateToProps = ({ client }, ownProps) => ({
 ''
 const mapDispatchToProps = (dispatch, ownProps) => ({
   createMessage: (authToken, firebaseUserObj, clientId, convoId, messageBody, messageImagePath, messageImageType, postId) => dispatch(createMessage(authToken, firebaseUserObj, clientId, convoId, messageBody, messageImagePath, messageImageType, postId)),
-  navigateTo:    (screen, props) => dispatch(navigateTo(screen, props)),
+  navigateTo:    (screen, props)                                                                                          => dispatch(navigateTo(screen, props)),
 });
 
 export default connect(
