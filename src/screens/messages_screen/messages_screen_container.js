@@ -8,17 +8,17 @@ import { navigateTo }                 from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, imagesCache, messages }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, groupsCache, messages }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
-  imagesCache: imagesCache,
+  groupsCache: groupsCache,
   messages:    messages
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getMessages:   (authToken, firebaseUserObj, isNew, userId, queryParams) => dispatch(getMessages(authToken, firebaseUserObj, isNew, userId, queryParams)),
-  createMessage: (authToken, firebaseUserObj, clientId, userId, messageBody, messageImagePath, messageImageType, postId) => dispatch(createMessage(authToken, firebaseUserObj, clientId, userId, messageBody, messageImagePath, messageImageType, postId)),
-  navigateTo:    (screen, props) => dispatch(navigateTo(screen, props)),
+  getMessages:   (authToken, firebaseUserObj, isNew, convoId, queryParams)                                                => dispatch(getMessages(authToken, firebaseUserObj, isNew, convoId, queryParams)),
+  createMessage: (authToken, firebaseUserObj, clientId, convoId, messageBody, messageImagePath, messageImageType, postId) => dispatch(createMessage(authToken, firebaseUserObj, clientId, convoId, messageBody, messageImagePath, messageImageType, postId)),
+  navigateTo:    (screen, props)                                                                                          => dispatch(navigateTo(screen, props)),
 });
 
 export default connect(

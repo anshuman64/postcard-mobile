@@ -8,9 +8,16 @@ import UserInfoViewContainer from '../user_info_view/user_info_view_container';
 import { FRIEND_TYPES }      from '../../actions/friendship_actions';
 import { styles }            from './pending_list_item_styles';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
+import { defaultErrorAlert } from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Passed Props:
+  userId (int): id of user
+Optional Passed Props:
+  -
+*/
 class PendingListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -40,11 +47,8 @@ class PendingListItem extends React.PureComponent {
 
     this.props.createFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.container.fadeOut(500)
-          .finally(() => {
-            this.props.sendFriendshipRequest({ friendship: friendship });
-            this.isButtonDisabled = false;
-          });
+        this.props.sendFriendshipRequest({ friendship: friendship });
+        this.isButtonDisabled = false;
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -61,11 +65,8 @@ class PendingListItem extends React.PureComponent {
 
     this.props.acceptFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.container.fadeOut(500)
-          .finally(() => {
-            this.props.acceptFriendshipRequest({ friendship: friendship });
-            this.isButtonDisabled = false;
-          });
+        this.props.acceptFriendshipRequest({ friendship: friendship });
+        this.isButtonDisabled = false;
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -74,6 +75,12 @@ class PendingListItem extends React.PureComponent {
   }
 
   _onPressDeleteFriendship = () => {
+    if (this.isButtonDisabled) {
+      return;
+    }
+
+    this.isButtonDisabled = true;
+
     let alertString;
     let cancelString;
     let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;;
@@ -99,11 +106,8 @@ class PendingListItem extends React.PureComponent {
   _onConfirmDeleteFriendship = () => {
     this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.container.fadeOut(500)
-          .finally(() => {
-            this.props.removeFriendship({ friendship: friendship, client: this.props.client });
-            this.isButtonDisabled = false;
-          });
+        this.props.removeFriendship({ friendship: friendship, client: this.props.client });
+        this.isButtonDisabled = false;
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -120,11 +124,8 @@ class PendingListItem extends React.PureComponent {
 
     this.props.deleteBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((block) => {
-        this.container.fadeOut(500)
-          .finally(() => {
-            this.props.removeBlock({ block: block });
-            this.isButtonDisabled = false;
-          });
+        this.props.removeBlock({ block: block });
+        this.isButtonDisabled = false;
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -136,11 +137,32 @@ class PendingListItem extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  _renderAcceptButton(friendshipStatus, acceptString) {
+    return (
+      <RN.TouchableOpacity style={styles.confirmButton} onPress={friendshipStatus === 'received' ? this._onPressAcceptFriendship : this._onPressAddFriend}>
+        <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
+          {acceptString}
+        </RN.Text>
+      </RN.TouchableOpacity>
+    )
+  }
+
+  _renderDeleteButton(isBlocked, deleteString) {
+    return (
+      <RN.TouchableOpacity style={styles.deleteButton} onPress={isBlocked ? this._onPressUnblock : this._onPressDeleteFriendship}>
+        <RN.Text style={UTILITY_STYLES.lightBlackText15}>
+          {deleteString}
+        </RN.Text>
+      </RN.TouchableOpacity>
+    )
+  }
+
   _renderButtons() {
     let acceptString;
     let deleteString;
-    let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
-    let isBlocked = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_blocked_by_client : false;
+    let user = this.props.usersCache[this.props.userId];
+    let friendshipStatus = user ? user.friendship_status_with_client : null;
+    let isBlocked = user ? user.is_user_blocked_by_client : false;
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
@@ -161,28 +183,16 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <RN.View style={styles.buttonView}>
-        {friendshipStatus === 'received' || friendshipStatus === 'contacts' ?
-          <RN.TouchableOpacity style={styles.confirmButton} onPress={friendshipStatus === 'received' ? this._onPressAcceptFriendship : this._onPressAddFriend}>
-            <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
-              {acceptString}
-            </RN.Text>
-            </RN.TouchableOpacity> :
-            null}
-        {friendshipStatus != 'contacts' ?
-          <RN.TouchableOpacity style={styles.deleteButton} onPress={isBlocked ? this._onPressUnblock : this._onPressDeleteFriendship}>
-            <RN.Text style={UTILITY_STYLES.lightBlackText15}>
-              {deleteString}
-            </RN.Text>
-          </RN.TouchableOpacity> :
-          null}
+        {friendshipStatus === 'received' || friendshipStatus === 'contacts' ? this._renderAcceptButton(friendshipStatus, acceptString) : null}
+        {friendshipStatus != 'contacts' ? this._renderDeleteButton(isBlocked, deleteString) : null}
       </RN.View>
     )
   }
 
   render() {
     return (
-      <Animatable.View ref={(ref) => this.container = ref} style={styles.rowView}>
-        <UserInfoViewContainer userId={this.props.userId} marginLeft={15} />
+      <Animatable.View ref={(ref) => this.container = ref} style={UTILITY_STYLES.rowView}>
+        <UserInfoViewContainer convoId={this.props.userId} marginLeft={15} />
         <RN.View style={styles.checkboxView}>
           {this._renderButtons()}
         </RN.View>

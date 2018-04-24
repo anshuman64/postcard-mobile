@@ -1,15 +1,21 @@
 // Library Imports
 import React from 'react';
 import RN    from 'react-native';
-import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import PendingListItemContainer      from '../../../components/pending_list_item/pending_list_item_container';
-import { styles }                    from './pending_screen_styles';
-import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
+import ListHeader               from '../../../components/list_header/list_header';
+import PendingListItemContainer from '../../../components/pending_list_item/pending_list_item_container';
+import SectionListHeader        from '../../../components/section_list_header/section_list_header';
+import { UTILITY_STYLES }       from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class PendingScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -55,32 +61,15 @@ class PendingScreen extends React.PureComponent {
 
   _renderSectionHeader = ({section}) => {
     return (
-      <RN.View style={styles.sectionHeader}>
-        <RN.Text style={styles.sectionHeaderText}>
-          {section.title}
-        </RN.Text>
-      </RN.View>
-    )
-  }
-
-  _renderHeaderItem = (iconName, title, callback) => {
-    return (
-      <RN.TouchableOpacity onPress={callback}>
-        <RN.View style={styles.headerItemView}>
-          <Icon name={iconName} style={[styles.headerItemIcon, UTILITY_STYLES.textHighlighted]} />
-          <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.textHighlighted]}>
-            {title}
-          </RN.Text>
-        </RN.View>
-      </RN.TouchableOpacity>
+      <SectionListHeader title={section.title} />
     )
   }
 
   _renderHeader = () => {
     return (
-      <RN.View style={styles.headerView}>
-        {this._renderHeaderItem('user-follow', 'Add Friend by Username', this._onPressAddFriend)}
-        {this._renderHeaderItem('share', 'Share Username', this._onPressShare)}
+      <RN.View>
+        <ListHeader text={'Add Friend by Username'} iconName={'user-follow'} callback={this._onPressAddFriend} />
+        <ListHeader text={'Share Username'} iconName={'share'} callback={this._onPressShare} />
       </RN.View>
     )
   }
@@ -94,7 +83,7 @@ class PendingScreen extends React.PureComponent {
           {data: this.props.friendships.contacts, renderItem: this._renderItem.bind(this), title: 'Contacts on Postcard'},
           {data: this.props.blocks.blockedUsers, renderItem: this._renderItem.bind(this), title: 'Blocked Users'},
         ]}
-        keyExtractor={(item) => item}
+        keyExtractor={(item, index) => String(index)}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
         initialListSize={20}

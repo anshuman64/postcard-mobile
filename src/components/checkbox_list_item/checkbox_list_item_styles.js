@@ -10,17 +10,6 @@ import * as StyleUtility from '../../utilities/style_utility';
 const DEFAULT_MARGIN = 10;
 
 export const styles = StyleSheet.create({
-  rowView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: StyleUtility.getUsableDimensions().width - 2 * DEFAULT_MARGIN,
-    height: 60,
-    marginLeft: DEFAULT_MARGIN,
-    marginRight: DEFAULT_MARGIN,
-    borderBottomWidth: 1,
-    borderBottomColor: StyleUtility.COLORS.grey200
-  },
   userView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -33,11 +22,18 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     width: 40,
-    marginRight: 5
+    marginRight: 5,
+    marginTop: 1
   },
-  icon: {
-    width: 36,
-    fontSize: 18,
+  questionIcon: {
+    width: 40,
+    fontSize: 22,
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleRed,
+  },
+  closeIcon: {
+    width: 40,
+    fontSize: 23,
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },

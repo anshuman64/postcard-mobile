@@ -15,6 +15,12 @@ import * as FileUtility      from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class LoadingScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -57,7 +63,7 @@ class LoadingScreen extends React.PureComponent {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
-              this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES.CONTACTS, this.props.usersCache[this.props.client.id].phone_number); // run this here because it takes forever
+              this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.usersCache[this.props.client.id].phone_number); // run this here because it takes forever
               this._loadData()
                 .then(() => {
                   // console.log('Data loaded'); // Debug Test
@@ -94,6 +100,8 @@ class LoadingScreen extends React.PureComponent {
   }
 
   async _refreshData() {
+    await this.props.getConversations(this.props.client.authToken, this.props.client.firebaseUserObj);
+
     for (let postType in POST_TYPES) {
       await this.props.getPosts(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.client.id, POST_TYPES[postType], true);
     }
@@ -113,8 +121,7 @@ class LoadingScreen extends React.PureComponent {
       // If opening app via notification, go to the screen you intended to go to
       if (this.navigateToNotification) {
         if (this.navigateToNotification === 'MessagesScreen') {
-          this.props.navigateTo('FriendScreen'); // Go to FriendScreen first so that back button on messages goes to right place
-          this.props.navigateTo('MessagesScreen', { userId: this.navigateToMessages });
+          this.props.navigateTo('MessagesScreen', { convoId: this.navigateToMessages });
         } else {
           this.props.navigateTo(this.navigateToNotification);
         }
@@ -123,12 +130,12 @@ class LoadingScreen extends React.PureComponent {
         this.navigateToMessages     = null;
       // If opening the app normally, go to HomeScreen. TODO: should this be FriendScreen instead?
       } else if (client && client.username) {
-        this.props.navigateTo('HomeScreen');
+        this.props.navigateTo('HomeScreen'); // Debug Test: should be HomeScreen
       // If opening the app normally and haven't created username, go to create username
       } else {
         this.props.navigateTo('UsernameScreenLogin');
       }
-    // If haven't logged in and somehow on this screen, go to WelcomeScreen
+    // If haven't logged in and somehow on LoadingScreen, go to WelcomeScreen
   } else if (!this.navigateToNotification) {
       this.props.navigateTo('WelcomeScreen');
     }
@@ -165,14 +172,23 @@ class LoadingScreen extends React.PureComponent {
     switch (data.type) {
       case 'receive-like':
         this.navigateToNotification = 'AuthoredScreen';
+        break;
       case 'receive-friendship':
+        this.navigateToNotification = 'PendingScreen';
+        break;
       case 'receive-accepted-friendship':
+      case 'receive-group':
         this.navigateToNotification = 'FriendScreen';
+        break;
       case 'receive-post':
         this.navigateToNotification = 'HomeScreen';
+        break;
       case 'receive-message':
         this.navigateToNotification = 'MessagesScreen';
-        this.navigateToMessages     = data.client.id;
+        this.navigateToMessages     = data.client_id ? data.client_id : -1 * data.group_id;
+        break;
+      default:
+        this.navigateToNotification = 'HomeScreen';
     }
   }
 
@@ -211,7 +227,7 @@ class LoadingScreen extends React.PureComponent {
         direction={'alternate'}
         easing={'ease-in'}
         duration={1500}
-        iterationCount={18}
+        iterationCount={20}
         onAnimationEnd={this._onAnimationEnd}
         />
     )

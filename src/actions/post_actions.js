@@ -1,5 +1,5 @@
 // Library Imports
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 // Local Imports
 import { getImages }              from './image_actions';
@@ -52,7 +52,7 @@ export const refreshPosts = (data) => {
 
 // post (post object): post object of created post
 // clientId (int): client's id
-// recipients (array): array of ints of userId's of recipients
+// recipientIds (array): array of user and group ids
 export const receivePost = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POST, data: data };
 };
@@ -128,17 +128,28 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
 };
 
 // Create post to API from Header of NewPostScreen
-export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
+  let recipient_ids = [];
+  let group_ids = [];
+
+  _.forEach(recipientIds, (recipientId) => {
+    if (recipientId > 0) {
+      recipient_ids.push(recipientId);
+    } else {
+      group_ids.push(-1 * recipientId);
+    }
+  });
+
   let postPost = (imageKey) => {
-    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipients })
+    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipient_ids, group_ids: group_ids })
       .then((newPost) => {
-        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipients.length, placeholder_text: placeholderText });
-        dispatch(receivePost({ post: newPost, clientId: clientId, recipients: recipients }));
+        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipientIds.length, placeholder_text: placeholderText });
+        dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds }));
         dispatch(getImages(newPost));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipients, postBody, postImagePath, postImageType, placeholderText));
+          return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, postBody, postImagePath, postImageType, placeholderText));
         }
 
         postPostError(error);
@@ -147,7 +158,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
 
   let postPostError = (error) => {
     error = setErrorDescription(error, 'POST post failed');
-    amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipients.length, error_description: error.description, error_message: error.message });
+    amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
     throw error;
   }
 
