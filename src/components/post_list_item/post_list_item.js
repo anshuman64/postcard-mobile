@@ -143,6 +143,12 @@ class PostListItem extends React.PureComponent {
 
   // Alert that pops up when a user is about to delete a post
   _onPressDeletePost = () => {
+    if (this.isDeleteDisabled) {
+      return;
+    }
+
+    this.isDeleteDisabled = true;
+
     RN.Alert.alert('', 'Are you sure you want to delete this post?',
       [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
        {text: 'Delete', onPress: this._onConfirmDeletePost}],
@@ -152,12 +158,6 @@ class PostListItem extends React.PureComponent {
 
   // Deletes post from DB and fades post out before removing from store
   _onConfirmDeletePost = () => {
-    if (this.isDeleteDisabled) {
-      return;
-    }
-
-    this.isDeleteDisabled = true;
-
     // Delete post from DB
     this.props.deletePost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {

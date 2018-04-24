@@ -131,7 +131,7 @@ class LoadingScreen extends React.PureComponent {
         this.navigateToMessages     = null;
       // If opening the app normally, go to HomeScreen. TODO: should this be FriendScreen instead?
       } else if (client && client.username) {
-        this.props.navigateTo('HomeScreen'); // Debug Test
+        this.props.navigateTo('ShareScreen'); // Debug Test
       // If opening the app normally and haven't created username, go to create username
       } else {
         this.props.navigateTo('UsernameScreenLogin');

@@ -81,6 +81,12 @@ class PendingListItem extends React.PureComponent {
   }
 
   _onPressDeleteFriendship = () => {
+    if (this.isButtonDisabled) {
+      return;
+    }
+
+    this.isButtonDisabled = true;
+    
     let alertString;
     let cancelString;
     let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;;
