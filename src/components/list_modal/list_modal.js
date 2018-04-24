@@ -4,8 +4,9 @@ import RN     from 'react-native';
 import _      from 'lodash';
 
 // Local Imports
-import { styles }            from './list_modal_styles';
+import LoadingModal          from '../loading_modal/loading_modal';
 import UserInfoViewContainer from '../user_info_view/user_info_view_container';
+import { styles }            from './list_modal_styles';
 import * as StyleUtility     from '../../utilities/style_utility';
 import { COUNTRY_CODES }     from '../../utilities/country_utility';
 import { defaultErrorAlert } from '../../utilities/error_utility';
@@ -33,8 +34,9 @@ class ListModal extends React.PureComponent {
     super(props);
     const ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource:         ds.cloneWithRows(COUNTRY_CODES),
-      isModalMounted:     false,
+      dataSource:     ds.cloneWithRows(COUNTRY_CODES),
+      isModalMounted: false,
+      isLoading:      false
     };
   }
 
@@ -63,14 +65,20 @@ class ListModal extends React.PureComponent {
   _onNavigateToMessages(convoId) {
     let revisedConvoId = this.props.client.id === convoId ? this.props.authorId : convoId;
 
-    this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, revisedConvoId, null, null, null, this.props.postId)
-      .then(() => {
-        this.props.navigateTo('MessagesScreen', { convoId: revisedConvoId });
-        this.props.setParentState({ isModalVisible: false });
-      })
-      .catch((error) => {
-        defaultErrorAlert(error);
-      });
+    this.setState({ isLoading: true },() => {
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, revisedConvoId, null, null, null, this.props.postId)
+        .then(() => {
+          this.setState({ isLoading: false }, () => {
+            this.props.navigateTo('MessagesScreen', { convoId: revisedConvoId });
+            this.props.setParentState({ isModalVisible: false });
+          });
+        })
+        .catch((error) => {
+          this.setState({ isLoading: false }, () => {
+            defaultErrorAlert(error);
+          });
+        });
+    });
   }
 
   //--------------------------------------------------------------------//
@@ -189,6 +197,12 @@ class ListModal extends React.PureComponent {
     )
   }
 
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading}/>
+    )
+  }
+
   render() {
     return(
       <RN.Modal
@@ -203,6 +217,7 @@ class ListModal extends React.PureComponent {
             {this._renderScrollView()}
             {this._renderCancelButton()}
           </RN.View>
+          {this._renderLoadingModal()}
         </RN.View>
       </RN.Modal>
     )
