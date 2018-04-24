@@ -8,6 +8,7 @@ import { styles }            from './list_modal_styles';
 import UserInfoViewContainer from '../user_info_view/user_info_view_container';
 import * as StyleUtility     from '../../utilities/style_utility';
 import { COUNTRY_CODES }     from '../../utilities/country_utility';
+import { defaultErrorAlert } from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
