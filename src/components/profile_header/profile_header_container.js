@@ -6,7 +6,6 @@ import ProfileHeader                             from './profile_header';
 import * as FriendshipActions                    from '../../actions/friendship_actions';
 import { createFollow, deleteFollow }            from '../../actions/follow_actions';
 import { createBlock, deleteBlock, removeBlock } from '../../actions/block_actions';
-import { refreshCredsAndGetImage }               from '../../actions/image_actions';
 import { navigateTo }                            from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
@@ -29,7 +28,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   createBlock:             (authToken, firebaseUserObj, blockeeId) => dispatch(createBlock(authToken, firebaseUserObj, blockeeId)),
   deleteBlock:             (authToken, firebaseUserObj, blockeeId) => dispatch(deleteBlock(authToken, firebaseUserObj, blockeeId)),
   removeBlock:             (deletedBlock) => dispatch(removeBlock(deletedBlock)),
-  refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
   navigateTo:              (screen, props) => dispatch(navigateTo(screen, props)),
 });
 

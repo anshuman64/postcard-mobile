@@ -7,7 +7,7 @@ import HomeScreen from './home_screen';
 //--------------------------------------------------------------------//
 
 const mapStateToProps = ({ client }, ownProps) => ({
-  client:        client,
+  client: client,
 });
 
 export default connect(

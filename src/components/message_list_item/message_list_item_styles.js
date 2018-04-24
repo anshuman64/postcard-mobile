@@ -10,7 +10,6 @@ import * as StyleUtility from '../../utilities/style_utility';
 const DEFAULT_MARGIN = 5;
 const IMAGE_SIZE = StyleUtility.getUsableDimensions().width * 0.75 - 15; // 75% width minus magic number
 
-
 export const styles = StyleSheet.create({
   messageContainerClient: {
     flexDirection: 'row',
