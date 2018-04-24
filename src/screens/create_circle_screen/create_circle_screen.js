@@ -3,9 +3,10 @@ import React           from 'react';
 import RN              from 'react-native';
 
 // Local Imports
-import HeaderContainer           from '../../components/header/header_container';
-import CheckboxListItemContainer from '../../components/checkbox_list_item/checkbox_list_item_container';
-import { UTILITY_STYLES }        from '../../utilities/style_utility';
+import HeaderContainer               from '../../components/header/header_container';
+import CheckboxListItemContainer     from '../../components/checkbox_list_item/checkbox_list_item_container';
+import ListFooter                    from '../../components/list_footer/list_footer';
+import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
@@ -58,6 +59,12 @@ class CreateCircleScreen extends React.PureComponent {
     )
   }
 
+  _renderFooter = () => {
+    return (
+      <ListFooter footerWidth={scaleFont(120)} text={'No more Friends'} />
+    )
+  }
+
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
@@ -73,7 +80,6 @@ class CreateCircleScreen extends React.PureComponent {
           renderRow={this._renderRow}
           initialListSize={20}
           pageSize={60}
-          enableEmptySections={true}
           showsVerticalScrollIndicator={true}
           onEndReached={this._onEndReached}
           renderFooter={this._renderFooter}

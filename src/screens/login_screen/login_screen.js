@@ -49,11 +49,7 @@ class LoginScreen extends React.PureComponent {
 
   // Callback function used for Cancel button in ListModal
   setParentState = (state) => {
-    let func = () => {
-      this.setState(state);
-    }
-
-    return func;
+    this.setState(state);
   }
 
   // Callback function for setting country selector and updating phone number formatting
