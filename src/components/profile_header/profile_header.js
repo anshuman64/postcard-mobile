@@ -34,9 +34,10 @@ class ProfileHeader extends React.PureComponent {
       avatarUrl:  null,
     }
 
-    this.isFriendDisabled = false;
-    this.isFollowDisabled = false;
-    this.isBlockDisabled  = false;
+    this.isFriendDisabled   = false;
+    this.isUnfriendDisabled = false;
+    this.isFollowDisabled   = false;
+    this.isBlockDisabled    = false;
   }
 
 
@@ -87,6 +88,12 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _onPressUnfriend = () => {
+    if (this.isUnfriendDisabled) {
+      return;
+    }
+
+    this.isUnfriendDisabled = true;
+
     let alertString;
     let cancelString;
     let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
@@ -103,9 +110,9 @@ class ProfileHeader extends React.PureComponent {
     }
 
     RN.Alert.alert('', alertString,
-      [{text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
+      [{text: 'Cancel', onPress: () => this.isUnfriendDisabled = false, style: 'cancel'},
        {text: cancelString, onPress: this._onConfirmUnfriend}],
-       {onDismiss: () => this.isFriendDisabled = false}
+       {onDismiss: () => this.isUnfriendDisabled = false}
     )
   }
 
@@ -118,7 +125,7 @@ class ProfileHeader extends React.PureComponent {
         defaultErrorAlert(error);
       })
       .finally(() => {
-        this.isFriendDisabled = false;
+        this.isUnfriendDisabled = false;
       });
   }
 

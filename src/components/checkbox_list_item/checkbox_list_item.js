@@ -38,7 +38,7 @@ class CheckboxListItem extends React.PureComponent {
       isLoading:  false,
     }
 
-    this.isDeletePressed = false;
+    this.isDeleteDisabled = false;
   }
 
   //--------------------------------------------------------------------//
@@ -109,20 +109,29 @@ class CheckboxListItem extends React.PureComponent {
     }
   }
 
-  _onPressDelete = () => {
-    if (this.isDeletePressed) {
+  // Alert that pops up when a user is about to delete a circle
+  _onPressDeleteCircle = () => {
+    if (this.isDeleteDisabled) {
       return;
     }
 
-    this.isButtonPressed = true;
+    this.isDeleteDisabled = true;
 
+    RN.Alert.alert('', 'Are you sure you want to delete this circle?',
+      [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
+       {text: 'Delete', onPress: this._onConfirmDeleteCircle}],
+       {onDismiss: () => this.isDeleteDisabled = false}
+    )
+  }
+
+  _onConfirmDeleteCircle = () => {
     this.setState({ isLoading: true },() => {
       this.props.deleteCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.circle.id)
         .catch((error) => {
           defaultErrorAlert(error);
         })
         .finally(() => {
-          this.isButtonPressed = false;
+          this.isDeleteDisabled = false;
           this.setState({ isLoading: false });
         });
     });
@@ -163,21 +172,23 @@ class CheckboxListItem extends React.PureComponent {
     } else if (this.props.circle) {
       return (
         <RN.View style={styles.userView}>
-          <RN.View style={styles.frame} />
+          <RN.View style={styles.frame}>
+            <Icon name={'close'} onPress={this._onPressDeleteCircle} style={styles.closeIcon} />
+          </RN.View>
           <RN.Text style={UTILITY_STYLES.regularBlackText16}>
             {this.props.circle.name}
           </RN.Text>
-          <Icon name={'close'} onPress={this._onPressDelete} style={styles.icon} />
         </RN.View>
       )
     } else {
       return (
         <RN.View style={styles.userView}>
-          <RN.View style={styles.frame} />
+          <RN.View style={styles.frame}>
+            <Icon name={'question'} onPress={this._onPressHelp} style={styles.questionIcon} />
+          </RN.View>
           <RN.Text style={UTILITY_STYLES.regularBlackText16}>
             Public
           </RN.Text>
-          <Icon name={'question'} onPress={this._onPressHelp} style={styles.icon} />
         </RN.View>
       )
     }
