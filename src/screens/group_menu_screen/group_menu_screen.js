@@ -110,7 +110,7 @@ class GroupMenuScreen extends React.PureComponent {
     return (
       <RN.View style={UTILITY_STYLES.rowView}>
         <RN.View style={styles.userView}>
-          <UserInfoViewContainer convoId={item.id} marginLeft={15} />
+          <UserInfoViewContainer convoId={item.id} marginLeft={0} />
           <Icon name={'close'} onPress={() => this._onPressDeleteMember(item.id)} style={styles.icon} />
         </RN.View>
       </RN.View>
