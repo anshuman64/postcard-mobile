@@ -7,6 +7,7 @@ import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
+import LoadingModal               from '../loading_modal/loading_modal';
 import ListModalContainer         from '../list_modal/list_modal_container';
 import UserInfoViewContainer      from '../user_info_view/user_info_view_container';
 import { FRIEND_TYPES }           from '../../actions/friendship_actions';
@@ -41,6 +42,7 @@ class PostListItem extends React.PureComponent {
       isLikingAnimation: false, // if the liking animation is still playing
       isLikingServer:    false, // if the server is still registering the create/delete like
       isModalVisible:    false,
+      isLoading:         false,
     }
 
     this.isLikeDisabled   = false;
@@ -221,7 +223,6 @@ class PostListItem extends React.PureComponent {
   // Navigation Callback Methods
   //--------------------------------------------------------------------//
 
-  // TODO: add loading state
   _onNavigateToMessages = () => {
     if (this.props.width) { // width is only passed if on MessagesScreen
       return;
@@ -259,13 +260,18 @@ class PostListItem extends React.PureComponent {
     }
 
     if (convoId) {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
-        .then(() => {
-          this.props.navigateTo('MessagesScreen', { convoId: convoId });
-        })
-        .catch((error) => {
-          defaultErrorAlert(error);
-        });
+      this.setState({ isLoading: true },() => {
+        this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
+          .then(() => {
+            this.props.navigateTo('MessagesScreen', { convoId: convoId });
+          })
+          .catch((error) => {
+            defaultErrorAlert(error);
+          })
+          .finally(() => {
+            this.setState({ isLoading: false });
+          });
+      });
     }
   }
 
@@ -518,6 +524,12 @@ class PostListItem extends React.PureComponent {
     )
   }
 
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading}/>
+    )
+  }
+
   //--------------------------------------------------------------------//
   // Other Render Methods
   //--------------------------------------------------------------------//
@@ -532,6 +544,7 @@ class PostListItem extends React.PureComponent {
           {this._renderFooter()}
         </Animatable.View>
         {this._renderListModal()}
+        {this._renderLoadingModal()}
       </RN.View>
     )
   }
