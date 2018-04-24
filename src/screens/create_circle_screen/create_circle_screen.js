@@ -77,6 +77,7 @@ class CreateCircleScreen extends React.PureComponent {
           />
         <RN.ListView
           dataSource={this.ds.cloneWithRows(this.props.conversations)}
+          keyExtractor={(item, index) => String(index)}
           renderRow={this._renderRow}
           initialListSize={20}
           pageSize={60}
