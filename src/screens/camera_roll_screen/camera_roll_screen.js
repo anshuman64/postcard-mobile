@@ -76,6 +76,7 @@ class CameraRollScreen extends React.PureComponent {
       <RN.ListView
         dataSource={this.ds.cloneWithRows(cameraRollPhotos)}
         style={styles.cameraRoll}
+        keyExtractor={(item, index) => String(index)}
         renderRow={this._renderRow}
         renderFooter={this._renderFooter}
         initialListSize={PAGE_SIZE * 2}

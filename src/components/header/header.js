@@ -50,7 +50,7 @@ class Header extends React.PureComponent {
     }
 
     this.isNextPressed   = false;
-    this.isButtonPressed  = false;
+    this.isButtonPressed = false;
     this.isGoBackPressed = false;
   }
 
@@ -71,11 +71,9 @@ class Header extends React.PureComponent {
   // Next button from NewPostScreen
   _onPressToShare = () => {
     // Return if no post body or image selected
-    if ((isStringEmpty(this.props.postText) && !this.props.imagePath) || this.isNextPressed) {
+    if (isStringEmpty(this.props.postText) && !this.props.imagePath) {
       return;
     }
-
-    this.isNextPressed = true;
 
     this.props.navigateTo('ShareScreen', {
       postText: this.props.postText,
@@ -102,10 +100,10 @@ class Header extends React.PureComponent {
           this.isGoBackPressed = true;
         })
         .catch((error) => {
-          this.isButtonPressed = false;
           defaultErrorAlert(error);
         })
         .finally(() => {
+          this.isButtonPressed = false;
           this.setState({ isLoading: false });
         });
     });
@@ -126,10 +124,10 @@ class Header extends React.PureComponent {
           this.isGoBackPressed = true;
         })
         .catch((error) => {
-          this.isButtonPressed = false;
           defaultErrorAlert(error);
         })
         .finally(() => {
+          this.isButtonPressed = false;
           this.setState({ isLoading: false });
         });
     });
@@ -151,10 +149,10 @@ class Header extends React.PureComponent {
           this.isGoBackPressed = true;
         })
         .catch((error) => {
-          this.isButtonPressed = false;
           defaultErrorAlert(error);
         })
         .finally(() => {
+          this.isButtonPressed = false;
           this.setState({ isLoading: false });
         });
     });
@@ -174,10 +172,10 @@ class Header extends React.PureComponent {
           this.isGoBackPressed = true;
         })
         .catch((error) => {
-          this.isButtonPressed = false;
           defaultErrorAlert(error);
         })
         .finally(() => {
+          this.isButtonPressed = false;
           this.setState({ isLoading: false });
         });
     });

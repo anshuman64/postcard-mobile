@@ -79,6 +79,7 @@ class CreateGroupScreen extends React.PureComponent {
           />
         <RN.ListView
           dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
+          keyExtractor={(item, index) => String(index)}
           renderRow={this._renderRow}
           initialListSize={20}
           pageSize={60}
