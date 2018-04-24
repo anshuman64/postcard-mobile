@@ -21,17 +21,17 @@ const mapStateToProps = ({ client, usersCache, groupsCache, imagesCache }, ownPr
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createFollow:            (authToken, firebaseUserObj, followeeId) => dispatch(createFollow(authToken, firebaseUserObj, followeeId)),
-  deleteFollow:            (authToken, firebaseUserObj, followeeId) => dispatch(deleteFollow(authToken, firebaseUserObj, followeeId)),
-  createLike:              (authToken, firebaseUserObj, clientId, postId) => dispatch(createLike(authToken, firebaseUserObj, clientId, postId)),
-  deleteLike:              (authToken, firebaseUserObj, clientId, postId) => dispatch(deleteLike(authToken, firebaseUserObj, clientId, postId)),
-  createFlag:              (authToken, firebaseUserObj, postId) => dispatch(createFlag(authToken, firebaseUserObj, postId)),
-  deleteFlag:              (authToken, firebaseUserObj, postId) => dispatch(deleteFlag(authToken, firebaseUserObj, postId)),
-  deletePost:              (authToken, firebaseUserObj, postId) => dispatch(deletePost(authToken, firebaseUserObj, postId)),
-  removePost:              (deletedPost) => dispatch(removePost(deletedPost)),
+  createFollow:            (authToken, firebaseUserObj, followeeId)                                                                 => dispatch(createFollow(authToken, firebaseUserObj, followeeId)),
+  deleteFollow:            (authToken, firebaseUserObj, followeeId)                                                                 => dispatch(deleteFollow(authToken, firebaseUserObj, followeeId)),
+  createLike:              (authToken, firebaseUserObj, clientId, postId)                                                           => dispatch(createLike(authToken, firebaseUserObj, clientId, postId)),
+  deleteLike:              (authToken, firebaseUserObj, clientId, postId)                                                           => dispatch(deleteLike(authToken, firebaseUserObj, clientId, postId)),
+  createFlag:              (authToken, firebaseUserObj, postId)                                                                     => dispatch(createFlag(authToken, firebaseUserObj, postId)),
+  deleteFlag:              (authToken, firebaseUserObj, postId)                                                                     => dispatch(deleteFlag(authToken, firebaseUserObj, postId)),
+  deletePost:              (authToken, firebaseUserObj, postId)                                                                     => dispatch(deletePost(authToken, firebaseUserObj, postId)),
+  removePost:              (deletedPost)                                                                                            => dispatch(removePost(deletedPost)),
   createMessage:           (authToken, firebaseUserObj, clientId, convoId, messageBody, messageImagePath, messageImageType, postId) => dispatch(createMessage(authToken, firebaseUserObj, clientId, convoId, messageBody, messageImagePath, messageImageType, postId)),
-  navigateTo:              (screen, props) => dispatch(navigateTo(screen, props)),
-  refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
+  navigateTo:              (screen, props)                                                                                          => dispatch(navigateTo(screen, props)),
+  refreshCredsAndGetImage: (firebaseUserObj, avatarUrl)                                                                             => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
 });
 
 export default connect(

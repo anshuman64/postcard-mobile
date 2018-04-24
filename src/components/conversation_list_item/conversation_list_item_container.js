@@ -16,7 +16,7 @@ const mapStateToProps = ({ client, usersCache, groupsCache, postsCache }, ownPro
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   navigateTo:         (screen, props) => dispatch(navigateTo(screen, props)),
-  navigateToProfile:  (props) => dispatch(navigateToProfile(props)),
+  navigateToProfile:  (props)         => dispatch(navigateToProfile(props)),
 });
 
 export default connect(
