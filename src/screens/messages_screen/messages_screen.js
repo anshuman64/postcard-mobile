@@ -256,16 +256,18 @@ class MessagesScreen extends React.PureComponent {
     let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
-      <RN.View style={StyleUtility.UTILITY_STYLES.containerStart}>
-        <HeaderContainer
-          backIcon={true}
-          backTitle={displayName + "'s Messages"}
-          settingsIcon={this.props.convoId < 0}
-          convoId={this.props.convoId}
-          />
-        {this._renderMessageList()}
-        {this._renderTextInputRow()}
-      </RN.View>
+      <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>
+        <RN.View style={StyleUtility.UTILITY_STYLES.containerStart}>
+          <HeaderContainer
+            backIcon={true}
+            backTitle={displayName + "'s Messages"}
+            settingsIcon={this.props.convoId < 0}
+            convoId={this.props.convoId}
+            />
+          {this._renderMessageList()}
+          {this._renderTextInputRow()}
+        </RN.View>
+      </RN.KeyboardAvoidingView>
     )
   }
 }
