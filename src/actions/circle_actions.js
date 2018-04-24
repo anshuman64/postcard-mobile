@@ -1,3 +1,6 @@
+// Library Imports
+import _ from 'lodash';
+
 // Local Imports
 import { amplitude }           from '../utilities/analytics_utility';
 import * as APIUtility         from '../utilities/api_utility';
@@ -55,26 +58,37 @@ export const getCircles = (authToken, firebaseUserObj) => (dispatch) => {
 };
 
 // Creates circle with list of user_ids
-export const createCircle = (authToken, firebaseUserObj, name, users) => (dispatch) => {
-  return APIUtility.post(authToken, '/circles', { name: name, user_ids: users })
+export const createCircle = (authToken, firebaseUserObj, name, recipientIds) => (dispatch) => {
+  let user_ids = [];
+  let group_ids = [];
+
+  _.forEach(recipientIds, (recipientId) => {
+    if (recipientId > 0) {
+      user_ids.push(recipientId);
+    } else {
+      group_ids.push(-1 * recipientId);
+    }
+  });
+
+  return APIUtility.post(authToken, '/circles', { name: name, user_ids: user_ids, group_ids: group_ids })
     .then((newCircle) => {
-      amplitude.logEvent('Engagement - Create Circle', { is_successful: true, name: name, num_users: users.length });
+      amplitude.logEvent('Groups - Create Circle', { is_successful: true, name: name, num_users: recipientIds.length });
       dispatch(receiveCircle({ circle: newCircle }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createCircle, name, users));
+        return dispatch(refreshAuthToken(firebaseUserObj, createCircle, name, recipientIds));
       }
 
       if (error.message === 'Name has already been taken') {
         error = setErrorDescription(error, 'Circle name has already been taken');
-      } else if (error.message === 'Minimum 2 user_ids required') {
-        error = setErrorDescription(error, 'Minimum 2 user_ids required');
+      } else if (error.message === 'Minimum 2 recipients required') {
+        error = setErrorDescription(error, 'Minimum 2 recipients required');
       } else {
         error = setErrorDescription(error, 'POST circles failed');
       }
 
-      amplitude.logEvent('Engagement - Create Circle', { is_successful: false, name: name, num_users: users.length, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Groups - Create Circle', { is_successful: false, name: name, num_users: recipientIds.length, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
@@ -83,7 +97,7 @@ export const createCircle = (authToken, firebaseUserObj, name, users) => (dispat
 export const deleteCircle = (authToken, firebaseUserObj, circleId) => (dispatch) => {
   return APIUtility.del(authToken, '/circles/' + circleId)
     .then((deletedCircle) => {
-      amplitude.logEvent('Engagement - Delete Circle', { is_successful: true });
+      amplitude.logEvent('Groups - Delete Circle', { is_successful: true });
       dispatch(removeCircle({ circle: deletedCircle }));
     })
     .catch((error) => {
@@ -92,7 +106,7 @@ export const deleteCircle = (authToken, firebaseUserObj, circleId) => (dispatch)
       }
 
       error = setErrorDescription(error, 'DEL circle failed');
-      amplitude.logEvent('Engagement - Delete Circle', { is_successful: false, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Groups - Delete Circle', { is_successful: false, error_description: error.description, error_message: error.message });
       throw error;
     });
 };

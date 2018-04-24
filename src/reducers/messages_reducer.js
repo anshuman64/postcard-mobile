@@ -46,32 +46,31 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES:
-      userId = action.data.userId;
+      convoId = action.data.convoId;
 
-      newState[userId]       = newState[userId]       || {};
-      newState[userId].data  = newState[userId].data  || [];
-      newState[userId].isEnd = newState[userId].isEnd || false;
+      newState[convoId]       = newState[convoId]       || {};
+      newState[convoId].data  = newState[convoId].data  || [];
+      newState[convoId].isEnd = newState[convoId].isEnd || false;
 
       if (!action.data.isNew && action.data.messages.length < 20) {
-        newState[userId].isEnd = true;
+        newState[convoId].isEnd = true;
       }
 
       if (action.data.isNew) {
-        newState[userId].data = action.data.messages.concat(newState[userId].data);
+        newState[convoId].data = action.data.messages.concat(newState[convoId].data);
       } else {
-        newState[userId].data = newState[userId].data.concat(action.data.messages);
+        newState[convoId].data = newState[convoId].data.concat(action.data.messages);
       }
 
       return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
-    case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.userId;
+      convoId = action.data.convoId;
 
-      newState[userId]       = newState[userId]       || {};
-      newState[userId].data  = newState[userId].data  || [];
-      newState[userId].isEnd = newState[userId].isEnd || false;
+      newState[convoId]       = newState[convoId]       || {};
+      newState[convoId].data  = newState[convoId].data  || [];
+      newState[convoId].isEnd = newState[convoId].isEnd || false;
 
-      newState[userId].data.unshift(action.data.message);
+      newState[convoId].data.unshift(action.data.message);
 
       return newState;
 
@@ -81,7 +80,6 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
 
     // Since we don't know if user is requester or requestee, delete messages for both
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
-    case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
       let removeMessages = (id) => {
         newState[id]       = {};
         newState[id].data  = [];

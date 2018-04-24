@@ -5,11 +5,11 @@ import OneSignal from 'react-native-onesignal';
 // Local Imports
 import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config';
 import { getBaseUrl }                    from './api_utility';
-import { pusherReceiveLike }             from '../actions/like_actions';
 import * as FriendshipActions            from '../actions/friendship_actions';
-import { pusherReceiveMessage }          from '../actions/message_actions';
+import { receiveMessage }                from '../actions/message_actions';
 import { getImages }                     from '../actions/image_actions';
 import { pusherReceivePost }             from '../actions/post_actions';
+import * as GroupActions                 from '../actions/group_actions';
 
 //--------------------------------------------------------------------//
 
@@ -78,19 +78,33 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('destroy-friendship', (data) => {
-    dispatch(FriendshipActions.pusherDestroyFriendship({ user: data.client, friendship: data.friendship }));
+    dispatch(FriendshipActions.removeFriendship({ friendship: data.friendship }));
   });
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-post', (data) => {
-    dispatch(pusherReceivePost({ clientId: data.user.id, post: data.post }));
+    dispatch(pusherReceivePost({ clientId: data.user_id, post: data.post }));
     dispatch(getImages(data.post));
   });
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-message', (data) => {
-    dispatch(pusherReceiveMessage({ userId: data.client.id, message: data.message }));
+    convoId = data.client_id ? data.client_id : -1 * data.group_id;
+    dispatch(receiveMessage({ convoId: convoId, message: data.message }));
     dispatch(getImages(data.message));
+  });
+
+  myChannel.bind('receive-group', (data) => {
+    dispatch(GroupActions.receiveGroup({ group: data.group }));
+    dispatch(GroupActions.getUsersFromGroups(data.group));
+  });
+
+  myChannel.bind('remove-group', (data) => {
+    dispatch(GroupActions.removeGroup({ groupId: data.group_id }));
+  });
+
+  myChannel.bind('edit-group', (data) => {
+    dispatch(GroupActions.editGroup({ group: data.group }));
   });
 }
 

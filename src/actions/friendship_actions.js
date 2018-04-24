@@ -28,7 +28,6 @@ export const FRIENDSHIP_ACTION_TYPES = {
   PUSHER_CREATE_FRIENDSHIP:           'PUSHER_CREATE_FRIENDSHIP',
   PUSHER_RECEIVE_FRIENDSHIP:          'PUSHER_RECEIVE_FRIENDSHIP',
   PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP: 'PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP',
-  PUSHER_DESTROY_FRIENDSHIP:          'PUSHER_DESTROY_FRIENDSHIP',
 };
 
 //--------------------------------------------------------------------//
@@ -71,46 +70,48 @@ export const pusherReceiveAcceptedFriendship = (data) => {
   return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_ACCEPTED_FRIENDSHIP, data: data };
 };
 
-// user (user object): other user's user object
-// friendship (friendship object): joint friendship object
-export const pusherDestroyFriendship = (data) => {
-  return { type: FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP, data: data };
-};
-
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-export const getFriendships = (authToken, firebaseUserObj, friendType, clientPhoneNumber) => (dispatch) => {
-  let getFriends = (data) => {
-    return APIUtility.get(authToken, '/friendships/' + friendType, { contacts: data })
-      .then((friends) => {
-        dispatch(receiveFriendships({ friends: friends, friendType: friendType }));
-        dispatch(getImages(friends));
-        dispatch(getPostsFromMessages(friends));
-      })
-      .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, getFriendships, friendType, clientPhoneNumber));
-        }
+export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispatch) => {
+  return APIUtility.get(authToken, '/friendships/' + friendType)
+    .then((friends) => {
+      dispatch(receiveFriendships({ friends: friends, friendType: friendType }));
+      dispatch(getImages(friends));
+      dispatch(getPostsFromMessages(friends));
+    })
+    .catch((error) => {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshAuthToken(firebaseUserObj, getFriendships, friendType));
+      }
 
-        throw setErrorDescription(error, 'GET friendships failed');
-      });
-  }
+      throw setErrorDescription(error, 'GET friendships failed');
+    });
+};
 
-  if (friendType === FRIEND_TYPES.CONTACTS) {
-    return getContacts(clientPhoneNumber)
-      .then((data) => {
-        return getFriends(data);
-      });
-  } else {
-    return getFriends();
-  }
+export const getFriendsFromContacts = (authToken, firebaseUserObj, clientPhoneNumber) => (dispatch) => {
+  return getContacts(clientPhoneNumber)
+    .then((data) => {
+      return APIUtility.post(authToken, '/friendships/contacts', { contacts: data })
+        .then((friends) => {
+          dispatch(receiveFriendships({ friends: friends, friendType: FRIEND_TYPES.CONTACTS }));
+          dispatch(getImages(friends));
+          dispatch(getPostsFromMessages(friends));
+        })
+        .catch((error) => {
+          if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+            return dispatch(refreshAuthToken(firebaseUserObj, getFriendsFromContacts, clientPhoneNumber));
+          }
+
+          throw setErrorDescription(error, 'POST friends from contacts failed');
+        });
+    });
 };
 
 // NOTE: sendFriendshipRequest should be dispatched in component
 export const createFriendRequest = (authToken, firebaseUserObj, userId, username) => (dispatch) => {
-  return APIUtility.post(authToken, '/friendships', { requestee_id: userId, username: username })
+  return APIUtility.post(authToken, '/friendships', { user_id: userId, username: username })
     .then((friendship) => {
       amplitude.logEvent('Friendship - Request Friendship', { is_successful: true, isUsername: username ? true : false });
       return friendship;
@@ -128,7 +129,7 @@ export const createFriendRequest = (authToken, firebaseUserObj, userId, username
 
 // NOTE: acceptFriendshipRequest should be dispatched in component
 export const acceptFriendRequest = (authToken, firebaseUserObj, userId) => (dispatch) => {
-  return APIUtility.put(authToken, '/friendships/accept', { requester_id: userId })
+  return APIUtility.put(authToken, '/friendships/accept', { user_id: userId })
     .then((friendship) => {
       amplitude.logEvent('Friendship - Accept Friendship', { is_successful: true });
       return friendship;

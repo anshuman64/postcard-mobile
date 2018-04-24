@@ -2,8 +2,8 @@
 import _ from 'lodash';
 
 // Local Imports
-import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
-import { MESSAGE_ACTION_TYPES }                  from '../actions/message_actions';
+import { FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
+import { MESSAGE_ACTION_TYPES }    from '../actions/message_actions';
 
 //--------------------------------------------------------------------//
 
@@ -54,7 +54,6 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
     // Since we don't know if user is requester or requestee, delete ids for both
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
-    case FRIENDSHIP_ACTION_TYPES.PUSHER_DESTROY_FRIENDSHIP:
       _.forEach(newState, (friendListType) => {
         _.remove(friendListType, (ids) => {
           return ids === action.data.friendship.requester_id;
@@ -93,14 +92,13 @@ const FriendshipsReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
 
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
-    case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
-      userId = action.data.userId;
+      convoId = action.data.convoId;
 
       _.remove(newState.accepted, (ids) => {
-        return ids === userId;
+        return ids === convoId;
       });
 
-      newState.accepted.unshift(userId);
+      newState.accepted.unshift(convoId);
 
       return newState;
     default:

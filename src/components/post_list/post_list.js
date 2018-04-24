@@ -3,18 +3,25 @@ import React  from 'react';
 import RN     from 'react-native';
 
 // Local Imports
-import ProfileHeaderContainer                from '../profile_header/profile_header_container';
-import PostListItemContainer                 from '../post_list_item/post_list_item_container';
-import ListFooter                            from '../list_footer/list_footer';
-import { PROFILE_HEADER_HEIGHT }             from '../profile_header/profile_header_styles';
-import { styles }                            from './post_list_styles';
-import { UTILITY_STYLES, COLORS, scaleFont } from '../../utilities/style_utility';
-import { defaultErrorAlert }                 from '../../utilities/error_utility';
+import ProfileHeaderContainer    from '../profile_header/profile_header_container';
+import PostListItemContainer     from '../post_list_item/post_list_item_container';
+import ListFooter                from '../list_footer/list_footer';
+import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles';
+import { styles }                from './post_list_styles';
+import { COLORS, scaleFont }     from '../../utilities/style_utility';
+import { defaultErrorAlert }     from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
 const AnimatedFlatList = RN.Animated.createAnimatedComponent(RN.FlatList);
 
+/*
+Required Passed Props:
+  userId (int): user id of which the posts were retrieved
+  postType (string): one of POST_TYPES
+Optional Passed Props:
+  isProfile (bool): determines if there should be a ProfileHeader
+*/
 class PostList extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -114,14 +121,14 @@ class PostList extends React.PureComponent {
           ref={(ref) => this.flatList = ref}
           data={(postData && postData[this.props.postType]) ? postData[this.props.postType].data : null}
           renderItem={this._renderItem.bind(this)}
-          keyExtractor={(item) => this.props.postsCache[item].id}
+          keyExtractor={(item, index) => String(index)}
           style={styles.postList}
           initialNumToRender={3}
           maxToRenderPerBatch={10}
           showsVerticalScrollIndicator={false}
           onEndReached={this._onEndReached}
           refreshControl={this._renderRefreshControl()}
-          ListHeaderComponent={this._renderHeader}
+          ListHeaderComponent={this._renderActivityIndicatorHeader}
           ListFooterComponent={this._renderFooter}
           onMomentumScrollBegin={() => this.onEndReachedCalledDuringMomentum = false}
           onEndReachedThreshold={0.01}
@@ -134,16 +141,14 @@ class PostList extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer item={this.props.postsCache[item]} />
+      <PostListItemContainer item={this.props.postsCache[item]} postType={this.props.postType} />
     )
   }
 
   _renderRefreshControl = () => {
-    let offset;
+    let offset = 0;
     if (this.props.isProfile) {
       offset = PROFILE_HEADER_HEIGHT;
-    } else {
-      offset = 0;
     }
 
     return (
@@ -159,17 +164,14 @@ class PostList extends React.PureComponent {
   _renderProfileHeader = () => {
     if (this.props.isProfile) {
       return (
-        <ProfileHeaderContainer
-          scrollY={this.state.scrollY}
-          userId={this.props.userId}
-          />
+        <ProfileHeaderContainer scrollY={this.state.scrollY} userId={this.props.userId}/>
       )
     } else {
       return null;
     }
   }
 
-  _renderHeader = () => {
+  _renderActivityIndicatorHeader = () => {
     if (this.props.isProfile) {
       return (
         <RN.View style={[styles.headerView, { height: PROFILE_HEADER_HEIGHT }]}>
@@ -186,11 +188,7 @@ class PostList extends React.PureComponent {
 
     if (postData && postData[this.props.postType] && postData[this.props.postType].isEnd) {
       return (
-        <RN.TouchableWithoutFeedback onPress={this._onPressAddFriends}>
-          <RN.View>
-            <ListFooter footerWidth={scaleFont(200)} text={'No more Posts?'} highlightedText={' Add Friends'} />
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
+        <ListFooter footerWidth={scaleFont(200)} text={'No more Posts?'} highlightedText={' Add Friends'} callback={this._onPressAddFriends} />
       )
     } else {
       return (

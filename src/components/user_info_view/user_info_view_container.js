@@ -2,14 +2,14 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import UserInfoView                from './user_info_view';
-import { navigateToProfile }       from '../../actions/navigation_actions';
+import UserInfoView          from './user_info_view';
+import { navigateToProfile } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache }, ownProps) => ({
-  client:      client,
+const mapStateToProps = ({ usersCache, groupsCache }, ownProps) => ({
   usersCache:  usersCache,
+  groupsCache: groupsCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

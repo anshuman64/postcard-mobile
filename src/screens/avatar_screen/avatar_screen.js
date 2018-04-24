@@ -1,7 +1,6 @@
 // Library Imports
-import React       from 'react';
-import RN          from 'react-native';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
 import AvatarContainer        from '../../components/avatar/avatar_container';
@@ -12,11 +11,15 @@ import { defaultErrorAlert }  from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+
 /*
+Required Screen Props:
+  -
 Optional Screen Props:
   isLogin (bool): determines what screen to go to after pressing 'Done'
+  imagePath (string): passed from CameraRollScreen when updating picture
+  imageType (string): passed from CameraRollScreen
 */
-
 class AvatarScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -197,7 +200,8 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderSkipButton() {
-    let avatarUrl = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].avatar_url : null;
+    let client = this.props.usersCache[this.props.client.id];
+    let avatarUrl = client ? client.avatar_url : null;
     let skipText = this.props.isLogin ? 'Skip' : 'Remove';
 
     if (this.props.isLogin || avatarUrl) {

@@ -58,6 +58,10 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.NewPostScreen(props)
     } else if (screen === 'ShareScreen') {
       Actions.ShareScreen(props)
+    } else if (screen === 'CreateGroupScreen') {
+      Actions.CreateGroupScreen(props)
+    } else if (screen === 'AddGroupMembersScreen') {
+      Actions.AddGroupMembersScreen(props)
     } else if (screen === 'CreateCircleScreen') {
       Actions.CreateCircleScreen(props)
     } else if (screen === 'MessagesScreen') {
@@ -66,8 +70,12 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.AddFriendScreen(props)
     } else if (screen === 'NameCircleScreen') {
       Actions.NameCircleScreen(props)
+    } else if (screen === 'NameGroupScreen') {
+      Actions.NameGroupScreen(props)
     } else if (screen === 'MenuScreen') {
       Actions.MenuScreen(props)
+    } else if (screen === 'GroupMenuScreen') {
+      Actions.GroupMenuScreen(props)
     } else if (screen === 'UsernameScreen') {
       Actions.UsernameScreen(props)
     } else if (screen === 'CameraRollScreen') {

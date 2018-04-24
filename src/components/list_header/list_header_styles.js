@@ -7,28 +7,25 @@ import * as StyleUtility from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_MARGIN = 15;
+const DEFAULT_MARGIN = 10;
 
 export const styles = StyleSheet.create({
-  sectionHeader: {
+  headerItemView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    height: 50,
+    width: StyleUtility.getUsableDimensions().width - 2 * DEFAULT_MARGIN,
+    height: 60,
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
+    borderBottomWidth: 1,
+    borderBottomColor: StyleUtility.COLORS.grey200
   },
-  sectionHeaderText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontSize: 16,
-    fontWeight: '400',
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey600,
-    marginLeft: 20
-  },
-  plusButton: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Bold'),
-    fontSize: 30,
-    fontWeight: '800',
-    textAlign: 'center',
+  headerItemIcon: {
+    fontSize: 24,
+    textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
-  }
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: 20
+  },
 });

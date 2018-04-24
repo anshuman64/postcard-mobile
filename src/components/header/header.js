@@ -1,18 +1,41 @@
 // Library Imports
-import React   from 'react';
-import RN      from 'react-native';
-import Icon    from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon from 'react-native-vector-icons/Ionicons';
+import React       from 'react';
+import RN          from 'react-native';
+import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon     from 'react-native-vector-icons/Ionicons';
+import { Actions } from 'react-native-router-flux';
 
 // Local Imports
 import LoadingModal                   from '../loading_modal/loading_modal.js'
 import { styles }                     from './header_styles';
 import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility';
 import { isStringEmpty }              from '../../utilities/function_utility';
-import { defaultErrorAlert }          from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Passed Props:
+  -
+Optional Passed Props:
+  postText (string): text of the post to be shared, coming from NewPostScreen and/or CreateCircleScreen
+  imagePath (string): folder path of image to upload to AWS
+  placeholderText (string): placeholder text of NewPostScreen to send to analytics
+  imageType (string): type of image for AWS uploading purposed
+  isPublic (bool): if new post should be public or not from NewPostScreen
+  recipients (array): users to be passed to API from 1) CreateCircleScreen, 2) CreateGroupScreen, or 3) AddGroupMembersScreen
+  convoId (int): group id when adding members to the group
+  blank (bool): leave blank space for ProfileTabs
+  backIcon (bool): add a back icon
+  backTitle (string): title for back icon
+  settingsIcon (bool): add the three-dots settings icon for ProfileTabs or GroupMenuScreen
+  logo (bool): add a logo for HomeScreen
+  noBorder (bool): remove bottom border for ProfileTabs
+  shareButton (bool): ShareScreen share button
+  nextButton (bool): NewPostScreen next button
+  createCircleButton (bool): CreateCircleScreen create button
+  createGroupButton (bool): CreateGroupScreen create button
+  addGroupMembersButton (bool): AddGroupMembersScreen add button
+*/
 class Header extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -27,7 +50,7 @@ class Header extends React.PureComponent {
     }
 
     this.isNextPressed   = false;
-    this.isButtonPressed  = false;
+    this.isButtonPressed = false;
     this.isGoBackPressed = false;
   }
 
@@ -48,11 +71,9 @@ class Header extends React.PureComponent {
   // Next button from NewPostScreen
   _onPressToShare = () => {
     // Return if no post body or image selected
-    if ((isStringEmpty(this.props.postText) && !this.props.imagePath) || this.isNextPressed) {
+    if (isStringEmpty(this.props.postText) && !this.props.imagePath) {
       return;
     }
-
-    isNextPressed = true;
 
     this.props.navigateTo('ShareScreen', {
       postText: this.props.postText,
@@ -75,14 +96,14 @@ class Header extends React.PureComponent {
 
       this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
         .then(() => {
-          this.props.navigateTo('HomeScreen');
+          this.props.navigateTo('AuthoredScreen');
           this.isGoBackPressed = true;
         })
         .catch((error) => {
-          this.isButtonPressed = false;
           defaultErrorAlert(error);
         })
         .finally(() => {
+          this.isButtonPressed = false;
           this.setState({ isLoading: false });
         });
     });
@@ -99,23 +120,76 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       this.props.createCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.circleName, this.props.recipients)
         .then(() => {
-          // TODO: figure out better behavior for this
-          this.props.navigateTo('ShareScreen', {
-            postText: this.props.postText,
-            placeholderText: this.props.placeholderText,
-            imagePath: this.props.imagePath,
-            imageType: this.props.imageType,
-          });
+          Actions.popTo('ShareScreen');
           this.isGoBackPressed = true;
         })
         .catch((error) => {
-          this.isButtonPressed = false;
           defaultErrorAlert(error);
         })
         .finally(() => {
+          this.isButtonPressed = false;
           this.setState({ isLoading: false });
         });
     });
+  }
+
+
+  // Create button from CreateGroupScreen
+  _onPressCreateGroup = () => {
+    if (this.isButtonPressed || this.props.recipients.length === 0) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    this.setState({ isLoading: true },() => {
+      this.props.createGroup(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.recipients)
+        .then(() => {
+          this.props.navigateTo('FriendScreen');
+          this.isGoBackPressed = true;
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.isButtonPressed = false;
+          this.setState({ isLoading: false });
+        });
+    });
+  }
+
+  _onPressAddGroupMembers = () => {
+    if (this.isButtonPressed || this.props.recipients.length === 0) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    this.setState({ isLoading: true },() => {
+      this.props.addGroupMembers(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId, this.props.recipients)
+        .then(() => {
+          this.props.goBack();
+          this.isGoBackPressed = true;
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.isButtonPressed = false;
+          this.setState({ isLoading: false });
+        });
+    });
+
+  }
+
+  _onPressSettings = () => {
+    // If coming from ProfileTabs
+    if (this.props.blank) {
+      this.props.navigateTo('MenuScreen');
+    // If coming from MessagesScreen
+    } else {
+      this.props.navigateTo('GroupMenuScreen', { convoId: this.props.convoId });
+    }
   }
 
   //--------------------------------------------------------------------//
@@ -169,7 +243,7 @@ class Header extends React.PureComponent {
         <RN.TouchableWithoutFeedback
           onPressIn={() => this.settingsIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
           onPressOut={() => this.settingsIcon.setNativeProps({style: styles.settingsIcon})}
-          onPress={() => this.props.navigateTo('MenuScreen')}
+          onPress={this._onPressSettings}
           >
           <RN.View style={styles.button}>
             <Icon ref={(ref) => this.settingsIcon = ref} name='options-vertical' style={styles.settingsIcon} />
@@ -192,7 +266,7 @@ class Header extends React.PureComponent {
   }
 
   _renderCustomButton() {
-    if (this.props.shareButton || this.props.nextButton || this.props.createCircleButton) {
+    if (this.props.shareButton || this.props.nextButton || this.props.createCircleButton || this.props.createGroupButton || this.props.addGroupMembersButton) {
       let text;
       let func;
 
@@ -205,6 +279,12 @@ class Header extends React.PureComponent {
       } else if (this.props.createCircleButton) {
         text = 'Create';
         func = this._onPressCreateCircle;
+      } else if (this.props.createGroupButton) {
+        text = 'Create';
+        func = this._onPressCreateGroup;
+      } else if (this.props.addGroupMembersButton) {
+        text = 'Add';
+        func = this._onPressAddGroupMembers;
       }
 
       return (

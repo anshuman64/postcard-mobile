@@ -53,11 +53,4 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: StyleUtility.COLORS.appleBlue
   },
-  footerView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: 60,
-  },
 });

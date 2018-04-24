@@ -3,19 +3,23 @@ import React          from 'react';
 import { StyleSheet } from 'react-native';
 
 // Local Imports
-import * as StyleUtility from '../../../utilities/style_utility';
+import * as StyleUtility from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+const DEFAULT_MARGIN = 10;
+
 export const styles = StyleSheet.create({
-  rowContainer: {
+  userView: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    height: 45,
-    marginLeft: 25,
-    marginRight: 25,
-    borderBottomWidth: 1,
-    borderBottomColor: StyleUtility.COLORS.grey200
+    marginLeft: DEFAULT_MARGIN
+  },
+  icon: {
+    width: 36,
+    fontSize: 18,
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleRed,
   },
 });
