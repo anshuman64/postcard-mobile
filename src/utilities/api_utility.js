@@ -1,5 +1,5 @@
 // Library Imports
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 // Local Imports
 import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config';
@@ -72,7 +72,7 @@ export const getBaseUrl = () => {
   } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
     return 'http://insiya-production-server-2.us-east-1.elasticbeanstalk.com/api';
   } else {
-    return 'http://192.168.0.153:3000/api';
+    return 'http://192.168.0.157:3000/api';
   }
 };
 
