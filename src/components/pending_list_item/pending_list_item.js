@@ -47,11 +47,8 @@ class PendingListItem extends React.PureComponent {
 
     this.props.createFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.container.fadeOut(500)
-          .finally(() => {
-            this.props.sendFriendshipRequest({ friendship: friendship });
-            this.isButtonDisabled = false;
-          });
+        this.props.sendFriendshipRequest({ friendship: friendship });
+        this.isButtonDisabled = false;
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -68,11 +65,8 @@ class PendingListItem extends React.PureComponent {
 
     this.props.acceptFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.container.fadeOut(500)
-          .finally(() => {
-            this.props.acceptFriendshipRequest({ friendship: friendship });
-            this.isButtonDisabled = false;
-          });
+        this.props.acceptFriendshipRequest({ friendship: friendship });
+        this.isButtonDisabled = false;
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -86,7 +80,7 @@ class PendingListItem extends React.PureComponent {
     }
 
     this.isButtonDisabled = true;
-    
+
     let alertString;
     let cancelString;
     let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;;
@@ -112,11 +106,8 @@ class PendingListItem extends React.PureComponent {
   _onConfirmDeleteFriendship = () => {
     this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.container.fadeOut(500)
-          .finally(() => {
-            this.props.removeFriendship({ friendship: friendship, client: this.props.client });
-            this.isButtonDisabled = false;
-          });
+        this.props.removeFriendship({ friendship: friendship, client: this.props.client });
+        this.isButtonDisabled = false;
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -133,11 +124,8 @@ class PendingListItem extends React.PureComponent {
 
     this.props.deleteBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((block) => {
-        this.container.fadeOut(500)
-          .finally(() => {
-            this.props.removeBlock({ block: block });
-            this.isButtonDisabled = false;
-          });
+        this.props.removeBlock({ block: block });
+        this.isButtonDisabled = false;
       })
       .catch((error) => {
         this.isButtonDisabled = false;
