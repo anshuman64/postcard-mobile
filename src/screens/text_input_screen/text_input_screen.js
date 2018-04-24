@@ -15,10 +15,6 @@ Required Screen Props:
   -
 Optional Screen Props:
   convoId (int): id of group when on NameGroupScreen
-  postText (string): preserve data from ShareScreen to pass to HeaderContainer
-  placeholderText (string): preserve data from ShareScreen to pass to HeaderContainer
-  imagePath (string): preserve data from ShareScreen to pass to HeaderContainer
-  imageType (string): preserve data from ShareScreen to pass to HeaderContainer
 */
 class TextInputScreen extends React.PureComponent {
 
@@ -130,13 +126,7 @@ class TextInputScreen extends React.PureComponent {
   }
 
   _onPressNameCircleScreen = () => {
-    this.props.navigateTo('CreateCircleScreen', {
-      circleName: this.state.inputtedText,
-      postText: this.props.postText,
-      placeholderText: this.props.placeholderText,
-      imagePath: this.props.imagePath,
-      imageType: this.props.imageType,
-    });
+    this.props.navigateTo('CreateCircleScreen', { circleName: this.state.inputtedText });
   }
 
   _onPressNameGroupScreen = () => {
