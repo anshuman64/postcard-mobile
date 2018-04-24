@@ -3,11 +3,11 @@ import React                   from 'react';
 import RN                      from 'react-native';
 import _                       from 'lodash';
 import { AsYouTypeFormatter }  from 'google-libphonenumber';
-import Icon                    from 'react-native-vector-icons/Ionicons';
+import Ionicon                 from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
 import LoadingModal                from '../../components/loading_modal/loading_modal';
-import CountryListModal            from '../../components/country_list_modal/country_list_modal';
+import ListModalContainer          from '../../components/list_modal/list_modal_container';
 import { styles }                  from './login_screen_styles';
 import { COUNTRY_CODES }           from '../../utilities/country_utility';
 import { setStateCallback }        from '../../utilities/function_utility';
@@ -16,6 +16,12 @@ import { defaultErrorAlert }       from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class LoginScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -41,13 +47,9 @@ class LoginScreen extends React.PureComponent {
   // Public Methods
   //--------------------------------------------------------------------//
 
-  // Callback function used for Cancel button in CountryListModal
+  // Callback function used for Cancel button in ListModal
   setParentState = (state) => {
-    let func = () => {
-      this.setState(state);
-    }
-
-    return func;
+    this.setState(state);
   }
 
   // Callback function for setting country selector and updating phone number formatting
@@ -112,7 +114,7 @@ class LoginScreen extends React.PureComponent {
   _onNextButtonPress = () => {
     let number = this.state.formattedPhoneNumber.match(/[\d+]/g).join('');
 
-    // If the user has not added their own country code in, add the one from the countryListModal
+    // If the user has not added their own country code in, add the one from the ListModal
     if (number[0] != '+') {
       number = COUNTRY_CODES[this.state.countryIndex].dialing_code + number;
     }
@@ -158,7 +160,7 @@ class LoginScreen extends React.PureComponent {
   _renderCountrySelector() {
     return (
       <RN.TouchableWithoutFeedback
-        onPress={setStateCallback(this, { isModalVisible: true})}
+        onPress={setStateCallback(this, { isModalVisible: true })}
         onPressIn={() => {
           this.countrySelectorView.setNativeProps({style: UTILITY_STYLES.borderHighlighted})
           this.countrySelectorText.setNativeProps({style: UTILITY_STYLES.textHighlighted})
@@ -174,7 +176,7 @@ class LoginScreen extends React.PureComponent {
           <RN.Text ref={(ref) => this.countrySelectorText = ref} style={[UTILITY_STYLES.lightBlackText18, styles.countrySelectorTextWidth]}>
             {COUNTRY_CODES[this.state.countryIndex].country_name}
           </RN.Text>
-          <Icon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
+          <Ionicon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
         </RN.View>
       </RN.TouchableWithoutFeedback>
     )
@@ -240,18 +242,9 @@ class LoginScreen extends React.PureComponent {
     )
   }
 
-  _renderModal() {
+  _renderListModal() {
     return (
-      <RN.Modal
-        visible={this.state.isModalVisible}
-        onRequestClose={setStateCallback(this, { isModalVisible: false })}
-        transparent={false}
-        animationType={'none'}
-        >
-        <RN.View style={UTILITY_STYLES.containerCenter}>
-          <CountryListModal countryIndex={this.state.countryIndex} setParentState={this.setParentState} setCountry={this.setCountry} />
-        </RN.View>
-      </RN.Modal>
+      <ListModalContainer isModalVisible={this.state.isModalVisible} countryIndex={this.state.countryIndex} setParentState={this.setParentState} setCountry={this.setCountry} />
     )
   }
 
@@ -276,7 +269,7 @@ class LoginScreen extends React.PureComponent {
             {this._renderNextButton()}
             {this._renderSMSNoticeText()}
             <RN.View style={{flex: 8}} />
-            {this._renderModal()}
+            {this._renderListModal()}
             {this._renderLoadingModal()}
           </RN.View>
         </RN.TouchableWithoutFeedback>

@@ -1,5 +1,5 @@
 // Library Imports
-import { Platform, Dimensions, PixelRatio, StyleSheet } from 'react-native';
+import RN from 'react-native';
 
 //--------------------------------------------------------------------//
 
@@ -9,7 +9,7 @@ import { Platform, Dimensions, PixelRatio, StyleSheet } from 'react-native';
 
 // Determines if the phone is an iPhone X
 let isIphoneX = () => {
-  return Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS &&
+  return RN.Platform.OS === 'ios' && !RN.Platform.isPad && !RN.Platform.isTVOS &&
     (DEVICE_DIM.height === 812 || DEVICE_DIM.width === 812);
 };
 
@@ -22,7 +22,8 @@ let isTablet = () => {
 // Interface
 //--------------------------------------------------------------------//
 
-export const DEVICE_DIM     = Dimensions.get('window');
+export const DEFAULT_MARGIN = 10;
+export const DEVICE_DIM     = RN.Dimensions.get('window');
 export const MAX_TABLET_DIM = { width: 480, height: 960 };
 
 // Apple Color Palette: https://developer.apple.com/ios/human-interface-guidelines/visual-design/color/
@@ -48,30 +49,30 @@ export const getUsableDimensions = () => {
 };
 
 export const getStatusBarHeight = () => {
-  return Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 24;
+  return RN.Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 24;
 };
 
 // Scales image by PixelSize
 export const scaleImage = (size) => {
-  return PixelRatio.getPixelSizeForLayoutSize(size);
+  return RN.PixelRatio.getPixelSizeForLayoutSize(size);
 };
 
 // Scales font by fontScale
 export const scaleFont = (fontSize) => {
-  return fontSize * PixelRatio.getFontScale();
+  return fontSize * RN.PixelRatio.getFontScale();
 };
 
 // Sets Android font but uses System for iOS
 export const setAndroidFont = (fontFamily) => {
-  return Platform.OS === 'ios'? 'System' : fontFamily;
+  return RN.Platform.OS === 'ios'? 'System' : fontFamily;
 };
 
 // Sets image border radius with correction for Android
 export const getImageBorderRadius = (dimensions) => {
-  return Platform.OS === 'ios' ? dimensions / 2 : 10000;
+  return RN.Platform.OS === 'ios' ? dimensions / 2 : 10000;
 };
 
-export const UTILITY_STYLES = StyleSheet.create({
+export const UTILITY_STYLES = RN.StyleSheet.create({
   // Container Styles
   containerCenter: {
     flexDirection: 'column',
@@ -155,7 +156,7 @@ export const UTILITY_STYLES = StyleSheet.create({
     color: COLORS.grey900,
   },
 
-  // Light White Text StyleSheet
+  // Light White Text RN.StyleSheet
   lightWhiteText18: {
     fontFamily: setAndroidFont('Roboto-Light'),
     fontSize: 18,
@@ -193,6 +194,18 @@ export const UTILITY_STYLES = StyleSheet.create({
   },
   nextButtonTextDisabled: {
    color: '#ffffffb3',
+  },
+
+  rowView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: getUsableDimensions().width - 2 * DEFAULT_MARGIN,
+    height: 70,
+    marginLeft: DEFAULT_MARGIN,
+    marginRight: DEFAULT_MARGIN,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.grey200
   },
 
   // Margin Styles

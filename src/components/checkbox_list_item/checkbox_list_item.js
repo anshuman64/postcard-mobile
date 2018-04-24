@@ -1,7 +1,7 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
-import * as _          from 'lodash';
+import _               from 'lodash';
 import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
@@ -10,11 +10,20 @@ import LoadingModal          from '../loading_modal/loading_modal.js';
 import UserInfoViewContainer from '../user_info_view/user_info_view_container';
 import { styles }            from './checkbox_list_item_styles';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
+import { defaultErrorAlert } from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
 const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
+/*
+Required Passed Props:
+  setParentState (func): to set parent state with updated recipients
+  recipients (array): array of user and group id's that are selected
+Optional Passed Props:
+  circle (object): object of the circle being selected
+  convoId (int): id of either the user or group being selected
+*/
 class CheckboxListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -29,7 +38,7 @@ class CheckboxListItem extends React.PureComponent {
       isLoading:  false,
     }
 
-    this.isDeletePressed = false;
+    this.isDeleteDisabled = false;
   }
 
   //--------------------------------------------------------------------//
@@ -37,8 +46,8 @@ class CheckboxListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userId) {
-      this.setState({ isSelected: nextProps.recipients.includes(nextProps.userId) });
+    if (nextProps.convoId) {
+      this.setState({ isSelected: nextProps.recipients.includes(nextProps.convoId) });
     } else if (nextProps.circle) {
       this.setState({ isSelected: nextProps.circles.includes(nextProps.circle.id) });
     } else {
@@ -57,22 +66,27 @@ class CheckboxListItem extends React.PureComponent {
   _onPressCircleItem = () => {
     let recipientArray = this.props.recipients.slice();
     let circleArray = this.props.circles.slice();
+    let group_ids = [];
+
+    let removeFromRecipientArray = (removeId) => {
+      _.remove(recipientArray, (id) => {
+        return id === removeId;
+      });
+    }
+
+    _.forEach(this.props.circle.user_ids, (removeId) => {
+      removeFromRecipientArray(removeId);
+    });
+
+    _.forEach(this.props.circle.group_ids, (removeId) => {
+      negativeId = -1 * removeId;
+      group_ids.push(negativeId);
+      removeFromRecipientArray(negativeId);
+    });
 
     if (!this.state.isSelected) {
-      _.forEach(this.props.circle.user_ids, (removeId) => {
-        _.remove(recipientArray, (id) => {
-          return id === removeId;
-        });
-      });
-
-      this.props.setParentState({ circles: circleArray.concat(this.props.circle.id), recipients: recipientArray.concat(this.props.circle.user_ids) });
+      this.props.setParentState({ circles: circleArray.concat(this.props.circle.id), recipients: recipientArray.concat(this.props.circle.user_ids, group_ids) });
     } else {
-      _.forEach(this.props.circle.user_ids, (removeId) => {
-        _.remove(recipientArray, (id) => {
-          return id === removeId;
-        });
-      });
-
       _.remove(circleArray, (id) => {
         return id === this.props.circle.id;
       });
@@ -81,34 +95,43 @@ class CheckboxListItem extends React.PureComponent {
     }
   }
 
-  _onPressUserItem = () => {
+  _onPressConvoItem = () => {
     let recipientArray = this.props.recipients.slice();
 
     if (!this.state.isSelected) {
-      this.props.setParentState({ recipients: recipientArray.concat(this.props.userId) });
+      this.props.setParentState({ recipients: recipientArray.concat(this.props.convoId) });
     } else {
       _.remove(recipientArray, (id) => {
-        return id === this.props.userId;
+        return id === this.props.convoId;
       });
 
       this.props.setParentState({ recipients: recipientArray });
     }
   }
 
-  _onPressDelete = () => {
-    if (this.isDeletePressed) {
+  // Alert that pops up when a user is about to delete a circle
+  _onPressDeleteCircle = () => {
+    if (this.isDeleteDisabled) {
       return;
     }
 
-    this.isButtonPressed = true;
+    this.isDeleteDisabled = true;
 
+    RN.Alert.alert('', 'Are you sure you want to delete this circle?',
+      [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
+       {text: 'Delete', onPress: this._onConfirmDeleteCircle}],
+       {onDismiss: () => this.isDeleteDisabled = false}
+    )
+  }
+
+  _onConfirmDeleteCircle = () => {
     this.setState({ isLoading: true },() => {
       this.props.deleteCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.circle.id)
         .catch((error) => {
           defaultErrorAlert(error);
         })
         .finally(() => {
-          this.isButtonPressed = false;
+          this.isDeleteDisabled = false;
           this.setState({ isLoading: false });
         });
     });
@@ -128,7 +151,7 @@ class CheckboxListItem extends React.PureComponent {
         <AnimatedIcon
           ref={(ref) => this.checkbox = ref}
           name='check'
-          style={[styles.checkIcon, !this.props.userId && UTILITY_STYLES.textRed]}
+          style={[styles.checkIcon, !this.props.convoId && UTILITY_STYLES.textRed]}
           animation={'flipInY'}
           duration={200}
           />
@@ -141,29 +164,31 @@ class CheckboxListItem extends React.PureComponent {
   }
 
   _renderItemView() {
-    if (this.props.userId) {
+    if (this.props.convoId) {
       return (
-        <UserInfoViewContainer userId={this.props.userId} marginLeft={15} disabled={true} />
+        <UserInfoViewContainer convoId={this.props.convoId} marginLeft={15} disabled={true} />
 
       )
     } else if (this.props.circle) {
       return (
         <RN.View style={styles.userView}>
-          <RN.View style={styles.frame} />
+          <RN.View style={styles.frame}>
+            <Icon name={'close'} onPress={this._onPressDeleteCircle} style={styles.closeIcon} />
+          </RN.View>
           <RN.Text style={UTILITY_STYLES.regularBlackText16}>
             {this.props.circle.name}
           </RN.Text>
-          <Icon name={'close'} onPress={this._onPressDelete} style={styles.icon} />
         </RN.View>
       )
     } else {
       return (
         <RN.View style={styles.userView}>
-          <RN.View style={styles.frame} />
+          <RN.View style={styles.frame}>
+            <Icon name={'question'} onPress={this._onPressHelp} style={styles.questionIcon} />
+          </RN.View>
           <RN.Text style={UTILITY_STYLES.regularBlackText16}>
             Public
           </RN.Text>
-          <Icon name={'question'} onPress={this._onPressHelp} style={styles.icon} />
         </RN.View>
       )
     }
@@ -178,8 +203,8 @@ class CheckboxListItem extends React.PureComponent {
   render() {
     let func;
 
-    if (this.props.userId) {
-      func = this._onPressUserItem;
+    if (this.props.convoId) {
+      func = this._onPressConvoItem;
     } else if (this.props.circle) {
       func = this._onPressCircleItem;
     } else {
@@ -189,11 +214,11 @@ class CheckboxListItem extends React.PureComponent {
     return (
       <RN.View>
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.userId && styles.checkboxRed]})}
+          onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.convoId && styles.checkboxRed]})}
           onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
           onPress={func}
           >
-          <RN.View style={styles.rowView}>
+          <RN.View style={UTILITY_STYLES.rowView}>
             {this._renderItemView()}
             <RN.View style={styles.checkboxView}>
               {this._renderCheckbox()}

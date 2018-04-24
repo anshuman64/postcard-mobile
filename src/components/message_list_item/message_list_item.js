@@ -3,7 +3,6 @@ import React           from 'react';
 import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Hyperlink       from 'react-native-hyperlink'
-import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import PostListItem          from '../post_list_item/post_list_item_container';
@@ -15,6 +14,14 @@ import { setStateCallback }  from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Passed Props:
+  index (int): index of message in conversation to get next or last message
+  message (object): message object to render
+  convoId (int): userId or groupId of conversation
+Optional Passed Props:
+  -
+*/
 class MessageListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -41,10 +48,10 @@ class MessageListItem extends React.PureComponent {
     // Show date if:
     // 1) the message is the first message in the conversation
     // 2) the last message was sent more than 10 mins ago
-    if (this.props.index === this.props.messages[this.props.userId].data.length - 1) {
+    if (this.props.index === this.props.messages[this.props.convoId].data.length - 1) {
       isHeader = true;
     } else {
-      let lastMessage = this.props.messages[this.props.userId].data[this.props.index + 1];
+      let lastMessage = this.props.messages[this.props.convoId].data[this.props.index + 1];
 
       if (lastMessage) {
         let lastMessageCreatedAt = new Date(lastMessage.created_at);
@@ -68,18 +75,53 @@ class MessageListItem extends React.PureComponent {
     }
   }
 
+  _renderUsername() {
+    let isUsername = false;
+
+    // Show username on top of other user's message if:
+    // 1) the message is the newest message
+    // 2) the last message is by someone else
+    // 3) the last message was sent more than 10 mins later
+    // 4) this is a group chat
+    if (this.props.convoId < 0) {
+      if (this.props.index === this.props.messages[this.props.convoId].data.length - 1) {
+        isUsername = true;
+      } else {
+        let thisMessage = this.props.message;
+        let lastMessage = this.props.messages[this.props.convoId].data[this.props.index + 1];
+        let thisMessageCreatedAt = new Date(thisMessage.created_at);
+        let lastMessageCreatedAt = new Date(lastMessage.created_at);
+
+        if (thisMessage.author_id != lastMessage.author_id
+            || thisMessageCreatedAt - lastMessageCreatedAt > 600000) {
+          isUsername = true;
+        }
+      }
+    }
+
+    if (isUsername) {
+      return (
+        <RN.Text style={styles.date}>
+          {this.props.usersCache[this.props.message.author_id].username}
+        </RN.Text>
+      )
+    } else {
+      return null;
+    }
+  }
+
   _renderAvatar() {
     let isAvatar = false;
 
     // Show avatar on other user's message if:
     // 1) the message is the newest message
-    // 2) the next message is by the client
+    // 2) the next message is by someone else
     // 3) the next message was sent more than 10 mins later
     if (this.props.index === 0) {
       isAvatar = true;
     } else {
       let thisMessage = this.props.message;
-      let nextMessage = this.props.messages[this.props.userId].data[this.props.index - 1];
+      let nextMessage = this.props.messages[this.props.convoId].data[this.props.index - 1];
       let thisMessageCreatedAt = new Date(thisMessage.created_at);
       let nextMessageCreatedAt = new Date(nextMessage.created_at);
 
@@ -116,17 +158,18 @@ class MessageListItem extends React.PureComponent {
 
   _renderImage() {
     let imagePath = this.props.message.image_url;
+    let cachedImage = this.props.imagesCache[imagePath];
 
-    if (imagePath && this.props.imagesCache[imagePath]) {
+    if (imagePath && cachedImage) {
       return (
         <RN.Image
-          source={{uri: this.props.imagesCache[imagePath].url}}
+          source={{uri: cachedImage.url}}
           style={styles.image}
           resizeMode={'contain'}
           onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
           />
       )
-    } else if (imagePath && !this.props.imagesCache[imagePath]) {
+    } else if (imagePath && !cachedImage) {
       return (
         <RN.View style={styles.image}>
           <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
@@ -151,12 +194,13 @@ class MessageListItem extends React.PureComponent {
 
   _renderPost() {
     let postId = this.props.message.post_id;
+    let cachedPost = this.props.postsCache[postId];
 
-    if (postId && this.props.postsCache[postId]) {
+    if (postId && cachedPost) {
       return (
-        <PostListItem item={this.props.postsCache[postId]} width={StyleUtility.getUsableDimensions().width * 0.75} />
+        <PostListItem item={cachedPost} width={StyleUtility.getUsableDimensions().width * 0.75} />
       )
-    } else if (postId && !this.props.postsCache[postId]) {
+    } else if (postId && !cachedPost) {
       return (
         <RN.View style={styles.image}>
           <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
@@ -190,6 +234,7 @@ class MessageListItem extends React.PureComponent {
         <RN.View style={[styles.messageContainerUser, isFirstMessage && {marginBottom: 15}]}>
         {this._renderAvatar()}
         <RN.TouchableOpacity activeOpacity={0.5} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
+            {this._renderUsername()}
             <RN.View style={[styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}

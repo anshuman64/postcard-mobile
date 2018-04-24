@@ -13,18 +13,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: 0.85 * StyleUtility.getUsableDimensions().width,
-    height: 0.85 * StyleUtility.getUsableDimensions().height,
+    maxHeight: 0.85 * StyleUtility.getUsableDimensions().height,
     elevation: 50,
     shadowOpacity: 0.3,
     shadowRadius: 50,
     backgroundColor: StyleUtility.COLORS.grey50,
   },
-  countryListView: {
+  listView: {
     width: '100%',
     height: '100%',
     backgroundColor: StyleUtility.COLORS.grey50
   },
-  selectCountryView: {
+  titleView: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -32,6 +32,16 @@ export const styles = StyleSheet.create({
     height: 50,
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 45,
+    marginLeft: 25,
+    marginRight: 25,
+    borderBottomWidth: 1,
+    borderBottomColor: StyleUtility.COLORS.grey200
   },
   cancelButtonView: {
     flexDirection: 'column',

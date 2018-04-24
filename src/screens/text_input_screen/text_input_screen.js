@@ -5,13 +5,17 @@ import RN    from 'react-native';
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal';
 import { styles }                 from './text_input_screen_styles';
-import { setStateCallback }       from '../../utilities/function_utility';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
 import { defaultErrorAlert }      from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
-
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  convoId (int): id of group when on NameGroupScreen
+*/
 class TextInputScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -122,12 +126,25 @@ class TextInputScreen extends React.PureComponent {
   }
 
   _onPressNameCircleScreen = () => {
-    this.props.navigateTo('CreateCircleScreen', {
-      circleName: this.state.inputtedText,
-      postText: this.props.postText,
-      placeholderText: this.props.placeholderText,
-      imagePath: this.props.imagePath,
-      imageType: this.props.imageType,
+    this.props.navigateTo('CreateCircleScreen', { circleName: this.state.inputtedText });
+  }
+
+  _onPressNameGroupScreen = () => {
+    if (this.state.isLoading) {
+      return;
+    }
+
+    this.setState({ isLoading: true, isSuccessful: false, isError: false, errorText: '' }, () => {
+      this.props.editGroupName(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId, this.state.inputtedText)
+        .then(() => {
+          this.props.goBack();
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
     });
   }
 
@@ -146,12 +163,14 @@ class TextInputScreen extends React.PureComponent {
   _renderTitle() {
     let titleString;
 
-    if (this.props.currentScreen === 'UsernameScreen') {
+    if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'UsernameScreenLogin') {
       titleString = 'Choose Username';
     } else if (this.props.currentScreen === 'AddFriendScreen') {
       titleString = 'Enter Username';
     } else if (this.props.currentScreen === 'NameCircleScreen') {
       titleString = 'Choose Circle Name';
+    } else if (this.props.currentScreen === 'NameGroupScreen') {
+      titleString = 'Choose Group Name';
     }
 
     return (
@@ -163,13 +182,16 @@ class TextInputScreen extends React.PureComponent {
 
   _renderSubtitle() {
     let subtitleString;
+    let currentScreen = this.props.currentScreen;
 
-    if (this.props.currentScreen === 'UsernameScreen') {
+    if (currentScreen === 'UsernameScreen' || currentScreen === 'UsernameScreenLogin') {
       subtitleString = 'You can change it at any time.';
-    } else if (this.props.currentScreen === 'AddFriendScreen') {
+    } else if (currentScreen === 'AddFriendScreen') {
       subtitleString = 'A friend request will be sent directly to the user.';
-    } else if (this.props.currentScreen === 'NameCircleScreen') {
+    } else if (currentScreen === 'NameCircleScreen') {
       subtitleString = 'Circles make it easier to select friends to send posts to.';
+    } else if (currentScreen === 'NameGroupScreen') {
+      subtitleString = 'Group name will be seen by all members.';
     }
 
     return (
@@ -181,11 +203,14 @@ class TextInputScreen extends React.PureComponent {
 
   _renderTextInput() {
     let placeholderText;
+    let currentScreen = this.props.currentScreen;
 
-    if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'AddFriendScreen') {
+    if (currentScreen === 'UsernameScreen' || currentScreen === 'UsernameScreenLogin' || currentScreen === 'AddFriendScreen') {
       placeholderText = 'Enter username';
-    } else if (this.props.currentScreen === 'NameCircleScreen') {
+    } else if (currentScreen === 'NameCircleScreen') {
       placeholderText = 'Enter circle name';
+    } else if (currentScreen === 'NameGroupScreen') {
+      placeholderText = 'Enter group name';
     }
 
     return (
@@ -209,7 +234,7 @@ class TextInputScreen extends React.PureComponent {
 
   _renderErrorText() {
     return (
-      <RN.Text style={[styles.errorText, !this.state.isError && UTILITY_STYLES.transparentText]}>
+      <RN.Text style={[styles.errorText, this.state.errorText.length === 0 && UTILITY_STYLES.transparentText, this.state.isSuccessful && UTILITY_STYLES.textHighlighted]}>
         {this.state.errorText}
       </RN.Text>
     )
@@ -218,19 +243,23 @@ class TextInputScreen extends React.PureComponent {
   _renderNextButton() {
     let buttonText;
     let buttonFunction;
+    let currentScreen = this.props.currentScreen;
 
-    if (this.props.currentScreen === 'UsernameScreen') {
+    if (currentScreen === 'UsernameScreen') {
       buttonText = 'Done';
       buttonFunction = this._onPressUsernameScreen;
-    } else if (this.props.currentScreen === 'UsernameScreenLogin') {
+    } else if (currentScreen === 'UsernameScreenLogin') {
       buttonText = 'Next';
       buttonFunction = this._onPressUsernameScreen;
-    } else if (this.props.currentScreen === 'AddFriendScreen') {
+    } else if (currentScreen === 'AddFriendScreen') {
       buttonText = 'Add Friend';
       buttonFunction = this._onPressAddFriendScreen;
-    } else if (this.props.currentScreen === 'NameCircleScreen') {
+    } else if (currentScreen === 'NameCircleScreen') {
       buttonText = 'Next';
       buttonFunction = this._onPressNameCircleScreen;
+    } else if (currentScreen === 'NameGroupScreen') {
+      buttonText = 'Done';
+      buttonFunction = this._onPressNameGroupScreen;
     }
 
     return (

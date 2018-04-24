@@ -8,6 +8,15 @@ import * as StyleUtility from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Passed Props:
+  userId (int): userId of user to fetch avatar_url
+  avatarSize (int): how big the avatar frame should be
+  frameBorderWidth (int): how thick the frame should be
+  iconSize (int): how big the person icon should be
+Optional Passed Props:
+  avatarUrl (string): passed from AvatarScreen to render pending avatar
+*/
 class Avatar extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -15,8 +24,10 @@ class Avatar extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAvatar() {
-    let avatarPath = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].avatar_url : null;
-    let avatarUrl = this.props.imagesCache[avatarPath] ? this.props.imagesCache[avatarPath].url : null;
+    let user = this.props.usersCache[this.props.userId];
+    let avatarPath = user ? user.avatar_url : null;
+    let avatarImage = this.props.imagesCache[avatarPath];
+    let avatarUrl = avatarImage ? avatarImage.url : null;
 
     if (this.props.avatarUrl) {
       avatarUrl = this.props.avatarUrl;

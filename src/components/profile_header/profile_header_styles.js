@@ -4,7 +4,6 @@ import { StyleSheet } from 'react-native';
 
 // Local Imports
 import * as StyleUtility  from '../../utilities/style_utility';
-import { TAB_BAR_HEIGHT } from '../tab_bar/tab_bar_styles';
 
 //--------------------------------------------------------------------//
 

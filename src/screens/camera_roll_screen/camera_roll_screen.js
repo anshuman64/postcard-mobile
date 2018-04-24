@@ -9,8 +9,6 @@ import { cameraRollPhotos }  from '../../utilities/file_utility';
 import ListFooter            from '../../components/list_footer/list_footer';
 import * as StyleUtility     from '../../utilities/style_utility';
 import { styles }            from './camera_roll_screen_styles';
-import { defaultErrorAlert } from '../../utilities/error_utility';
-import { amplitude }         from '../../utilities/analytics_utility';
 
 //--------------------------------------------------------------------//
 
@@ -18,10 +16,11 @@ const PAGE_SIZE   = Math.ceil(StyleUtility.DEVICE_DIM.height / (StyleUtility.get
 const SCROLL_SIZE = PAGE_SIZE * 5;
 
 /*
+Required Screen Props:
+  -
 Optional Screen Props:
   isAvatar (bool): determines if cropping shadow should be square or circle
 */
-
 class CameraRollScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -51,8 +50,8 @@ class CameraRollScreen extends React.PureComponent {
     } else {
       ImagePicker.openCropper({
         path: imagePath,
-        width: 500,
-        height: 500,
+        width: this.props.isAvatar ? 200 : 400, //TODO: enable dynamic resizing
+        height: this.props.isAvatar ? 200 : 400,
         cropperCircleOverlay: this.props.isAvatar, // If isAvatar, use the circular cropping overlay
         showCropGuidelines: false,
         hideBottomControls: true,
@@ -77,6 +76,7 @@ class CameraRollScreen extends React.PureComponent {
       <RN.ListView
         dataSource={this.ds.cloneWithRows(cameraRollPhotos)}
         style={styles.cameraRoll}
+        keyExtractor={(item, index) => String(index)}
         renderRow={this._renderRow}
         renderFooter={this._renderFooter}
         initialListSize={PAGE_SIZE * 2}

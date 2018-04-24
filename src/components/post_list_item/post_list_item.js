@@ -7,18 +7,28 @@ import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import UserInfoViewContainer                  from '../user_info_view/user_info_view_container';
-import { FRIEND_TYPES }                       from '../../actions/friendship_actions';
-import { styles, scaleHeart }                 from './post_list_item_styles';
-import { renderPostDate }                     from '../../utilities/date_time_utility';
-import { defaultErrorAlert }                  from '../../utilities/error_utility';
-import { setStateCallback, getReadableCount } from '../../utilities/function_utility';
-import { UTILITY_STYLES, COLORS }             from '../../utilities/style_utility';
+import LoadingModal               from '../loading_modal/loading_modal';
+import ListModalContainer         from '../list_modal/list_modal_container';
+import UserInfoViewContainer      from '../user_info_view/user_info_view_container';
+import { FRIEND_TYPES }           from '../../actions/friendship_actions';
+import { POST_TYPES }             from '../../actions/post_actions';
+import { styles, scaleHeart }     from './post_list_item_styles';
+import { renderPostDate }         from '../../utilities/date_time_utility';
+import { defaultErrorAlert }      from '../../utilities/error_utility';
+import * as FunctionUtility       from '../../utilities/function_utility';
+import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
 const AnimatedIonicon = Animatable.createAnimatableComponent(Ionicon);
 
+/*
+Required Passed Props:
+  item (object): post object to render
+Optional Passed Props:
+  width (int): width of messages; only passed if on MessagesScreen
+  postType (string): used as a proxy for which screen we are on
+*/
 class PostListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -31,12 +41,24 @@ class PostListItem extends React.PureComponent {
     this.state = {
       isLikingAnimation: false, // if the liking animation is still playing
       isLikingServer:    false, // if the server is still registering the create/delete like
+      isModalVisible:    false,
+      isLoading:         false,
     }
 
     this.isLikeDisabled   = false;
     this.isFlagDisabled   = false;
     this.isDeleteDisabled = false;
     this.isFollowDisabled = false;
+    this.recipients       = null;
+  }
+
+  //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
+  // Callback function used for Cancel button in ListModal
+  setParentState = (state) => {
+    this.setState(state);
   }
 
   //--------------------------------------------------------------------//
@@ -123,6 +145,12 @@ class PostListItem extends React.PureComponent {
 
   // Alert that pops up when a user is about to delete a post
   _onPressDeletePost = () => {
+    if (this.isDeleteDisabled) {
+      return;
+    }
+
+    this.isDeleteDisabled = true;
+
     RN.Alert.alert('', 'Are you sure you want to delete this post?',
       [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
        {text: 'Delete', onPress: this._onConfirmDeletePost}],
@@ -131,23 +159,14 @@ class PostListItem extends React.PureComponent {
   }
 
   // Deletes post from DB and fades post out before removing from store
+  // TODO: See if we can add back in fadeOut on delete without causing React Native bugs 
   _onConfirmDeletePost = () => {
-    if (this.isDeleteDisabled) {
-      return;
-    }
-
-    this.isDeleteDisabled = true;
-
     // Delete post from DB
     this.props.deletePost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
-        // Fade out post
-        this.container.fadeOut(500)
-          .finally(() => {
-            // Remove post from store
-            this.props.removePost({ post: deletedPost, clientId: this.props.client.id  });
-            this.isDeleteDisabled = false;
-          });
+        // Remove post from store
+        this.props.removePost({ post: deletedPost, clientId: this.props.client.id  });
+        this.isDeleteDisabled = false;
       })
       .catch((error) => {
         this.isDeleteDisabled = false;
@@ -201,25 +220,60 @@ class PostListItem extends React.PureComponent {
   // Navigation Callback Methods
   //--------------------------------------------------------------------//
 
-  // TODO: add loading state
   _onNavigateToMessages = () => {
-    let isMessagesScreen = this.props.width; // width is only passed if on MessagesScreen
-    let user = this.props.usersCache[this.props.item.author_id];
-    let userFriendshipStatus = user ? user.friendship_status_with_client : null;
+    if (this.props.width) { // width is only passed if on MessagesScreen
+      return;
+    }
 
-    if (!isMessagesScreen && userFriendshipStatus && userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, user.id, null, null, null, this.props.item.id)
-        .then(() => {
-          this.props.navigateTo('MessagesScreen', { userId: this.props.item.author_id });
-        })
-        .catch((error) => {
-          defaultErrorAlert(error);
-        });
+    let convoId;
+    let recipients;
+
+    // For Discover and Liked tabs, go to author's messages if friends with client
+    if (this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
+      let user = this.props.usersCache[this.props.item.author_id];
+      let userFriendshipStatus = user ? user.friendship_status_with_client : null;
+
+      if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
+        convoId = this.props.item.author_id;
+      } else {
+        return;
+      }
+    // For HomeScreen, either go to author if post was sent directly, or group that that post was sent to
+    } else if (this.props.postType === POST_TYPES.RECEIVED) {
+      recipients = this.props.item.recipient_ids_with_client;
+      if (recipients.length === 1) {
+        convoId = this.props.item.recipient_ids_with_client[0] > 0 ? this.props.item.author_id : this.props.item.recipient_ids_with_client[0];
+      } else {
+        return;
+      }
+    // For AuthoredScreen, go to recipient which is either a user or group
+    } else if (this.props.postType === POST_TYPES.AUTHORED) {
+      recipients = this.props.item.recipient_ids;
+      if (recipients.length === 1) {
+        convoId = this.props.item.recipient_ids[0];
+      } else {
+        return;
+      }
+    }
+
+    if (convoId) {
+      this.setState({ isLoading: true },() => {
+        this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
+          .then(() => {
+            this.props.navigateTo('MessagesScreen', { convoId: convoId });
+          })
+          .catch((error) => {
+            defaultErrorAlert(error);
+          })
+          .finally(() => {
+            this.setState({ isLoading: false });
+          });
+      });
     }
   }
 
   //--------------------------------------------------------------------//
-  // Render Methods
+  // Post Header Render Methods
   //--------------------------------------------------------------------//
 
   _renderHeader() {
@@ -236,24 +290,92 @@ class PostListItem extends React.PureComponent {
       <RN.View style={styles.userView}>
         <UserInfoViewContainer
           disabled={this.props.client.id === this.props.item.author_id}
-          userId={this.props.item.author_id}
+          convoId={this.props.item.author_id}
           marginLeft={0}
           />
+        {this._renderReceivedRecipients()}
+        {this._renderAuthoredRecipients()}
         {this._renderFollowText()}
       </RN.View>
     )
   }
 
+  _renderReceivedRecipients() {
+    if (this.props.postType === POST_TYPES.RECEIVED) {
+      let numRecipients = this.props.item.recipient_ids_with_client.length;
+      let displayString  = '';
+      let callback;
+
+      if (numRecipients === 0) {
+        return null;
+      } else if (numRecipients === 1) {
+        convoId = this.props.item.recipient_ids_with_client[0];
+        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
+        callback = this._onNavigateToMessages;
+      } else {
+        displayString = numRecipients + ' groups';
+        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+      }
+
+      return this._renderRecipients(displayString, callback);
+    } else {
+      return null;
+    }
+  }
+
+  _renderAuthoredRecipients() {
+    if (this.props.postType === POST_TYPES.AUTHORED) {
+      let numRecipients = this.props.item.recipient_ids.length;
+      let displayString  = '';
+      let callback;
+
+      if (numRecipients === 0) {
+        return null;
+      } else if (numRecipients === 1) {
+        convoId = this.props.item.recipient_ids[0];
+        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
+        callback = this._onNavigateToMessages;
+      } else {
+        displayString = numRecipients + ' recipients';
+        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+      }
+
+      return this._renderRecipients(displayString, callback);
+    } else {
+      return null;
+    }
+  }
+
+  _renderRecipients(displayString, callback) {
+    return (
+      <RN.View style={styles.usernameView}>
+        <Ionicon name={'md-play'} style={[styles.playIcon, UTILITY_STYLES.marginLeft5]}/>
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => this.displayString.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+          onPressOut={() => this.displayString.setNativeProps({style: [UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5]})}
+          style={styles.usernameView}
+          onPress={callback}
+          >
+          <RN.View>
+            <RN.Text ref={(ref) => this.displayString = ref}  style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5]}>
+              {displayString}
+            </RN.Text>
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+      </RN.View>
+    )
+  }
+
   _renderFollowText() {
-    if (this.props.client.id != this.props.item.author_id) {
+    if (!this.props.width && this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
+      let isFollowedByClient = this.props.usersCache[this.props.item.author_id].is_user_followed_by_client;
+
       return (
         <RN.View style={styles.usernameView}>
-          <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>
-            |
-          </RN.Text>
+          <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>{'|'}</RN.Text>
           <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !this.props.usersCache[this.props.item.author_id].is_user_followed_by_client && UTILITY_STYLES.textHighlighted]}>
-              {this.props.usersCache[this.props.item.author_id].is_user_followed_by_client ? 'Following' : 'Follow'}
+            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !isFollowedByClient && UTILITY_STYLES.textHighlighted]}>
+              {isFollowedByClient ? 'Following' : 'Follow'}
             </RN.Text>
           </RN.TouchableOpacity>
         </RN.View>
@@ -280,12 +402,14 @@ class PostListItem extends React.PureComponent {
         </RN.TouchableWithoutFeedback>
       )
     } else {
+      let isFlaggedByClient = this.props.item.is_flagged_by_client;
+
       return (
         <RN.TouchableWithoutFeedback onPress={this._onPressFlagPost} >
           <RN.View style={styles.closeOrFlagButton}>
             <Ionicon
-              name={this.props.item.is_flagged_by_client ? 'ios-flag' : 'ios-flag-outline'}
-              style={[styles.flagIcon, this.props.item.is_flagged_by_client && UTILITY_STYLES.textRed]}
+              name={isFlaggedByClient ? 'ios-flag' : 'ios-flag-outline'}
+              style={[styles.flagIcon, isFlaggedByClient && UTILITY_STYLES.textRed]}
               />
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -299,14 +423,16 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderBody() {
-    if (this.props.item.body) {
+    let body = this.props.item.body;
+
+    if (body) {
       return (
         <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
           <RN.View style={styles.bodyView}>
             <RN.View style={styles.bodyTextView}>
               <Hyperlink linkDefault={true} linkStyle={UTILITY_STYLES.textHighlighted}>
-                <RN.Text style={[styles.bodyText, this.props.item.body.length > 85 && styles.smallBodyText]}>
-                  {this.props.item.body}
+                <RN.Text style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
+                  {body}
                 </RN.Text>
               </Hyperlink>
             </RN.View>
@@ -318,14 +444,15 @@ class PostListItem extends React.PureComponent {
 
   _renderImage() {
     let imagePath = this.props.item.image_url;
+    let width = this.props.width;
 
     if (imagePath && this.props.imagesCache[imagePath]) {
       return (
-        <RN.View style={[styles.bodyImageView, this.props.width && {height: this.props.width, width: this.props.width}]}>
+        <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
           <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
             <RN.Image
               source={{uri: this.props.imagesCache[imagePath].url}}
-              style={[styles.bodyImage, this.props.width && {height: this.props.width, width: this.props.width}]}
+              style={[styles.bodyImage, width && {height: width, width: width}]}
               resizeMode={'contain'}
               onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
               />
@@ -335,7 +462,7 @@ class PostListItem extends React.PureComponent {
       )
     } else if (imagePath && !this.props.imagesCache[imagePath]) {
       return (
-        <RN.View style={[styles.bodyImageView, this.props.width && {height: this.props.width, width: this.props.width}]}>
+        <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
@@ -355,7 +482,7 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.likesView}>
             {this._renderLike()}
             <RN.Text style={styles.likeCountText}>
-              {getReadableCount(this.props.item.num_likes)}
+              {FunctionUtility.getReadableCount(this.props.item.num_likes)}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -375,8 +502,8 @@ class PostListItem extends React.PureComponent {
           animation={scaleHeart}
           duration={750}
           style={styles.heartIcon}
-          onAnimationBegin={setStateCallback(this, { isLikingAnimation: true })}
-          onAnimationEnd={setStateCallback(this, { isLikingAnimation: false })}
+          onAnimationBegin={FunctionUtility.setStateCallback(this, { isLikingAnimation: true })}
+          onAnimationEnd={FunctionUtility.setStateCallback(this, { isLikingAnimation: false })}
           />
       )
     } else {
@@ -384,6 +511,20 @@ class PostListItem extends React.PureComponent {
         <Ionicon name='md-heart-outline' style={styles.heartIcon} />
       )
     }
+  }
+
+  _renderListModal() {
+    let recipientIds = this.props.postType === POST_TYPES.RECEIVED ? this.props.item.recipient_ids_with_client : this.props.item.recipient_ids;
+
+    return (
+      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={recipientIds} postId={this.props.item.id} authorId={this.props.item.author_id} setParentState={this.setParentState} />
+    )
+  }
+
+  _renderLoadingModal() {
+    return (
+      <LoadingModal isLoading={this.state.isLoading}/>
+    )
   }
 
   //--------------------------------------------------------------------//
@@ -399,6 +540,8 @@ class PostListItem extends React.PureComponent {
           {this._renderImage()}
           {this._renderFooter()}
         </Animatable.View>
+        {this._renderListModal()}
+        {this._renderLoadingModal()}
       </RN.View>
     )
   }

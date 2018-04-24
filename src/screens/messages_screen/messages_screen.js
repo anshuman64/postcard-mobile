@@ -1,24 +1,26 @@
 // Library Imports
-import React       from 'react';
-import RN          from 'react-native';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon     from 'react-native-vector-icons/Ionicons';
-import EvilIcon    from 'react-native-vector-icons/EvilIcons';
+import React    from 'react';
+import RN       from 'react-native';
+import Icon     from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon  from 'react-native-vector-icons/Ionicons';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import ListFooter                            from '../../components/list_footer/list_footer';
-import HeaderContainer                       from '../../components/header/header_container';
-import MessageListItemContainer              from '../../components/message_list_item/message_list_item_container';
-import { styles }                            from './messages_screen_styles';
-import { setStateCallback, isStringEmpty }   from '../../utilities/function_utility';
-import { UTILITY_STYLES, COLORS, scaleFont } from '../../utilities/style_utility';
-import { defaultErrorAlert }                 from '../../utilities/error_utility';
+import ListFooter               from '../../components/list_footer/list_footer';
+import HeaderContainer          from '../../components/header/header_container';
+import MessageListItemContainer from '../../components/message_list_item/message_list_item_container';
+import { styles }               from './messages_screen_styles';
+import * as FunctionUtility     from '../../utilities/function_utility';
+import * as StyleUtility        from '../../utilities/style_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
 /*
 Required Screen Props:
-  userId (int): other user's id
+  convoId (id): id of group or user whose conversation it is with
+Optional Screen Props:
+  imagePath (string): path of image if coming from CameraRollScreen
 */
 class MessagesScreen extends React.PureComponent {
 
@@ -50,21 +52,12 @@ class MessagesScreen extends React.PureComponent {
   componentDidMount() {
     RN.AppState.addEventListener('change', this._handleAppStateChange);
 
-    if (!this.props.messages[this.props.userId]) {
-      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId)
-        .catch((error) => {
-          defaultErrorAlert(error);
-        });
-    } else if (this.props.messages[this.props.userId] && this.props.messages[this.props.userId].data.length > 0) {
-      this.setState({ isLoadingNew: true }, () => {
-        this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
-          .catch((error) => {
-            defaultErrorAlert(error);
-          })
-          .finally(() => {
-            this.setState({ isLoadingNew: false });
-          });
-      });
+    let messages = this.props.messages[this.props.convoId];
+
+    if (!messages) {
+      this._loadOldMessages();
+    } else if (messages && messages.data.length > 0) {
+      this._loadNewMessages();
     }
   }
 
@@ -80,36 +73,56 @@ class MessagesScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // Private Methods
+  //--------------------------------------------------------------------//
+
+  _loadOldMessages = (queryParams) => {
+    this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.convoId, queryParams)
+      .catch((error) => {
+        defaultErrorAlert(error)
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  }
+
+  _loadNewMessages = () => {
+    this.setState({ isLoadingNew: true }, () => {
+      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.convoId, { start_at: this.props.messages[this.props.convoId].data[0].id, is_new: true })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoadingNew: false });
+        });
+    });
+  }
+
+  //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
 
   // When refocusing app, refresh messages
   _handleAppStateChange = (nextAppState) => {
-    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active' && this.props.messages[this.props.userId] && this.props.messages[this.props.userId].data.length > 0) {
-      this.setState({ isLoadingNew: true }, () => {
-        this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.userId, { start_at: this.props.messages[this.props.userId].data[0].id, is_new: true })
-          .catch((error) => {
-            defaultErrorAlert(error);
-          })
-          .finally(() => {
-            this.setState({ isLoadingNew: false });
-          });
-      });
+    let messages = this.props.messages[this.props.convoId];
+
+    if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active' && messages && messages.data.length > 0) {
+      this._loadNewMessages();
     }
 
     this.currentAppState = nextAppState;
   }
 
   _onPressSend = () => {
-    if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.imagePath)) {
+    if (this.isSendPressed || (FunctionUtility.isStringEmpty(this.state.messageText) && !this.state.imagePath)) {
       return;
     }
 
     this.isSendPressed = true;
-    let messageBody = isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
+    let messageBody = FunctionUtility.isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
 
     this.setState({ isLoading: true }, () => {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.userId, messageBody, this.state.imagePath, this.state.imageType)
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.imagePath, this.state.imageType)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -124,7 +137,7 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _onEndReached = () => {
-    let messages = this.props.messages[this.props.userId];
+    let messages = this.props.messages[this.props.convoId];
 
     if (this.isLoading
         || this.onEndReachedCalledDuringMomentum
@@ -139,13 +152,8 @@ class MessagesScreen extends React.PureComponent {
 
     let messageData = messages.data;
     let lastMessageId = messageData[messageData.length-1].id;
-    this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, false, this.props.userId, {start_at: lastMessageId})
-      .catch((error) => {
-        defaultErrorAlert(error)
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+
+    this._loadOldMessages({ start_at: lastMessageId });
   }
 
   //--------------------------------------------------------------------//
@@ -160,7 +168,7 @@ class MessagesScreen extends React.PureComponent {
         </RN.TouchableOpacity>
         <RN.TextInput
           style={styles.textInput}
-          placeholderTextColor={COLORS.grey400}
+          placeholderTextColor={StyleUtility.COLORS.grey400}
           placeholder={'Write a message...'}
           returnKeyType={RN.Platform.OS === 'ios' ? null : 'done'}
           onChangeText={(value) => this.setState({ messageText: value })}
@@ -178,21 +186,21 @@ class MessagesScreen extends React.PureComponent {
 
   _renderItem = ({item, index}) => {
     return (
-      <MessageListItemContainer userId={this.props.userId} index={index} message={item} />
+      <MessageListItemContainer convoId={this.props.convoId} index={index} message={item} />
     )
   }
 
   _renderFooter = () => {
-    let messages = this.props.messages[this.props.userId];
+    let messages = this.props.messages[this.props.convoId];
 
     if (messages && messages.isEnd) {
       return (
-        <ListFooter footerWidth={scaleFont(150)} text={'Begin Conversation'} />
+        <ListFooter footerWidth={StyleUtility.scaleFont(150)} text={'Begin Conversation'} />
       )
     } else {
       return (
         <RN.View style={styles.footerView}>
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} />
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
         </RN.View>
       )
     }
@@ -202,13 +210,13 @@ class MessagesScreen extends React.PureComponent {
     if (this.state.isLoading || this.state.isLoadingNew) {
       return (
         <RN.View style={[styles.headerView, this.state.isLoadingNew && {justifyContent: 'center'}]}>
-          <RN.ActivityIndicator size='small' color={COLORS.grey400} />
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
         </RN.View>
       )
     } else if (this.state.imagePath) {
       return (
         <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'}>
-          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })}>
+          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={FunctionUtility.setStateCallback(this, { imagePath: null, imageType: null })}>
             <RN.View style={styles.closeButtonBackground}>
               <EvilIcon name='close' style={styles.closeIcon} />
             </RN.View>
@@ -221,14 +229,14 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _renderMessageList() {
-    let messages = this.props.messages[this.props.userId];
+    let messages = this.props.messages[this.props.convoId];
 
     return (
       <RN.FlatList
         ref={(ref) => this.flatList = ref}
         data={messages ? messages.data : null}
         renderItem={this._renderItem.bind(this)}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => String(index)}
         style={styles.messageList}
         initialNumToRender={10}
         maxToRenderPerBatch={25}
@@ -244,17 +252,22 @@ class MessagesScreen extends React.PureComponent {
   }
 
   render() {
-    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
-      <RN.View style={UTILITY_STYLES.containerStart}>
-        <HeaderContainer
-          backIcon={true}
-          backTitle={username + "'s Messages"}
-          />
-        {this._renderMessageList()}
-        {this._renderTextInputRow()}
-      </RN.View>
+      <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>
+        <RN.View style={StyleUtility.UTILITY_STYLES.containerStart}>
+          <HeaderContainer
+            backIcon={true}
+            backTitle={displayName + "'s Messages"}
+            settingsIcon={this.props.convoId < 0}
+            convoId={this.props.convoId}
+            />
+          {this._renderMessageList()}
+          {this._renderTextInputRow()}
+        </RN.View>
+      </RN.KeyboardAvoidingView>
     )
   }
 }

@@ -4,19 +4,24 @@ import RN          from 'react-native';
 import Firebase    from 'react-native-firebase';
 import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
 import { Actions } from 'react-native-router-flux';
-import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles }            from './menu_screen_styles';
+import MenuListItem          from '../../components/menu_list_item/menu_list_item';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
 import { defaultErrorAlert } from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class MenuScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
-  // Render Methods
+  // Callback Methods
   //--------------------------------------------------------------------//
 
   _logOut = () => {
@@ -35,42 +40,15 @@ class MenuScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderButton(iconName, text, iconRef, textRef, callback) {
-    return (
-      <RN.TouchableWithoutFeedback
-        onPressIn={() => {
-          iconRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-          textRef.setNativeProps({style: UTILITY_STYLES.textHighlighted})
-        }}
-        onPressOut={() => {
-          iconRef.setNativeProps({style: styles.menuItemIcon})
-          textRef.setNativeProps({style: styles.menuItemText})
-        }}
-        onPress={callback}
-        >
-        <RN.View style={styles.menuItemView}>
-          <Icon
-            ref={(ref) => iconRef = ref}
-            name={iconName}
-            style={styles.menuItemIcon}
-            />
-          <RN.Text ref={(ref) => textRef = ref} style={styles.menuItemText}>
-            {text}
-          </RN.Text>
-        </RN.View>
-     </RN.TouchableWithoutFeedback>
-    )
-  }
-
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        {this._renderButton('envelope', 'Contact', this.contactIcon, this.contactText, () => RN.Linking.openURL('mailto:contact@insiya.io'))}
-        {this._renderButton('paper-plane', 'Telegram Community', this.telegramIcon, this.telegramText, () => RN.Linking.openURL('https://t.me/insiyaapp'))}
-        {this._renderButton('docs', 'Terms of Use', this.termsIcon, this.termsText, () => RN.Linking.openURL('https://medium.com/@InsiyaInc/terms-of-use-de17e7b76742'))}
-        {this._renderButton('lock', 'Privacy Policy', this.privacyIcon, this.privacyText, () => RN.Linking.openURL('https://medium.com/@InsiyaInc/privacy-policy-a18b33e9d916'))}
-        {this._renderButton('people', 'Community Guidelines', this.communityIcon, this.community, () => RN.Linking.openURL('mailto:contact@insiya.io'))}
-        {this._renderButton('logout', 'Log Out', this.logOutIcon, this.logOutText, this._logOut)}
+        <MenuListItem iconName={'envelope'}    text={'Contact'}              callback={() => RN.Linking.openURL('mailto:contact@insiya.io')}/>
+        <MenuListItem iconName={'paper-plane'} text={'Telegram Community'}   callback={() => RN.Linking.openURL('https://t.me/insiyaapp')}/>
+        <MenuListItem iconName={'docs'}        text={'Terms of Use'}         callback={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/terms-of-use-de17e7b76742')}/>
+        <MenuListItem iconName={'lock'}        text={'Privacy Policy'}       callback={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/privacy-policy-a18b33e9d916')}/>
+        <MenuListItem iconName={'people'}      text={'Community Guidelines'} callback={() => RN.Linking.openURL('mailto:contact@insiya.io')}/>
+        <MenuListItem iconName={'logout'}      text={'Log Out'}              callback={this._logOut}/>
      </RN.View>
     )
   }

@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 // Local Imports
 import { POST_ACTION_TYPES }    from '../actions/post_actions';
-import { MESSAGE_ACTION_TYPES } from '../actions/message_actions';
 import { LIKE_ACTION_TYPES }    from '../actions/like_actions';
 import { FLAG_ACTION_TYPES }    from '../actions/flag_actions';
 
@@ -33,27 +32,38 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
   switch(action.type) {
 
-  //--------------------------------------------------------------------//
-  // Receive and Refresh Post Actions
-  //--------------------------------------------------------------------//
+    //--------------------------------------------------------------------//
+    // Receive and Refresh Post Actions
+    //--------------------------------------------------------------------//
 
     // When receiving or refreshing posts, update the store with new post information
     case POST_ACTION_TYPES.RECEIVE_POSTS:
     case POST_ACTION_TYPES.REFRESH_POSTS:
+      _.forEach(action.data.posts, (post) => {
+        newState[post.id]                           = post;
+        newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
+        newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
+      });
+
+      return newState;
     case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
       _.forEach(action.data.posts, (post) => {
-        newState[post.id] = _.omit(post, 'author');
+        newState[post.id] = _.merge(post, newState[post.id]);
       });
 
       return newState;
 
-  //--------------------------------------------------------------------//
-  // Create Post Actions
-  //--------------------------------------------------------------------//
+    //--------------------------------------------------------------------//
+    // Create Post Actions
+    //--------------------------------------------------------------------//
 
     // When creating a new post, update the store with the new post
     case POST_ACTION_TYPES.RECEIVE_POST:
-      newState[action.data.post.id] = action.data.post;
+      post = action.data.post;
+
+      newState[post.id]                           = post;
+      newState[post.id].recipient_ids             = action.data.recipientIds;
+      newState[post.id].recipient_ids_with_client = [];
 
       return newState;
 
@@ -78,9 +88,9 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
-  //--------------------------------------------------------------------//
-  // Flag Post Actions
-  //--------------------------------------------------------------------//
+    //--------------------------------------------------------------------//
+    // Flag Post Actions
+    //--------------------------------------------------------------------//
 
     // When flagging a post, set is_flagged_by_client to true
     case FLAG_ACTION_TYPES.RECEIVE_FLAG:
@@ -93,22 +103,18 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
-  //--------------------------------------------------------------------//
-  // Pusher Actions
-  //--------------------------------------------------------------------//
+    //--------------------------------------------------------------------//
+    // Pusher Actions
+    //--------------------------------------------------------------------//
 
-  case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
-    postId = action.data.post.id;
+    case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
+      post = action.data.post;
 
-    newState[postId] = action.data.post;
+      newState[post.id]                           = post;
+      newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
+      newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
 
-    // Initialize jbuilder data, knowing that new posts will have these default values
-    newState[postId].num_likes            = 0;
-    newState[postId].is_liked_by_client   = false;
-    newState[postId].num_flags            = 0;
-    newState[postId].is_flagged_by_client = false;
-
-    return newState;
+      return newState;
 
     default:
       return state;

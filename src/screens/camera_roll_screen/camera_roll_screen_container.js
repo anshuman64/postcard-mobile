@@ -2,8 +2,8 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import CameraRollScreen  from './camera_roll_screen';
-import { goBack }        from '../../actions/navigation_actions';
+import CameraRollScreen from './camera_roll_screen';
+import { goBack }       from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

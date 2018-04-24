@@ -4,7 +4,7 @@ import AWS       from 'aws-sdk/dist/aws-sdk-react-native';
 import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { getImages }                from './image_actions';
+import { getImages }               from './image_actions';
 import { amplitude }               from '../utilities/analytics_utility';
 import * as APIUtility             from '../utilities/api_utility';
 import { setS3Client, uploadFile } from '../utilities/file_utility';
@@ -215,9 +215,9 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
 
     if (!error.description) {
       if (error.message === 'Username has already been taken') {
-        error.description = 'Username taken';
+        error = setErrorDescription(error, 'Username taken');
       } else {
-        error.description = 'PUT user for username failed'
+        error = setErrorDescription(error, 'PUT user for username failed');
       }
     }
 
@@ -246,7 +246,7 @@ export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageT
 
   let putUserError = (error) => {
     error = setErrorDescription(error, 'PUT user for avatarUrl failed');
-    amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: false, avatar_url: avatarUrl, error_description: error.description, error_message: error.message });
+    amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: false, error_description: error.description, error_message: error.message });
     throw error;
   }
 
