@@ -50,11 +50,6 @@ export const styles = StyleSheet.create({
     height: StyleUtility.scaleFont(25),
     width: '100%'
   },
-  noteIcon: {
-    fontSize: StyleUtility.scaleFont(21),
-    textAlign: 'center',
-    color: StyleUtility.COLORS.appleBlue,
-  },
   customButton: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',

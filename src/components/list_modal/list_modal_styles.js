@@ -43,12 +43,6 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: StyleUtility.COLORS.grey200
   },
-  userView: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginLeft: 10
-  },
   cancelButtonView: {
     flexDirection: 'column',
     justifyContent: 'center',

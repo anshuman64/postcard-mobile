@@ -6,10 +6,8 @@ import FollowingScreen  from './following_screen';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, posts, navigation }, ownProps) => ({
-  client:        client,
-  posts:         posts,
-  currentScreen: navigation.currentScreen
+const mapStateToProps = ({ client }, ownProps) => ({
+  client: client,
 });
 
 export default connect(
