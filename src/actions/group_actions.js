@@ -1,5 +1,5 @@
 // Library Imports
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 // Local Imports
 import { amplitude }           from '../utilities/analytics_utility';

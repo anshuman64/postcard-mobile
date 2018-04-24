@@ -1,7 +1,7 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
-import * as _ from 'lodash';
+import _      from 'lodash';
 
 // Local Imports
 import { styles }            from './list_modal_styles';

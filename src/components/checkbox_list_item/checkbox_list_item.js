@@ -1,7 +1,7 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
-import * as _          from 'lodash';
+import _               from 'lodash';
 import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
