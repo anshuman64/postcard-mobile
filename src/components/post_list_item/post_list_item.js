@@ -159,17 +159,14 @@ class PostListItem extends React.PureComponent {
   }
 
   // Deletes post from DB and fades post out before removing from store
+  // TODO: See if we can add back in fadeOut on delete without causing React Native bugs 
   _onConfirmDeletePost = () => {
     // Delete post from DB
     this.props.deletePost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
-        // Fade out post
-        this.container.fadeOut(500)
-          .finally(() => {
-            // Remove post from store
-            this.props.removePost({ post: deletedPost, clientId: this.props.client.id  });
-            this.isDeleteDisabled = false;
-          });
+        // Remove post from store
+        this.props.removePost({ post: deletedPost, clientId: this.props.client.id  });
+        this.isDeleteDisabled = false;
       })
       .catch((error) => {
         this.isDeleteDisabled = false;

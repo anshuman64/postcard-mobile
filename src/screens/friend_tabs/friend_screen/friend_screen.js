@@ -63,7 +63,7 @@ class FriendScreen extends React.PureComponent {
     return (
       <RN.SectionList
         sections={[{data: this.props.conversations, renderItem: this._renderItem.bind(this), title: 'Conversations'}]}
-        keyExtractor={(item) => item}
+        keyExtractor={(item, index) => String(index)}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
         ListFooterComponent={this._renderFooter()}

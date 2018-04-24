@@ -37,18 +37,20 @@ const getTempGroupName = (users, usersCache) => {
   let string = '';
 
   // If there's only one person in a group, denote it
-  if (users.length === 1) {
+  if (users.length === 0) {
+    return '(Empty Group)';
+  } else if (users.length === 1) {
     return '(Group) ' + usersCache[users[0].id].username;
+  } else {
+    // Else, return comma separated list of usernames
+    for (i = 0; i < users.length - 1; i++) {
+      string += usersCache[users[i].id].username + ', '
+    }
+
+    string += usersCache[users[users.length-1].id].username
+
+    return string;
   }
-
-  // Else, return comma separated list of usernames
-  for (i = 0; i < users.length - 1; i++) {
-    string += usersCache[users[i].id].username + ', '
-  }
-
-  string += usersCache[users[users.length-1].id].username
-
-  return string;
 }
 
 // Returns username of user, name of group, or a comma separated list of users
