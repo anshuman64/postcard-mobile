@@ -5,7 +5,6 @@ import OneSignal from 'react-native-onesignal';
 // Local Imports
 import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config';
 import { getBaseUrl }                    from './api_utility';
-import { pusherReceiveLike }             from '../actions/like_actions';
 import * as FriendshipActions            from '../actions/friendship_actions';
 import { receiveMessage }                from '../actions/message_actions';
 import { getImages }                     from '../actions/image_actions';
