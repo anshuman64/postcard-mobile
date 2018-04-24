@@ -1,6 +1,6 @@
 // Library Imports
-import React     from 'react';
-import RN        from 'react-native';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
 import HeaderContainer    from '../../../components/header/header_container';
@@ -13,6 +13,8 @@ import { UTILITY_STYLES } from '../../../utilities/style_utility';
 /*
 Required Screen Props:
   userId (int): userId of selected user
+Optional Screen Props:
+  -
 */
 class UserAuthoredScreen extends React.PureComponent {
 
@@ -30,7 +32,8 @@ class UserAuthoredScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+    let user = this.props.usersCache[this.props.userId];
+    let username = user ? user.username : null;
 
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>

@@ -1,7 +1,7 @@
 // Library Imports
-import React           from 'react';
-import RN              from 'react-native';
-import Icon            from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
+import RN    from 'react-native';
+import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import TabBarContainer                   from '../tab_bar/tab_bar_container';
@@ -14,6 +14,13 @@ import { defaultErrorAlert }             from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Passed Props:
+  userId (int): id of user to render header for
+  scrollY (object): animation object
+Optional Passed Props:
+  -
+*/
 class ProfileHeader extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -27,9 +34,10 @@ class ProfileHeader extends React.PureComponent {
       avatarUrl:  null,
     }
 
-    this.isFriendDisabled = false;
-    this.isFollowDisabled = false;
-    this.isBlockDisabled  = false;
+    this.isFriendDisabled   = false;
+    this.isUnfriendDisabled = false;
+    this.isFollowDisabled   = false;
+    this.isBlockDisabled    = false;
   }
 
 
@@ -75,11 +83,18 @@ class ProfileHeader extends React.PureComponent {
           this.isFriendDisabled = false;
         });
     } else {
+      this.isFriendDisabled = false;
       this._onPressUnfriend();
     }
   }
 
   _onPressUnfriend = () => {
+    if (this.isUnfriendDisabled) {
+      return;
+    }
+
+    this.isUnfriendDisabled = true;
+
     let alertString;
     let cancelString;
     let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;
@@ -96,9 +111,9 @@ class ProfileHeader extends React.PureComponent {
     }
 
     RN.Alert.alert('', alertString,
-      [{text: 'Cancel', onPress: () => this.isFriendDisabled = false, style: 'cancel'},
+      [{text: 'Cancel', onPress: () => this.isUnfriendDisabled = false, style: 'cancel'},
        {text: cancelString, onPress: this._onConfirmUnfriend}],
-       {onDismiss: () => this.isFriendDisabled = false}
+       {onDismiss: () => this.isUnfriendDisabled = false}
     )
   }
 
@@ -111,7 +126,7 @@ class ProfileHeader extends React.PureComponent {
         defaultErrorAlert(error);
       })
       .finally(() => {
-        this.isFriendDisabled = false;
+        this.isUnfriendDisabled = false;
       });
   }
 
@@ -230,7 +245,8 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderUsername() {
-    let username = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].username : null;
+    let user = this.props.usersCache[this.props.userId];
+    let username = user ? user.username : null;
 
     return (
       <RN.TouchableOpacity
@@ -247,11 +263,12 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderButtons() {
+    let user = this.props.usersCache[this.props.userId];
     let friendString;
-    let friendshipStatus = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].friendship_status_with_client : null;
+    let friendshipStatus = user ? user.friendship_status_with_client : null;
     let deactivateButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
-    let isFollowed = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_followed_by_client : false;
-    let isBlocked = this.props.usersCache[this.props.userId] ? this.props.usersCache[this.props.userId].is_user_blocked_by_client : false;
+    let isFollowed = user ? user.is_user_followed_by_client : false;
+    let isBlocked = user ? user.is_user_blocked_by_client : false;
 
     if (friendshipStatus === FRIEND_TYPES.SENT) {
       friendString = 'Cancel';

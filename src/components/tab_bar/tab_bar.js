@@ -4,13 +4,17 @@ import RN    from 'react-native';
 
 // Local Imports
 import { styles }         from './tab_bar_styles';
-import { POST_TYPES }     from '../../actions/post_actions';
 import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 
 //--------------------------------------------------------------------//
 
-
+/*
+Required Passed Props:
+  -
+Optional Passed Props:
+  userId (int): user id if on ProfileTabs or UserTabs
+*/
 class TabBar extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -20,7 +24,10 @@ class TabBar extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.isHeader = this.props.currentScreen === 'RecentScreen' || this.props.currentScreen === 'FollowingScreen' || this.props.currentScreen === 'FriendScreen' || this.props.currentScreen === 'PendingScreen';
+    this.isHeader = this.props.currentScreen === 'RecentScreen'
+      || this.props.currentScreen === 'FollowingScreen'
+      || this.props.currentScreen === 'FriendScreen'
+      || this.props.currentScreen === 'PendingScreen';
   }
 
   //--------------------------------------------------------------------//
@@ -38,21 +45,23 @@ class TabBar extends React.PureComponent {
   }
 
   render() {
-    if (this.props.currentScreen === 'RecentScreen' || this.props.currentScreen === 'FollowingScreen') {
+    let currentScreen = this.props.currentScreen;
+
+    if (currentScreen === 'RecentScreen' || currentScreen === 'FollowingScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
           {this._renderTab('Recent', 'RecentScreen')}
           {this._renderTab('Following', 'FollowingScreen')}
         </RN.View>
       )
-    } else if (this.props.currentScreen === 'FriendScreen' || this.props.currentScreen === 'PendingScreen') {
+    } else if (currentScreen === 'FriendScreen' || currentScreen === 'PendingScreen') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
           {this._renderTab('Friends', 'FriendScreen')}
           {this._renderTab('Pending', 'PendingScreen')}
         </RN.View>
       )
-    } else if (this.props.currentScreen === 'AuthoredScreen' || this.props.currentScreen === 'LikedScreen') {
+    } else if (currentScreen === 'AuthoredScreen' || currentScreen === 'LikedScreen') {
       return (
         <RN.View style={styles.tabs}>
           {this._renderTab('Posts', 'AuthoredScreen', { userId: this.props.userId })}

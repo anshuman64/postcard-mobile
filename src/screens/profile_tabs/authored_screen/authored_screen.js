@@ -9,6 +9,12 @@ import { UTILITY_STYLES } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class AuthoredScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -16,8 +22,9 @@ class AuthoredScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let username = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].username : null;
-    let avatarUrl = this.props.usersCache[this.props.client.id] ? this.props.usersCache[this.props.client.id].avatar_url : null;
+    let client = this.props.usersCache[this.props.client.id];
+    let username = client ? client.username : null;
+    let avatarUrl = client ? client.avatar_url : null;
 
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>

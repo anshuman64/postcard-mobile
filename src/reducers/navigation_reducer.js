@@ -3,7 +3,7 @@ import _                        from 'lodash';
 import { Actions, ActionConst } from 'react-native-router-flux';
 
 // Local Imports
-import { NAVIGATION_ACTION_TYPES }  from '../actions/navigation_actions';
+import { NAVIGATION_ACTION_TYPES } from '../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

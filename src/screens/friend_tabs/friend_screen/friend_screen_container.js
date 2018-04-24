@@ -7,12 +7,12 @@ import { navigateTo } from '../../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, friendships, blocks }, ownProps) => ({
-  friendships: friendships,
+const mapStateToProps = ({ conversations }, ownProps) => ({
+  conversations: conversations.conversations,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  navigateTo:   (screen, props) => dispatch(navigateTo(screen, props)),
+  navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
 });
 
 export default connect(

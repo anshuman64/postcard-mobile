@@ -1,20 +1,23 @@
 // Library Imports
-import React           from 'react';
-import RN              from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import Icon            from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
+import RN    from 'react-native';
 
 // Local Imports
-import HeaderContainer        from '../../components/header/header_container';
-import CheckboxListItemContainer  from '../../components/checkbox_list_item/checkbox_list_item_container';
-import { styles }             from './share_screen_styles';
-import { UTILITY_STYLES }     from '../../utilities/style_utility';
-import { setStateCallback }   from '../../utilities/function_utility';
+import HeaderContainer           from '../../components/header/header_container';
+import CheckboxListItemContainer from '../../components/checkbox_list_item/checkbox_list_item_container';
+import SectionListHeader         from '../../components/section_list_header/section_list_header';
+import { UTILITY_STYLES }        from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
-const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
-
+/*
+Required Screen Props:
+  placeholderText (string): placeholder text of NewPostScreen to send to analytics
+Optional Screen Props:
+  postText (string): text of the post to be shared, coming from NewPostScreen and/or CreateCircleScreen
+  imagePath (string): folder path of image to upload to AWS
+  imageType (string): type of image for AWS uploading purposed
+*/
 class ShareScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
@@ -45,12 +48,7 @@ class ShareScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressAddCircle = () => {
-    this.props.navigateTo('NameCircleScreen', {
-      postText: this.props.postText,
-      placeholderText: this.props.placeholderText,
-      imagePath: this.props.imagePath,
-      imageType: this.props.imageType,
-    });
+    this.props.navigateTo('NameCircleScreen');
   }
 
   //--------------------------------------------------------------------//
@@ -60,7 +58,7 @@ class ShareScreen extends React.PureComponent {
   _renderUserItem = ({item}) => {
     return (
       <CheckboxListItemContainer
-        userId={item}
+        convoId={item}
         recipients={this.state.recipients}
         setParentState={this.setParentState}
         />
@@ -81,22 +79,11 @@ class ShareScreen extends React.PureComponent {
   _renderSectionHeader = ({section}) => {
     if (section.title === 'Circles') {
       return (
-        <RN.TouchableOpacity onPress={this._onPressAddCircle} style={styles.sectionHeader}>
-          <RN.Text style={styles.sectionHeaderText}>
-            {section.title}
-          </RN.Text>
-          <RN.Text style={UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.textHighlighted}>
-            {' +'}
-          </RN.Text>
-        </RN.TouchableOpacity>
+        <SectionListHeader title={section.title} highlightedText={' +'} callback={this._onPressAddCircle} />
       )
     } else {
       return (
-        <RN.View style={styles.sectionHeader}>
-          <RN.Text style={styles.sectionHeaderText}>
-            {section.title}
-          </RN.Text>
-        </RN.View>
+        <SectionListHeader title={section.title} />
       )
     }
   }
@@ -124,8 +111,9 @@ class ShareScreen extends React.PureComponent {
         <RN.SectionList
           sections={[
             {data: this.props.circles, renderItem: this._renderCircleItem.bind(this), title: 'Circles'},
-            {data: this.props.friendships.accepted, renderItem: this._renderUserItem.bind(this), title: 'Friends'}
+            {data: this.props.conversations, renderItem: this._renderUserItem.bind(this), title: 'Friends'}
           ]}
+          keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           initialListSize={20}

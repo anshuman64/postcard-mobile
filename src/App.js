@@ -3,10 +3,8 @@ import React                           from 'react';
 import { AppState, BackHandler, View } from 'react-native';
 import { Provider }                    from 'react-redux';
 import { Scene, Tabs, Actions }        from 'react-native-router-flux';
-import RNExitApp                       from 'react-native-exit-app';
 
 // Local Imports
-import * as PushUtility           from './utilities/push_utility';
 import { amplitude }              from './utilities/analytics_utility';
 import configureStore             from './store';
 import RouterContainer            from './router/router_container';
@@ -33,9 +31,11 @@ import UserLikedScreenContainer    from './screens/user_tabs/user_liked_screen/u
 import MessagesScreenContainer    from './screens/messages_screen/messages_screen_container';
 import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container';
 import ShareScreenContainer       from './screens/share_screen/share_screen_container';
+import CreateGroupScreenContainer from './screens/create_group_screen/create_group_screen_container';
 import CreateCircleScreenContainer from './screens/create_circle_screen/create_circle_screen_container';
 import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container';
 import MenuScreen                 from './screens/menu_screen/menu_screen';
+import GroupMenuScreenContainer   from './screens/group_menu_screen/group_menu_screen_container';
 
 import HeaderContainer            from './components/header/header_container';
 import FooterContainer            from './components/footer/footer_container';
@@ -119,15 +119,17 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true}  />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} />
 
-            <Scene key='LoadingScreen'      component={LoadingScreenContainer}      panHandlers={null} hideNavBar={true}  initial={true}/>
-            <Scene key='WelcomeScreen'      component={WelcomeScreenContainer}      panHandlers={null} hideNavBar={true} />
-            <Scene key='LoginScreen'        component={LoginScreenContainer}        panHandlers={null} hideNavBar={true} />
-            <Scene key='NewPostScreen'      component={NewPostScreenContainer}      panHandlers={null} hideNavBar={true} />
-            <Scene key='ShareScreen'        component={ShareScreenContainer}        panHandlers={null} hideNavBar={true} />
-            <Scene key='CreateCircleScreen' component={CreateCircleScreenContainer} panHandlers={null} hideNavBar={true} />
-            <Scene key='MessagesScreen'     component={MessagesScreenContainer}     panHandlers={null} hideNavBar={true} />
+            <Scene key='LoadingScreen'         component={LoadingScreenContainer}      panHandlers={null} hideNavBar={true} initial={true}/>
+            <Scene key='WelcomeScreen'         component={WelcomeScreenContainer}      panHandlers={null} hideNavBar={true} />
+            <Scene key='LoginScreen'           component={LoginScreenContainer}        panHandlers={null} hideNavBar={true} />
+            <Scene key='NewPostScreen'         component={NewPostScreenContainer}      panHandlers={null} hideNavBar={true} />
+            <Scene key='ShareScreen'           component={ShareScreenContainer}        panHandlers={null} hideNavBar={true} />
+            <Scene key='CreateCircleScreen'    component={CreateCircleScreenContainer} panHandlers={null} hideNavBar={true} />
+            <Scene key='CreateGroupScreen'     component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
+            <Scene key='AddGroupMembersScreen' component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
+            <Scene key='MessagesScreen'        component={MessagesScreenContainer}     panHandlers={null} hideNavBar={true} />
 
             <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
             <Scene key='UsernameScreenLogin' component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Username')} />
@@ -136,7 +138,9 @@ class App extends React.Component {
             <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
             <Scene key='AddFriendScreen'     component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
             <Scene key='NameCircleScreen'    component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Create Circle', true)} />
+            <Scene key='NameGroupScreen'     component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Name Group', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
+            <Scene key='GroupMenuScreen'     component={GroupMenuScreenContainer}   panHandlers={null} navBar={this._renderHeader('Group Settings', true)} />
 
             <Tabs key='UserTabs' tabBarComponent={() => <View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
               <Scene key='UserAuthoredScreen' component={UserAuthoredScreenContainer} panHandlers={null} hideNavBar={true}/>

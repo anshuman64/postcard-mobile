@@ -1,27 +1,23 @@
 // Library Imports
 import React from 'react';
 import RN    from 'react-native';
-import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import FriendListItemContainer       from '../../../components/friend_list_item/friend_list_item_container';
-import ListFooter                    from '../../../components/list_footer/list_footer'
-import { styles }                    from './friend_screen_styles';
+import ListHeader                    from '../../../components/list_header/list_header';
+import ConversationListItemContainer from '../../../components/conversation_list_item/conversation_list_item_container';
+import ListFooter                    from '../../../components/list_footer/list_footer';
+import SectionListHeader             from '../../../components/section_list_header/section_list_header';
 import { UTILITY_STYLES, scaleFont } from '../../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Screen Props:
+  -
+Optional Screen Props:
+  -
+*/
 class FriendScreen extends React.PureComponent {
-
-  //--------------------------------------------------------------------//
-  // Constructor
-  //--------------------------------------------------------------------//
-
-  constructor(props) {
-    super(props);
-
-    this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  }
 
   //--------------------------------------------------------------------//
   // Callback Methods
@@ -31,39 +27,50 @@ class FriendScreen extends React.PureComponent {
     this.props.navigateTo('PendingScreen');
   }
 
+  _onPressCreateGroup = () => {
+    this.props.navigateTo('CreateGroupScreen', { isCreateGroup: true });
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderRow = (rowData, sectionID, rowID) => {
+  _renderItem = ({item}) => {
     return (
-      <FriendListItemContainer userId={rowData} />
+      <ConversationListItemContainer convoId={item} />
+    )
+  }
+
+  _renderSectionHeader = ({section}) => {
+    return (
+      <SectionListHeader title={section.title} />
     )
   }
 
   _renderFooter = () => {
     return (
-      <RN.TouchableWithoutFeedback onPress={this._onPressAddFriends}>
-        <RN.View>
-          <ListFooter footerWidth={scaleFont(200)} text={'No more Friends?'} highlightedText={' Add Friends'} />
-        </RN.View>
-      </RN.TouchableWithoutFeedback>
+      <ListFooter footerWidth={scaleFont(200)} text={'No more Friends?'} highlightedText={' Add Friends'} callback={this._onPressAddFriends} />
+    )
+  }
+
+  _renderHeader = () => {
+    return (
+      <ListHeader text={'Create Group'} iconName={'people'} callback={this._onPressCreateGroup} />
     )
   }
 
   _renderList() {
     return (
-      <RN.ListView
-        dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
-        style={styles.cameraRoll}
-        renderRow={this._renderRow}
+      <RN.SectionList
+        sections={[{data: this.props.conversations, renderItem: this._renderItem.bind(this), title: 'Conversations'}]}
+        keyExtractor={(item, index) => String(index)}
+        renderSectionHeader={this._renderSectionHeader.bind(this)}
+        ListHeaderComponent={this._renderHeader()}
+        ListFooterComponent={this._renderFooter()}
         initialListSize={20}
         pageSize={60}
-        contentContainerStyle={styles.contentContainerStyle}
-        enableEmptySections={true}
         showsVerticalScrollIndicator={false}
-        renderFooter={this._renderFooter}
-        />
+      />
     )
   }
 

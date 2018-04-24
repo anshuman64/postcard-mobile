@@ -9,6 +9,12 @@ import { UTILITY_STYLES } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
+/*
+Required Passed Props:
+  -
+Optional Passed Props:
+  -
+*/
 class Footer extends React.PureComponent {
 
   //--------------------------------------------------------------------//

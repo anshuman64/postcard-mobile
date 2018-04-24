@@ -2,7 +2,7 @@
 import AWS                 from 'aws-sdk/dist/aws-sdk-react-native';
 import RNFetchBlob         from 'react-native-fetch-blob';
 import Contacts            from 'react-native-contacts';
-import * as _              from 'lodash';
+import _                   from 'lodash';
 import { Buffer }          from 'buffer';
 import uuid                from 'react-native-uuid';
 import mime                from 'mime-types';

@@ -1,12 +1,10 @@
 // Library Imports
-import React                from 'react';
-import RN                   from 'react-native';
-import Firebase             from 'react-native-firebase';
+import React    from 'react';
+import RN       from 'react-native';
+import Firebase from 'react-native-firebase';
 
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal';
-import { POST_TYPES }             from '../../actions/post_actions';
-import { FRIEND_TYPES }           from '../../actions/friendship_actions';
 import { styles }                 from './confirm_code_screen_styles';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
 import { defaultErrorAlert }      from '../../utilities/error_utility';
@@ -17,6 +15,8 @@ import { defaultErrorAlert }      from '../../utilities/error_utility';
 Required Screen Props:
   phoneNumber (string): inputted phone number to display
   confirmationCodeObj (object): used to test if confirmation code matches sent SMS
+Optional Screen Props:
+  -
 */
 class ConfirmCodeScreen extends React.PureComponent {
 

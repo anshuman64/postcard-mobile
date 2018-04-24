@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   usernameText: {
-    maxWidth: StyleUtility.scaleImage(60),
+    maxWidth: StyleUtility.scaleImage(120),
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontSize: 15,
     fontWeight: '400',

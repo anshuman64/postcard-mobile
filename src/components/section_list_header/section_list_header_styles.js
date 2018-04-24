@@ -7,8 +7,6 @@ import * as StyleUtility from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
-const DEFAULT_MARGIN = 15;
-
 export const styles = StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
@@ -21,14 +19,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     textAlign: 'center',
-    color: StyleUtility.COLORS.grey600,
+    color: StyleUtility.COLORS.grey700,
     marginLeft: 20
   },
-  plusButton: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Bold'),
-    fontSize: 30,
-    fontWeight: '800',
-    textAlign: 'center',
-    color: StyleUtility.COLORS.grey900,
-  }
 });
