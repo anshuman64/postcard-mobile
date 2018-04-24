@@ -1,5 +1,5 @@
 // Library Imports
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 // Local Imports
 import { POST_ACTION_TYPES }    from '../actions/post_actions';
