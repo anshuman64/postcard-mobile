@@ -1,8 +1,9 @@
 // Library Imports
-import React   from 'react';
-import RN      from 'react-native';
-import Icon    from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon from 'react-native-vector-icons/Ionicons';
+import React       from 'react';
+import RN          from 'react-native';
+import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicon     from 'react-native-vector-icons/Ionicons';
+import { Actions } from 'react-native-router-flux';
 
 // Local Imports
 import LoadingModal                   from '../loading_modal/loading_modal.js'
@@ -121,13 +122,7 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       this.props.createCircle(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.circleName, this.props.recipients)
         .then(() => {
-          // TODO: figure out better behavior for this
-          this.props.navigateTo('ShareScreen', {
-            postText: this.props.postText,
-            placeholderText: this.props.placeholderText,
-            imagePath: this.props.imagePath,
-            imageType: this.props.imageType,
-          });
+          Actions.popTo('ShareScreen');
           this.isGoBackPressed = true;
         })
         .catch((error) => {
