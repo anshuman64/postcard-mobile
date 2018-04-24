@@ -140,6 +140,7 @@ class GroupMenuScreen extends React.PureComponent {
     return (
       <RN.SectionList
         sections={[{data: this.props.groupsCache[this.props.convoId].users, renderItem: this._renderItem.bind(this), title: 'Members'}]}
+        keyExtractor={(item, index) => String(index)}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
         initialListSize={20}

@@ -113,6 +113,7 @@ class ShareScreen extends React.PureComponent {
             {data: this.props.circles, renderItem: this._renderCircleItem.bind(this), title: 'Circles'},
             {data: this.props.conversations, renderItem: this._renderUserItem.bind(this), title: 'Friends'}
           ]}
+          keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           initialListSize={20}
