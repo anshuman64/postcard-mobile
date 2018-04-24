@@ -83,6 +83,7 @@ class ProfileHeader extends React.PureComponent {
           this.isFriendDisabled = false;
         });
     } else {
+      this.isFriendDisabled = false;
       this._onPressUnfriend();
     }
   }

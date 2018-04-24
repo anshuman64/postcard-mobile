@@ -147,7 +147,6 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       this.props.createGroup(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.recipients)
         .then(() => {
-          // TODO: figure out better behavior for this
           this.props.navigateTo('FriendScreen');
           this.isGoBackPressed = true;
         })
