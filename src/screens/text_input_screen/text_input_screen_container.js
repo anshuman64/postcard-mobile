@@ -16,12 +16,12 @@ const mapStateToProps = ({ client, navigation }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  editUsername: (authToken, firebaseUserObj, username) => dispatch(editUsername(authToken, firebaseUserObj, username)),
+  editUsername:          (authToken, firebaseUserObj, username)         => dispatch(editUsername(authToken, firebaseUserObj, username)),
   createFriendRequest:   (authToken, firebaseUserObj, userId, username) => dispatch(createFriendRequest(authToken, firebaseUserObj, userId, username)),
-  sendFriendshipRequest: (sentFriendship) => dispatch(sendFriendshipRequest(sentFriendship)),
-  editGroupName:         (authToken, firebaseUserObj, groupId, name) => dispatch(editGroupName(authToken, firebaseUserObj, groupId, name)),
-  navigateTo:   (screen, props) => dispatch(navigateTo(screen, props)),
-  goBack:       (props) => dispatch(goBack(props))
+  sendFriendshipRequest: (sentFriendship)                               => dispatch(sendFriendshipRequest(sentFriendship)),
+  editGroupName:         (authToken, firebaseUserObj, groupId, name)    => dispatch(editGroupName(authToken, firebaseUserObj, groupId, name)),
+  navigateTo:            (screen, props)                                => dispatch(navigateTo(screen, props)),
+  goBack:                (props)                                        => dispatch(goBack(props))
 });
 
 export default connect(

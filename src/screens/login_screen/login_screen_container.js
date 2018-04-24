@@ -9,7 +9,7 @@ import { navigateTo }           from '../../actions/navigation_actions';
 //--------------------------------------------------------------------//
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getConfirmationCode: (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),
+  getConfirmationCode: (phoneNumber)   => dispatch(getConfirmationCode(phoneNumber)),
   navigateTo:          (screen, props) => dispatch(navigateTo(screen, props)),
 });
 

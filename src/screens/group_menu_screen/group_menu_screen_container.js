@@ -15,8 +15,8 @@ const mapStateToProps = ({ client, groupsCache }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   removeGroupMember: (authToken, firebaseUserObj, groupId, userId, isClient) => dispatch(removeGroupMember(authToken, firebaseUserObj, groupId, userId, isClient)),
-  deleteGroup: (authToken, firebaseUserObj, groupId) => dispatch(deleteGroup(authToken, firebaseUserObj, groupId)),
-  navigateTo:   (screen, props) => dispatch(navigateTo(screen, props)),
+  deleteGroup: (authToken, firebaseUserObj, groupId)                         => dispatch(deleteGroup(authToken, firebaseUserObj, groupId)),
+  navigateTo:   (screen, props)                                              => dispatch(navigateTo(screen, props)),
 });
 
 export default connect(
