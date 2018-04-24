@@ -66,7 +66,7 @@ export const createGroup = (authToken, firebaseUserObj, users) => (dispatch) => 
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createGroup, name, users));
+        return dispatch(refreshAuthToken(firebaseUserObj, createGroup, users));
       }
 
       if (error.message === 'Minimum 2 user_ids required') {
@@ -107,7 +107,7 @@ export const addGroupMembers = (authToken, firebaseUserObj, groupId, userIds) =>
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshAuthToken(firebaseUserObj, addGroupMember, groupId, userIds));
+      return dispatch(refreshAuthToken(firebaseUserObj, addGroupMembers, groupId, userIds));
     }
 
     error = setErrorDescription(error, 'POST group to add members failed');

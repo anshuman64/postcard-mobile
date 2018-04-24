@@ -10,6 +10,7 @@ import LoadingModal          from '../loading_modal/loading_modal.js';
 import UserInfoViewContainer from '../user_info_view/user_info_view_container';
 import { styles }            from './checkbox_list_item_styles';
 import { UTILITY_STYLES }    from '../../utilities/style_utility';
+import { defaultErrorAlert } from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 

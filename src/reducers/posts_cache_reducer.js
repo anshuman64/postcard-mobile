@@ -32,9 +32,9 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
   switch(action.type) {
 
-  //--------------------------------------------------------------------//
-  // Receive and Refresh Post Actions
-  //--------------------------------------------------------------------//
+    //--------------------------------------------------------------------//
+    // Receive and Refresh Post Actions
+    //--------------------------------------------------------------------//
 
     // When receiving or refreshing posts, update the store with new post information
     case POST_ACTION_TYPES.RECEIVE_POSTS:
@@ -53,9 +53,9 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
-  //--------------------------------------------------------------------//
-  // Create Post Actions
-  //--------------------------------------------------------------------//
+    //--------------------------------------------------------------------//
+    // Create Post Actions
+    //--------------------------------------------------------------------//
 
     // When creating a new post, update the store with the new post
     case POST_ACTION_TYPES.RECEIVE_POST:
@@ -88,9 +88,9 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
-  //--------------------------------------------------------------------//
-  // Flag Post Actions
-  //--------------------------------------------------------------------//
+    //--------------------------------------------------------------------//
+    // Flag Post Actions
+    //--------------------------------------------------------------------//
 
     // When flagging a post, set is_flagged_by_client to true
     case FLAG_ACTION_TYPES.RECEIVE_FLAG:
@@ -103,18 +103,18 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
       return newState;
 
-  //--------------------------------------------------------------------//
-  // Pusher Actions
-  //--------------------------------------------------------------------//
+    //--------------------------------------------------------------------//
+    // Pusher Actions
+    //--------------------------------------------------------------------//
 
-  case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
-    post = action.data.post;
+    case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
+      post = action.data.post;
 
-    newState[post.id]                           = post;
-    newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
-    newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
+      newState[post.id]                           = post;
+      newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
+      newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
 
-    return newState;
+      return newState;
 
     default:
       return state;

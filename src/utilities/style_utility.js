@@ -44,7 +44,7 @@ export const COLORS = {
 };
 
 // Determines a usable area depending on if the device is a tablet or not
-export const getUsableRN.Dimensions = () => {
+export const getUsableDimensions = () => {
   return isTablet() ? MAX_TABLET_DIM : DEVICE_DIM;
 };
 
@@ -68,8 +68,8 @@ export const setAndroidFont = (fontFamily) => {
 };
 
 // Sets image border radius with correction for Android
-export const getImageBorderRadius = (RN.Dimensions) => {
-  return RN.Platform.OS === 'ios' ? RN.Dimensions / 2 : 10000;
+export const getImageBorderRadius = (dimensions) => {
+  return RN.Platform.OS === 'ios' ? dimensions / 2 : 10000;
 };
 
 export const UTILITY_STYLES = RN.StyleSheet.create({
@@ -200,7 +200,7 @@ export const UTILITY_STYLES = RN.StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: getUsableRN.Dimensions().width - 2 * DEFAULT_MARGIN,
+    width: getUsableDimensions().width - 2 * DEFAULT_MARGIN,
     height: 70,
     marginLeft: DEFAULT_MARGIN,
     marginRight: DEFAULT_MARGIN,
