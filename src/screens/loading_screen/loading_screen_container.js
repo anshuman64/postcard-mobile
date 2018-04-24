@@ -20,13 +20,13 @@ const mapStateToProps = ({ client, usersCache, navigation }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  navigateTo:       (screen, props) => dispatch(navigateTo(screen, props)),
-  loginClient:      (firebaseUserObj) => dispatch(loginClient(firebaseUserObj)),
+  navigateTo:       (screen, props)                                                                  => dispatch(navigateTo(screen, props)),
+  loginClient:      (firebaseUserObj)                                                                => dispatch(loginClient(firebaseUserObj)),
   getPosts:         (authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams)),
-  getFriendships:   (authToken, firebaseUserObj, friendType, clientPhoneNumber) => dispatch(getFriendships(authToken, firebaseUserObj, friendType, clientPhoneNumber)),
-  getConversations: (authToken, firebaseUserObj) => dispatch(getConversations(authToken, firebaseUserObj)),
-  getCircles:       (authToken, firebaseUserObj) => dispatch(getCircles(authToken, firebaseUserObj)),
-  getBlockedUsers:  (authToken, firebaseUserObj) => dispatch(getBlockedUsers(authToken, firebaseUserObj)),
+  getFriendships:   (authToken, firebaseUserObj, friendType, clientPhoneNumber)                      => dispatch(getFriendships(authToken, firebaseUserObj, friendType, clientPhoneNumber)),
+  getConversations: (authToken, firebaseUserObj)                                                     => dispatch(getConversations(authToken, firebaseUserObj)),
+  getCircles:       (authToken, firebaseUserObj)                                                     => dispatch(getCircles(authToken, firebaseUserObj)),
+  getBlockedUsers:  (authToken, firebaseUserObj)                                                     => dispatch(getBlockedUsers(authToken, firebaseUserObj)),
 });
 
 export default connect(

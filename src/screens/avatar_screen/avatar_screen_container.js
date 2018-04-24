@@ -16,8 +16,8 @@ const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   editAvatar: (authToken, firebaseUserObj, userId, imagePath, imageType) => dispatch(editAvatar(authToken, firebaseUserObj, userId, imagePath, imageType)),
-  navigateTo: (screen, props) => dispatch(navigateTo(screen, props)),
-  goBack:     (props) => dispatch(goBack(props)),
+  navigateTo: (screen, props)                                            => dispatch(navigateTo(screen, props)),
+  goBack:     (props)                                                    => dispatch(goBack(props)),
 });
 
 export default connect(
