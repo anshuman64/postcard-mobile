@@ -1,6 +1,5 @@
 // Library Imports
-import { Alert } from 'react-native';
-import _         from 'lodash';
+import * as _ from 'lodash';
 
 // Local Imports
 import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config';

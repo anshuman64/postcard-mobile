@@ -3,10 +3,8 @@ import React                           from 'react';
 import { AppState, BackHandler, View } from 'react-native';
 import { Provider }                    from 'react-redux';
 import { Scene, Tabs, Actions }        from 'react-native-router-flux';
-import RNExitApp                       from 'react-native-exit-app';
 
 // Local Imports
-import * as PushUtility           from './utilities/push_utility';
 import { amplitude }              from './utilities/analytics_utility';
 import configureStore             from './store';
 import RouterContainer            from './router/router_container';
