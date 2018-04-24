@@ -246,7 +246,7 @@ export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageT
 
   let putUserError = (error) => {
     error = setErrorDescription(error, 'PUT user for avatarUrl failed');
-    amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: false, avatar_url: avatarUrl, error_description: error.description, error_message: error.message });
+    amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: false, error_description: error.description, error_message: error.message });
     throw error;
   }
 
