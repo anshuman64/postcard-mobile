@@ -8,11 +8,6 @@ import { navigateTo }                                  from '../../actions/navig
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache }, ownProps) => ({
-  client:     client,
-  usersCache: usersCache,
-});
-
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getConfirmationCode:    (phoneNumber) => dispatch(getConfirmationCode(phoneNumber)),
   verifyConfirmationCode: (confirmationCodeObj, inputtedCode) => dispatch(verifyConfirmationCode(confirmationCodeObj, inputtedCode)),
@@ -20,6 +15,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ConfirmCodeScreen);

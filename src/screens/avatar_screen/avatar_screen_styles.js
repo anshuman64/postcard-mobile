@@ -8,13 +8,6 @@ import * as StyleUtility from '../../utilities/style_utility';
 //--------------------------------------------------------------------//
 
 export const styles = StyleSheet.create({
-  changePhotoText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontWeight: '100',
-    fontSize: 15,
-    textAlign: 'center',
-    color: StyleUtility.COLORS.appleBlue,
-  },
  skipButton: {
    flexDirection: 'column',
    justifyContent: 'center',
