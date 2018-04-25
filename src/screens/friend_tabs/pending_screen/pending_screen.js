@@ -75,12 +75,15 @@ class PendingScreen extends React.PureComponent {
   }
 
   _renderList() {
+    let contacts = this.props.contacts.phoneNumbersWithAccounts.concat(this.props.contacts.phoneNumbersWithoutAccounts);
+
     return (
       <RN.SectionList
         sections={[
           {data: this.props.friendships.received, renderItem: this._renderItem.bind(this), title: 'Received Requests'},
           {data: this.props.friendships.sent, renderItem: this._renderItem.bind(this), title: 'Sent Requests'},
           {data: this.props.friendships.contacts, renderItem: this._renderItem.bind(this), title: 'Contacts on Postcard'},
+          {data: contacts, renderItem: this._renderItem.bind(this), title: 'Other Contacts'},
           {data: this.props.blocks.blockedUsers, renderItem: this._renderItem.bind(this), title: 'Blocked Users'},
         ]}
         keyExtractor={(item, index) => String(index)}

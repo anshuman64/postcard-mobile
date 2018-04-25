@@ -13,13 +13,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  usernameText: {
-    maxWidth: StyleUtility.scaleImage(120),
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontSize: 15,
-    fontWeight: '400',
-    textAlign: 'left',
-    color: StyleUtility.COLORS.grey900,
+  usernameView: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     marginLeft: 7
+  },
+  messageText: {
+    width: 200,
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
+    fontSize: 15,
+    fontWeight: '100',
+    textAlign: 'left',
+    color: StyleUtility.COLORS.grey700,
   },
 });
