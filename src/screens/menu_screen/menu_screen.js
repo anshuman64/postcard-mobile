@@ -29,7 +29,7 @@ class MenuScreen extends React.PureComponent {
       .then(() => {
         AWS.config.credentials.clearCachedId();
         AWS.config.credentials = null;
-        Actions.reset('WelcomeScreen');
+        Actions.reset('LoadingScreen');
       })
       .catch((error) => {
         defaultErrorAlert(error);
