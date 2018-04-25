@@ -8,9 +8,10 @@ import { deleteBlock, removeBlock } from '../../actions/block_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache }, ownProps) => ({
-  client:      client,
-  usersCache:  usersCache,
+const mapStateToProps = ({ client, usersCache, contactsCache }, ownProps) => ({
+  client:        client,
+  usersCache:    usersCache,
+  contactsCache: contactsCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
