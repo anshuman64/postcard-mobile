@@ -1,7 +1,8 @@
 // Library Imports
-import React    from 'react';
-import RN       from 'react-native';
-import Firebase from 'react-native-firebase';
+import React       from 'react';
+import RN          from 'react-native';
+import Firebase    from 'react-native-firebase';
+import { Actions } from 'react-native-router-flux';
 
 // Local Imports
 import LoadingModal               from '../../components/loading_modal/loading_modal';
@@ -83,21 +84,21 @@ class ConfirmCodeScreen extends React.PureComponent {
     if (value.length === 6) {
       this.setState({ isLoading: true }, () => {
         this.props.verifyConfirmationCode(this.props.confirmationCodeObj, value)
-        .then(() => {
-          this.setState({ isCodeIncorrect: false });
-          this.props.navigateTo('LoadingScreen'); // go back to LoadingScreen while logging in. TODO: come up with better UX
-        })
-        .catch((error) => {
-          if (error.description === 'Firebase code verification failed') {
-            this.setState({ isCodeIncorrect: true })
-          } else {
-            defaultErrorAlert(error);
-          }
-        })
-        .finally(() => {
-          this.setState({ isLoading: false });
+          .then(() => {
+            this.setState({ isCodeIncorrect: false });
+            Actions.popTo('LoadingScreen'); // go back to LoadingScreen while logging in. WARNING: make sure this is popTo TODO: come up with better UX
+          })
+          .catch((error) => {
+            if (error.description === 'Firebase code verification failed') {
+              this.setState({ isCodeIncorrect: true })
+            } else {
+              defaultErrorAlert(error);
+            }
+          })
+          .finally(() => {
+            this.setState({ isLoading: false });
+          });
         });
-      });
     }
   }
 
