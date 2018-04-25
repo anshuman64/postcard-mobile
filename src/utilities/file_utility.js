@@ -180,6 +180,7 @@ export const getDataFromContacts = (clientPhoneNumber) => {
                 family_name:  contact.familyName,
                 thumbnail:    contact.thumbnailPath,
                 type:         phoneNumber.label,
+                is_invited:   false,
               }
             } catch (err) {
               // console.log(err);

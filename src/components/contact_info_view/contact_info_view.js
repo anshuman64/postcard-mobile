@@ -1,0 +1,57 @@
+// Library Imports
+import React from 'react';
+import RN    from 'react-native';
+
+// Local Imports
+import AvatarContainer                from '../avatar/avatar_container';
+import { styles }                     from './contact_info_view_styles';
+import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility';
+import { isStringEmpty }              from '../../utilities/function_utility';
+
+//--------------------------------------------------------------------//
+
+/*
+Required Passed Props:
+  phoneNumber (string): phoneNumber of contact to render
+Optional Passed Props:
+  marginLeft (int): amount of left margin
+*/
+class ContactInfoView extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  render() {
+    let contact = this.props.contactsCache[this.props.phoneNumber];
+    let avatarUrl;
+    let displayName = 'anonymous';
+    let messagePreview = '';
+
+    if (contact) {
+      avatarUrl = contact.thumbnail;
+      contactName = contact.given_name + ' ' + contact.family_name;
+      displayName = isStringEmpty(contactName) ? displayName : contactName;
+      messagePreview = contact.type + ': ' + contact.phone_number;
+    }
+
+    return (
+      <RN.View style={[styles.userView, {marginLeft: this.props.marginLeft}]}>
+        <AvatarContainer avatarUrl={avatarUrl} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
+        <RN.View style={styles.usernameView}>
+          <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: scaleImage(120)}]} numberOfLines={1}>
+            {displayName}
+          </RN.Text>
+          <RN.Text style={styles.messageText} numberOfLines={1}>
+            {messagePreview}
+          </RN.Text>
+        </RN.View>
+      </RN.View>
+    )
+  }
+}
+
+
+//--------------------------------------------------------------------//
+
+export default ContactInfoView;
