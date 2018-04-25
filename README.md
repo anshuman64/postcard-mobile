@@ -89,3 +89,5 @@ react-native run-android --variant=release
 3. Turn on Push Notifications in Capabilities
 4. Set Build Configuration to Release in Product > Scheme > Edit Scheme
 5. Increment Version and Build in XCode
+6. Set build target to 'Generic iOS Device'
+7. Run 'Product > Archive'
