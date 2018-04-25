@@ -63,7 +63,7 @@ class LoadingScreen extends React.PureComponent {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
-              this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.usersCache[this.props.client.id].phone_number); // run this here because it takes forever
+              this._loadContacts();
               this._loadData()
                 .then(() => {
                   // console.log('Data loaded'); // Debug Test
@@ -111,6 +111,24 @@ class LoadingScreen extends React.PureComponent {
         await this.props.getFriendships(this.props.client.authToken, this.props.client.firebaseUserObj, FRIEND_TYPES[friendType]);
       }
     }
+  }
+
+  _laodContacts = () => {
+    this.props.getContacts(this.props.usersCache[this.props.client.id].phone_number)
+      .then(() => {
+        this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.contactsCache.keys());
+          .catch((error) => {
+            console.error(error); // Debug Test
+          });
+        this.props.getContactsWithAccounts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.contactsCache.keys());
+          .catch((error) => {
+            console.error(error); // Debug Test
+          });
+        this.props.getOtherContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.contactsCache.keys());
+          .catch((error) => {
+            console.error(error); // Debug Test
+          });
+      })
   }
 
   _navigateFromLoading = () => {
