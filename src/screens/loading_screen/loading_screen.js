@@ -55,11 +55,9 @@ class LoadingScreen extends React.PureComponent {
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
         // console.log('Firebase cookie found'); // Debug Test
-
         this.props.loginClient(firebaseUserObj)
           .then(() => {
             // console.log('Logged in'); // Debug Test
-
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
@@ -75,7 +73,11 @@ class LoadingScreen extends React.PureComponent {
             }
           })
           .catch((error) => {
-            defaultErrorAlert(error);
+            if (error.message === 'Log-in in progress') {
+              return;
+            } else {
+              defaultErrorAlert(error);
+            }
           });
       } else {
         // console.log('No Firebase cookie found'); // Debug Test
