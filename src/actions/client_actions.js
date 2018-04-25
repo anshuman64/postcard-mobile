@@ -107,12 +107,15 @@ export const verifyConfirmationCode = (confirmationCodeObj, inputtedCode) => (di
     });
 };
 
+let isLoggingIn = false;
+
 // Generates authToken from Firebase using firebaseUserObj. Logs in user from database. Creates new user if firebase_uid has never been seen before.
 export const loginClient = (firebaseUserObj) => (dispatch) => {
   let phoneNumber = firebaseUserObj._user.phoneNumber;
   let email       = firebaseUserObj._user.email;
 
   let setClient = (client, authToken, isNew) => {
+    isLoggingIn = false;
     amplitude.setUserId(client.id);
     amplitude.setUserProperties({ username: client.username, database_id: client.id, phone_number: client.phone_number, email: client.email, firebase_uid: client.firebase_uid, created_at: client.created_at });
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
@@ -134,6 +137,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
           return handleNewUser(authToken);
         }
 
+        isLoggingIn = false;
         error = setErrorDescription(error, 'GET user failed');
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, email: email, error_description: error.description, error_message: error.message });
         throw error;
@@ -146,11 +150,18 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
         setClient(newUser, authToken, true);
       })
       .catch((error) => {
+        isLoggingIn = false;
         error = setErrorDescription(error, 'POST user failed');
         amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, email: email, error_description: error.description, error_message: error.message });
         throw error;
       });
   };
+
+  if (isLoggingIn) {
+    return new Promise.reject(new Error('Log-in in progress'));
+  }
+
+  isLoggingIn = true;
 
   dispatch(receiveFirebaseUserObj({ firebaseUserObj: firebaseUserObj }));
   return dispatch(refreshAuthToken(firebaseUserObj))
@@ -158,23 +169,15 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
       return handleExistingUser(newAuthToken);
     })
     .catch((error) => {
+      isLoggingIn = false;
       error = setErrorDescription(error, 'Firebase getIdToken failed');
       amplitude.logEvent('Onboarding - Log In', { is_successful: false, phone_number: phoneNumber, email: email, error_description: error.description, error_message: error.message });
       throw error;
     });
 }
 
-let isRefreshing = false;
-
 // Refreshes Firebase authToken and AWS credentials (if expired)
 export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
-  // If the credentials don't need refreshing, return. Both Firebase and AWS credentials last 1 hour
-  if (isRefreshing || (AWS.config.credentials && !AWS.config.credentials.needsRefresh())) {
-    return new Promise.resolve();
-  }
-
-  isRefreshing = true;
-
   return firebaseUserObj.getIdToken(true)
     .then((newAuthToken) => {
       dispatch(receiveAuthToken({ authToken: newAuthToken }));
@@ -182,8 +185,6 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
       return configureAWS(newAuthToken)
         .then(() => {
           setS3Client();
-          isRefreshing = false;
-
           if (func) {
             return dispatch(func(newAuthToken, firebaseUserObj, ...params));
           } else {
@@ -191,12 +192,10 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
           }
         })
         .catch((error) => {
-          isRefreshing = false;
           throw setErrorDescription(error, 'Configure AWS failed');
         });
     })
     .catch((error) => {
-      isRefreshing = false;
       throw setErrorDescription(error, 'Firebase getIdToken failed');
     });
 }
