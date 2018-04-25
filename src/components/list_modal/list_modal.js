@@ -165,7 +165,7 @@ class ListModal extends React.PureComponent {
         rows.push(
           <RN.TouchableOpacity key={i} onPress={() => this._onNavigateToMessages(recipientId)}>
             <RN.View style={[styles.rowContainer, {height: 60}]}>
-                <UserInfoViewContainer convoId={recipientId} marginLeft={10} disabled={true} />
+                <UserInfoViewContainer convoId={recipientId} marginLeft={10} disableUsername={true} />
             </RN.View>
           </RN.TouchableOpacity>
         );

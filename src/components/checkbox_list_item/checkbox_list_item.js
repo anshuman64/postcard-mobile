@@ -166,7 +166,7 @@ class CheckboxListItem extends React.PureComponent {
   _renderItemView() {
     if (this.props.convoId) {
       return (
-        <UserInfoViewContainer convoId={this.props.convoId} marginLeft={15} disabled={true} />
+        <UserInfoViewContainer convoId={this.props.convoId} marginLeft={15} disableAvatar={true} disableUsername={true} />
 
       )
     } else if (this.props.circle) {

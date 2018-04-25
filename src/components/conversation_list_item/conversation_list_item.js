@@ -3,6 +3,7 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
+import UserInfoView                   from '../user_info_view/user_info_view_container';
 import AvatarContainer                from '../avatar/avatar_container';
 import { styles }                     from './conversation_list_item_styles';
 import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility';
@@ -48,8 +49,6 @@ class ConversationListItem extends React.PureComponent {
 
   _renderUsernameView() {
     let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-    let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-
     let message = convo ? convo.peek_message : null;
     let messagePreview = 'Send a message...';
 
@@ -83,35 +82,15 @@ class ConversationListItem extends React.PureComponent {
     }
 
     return (
-      <RN.View style={styles.usernameView}>
-        <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: scaleImage(130)}]} numberOfLines={1}>
-          {displayName}
-        </RN.Text>
-        <RN.Text style={styles.messageText} numberOfLines={1}>
-          {messagePreview}
-        </RN.Text>
-      </RN.View>
+      <UserInfoView convoId={this.props.convoId} messagePreview={messagePreview} disableUsername={true} marginLeft={7} />
     )
   }
 
   render() {
-    let authorId = FunctionUtility.getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateTo('MessagesScreen', { convoId: this.props.convoId })}>
         <RN.View style={UTILITY_STYLES.rowView}>
-          <RN.View style={styles.userView}>
-            <RN.TouchableWithoutFeedback
-              onPressIn={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-              onPressOut={() => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
-              onPress={this._onPressAvatar}
-              >
-              <RN.View>
-                <AvatarContainer userId={authorId} avatarSize={46} iconSize={17} frameBorderWidth={1.1} />
-              </RN.View>
-            </RN.TouchableWithoutFeedback>
-            {this._renderUsernameView()}
-          </RN.View>
+          {this._renderUsernameView()}
           {this._renderDate()}
         </RN.View>
       </RN.TouchableOpacity>
