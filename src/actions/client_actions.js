@@ -55,6 +55,7 @@ let configureAWS = (authToken) => {
         'securetoken.google.com/insiya-mobile': authToken
       }
     });
+    amplitude.logEvent('Step 4')
 
     return AWS.config.credentials.refreshPromise();
 }
@@ -115,6 +116,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
   let email       = firebaseUserObj._user.email;
 
   let setClient = (client, authToken, isNew) => {
+    amplitude.logEvent('Step 10')
     isLoggingIn = false;
     amplitude.setUserId(client.id);
     amplitude.setUserProperties({ username: client.username, database_id: client.id, phone_number: client.phone_number, email: client.email, firebase_uid: client.firebase_uid, created_at: client.created_at });
@@ -130,10 +132,12 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
   let handleExistingUser = (authToken) => {
     return APIUtility.get(authToken, '/users')
       .then((client) => {
+        amplitude.logEvent('Step 7')
         setClient(client, authToken, false);
       })
       .catch((error) => {
         if (error.message === 'Requester not found') {
+          amplitude.logEvent('Step 8')
           return handleNewUser(authToken);
         }
 
@@ -147,6 +151,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
   let handleNewUser = (authToken) => {
     return APIUtility.post(authToken, '/users', { phone_number: phoneNumber, email: email })
       .then((newUser) => {
+        amplitude.logEvent('Step 9')
         setClient(newUser, authToken, true);
       })
       .catch((error) => {
@@ -158,14 +163,17 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
   };
 
   if (isLoggingIn) {
+    amplitude.logEvent('isLoggingIn')
     return new Promise.reject(new Error('Log-in in progress'));
   }
 
   isLoggingIn = true;
+  amplitude.logEvent('Step 1')
 
   dispatch(receiveFirebaseUserObj({ firebaseUserObj: firebaseUserObj }));
   return dispatch(refreshAuthToken(firebaseUserObj))
     .then((newAuthToken) => {
+      amplitude.logEvent('Step 6')
       return handleExistingUser(newAuthToken);
     })
     .catch((error) => {
@@ -178,12 +186,15 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
 
 // Refreshes Firebase authToken and AWS credentials (if expired)
 export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
+  amplitude.logEvent('Step 2')
   return firebaseUserObj.getIdToken(true)
     .then((newAuthToken) => {
+      amplitude.logEvent('Step 3')
       dispatch(receiveAuthToken({ authToken: newAuthToken }));
 
       return configureAWS(newAuthToken)
         .then(() => {
+          amplitude.logEvent('Step 5')
           setS3Client();
           if (func) {
             return dispatch(func(newAuthToken, firebaseUserObj, ...params));
