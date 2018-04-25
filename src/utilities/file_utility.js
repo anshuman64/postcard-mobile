@@ -151,11 +151,10 @@ export const getCameraRollPhotos = () => {
 }
 
 // TODO: add email support
-export const getContacts = (clientPhoneNumber) => {
+export const getDataFromContacts = (clientPhoneNumber) => {
   let clientNumber;
-  let contactPhoneNumbers = [];
+  let contacts = {};
   let number;
-  let index;
   let fullNumber;
 
   return new Promise((resolve, reject) => {
@@ -174,14 +173,21 @@ export const getContacts = (clientPhoneNumber) => {
             try {
               number = phoneUtil.parse(phoneNumber.number, phoneUtil.getRegionCodeForNumber(clientNumber));
               fullNumber = '+' + number.getCountryCode() + number.getNationalNumber();
-              contactPhoneNumbers.push(fullNumber);
+
+              contacts[fullNumber] = {
+                phone_number: fullNumber,
+                given_name:   contact.givenName,
+                family_name:  contact.familyName,
+                thumbnail:    contact.thumbnailPath,
+                type:         phoneNumber.label,
+              }
             } catch (err) {
               // console.log(err);
             }
           });
         });
 
-        resolve(contactPhoneNumbers);
+        resolve(contacts);
       } else {
         reject(error);
       }
