@@ -33,7 +33,7 @@ export const defaultErrorAlert = (error) => {
   }
 
   amplitude.logEvent('Error - General', { error_description: error.description, error_message: error.message });
-  // console.error(error); // Debug Test
+  console.error(error); // Debug Test
 
   setTimeout(() => {
     Alert.alert('', alertString,
