@@ -153,7 +153,7 @@ export const getCameraRollPhotos = () => {
 // TODO: add email support
 export const getDataFromContacts = (clientPhoneNumber) => {
   let clientNumber;
-  let contacts = {};
+  let contactsObj = {};
   let number;
   let fullNumber;
 
@@ -174,7 +174,7 @@ export const getDataFromContacts = (clientPhoneNumber) => {
               number = phoneUtil.parse(phoneNumber.number, phoneUtil.getRegionCodeForNumber(clientNumber));
               fullNumber = '+' + number.getCountryCode() + number.getNationalNumber();
 
-              contacts[fullNumber] = {
+              contactsObj[fullNumber] = {
                 phone_number: fullNumber,
                 given_name:   contact.givenName,
                 family_name:  contact.familyName,
@@ -187,7 +187,7 @@ export const getDataFromContacts = (clientPhoneNumber) => {
           });
         });
 
-        resolve(contacts);
+        resolve(contactsObj);
       } else {
         reject(error);
       }

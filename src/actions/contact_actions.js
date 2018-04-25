@@ -2,6 +2,7 @@
 import { amplitude }           from '../utilities/analytics_utility';
 import * as APIUtility         from '../utilities/api_utility';
 import { getDataFromContacts } from '../utilities/file_utility';
+import { setErrorDescription } from '../utilities/error_utility';
 import { refreshAuthToken }    from './client_actions';
 
 //--------------------------------------------------------------------//
@@ -11,7 +12,8 @@ import { refreshAuthToken }    from './client_actions';
 //--------------------------------------------------------------------//
 
 export const CONTACT_ACTION_TYPES = {
-  RECEIVE_CONTACTS: 'RECEIVE_CONTACTS',
+  RECEIVE_CONTACTS:       'RECEIVE_CONTACTS',
+  RECEIVE_OTHER_CONTACTS: 'RECEIVE_OTHER_CONTACTS',
 };
 
 //--------------------------------------------------------------------//
@@ -21,6 +23,12 @@ export const CONTACT_ACTION_TYPES = {
 // contacts (array): array of cleaned contact objects
 export const receiveContacts = (data) => {
   return { type: CONTACT_ACTION_TYPES.RECEIVE_CONTACTS, data: data };
+};
+
+// phoneNumbersWithAccounts (array): array of phoneNumbers that have temp Postcard account
+// phoneNumbersWithoutAccounts (array): array of phoneNumbers without temp Postcard account
+export const receiveOtherContacts = (data) => {
+  return { type: CONTACT_ACTION_TYPES.RECEIVE_OTHER_CONTACTS, data: data };
 };
 
 //--------------------------------------------------------------------//
@@ -37,18 +45,16 @@ export const getContacts = (clientPhoneNumber) => (dispatch) => {
     });
 }
 
-export const getContactsWithAccounts = (authToken, firebaseUserObj, contactPhoneNumbers) => (dispatch) => {
-    return APIUtility.post(authToken, '/contacts', { contacts: contactPhoneNumbers })
-      .then((friends) => {
-        dispatch(receiveFriendships({ friends: friends, friendType: FRIEND_TYPES.CONTACTS }));
-        dispatch(getImages(friends));
-        dispatch(getPostsFromMessages(friends));
+export const getOtherContacts = (authToken, firebaseUserObj, contactPhoneNumbers) => (dispatch) => {
+    return APIUtility.post(authToken, '/contacts', { phone_numbers: contactPhoneNumbers })
+      .then((phoneNumbers) => {
+        dispatch(receiveOtherContacts({ phoneNumbersWithAccounts: phoneNumbers.phone_numbers_with_accounts, phoneNumbersWithoutAccounts: phoneNumbers.phone_numbers_without_accounts }));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, getFriendsFromContacts, contactPhoneNumbers));
+          return dispatch(refreshAuthToken(firebaseUserObj, getOtherContacts, contactPhoneNumbers));
         }
 
-        throw setErrorDescription(error, 'POST friends from contacts failed');
+        throw setErrorDescription(error, 'POST other contacts failed');
       });
 };
