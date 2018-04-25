@@ -6,6 +6,7 @@ import LoadingScreen                              from './loading_screen';
 import { loginClient }                            from '../../actions/client_actions';
 import { getPosts }                               from '../../actions/post_actions';
 import { getFriendships, getFriendsFromContacts } from '../../actions/friendship_actions';
+import { getContacts, getOtherContacts }          from '../../actions/contact_actions';
 import { getConversations }                       from '../../actions/message_actions';
 import { getCircles }                             from '../../actions/circle_actions';
 import { getBlockedUsers }                        from '../../actions/block_actions';
@@ -13,9 +14,10 @@ import { navigateTo }                             from '../../actions/navigation
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, navigation }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, contactsCache, navigation }, ownProps) => ({
   client:        client,
   usersCache:    usersCache,
+  contactsCache: contactsCache,
   currentScreen: navigation.currentScreen
 });
 
@@ -24,6 +26,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   loginClient:            (firebaseUserObj)                                                                => dispatch(loginClient(firebaseUserObj)),
   getPosts:               (authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams) => dispatch(getPosts(authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams)),
   getFriendships:         (authToken, firebaseUserObj, friendType)                                         => dispatch(getFriendships(authToken, firebaseUserObj, friendType)),
+  getContacts:            (clientPhoneNumber)                                                              => dispatch(getContacts(clientPhoneNumber)),
+  getOtherContacts:       (authToken, firebaseUserObj, contactPhoneNumbers)                                => dispatch(getOtherContacts(authToken, firebaseUserObj, contactPhoneNumbers)),
   getFriendsFromContacts: (authToken, firebaseUserObj, clientPhoneNumber)                                  => dispatch(getFriendsFromContacts(authToken, firebaseUserObj, clientPhoneNumber)),
   getConversations:       (authToken, firebaseUserObj)                                                     => dispatch(getConversations(authToken, firebaseUserObj)),
   getCircles:             (authToken, firebaseUserObj)                                                     => dispatch(getCircles(authToken, firebaseUserObj)),
