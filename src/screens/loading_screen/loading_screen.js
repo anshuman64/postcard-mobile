@@ -115,21 +115,20 @@ class LoadingScreen extends React.PureComponent {
     }
   }
 
-  _laodContacts = () => {
+  _loadContacts = () => {
     this.props.getContacts(this.props.usersCache[this.props.client.id].phone_number)
       .then(() => {
-        this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.contactsCache.keys());
+        this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, Object.keys(this.props.contactsCache))
           .catch((error) => {
             console.error(error); // Debug Test
           });
-        this.props.getContactsWithAccounts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.contactsCache.keys());
+        this.props.getOtherContacts(this.props.client.authToken, this.props.client.firebaseUserObj, Object.keys(this.props.contactsCache))
           .catch((error) => {
             console.error(error); // Debug Test
           });
-        this.props.getOtherContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.contactsCache.keys());
-          .catch((error) => {
-            console.error(error); // Debug Test
-          });
+      })
+      .catch((error) => {
+        console.error(error);
       })
   }
 

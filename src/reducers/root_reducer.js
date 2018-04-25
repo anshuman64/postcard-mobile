@@ -12,6 +12,7 @@ import BlocksReducer        from './blocks_reducer';
 import CirclesReducer       from './circles_reducer';
 import ConversationsReducer from './conversations_reducer';
 import GroupsCacheReducer   from './groups_cache_reducer';
+import ContactsReducer      from './contacts_reducer';
 import ContactsCacheReducer from './contacts_cache_reducer';
 import ImagesCacheReducer   from './images_cache_reducer';
 import NavigationReducer    from './navigation_reducer';
@@ -30,6 +31,7 @@ const RootReducer = combineReducers({
   circles:       CirclesReducer,
   conversations: ConversationsReducer,
   groupsCache:   GroupsCacheReducer,
+  contacts:      ContactsReducer,
   contactsCache: ContactsCacheReducer,
   navigation:    NavigationReducer
 });
