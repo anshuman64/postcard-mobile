@@ -4,11 +4,12 @@ import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import UserInfoViewContainer from '../user_info_view/user_info_view_container';
-import { FRIEND_TYPES }      from '../../actions/friendship_actions';
-import { styles }            from './pending_list_item_styles';
-import { UTILITY_STYLES }    from '../../utilities/style_utility';
-import { defaultErrorAlert } from '../../utilities/error_utility';
+import ContactInfoViewContainer from '../contact_info_view/contact_info_view_container';
+import UserInfoViewContainer    from '../user_info_view/user_info_view_container';
+import { FRIEND_TYPES }         from '../../actions/friendship_actions';
+import { styles }               from './pending_list_item_styles';
+import { UTILITY_STYLES }       from '../../utilities/style_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -138,8 +139,18 @@ class PendingListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAcceptButton(friendshipStatus, acceptString) {
+    let callback;
+
+    if (friendshipStatus === 'received') {
+      callback = this._onPressAcceptFriendship;
+    } else if (friendshipStatus === 'contacts') {
+      callback = this._onPressAddFriend;
+    } else {
+      callback = this._inviteContact;
+    }
+
     return (
-      <RN.TouchableOpacity style={styles.confirmButton} onPress={friendshipStatus === 'received' ? this._onPressAcceptFriendship : this._onPressAddFriend}>
+      <RN.TouchableOpacity style={styles.confirmButton} onPress={callback}>
         <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
           {acceptString}
         </RN.Text>
@@ -157,12 +168,13 @@ class PendingListItem extends React.PureComponent {
     )
   }
 
-  _renderButtons() {
+  render() {
     let acceptString;
     let deleteString;
     let user = this.props.usersCache[this.props.userId];
     let friendshipStatus = user ? user.friendship_status_with_client : null;
     let isBlocked = user ? user.is_user_blocked_by_client : false;
+    let messagePreview = null;
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
@@ -172,29 +184,29 @@ class PendingListItem extends React.PureComponent {
       } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
         acceptString = 'Confirm';
         deleteString = 'Delete';
-      } else {
+      } else if (friendshipStatus === FRIEND_TYPES.CONTACTS) {
         acceptString = 'Add';
+        contact = this.props.contactsCache[user.phone_number];
+        messagePreview = contact.given_name + ' ' + contact.family_name;
+      }
+    } else {
+      if (isBlocked) {
+        deleteString = 'Unblock';
+      } else {
+        acceptString = 'Invite';
       }
     }
 
-    if (isBlocked) {
-      deleteString = 'Unblock';
-    }
-
-    return (
-      <RN.View style={styles.buttonView}>
-        {friendshipStatus === 'received' || friendshipStatus === 'contacts' ? this._renderAcceptButton(friendshipStatus, acceptString) : null}
-        {friendshipStatus != 'contacts' ? this._renderDeleteButton(isBlocked, deleteString) : null}
-      </RN.View>
-    )
-  }
-
-  render() {
     return (
       <Animatable.View ref={(ref) => this.container = ref} style={UTILITY_STYLES.rowView}>
-        <UserInfoViewContainer convoId={this.props.userId} marginLeft={15} />
+        {!friendshipStatus && !isBlocked ?
+        <ContactInfoViewContainer phoneNumber={this.props.phoneNumber} marginLeft={15} messagePreview={messagePreview} /> :
+        <UserInfoViewContainer convoId={this.props.userId} marginLeft={15} messagePreview={messagePreview} />}
         <RN.View style={styles.checkboxView}>
-          {this._renderButtons()}
+          <RN.View style={styles.buttonView}>
+            {acceptString ? this._renderAcceptButton(friendshipStatus, acceptString) : null}
+            {deleteString ? this._renderDeleteButton(isBlocked, deleteString) : null}
+          </RN.View>
         </RN.View>
       </Animatable.View>
     )
