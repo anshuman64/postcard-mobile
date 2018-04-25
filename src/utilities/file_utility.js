@@ -176,7 +176,7 @@ export const getContacts = (clientPhoneNumber) => {
               fullNumber = '+' + number.getCountryCode() + number.getNationalNumber();
               contactPhoneNumbers.push(fullNumber);
             } catch (err) {
-              console.log(err);
+              // console.log(err);
             }
           });
         });
