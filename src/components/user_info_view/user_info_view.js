@@ -4,10 +4,10 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import AvatarContainer      from '../avatar/avatar_container';
-import { styles }           from './user_info_view_styles';
-import { UTILITY_STYLES }   from '../../utilities/style_utility';
-import * as FunctionUtility from '../../utilities/function_utility';
+import AvatarContainer                from '../avatar/avatar_container';
+import { styles }                     from './user_info_view_styles';
+import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility';
+import * as FunctionUtility           from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -15,7 +15,8 @@ import * as FunctionUtility from '../../utilities/function_utility';
 Required Passed Props:
   convoId (int): group or user to render
 Optional Passed Props:
-  disabled (bool): if should disable click on profile to go to it
+  disableAvatar (bool): if should disable click on Avatar to go to profile
+  disableUsername (bool): if should disable click on username to go to profile
   marginLeft (int): amount of left margin
 */
 class UserInfoView extends React.PureComponent {
@@ -42,19 +43,35 @@ class UserInfoView extends React.PureComponent {
     let authorId = FunctionUtility.getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
-      <RN.TouchableWithoutFeedback
-        onPressIn={this.props.convoId < 0 ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-        onPressOut={this.props.convoId < 0 ? null : () => this.usernameText.setNativeProps({style: styles.usernameText})}
-        onPress={this.props.convoId < 0 ? null : this._onPressAvatar}
-        disabled={this.props.convoId < 0 ? true : this.props.disabled}
-        >
       <RN.View style={[styles.userView, {marginLeft: this.props.marginLeft}]}>
-        <AvatarContainer userId={authorId} avatarSize={40} iconSize={17} frameBorderWidth={1.1} />
-        <RN.Text ref={(ref) => this.usernameText = ref} style={styles.usernameText} numberOfLines={1}>
-          {displayName}
-        </RN.Text>
+        <RN.TouchableWithoutFeedback
+          onPressIn={this.props.convoId < 0 ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+          onPressOut={this.props.convoId < 0 ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
+          onPress={this.props.convoId < 0 ? null : this._onPressAvatar}
+          disabled={this.props.convoId < 0 ? true : this.props.disableAvatar}
+          >
+          <RN.View>
+            <AvatarContainer userId={authorId} avatarSize={this.props.messagePreview ? 46 : 40} iconSize={17} frameBorderWidth={1.1} />
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+        <RN.TouchableWithoutFeedback
+          onPressIn={this.props.convoId < 0 ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+          onPressOut={this.props.convoId < 0 ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
+          onPress={this.props.convoId < 0 ? null : this._onPressAvatar}
+          disabled={this.props.convoId < 0 ? true : this.props.disableUsername}
+          >
+          <RN.View style={styles.usernameView}>
+            <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: scaleImage(120)}]} numberOfLines={1}>
+              {displayName}
+            </RN.Text>
+            {this.props.messagePreview ?
+              <RN.Text style={styles.messageText} numberOfLines={1}>
+                {this.props.messagePreview}
+              </RN.Text> :
+              null}
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
       </RN.View>
-      </RN.TouchableWithoutFeedback>
     )
   }
 }
