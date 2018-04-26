@@ -14,6 +14,7 @@ Data is in the form {
     "family_name":  'Knope',
     "thumbnail":    "content://com.android.contacts/display_photo/3",
     "type":         "cell",
+    "is_invited":   false
   },
   phone_number: {...
 */
@@ -26,6 +27,10 @@ const ContactsCacheReducer = (state = DEFAULT_STATE, action) => {
   switch(action.type) {
     case CONTACT_ACTION_TYPES.RECEIVE_CONTACTS:
       newState = action.data.contacts;
+
+      return newState;
+    case CONTACT_ACTION_TYPES.RECEIVE_INVITED_CONTACT:
+      newState[action.data.phoneNumber].is_invited = true;
 
       return newState;
     default:
