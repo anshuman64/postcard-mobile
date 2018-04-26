@@ -22,7 +22,8 @@ Optional Passed Props:
   placeholderText (string): placeholder text of NewPostScreen to send to analytics
   imageType (string): type of image for AWS uploading purposed
   isPublic (bool): if new post should be public or not from NewPostScreen
-  recipients (array): users to be passed to API from 1) CreateCircleScreen, 2) CreateGroupScreen, or 3) AddGroupMembersScreen
+  recipients (array): users to be passed to API from 1) ShareScreen, 2) CreateCircleScreen, 3) CreateGroupScreen, or 4) AddGroupMembersScreen
+  contactRecipients (array): contact phoneNumbers to be passed to API from 1) ShareScreen, 2) CreateGroupScreen or 3) AddGroupMembersScreen
   convoId (int): group id when adding members to the group
   blank (bool): leave blank space for ProfileTabs
   backIcon (bool): add a back icon
