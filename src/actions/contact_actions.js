@@ -45,6 +45,7 @@ export const getContacts = (clientPhoneNumber) => (dispatch) => {
     });
 }
 
+// TODO: refactor this
 export const getOtherContacts = (authToken, firebaseUserObj, contactPhoneNumbers) => (dispatch) => {
     return APIUtility.post(authToken, '/contacts', { phone_numbers: contactPhoneNumbers })
       .then((phoneNumbers) => {
