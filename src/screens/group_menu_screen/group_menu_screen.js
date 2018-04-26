@@ -36,7 +36,7 @@ class GroupMenuScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressChangeName = () => {
-    this.props.navigateTo('NameGroupScreen', { convoId: this.props.convoId });
+    this.props.navigateTo('NameGroupScreen', { convoId: this.props.convoId, screen: 'NameGroupScreen' });
   }
 
   _onPressAddMembers = () => {

@@ -10,9 +10,8 @@ import { navigateTo, goBack }                         from '../../actions/naviga
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, navigation }, ownProps) => ({
-  client:        client,
-  currentScreen: navigation.currentScreen
+const mapStateToProps = ({ client }, ownProps) => ({
+  client: client,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
