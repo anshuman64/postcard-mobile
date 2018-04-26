@@ -326,7 +326,7 @@ class PostListItem extends React.PureComponent {
 
   _renderAuthoredRecipients() {
     if (this.props.postType === POST_TYPES.AUTHORED) {
-      let numRecipients = this.props.item.recipient_ids.length;
+      let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
       let displayString  = '';
       let callback;
 
@@ -518,7 +518,7 @@ class PostListItem extends React.PureComponent {
     let recipientIds = this.props.postType === POST_TYPES.RECEIVED ? this.props.item.recipient_ids_with_client : this.props.item.recipient_ids;
 
     return (
-      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={recipientIds} postId={this.props.item.id} authorId={this.props.item.author_id} setParentState={this.setParentState} />
+      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={recipientIds} contactPhoneNumbers={this.props.item.contact_phone_numbers} postId={this.props.item.id} authorId={this.props.item.author_id} setParentState={this.setParentState} />
     )
   }
 

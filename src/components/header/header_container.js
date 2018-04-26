@@ -15,12 +15,12 @@ const mapStateToProps = ({ client }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createPost:      (authToken, firebaseUserObj, clientId, isPublic, recipientIds, postBody, postImagePath, postImageType, placeholderText) => dispatch(createPost(authToken, firebaseUserObj, clientId, isPublic, recipientIds, postBody, postImagePath, postImageType, placeholderText)),
-  createCircle:    (authToken, firebaseUserObj, name, recipientIds)                                                                        => dispatch(createCircle(authToken, firebaseUserObj, name, recipientIds)),
-  createGroup:     (authToken, firebaseUserObj, users)                                                                                     => dispatch(createGroup(authToken, firebaseUserObj, users)),
-  addGroupMembers: (authToken, firebaseUserObj, groupId, userIds)                                                                          => dispatch(addGroupMembers(authToken, firebaseUserObj, groupId, userIds)),
-  navigateTo:      (screen, props)                                                                                                         => dispatch(navigateTo(screen, props)),
-  goBack:          (props)                                                                                                                 => dispatch(goBack(props)),
+  createPost:      (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, postImagePath, postImageType, placeholderText) => dispatch(createPost(authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, postImagePath, postImageType, placeholderText)),
+  createCircle:    (authToken, firebaseUserObj, name, recipientIds)           => dispatch(createCircle(authToken, firebaseUserObj, name, recipientIds)),
+  createGroup:     (authToken, firebaseUserObj, userIds, contactIds)          => dispatch(createGroup(authToken, firebaseUserObj, userIds, contactIds)),
+  addGroupMembers: (authToken, firebaseUserObj, groupId, userIds, contactIds) => dispatch(addGroupMembers(authToken, firebaseUserObj, groupId, userIds, contactIds)),
+  navigateTo:      (screen, props)                                            => dispatch(navigateTo(screen, props)),
+  goBack:          (props)                                                    => dispatch(goBack(props)),
 });
 
 export default connect(

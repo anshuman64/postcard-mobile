@@ -4,12 +4,13 @@ import RN     from 'react-native';
 import _      from 'lodash';
 
 // Local Imports
-import LoadingModal          from '../loading_modal/loading_modal';
-import UserInfoViewContainer from '../user_info_view/user_info_view_container';
-import { styles }            from './list_modal_styles';
-import * as StyleUtility     from '../../utilities/style_utility';
-import { COUNTRY_CODES }     from '../../utilities/country_utility';
-import { defaultErrorAlert } from '../../utilities/error_utility';
+import LoadingModal             from '../loading_modal/loading_modal';
+import ContactInfoViewContainer from '../contact_info_view/contact_info_view_container';
+import UserInfoViewContainer    from '../user_info_view/user_info_view_container';
+import { styles }               from './list_modal_styles';
+import * as StyleUtility        from '../../utilities/style_utility';
+import { COUNTRY_CODES }        from '../../utilities/country_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -97,22 +98,25 @@ class ListModal extends React.PureComponent {
     )
   }
 
-  _renderScrollView() {
-    if(this.state.isModalMounted) {
-      return (
-        <RN.ScrollView
-          ref={(ref) => this.scrollView = ref}
-          style={[styles.listView, this.props.recipientIds ? { height: this.props.recipientIds.length * 60 } : null]}
-          onContentSizeChange={this.setCountry ? this._onListViewContentSizeChange : null}
-          >
-          {this._renderCountryListItem()}
-          {this._renderRecipientListItem()}
-        </RN.ScrollView>
-      )
+  _renderCountryList() {
+    if (this.props.setCountry) {
+      if(this.state.isModalMounted) {
+        return (
+          <RN.ScrollView
+            ref={(ref) => this.scrollView = ref}
+            style={styles.listView}
+            onContentSizeChange={this._onListViewContentSizeChange}
+            >
+            {this._renderCountryListItem()}
+          </RN.ScrollView>
+        )
+      } else {
+        return (
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400}  />
+        )
+      }
     } else {
-      return (
-        <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400}  />
-      )
+      return null;
     }
   }
 
@@ -156,24 +160,61 @@ class ListModal extends React.PureComponent {
     }
   }
 
-  _renderRecipientListItem() {
+  _renderRecipientList() {
     if (!this.props.setCountry) {
-      let rows = [];
+      return (
+        <RN.SectionList
+          sections={[
+            {data: this.props.recipientIds, renderItem: this._renderRecipientItem.bind(this)},
+            {data: this.props.contactPhoneNumbers, renderItem: this._renderContactItem.bind(this)},
+          ]}
+          keyExtractor={(item, index) => String(index)}
+          renderSectionHeader={() => null}
+          initialListSize={20}
+          pageSize={60}
+        />
+      )
+    } else {
+      return null;
+    }
+  }
 
-      i = 0;
-      _.forEach(this.props.recipientIds, (recipientId) => {
-        rows.push(
-          <RN.TouchableOpacity key={i} onPress={() => this._onNavigateToMessages(recipientId)}>
+  _renderRecipientListItem({item}) {
+    user = this.props.usersCache[item];
+
+    if (user) {
+      contact = this.props.contactsCache[user.phone_number];
+
+      // NOTE: using username as a proxy for contact
+      if (user.username) {
+        return (
+          <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)}>
             <RN.View style={[styles.rowContainer, {height: 60}]}>
-                <UserInfoViewContainer convoId={recipientId} marginLeft={10} disableUsername={true} />
+                <UserInfoViewContainer convoId={item} marginLeft={10} disableUsername={true} />
             </RN.View>
           </RN.TouchableOpacity>
-        );
+        )
+      } else if (contact) {
+        return (
+          <RN.View style={[styles.rowContainer, {height: 60}]}>
+            <ContactInfoViewContainer phoneNumber={contact.phone_number} marginLeft={10} />
+          </RN.View>
+        )
+      } else {
+        return null;
+      }
+    }
+  }
 
-        i++;
-      })
+  _renderContactListItem({item}) {
+    contact = this.props.contactsCache[item];
 
-      return rows;
+    if (contact){
+      return (
+        <RN.View style={[styles.rowContainer, {height: 60}]}>
+          <ContactInfoViewContainer phoneNumber={item} marginLeft={10} />
+        </RN.View>
+      )
     } else {
       return null;
     }
@@ -214,7 +255,8 @@ class ListModal extends React.PureComponent {
         <RN.View style={StyleUtility.UTILITY_STYLES.containerCenter}>
           <RN.View style={styles.container}>
             {this._renderTitle()}
-            {this._renderScrollView()}
+            {this._renderCountryList()}
+            {this._renderRecipientList()}
             {this._renderCancelButton()}
           </RN.View>
           {this._renderLoadingModal()}
