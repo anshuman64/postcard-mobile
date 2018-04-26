@@ -112,6 +112,7 @@ class PostList extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  // NOTE/WARNING: leave keyExtractor exactly as is, or else fadeOut messes up other items around it!
   _renderPostList = () => {
     let postData = this.props.posts[this.props.userId];
 
@@ -121,7 +122,7 @@ class PostList extends React.PureComponent {
           ref={(ref) => this.flatList = ref}
           data={(postData && postData[this.props.postType]) ? postData[this.props.postType].data : null}
           renderItem={this._renderItem.bind(this)}
-          keyExtractor={(item, index) => String(index)}
+          keyExtractor={(item) => this.props.postsCache[item].id}
           style={styles.postList}
           initialNumToRender={3}
           maxToRenderPerBatch={10}
