@@ -41,6 +41,10 @@ class CreateGroupScreen extends React.PureComponent {
     this.setState(state);
   }
 
+  onPressOtherContactsHelp = () => {
+    RN.Alert.alert('', "Invite your contacts to join Postcard. Your friend request, messages, and posts will be waiting for them when they log in!", [{text: 'OK', style: 'cancel'}]);
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -71,7 +75,11 @@ class CreateGroupScreen extends React.PureComponent {
   }
 
   _renderSectionHeader = ({section}) => {
-    if (section.title) {
+    if (section.title === 'Other Contacts') {
+      return (
+        <SectionListHeader title={section.title} iconName={'question'} callback={this.onPressOtherContactsHelp}/>
+      )
+    } else if (section.title) {
       return (
         <SectionListHeader title={section.title} />
       )

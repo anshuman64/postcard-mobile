@@ -46,11 +46,15 @@ class ShareScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Callback Methods
+  // Public Methods
   //--------------------------------------------------------------------//
 
-  _onPressAddCircle = () => {
+  onPressAddCircle = () => {
     this.props.navigateTo('NameCircleScreen', { screen: 'NameCircleScreen' });
+  }
+
+  onPressOtherContactsHelp = () => {
+    RN.Alert.alert('', "Invite your contacts to join Postcard. Your friend request, messages, and posts will be waiting for them when they log in!", [{text: 'OK', style: 'cancel'}]);
   }
 
   //--------------------------------------------------------------------//
@@ -91,7 +95,11 @@ class ShareScreen extends React.PureComponent {
   _renderSectionHeader = ({section}) => {
     if (section.title === 'Circles') {
       return (
-        <SectionListHeader title={section.title} highlightedText={' +'} callback={this._onPressAddCircle} />
+        <SectionListHeader title={section.title} iconName={'plus'} callback={this.onPressAddCircle} />
+      )
+    } else if (section.title === 'Other Contacts') {
+      return (
+        <SectionListHeader title={section.title} iconName={'question'} callback={this.onPressOtherContactsHelp}/>
       )
     } else if (section.title) {
       return (
