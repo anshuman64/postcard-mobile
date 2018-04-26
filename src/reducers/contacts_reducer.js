@@ -21,6 +21,16 @@ const ContactsReducer = (state = DEFAULT_STATE, action) => {
       newState.phoneNumbersWithoutAccounts = action.data.phoneNumbersWithoutAccounts;
 
       return newState;
+    case CONTACT_ACTION_TYPES.RECEIVE_INVITED_CONTACT:
+      _.forEach(newState, (type) => {
+        _.remove(type, (phoneNumber) => {
+          return phoneNumber === action.data.phoneNumber;
+        });
+      });
+
+      newState.phoneNumbersWithAccounts.unshift(action.data.phoneNumber);
+
+      return newState;
     default:
       return state;
   }
