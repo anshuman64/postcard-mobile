@@ -43,6 +43,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
         newState[post.id]                           = post;
         newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
         newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
+        newState[post.id].contact_phone_numbers     = [];
       });
 
       return newState;
@@ -64,6 +65,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[post.id]                           = post;
       newState[post.id].recipient_ids             = action.data.recipientIds;
       newState[post.id].recipient_ids_with_client = [];
+      newState[post.id].contact_phone_numbers     = action.data.contactPhoneNumbers;
 
       return newState;
 
@@ -113,6 +115,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[post.id]                           = post;
       newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
       newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
+      newState[post.id].contact_phone_numbers     = [];
 
       return newState;
 
