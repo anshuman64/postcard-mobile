@@ -150,12 +150,12 @@ class App extends React.Component {
             <Tabs key='MainTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
               <Scene key='HomeScreen'     component={HomeScreenContainer} panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
 
-              <Tabs key='DiscoverTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+              <Tabs key='DiscoverTabs' tabBarPosition={'top'} tabBarComponent={() => <TabBarContainer tabs={'DiscoverTabs'}/>} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
                 <Scene key='RecentScreen'    component={RecentScreenContainer}    panHandlers={null} hideNavBar={true} />
                 <Scene key='FollowingScreen' component={FollowingScreenContainer} panHandlers={null} hideNavBar={true} />
               </Tabs>
 
-              <Tabs key='FriendTabs' tabBarPosition={'top'} tabBarComponent={TabBarContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+              <Tabs key='FriendTabs' tabBarPosition={'top'} tabBarComponent={() => <TabBarContainer tabs={'FriendTabs'}/>} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
                 <Scene key='FriendScreen'  component={FriendScreenContainer}  panHandlers={null} hideNavBar={true} />
                 <Scene key='PendingScreen' component={PendingScreenContainer} panHandlers={null} hideNavBar={true} />
               </Tabs>
