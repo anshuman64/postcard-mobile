@@ -19,24 +19,20 @@ const ConversationsReducer = (state = DEFAULT_STATE, action) => {
   switch(action.type) {
 
     case MESSAGE_ACTION_TYPES.RECEIVE_CONVERSATIONS:
-      conversations = [];
+      newState.conversations = [];
 
       _.forEach(action.data.friends, (friend) => {
         date = friend.peek_message ? new Date(friend.peek_message.created_at) : new Date(friend.created_at);
-        conversations.push({ id: friend.id, date: date});
+        newState.conversations.push({ id: friend.id, date: date});
       });
 
       _.forEach(action.data.groups, (group) => {
         date = group.peek_message ? new Date(group.peek_message.created_at) : new Date(group.created_at);
-        conversations.push({ id: -1 * group.id, date: date}); // WARNING/NOTE: using "-1 * " to denote groups id's
+        newState.conversations.push({ id: -1 * group.id, date: date}); // WARNING/NOTE: using "-1 * " to denote groups id's
       });
 
-      conversations.sort(function(a,b){
+      newState.conversations.sort(function(a,b){
         return new Date(b.date) - new Date(a.date);
-      });
-
-      _.forEach(conversations, (conversation) => {
-        newState.conversations.push(conversation.id);
       });
 
       return newState;
