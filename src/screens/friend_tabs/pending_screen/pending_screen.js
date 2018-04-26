@@ -80,6 +80,7 @@ class PendingScreen extends React.PureComponent {
     )
   }
 
+  // NOTE/WARNING: leave keyExtractor exactly as is, or else fadeOut messes up other items around it!
   _renderList() {
     let contacts = this.props.contacts.phoneNumbersWithAccounts.concat(this.props.contacts.phoneNumbersWithoutAccounts);
 
@@ -92,7 +93,7 @@ class PendingScreen extends React.PureComponent {
           {data: contacts, renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
           {data: this.props.blocks.blockedUsers, renderItem: this._renderItem.bind(this), title: 'Blocked Users'},
         ]}
-        keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item) => item}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
         initialListSize={20}
