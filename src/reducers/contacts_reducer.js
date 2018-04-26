@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 // Local Imports
 import { CONTACT_ACTION_TYPES } from '../actions/contact_actions';
+import { POST_ACTION_TYPES }    from '../actions/post_actions';
 
 //--------------------------------------------------------------------//
 
@@ -32,6 +33,23 @@ const ContactsReducer = (state = DEFAULT_STATE, action) => {
       });
 
       newState.phoneNumbersWithAccounts.unshift(action.data.phoneNumber);
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Post Actions
+    //--------------------------------------------------------------------//
+
+    case POST_ACTION_TYPES.RECEIVE_POST:
+      _.forEach(action.data.phoneNumbers, (contactPhoneNumber) => {
+        _.forEach(newState, (type) => {
+          _.remove(type, (phoneNumber) => {
+            return phoneNumber === contactPhoneNumber;
+          });
+        });
+
+        newState.phoneNumbersWithAccounts.unshift(contactPhoneNumber);
+      });
 
       return newState;
     default:
