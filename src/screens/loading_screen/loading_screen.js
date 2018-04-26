@@ -152,7 +152,7 @@ class LoadingScreen extends React.PureComponent {
         this.props.navigateTo('PendingScreen'); // Debug Test: should be HomeScreen
       // If opening the app normally and haven't created username, go to create username
       } else {
-        this.props.navigateTo('UsernameScreenLogin');
+        this.props.navigateTo('UsernameScreenLogin', { screen: 'UsernameScreenLogin' });
       }
     // If haven't logged in and somehow on LoadingScreen, go to WelcomeScreen
   } else if (!this.navigateToNotification) {
