@@ -12,9 +12,10 @@ import { refreshAuthToken }    from './client_actions';
 //--------------------------------------------------------------------//
 
 export const CONTACT_ACTION_TYPES = {
-  RECEIVE_CONTACTS:        'RECEIVE_CONTACTS',
-  RECEIVE_OTHER_CONTACTS:  'RECEIVE_OTHER_CONTACTS',
-  RECEIVE_INVITED_CONTACT: 'RECEIVE_INVITED_CONTACT'
+  RECEIVE_CONTACTS:               'RECEIVE_CONTACTS',
+  RECEIVE_CONTACTS_WITH_ACCOUNTS: 'RECEIVE_CONTACTS_WITH_ACCOUNTS',
+  RECEIVE_OTHER_CONTACTS:         'RECEIVE_OTHER_CONTACTS',
+  RECEIVE_INVITED_CONTACT:        'RECEIVE_INVITED_CONTACT'
 };
 
 //--------------------------------------------------------------------//
@@ -26,8 +27,12 @@ export const receiveContacts = (data) => {
   return { type: CONTACT_ACTION_TYPES.RECEIVE_CONTACTS, data: data };
 };
 
-// phoneNumbersWithAccounts (array): array of phoneNumbers that have temp Postcard account
-// phoneNumbersWithoutAccounts (array): array of phoneNumbers without temp Postcard account
+// contactsWithAccounts (array): array of users from contacts that haven't logged in before
+export const receiveContactsWithAccounts = (data) => {
+  return { type: CONTACT_ACTION_TYPES.RECEIVE_CONTACTS_WITH_ACCOUNTS, data: data };
+};
+
+// otherPhoneNumbers (array): array of phoneNumbers that don't have accounts on Postcard
 export const receiveOtherContacts = (data) => {
   return { type: CONTACT_ACTION_TYPES.RECEIVE_OTHER_CONTACTS, data: data };
 };
@@ -51,11 +56,24 @@ export const getContacts = (clientPhoneNumber) => (dispatch) => {
     });
 }
 
-// TODO: refactor this
+export const getContactsWithAccounts = (authToken, firebaseUserObj, contactPhoneNumbers) => (dispatch) => {
+  return APIUtility.post(authToken, '/contacts', { phone_numbers: contactPhoneNumbers })
+    .then((contactsWithAccounts) => {
+      dispatch(receiveContactsWithAccounts({ contacts: contactsWithAccounts }));
+    })
+    .catch((error) => {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshAuthToken(firebaseUserObj, getContactsWithAccounts, contactPhoneNumbers));
+      }
+
+      throw setErrorDescription(error, 'POST contacts with accounts failed');
+    });
+}
+
 export const getOtherContacts = (authToken, firebaseUserObj, contactPhoneNumbers) => (dispatch) => {
-    return APIUtility.post(authToken, '/contacts', { phone_numbers: contactPhoneNumbers })
-      .then((phoneNumbers) => {
-        dispatch(receiveOtherContacts({ phoneNumbersWithAccounts: phoneNumbers.phone_numbers_with_accounts, phoneNumbersWithoutAccounts: phoneNumbers.phone_numbers_without_accounts }));
+    return APIUtility.post(authToken, '/contacts/other', { phone_numbers: contactPhoneNumbers })
+      .then((otherPhoneNumbers) => {
+        dispatch(receiveOtherContacts({ otherPhoneNumbers: otherPhoneNumbers }));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

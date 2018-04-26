@@ -13,11 +13,12 @@ import { refreshCredsAndGetImage }     from '../../actions/image_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, groupsCache, imagesCache }, ownProps) => ({
-  client:      client,
-  usersCache:  usersCache,
-  groupsCache: groupsCache,
-  imagesCache: imagesCache,
+const mapStateToProps = ({ client, usersCache, groupsCache, contactsCache, imagesCache }, ownProps) => ({
+  client:        client,
+  usersCache:    usersCache,
+  groupsCache:   groupsCache,
+  contactsCache: contactsCache,
+  imagesCache:   imagesCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -251,6 +251,7 @@ class PostListItem extends React.PureComponent {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
+        convoId = this.props.usersCache[convoId].firebase_uid ? convoId : null; // handle the case if only a contact received the post
       } else {
         return;
       }
@@ -311,7 +312,7 @@ class PostListItem extends React.PureComponent {
         return null;
       } else if (numRecipients === 1) {
         convoId = this.props.item.recipient_ids_with_client[0];
-        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
+        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
         callback = this._onNavigateToMessages;
       } else {
         displayString = numRecipients + ' groups';
@@ -334,7 +335,7 @@ class PostListItem extends React.PureComponent {
         return null;
       } else if (numRecipients === 1) {
         convoId = this.props.item.recipient_ids[0];
-        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
+        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
         callback = this._onNavigateToMessages;
       } else {
         displayString = numRecipients + ' recipients';

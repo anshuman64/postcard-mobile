@@ -37,14 +37,14 @@ class ContactInfoView extends React.PureComponent {
   render() {
     let contact = this.props.contactsCache[this.props.phoneNumber];
     let avatarUrl;
-    let displayName = 'anonymous';
+    let displayName = '';
     let messagePreview = '';
     let number;
 
     if (contact) {
       avatarUrl = contact.thumbnail;
       contactName = contact.given_name + ' ' + contact.family_name;
-      displayName = isStringEmpty(contactName) ? displayName : contactName;
+      displayName = isStringEmpty(contactName) ? 'anonymous' : contactName;
 
       try {
         number = this.phoneUtil.format(this.phoneUtil.parse(contact.phone_number));
