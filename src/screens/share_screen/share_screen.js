@@ -50,7 +50,7 @@ class ShareScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressAddCircle = () => {
-    this.props.navigateTo('NameCircleScreen');
+    this.props.navigateTo('NameCircleScreen', { screen: 'NameCircleScreen' });
   }
 
   //--------------------------------------------------------------------//
