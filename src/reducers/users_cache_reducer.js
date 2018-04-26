@@ -7,6 +7,7 @@ import { FRIEND_TYPES, FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_act
 import { POST_ACTION_TYPES }                     from '../actions/post_actions';
 import { MESSAGE_ACTION_TYPES }                  from '../actions/message_actions';
 import { GROUP_ACTION_TYPES }                    from '../actions/group_actions';
+import { CONTACT_ACTION_TYPES }                  from '../actions/contact_actions';
 import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions';
 import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions';
 
@@ -178,6 +179,16 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
     case GROUP_ACTION_TYPES.RECEIVE_USERS_FROM_GROUPS:
       _.forEach(action.data.users, (user) => {
         newState[user.id] = _.merge(user, newState[user.id]); // use merge to keep friendship_status_with_client
+      });
+
+      return newState;
+
+  //--------------------------------------------------------------------//
+  // Contact Actions
+  //--------------------------------------------------------------------//
+    case CONTACT_ACTION_TYPES.RECEIVE_CONTACTS_WITH_ACCOUNTS:
+      _.forEach(action.data.contacts, (user) => {
+        newState[user.id] = user;
       });
 
       return newState;
