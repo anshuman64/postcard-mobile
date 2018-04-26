@@ -3,10 +3,11 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import HeaderContainer           from '../../components/header/header_container';
-import CheckboxListItemContainer from '../../components/checkbox_list_item/checkbox_list_item_container';
-import SectionListHeader         from '../../components/section_list_header/section_list_header';
-import { UTILITY_STYLES }        from '../../utilities/style_utility';
+import HeaderContainer               from '../../components/header/header_container';
+import CheckboxListItemContainer     from '../../components/checkbox_list_item/checkbox_list_item_container';
+import SectionListHeader             from '../../components/section_list_header/section_list_header';
+import ListFooter                    from '../../components/list_footer/list_footer';
+import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
@@ -28,9 +29,10 @@ class ShareScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      isPublic:   false,
-      circles:    [],
-      recipients: [],
+      isPublic:          false,
+      circles:           [],
+      recipients:        [],
+      contactRecipients: []
     };
   }
 
@@ -76,21 +78,39 @@ class ShareScreen extends React.PureComponent {
     )
   }
 
+  _renderContactItem = ({item}) => {
+    return (
+      <CheckboxListItemContainer
+        phoneNumber={item}
+        contactRecipients={this.state.contactRecipients}
+        setParentState={this.setParentState}
+        />
+    )
+  }
+
   _renderSectionHeader = ({section}) => {
     if (section.title === 'Circles') {
       return (
         <SectionListHeader title={section.title} highlightedText={' +'} callback={this._onPressAddCircle} />
       )
-    } else {
+    } else if (section.title) {
       return (
         <SectionListHeader title={section.title} />
       )
+    } else {
+      return null;
     }
   }
 
   _renderHeader = () => {
     return (
       <CheckboxListItemContainer setParentState={this.setParentState} isPublic={this.state.isPublic} />
+    )
+  }
+
+  _renderFooter = () => {
+    return (
+      <ListFooter footerWidth={scaleFont(120)} text={'No more Friends'} />
     )
   }
 
@@ -106,16 +126,20 @@ class ShareScreen extends React.PureComponent {
           imagePath={this.props.imagePath}
           imageType={this.props.imageType}
           recipients={this.state.recipients}
+          contactRecipients={this.state.contactRecipients}
           isPublic={this.state.isPublic}
           />
         <RN.SectionList
           sections={[
             {data: this.props.circles, renderItem: this._renderCircleItem.bind(this), title: 'Circles'},
-            {data: this.props.conversations, renderItem: this._renderUserItem.bind(this), title: 'Friends'}
+            {data: this.props.conversations, renderItem: this._renderUserItem.bind(this), title: 'Groups & Friends'},
+            {data: this.props.contacts.phoneNumbersWithAccounts, renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
+            {data: this.props.contacts.phoneNumbersWithoutAccounts, renderItem: this._renderContactItem.bind(this)}
           ]}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
+          ListFooterComponent={this._renderFooter()}
           initialListSize={20}
           pageSize={60}
           showsVerticalScrollIndicator={true}
