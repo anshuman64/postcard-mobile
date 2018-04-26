@@ -54,19 +54,28 @@ const getTempGroupName = (users, usersCache) => {
 }
 
 // Returns username of user, name of group, or a comma separated list of users
-export const getConvoDisplayName = (convoId, usersCache, groupsCache) => {
+export const getConvoDisplayName = (convoId, usersCache, groupsCache, contactsCache) => {
   let convo;
-  let displayName;
+  let displayName = '';
 
   if (convoId > 0) {
-    convo = usersCache[convoId];
-    displayName = convo && convo.username ? convo.username : 'anonymous';
+    user = usersCache[convoId];
+
+    if (user) {
+      contact = contactsCache[user.phone_number];
+
+      if (user.username) {
+        displayName = user.username
+      } else if (contact) {
+        displayName = contact.given_name + ' ' + contact.family_name;
+      }
+    }
   } else if (convoId < 0) {
     convo = groupsCache[convoId];
     displayName = convo && convo.name ? convo.name : getTempGroupName(convo.users, usersCache);
   }
 
-  return displayName;
+  return isStringEmpty(displayName) ? 'anonymous' : displayName;
 }
 
 export const getConvoAuthorId = (convoId, usersCache, groupsCache) => {

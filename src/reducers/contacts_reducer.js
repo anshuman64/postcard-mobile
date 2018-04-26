@@ -16,9 +16,12 @@ const ContactsReducer = (state = DEFAULT_STATE, action) => {
   let newState = _.merge({}, state);
 
   switch(action.type) {
+    case CONTACT_ACTION_TYPES.RECEIVE_CONTACTS_WITH_ACCOUNTS:
+      newState.phoneNumbersWithAccounts = action.data.contacts.map((x) => x.phone_number);
+
+      return newState;
     case CONTACT_ACTION_TYPES.RECEIVE_OTHER_CONTACTS:
-      newState.phoneNumbersWithAccounts    = action.data.phoneNumbersWithAccounts;
-      newState.phoneNumbersWithoutAccounts = action.data.phoneNumbersWithoutAccounts;
+      newState.phoneNumbersWithoutAccounts = action.data.otherPhoneNumbers;
 
       return newState;
     case CONTACT_ACTION_TYPES.RECEIVE_INVITED_CONTACT:

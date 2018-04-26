@@ -252,8 +252,8 @@ class MessagesScreen extends React.PureComponent {
   }
 
   render() {
-    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-    let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache);
+    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+    let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
 
     return (
       <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>

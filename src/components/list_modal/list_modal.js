@@ -168,8 +168,9 @@ class ListModal extends React.PureComponent {
             {data: this.props.recipientIds, renderItem: this._renderRecipientItem.bind(this)},
             {data: this.props.contactPhoneNumbers, renderItem: this._renderContactItem.bind(this)},
           ]}
+          style={[styles.listView, { height: (this.props.recipientIds.length + this.props.contactPhoneNumbers.length) * 60 }]}
           keyExtractor={(item, index) => String(index)}
-          renderSectionHeader={() => null}
+          renderSectionHeader={this._renderSectionHeader.bind(this)}
           initialListSize={20}
           pageSize={60}
         />
@@ -179,34 +180,34 @@ class ListModal extends React.PureComponent {
     }
   }
 
-  _renderRecipientListItem({item}) {
-    user = this.props.usersCache[item];
+  _renderSectionHeader = ({section}) => {
+    return null;
+  }
 
-    if (user) {
-      contact = this.props.contactsCache[user.phone_number];
+  _renderRecipientItem({item}) {
+    user  = this.props.usersCache[item];
+    group = this.props.groupsCache[item];
 
-      // NOTE: using username as a proxy for contact
-      if (user.username) {
-        return (
-          <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)}>
-            <RN.View style={[styles.rowContainer, {height: 60}]}>
-                <UserInfoViewContainer convoId={item} marginLeft={10} disableUsername={true} />
-            </RN.View>
-          </RN.TouchableOpacity>
-        )
-      } else if (contact) {
-        return (
+    if ((user && user.username) || group) {
+      return (
+        <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)}>
           <RN.View style={[styles.rowContainer, {height: 60}]}>
-            <ContactInfoViewContainer phoneNumber={contact.phone_number} marginLeft={10} />
+              <UserInfoViewContainer convoId={item} marginLeft={10} disableUsername={true} />
           </RN.View>
-        )
-      } else {
-        return null;
-      }
+        </RN.TouchableOpacity>
+      )
+    } else if (user && this.props.contactsCache[user.phone_number]) {
+      return (
+        <RN.View style={[styles.rowContainer, {height: 60}]}>
+          <ContactInfoViewContainer phoneNumber={user.phone_number} marginLeft={10} />
+        </RN.View>
+      )
+    } else {
+      return null;
     }
   }
 
-  _renderContactListItem({item}) {
+  _renderContactItem({item}) {
     contact = this.props.contactsCache[item];
 
     if (contact){
