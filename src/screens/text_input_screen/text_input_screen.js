@@ -12,7 +12,7 @@ import { defaultErrorAlert }      from '../../utilities/error_utility';
 
 /*
 Required Screen Props:
-  -
+  screen (string): the screen which this is supposed to represent
 Optional Screen Props:
   convoId (int): id of group when on NameGroupScreen
 */
@@ -70,7 +70,7 @@ class TextInputScreen extends React.PureComponent {
       this.setState({ isLoading: true } , () => {
         this.props.editUsername(this.props.client.authToken, this.props.client.firebaseUserObj, text)
           .then(() => {
-            if (this.props.currentScreen === 'UsernameScreenLogin') {
+            if (this.props.screen === 'UsernameScreenLogin') {
               this.props.navigateTo('AvatarScreen', { isLogin: true });
             } else {
               this.props.goBack();
@@ -163,13 +163,13 @@ class TextInputScreen extends React.PureComponent {
   _renderTitle() {
     let titleString;
 
-    if (this.props.currentScreen === 'UsernameScreen' || this.props.currentScreen === 'UsernameScreenLogin') {
+    if (this.props.screen === 'UsernameScreen' || this.props.screen === 'UsernameScreenLogin') {
       titleString = 'Choose Username';
-    } else if (this.props.currentScreen === 'AddFriendScreen') {
+    } else if (this.props.screen === 'AddFriendScreen') {
       titleString = 'Enter Username';
-    } else if (this.props.currentScreen === 'NameCircleScreen') {
+    } else if (this.props.screen === 'NameCircleScreen') {
       titleString = 'Choose Circle Name';
-    } else if (this.props.currentScreen === 'NameGroupScreen') {
+    } else if (this.props.screen === 'NameGroupScreen') {
       titleString = 'Choose Group Name';
     }
 
@@ -182,7 +182,7 @@ class TextInputScreen extends React.PureComponent {
 
   _renderSubtitle() {
     let subtitleString;
-    let currentScreen = this.props.currentScreen;
+    let currentScreen = this.props.screen;
 
     if (currentScreen === 'UsernameScreen' || currentScreen === 'UsernameScreenLogin') {
       subtitleString = 'You can change it at any time.';
@@ -203,7 +203,7 @@ class TextInputScreen extends React.PureComponent {
 
   _renderTextInput() {
     let placeholderText;
-    let currentScreen = this.props.currentScreen;
+    let currentScreen = this.props.screen;
 
     if (currentScreen === 'UsernameScreen' || currentScreen === 'UsernameScreenLogin' || currentScreen === 'AddFriendScreen') {
       placeholderText = 'Enter username';
@@ -243,7 +243,7 @@ class TextInputScreen extends React.PureComponent {
   _renderNextButton() {
     let buttonText;
     let buttonFunction;
-    let currentScreen = this.props.currentScreen;
+    let currentScreen = this.props.screen;
 
     if (currentScreen === 'UsernameScreen') {
       buttonText = 'Done';
