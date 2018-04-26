@@ -22,4 +22,10 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey700,
     marginLeft: 20
   },
+  icon: {
+    width: 30,
+    fontSize: 14,
+    textAlign: 'center',
+    color: StyleUtility.COLORS.appleBlue,
+  },
 });
