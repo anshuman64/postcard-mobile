@@ -86,7 +86,7 @@ class Header extends React.PureComponent {
 
   // Share button from ShareScreen
   _onPressSharePost = () => {
-    if (this.isButtonPressed || (!this.props.isPublic && this.props.recipients.length === 0)) {
+    if (this.isButtonPressed || (!this.props.isPublic && this.props.recipients.length === 0 && this.props.contactRecipients.length === 0)) {
       return;
     }
 
@@ -95,7 +95,7 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
 
-      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
+      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, this.props.contactRecipients, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
         .then(() => {
           this.props.navigateTo('AuthoredScreen');
           this.isGoBackPressed = true;
@@ -137,14 +137,14 @@ class Header extends React.PureComponent {
 
   // Create button from CreateGroupScreen
   _onPressCreateGroup = () => {
-    if (this.isButtonPressed || this.props.recipients.length === 0) {
+    if (this.isButtonPressed || this.props.recipients.length === 0 && this.props.contactRecipients.length === 0) {
       return;
     }
 
     this.isButtonPressed = true;
 
     this.setState({ isLoading: true },() => {
-      this.props.createGroup(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.recipients)
+      this.props.createGroup(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.recipients, this.props.contactRecipients)
         .then(() => {
           this.props.navigateTo('FriendScreen');
           this.isGoBackPressed = true;
@@ -160,14 +160,14 @@ class Header extends React.PureComponent {
   }
 
   _onPressAddGroupMembers = () => {
-    if (this.isButtonPressed || this.props.recipients.length === 0) {
+    if (this.isButtonPressed || this.props.recipients.length === 0 && this.props.contactRecipients.length === 0) {
       return;
     }
 
     this.isButtonPressed = true;
 
     this.setState({ isLoading: true },() => {
-      this.props.addGroupMembers(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId, this.props.recipients)
+      this.props.addGroupMembers(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.convoId, this.props.recipients, this.props.contactRecipients)
         .then(() => {
           this.props.goBack();
           this.isGoBackPressed = true;
