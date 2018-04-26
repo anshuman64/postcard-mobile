@@ -12,8 +12,9 @@ import { refreshAuthToken }    from './client_actions';
 //--------------------------------------------------------------------//
 
 export const CONTACT_ACTION_TYPES = {
-  RECEIVE_CONTACTS:       'RECEIVE_CONTACTS',
-  RECEIVE_OTHER_CONTACTS: 'RECEIVE_OTHER_CONTACTS',
+  RECEIVE_CONTACTS:        'RECEIVE_CONTACTS',
+  RECEIVE_OTHER_CONTACTS:  'RECEIVE_OTHER_CONTACTS',
+  RECEIVE_INVITED_CONTACT: 'RECEIVE_INVITED_CONTACT'
 };
 
 //--------------------------------------------------------------------//
@@ -29,6 +30,11 @@ export const receiveContacts = (data) => {
 // phoneNumbersWithoutAccounts (array): array of phoneNumbers without temp Postcard account
 export const receiveOtherContacts = (data) => {
   return { type: CONTACT_ACTION_TYPES.RECEIVE_OTHER_CONTACTS, data: data };
+};
+
+// phoneNumber (string): phoneNumber that was invited
+export const receiveInvitedContact = (data) => {
+  return { type: CONTACT_ACTION_TYPES.RECEIVE_INVITED_CONTACT, data: data };
 };
 
 //--------------------------------------------------------------------//
@@ -57,5 +63,20 @@ export const getOtherContacts = (authToken, firebaseUserObj, contactPhoneNumbers
         }
 
         throw setErrorDescription(error, 'POST other contacts failed');
+      });
+};
+
+
+export const inviteContact = (authToken, firebaseUserObj, contactPhoneNumber) => (dispatch) => {
+    return APIUtility.post(authToken, '/contacts/invite', { phone_number: contactPhoneNumber })
+      .then(() => {
+        dispatch(receiveInvitedContact({ phoneNumber: contactPhoneNumber }));
+      })
+      .catch((error) => {
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+          return dispatch(refreshAuthToken(firebaseUserObj, inviteContact, contactPhoneNumber));
+        }
+
+        throw setErrorDescription(error, 'POST invite contact failed');
       });
 };

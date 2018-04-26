@@ -16,6 +16,7 @@ import { defaultErrorAlert }    from '../../utilities/error_utility';
 /*
 Required Passed Props:
   userId (int): id of user
+  phoneNumber (string): phoneNumber of contact
 Optional Passed Props:
   -
 */
@@ -134,6 +135,23 @@ class PendingListItem extends React.PureComponent {
       });
   }
 
+  _onPressInviteContact = () => {
+    if (this.isButtonDisabled) {
+      return;
+    }
+
+    this.isButtonDisabled = true;
+
+    this.props.inviteContact(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.phoneNumber)
+      .then(() => {
+        this.isButtonDisabled = false;
+      })
+      .catch((error) => {
+        this.isButtonDisabled = false;
+        defaultErrorAlert(error);
+      });
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -146,7 +164,7 @@ class PendingListItem extends React.PureComponent {
     } else if (friendshipStatus === 'contacts') {
       callback = this._onPressAddFriend;
     } else {
-      callback = this._inviteContact;
+      callback = this._onPressInviteContact;
     }
 
     return (
@@ -159,8 +177,18 @@ class PendingListItem extends React.PureComponent {
   }
 
   _renderDeleteButton(isBlocked, deleteString) {
+    let callback;
+
+    if (deleteString === 'Unblock') {
+      callback = this._onPressUnblock;
+    } else if (deleteString === 'Invited') {
+      callback = null;
+    } else {
+      callback = this._onPressDeleteFriendship;
+    }
+
     return (
-      <RN.TouchableOpacity style={styles.deleteButton} onPress={isBlocked ? this._onPressUnblock : this._onPressDeleteFriendship}>
+      <RN.TouchableOpacity style={styles.deleteButton} onPress={callback} disabled={!callback}>
         <RN.Text style={UTILITY_STYLES.lightBlackText15}>
           {deleteString}
         </RN.Text>
@@ -193,7 +221,11 @@ class PendingListItem extends React.PureComponent {
       if (isBlocked) {
         deleteString = 'Unblock';
       } else {
-        acceptString = 'Invite';
+        if (this.props.contactsCache[this.props.phoneNumber].is_invited) {
+          deleteString = 'Invited';
+        } else {
+          acceptString = 'Invite';
+        }
       }
     }
 
