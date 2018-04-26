@@ -24,10 +24,7 @@ class TabBar extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.isHeader = this.props.currentScreen === 'RecentScreen'
-      || this.props.currentScreen === 'FollowingScreen'
-      || this.props.currentScreen === 'FriendScreen'
-      || this.props.currentScreen === 'PendingScreen';
+    this.isHeader = this.props.tabs === 'DiscoverTabs' || this.props.tabs === 'FriendTabs';
   }
 
   //--------------------------------------------------------------------//
@@ -45,23 +42,23 @@ class TabBar extends React.PureComponent {
   }
 
   render() {
-    let currentScreen = this.props.currentScreen;
+    let currentScreen = this.props.screen;
 
-    if (currentScreen === 'RecentScreen' || currentScreen === 'FollowingScreen') {
+    if (this.props.tabs === 'DiscoverTabs') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
           {this._renderTab('Recent', 'RecentScreen')}
           {this._renderTab('Following', 'FollowingScreen')}
         </RN.View>
       )
-    } else if (currentScreen === 'FriendScreen' || currentScreen === 'PendingScreen') {
+    } else if (this.props.tabs === 'FriendTabs') {
       return (
         <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
           {this._renderTab('Friends', 'FriendScreen')}
           {this._renderTab('Pending', 'PendingScreen')}
         </RN.View>
       )
-    } else if (currentScreen === 'AuthoredScreen' || currentScreen === 'LikedScreen') {
+    } else if (this.props.tabs === 'ProfileTabs') {
       return (
         <RN.View style={styles.tabs}>
           {this._renderTab('Posts', 'AuthoredScreen', { userId: this.props.userId })}
