@@ -1,6 +1,7 @@
 // Library Imports
-import React from 'react';
-import RN    from 'react-native';
+import React               from 'react';
+import RN                  from 'react-native';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 // Local Imports
 import AvatarContainer                from '../avatar/avatar_container';
@@ -19,6 +20,17 @@ Optional Passed Props:
 class ContactInfoView extends React.PureComponent {
 
   //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
+  constructor(props) {
+    super(props);
+
+    this.phoneUtil = PhoneNumberUtil.getInstance();
+  }
+
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -27,12 +39,20 @@ class ContactInfoView extends React.PureComponent {
     let avatarUrl;
     let displayName = 'anonymous';
     let messagePreview = '';
+    let number;
 
     if (contact) {
       avatarUrl = contact.thumbnail;
       contactName = contact.given_name + ' ' + contact.family_name;
       displayName = isStringEmpty(contactName) ? displayName : contactName;
-      messagePreview = contact.type + ': ' + contact.phone_number;
+
+      try {
+        number = this.phoneUtil.format(this.phoneUtil.parse(contact.phone_number));
+      } catch (err) {
+        number = contact.phone_number;
+      }
+
+      messagePreview = contact.type + ': ' + number;
     }
 
     return (

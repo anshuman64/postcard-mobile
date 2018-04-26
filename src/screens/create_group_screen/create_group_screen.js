@@ -4,6 +4,7 @@ import RN              from 'react-native';
 
 // Local Imports
 import HeaderContainer               from '../../components/header/header_container';
+import SectionListHeader             from '../../components/section_list_header/section_list_header';
 import CheckboxListItemContainer     from '../../components/checkbox_list_item/checkbox_list_item_container';
 import ListFooter                    from '../../components/list_footer/list_footer';
 import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
@@ -26,10 +27,9 @@ class CreateGroupScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      recipients: [],
+      recipients:        [],
+      contactRecipients: []
     };
-
-    this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   }
 
   //--------------------------------------------------------------------//
@@ -45,18 +45,38 @@ class CreateGroupScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderRow = (rowData, sectionID, rowID) => {
+  _renderUserItem = ({item}) => {
     // If the group already has the user, don't add it
-    if (this.props.convoId && this.props.groupsCache[this.props.convoId].users.map(a => a.id).includes(rowData)) {
+    if (this.props.convoId && this.props.groupsCache[this.props.convoId].users.map(a => a.id).includes(item)) {
       return null;
     } else {
       return (
         <CheckboxListItemContainer
-          convoId={rowData}
+          convoId={item}
           recipients={this.state.recipients}
           setParentState={this.setParentState}
           />
       )
+    }
+  }
+
+  _renderContactItem = ({item}) => {
+    return (
+      <CheckboxListItemContainer
+        phoneNumber={item}
+        contactRecipients={this.state.contactRecipients}
+        setParentState={this.setParentState}
+        />
+    )
+  }
+
+  _renderSectionHeader = ({section}) => {
+    if (section.title) {
+      return (
+        <SectionListHeader title={section.title} />
+      )
+    } else {
+      return null;
     }
   }
 
@@ -76,17 +96,21 @@ class CreateGroupScreen extends React.PureComponent {
           addGroupMembersButton={this.props.convoId ? true : false}
           convoId={this.props.convoId}
           recipients={this.state.recipients}
+          contactRecipients={this.state.contactRecipients}
           />
-        <RN.ListView
-          dataSource={this.ds.cloneWithRows(this.props.friendships.accepted)}
+        <RN.SectionList
+          sections={[
+            {data: this.props.friendships.accepted, renderItem: this._renderUserItem.bind(this), title: 'Friends'},
+            {data: this.props.contacts.phoneNumbersWithAccounts, renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
+            {data: this.props.contacts.phoneNumbersWithoutAccounts, renderItem: this._renderContactItem.bind(this)}
+          ]}
           keyExtractor={(item, index) => String(index)}
-          renderRow={this._renderRow}
+          renderSectionHeader={this._renderSectionHeader.bind(this)}
+          ListFooterComponent={this._renderFooter()}
           initialListSize={20}
           pageSize={60}
           showsVerticalScrollIndicator={true}
-          onEndReached={this._onEndReached}
-          renderFooter={this._renderFooter}
-          />
+        />
       </RN.View>
     )
   }
