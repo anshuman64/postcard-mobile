@@ -155,7 +155,7 @@ class LoadingScreen extends React.PureComponent {
         this.navigateToMessages     = null;
       // If opening the app normally, go to HomeScreen. TODO: should this be FriendScreen instead?
       } else if (client && client.username) {
-        this.props.navigateTo('PendingScreen'); // Debug Test: should be HomeScreen
+        this.props.navigateTo('HomeScreen'); // Debug Test: should be HomeScreen
       // If opening the app normally and haven't created username, go to create username
       } else {
         this.props.navigateTo('UsernameScreenLogin', { screen: 'UsernameScreenLogin' });
@@ -196,6 +196,7 @@ class LoadingScreen extends React.PureComponent {
 
     switch (data.type) {
       case 'receive-like':
+      case 'receive-follow':
         this.navigateToNotification = 'AuthoredScreen';
         break;
       case 'receive-friendship':

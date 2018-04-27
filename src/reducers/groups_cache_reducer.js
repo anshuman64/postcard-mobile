@@ -36,7 +36,7 @@ const GroupsCacheReducer = (state = DEFAULT_STATE, action) => {
     case GROUP_ACTION_TYPES.RECEIVE_GROUP:
     case GROUP_ACTION_TYPES.EDIT_GROUP:
       group = action.data.group;
-      newState[-1 * group.id] = _.merge(group, newState[-1 * group.id]);
+      newState[-1 * group.id] = group;
 
       return newState;
 
