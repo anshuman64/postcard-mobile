@@ -154,12 +154,11 @@ class PendingListItem extends React.PureComponent {
     this.isButtonDisabled = true;
 
     this.props.inviteContact(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.phoneNumber)
-      .then(() => {
-        this.isButtonDisabled = false;
-      })
       .catch((error) => {
-        this.isButtonDisabled = false;
         defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.isButtonDisabled = false;
       });
   }
 
