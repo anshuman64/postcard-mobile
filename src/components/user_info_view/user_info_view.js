@@ -37,9 +37,9 @@ class UserInfoView extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
     let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-    let authorId = FunctionUtility.getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+    let authorId = FunctionUtility.getConvoAuthorId(this.props.convoId, this.props.usersCache, this.props.groupsCache);
 
     return (
       <RN.View style={[styles.userView, {marginLeft: this.props.marginLeft}]}>

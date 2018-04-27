@@ -37,7 +37,7 @@ class ConversationListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderDate() {
-    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
     let createdAtDate = convo && convo.peek_message ? convo.peek_message.created_at : convo.created_at;
 
     return (
@@ -48,7 +48,7 @@ class ConversationListItem extends React.PureComponent {
   }
 
   _renderUsernameView() {
-    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
     let message = convo ? convo.peek_message : null;
     let messagePreview = 'Send a message...';
 
