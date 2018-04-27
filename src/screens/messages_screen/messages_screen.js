@@ -6,13 +6,14 @@ import Ionicon  from 'react-native-vector-icons/Ionicons';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import ListFooter               from '../../components/list_footer/list_footer';
-import HeaderContainer          from '../../components/header/header_container';
-import MessageListItemContainer from '../../components/message_list_item/message_list_item_container';
-import { styles }               from './messages_screen_styles';
-import * as FunctionUtility     from '../../utilities/function_utility';
-import * as StyleUtility        from '../../utilities/style_utility';
-import { defaultErrorAlert }    from '../../utilities/error_utility';
+import ListFooter                         from '../../components/list_footer/list_footer';
+import HeaderContainer                    from '../../components/header/header_container';
+import MessageListItemContainer           from '../../components/message_list_item/message_list_item_container';
+import { styles }                         from './messages_screen_styles';
+import { isStringEmpty, setStateCallback} from '../../utilities/function_utility';
+import { getEntityDisplayName }           from '../../utilities/entity_utility';
+import * as StyleUtility                  from '../../utilities/style_utility';
+import { defaultErrorAlert }              from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -114,12 +115,12 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _onPressSend = () => {
-    if (this.isSendPressed || (FunctionUtility.isStringEmpty(this.state.messageText) && !this.state.imagePath)) {
+    if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.imagePath)) {
       return;
     }
 
     this.isSendPressed = true;
-    let messageBody = FunctionUtility.isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
+    let messageBody = isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
 
     this.setState({ isLoading: true }, () => {
       this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.imagePath, this.state.imageType)
@@ -216,7 +217,7 @@ class MessagesScreen extends React.PureComponent {
     } else if (this.state.imagePath) {
       return (
         <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'}>
-          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={FunctionUtility.setStateCallback(this, { imagePath: null, imageType: null })}>
+          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })}>
             <RN.View style={styles.closeButtonBackground}>
               <EvilIcon name='close' style={styles.closeIcon} />
             </RN.View>
@@ -252,8 +253,7 @@ class MessagesScreen extends React.PureComponent {
   }
 
   render() {
-    let convo = FunctionUtility.getConvo(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-    let displayName = FunctionUtility.getConvoDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+    let displayName = getEntityDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
 
     return (
       <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>

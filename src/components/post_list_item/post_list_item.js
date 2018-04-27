@@ -7,16 +7,17 @@ import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import LoadingModal               from '../loading_modal/loading_modal';
-import ListModalContainer         from '../list_modal/list_modal_container';
-import UserInfoViewContainer      from '../user_info_view/user_info_view_container';
-import { FRIEND_TYPES }           from '../../actions/friendship_actions';
-import { POST_TYPES }             from '../../actions/post_actions';
-import { styles, scaleHeart }     from './post_list_item_styles';
-import { renderPostDate }         from '../../utilities/date_time_utility';
-import { defaultErrorAlert }      from '../../utilities/error_utility';
-import * as FunctionUtility       from '../../utilities/function_utility';
-import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
+import LoadingModal                           from '../loading_modal/loading_modal';
+import ListModalContainer                     from '../list_modal/list_modal_container';
+import EntityInfoViewContainer                from '../entity_info_view/entity_info_view_container';
+import { FRIEND_TYPES }                       from '../../actions/friendship_actions';
+import { POST_TYPES }                         from '../../actions/post_actions';
+import { styles, scaleHeart }                 from './post_list_item_styles';
+import { renderPostDate }                     from '../../utilities/date_time_utility';
+import { defaultErrorAlert }                  from '../../utilities/error_utility';
+import { getReadableCount, setStateCallback } from '../../utilities/function_utility';
+import { getEntityDisplayName }               from '../../utilities/entity_utility';
+import { UTILITY_STYLES, COLORS }             from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
@@ -292,10 +293,10 @@ class PostListItem extends React.PureComponent {
   _renderUserView() {
     return (
       <RN.View style={styles.userView}>
-        <UserInfoViewContainer
+        <EntityInfoViewContainer
           disableAvatar={this.props.client.id === this.props.item.author_id}
           disableUsername={this.props.client.id === this.props.item.author_id}
-          convoId={this.props.item.author_id}
+          entityId={this.props.item.author_id}
           marginLeft={0}
           />
         {this._renderReceivedRecipients()}
@@ -315,11 +316,11 @@ class PostListItem extends React.PureComponent {
         return null;
       } else if (numRecipients === 1) {
         convoId = this.props.item.recipient_ids_with_client[0];
-        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+        displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
         callback = this._onNavigateToMessages;
       } else {
         displayString = numRecipients + ' groups';
-        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+        callback = setStateCallback(this, { isModalVisible: true });
       }
 
       return this._renderRecipients(displayString, callback);
@@ -338,11 +339,11 @@ class PostListItem extends React.PureComponent {
         return null;
       } else if (numRecipients === 1) {
         convoId = this.props.item.recipient_ids[0];
-        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+        displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
         callback = this._onNavigateToMessages;
       } else {
         displayString = numRecipients + ' recipients';
-        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+        callback = setStateCallback(this, { isModalVisible: true });
       }
 
       return this._renderRecipients(displayString, callback);
@@ -487,7 +488,7 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.likesView}>
             {this._renderLike()}
             <RN.Text style={styles.likeCountText}>
-              {FunctionUtility.getReadableCount(this.props.item.num_likes)}
+              {getReadableCount(this.props.item.num_likes)}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -507,8 +508,8 @@ class PostListItem extends React.PureComponent {
           animation={scaleHeart}
           duration={750}
           style={styles.heartIcon}
-          onAnimationBegin={FunctionUtility.setStateCallback(this, { isLikingAnimation: true })}
-          onAnimationEnd={FunctionUtility.setStateCallback(this, { isLikingAnimation: false })}
+          onAnimationBegin={setStateCallback(this, { isLikingAnimation: true })}
+          onAnimationEnd={setStateCallback(this, { isLikingAnimation: false })}
           />
       )
     } else {

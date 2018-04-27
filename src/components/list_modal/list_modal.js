@@ -5,8 +5,7 @@ import _      from 'lodash';
 
 // Local Imports
 import LoadingModal             from '../loading_modal/loading_modal';
-import ContactInfoViewContainer from '../contact_info_view/contact_info_view_container';
-import UserInfoViewContainer    from '../user_info_view/user_info_view_container';
+import EntityInfoViewContainer    from '../entity_info_view/entity_info_view_container';
 import { styles }               from './list_modal_styles';
 import * as StyleUtility        from '../../utilities/style_utility';
 import { COUNTRY_CODES }        from '../../utilities/country_utility';
@@ -165,8 +164,8 @@ class ListModal extends React.PureComponent {
       return (
         <RN.SectionList
           sections={[
-            {data: this.props.recipientIds, renderItem: this._renderRecipientItem.bind(this)},
-            {data: this.props.contactPhoneNumbers, renderItem: this._renderContactItem.bind(this)},
+            {data: this.props.recipientIds, renderItem: this._renderItem.bind(this)},
+            {data: this.props.contactPhoneNumbers, renderItem: this._renderItem.bind(this)},
           ]}
           style={[styles.listView, { height: (this.props.recipientIds.length + this.props.contactPhoneNumbers.length) * 60 }]}
           keyExtractor={(item, index) => String(index)}
@@ -184,41 +183,17 @@ class ListModal extends React.PureComponent {
     return null;
   }
 
-  _renderRecipientItem({item}) {
-    user  = this.props.usersCache[item];
-    group = this.props.groupsCache[item];
+  _renderItem({item}) {
+    let user = this.props.usersCache[item];
+    let isDisabled = !(user && user.firebase_uid);
 
-    if ((user && user.username) || group) {
-      return (
-        <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)}>
-          <RN.View style={[styles.rowContainer, {height: 60}]}>
-              <UserInfoViewContainer convoId={item} marginLeft={10} disableUsername={true} />
-          </RN.View>
-        </RN.TouchableOpacity>
-      )
-    } else if (user && this.props.contactsCache[user.phone_number]) {
-      return (
+    return (
+      <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)} disabled={isDisabled}>
         <RN.View style={[styles.rowContainer, {height: 60}]}>
-          <ContactInfoViewContainer phoneNumber={user.phone_number} marginLeft={10} />
+          <EntityInfoViewContainer entityId={item} marginLeft={10} disableUsername={true} />
         </RN.View>
-      )
-    } else {
-      return null;
-    }
-  }
-
-  _renderContactItem({item}) {
-    contact = this.props.contactsCache[item];
-
-    if (contact){
-      return (
-        <RN.View style={[styles.rowContainer, {height: 60}]}>
-          <ContactInfoViewContainer phoneNumber={item} marginLeft={10} />
-        </RN.View>
-      )
-    } else {
-      return null;
-    }
+      </RN.TouchableOpacity>
+    )
   }
 
   _renderCancelButton() {
