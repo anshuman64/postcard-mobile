@@ -7,16 +7,17 @@ import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import LoadingModal               from '../loading_modal/loading_modal';
-import ListModalContainer         from '../list_modal/list_modal_container';
-import UserInfoViewContainer      from '../user_info_view/user_info_view_container';
-import { FRIEND_TYPES }           from '../../actions/friendship_actions';
-import { POST_TYPES }             from '../../actions/post_actions';
-import { styles, scaleHeart }     from './post_list_item_styles';
-import { renderPostDate }         from '../../utilities/date_time_utility';
-import { defaultErrorAlert }      from '../../utilities/error_utility';
-import * as FunctionUtility       from '../../utilities/function_utility';
-import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
+import LoadingModal                           from '../loading_modal/loading_modal';
+import ListModalContainer                     from '../list_modal/list_modal_container';
+import EntityInfoViewContainer                from '../entity_info_view/entity_info_view_container';
+import { FRIEND_TYPES }                       from '../../actions/friendship_actions';
+import { POST_TYPES }                         from '../../actions/post_actions';
+import { styles, scaleHeart }                 from './post_list_item_styles';
+import { renderPostDate }                     from '../../utilities/date_time_utility';
+import { defaultErrorAlert }                  from '../../utilities/error_utility';
+import { getReadableCount, setStateCallback } from '../../utilities/function_utility';
+import { getEntityDisplayName }               from '../../utilities/entity_utility';
+import { UTILITY_STYLES, COLORS }             from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
@@ -45,11 +46,12 @@ class PostListItem extends React.PureComponent {
       isLoading:         false,
     }
 
-    this.isLikeDisabled   = false;
-    this.isFlagDisabled   = false;
-    this.isDeleteDisabled = false;
-    this.isFollowDisabled = false;
-    this.recipients       = null;
+    this.isLikeDisabled    = false;
+    this.isFlagDisabled    = false;
+    this.isDeleteDisabled  = false;
+    this.isFollowDisabled  = false;
+    this.isRespondDisabled = false;
+    this.recipients        = null;
   }
 
   //--------------------------------------------------------------------//
@@ -159,14 +161,17 @@ class PostListItem extends React.PureComponent {
   }
 
   // Deletes post from DB and fades post out before removing from store
-  // TODO: See if we can add back in fadeOut on delete without causing React Native bugs 
   _onConfirmDeletePost = () => {
     // Delete post from DB
     this.props.deletePost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
-        // Remove post from store
-        this.props.removePost({ post: deletedPost, clientId: this.props.client.id  });
-        this.isDeleteDisabled = false;
+        // Fade out post
+        this.container.fadeOut(500)
+          .finally(() => {
+            // Remove post from store
+            this.props.removePost({ post: deletedPost, clientId: this.props.client.id  });
+            this.isDeleteDisabled = false;
+          });
       })
       .catch((error) => {
         this.isDeleteDisabled = false;
@@ -220,13 +225,14 @@ class PostListItem extends React.PureComponent {
   // Navigation Callback Methods
   //--------------------------------------------------------------------//
 
-  _onNavigateToMessages = () => {
-    if (this.props.width) { // width is only passed if on MessagesScreen
+  _onRespondToPost = () => {
+    if (this.props.width || this.isRespondDisabled) { // width is only passed if on MessagesScreen
       return;
     }
 
     let convoId;
     let recipients;
+    this.isRespondDisabled = true;
 
     // For Discover and Liked tabs, go to author's messages if friends with client
     if (this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
@@ -236,6 +242,7 @@ class PostListItem extends React.PureComponent {
       if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
         convoId = this.props.item.author_id;
       } else {
+        this.isRespondDisabled = false;
         return;
       }
     // For HomeScreen, either go to author if post was sent directly, or group that that post was sent to
@@ -244,6 +251,7 @@ class PostListItem extends React.PureComponent {
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids_with_client[0] > 0 ? this.props.item.author_id : this.props.item.recipient_ids_with_client[0];
       } else {
+        this.isRespondDisabled = false;
         return;
       }
     // For AuthoredScreen, go to recipient which is either a user or group
@@ -251,25 +259,35 @@ class PostListItem extends React.PureComponent {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
+        convoId = this.props.usersCache[convoId].firebase_uid ? convoId : null; // handle the case if only a contact received the post
       } else {
+        this.isRespondDisabled = false;
         return;
       }
     }
 
     if (convoId) {
-      this.setState({ isLoading: true },() => {
-        this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
-          .then(() => {
-            this.props.navigateTo('MessagesScreen', { convoId: convoId });
-          })
-          .catch((error) => {
-            defaultErrorAlert(error);
-          })
-          .finally(() => {
-            this.setState({ isLoading: false });
-          });
-      });
+      RN.Alert.alert('', 'Respond to this post as a message?',
+        [{text: 'Cancel', onPress: () => this.isRespondDisabled = false, style: 'cancel'},
+         {text: 'Respond', onPress: () => this._onConfirmRespondToPost(convoId)}],
+         {onDismiss: () => this.isRespondDisabled = false}
+      )
     }
+  }
+
+  _onConfirmRespondToPost(convoId) {
+    this.setState({ isLoading: true },() => {
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
+        .then(() => {
+          this.props.navigateTo('MessagesScreen', { convoId: convoId });
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
+    });
   }
 
   //--------------------------------------------------------------------//
@@ -288,9 +306,10 @@ class PostListItem extends React.PureComponent {
   _renderUserView() {
     return (
       <RN.View style={styles.userView}>
-        <UserInfoViewContainer
-          disabled={this.props.client.id === this.props.item.author_id}
-          convoId={this.props.item.author_id}
+        <EntityInfoViewContainer
+          disableAvatar={this.props.client.id === this.props.item.author_id}
+          disableUsername={this.props.client.id === this.props.item.author_id}
+          entityId={this.props.item.author_id}
           marginLeft={0}
           />
         {this._renderReceivedRecipients()}
@@ -310,11 +329,11 @@ class PostListItem extends React.PureComponent {
         return null;
       } else if (numRecipients === 1) {
         convoId = this.props.item.recipient_ids_with_client[0];
-        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
-        callback = this._onNavigateToMessages;
+        displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+        callback = this._onRespondToPost;
       } else {
         displayString = numRecipients + ' groups';
-        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+        callback = setStateCallback(this, { isModalVisible: true });
       }
 
       return this._renderRecipients(displayString, callback);
@@ -325,19 +344,19 @@ class PostListItem extends React.PureComponent {
 
   _renderAuthoredRecipients() {
     if (this.props.postType === POST_TYPES.AUTHORED) {
-      let numRecipients = this.props.item.recipient_ids.length;
+      let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
       let displayString  = '';
       let callback;
 
       if (numRecipients === 0) {
         return null;
       } else if (numRecipients === 1) {
-        convoId = this.props.item.recipient_ids[0];
-        displayString = FunctionUtility.getConvoDisplayName(convoId, this.props.usersCache, this.props.groupsCache);
-        callback = this._onNavigateToMessages;
+        entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
+        displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+        callback = this._onRespondToPost;
       } else {
         displayString = numRecipients + ' recipients';
-        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+        callback = setStateCallback(this, { isModalVisible: true });
       }
 
       return this._renderRecipients(displayString, callback);
@@ -427,7 +446,7 @@ class PostListItem extends React.PureComponent {
 
     if (body) {
       return (
-        <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
+        <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
           <RN.View style={styles.bodyView}>
             <RN.View style={styles.bodyTextView}>
               <Hyperlink linkDefault={true} linkStyle={UTILITY_STYLES.textHighlighted}>
@@ -449,7 +468,7 @@ class PostListItem extends React.PureComponent {
     if (imagePath && this.props.imagesCache[imagePath]) {
       return (
         <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
-          <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
+          <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
             <RN.Image
               source={{uri: this.props.imagesCache[imagePath].url}}
               style={[styles.bodyImage, width && {height: width, width: width}]}
@@ -482,7 +501,7 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.likesView}>
             {this._renderLike()}
             <RN.Text style={styles.likeCountText}>
-              {FunctionUtility.getReadableCount(this.props.item.num_likes)}
+              {getReadableCount(this.props.item.num_likes)}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -502,8 +521,8 @@ class PostListItem extends React.PureComponent {
           animation={scaleHeart}
           duration={750}
           style={styles.heartIcon}
-          onAnimationBegin={FunctionUtility.setStateCallback(this, { isLikingAnimation: true })}
-          onAnimationEnd={FunctionUtility.setStateCallback(this, { isLikingAnimation: false })}
+          onAnimationBegin={setStateCallback(this, { isLikingAnimation: true })}
+          onAnimationEnd={setStateCallback(this, { isLikingAnimation: false })}
           />
       )
     } else {
@@ -517,7 +536,7 @@ class PostListItem extends React.PureComponent {
     let recipientIds = this.props.postType === POST_TYPES.RECEIVED ? this.props.item.recipient_ids_with_client : this.props.item.recipient_ids;
 
     return (
-      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={recipientIds} postId={this.props.item.id} authorId={this.props.item.author_id} setParentState={this.setParentState} />
+      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={recipientIds} contactPhoneNumbers={this.props.item.contact_phone_numbers} postId={this.props.item.id} authorId={this.props.item.author_id} setParentState={this.setParentState} />
     )
   }
 

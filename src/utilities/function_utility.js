@@ -1,3 +1,4 @@
+
 //--------------------------------------------------------------------//
 // Interface
 //--------------------------------------------------------------------//
@@ -18,70 +19,6 @@ export const setStateCallback = (component, state) => {
     component.setState(state);
   };
 };
-
-// Returns user or group depending on convoId
-export const getConvo = (convoId, usersCache, groupsCache) => {
-  let convo;
-
-  if (convoId > 0) {
-    convo = usersCache[convoId];
-  } else if (convoId < 0) {
-    convo = groupsCache[convoId];
-  }
-
-  return convo;
-}
-
-// Returns comma separated list of users
-const getTempGroupName = (users, usersCache) => {
-  let string = '';
-
-  // If there's only one person in a group, denote it
-  if (users.length === 0) {
-    return '(Empty Group)';
-  } else if (users.length === 1) {
-    return '(Group) ' + usersCache[users[0].id].username;
-  } else {
-    // Else, return comma separated list of usernames
-    for (i = 0; i < users.length - 1; i++) {
-      string += usersCache[users[i].id].username + ', '
-    }
-
-    string += usersCache[users[users.length-1].id].username
-
-    return string;
-  }
-}
-
-// Returns username of user, name of group, or a comma separated list of users
-export const getConvoDisplayName = (convoId, usersCache, groupsCache) => {
-  let convo;
-  let displayName;
-
-  if (convoId > 0) {
-    convo = usersCache[convoId];
-    displayName = convo && convo.username ? convo.username : 'anonymous';
-  } else if (convoId < 0) {
-    convo = groupsCache[convoId];
-    displayName = convo && convo.name ? convo.name : getTempGroupName(convo.users, usersCache);
-  }
-
-  return displayName;
-}
-
-export const getConvoAuthorId = (convoId, usersCache, groupsCache) => {
-  let convo;
-  let authorId;
-
-  if (convoId > 0) {
-    authorId = convoId;
-  } else if (convoId < 0) {
-    convo = groupsCache[convoId];
-    authorId = convo && convo.peek_message ? convo.peek_message.author_id : null;
-  }
-
-  return authorId;
-}
 
 export const getReadableCount = (count) => {
   // If likes < 1000, render the number as-is

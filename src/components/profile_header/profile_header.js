@@ -251,7 +251,7 @@ class ProfileHeader extends React.PureComponent {
     return (
       <RN.TouchableOpacity
         style={[styles.usernameButton, this.props.client.id === this.props.userId && {marginBottom: 15}]}
-        onPress={() => this.props.navigateTo('UsernameScreen')}
+        onPress={() => this.props.navigateTo('UsernameScreen', { screen: 'UsernameScreen' })}
         disabled={this.props.client.id != this.props.userId}
         >
         <RN.Text style={styles.usernameText} numberOfLines={1}>
@@ -343,7 +343,7 @@ class ProfileHeader extends React.PureComponent {
           {this._renderUsername()}
         </RN.View>
         {this._renderButtons()}
-        <TabBarContainer userId={this.props.userId} />
+        <TabBarContainer userId={this.props.userId} tabs={'ProfileTabs'} />
       </RN.Animated.View>
     )
   }

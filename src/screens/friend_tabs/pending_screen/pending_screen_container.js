@@ -7,11 +7,13 @@ import { navigateTo } from '../../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, friendships, blocks }, ownProps) => ({
-  client:      client,
-  usersCache:  usersCache,
-  friendships: friendships,
-  blocks:      blocks,
+const mapStateToProps = ({ client, usersCache, contacts, contactsCache, friendships, blocks }, ownProps) => ({
+  client:        client,
+  usersCache:    usersCache,
+  contacts:      contacts,
+  contactsCache: contactsCache,
+  friendships:   friendships,
+  blocks:        blocks,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
