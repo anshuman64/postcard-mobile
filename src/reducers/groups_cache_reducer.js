@@ -10,11 +10,13 @@ import { MESSAGE_ACTION_TYPES } from '../actions/message_actions';
 /*
 Data is in the form {
   -groupId1: {
-    "id":         7,
-    "owner_id":   4,
-    "name":       "Most Awesome Group Ever!",
-    "created_at": "2018-01-18T23:48:06.000Z",
-    "updated_at": "2018-01-18T23:48:06.000Z",
+    "id":                    7,
+    "owner_id":              4,
+    "name":                  "Most Awesome Group Ever!",
+    "created_at":            "2018-01-18T23:48:06.000Z",
+    "updated_at":            "2018-01-18T23:48:06.000Z",
+    "users":                 [{userobj1}, {userobj2}],
+    "peek_message":          {messageObj}
   },
   groupId1: {...
 */
@@ -34,7 +36,7 @@ const GroupsCacheReducer = (state = DEFAULT_STATE, action) => {
     case GROUP_ACTION_TYPES.RECEIVE_GROUP:
     case GROUP_ACTION_TYPES.EDIT_GROUP:
       group = action.data.group;
-      newState[-1 * group.id] = group;
+      newState[-1 * group.id] = _.merge(group, newState[-1 * group.id]);
 
       return newState;
 

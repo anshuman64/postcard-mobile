@@ -27,7 +27,7 @@ export const defaultErrorAlert = (error) => {
   } else if (error.description === 'Circle name has already been taken') {
     alertString = 'Circle name has already been taken.';
   } else if (error.description === 'Minimum 2 recipients required') {
-    alertString = 'Add at least two friends to the circle.';
+    alertString = 'Add at least two friends.';
   } else {
     alertString = 'Something went wrong. Please try again later.';
   }
