@@ -55,7 +55,9 @@ export const getConversations = (authToken, firebaseUserObj) => (dispatch) => {
       return dispatch(refreshAuthToken(firebaseUserObj, getConversations));
     }
 
-    throw setErrorDescription(error, 'GET conversations failed');
+    error = setErrorDescription(error, 'GET conversations failed');
+    amplitude.logEvent('Messages - Get Conversations', { is_successful: false, error_description: error.description, error_message: error.message });
+    throw error;
   }
 
   return APIUtility.get(authToken, '/friendships/' + FRIEND_TYPES.ACCEPTED)
@@ -91,7 +93,9 @@ export const getMessages = (authToken, firebaseUserObj, isNew, convoId, queryPar
         return dispatch(refreshAuthToken(firebaseUserObj, getMessages, isNew, convoId, queryParams));
       }
 
-      throw setErrorDescription(error, 'GET messages failed');
+      error = setErrorDescription(error, 'GET messages failed');
+      amplitude.logEvent('Messages - Get Messages', { is_successful: false, error_description: error.description, error_message: error.message });
+      throw error;
     });
 };
 
@@ -99,7 +103,7 @@ export const createMessage = (authToken, firebaseUserObj, clientId, convoId, mes
   let postMessage = (imageKey) => {
     return APIUtility.post(authToken, route, { body: messageBody, image_url: imageKey, recipient_id: idToSend, post_id: postId })
       .then((newMessage) => {
-        amplitude.logEvent('Engagement - Create Message', { is_successful: true, body: messageBody, image: imageKey ? true : false, is_post: postId ? true : false, isGroup: isGroup });
+        amplitude.logEvent('Messages - Create Message', { is_successful: true, body: messageBody, image: imageKey ? true : false, is_post: postId ? true : false, isGroup: isGroup });
 
         // If message is a post, will be refreshed automatically
         if (!postId) {
@@ -122,7 +126,7 @@ export const createMessage = (authToken, firebaseUserObj, clientId, convoId, mes
 
   let postMessageError = (error) => {
     error = setErrorDescription(error, 'POST message failed');
-    amplitude.logEvent('Engagement - Create Message', { is_successful: false, body: messageBody, image: messageImagePath ? true : false, error_description: error.description, error_message: error.message });
+    amplitude.logEvent('Messages - Create Message', { is_successful: false, body: messageBody, image: messageImagePath ? true : false, error_description: error.description, error_message: error.message });
     throw error;
   }
 
