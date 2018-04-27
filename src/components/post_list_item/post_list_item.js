@@ -338,8 +338,8 @@ class PostListItem extends React.PureComponent {
       if (numRecipients === 0) {
         return null;
       } else if (numRecipients === 1) {
-        convoId = this.props.item.recipient_ids[0];
-        displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+        entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
+        displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
         callback = this._onNavigateToMessages;
       } else {
         displayString = numRecipients + ' recipients';
