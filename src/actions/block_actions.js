@@ -51,7 +51,9 @@ export const getBlockedUsers = (authToken, firebaseUserObj) => (dispatch) => {
         return dispatch(refreshAuthToken(firebaseUserObj, getBlockedUsers));
       }
 
-      throw setErrorDescription(error, 'GET blocked users failed');
+      error = setErrorDescription(error, 'GET blocked users failed');
+      amplitude.logEvent('Safety - Get Blocks', { is_successful: false, error_description: error.description, error_message: error.message });
+      throw error;
     });
 };
 

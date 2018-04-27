@@ -53,7 +53,9 @@ export const getCircles = (authToken, firebaseUserObj) => (dispatch) => {
         return dispatch(refreshAuthToken(firebaseUserObj, getCircles));
       }
 
-      throw setErrorDescription(error, 'GET circles failed');
+      error = setErrorDescription(error, 'GET circles failed');
+      amplitude.logEvent('Circles - Get Circles', { is_successful: false, error_description: error.description, error_message: error.message });
+      throw error;
     });
 };
 
@@ -72,7 +74,7 @@ export const createCircle = (authToken, firebaseUserObj, name, recipientIds) => 
 
   return APIUtility.post(authToken, '/circles', { name: name, user_ids: user_ids, group_ids: group_ids })
     .then((newCircle) => {
-      amplitude.logEvent('Groups - Create Circle', { is_successful: true, name: name, num_users: recipientIds.length });
+      amplitude.logEvent('Circles - Create Circle', { is_successful: true, name: name, num_users: recipientIds.length });
       dispatch(receiveCircle({ circle: newCircle }));
     })
     .catch((error) => {
@@ -88,7 +90,7 @@ export const createCircle = (authToken, firebaseUserObj, name, recipientIds) => 
         error = setErrorDescription(error, 'POST circles failed');
       }
 
-      amplitude.logEvent('Groups - Create Circle', { is_successful: false, name: name, num_users: recipientIds.length, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Circles - Create Circle', { is_successful: false, name: name, num_users: recipientIds.length, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
@@ -97,7 +99,7 @@ export const createCircle = (authToken, firebaseUserObj, name, recipientIds) => 
 export const deleteCircle = (authToken, firebaseUserObj, circleId) => (dispatch) => {
   return APIUtility.del(authToken, '/circles/' + circleId)
     .then((deletedCircle) => {
-      amplitude.logEvent('Groups - Delete Circle', { is_successful: true });
+      amplitude.logEvent('Circles - Delete Circle', { is_successful: true });
       dispatch(removeCircle({ circle: deletedCircle }));
     })
     .catch((error) => {
@@ -106,7 +108,7 @@ export const deleteCircle = (authToken, firebaseUserObj, circleId) => (dispatch)
       }
 
       error = setErrorDescription(error, 'DEL circle failed');
-      amplitude.logEvent('Groups - Delete Circle', { is_successful: false, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Circles - Delete Circle', { is_successful: false, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
