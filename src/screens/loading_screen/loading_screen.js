@@ -122,19 +122,19 @@ class LoadingScreen extends React.PureComponent {
 
         this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, contactPhoneNumbers)
           .catch((error) => {
-            console.error(error); // Debug Test
+            // console.error(error); // Debug Test
           });
         this.props.getContactsWithAccounts(this.props.client.authToken, this.props.client.firebaseUserObj, contactPhoneNumbers)
           .catch((error) => {
-            console.error(error); // Debug Test
+            // console.error(error); // Debug Test
           });
         this.props.getOtherContacts(this.props.client.authToken, this.props.client.firebaseUserObj, contactPhoneNumbers)
           .catch((error) => {
-            console.error(error); // Debug Test
+            // console.error(error); // Debug Test
           });
       })
       .catch((error) => {
-        console.error(error);
+        // console.error(error);
       })
   }
 

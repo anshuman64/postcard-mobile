@@ -124,7 +124,9 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
         return dispatch(refreshAuthToken(firebaseUserObj, getPosts, isRefresh, userId, postType, isClient, queryParams));
       }
 
-      throw setErrorDescription(error, 'GET posts failed');
+      error = setErrorDescription(error, 'GET posts failed');
+      amplitude.logEvent('Posts - Get Posts', { is_successful: false, error_description: error.description, error_message: error.message });
+      throw error;
     });
 };
 
@@ -144,7 +146,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
   let postPost = (imageKey) => {
     return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipient_ids, contact_phone_numbers: contactPhoneNumbers, group_ids: group_ids })
       .then((newPost) => {
-        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipientIds.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
+        amplitude.logEvent('Posts - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipientIds.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
         dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
         dispatch(getImages(newPost));
       })
@@ -159,7 +161,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
 
   let postPostError = (error) => {
     error = setErrorDescription(error, 'POST post failed');
-    amplitude.logEvent('Engagement - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
+    amplitude.logEvent('Posts - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
     throw error;
   }
 
@@ -180,7 +182,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
 export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {
-      amplitude.logEvent('Engagement - Delete Post', { is_successful: true, body: delPost.body });
+      amplitude.logEvent('Posts - Delete Post', { is_successful: true, body: delPost.body });
       if (delPost.image_url) {
         dispatch(deleteFile(authToken, firebaseUserObj, delPost.image_url));
       }
@@ -193,7 +195,7 @@ export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => 
       }
 
       error = setErrorDescription(error, 'DEL post failed');
-      amplitude.logEvent('Engagement - Delete Post', { is_successful: false, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Posts - Delete Post', { is_successful: false, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
