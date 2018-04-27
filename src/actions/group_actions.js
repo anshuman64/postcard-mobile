@@ -57,16 +57,16 @@ export const removeGroup = (data) => {
 
 // Creates group with list of user_ids
 // TODO: revise amplitude names
-export const createGroup = (authToken, firebaseUserObj, userIds, contactIds) => (dispatch) => {
-  return APIUtility.post(authToken, '/groups', { user_ids: userIds })
+export const createGroup = (authToken, firebaseUserObj, userIds, contactPhoneNumbers) => (dispatch) => {
+  return APIUtility.post(authToken, '/groups', { user_ids: userIds, contact_phone_numbers: contactPhoneNumbers })
     .then((newGroup) => {
-      amplitude.logEvent('Groups - Create Group', { is_successful: true, num_users: userIds.length, num_contacts: contactIds.length });
+      amplitude.logEvent('Groups - Create Group', { is_successful: true, num_users: userIds.length, num_contacts: contactPhoneNumbers.length });
       dispatch(receiveGroup({ group: newGroup }));
       dispatch(getUsersFromGroups(newGroup));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createGroup, userIds, contactIds));
+        return dispatch(refreshAuthToken(firebaseUserObj, createGroup, userIds, contactPhoneNumbers));
       }
 
       if (error.message === 'Minimum 2 user_ids required') {
@@ -75,7 +75,7 @@ export const createGroup = (authToken, firebaseUserObj, userIds, contactIds) => 
         error = setErrorDescription(error, 'POST groups failed');
       }
 
-      amplitude.logEvent('Groups - Create Group', { is_successful: false, num_users: userIds.length, num_contacts: contactIds.length, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Groups - Create Group', { is_successful: false, num_users: userIds.length, num_contacts: contactPhoneNumbers.length, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
@@ -99,15 +99,15 @@ export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dis
 }
 
 // POST request to API to add group member from AddGroupMembersScreen
-export const addGroupMembers = (authToken, firebaseUserObj, groupId, userIds, contactIds) => (dispatch) => {
-  return APIUtility.post(authToken, '/groups/add', { group_id: -1 * groupId, user_ids: userIds, contact_ids: contactIds })
+export const addGroupMembers = (authToken, firebaseUserObj, groupId, userIds, contactPhoneNumbers) => (dispatch) => {
+  return APIUtility.post(authToken, '/groups/add', { group_id: -1 * groupId, user_ids: userIds, contact_phone_numbers: contactPhoneNumbers })
   .then((editedGroup) => {
     amplitude.logEvent('Groups - Add Members', { is_successful: true });
     dispatch(editGroup({ group: editedGroup }));
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshAuthToken(firebaseUserObj, addGroupMembers, groupId, userIds, contactIds));
+      return dispatch(refreshAuthToken(firebaseUserObj, addGroupMembers, groupId, userIds, contactPhoneNumbers));
     }
 
     error = setErrorDescription(error, 'POST group to add members failed');
