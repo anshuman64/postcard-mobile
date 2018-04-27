@@ -1,6 +1,6 @@
 // Library Imports
-import _                   from 'lodash';
-import { PhoneNumberUtil } from 'google-libphonenumber';
+import _                                      from 'lodash';
+import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 
 // Local Imports
 import { isStringEmpty }   from './function_utility';
@@ -136,7 +136,7 @@ export const getContactPreview = (entityId, usersCache, contactsCache) => {
     let number;
 
     try {
-      number = phoneUtil.format(phoneUtil.parse(phoneNumber));
+      number = phoneUtil.format(phoneUtil.parse(phoneNumber), PhoneNumberFormat.INTERNATIONAL);
     } catch (err) {
       number = phoneNumber;
     }

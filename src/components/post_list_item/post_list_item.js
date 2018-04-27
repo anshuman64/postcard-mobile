@@ -46,11 +46,12 @@ class PostListItem extends React.PureComponent {
       isLoading:         false,
     }
 
-    this.isLikeDisabled   = false;
-    this.isFlagDisabled   = false;
-    this.isDeleteDisabled = false;
-    this.isFollowDisabled = false;
-    this.recipients       = null;
+    this.isLikeDisabled    = false;
+    this.isFlagDisabled    = false;
+    this.isDeleteDisabled  = false;
+    this.isFollowDisabled  = false;
+    this.isRespondDisabled = false;
+    this.recipients        = null;
   }
 
   //--------------------------------------------------------------------//
@@ -224,13 +225,14 @@ class PostListItem extends React.PureComponent {
   // Navigation Callback Methods
   //--------------------------------------------------------------------//
 
-  _onNavigateToMessages = () => {
-    if (this.props.width) { // width is only passed if on MessagesScreen
+  _onRespondToPost = () => {
+    if (this.props.width || this.isRespondDisabled) { // width is only passed if on MessagesScreen
       return;
     }
 
     let convoId;
     let recipients;
+    this.isRespondDisabled = true;
 
     // For Discover and Liked tabs, go to author's messages if friends with client
     if (this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
@@ -240,6 +242,7 @@ class PostListItem extends React.PureComponent {
       if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
         convoId = this.props.item.author_id;
       } else {
+        this.isRespondDisabled = false;
         return;
       }
     // For HomeScreen, either go to author if post was sent directly, or group that that post was sent to
@@ -248,6 +251,7 @@ class PostListItem extends React.PureComponent {
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids_with_client[0] > 0 ? this.props.item.author_id : this.props.item.recipient_ids_with_client[0];
       } else {
+        this.isRespondDisabled = false;
         return;
       }
     // For AuthoredScreen, go to recipient which is either a user or group
@@ -257,24 +261,33 @@ class PostListItem extends React.PureComponent {
         convoId = this.props.item.recipient_ids[0];
         convoId = this.props.usersCache[convoId].firebase_uid ? convoId : null; // handle the case if only a contact received the post
       } else {
+        this.isRespondDisabled = false;
         return;
       }
     }
 
     if (convoId) {
-      this.setState({ isLoading: true },() => {
-        this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
-          .then(() => {
-            this.props.navigateTo('MessagesScreen', { convoId: convoId });
-          })
-          .catch((error) => {
-            defaultErrorAlert(error);
-          })
-          .finally(() => {
-            this.setState({ isLoading: false });
-          });
-      });
+      RN.Alert.alert('', 'Respond to this post as a message?',
+        [{text: 'Cancel', onPress: () => this.isRespondDisabled = false, style: 'cancel'},
+         {text: 'Respond', onPress: () => this._onConfirmRespondToPost(convoId)}],
+         {onDismiss: () => this.isRespondDisabled = false}
+      )
     }
+  }
+
+  _onConfirmRespondToPost(convoId) {
+    this.setState({ isLoading: true },() => {
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
+        .then(() => {
+          this.props.navigateTo('MessagesScreen', { convoId: convoId });
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
+    });
   }
 
   //--------------------------------------------------------------------//
@@ -317,7 +330,7 @@ class PostListItem extends React.PureComponent {
       } else if (numRecipients === 1) {
         convoId = this.props.item.recipient_ids_with_client[0];
         displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onNavigateToMessages;
+        callback = this._onRespondToPost;
       } else {
         displayString = numRecipients + ' groups';
         callback = setStateCallback(this, { isModalVisible: true });
@@ -340,7 +353,7 @@ class PostListItem extends React.PureComponent {
       } else if (numRecipients === 1) {
         entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
         displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onNavigateToMessages;
+        callback = this._onRespondToPost;
       } else {
         displayString = numRecipients + ' recipients';
         callback = setStateCallback(this, { isModalVisible: true });
@@ -433,7 +446,7 @@ class PostListItem extends React.PureComponent {
 
     if (body) {
       return (
-        <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
+        <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
           <RN.View style={styles.bodyView}>
             <RN.View style={styles.bodyTextView}>
               <Hyperlink linkDefault={true} linkStyle={UTILITY_STYLES.textHighlighted}>
@@ -455,7 +468,7 @@ class PostListItem extends React.PureComponent {
     if (imagePath && this.props.imagesCache[imagePath]) {
       return (
         <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
-          <RN.TouchableWithoutFeedback onPress={this._onNavigateToMessages} onLongPress={this._onPressLike}>
+          <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
             <RN.Image
               source={{uri: this.props.imagesCache[imagePath].url}}
               style={[styles.bodyImage, width && {height: width, width: width}]}

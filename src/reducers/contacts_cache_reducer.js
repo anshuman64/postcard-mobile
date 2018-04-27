@@ -12,7 +12,6 @@ Data is in the form {
     "phone_number": +14082551245,
     "given_name":   'Leslie',
     "family_name":  'Knope',
-    "thumbnail":    "content://com.android.contacts/display_photo/3",
     "type":         "cell",
     "is_invited":   false
   },
