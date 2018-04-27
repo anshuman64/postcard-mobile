@@ -61,7 +61,7 @@ class LoadingScreen extends React.PureComponent {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
-              this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.usersCache[this.props.client.id].phone_number); // run this here because it takes forever
+              this._loadContacts();
               this._loadData()
                 .then(() => {
                   // console.log('Data loaded'); // Debug Test
@@ -115,6 +115,29 @@ class LoadingScreen extends React.PureComponent {
     }
   }
 
+  _loadContacts = () => {
+    this.props.getContacts(this.props.usersCache[this.props.client.id].phone_number)
+      .then(() => {
+        let contactPhoneNumbers = Object.keys(this.props.contactsCache);
+
+        this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, contactPhoneNumbers)
+          .catch((error) => {
+            console.error(error); // Debug Test
+          });
+        this.props.getContactsWithAccounts(this.props.client.authToken, this.props.client.firebaseUserObj, contactPhoneNumbers)
+          .catch((error) => {
+            console.error(error); // Debug Test
+          });
+        this.props.getOtherContacts(this.props.client.authToken, this.props.client.firebaseUserObj, contactPhoneNumbers)
+          .catch((error) => {
+            console.error(error); // Debug Test
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+  }
+
   _navigateFromLoading = () => {
     // Make sure you are logged in
     if (this.isLoggedIn) {
@@ -135,7 +158,7 @@ class LoadingScreen extends React.PureComponent {
         this.props.navigateTo('HomeScreen'); // Debug Test: should be HomeScreen
       // If opening the app normally and haven't created username, go to create username
       } else {
-        this.props.navigateTo('UsernameScreenLogin');
+        this.props.navigateTo('UsernameScreenLogin', { screen: 'UsernameScreenLogin' });
       }
     // If haven't logged in and somehow on LoadingScreen, go to WelcomeScreen
   } else if (!this.navigateToNotification) {
@@ -173,6 +196,7 @@ class LoadingScreen extends React.PureComponent {
 
     switch (data.type) {
       case 'receive-like':
+      case 'receive-follow':
         this.navigateToNotification = 'AuthoredScreen';
         break;
       case 'receive-friendship':

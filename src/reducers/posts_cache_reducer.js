@@ -11,15 +11,18 @@ import { FLAG_ACTION_TYPES }    from '../actions/flag_actions';
 /*
 Data is in the form {
   postId1: {
-    "id":                   30,
-    "body":                 "hello world!",
-    "author_id":            1,
-    "image_url":            "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
-    "created_at":           "2018-01-18T23:48:06.000Z",
-    "updated_at":           "2018-01-18T23:48:06.000Z",
-    "num_likes":            0,
-    "is_liked_by_client":   false,
-    "is_flagged_by_client": false,
+    "id":                        30,
+    "body":                      "hello world!",
+    "author_id":                 1,
+    "image_url":                 "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
+    "created_at":                "2018-01-18T23:48:06.000Z",
+    "updated_at":                "2018-01-18T23:48:06.000Z",
+    "num_likes":                 0,
+    "is_liked_by_client":        false,
+    "is_flagged_by_client":      false,
+    "recipient_ids":             [1,3,-5,-6,7],
+    "recipient_ids_with_client": [1,-5],
+    "contact_phone_numbers":     ["+14082551245", "+14083060059"]
   },
   postId2: {...
 */
@@ -43,6 +46,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
         newState[post.id]                           = post;
         newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
         newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
+        newState[post.id].contact_phone_numbers     = [];
       });
 
       return newState;
@@ -64,6 +68,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[post.id]                           = post;
       newState[post.id].recipient_ids             = action.data.recipientIds;
       newState[post.id].recipient_ids_with_client = [];
+      newState[post.id].contact_phone_numbers     = action.data.contactPhoneNumbers;
 
       return newState;
 
@@ -113,6 +118,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[post.id]                           = post;
       newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
       newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
+      newState[post.id].contact_phone_numbers     = [];
 
       return newState;
 

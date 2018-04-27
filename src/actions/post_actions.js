@@ -53,6 +53,7 @@ export const refreshPosts = (data) => {
 // post (post object): post object of created post
 // clientId (int): client's id
 // recipientIds (array): array of user and group ids
+// contactPhoneNumbers (array): array of phone numbers of contacts the post was sent to
 export const receivePost = (data) => {
   return { type: POST_ACTION_TYPES.RECEIVE_POST, data: data };
 };
@@ -128,7 +129,7 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
 };
 
 // Create post to API from Header of NewPostScreen
-export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
   let recipient_ids = [];
   let group_ids = [];
 
@@ -141,15 +142,15 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
   });
 
   let postPost = (imageKey) => {
-    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipient_ids, group_ids: group_ids })
+    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipient_ids, contact_phone_numbers: contactPhoneNumbers, group_ids: group_ids })
       .then((newPost) => {
-        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipientIds.length, placeholder_text: placeholderText });
-        dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds }));
+        amplitude.logEvent('Engagement - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipientIds.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
+        dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
         dispatch(getImages(newPost));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, postBody, postImagePath, postImageType, placeholderText));
+          return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, postImagePath, postImageType, placeholderText));
         }
 
         postPostError(error);

@@ -4,12 +4,12 @@ import RN     from 'react-native';
 import _      from 'lodash';
 
 // Local Imports
-import LoadingModal          from '../loading_modal/loading_modal';
-import UserInfoViewContainer from '../user_info_view/user_info_view_container';
-import { styles }            from './list_modal_styles';
-import * as StyleUtility     from '../../utilities/style_utility';
-import { COUNTRY_CODES }     from '../../utilities/country_utility';
-import { defaultErrorAlert } from '../../utilities/error_utility';
+import LoadingModal             from '../loading_modal/loading_modal';
+import EntityInfoViewContainer    from '../entity_info_view/entity_info_view_container';
+import { styles }               from './list_modal_styles';
+import * as StyleUtility        from '../../utilities/style_utility';
+import { COUNTRY_CODES }        from '../../utilities/country_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -97,22 +97,25 @@ class ListModal extends React.PureComponent {
     )
   }
 
-  _renderScrollView() {
-    if(this.state.isModalMounted) {
-      return (
-        <RN.ScrollView
-          ref={(ref) => this.scrollView = ref}
-          style={[styles.listView, this.props.recipientIds ? { height: this.props.recipientIds.length * 60 } : null]}
-          onContentSizeChange={this.setCountry ? this._onListViewContentSizeChange : null}
-          >
-          {this._renderCountryListItem()}
-          {this._renderRecipientListItem()}
-        </RN.ScrollView>
-      )
+  _renderCountryList() {
+    if (this.props.setCountry) {
+      if(this.state.isModalMounted) {
+        return (
+          <RN.ScrollView
+            ref={(ref) => this.scrollView = ref}
+            style={styles.listView}
+            onContentSizeChange={this._onListViewContentSizeChange}
+            >
+            {this._renderCountryListItem()}
+          </RN.ScrollView>
+        )
+      } else {
+        return (
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400}  />
+        )
+      }
     } else {
-      return (
-        <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400}  />
-      )
+      return null;
     }
   }
 
@@ -156,27 +159,41 @@ class ListModal extends React.PureComponent {
     }
   }
 
-  _renderRecipientListItem() {
+  _renderRecipientList() {
     if (!this.props.setCountry) {
-      let rows = [];
-
-      i = 0;
-      _.forEach(this.props.recipientIds, (recipientId) => {
-        rows.push(
-          <RN.TouchableOpacity key={i} onPress={() => this._onNavigateToMessages(recipientId)}>
-            <RN.View style={[styles.rowContainer, {height: 60}]}>
-                <UserInfoViewContainer convoId={recipientId} marginLeft={10} disabled={true} />
-            </RN.View>
-          </RN.TouchableOpacity>
-        );
-
-        i++;
-      })
-
-      return rows;
+      return (
+        <RN.SectionList
+          sections={[
+            {data: this.props.recipientIds, renderItem: this._renderItem.bind(this)},
+            {data: this.props.contactPhoneNumbers, renderItem: this._renderItem.bind(this)},
+          ]}
+          style={[styles.listView, { height: (this.props.recipientIds.length + this.props.contactPhoneNumbers.length) * 60 }]}
+          keyExtractor={(item, index) => String(index)}
+          renderSectionHeader={this._renderSectionHeader.bind(this)}
+          initialListSize={20}
+          pageSize={60}
+        />
+      )
     } else {
       return null;
     }
+  }
+
+  _renderSectionHeader = ({section}) => {
+    return null;
+  }
+
+  _renderItem({item}) {
+    let user = this.props.usersCache[item];
+    let isDisabled = !(user && user.firebase_uid);
+
+    return (
+      <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)} disabled={isDisabled}>
+        <RN.View style={[styles.rowContainer, {height: 60}]}>
+          <EntityInfoViewContainer entityId={item} marginLeft={10} disableUsername={true} />
+        </RN.View>
+      </RN.TouchableOpacity>
+    )
   }
 
   _renderCancelButton() {
@@ -214,7 +231,8 @@ class ListModal extends React.PureComponent {
         <RN.View style={StyleUtility.UTILITY_STYLES.containerCenter}>
           <RN.View style={styles.container}>
             {this._renderTitle()}
-            {this._renderScrollView()}
+            {this._renderCountryList()}
+            {this._renderRecipientList()}
             {this._renderCancelButton()}
           </RN.View>
           {this._renderLoadingModal()}
