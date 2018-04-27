@@ -52,7 +52,9 @@ export const getContacts = (clientPhoneNumber) => (dispatch) => {
       dispatch(receiveContacts({ contacts: contacts }));
     })
     .catch((error) => {
-      console.error(error); // Debug Test
+      error = setErrorDescription(error, 'GET contacts failed');
+      amplitude.logEvent('Contacts - Get Contacts', { is_successful: false, error_description: error.description, error_message: error.message });
+      throw error;
     });
 }
 
@@ -66,7 +68,9 @@ export const getContactsWithAccounts = (authToken, firebaseUserObj, contactPhone
         return dispatch(refreshAuthToken(firebaseUserObj, getContactsWithAccounts, contactPhoneNumbers));
       }
 
-      throw setErrorDescription(error, 'POST contacts with accounts failed');
+      error = setErrorDescription(error, 'POST contacts with accounts failed');
+      amplitude.logEvent('Contacts - Get Contacts with Accounts', { is_successful: false, error_description: error.description, error_message: error.message });
+      throw error;
     });
 }
 
@@ -80,7 +84,9 @@ export const getOtherContacts = (authToken, firebaseUserObj, contactPhoneNumbers
           return dispatch(refreshAuthToken(firebaseUserObj, getOtherContacts, contactPhoneNumbers));
         }
 
-        throw setErrorDescription(error, 'POST other contacts failed');
+        error = setErrorDescription(error, 'POST other contacts failed');
+        amplitude.logEvent('Contacts - Get Other Contacts', { is_successful: false, error_description: error.description, error_message: error.message });
+        throw error;
       });
 };
 
@@ -95,6 +101,8 @@ export const inviteContact = (authToken, firebaseUserObj, contactPhoneNumber) =>
           return dispatch(refreshAuthToken(firebaseUserObj, inviteContact, contactPhoneNumber));
         }
 
-        throw setErrorDescription(error, 'POST invite contact failed');
+        error = setErrorDescription(error, 'POST invite contact failed');
+        amplitude.logEvent('Contacts - Invite Contact', { is_successful: false, error_description: error.description, error_message: error.message });
+        throw error;
       });
 };
