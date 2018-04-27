@@ -85,7 +85,9 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
         return dispatch(refreshAuthToken(firebaseUserObj, getFriendships, friendType));
       }
 
-      throw setErrorDescription(error, 'GET friendships failed');
+      error = setErrorDescription(error, 'GET friendships failed');
+      amplitude.logEvent('Friendship - Get Friendships', { is_successful: false, error_description: error.description, error_message: error.message });
+      throw error;
     });
 };
 
@@ -101,7 +103,9 @@ export const getFriendsFromContacts = (authToken, firebaseUserObj, contactPhoneN
           return dispatch(refreshAuthToken(firebaseUserObj, getFriendsFromContacts, contactPhoneNumbers));
         }
 
-        throw setErrorDescription(error, 'POST friends from contacts failed');
+        error = setErrorDescription(error, 'POST friends from contacts failed');
+        amplitude.logEvent('Friendship - Get Friends from Contacts', { is_successful: false, error_description: error.description, error_message: error.message });
+        throw error;
       });
 };
 
