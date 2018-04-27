@@ -91,3 +91,14 @@ react-native run-android --variant=release
 5. Increment Version and Build in XCode
 6. Set build target to 'Generic iOS Device'
 7. Run 'Product > Archive'
+
+
+## Other Stuff
+### Definitions
+1. convo: a user or group (referring to conversations on the FriendScreen)
+2. entity: a user, group, or contact
+3. entityId: the id of a user (positive int), group (negative int), or contact phone number (string)
+3. usersCache indices run from [1,infinity) and groupsCache indices run from (-infinity, -1]. If the object is a group, its index should be negative.
+
+### Do's and Dont's
+1. Read comments titled "WARNING". They are there for a reason.

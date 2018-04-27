@@ -4,8 +4,7 @@ import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import ContactInfoViewContainer from '../contact_info_view/contact_info_view_container';
-import UserInfoViewContainer    from '../user_info_view/user_info_view_container';
+import EntityInfoViewContainer    from '../entity_info_view/entity_info_view_container';
 import { FRIEND_TYPES }         from '../../actions/friendship_actions';
 import { styles }               from './pending_list_item_styles';
 import { UTILITY_STYLES }       from '../../utilities/style_utility';
@@ -88,7 +87,7 @@ class PendingListItem extends React.PureComponent {
     }
 
     this.isButtonDisabled = true;
-    
+
     let alertString;
     let cancelString;
     let friendshipStatus = this.props.usersCache[this.props.userId].friendship_status_with_client;;
@@ -214,7 +213,6 @@ class PendingListItem extends React.PureComponent {
     let user = this.props.usersCache[this.props.userId];
     let friendshipStatus = user ? user.friendship_status_with_client : null;
     let isBlocked = user ? user.is_user_blocked_by_client : false;
-    let messagePreview = null;
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
@@ -226,8 +224,6 @@ class PendingListItem extends React.PureComponent {
         deleteString = 'Delete';
       } else if (friendshipStatus === FRIEND_TYPES.CONTACTS) {
         acceptString = 'Add';
-        contact = this.props.contactsCache[user.phone_number];
-        messagePreview = contact.given_name + ' ' + contact.family_name;
       }
     } else {
       if (isBlocked) {
@@ -243,9 +239,7 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <Animatable.View ref={(ref) => this.container = ref} style={UTILITY_STYLES.rowView}>
-        {!friendshipStatus && !isBlocked ?
-        <ContactInfoViewContainer phoneNumber={this.props.phoneNumber} marginLeft={15} messagePreview={messagePreview} /> :
-        <UserInfoViewContainer convoId={this.props.userId} marginLeft={15} messagePreview={messagePreview} />}
+        <EntityInfoViewContainer entityId={this.props.userId || this.props.phoneNumber} marginLeft={15} />
         <RN.View style={styles.checkboxView}>
           <RN.View style={styles.buttonView}>
             {acceptString ? this._renderAcceptButton(friendshipStatus, acceptString) : null}
