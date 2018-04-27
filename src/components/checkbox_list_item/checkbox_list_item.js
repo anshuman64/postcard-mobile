@@ -7,8 +7,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import LoadingModal             from '../loading_modal/loading_modal.js';
-import ContactInfoViewContainer from '../contact_info_view/contact_info_view_container';
-import UserInfoViewContainer    from '../user_info_view/user_info_view_container';
+import EntityInfoViewContainer    from '../entity_info_view/entity_info_view_container';
 import { styles }               from './checkbox_list_item_styles';
 import { UTILITY_STYLES }       from '../../utilities/style_utility';
 import { defaultErrorAlert }    from '../../utilities/error_utility';
@@ -183,13 +182,9 @@ class CheckboxListItem extends React.PureComponent {
   }
 
   _renderItemView() {
-    if (this.props.convoId) {
+    if (this.props.convoId || this.props.phoneNumber) {
       return (
-        <UserInfoViewContainer convoId={this.props.convoId} marginLeft={15} disableAvatar={true} disableUsername={true} />
-      )
-    } else if (this.props.phoneNumber) {
-      return (
-        <ContactInfoViewContainer phoneNumber={this.props.phoneNumber} marginLeft={15} />
+        <EntityInfoViewContainer entityId={this.props.convoId || this.props.phoneNumber} marginLeft={15} disableAvatar={true} disableUsername={true} />
       )
     } else if (this.props.circle) {
       return (

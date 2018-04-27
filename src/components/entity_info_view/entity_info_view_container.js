@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import UserInfoView          from './user_info_view';
+import EntityInfoView          from './entity_info_view';
 import { navigateToProfile } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
@@ -20,4 +20,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserInfoView);
+)(EntityInfoView);
