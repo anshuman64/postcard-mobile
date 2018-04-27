@@ -4,17 +4,18 @@ import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import UserInfoViewContainer from '../user_info_view/user_info_view_container';
-import { FRIEND_TYPES }      from '../../actions/friendship_actions';
-import { styles }            from './pending_list_item_styles';
-import { UTILITY_STYLES }    from '../../utilities/style_utility';
-import { defaultErrorAlert } from '../../utilities/error_utility';
+import EntityInfoViewContainer    from '../entity_info_view/entity_info_view_container';
+import { FRIEND_TYPES }         from '../../actions/friendship_actions';
+import { styles }               from './pending_list_item_styles';
+import { UTILITY_STYLES }       from '../../utilities/style_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
 /*
 Required Passed Props:
   userId (int): id of user
+  phoneNumber (string): phoneNumber of contact
 Optional Passed Props:
   -
 */
@@ -47,8 +48,11 @@ class PendingListItem extends React.PureComponent {
 
     this.props.createFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.props.sendFriendshipRequest({ friendship: friendship });
-        this.isButtonDisabled = false;
+        this.container.fadeOut(500)
+          .finally(() => {
+            this.props.sendFriendshipRequest({ friendship: friendship });
+            this.isButtonDisabled = false;
+          });
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -65,8 +69,11 @@ class PendingListItem extends React.PureComponent {
 
     this.props.acceptFriendRequest(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.props.acceptFriendshipRequest({ friendship: friendship });
-        this.isButtonDisabled = false;
+        this.container.fadeOut(500)
+          .finally(() => {
+            this.props.acceptFriendshipRequest({ friendship: friendship });
+            this.isButtonDisabled = false;
+          });
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -106,8 +113,11 @@ class PendingListItem extends React.PureComponent {
   _onConfirmDeleteFriendship = () => {
     this.props.deleteFriendship(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((friendship) => {
-        this.props.removeFriendship({ friendship: friendship, client: this.props.client });
-        this.isButtonDisabled = false;
+        this.container.fadeOut(500)
+          .finally(() => {
+            this.props.removeFriendship({ friendship: friendship, client: this.props.client });
+            this.isButtonDisabled = false;
+          });
       })
       .catch((error) => {
         this.isButtonDisabled = false;
@@ -124,12 +134,31 @@ class PendingListItem extends React.PureComponent {
 
     this.props.deleteBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then((block) => {
-        this.props.removeBlock({ block: block });
-        this.isButtonDisabled = false;
+        this.container.fadeOut(500)
+          .finally(() => {
+            this.props.removeBlock({ block: block });
+            this.isButtonDisabled = false;
+          });
       })
       .catch((error) => {
         this.isButtonDisabled = false;
         defaultErrorAlert(error);
+      });
+  }
+
+  _onPressInviteContact = () => {
+    if (this.isButtonDisabled) {
+      return;
+    }
+
+    this.isButtonDisabled = true;
+
+    this.props.inviteContact(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.phoneNumber)
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.isButtonDisabled = false;
       });
   }
 
@@ -138,8 +167,18 @@ class PendingListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderAcceptButton(friendshipStatus, acceptString) {
+    let callback;
+
+    if (friendshipStatus === 'received') {
+      callback = this._onPressAcceptFriendship;
+    } else if (friendshipStatus === 'contacts') {
+      callback = this._onPressAddFriend;
+    } else {
+      callback = this._onPressInviteContact;
+    }
+
     return (
-      <RN.TouchableOpacity style={styles.confirmButton} onPress={friendshipStatus === 'received' ? this._onPressAcceptFriendship : this._onPressAddFriend}>
+      <RN.TouchableOpacity style={styles.confirmButton} onPress={callback}>
         <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
           {acceptString}
         </RN.Text>
@@ -148,8 +187,18 @@ class PendingListItem extends React.PureComponent {
   }
 
   _renderDeleteButton(isBlocked, deleteString) {
+    let callback;
+
+    if (deleteString === 'Unblock') {
+      callback = this._onPressUnblock;
+    } else if (deleteString === 'Invited') {
+      callback = null;
+    } else {
+      callback = this._onPressDeleteFriendship;
+    }
+
     return (
-      <RN.TouchableOpacity style={styles.deleteButton} onPress={isBlocked ? this._onPressUnblock : this._onPressDeleteFriendship}>
+      <RN.TouchableOpacity style={styles.deleteButton} onPress={callback} disabled={!callback}>
         <RN.Text style={UTILITY_STYLES.lightBlackText15}>
           {deleteString}
         </RN.Text>
@@ -157,7 +206,7 @@ class PendingListItem extends React.PureComponent {
     )
   }
 
-  _renderButtons() {
+  render() {
     let acceptString;
     let deleteString;
     let user = this.props.usersCache[this.props.userId];
@@ -172,29 +221,29 @@ class PendingListItem extends React.PureComponent {
       } else if (friendshipStatus === FRIEND_TYPES.RECEIVED) {
         acceptString = 'Confirm';
         deleteString = 'Delete';
-      } else {
+      } else if (friendshipStatus === FRIEND_TYPES.CONTACTS) {
         acceptString = 'Add';
+      }
+    } else {
+      if (isBlocked) {
+        deleteString = 'Unblock';
+      } else {
+        if (this.props.contactsCache[this.props.phoneNumber].is_invited) {
+          deleteString = 'Invited';
+        } else {
+          acceptString = 'Invite';
+        }
       }
     }
 
-    if (isBlocked) {
-      deleteString = 'Unblock';
-    }
-
-    return (
-      <RN.View style={styles.buttonView}>
-        {friendshipStatus === 'received' || friendshipStatus === 'contacts' ? this._renderAcceptButton(friendshipStatus, acceptString) : null}
-        {friendshipStatus != 'contacts' ? this._renderDeleteButton(isBlocked, deleteString) : null}
-      </RN.View>
-    )
-  }
-
-  render() {
     return (
       <Animatable.View ref={(ref) => this.container = ref} style={UTILITY_STYLES.rowView}>
-        <UserInfoViewContainer convoId={this.props.userId} marginLeft={15} />
+        <EntityInfoViewContainer entityId={this.props.userId || this.props.phoneNumber} marginLeft={15} />
         <RN.View style={styles.checkboxView}>
-          {this._renderButtons()}
+          <RN.View style={styles.buttonView}>
+            {acceptString ? this._renderAcceptButton(friendshipStatus, acceptString) : null}
+            {deleteString ? this._renderDeleteButton(isBlocked, deleteString) : null}
+          </RN.View>
         </RN.View>
       </Animatable.View>
     )
