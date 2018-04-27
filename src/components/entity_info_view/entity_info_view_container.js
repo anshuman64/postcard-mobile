@@ -2,14 +2,15 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import UserInfoView          from './user_info_view';
+import EntityInfoView          from './entity_info_view';
 import { navigateToProfile } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ usersCache, groupsCache }, ownProps) => ({
-  usersCache:  usersCache,
-  groupsCache: groupsCache,
+const mapStateToProps = ({ usersCache, groupsCache, contactsCache }, ownProps) => ({
+  usersCache:    usersCache,
+  groupsCache:   groupsCache,
+  contactsCache: contactsCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -19,4 +20,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserInfoView);
+)(EntityInfoView);

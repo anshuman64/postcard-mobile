@@ -1,12 +1,12 @@
 // Library Imports
-import AWS                 from 'aws-sdk/dist/aws-sdk-react-native';
-import RNFetchBlob         from 'react-native-fetch-blob';
-import Contacts            from 'react-native-contacts';
-import _                   from 'lodash';
-import { Buffer }          from 'buffer';
-import uuid                from 'react-native-uuid';
-import mime                from 'mime-types';
-import { PhoneNumberUtil } from 'google-libphonenumber';
+import AWS                                    from 'aws-sdk/dist/aws-sdk-react-native';
+import RNFetchBlob                            from 'react-native-fetch-blob';
+import Contacts                               from 'react-native-contacts';
+import _                                      from 'lodash';
+import { Buffer }                             from 'buffer';
+import uuid                                   from 'react-native-uuid';
+import mime                                   from 'mime-types';
+import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 
 // Local Imports
 import MediaLibrary                   from '../components/media_library/media_library';
@@ -151,11 +151,10 @@ export const getCameraRollPhotos = () => {
 }
 
 // TODO: add email support
-export const getContacts = (clientPhoneNumber) => {
+export const getDataFromContacts = (clientPhoneNumber) => {
   let clientNumber;
-  let contactPhoneNumbers = [];
+  let contactsObj = {};
   let number;
-  let index;
   let fullNumber;
 
   return new Promise((resolve, reject) => {
@@ -173,15 +172,22 @@ export const getContacts = (clientPhoneNumber) => {
           _.forEach(contact.phoneNumbers, (phoneNumber) => {
             try {
               number = phoneUtil.parse(phoneNumber.number, phoneUtil.getRegionCodeForNumber(clientNumber));
-              fullNumber = '+' + number.getCountryCode() + number.getNationalNumber();
-              contactPhoneNumbers.push(fullNumber);
+              fullNumber = phoneUtil.format(number, PhoneNumberFormat.E164);
+
+              contactsObj[fullNumber] = {
+                phone_number: fullNumber,
+                given_name:   contact.givenName,
+                family_name:  contact.familyName,
+                type:         phoneNumber.label,
+                is_invited:   false,
+              }
             } catch (err) {
               // console.log(err);
             }
           });
         });
 
-        resolve(contactPhoneNumbers);
+        resolve(contactsObj);
       } else {
         reject(error);
       }

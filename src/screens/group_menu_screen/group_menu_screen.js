@@ -4,12 +4,12 @@ import RN    from 'react-native';
 import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import MenuListItem          from '../../components/menu_list_item/menu_list_item';
-import SectionListHeader     from '../../components/section_list_header/section_list_header';
-import UserInfoViewContainer from '../../components/user_info_view/user_info_view_container';
-import { styles }            from './group_menu_screen_styles';
-import { UTILITY_STYLES }    from '../../utilities/style_utility';
-import { defaultErrorAlert } from '../../utilities/error_utility';
+import MenuListItem             from '../../components/menu_list_item/menu_list_item';
+import SectionListHeader        from '../../components/section_list_header/section_list_header';
+import EntityInfoViewContainer    from '../../components/entity_info_view/entity_info_view_container';
+import { styles }               from './group_menu_screen_styles';
+import { UTILITY_STYLES }       from '../../utilities/style_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -36,7 +36,7 @@ class GroupMenuScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressChangeName = () => {
-    this.props.navigateTo('NameGroupScreen', { convoId: this.props.convoId });
+    this.props.navigateTo('NameGroupScreen', { convoId: this.props.convoId, screen: 'NameGroupScreen' });
   }
 
   _onPressAddMembers = () => {
@@ -110,7 +110,7 @@ class GroupMenuScreen extends React.PureComponent {
     return (
       <RN.View style={UTILITY_STYLES.rowView}>
         <RN.View style={styles.userView}>
-          <UserInfoViewContainer convoId={item.id} marginLeft={0} />
+          <EntityInfoViewContainer entityId={item.id} marginLeft={0} />
           <Icon name={'close'} onPress={() => this._onPressDeleteMember(item.id)} style={styles.icon} />
         </RN.View>
       </RN.View>
@@ -131,9 +131,13 @@ class GroupMenuScreen extends React.PureComponent {
   }
 
   _renderSectionHeader = ({section}) => {
-    return (
-      <SectionListHeader title={section.title} />
-    )
+    if (section.title) {
+      return (
+        <SectionListHeader title={section.title} />
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderList() {

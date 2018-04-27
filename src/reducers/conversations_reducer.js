@@ -35,9 +35,7 @@ const ConversationsReducer = (state = DEFAULT_STATE, action) => {
         return new Date(b.date) - new Date(a.date);
       });
 
-      _.forEach(conversations, (conversation) => {
-        newState.conversations.push(conversation.id);
-      });
+      newState.conversations = conversations.map((x) => x.id);
 
       return newState;
 

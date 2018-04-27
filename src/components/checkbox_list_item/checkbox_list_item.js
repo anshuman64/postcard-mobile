@@ -6,11 +6,11 @@ import * as Animatable from 'react-native-animatable';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import LoadingModal          from '../loading_modal/loading_modal.js';
-import UserInfoViewContainer from '../user_info_view/user_info_view_container';
-import { styles }            from './checkbox_list_item_styles';
-import { UTILITY_STYLES }    from '../../utilities/style_utility';
-import { defaultErrorAlert } from '../../utilities/error_utility';
+import LoadingModal             from '../loading_modal/loading_modal.js';
+import EntityInfoViewContainer    from '../entity_info_view/entity_info_view_container';
+import { styles }               from './checkbox_list_item_styles';
+import { UTILITY_STYLES }       from '../../utilities/style_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -20,9 +20,11 @@ const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 Required Passed Props:
   setParentState (func): to set parent state with updated recipients
   recipients (array): array of user and group id's that are selected
+  contactRecipients (array): array of contact phoneNumbers that are selected
 Optional Passed Props:
   circle (object): object of the circle being selected
   convoId (int): id of either the user or group being selected
+  phoneNumber (string): phoneNumber of the contact being selected
 */
 class CheckboxListItem extends React.PureComponent {
 
@@ -48,6 +50,8 @@ class CheckboxListItem extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     if (nextProps.convoId) {
       this.setState({ isSelected: nextProps.recipients.includes(nextProps.convoId) });
+    } else if (nextProps.phoneNumber) {
+      this.setState({ isSelected: nextProps.contactRecipients.includes(nextProps.phoneNumber) });
     } else if (nextProps.circle) {
       this.setState({ isSelected: nextProps.circles.includes(nextProps.circle.id) });
     } else {
@@ -109,6 +113,20 @@ class CheckboxListItem extends React.PureComponent {
     }
   }
 
+  _onPressContactItem = () => {
+    let recipientArray = this.props.contactRecipients.slice();
+
+    if (!this.state.isSelected) {
+      this.props.setParentState({ contactRecipients: recipientArray.concat(this.props.phoneNumber) });
+    } else {
+      _.remove(recipientArray, (id) => {
+        return id === this.props.phoneNumber;
+      });
+
+      this.props.setParentState({ contactRecipients: recipientArray });
+    }
+  }
+
   // Alert that pops up when a user is about to delete a circle
   _onPressDeleteCircle = () => {
     if (this.isDeleteDisabled) {
@@ -151,7 +169,7 @@ class CheckboxListItem extends React.PureComponent {
         <AnimatedIcon
           ref={(ref) => this.checkbox = ref}
           name='check'
-          style={[styles.checkIcon, !this.props.convoId && UTILITY_STYLES.textRed]}
+          style={[styles.checkIcon, !this.props.convoId && !this.props.phoneNumber && UTILITY_STYLES.textRed]}
           animation={'flipInY'}
           duration={200}
           />
@@ -164,10 +182,9 @@ class CheckboxListItem extends React.PureComponent {
   }
 
   _renderItemView() {
-    if (this.props.convoId) {
+    if (this.props.convoId || this.props.phoneNumber) {
       return (
-        <UserInfoViewContainer convoId={this.props.convoId} marginLeft={15} disabled={true} />
-
+        <EntityInfoViewContainer entityId={this.props.convoId || this.props.phoneNumber} marginLeft={15} disableAvatar={true} disableUsername={true} />
       )
     } else if (this.props.circle) {
       return (
@@ -205,6 +222,8 @@ class CheckboxListItem extends React.PureComponent {
 
     if (this.props.convoId) {
       func = this._onPressConvoItem;
+    } else if (this.props.phoneNumber) {
+      func = this._onPressContactItem;
     } else if (this.props.circle) {
       func = this._onPressCircleItem;
     } else {
@@ -214,7 +233,7 @@ class CheckboxListItem extends React.PureComponent {
     return (
       <RN.View>
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.convoId && styles.checkboxRed]})}
+          onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.convoId && !this.props.phoneNumber && styles.checkboxRed]})}
           onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
           onPress={func}
           >
