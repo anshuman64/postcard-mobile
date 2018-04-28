@@ -210,6 +210,8 @@ class PendingListItem extends React.PureComponent {
     let acceptString;
     let deleteString;
     let user = this.props.usersCache[this.props.userId];
+    let contact = user ? this.props.contactsCache[user.phone_number] : null;
+    let contactName = contact ? contact.given_name + ' ' + contact.family_name : null;
     let friendshipStatus = user ? user.friendship_status_with_client : null;
     let isBlocked = user ? user.is_user_blocked_by_client : false;
 
@@ -238,7 +240,11 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <Animatable.View ref={(ref) => this.container = ref} style={UTILITY_STYLES.rowView}>
-        <EntityInfoViewContainer entityId={this.props.userId || this.props.phoneNumber} marginLeft={15} />
+        <EntityInfoViewContainer
+          entityId={this.props.userId || this.props.phoneNumber}
+          messagePreview={contactName}
+          marginLeft={15}
+          />
         <RN.View style={styles.checkboxView}>
           <RN.View style={styles.buttonView}>
             {acceptString ? this._renderAcceptButton(friendshipStatus, acceptString) : null}
