@@ -9,7 +9,6 @@ import mime                                   from 'mime-types';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 
 // Local Imports
-import MediaLibrary                   from '../components/media_library/media_library';
 import { ENV_TYPES, AWS_ENV_SETTING } from '../app_config';
 import { setErrorDescription }        from './error_utility';
 import { amplitude }                  from './analytics_utility';
@@ -23,7 +22,6 @@ import { refreshAuthToken }           from '../actions/client_actions';
 
 let s3Client = null;
 export let postPlaceholders;
-export let cameraRollPhotos = [];
 
 //--------------------------------------------------------------------//
 // Helper Functions
@@ -142,13 +140,6 @@ export const getPostPlaceholders = () => {
       amplitude.logEvent('Error - Get Post Placeholders', { error_message: error.message, error_description: 'Get post placeholders from AWS failed' });
     });
 };
-
-export const getCameraRollPhotos = () => {
-  MediaLibrary.fetchMedia()
-    .then((data) => {
-      cameraRollPhotos = data;
-    })
-}
 
 // TODO: add email support
 export const getDataFromContacts = (clientPhoneNumber) => {
