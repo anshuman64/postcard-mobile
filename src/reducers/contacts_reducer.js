@@ -4,6 +4,7 @@ import _ from 'lodash';
 // Local Imports
 import { CONTACT_ACTION_TYPES } from '../actions/contact_actions';
 import { POST_ACTION_TYPES }    from '../actions/post_actions';
+import { GROUP_ACTION_TYPES }   from '../actions/group_actions';
 
 //--------------------------------------------------------------------//
 
@@ -37,11 +38,13 @@ const ContactsReducer = (state = DEFAULT_STATE, action) => {
       return newState;
 
     //--------------------------------------------------------------------//
-    // Post Actions
+    // Post & Group Actions
     //--------------------------------------------------------------------//
 
     case POST_ACTION_TYPES.RECEIVE_POST:
-      _.forEach(action.data.phoneNumbers, (contactPhoneNumber) => {
+    case GROUP_ACTION_TYPES.RECEIVE_GROUP:
+    case GROUP_ACTION_TYPES.EDIT_GROUP:
+      _.forEach(action.data.contactPhoneNumbers, (contactPhoneNumber) => {
         _.forEach(newState, (type) => {
           _.remove(type, (phoneNumber) => {
             return phoneNumber === contactPhoneNumber;
