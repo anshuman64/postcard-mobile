@@ -2,6 +2,7 @@
 import _ from 'lodash';
 
 // Local Imports
+import MediaLibrary         from '../components/media_library/media_library';
 import * as FileUtility     from '../utilities/file_utility';
 import { refreshAuthToken } from './client_actions';
 
@@ -12,6 +13,7 @@ import { refreshAuthToken } from './client_actions';
 //--------------------------------------------------------------------//
 
 export const IMAGE_ACTION_TYPES = {
+  RECEIVE_PHOTOS: 'RECEIVE_PHOTOS',
   RECEIVE_IMAGES: 'RECEIVE_IMAGES',
 };
 
@@ -19,7 +21,12 @@ export const IMAGE_ACTION_TYPES = {
 // Action Creators
 //--------------------------------------------------------------------//
 
-// images (array of strings): array of image urls for caching
+// photos (array): array of photo local urls for cameraRoll
+export const receivePhotos = (data) => {
+  return { type: IMAGE_ACTION_TYPES.RECEIVE_PHOTOS, data: data };
+};
+
+// images (array): array of image urls for caching
 export const receiveImages = (data) => {
   return { type: IMAGE_ACTION_TYPES.RECEIVE_IMAGES, data: data };
 };
@@ -27,6 +34,13 @@ export const receiveImages = (data) => {
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
+
+export const getPhotos = () => (dispatch) => {
+  MediaLibrary.fetchMedia()
+    .then((data) => {
+      dispatch(receivePhotos({ photos: data }));
+    })
+}
 
 export const refreshCredsAndGetImage = (firebaseUserObj, avatarUrl) => (dispatch) => {
   dispatch(refreshAuthToken(firebaseUserObj))

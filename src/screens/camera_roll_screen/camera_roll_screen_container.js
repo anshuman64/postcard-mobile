@@ -7,12 +7,16 @@ import { goBack }       from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
+const mapStateToProps = ({ photos }, ownProps) => ({
+  photos: photos.photos
+});
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
   goBack: (props) => dispatch(goBack(props)),
 });
 
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(CameraRollScreen);

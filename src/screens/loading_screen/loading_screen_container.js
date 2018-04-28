@@ -10,6 +10,7 @@ import * as ContactActions                        from '../../actions/contact_ac
 import { getConversations }                       from '../../actions/message_actions';
 import { getCircles }                             from '../../actions/circle_actions';
 import { getBlockedUsers }                        from '../../actions/block_actions';
+import { getPhotos }                              from '../../actions/image_actions';
 import { navigateTo }                             from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
@@ -33,6 +34,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getConversations:        (authToken, firebaseUserObj)                                                     => dispatch(getConversations(authToken, firebaseUserObj)),
   getCircles:              (authToken, firebaseUserObj)                                                     => dispatch(getCircles(authToken, firebaseUserObj)),
   getBlockedUsers:         (authToken, firebaseUserObj)                                                     => dispatch(getBlockedUsers(authToken, firebaseUserObj)),
+  getPhotos:               ()                                                                               => dispatch(getPhotos()),
 });
 
 export default connect(
