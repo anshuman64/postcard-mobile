@@ -15,10 +15,10 @@ import { getImages }           from './image_actions';
 //--------------------------------------------------------------------//
 
 export const GROUP_ACTION_TYPES = {
-  RECEIVE_GROUPS: 'RECEIVE_GROUPS',
-  RECEIVE_GROUP:  'RECEIVE_GROUP',
-  EDIT_GROUP:     'EDIT_GROUP',
-  REMOVE_GROUP:   'REMOVE_GROUP',
+  RECEIVE_GROUPS:            'RECEIVE_GROUPS',
+  RECEIVE_GROUP:             'RECEIVE_GROUP',
+  EDIT_GROUP:                'EDIT_GROUP',
+  REMOVE_GROUP:              'REMOVE_GROUP',
   RECEIVE_USERS_FROM_GROUPS: 'RECEIVE_USERS_FROM_GROUPS',
 };
 
@@ -32,11 +32,13 @@ export const receiveGroups = (data) => {
 };
 
 // group (group object): group object of created group
+// contactPhoneNumbers (array): array of phoneNumbers to unshift from contactsWithAccounts
 export const receiveGroup = (data) => {
   return { type: GROUP_ACTION_TYPES.RECEIVE_GROUP, data: data };
 };
 
 // group (group object): group object of created group
+// contactPhoneNumbers (array): array of phoneNumbers to unshift from contactsWithAccounts
 export const editGroup = (data) => {
   return { type: GROUP_ACTION_TYPES.EDIT_GROUP, data: data };
 };
@@ -61,7 +63,7 @@ export const createGroup = (authToken, firebaseUserObj, userIds, contactPhoneNum
   return APIUtility.post(authToken, '/groups', { user_ids: userIds, contact_phone_numbers: contactPhoneNumbers })
     .then((newGroup) => {
       amplitude.logEvent('Groups - Create Group', { is_successful: true, num_users: userIds.length, num_contacts: contactPhoneNumbers.length });
-      dispatch(receiveGroup({ group: newGroup }));
+      dispatch(receiveGroup({ group: newGroup, contactPhoneNumbers: contactPhoneNumbers }));
       dispatch(getUsersFromGroups(newGroup));
     })
     .catch((error) => {
@@ -103,7 +105,7 @@ export const addGroupMembers = (authToken, firebaseUserObj, groupId, userIds, co
   return APIUtility.post(authToken, '/groups/add', { group_id: -1 * groupId, user_ids: userIds, contact_phone_numbers: contactPhoneNumbers })
   .then((editedGroup) => {
     amplitude.logEvent('Groups - Add Members', { is_successful: true });
-    dispatch(editGroup({ group: editedGroup }));
+    dispatch(editGroup({ group: editedGroup, contactPhoneNumbers: contactPhoneNumbers }));
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
