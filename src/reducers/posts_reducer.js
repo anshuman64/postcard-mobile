@@ -13,15 +13,12 @@ import { mergeSorted }                   from '../utilities/function_utility';
 Data is in the form {
   clientId: {
     receivedPosts: { data: [], lastUpdated: null, isEnd: false },
-    publicPosts:   { data: [], lastUpdated: null, isEnd: false },
     authoredPosts: { data: [], lastUpdated: null, isEnd: false },
     likedPosts:    { data: [], lastUpdated: null, isEnd: false },
-    followedPosts: { data: [], lastUpdated: null, isEnd: false },
   },
   userId2: { ...
 */
 
-// AllPosts and FollowedPosts are stored in the current user's userId
 const DEFAULT_STATE = {};
 
 const PostsReducer = (state = DEFAULT_STATE, action) => {
@@ -72,7 +69,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
     // When refreshing posts, first make sure objects in store are instantiated
     // Update lastUpdated
     // If number of posts received is < 10, mark isEnd to true
-    // Merge new posts with current posts, unless refreshing FollowedPosts (so that unfollowed users' posts don't appear)
+    // Merge new posts with current posts
     case POST_ACTION_TYPES.REFRESH_POSTS:
       userId   = action.data.userId;
       postType = action.data.postType;
@@ -87,10 +84,6 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
 
       postData = newState[userId][postType];
       postData.lastUpdated = new Date();
-
-      if (postType === POST_TYPES.FOLLOWED) {
-        postData.data = [];
-      }
 
       if (action.data.posts.length < 10) { // 10 = number of posts fetched
         postData.isEnd = true;
