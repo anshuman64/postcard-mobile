@@ -81,7 +81,7 @@ export const receivePostsFromMessages = (data) => {
 let getRouteForPostType = (postType, userId, isClient) => {
   switch(postType) {
     case POST_TYPES.RECEIVED:
-      return '/received/';
+      return '/';
     case POST_TYPES.AUTHORED:
       if (isClient) {
         return '/authored';
