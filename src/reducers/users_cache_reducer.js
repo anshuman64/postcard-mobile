@@ -8,7 +8,6 @@ import { POST_ACTION_TYPES }                     from '../actions/post_actions';
 import { MESSAGE_ACTION_TYPES }                  from '../actions/message_actions';
 import { GROUP_ACTION_TYPES }                    from '../actions/group_actions';
 import { CONTACT_ACTION_TYPES }                  from '../actions/contact_actions';
-import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions';
 import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions';
 
 //--------------------------------------------------------------------//
@@ -19,7 +18,6 @@ Data is in the form {
     "id":                            30,
     "username":                      "anshu",
     "avatar_url":                    "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
-    "is_user_followed_by_client":    false,
     "friendship_status_with_client": "accepted",
   },
   userId2: {...
@@ -90,19 +88,6 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       _.forEach(action.data.posts, (post) => {
         newState[post.author_id] = _.merge(post.author, newState[post.author_id]); // use merge to keep friendship_status_with_client
       });
-
-      return newState;
-
-  //--------------------------------------------------------------------//
-  // Follow Actions
-  //--------------------------------------------------------------------//
-
-    case FOLLOW_ACTION_TYPES.RECEIVE_FOLLOW:
-      newState[action.data.follow.followee_id].is_user_followed_by_client = true;
-
-      return newState;
-    case FOLLOW_ACTION_TYPES.REMOVE_FOLLOW:
-      newState[action.data.follow.followee_id].is_user_followed_by_client = false;
 
       return newState;
 
