@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import FriendScreen   from './friend_screen';
-import { navigateTo } from '../../../actions/navigation_actions';
+import { navigateTo } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 

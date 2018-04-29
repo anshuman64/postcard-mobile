@@ -6,24 +6,22 @@ import PostListItem                    from './post_list_item';
 import { deletePost, removePost }      from '../../actions/post_actions';
 import { createLike, deleteLike }      from '../../actions/like_actions';
 import { createFlag, deleteFlag }      from '../../actions/flag_actions';
-import { createFollow, deleteFollow }  from '../../actions/follow_actions';
 import { createMessage }               from '../../actions/message_actions';
 import { navigateTo }                  from '../../actions/navigation_actions';
 import { refreshCredsAndGetImage }     from '../../actions/image_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, groupsCache, contactsCache, imagesCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, groupsCache, contactsCache, imagesCache, navigation }, ownProps) => ({
   client:        client,
   usersCache:    usersCache,
   groupsCache:   groupsCache,
   contactsCache: contactsCache,
   imagesCache:   imagesCache,
+  currentScreen: navigation.currentScreen
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createFollow:            (authToken, firebaseUserObj, followeeId)                                                                 => dispatch(createFollow(authToken, firebaseUserObj, followeeId)),
-  deleteFollow:            (authToken, firebaseUserObj, followeeId)                                                                 => dispatch(deleteFollow(authToken, firebaseUserObj, followeeId)),
   createLike:              (authToken, firebaseUserObj, clientId, postId)                                                           => dispatch(createLike(authToken, firebaseUserObj, clientId, postId)),
   deleteLike:              (authToken, firebaseUserObj, clientId, postId)                                                           => dispatch(deleteLike(authToken, firebaseUserObj, clientId, postId)),
   createFlag:              (authToken, firebaseUserObj, postId)                                                                     => dispatch(createFlag(authToken, firebaseUserObj, postId)),
