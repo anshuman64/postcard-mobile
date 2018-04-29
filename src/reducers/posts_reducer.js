@@ -107,9 +107,6 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the client creates a post
-      if (action.data.post.is_public) {
-        newState[clientId][POST_TYPES.PUBLIC].data.unshift(postId);
-      }
       newState[clientId][POST_TYPES.AUTHORED].data.unshift(postId);
 
       return newState;
@@ -119,10 +116,6 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the client removes their own post
-      _.remove(newState[clientId][POST_TYPES.PUBLIC].data, (postsId) => {
-        return postsId === postId;
-      });
-
       _.remove(newState[clientId][POST_TYPES.AUTHORED].data, (postsId) => {
         return postsId === postId;
       });
