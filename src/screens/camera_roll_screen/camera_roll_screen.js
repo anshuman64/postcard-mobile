@@ -5,7 +5,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Ionicon     from 'react-native-vector-icons/Ionicons';
 
 // Local Imports
-import { cameraRollPhotos }  from '../../utilities/file_utility';
 import ListFooter            from '../../components/list_footer/list_footer';
 import * as StyleUtility     from '../../utilities/style_utility';
 import { styles }            from './camera_roll_screen_styles';
@@ -74,7 +73,7 @@ class CameraRollScreen extends React.PureComponent {
   _renderCameraRoll() {
     return (
       <RN.ListView
-        dataSource={this.ds.cloneWithRows(cameraRollPhotos)}
+        dataSource={this.ds.cloneWithRows(this.props.photos)}
         style={styles.cameraRoll}
         keyExtractor={(item, index) => String(index)}
         renderRow={this._renderRow}
