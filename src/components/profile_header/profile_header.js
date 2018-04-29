@@ -36,7 +36,6 @@ class ProfileHeader extends React.PureComponent {
 
     this.isFriendDisabled   = false;
     this.isUnfriendDisabled = false;
-    this.isFollowDisabled   = false;
     this.isBlockDisabled    = false;
   }
 
@@ -130,95 +129,22 @@ class ProfileHeader extends React.PureComponent {
       });
   }
 
-
   //--------------------------------------------------------------------//
-  // Follow Callback Methods
+  // Block Callback Methods
   //--------------------------------------------------------------------//
 
   // Creates or deletes follow from DB
-  _onPressFollow = () => {
-    if (this.isFollowDisabled) {
+  _onPressBlock = () => {
+    if (this.isBlockDisabled) {
       return;
     }
 
-    this.isFollowDisabled = true;
+    this.isBlockDisabled = true;
 
-    if (this.props.usersCache[this.props.userId].is_user_followed_by_client) {
-      this._onPressUnfollow();
-    } else {
-      this.props.createFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
-        .finally(() => {
-          this.isFollowDisabled = false;
-        });
-    }
-  }
-
-  // Alert for when a user is about to unfollow
-  _onPressUnfollow = () => {
-    RN.Alert.alert('', 'Are you sure you want to unfollow this user?',
-      [{text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
-       {text: 'Unfollow', onPress: this._onConfirmUnfollow}],
-       {onDismiss: () => this.isFollowDisabled = false}
-    )
-  }
-
-  // Deletes follow from DB and updates ProfileScreen as necessary
-  _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
-      .catch((error) => {
-        defaultErrorAlert(error);
-      })
-      .finally(() => {
-        this.isFollowDisabled = false;
-      });
-  }
-
-    //--------------------------------------------------------------------//
-    // Block Callback Methods
-    //--------------------------------------------------------------------//
-
-    // Creates or deletes follow from DB
-    _onPressBlock = () => {
-      if (this.isBlockDisabled) {
-        return;
-      }
-
-      this.isBlockDisabled = true;
-
-      if (this.props.usersCache[this.props.userId].is_user_blocked_by_client) {
-        this.props.deleteBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
-          .then((block) => {
-            this.props.removeBlock({ block: block });
-          })
-          .catch((error) => {
-            defaultErrorAlert(error);
-          })
-          .finally(() => {
-            this.isBlockDisabled = false;
-          });
-      } else {
-        this._onPressBlockAlert();
-      }
-    }
-
-    // Alert for when a user is about to block
-    _onPressBlockAlert = () => {
-      RN.Alert.alert('', "Are you sure you want to block this user? You can't be this user's friend and won't see this user's posts.",
-        [{text: 'Cancel', onPress: () => this.isBlockDisabled = false, style: 'cancel'},
-         {text: 'Block', onPress: this._onConfirmBlock}],
-         {onDismiss: () => this.isBlockDisabled = false}
-      )
-    }
-
-    // Deletes follow from DB and updates ProfileScreen as necessary
-    _onConfirmBlock = () => {
-      this.props.createBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
-        .then(() => {
-          this._onConfirmUnfriend();
-          this._onConfirmUnfollow();
+    if (this.props.usersCache[this.props.userId].is_user_blocked_by_client) {
+      this.props.deleteBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+        .then((block) => {
+          this.props.removeBlock({ block: block });
         })
         .catch((error) => {
           defaultErrorAlert(error);
@@ -226,7 +152,34 @@ class ProfileHeader extends React.PureComponent {
         .finally(() => {
           this.isBlockDisabled = false;
         });
+    } else {
+      this._onPressBlockAlert();
     }
+  }
+
+  // Alert for when a user is about to block
+  _onPressBlockAlert = () => {
+    RN.Alert.alert('', "Are you sure you want to block this user? You can't be this user's friend and won't see this user's posts.",
+      [{text: 'Cancel', onPress: () => this.isBlockDisabled = false, style: 'cancel'},
+       {text: 'Block', onPress: this._onConfirmBlock}],
+       {onDismiss: () => this.isBlockDisabled = false}
+    )
+  }
+
+  // Deletes follow from DB and updates ProfileScreen as necessary
+  _onConfirmBlock = () => {
+    this.props.createBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
+      .then(() => {
+        this._onConfirmUnfriend();
+        this._onConfirmUnfollow();
+      })
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
+      .finally(() => {
+        this.isBlockDisabled = false;
+      });
+  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -267,7 +220,6 @@ class ProfileHeader extends React.PureComponent {
     let friendString;
     let friendshipStatus = user ? user.friendship_status_with_client : null;
     let deactivateButton = friendshipStatus === FRIEND_TYPES.SENT || friendshipStatus === FRIEND_TYPES.ACCEPTED;
-    let isFollowed = user ? user.is_user_followed_by_client : false;
     let isBlocked = user ? user.is_user_blocked_by_client : false;
 
     if (friendshipStatus === FRIEND_TYPES.SENT) {
@@ -298,18 +250,8 @@ class ProfileHeader extends React.PureComponent {
             </RN.Text>
           </RN.TouchableOpacity> :
           null }
-          {!isBlocked ?
           <RN.TouchableOpacity
-            style={[styles.followButtonBackground, isFollowed && styles.buttonBackgroundDisabled]}
-            onPress={this._onPressFollow}
-            >
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.textHighlighted, isFollowed && styles.buttonTextDisabled]}>
-              { isFollowed ? 'Following' : 'Follow' }
-            </RN.Text>
-          </RN.TouchableOpacity> :
-          null }
-          <RN.TouchableOpacity
-            style={[styles.followButtonBackground, styles.buttonBackgroundDisabled]}
+            style={[styles.buttonBackground, styles.buttonBackgroundDisabled]}
             onPress={this._onPressBlock}
             >
             <RN.Text style={[UTILITY_STYLES.lightBlackText15, isBlocked && styles.buttonTextDisabled]}>
