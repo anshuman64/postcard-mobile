@@ -191,28 +191,19 @@ class PostListItem extends React.PureComponent {
     let recipients;
     this.isRespondDisabled = true;
 
-    // For Discover and Liked tabs, go to author's messages if friends with client
-    if (this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
-      let user = this.props.usersCache[this.props.item.author_id];
-      let userFriendshipStatus = user ? user.friendship_status_with_client : null;
-
-      if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
-        convoId = this.props.item.author_id;
-      } else {
-        this.isRespondDisabled = false;
-        return;
-      }
     // For HomeScreen, either go to author if post was sent directly, or group that that post was sent to
-    } else if (this.props.postType === POST_TYPES.RECEIVED) {
+    if (this.props.postType === POST_TYPES.RECEIVED) {
       recipients = this.props.item.recipient_ids_with_client;
-      if (recipients.length === 1) {
+      if (recipients.length === 0) {
+        convoId = this.props.item.author_id;
+      } else if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids_with_client[0] > 0 ? this.props.item.author_id : this.props.item.recipient_ids_with_client[0];
       } else {
         this.isRespondDisabled = false;
         return;
       }
     // For AuthoredScreen, go to recipient which is either a user or group
-    } else if (this.props.postType === POST_TYPES.AUTHORED) {
+    } else if (this.props.currentScreen === 'AuthoredScreen') {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
@@ -299,7 +290,7 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderAuthoredRecipients() {
-    if (this.props.postType === POST_TYPES.AUTHORED) {
+    if (this.props.currentScreen === 'AuthoredScreen') {
       let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
       let displayString  = '';
       let callback;
