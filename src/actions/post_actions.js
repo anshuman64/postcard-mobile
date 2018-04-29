@@ -17,10 +17,8 @@ import { refreshAuthToken }       from './client_actions';
 
 export const POST_TYPES = {
   RECEIVED: 'receivedPosts',
-  PUBLIC:   'publicPosts',
   AUTHORED: 'authoredPosts',
   LIKED:    'likedPosts',
-  FOLLOWED: 'followedPosts'
 }
 
 export const POST_ACTION_TYPES = {
@@ -83,9 +81,7 @@ export const receivePostsFromMessages = (data) => {
 let getRouteForPostType = (postType, userId, isClient) => {
   switch(postType) {
     case POST_TYPES.RECEIVED:
-      return '/received/';
-    case POST_TYPES.PUBLIC:
-      return '';
+      return '/';
     case POST_TYPES.AUTHORED:
       if (isClient) {
         return '/authored';
@@ -98,8 +94,6 @@ let getRouteForPostType = (postType, userId, isClient) => {
       } else {
         return '/liked/' + userId;
       }
-    case POST_TYPES.FOLLOWED:
-      return '/followed';
   }
 }
 

@@ -23,8 +23,6 @@ class TabBar extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
-    this.isHeader = this.props.tabs === 'DiscoverTabs' || this.props.tabs === 'FriendTabs';
   }
 
   //--------------------------------------------------------------------//
@@ -34,7 +32,7 @@ class TabBar extends React.PureComponent {
   _renderTab(text, screen, props) {
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateTo(screen, props)} style={styles.button}>
-        <RN.Text style={[UTILITY_STYLES.lightBlackText18, !this.isHeader && UTILITY_STYLES.lightBlackText16, !this.isHeader && {marginBottom: 5}, this.props.currentScreen === screen && UTILITY_STYLES.textHighlighted]}>
+        <RN.Text style={[UTILITY_STYLES.lightBlackText16, { marginBottom: 5 }, this.props.currentScreen === screen && UTILITY_STYLES.textHighlighted]}>
           {text}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -44,21 +42,7 @@ class TabBar extends React.PureComponent {
   render() {
     let currentScreen = this.props.screen;
 
-    if (this.props.tabs === 'DiscoverTabs') {
-      return (
-        <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          {this._renderTab('Recent', 'RecentScreen')}
-          {this._renderTab('Following', 'FollowingScreen')}
-        </RN.View>
-      )
-    } else if (this.props.tabs === 'FriendTabs') {
-      return (
-        <RN.View style={[styles.tabs, this.isHeader && styles.header]}>
-          {this._renderTab('Friends', 'FriendScreen')}
-          {this._renderTab('Pending', 'PendingScreen')}
-        </RN.View>
-      )
-    } else if (this.props.tabs === 'ProfileTabs') {
+    if (this.props.tabs === 'ProfileTabs') {
       return (
         <RN.View style={styles.tabs}>
           {this._renderTab('Posts', 'AuthoredScreen', { userId: this.props.userId })}

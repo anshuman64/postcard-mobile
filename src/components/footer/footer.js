@@ -33,9 +33,9 @@ class Footer extends React.PureComponent {
     return (
       <RN.View style={styles.footer}>
         {this._renderButton('HomeScreen', 'home')}
-        {this._renderButton('RecentScreen', 'magnifier', false, 'FollowingScreen')}
+        {this._renderButton('FriendScreen', 'speech', false)}
         {this._renderButton('NewPostScreen', 'plus', true)}
-        {this._renderButton('FriendScreen', 'people', false, 'PendingScreen')}
+        {this._renderButton('PendingScreen', 'people', false)}
         {this._renderButton('AuthoredScreen', 'user', false, 'LikedScreen')}
       </RN.View>
     )
