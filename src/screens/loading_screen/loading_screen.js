@@ -196,7 +196,6 @@ class LoadingScreen extends React.PureComponent {
 
     switch (data.type) {
       case 'receive-like':
-      case 'receive-follow':
         this.navigateToNotification = 'AuthoredScreen';
         break;
       case 'receive-friendship':
