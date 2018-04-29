@@ -19,10 +19,8 @@ import TextInputScreenContainer   from './screens/text_input_screen/text_input_s
 import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container';
 
 import HomeScreenContainer        from './screens/home_screen/home_screen_container';
-import RecentScreenContainer      from './screens/discover_tabs/recent_screen/recent_screen_container';
-import FollowingScreenContainer   from './screens/discover_tabs/following_screen/following_screen_container';
-import FriendScreenContainer      from './screens/friend_tabs/friend_screen/friend_screen_container';
-import PendingScreenContainer     from './screens/friend_tabs/pending_screen/pending_screen_container';
+import FriendScreenContainer      from './screens/friend_screen/friend_screen_container';
+import PendingScreenContainer     from './screens/pending_screen/pending_screen_container';
 import AuthoredScreenContainer    from './screens/profile_tabs/authored_screen/authored_screen_container';
 import LikedScreenContainer       from './screens/profile_tabs/liked_screen/liked_screen_container';
 
@@ -148,17 +146,9 @@ class App extends React.Component {
             </Tabs>
 
             <Tabs key='MainTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
-              <Scene key='HomeScreen'     component={HomeScreenContainer} panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
-
-              <Tabs key='DiscoverTabs' tabBarPosition={'top'} tabBarComponent={() => <TabBarContainer tabs={'DiscoverTabs'}/>} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
-                <Scene key='RecentScreen'    component={RecentScreenContainer}    panHandlers={null} hideNavBar={true} />
-                <Scene key='FollowingScreen' component={FollowingScreenContainer} panHandlers={null} hideNavBar={true} />
-              </Tabs>
-
-              <Tabs key='FriendTabs' tabBarPosition={'top'} tabBarComponent={() => <TabBarContainer tabs={'FriendTabs'}/>} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
-                <Scene key='FriendScreen'  component={FriendScreenContainer}  panHandlers={null} hideNavBar={true} />
-                <Scene key='PendingScreen' component={PendingScreenContainer} panHandlers={null} hideNavBar={true} />
-              </Tabs>
+              <Scene key='HomeScreen'     component={HomeScreenContainer}   panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
+              <Scene key='FriendScreen'  component={FriendScreenContainer}  panHandlers={null} navBar={() => <HeaderContainer logo={true} />} />
+              <Scene key='PendingScreen' component={PendingScreenContainer} panHandlers={null} navBar={() => <HeaderContainer logo={true} />} />
 
               <Tabs key='ProfileTabs' tabBarComponent={() => <View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
                 <Scene key='AuthoredScreen' component={AuthoredScreenContainer} panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />

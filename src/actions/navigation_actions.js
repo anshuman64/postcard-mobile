@@ -38,10 +38,6 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.AvatarScreen(props)
     } else if (screen === 'HomeScreen') {
       Actions.HomeScreen(props)
-    } else if (screen === 'RecentScreen') {
-      Actions.RecentScreen(props)
-    } else if (screen === 'FollowingScreen') {
-      Actions.FollowingScreen(props)
     } else if (screen === 'FriendScreen') {
       Actions.FriendScreen(props)
     } else if (screen === 'PendingScreen') {
