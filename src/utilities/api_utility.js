@@ -72,7 +72,7 @@ export const getBaseUrl = () => {
   } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
     return 'http://insiya-production-server-2.us-east-1.elasticbeanstalk.com/api';
   } else {
-    return 'http://192.168.0.157:3000/api';
+    return 'http://192.168.0.200:3000/api';
   }
 };
 
