@@ -2,7 +2,6 @@
 import _ from 'lodash';
 
 // Local Imports
-import MediaLibrary         from '../components/media_library/media_library';
 import * as FileUtility     from '../utilities/file_utility';
 import { refreshAuthToken } from './client_actions';
 
@@ -34,13 +33,6 @@ export const receiveImages = (data) => {
 //--------------------------------------------------------------------//
 // Asynchronous Actions
 //--------------------------------------------------------------------//
-
-export const getPhotos = () => (dispatch) => {
-  MediaLibrary.fetchMedia()
-    .then((data) => {
-      dispatch(receivePhotos({ photos: data }));
-    })
-}
 
 export const refreshCredsAndGetImage = (firebaseUserObj, avatarUrl) => (dispatch) => {
   dispatch(refreshAuthToken(firebaseUserObj))
