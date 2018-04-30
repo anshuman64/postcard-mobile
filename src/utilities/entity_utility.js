@@ -44,6 +44,14 @@ const getTempGroupName = (users, usersCache, groupsCache, contactsCache) => {
     return string;
   }
 }
+export const getContactDisplayName = (contact) => {
+  firstName = contact.given_name  || '';
+  lastName  = contact.family_name || '';
+  fullName  = firstName + ' ' + lastName;
+
+  return fullName.trim();
+}
+
 
 // Returns username of user, contact, name of group, or a comma separated list of users
 export const getEntityDisplayName = (entityId, usersCache, groupsCache, contactsCache) => {
@@ -56,7 +64,7 @@ export const getEntityDisplayName = (entityId, usersCache, groupsCache, contacts
     contact = contactsCache ? contactsCache[entityId] : null;
 
     if (contact) {
-      displayName = contact.given_name + ' ' + contact.family_name;
+      displayName = getContactDisplayName(contact);
     }
   } else if (entityId > 0) {
     user = usersCache ? usersCache[entityId] : null;
@@ -67,7 +75,7 @@ export const getEntityDisplayName = (entityId, usersCache, groupsCache, contacts
       if (user.username) {
         displayName = user.username;
       } else if (contact) {
-        displayName = contact.given_name + ' ' + contact.family_name;
+        displayName = getContactDisplayName(contact);
       }
     }
   } else if (entityId < 0) {
