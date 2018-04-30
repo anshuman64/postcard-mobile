@@ -35,6 +35,7 @@ class LikedScreen extends React.PureComponent {
           username={username}
           avatarUrl={avatarUrl}
           postType={POST_TYPES.LIKED}
+          isClient={true}
           />
       </RN.View>
     )

@@ -29,6 +29,7 @@ Required Passed Props:
 Optional Passed Props:
   width (int): width of messages; only passed if on MessagesScreen
   postType (string): used as a proxy for which screen we are on
+  isClient (bool): if the screen is for the client
 */
 class PostListItem extends React.PureComponent {
 
@@ -49,7 +50,6 @@ class PostListItem extends React.PureComponent {
     this.isLikeDisabled    = false;
     this.isFlagDisabled    = false;
     this.isDeleteDisabled  = false;
-    this.isFollowDisabled  = false;
     this.isRespondDisabled = false;
     this.recipients        = null;
   }
@@ -180,48 +180,6 @@ class PostListItem extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Follow User Callback Methods
-  //--------------------------------------------------------------------//
-
-  // Creates or deletes follow from DB
-  _onPressFollow = () => {
-    if (this.isFollowDisabled) {
-      return;
-    }
-
-    this.isFollowDisabled = true;
-
-    // If user is followed, pop alert confirming unfollow
-    if (this.props.usersCache[this.props.item.author_id].is_user_followed_by_client) {
-      RN.Alert.alert('', 'Are you sure you want to unfollow this user?',
-        [{text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
-         {text: 'Unfollow', onPress: this._onConfirmUnfollow}],
-         {onDismiss: () => this.isFollowDisabled = false}
-      )
-    // If user is not followed, create follow
-    } else {
-      this.props.createFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.author_id)
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
-        .finally(() => {
-          this.isFollowDisabled = false;
-        });
-    }
-  }
-
-  // Deletes follow from DB and updates ProfileScreen as necessary
-  _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.author_id)
-      .catch((error) => {
-        defaultErrorAlert(error);
-      })
-      .finally(() => {
-        this.isFollowDisabled = false;
-      });
-  }
-
-  //--------------------------------------------------------------------//
   // Navigation Callback Methods
   //--------------------------------------------------------------------//
 
@@ -234,28 +192,19 @@ class PostListItem extends React.PureComponent {
     let recipients;
     this.isRespondDisabled = true;
 
-    // For Discover and Liked tabs, go to author's messages if friends with client
-    if (this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
-      let user = this.props.usersCache[this.props.item.author_id];
-      let userFriendshipStatus = user ? user.friendship_status_with_client : null;
-
-      if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
-        convoId = this.props.item.author_id;
-      } else {
-        this.isRespondDisabled = false;
-        return;
-      }
     // For HomeScreen, either go to author if post was sent directly, or group that that post was sent to
-    } else if (this.props.postType === POST_TYPES.RECEIVED) {
+    if (this.props.postType === POST_TYPES.RECEIVED) {
       recipients = this.props.item.recipient_ids_with_client;
-      if (recipients.length === 1) {
+      if (recipients.length === 0) {
+        convoId = this.props.item.author_id;
+      } else if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids_with_client[0] > 0 ? this.props.item.author_id : this.props.item.recipient_ids_with_client[0];
       } else {
         this.isRespondDisabled = false;
         return;
       }
     // For AuthoredScreen, go to recipient which is either a user or group
-    } else if (this.props.postType === POST_TYPES.AUTHORED) {
+  } else if (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient) {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
@@ -312,57 +261,49 @@ class PostListItem extends React.PureComponent {
           entityId={this.props.item.author_id}
           marginLeft={0}
           />
-        {this._renderReceivedRecipients()}
-        {this._renderAuthoredRecipients()}
-        {this._renderFollowText()}
+        {this.props.postType === POST_TYPES.AUTHORED && this.props.isClient ?
+          this._renderAuthoredRecipients() :
+          this._renderReceivedRecipients()}
       </RN.View>
     )
   }
 
   _renderReceivedRecipients() {
-    if (this.props.postType === POST_TYPES.RECEIVED) {
-      let numRecipients = this.props.item.recipient_ids_with_client.length;
-      let displayString  = '';
-      let callback;
+    let numRecipients = this.props.item.recipient_ids_with_client.length;
+    let displayString  = '';
+    let callback;
 
-      if (numRecipients === 0) {
-        return null;
-      } else if (numRecipients === 1) {
-        convoId = this.props.item.recipient_ids_with_client[0];
-        displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onRespondToPost;
-      } else {
-        displayString = numRecipients + ' groups';
-        callback = setStateCallback(this, { isModalVisible: true });
-      }
-
-      return this._renderRecipients(displayString, callback);
-    } else {
+    if (numRecipients === 0) {
       return null;
+    } else if (numRecipients === 1) {
+      convoId = this.props.item.recipient_ids_with_client[0];
+      displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+      callback = this._onRespondToPost;
+    } else {
+      displayString = numRecipients + ' groups';
+      callback = setStateCallback(this, { isModalVisible: true });
     }
+
+    return this._renderRecipients(displayString, callback);
   }
 
   _renderAuthoredRecipients() {
-    if (this.props.postType === POST_TYPES.AUTHORED) {
-      let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
-      let displayString  = '';
-      let callback;
+    let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
+    let displayString  = '';
+    let callback;
 
-      if (numRecipients === 0) {
-        return null;
-      } else if (numRecipients === 1) {
-        entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
-        displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onRespondToPost;
-      } else {
-        displayString = numRecipients + ' recipients';
-        callback = setStateCallback(this, { isModalVisible: true });
-      }
-
-      return this._renderRecipients(displayString, callback);
-    } else {
+    if (numRecipients === 0) {
       return null;
+    } else if (numRecipients === 1) {
+      entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
+      displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+      callback = this._onRespondToPost;
+    } else {
+      displayString = numRecipients + ' recipients';
+      callback = setStateCallback(this, { isModalVisible: true });
     }
+
+    return this._renderRecipients(displayString, callback);
   }
 
   _renderRecipients(displayString, callback) {
@@ -383,25 +324,6 @@ class PostListItem extends React.PureComponent {
         </RN.TouchableWithoutFeedback>
       </RN.View>
     )
-  }
-
-  _renderFollowText() {
-    if (!this.props.width && this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
-      let isFollowedByClient = this.props.usersCache[this.props.item.author_id].is_user_followed_by_client;
-
-      return (
-        <RN.View style={styles.usernameView}>
-          <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>{'|'}</RN.Text>
-          <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !isFollowedByClient && UTILITY_STYLES.textHighlighted]}>
-              {isFollowedByClient ? 'Following' : 'Follow'}
-            </RN.Text>
-          </RN.TouchableOpacity>
-        </RN.View>
-      )
-    } else {
-      return null;
-    }
   }
 
   _renderCloseOrFlag() {

@@ -4,11 +4,13 @@ import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 // Local Imports
-import EntityInfoViewContainer    from '../entity_info_view/entity_info_view_container';
-import { FRIEND_TYPES }         from '../../actions/friendship_actions';
-import { styles }               from './pending_list_item_styles';
-import { UTILITY_STYLES }       from '../../utilities/style_utility';
-import { defaultErrorAlert }    from '../../utilities/error_utility';
+import EntityInfoViewContainer   from '../entity_info_view/entity_info_view_container';
+import { FRIEND_TYPES }          from '../../actions/friendship_actions';
+import { styles }                from './pending_list_item_styles';
+import { UTILITY_STYLES }        from '../../utilities/style_utility';
+import { isStringEmpty }         from '../../utilities/function_utility';
+import { getContactDisplayName } from '../../utilities/entity_utility';
+import { defaultErrorAlert }     from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -210,6 +212,8 @@ class PendingListItem extends React.PureComponent {
     let acceptString;
     let deleteString;
     let user = this.props.usersCache[this.props.userId];
+    let contact = user ? this.props.contactsCache[user.phone_number] : null;
+    let contactName = contact ? getContactDisplayName(contact) : '';
     let friendshipStatus = user ? user.friendship_status_with_client : null;
     let isBlocked = user ? user.is_user_blocked_by_client : false;
 
@@ -238,7 +242,11 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <Animatable.View ref={(ref) => this.container = ref} style={UTILITY_STYLES.rowView}>
-        <EntityInfoViewContainer entityId={this.props.userId || this.props.phoneNumber} marginLeft={15} />
+        <EntityInfoViewContainer
+          entityId={this.props.userId || this.props.phoneNumber}
+          messagePreview={isStringEmpty(contactName) ? null : contactName}
+          marginLeft={15}
+          />
         <RN.View style={styles.checkboxView}>
           <RN.View style={styles.buttonView}>
             {acceptString ? this._renderAcceptButton(friendshipStatus, acceptString) : null}

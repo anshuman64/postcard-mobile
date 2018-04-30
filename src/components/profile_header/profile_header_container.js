@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 // Local Imports
 import ProfileHeader                             from './profile_header';
 import * as FriendshipActions                    from '../../actions/friendship_actions';
-import { createFollow, deleteFollow }            from '../../actions/follow_actions';
 import { createBlock, deleteBlock, removeBlock } from '../../actions/block_actions';
 import { navigateTo }                            from '../../actions/navigation_actions';
 
@@ -23,8 +22,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   acceptFriendshipRequest: (acceptedFriendship)                           => dispatch(FriendshipActions.acceptFriendshipRequest(acceptedFriendship)),
   deleteFriendship:        (authToken, firebaseUserObj, userId)           => dispatch(FriendshipActions.deleteFriendship(authToken, firebaseUserObj, userId)),
   removeFriendship:        (deletedFriendship)                            => dispatch(FriendshipActions.removeFriendship(deletedFriendship)),
-  createFollow:            (authToken, firebaseUserObj, followeeId)       => dispatch(createFollow(authToken, firebaseUserObj, followeeId)),
-  deleteFollow:            (authToken, firebaseUserObj, followeeId)       => dispatch(deleteFollow(authToken, firebaseUserObj, followeeId)),
   createBlock:             (authToken, firebaseUserObj, blockeeId)        => dispatch(createBlock(authToken, firebaseUserObj, blockeeId)),
   deleteBlock:             (authToken, firebaseUserObj, blockeeId)        => dispatch(deleteBlock(authToken, firebaseUserObj, blockeeId)),
   removeBlock:             (deletedBlock)                                 => dispatch(removeBlock(deletedBlock)),
