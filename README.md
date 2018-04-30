@@ -25,6 +25,11 @@ const extname = (path) => {
 }
 ````
 
+4. Fix react-native-video-player
+````
+open ./node_modules/react-native-video-player/index.js
+````
+Replace contents with this file: https://drive.google.com/file/d/1-99De6dgEY4WnHhBvfqVrp5ktRA5a6wg/view?usp=sharing
 
 ## Setup - iOS
 0. Fix react-native-image-crop-picker UI
