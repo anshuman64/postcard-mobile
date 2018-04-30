@@ -29,6 +29,7 @@ Required Passed Props:
 Optional Passed Props:
   width (int): width of messages; only passed if on MessagesScreen
   postType (string): used as a proxy for which screen we are on
+  isClient (bool): if the screen is for the client
 */
 class PostListItem extends React.PureComponent {
 
@@ -203,7 +204,7 @@ class PostListItem extends React.PureComponent {
         return;
       }
     // For AuthoredScreen, go to recipient which is either a user or group
-    } else if (this.props.currentScreen === 'AuthoredScreen') {
+  } else if (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient) {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
@@ -260,56 +261,49 @@ class PostListItem extends React.PureComponent {
           entityId={this.props.item.author_id}
           marginLeft={0}
           />
-        {this._renderReceivedRecipients()}
-        {this._renderAuthoredRecipients()}
+        {this.props.postType === POST_TYPES.AUTHORED && this.props.isClient ?
+          this._renderAuthoredRecipients() :
+          this._renderReceivedRecipients()}
       </RN.View>
     )
   }
 
   _renderReceivedRecipients() {
-    if (this.props.postType === POST_TYPES.RECEIVED) {
-      let numRecipients = this.props.item.recipient_ids_with_client.length;
-      let displayString  = '';
-      let callback;
+    let numRecipients = this.props.item.recipient_ids_with_client.length;
+    let displayString  = '';
+    let callback;
 
-      if (numRecipients === 0) {
-        return null;
-      } else if (numRecipients === 1) {
-        convoId = this.props.item.recipient_ids_with_client[0];
-        displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onRespondToPost;
-      } else {
-        displayString = numRecipients + ' groups';
-        callback = setStateCallback(this, { isModalVisible: true });
-      }
-
-      return this._renderRecipients(displayString, callback);
-    } else {
+    if (numRecipients === 0) {
       return null;
+    } else if (numRecipients === 1) {
+      convoId = this.props.item.recipient_ids_with_client[0];
+      displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+      callback = this._onRespondToPost;
+    } else {
+      displayString = numRecipients + ' groups';
+      callback = setStateCallback(this, { isModalVisible: true });
     }
+
+    return this._renderRecipients(displayString, callback);
   }
 
   _renderAuthoredRecipients() {
-    if (this.props.currentScreen === 'AuthoredScreen') {
-      let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
-      let displayString  = '';
-      let callback;
+    let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
+    let displayString  = '';
+    let callback;
 
-      if (numRecipients === 0) {
-        return null;
-      } else if (numRecipients === 1) {
-        entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
-        displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onRespondToPost;
-      } else {
-        displayString = numRecipients + ' recipients';
-        callback = setStateCallback(this, { isModalVisible: true });
-      }
-
-      return this._renderRecipients(displayString, callback);
-    } else {
+    if (numRecipients === 0) {
       return null;
+    } else if (numRecipients === 1) {
+      entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
+      displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+      callback = this._onRespondToPost;
+    } else {
+      displayString = numRecipients + ' recipients';
+      callback = setStateCallback(this, { isModalVisible: true });
     }
+
+    return this._renderRecipients(displayString, callback);
   }
 
   _renderRecipients(displayString, callback) {

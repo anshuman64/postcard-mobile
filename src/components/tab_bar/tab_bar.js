@@ -14,6 +14,7 @@ Required Passed Props:
   -
 Optional Passed Props:
   userId (int): user id if on ProfileTabs or UserTabs
+  isClient (bool): if the tabs are for the client 
 */
 class TabBar extends React.PureComponent {
 
@@ -42,7 +43,7 @@ class TabBar extends React.PureComponent {
   render() {
     let currentScreen = this.props.screen;
 
-    if (this.props.tabs === 'ProfileTabs') {
+    if (this.props.isClient) {
       return (
         <RN.View style={styles.tabs}>
           {this._renderTab('Posts', 'AuthoredScreen', { userId: this.props.userId })}
