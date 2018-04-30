@@ -1,8 +1,9 @@
 // Library Imports
-import React    from 'react';
-import RN       from 'react-native';
-import Ionicon  from 'react-native-vector-icons/Ionicons';
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import React       from 'react';
+import RN          from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import Icon        from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcon    from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
 import HeaderContainer                    from '../../components/header/header_container';
@@ -31,8 +32,8 @@ class NewPostScreen extends React.PureComponent {
     this.state = {
       postText:        '',
       placeholderText: '',
-      imagePath:       null,
-      imageType:       null,
+      photos:          null,
+      videos:          null,
     };
   }
 
@@ -47,11 +48,54 @@ class NewPostScreen extends React.PureComponent {
     }
   }
 
-  // If selected image from CameraRollScreen, adds image
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.imagePath) {
-      this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
-    }
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _onPressAddPhotos = () => {
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      multiple: true,
+      maxFiles: 20,
+      includeBase64: true,
+      showCropGuidelines: false,
+      hideBottomControls: true,
+      cropperToolbarColor: 'black',
+    })
+    .then((photos) => {
+      console.log(photos);
+      this.setState({ photos: photos });
+    })
+    .catch((error) => {
+      // console.log(error); // Debug Test
+      this.isImagePressed = false;
+    });
+  }
+
+  _onPressAddVideo = () => {
+    ImagePicker.openPicker({
+      mediaType: 'video',
+      multiple: true,
+      includeBase64: true,
+      showCropGuidelines: false,
+      hideBottomControls: true,
+      cropperToolbarColor: 'black',
+    })
+    .then((videos) => {
+      console.log(videos)
+      this.setState({ videos: videos });
+    })
+    .catch((error) => {
+      // console.log(error); // Debug Test
+      this.isImagePressed = false;
+    });
+  }
+
+  _onPressTakePhoto = () => {
+    ImagePicker.openCamera({
+    }).then(image => {
+      console.log(image);
+    });
   }
 
   //--------------------------------------------------------------------//
@@ -88,13 +132,13 @@ class NewPostScreen extends React.PureComponent {
     }
   }
 
-  _renderImageButton() {
+  _renderButton(text, iconName, callback) {
     return (
-      <RN.View style={styles.imageButtonView}>
-        <RN.TouchableOpacity style={styles.imageButtonView} onPress={() => this.props.navigateTo('CameraRollScreen', { isAvatar: false })}>
-          <Ionicon name='md-images' style={styles.imageButtonIcon} />
-          <RN.Text style={styles.imageButtonText}>
-            Photos
+      <RN.View style={styles.buttonView}>
+        <RN.TouchableOpacity style={styles.buttonView} onPress={callback}>
+          <Icon name={iconName} style={styles.buttonIcon} />
+          <RN.Text style={styles.buttonText}>
+            {text}
           </RN.Text>
         </RN.TouchableOpacity>
       </RN.View>
@@ -112,12 +156,14 @@ class NewPostScreen extends React.PureComponent {
               nextButton={true}
               postText={this.state.postText}
               placeholderText={this.state.placeholderText}
-              imagePath={this.state.imagePath}
-              imageType={this.state.imageType}
+              photos={this.state.photos}
+              videos={this.state.videos}
               />
             {this._renderTextInput()}
             {this._renderImage()}
-            {this._renderImageButton()}
+            {this._renderButton('Add Photos', 'picture', this._onPressAddPhotos)}
+            {this._renderButton('Add Video', 'camrecorder', this._onPressAddVideo)}
+            {this._renderButton('Take Picture', 'camera', this._onPressTakePhoto)}
           </RN.View>
         </RN.TouchableWithoutFeedback>
       </RN.KeyboardAvoidingView>
