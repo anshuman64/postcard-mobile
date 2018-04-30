@@ -117,12 +117,12 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} initial={true}/>
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} />
 
             <Scene key='LoadingScreen'         component={LoadingScreenContainer}      panHandlers={null} hideNavBar={true} />
             <Scene key='WelcomeScreen'         component={WelcomeScreenContainer}      panHandlers={null} hideNavBar={true} />
             <Scene key='LoginScreen'           component={LoginScreenContainer}        panHandlers={null} hideNavBar={true} />
-            <Scene key='NewPostScreen'         component={NewPostScreenContainer}      panHandlers={null} hideNavBar={true} />
+            <Scene key='NewPostScreen'         component={NewPostScreenContainer}      panHandlers={null} hideNavBar={true} initial={true}/>
             <Scene key='ShareScreen'           component={ShareScreenContainer}        panHandlers={null} hideNavBar={true} />
             <Scene key='CreateCircleScreen'    component={CreateCircleScreenContainer} panHandlers={null} hideNavBar={true} />
             <Scene key='CreateGroupScreen'     component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />

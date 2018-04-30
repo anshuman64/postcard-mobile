@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     height: StyleUtility.DEVICE_DIM.width * 0.9,
     backgroundColor: StyleUtility.COLORS.grey900
   },
-  imageButtonView: {
+  buttonView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -58,12 +58,12 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: StyleUtility.COLORS.grey200
   },
-  imageButtonIcon: {
-    fontSize: StyleUtility.scaleFont(25),
+  buttonIcon: {
+    fontSize: StyleUtility.scaleFont(21),
     marginLeft: 20,
     color: StyleUtility.COLORS.appleBlue
   },
-  imageButtonText: {
+  buttonText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontSize: 16,
     marginLeft: 15,
