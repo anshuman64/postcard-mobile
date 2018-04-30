@@ -2,6 +2,7 @@
 import React from 'react';
 import RN    from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import Video from 'react-native-video'
 
 // Local Imports
 import { styles }         from './debug_login_screen_styles';
@@ -141,7 +142,7 @@ class DebugLoginScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerCenter}>
-        <RN.Image
+        <Video
         style={{width: 66, height: 58}}
         source={{uri: 'https://s3.amazonaws.com/insiya-users-dev/1//c5824d20-4c91-11e8-a3f4-ef24c6acd6b7.mp4'}}
         / >
