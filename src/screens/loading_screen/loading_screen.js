@@ -50,7 +50,6 @@ class LoadingScreen extends React.PureComponent {
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
     getPostPlaceholders();
-    this.props.getPhotos();
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
@@ -184,7 +183,6 @@ class LoadingScreen extends React.PureComponent {
 
       if (minsDiff > 1) {
         this._refreshData();
-        this.props.getPhotos();
         this.lastUpdate = new Date();
       }
     }

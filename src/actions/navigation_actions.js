@@ -74,8 +74,6 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.GroupMenuScreen(props)
     } else if (screen === 'UsernameScreen') {
       Actions.UsernameScreen(props)
-    } else if (screen === 'CameraRollScreen') {
-      Actions.CameraRollScreen(props)
     } else {
       return;
     }
