@@ -104,23 +104,26 @@ export const deleteFile = (authToken, firebaseUserObj, key) => (dispatch) => {
 };
 
 // Uploads file to AWS S3 bucket
-export const uploadFile = (authToken, firebaseUserObj, imagePath, imageType, userId, folderPath) => (dispatch) => {
+export const uploadFile = (authToken, firebaseUserObj, imagePath, imageType, userId, folderPath) => {
+  debugger
   return readImageFile(imagePath)
     .then((buffer) => {
+      debugger
       params = getParamsForImage(userId, imageType, buffer, folderPath);
 
       return new Promise((resolve, reject) => {
         s3Client.upload(params, (error, data) => {
+          debugger
           if (error) {
-            if (error.message === "Missing credentials in config") {
-              return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, imagePath, imageType, userId, folderPath))
-                .then((data) => {
-                  resolve(data);
-                })
-                .catch((error) => {
-                  reject(setErrorDescription(error, 'Upload file to S3 failed'));
-                });
-            }
+            // if (error.message === "Missing credentials in config") {
+            //   return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, imagePath, imageType, userId, folderPath))
+            //     .then((data) => {
+            //       resolve(data);
+            //     })
+            //     .catch((error) => {
+            //       reject(setErrorDescription(error, 'Upload file to S3 failed'));
+            //     });
+            // }
 
             reject(setErrorDescription(error, 'Upload file to S3 failed'));
           } else {

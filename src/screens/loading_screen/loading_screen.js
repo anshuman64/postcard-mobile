@@ -61,15 +61,15 @@ class LoadingScreen extends React.PureComponent {
             if (this.props.client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
-              this._loadContacts();
-              this._loadData()
-                .then(() => {
-                  // console.log('Data loaded'); // Debug Test
-                  this._onLogin();
-                })
-                .catch((error) => {
-                  defaultErrorAlert(error);
-                });
+            this._onLogin();
+              // this._loadContacts();
+              // this._loadData()
+              //   .then(() => {
+              //     // console.log('Data loaded'); // Debug Test
+              //   })
+              //   .catch((error) => {
+              //     defaultErrorAlert(error);
+              //   });
             }
           })
           .catch((error) => {
@@ -156,7 +156,7 @@ class LoadingScreen extends React.PureComponent {
         this.navigateToMessages     = null;
       // If opening the app normally, go to HomeScreen. TODO: should this be FriendScreen instead?
       } else if (client && client.username) {
-        this.props.navigateTo('HomeScreen'); // Debug Test: should be HomeScreen
+        this.props.navigateTo('DebugLoginScreen'); // Debug Test: should be HomeScreen
       // If opening the app normally and haven't created username, go to create username
       } else {
         this.props.navigateTo('UsernameScreenLogin', { screen: 'UsernameScreenLogin' });

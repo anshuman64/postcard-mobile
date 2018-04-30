@@ -1,10 +1,12 @@
 // Library Imports
 import React from 'react';
 import RN    from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 
 // Local Imports
 import { styles }         from './debug_login_screen_styles';
 import { UTILITY_STYLES } from '../../utilities/style_utility';
+import { uploadFile }     from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
@@ -26,6 +28,7 @@ class DebugLoginScreen extends React.PureComponent {
     this.state = {
       emailInput:     'test1@insiya.io',
       passwordInput:  'socialnetwork',
+      videos: null
     };
 
     this.isNextPressed = false;
@@ -36,19 +39,49 @@ class DebugLoginScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onNextButtonPress = () => {
-    if (this.isNextPressed) {
-      return;
+    // if (this.isNextPressed) {
+    //   return;
+    // }
+    //
+    // this.isNextPressed = true;
+    //
+    // this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
+    //   .then(() => {
+    //     this.props.navigateTo('LoadingScreen');
+    //   })
+    //   .finally(() => {
+    //     this.isNextPressed = false;
+    //   });
+
+    if (!this.state.videos) {
+      ImagePicker.openPicker({
+        mediaType: 'video',
+        multiple: true,
+        includeBase64: true,
+        showCropGuidelines: false,
+        hideBottomControls: true,
+        cropperToolbarColor: 'black',
+      })
+      .then((videos) => {
+        console.log(videos)
+        this.setState({ videos: videos })
+      })
+      .catch((error) => {
+        // console.log(error); // Debug Test
+        this.isImagePressed = false;
+      });
+    } else {
+      uploadFile(this.props.client.authToken, this.props.client.firebaseUserObj, this.state.videos[0].path, this.state.videos[0].mime, 1, '/')
+        .then((data) => {
+          console.log(data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
 
-    this.isNextPressed = true;
 
-    this.props.debugSignIn(this.state.emailInput, this.state.passwordInput)
-      .then(() => {
-        this.props.navigateTo('LoadingScreen');
-      })
-      .finally(() => {
-        this.isNextPressed = false;
-      });
+
   }
 
   //--------------------------------------------------------------------//
@@ -108,8 +141,13 @@ class DebugLoginScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerCenter}>
-        {this._renderLogo()}
+        <RN.Image
+        style={{width: 66, height: 58}}
+        source={{uri: 'https://s3.amazonaws.com/insiya-users-dev/1//c5824d20-4c91-11e8-a3f4-ef24c6acd6b7.mp4'}}
+        / >
+
         <RN.View style={styles.bottomView}>
+
           {this._renderEmailInput()}
           {this._renderPasswordInput()}
           {this._renderNextButton()}
