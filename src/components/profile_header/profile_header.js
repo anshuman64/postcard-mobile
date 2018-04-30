@@ -19,7 +19,7 @@ Required Passed Props:
   userId (int): id of user to render header for
   scrollY (object): animation object
 Optional Passed Props:
-  -
+  isClient (bool): if the profile header is for the client
 */
 class ProfileHeader extends React.PureComponent {
 
@@ -171,7 +171,6 @@ class ProfileHeader extends React.PureComponent {
     this.props.createBlock(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.userId)
       .then(() => {
         this._onConfirmUnfriend();
-        this._onConfirmUnfollow();
       })
       .catch((error) => {
         defaultErrorAlert(error);
@@ -285,7 +284,7 @@ class ProfileHeader extends React.PureComponent {
           {this._renderUsername()}
         </RN.View>
         {this._renderButtons()}
-        <TabBarContainer userId={this.props.userId} tabs={'ProfileTabs'} />
+        <TabBarContainer userId={this.props.userId} isClient={this.props.isClient} />
       </RN.Animated.View>
     )
   }

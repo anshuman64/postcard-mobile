@@ -41,6 +41,7 @@ class UserLikedScreen extends React.PureComponent {
         <PostListContainer
           ref={(ref) => this.postList = ref}
           isProfile={true}
+          isClient={false}
           userId={this.props.userId}
           postType={POST_TYPES.LIKED}
           />
