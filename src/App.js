@@ -31,7 +31,6 @@ import NewPostScreenContainer     from './screens/new_post_screen/new_post_scree
 import ShareScreenContainer       from './screens/share_screen/share_screen_container';
 import CreateGroupScreenContainer from './screens/create_group_screen/create_group_screen_container';
 import CreateCircleScreenContainer from './screens/create_circle_screen/create_circle_screen_container';
-import CameraRollScreenContainer  from './screens/camera_roll_screen/camera_roll_screen_container';
 import MenuScreen                 from './screens/menu_screen/menu_screen';
 import GroupMenuScreenContainer   from './screens/group_menu_screen/group_menu_screen_container';
 
@@ -133,7 +132,6 @@ class App extends React.Component {
             <Scene key='UsernameScreenLogin' component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Username')} />
             <Scene key='UsernameScreen'      component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Username', true)} />
             <Scene key='AvatarScreen'        component={AvatarScreenContainer}      panHandlers={null} navBar={this._renderHeader('Profile Photo', true)} />
-            <Scene key='CameraRollScreen'    component={CameraRollScreenContainer}  panHandlers={null} navBar={this._renderHeader('Gallery', true)} />
             <Scene key='AddFriendScreen'     component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
             <Scene key='NameCircleScreen'    component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Create Circle', true)} />
             <Scene key='NameGroupScreen'     component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Name Group', true)} />

@@ -15,7 +15,6 @@ import GroupsCacheReducer   from './groups_cache_reducer';
 import ContactsReducer      from './contacts_reducer';
 import ContactsCacheReducer from './contacts_cache_reducer';
 import ImagesCacheReducer   from './images_cache_reducer';
-import PhotosReducer        from './photos_reducer';
 import NavigationReducer    from './navigation_reducer';
 
 //--------------------------------------------------------------------//
@@ -28,7 +27,6 @@ const RootReducer = combineReducers({
   usersCache:    UsersCacheReducer,
   friendships:   FriendshipsReducer,
   imagesCache:   ImagesCacheReducer,
-  photos:        PhotosReducer,
   blocks:        BlocksReducer,
   circles:       CirclesReducer,
   conversations: ConversationsReducer,
