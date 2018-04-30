@@ -34,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new ReactVideoPackage(),
+            new BridgePackage(),
             new ReactNativeContacts(),
             new ReactNativeOneSignalPackage(),
             new RNExitAppPackage(),
