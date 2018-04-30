@@ -35,6 +35,7 @@ class AuthoredScreen extends React.PureComponent {
           username={username}
           avatarUrl={avatarUrl}
           postType={POST_TYPES.AUTHORED}
+          isClient={true}
           />
       </RN.View>
     )
