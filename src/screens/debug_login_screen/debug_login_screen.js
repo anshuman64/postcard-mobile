@@ -2,7 +2,8 @@
 import React from 'react';
 import RN    from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-import Video from 'react-native-video'
+import Video from 'react-native-video';
+import VideoPlayer from 'react-native-video-player';
 
 // Local Imports
 import { styles }         from './debug_login_screen_styles';
@@ -142,9 +143,17 @@ class DebugLoginScreen extends React.PureComponent {
   render() {
     return (
       <RN.View style={UTILITY_STYLES.containerCenter}>
-        <Video
-        style={{width: 66, height: 58}}
-        source={{uri: 'https://s3.amazonaws.com/insiya-users-dev/1//c5824d20-4c91-11e8-a3f4-ef24c6acd6b7.mp4'}}
+        <VideoPlayer
+        style={{width: 200, height: 200}}
+        video={{uri: 'https://s3.amazonaws.com/insiya-users-dev/1//c5824d20-4c91-11e8-a3f4-ef24c6acd6b7.mp4'}}
+        videoWidth={2000}
+        videoHeight={2000}
+        autoPlay={true}
+        defaultMuted={true}
+        disableControlsAutoHide={true}
+        disableFullscreen={false}
+        pauseOnPress={true}
+        fullScreenOnLongPress={true}
         / >
 
         <RN.View style={styles.bottomView}>
