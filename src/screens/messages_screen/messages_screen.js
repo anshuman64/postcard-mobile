@@ -31,8 +31,8 @@ class MessagesScreen extends React.PureComponent {
 
     this.state = {
       messageText:   '',
-      mediaPath:     null,
-      mediaType:     null,
+      mediumPath:    null,
+      mediumType:    null,
       takePhotoPath: null,
       takePhotoType: null,
       isLoading:     false,
@@ -115,12 +115,14 @@ class MessagesScreen extends React.PureComponent {
     this.isMediaButtonPressed = true;
 
     ImagePicker.openPicker({
+      compressImageMaxHeight: 512,
+      compressImageMaxWidth: 512,
       showCropGuidelines: false,
       hideBottomControls: true,
       cropperToolbarColor: 'black',
     })
     .then((medium) => {
-      this.setState({ mediaPath: medium.path, mediumType: medium.mime, takePhotoPath: null, takePhotoType: null });
+      this.setState({ mediumPath: medium.path, mediumType: medium.mime, takePhotoPath: null, takePhotoType: null });
     })
     .catch((error) => {
       error = setErrorDescription(error, 'Add media failed');
@@ -143,7 +145,7 @@ class MessagesScreen extends React.PureComponent {
       // TODO: add image size params
     })
     .then((photo) => {
-      this.setState({ mediaPath: null, mediaType: null, takePhotoPath: photo.path, takePhotoType: photo.mime });
+      this.setState({ mediumPath: null, mediumType: null, takePhotoPath: photo.path, takePhotoType: photo.mime });
     })
     .catch((error) => {
       error = setErrorDescription(error, 'Take photo failed');
@@ -156,7 +158,7 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _onPressSend = () => {
-    if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.mediaPath && !this.state.takePhotoPath)) {
+    if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.mediumPath && !this.state.takePhotoPath)) {
       return;
     }
 
@@ -164,7 +166,7 @@ class MessagesScreen extends React.PureComponent {
     let messageBody = isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
 
     this.setState({ isLoading: true }, () => {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.mediaPath || this.state.takePhotoPath, this.state.mediaType || this.state.takePhotoType)
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.mediumPath || this.state.takePhotoPath, this.state.mediumType || this.state.takePhotoType)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -174,7 +176,7 @@ class MessagesScreen extends React.PureComponent {
         });
 
         // Leave this out of .then for faster clearing
-        this.setState({ messageText: '', mediaPath: null, mediaType: null, takePhotoPath: null, takePhotoType: null });
+        this.setState({ messageText: '', mediumPath: null, mediumType: null, takePhotoPath: null, takePhotoType: null });
     })
   }
 
@@ -209,7 +211,7 @@ class MessagesScreen extends React.PureComponent {
           <Icon name='camera' style={[styles.imageButtonIcon, this.state.takePhotoPath && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TouchableOpacity style={styles.imageButton} onPress={this._onPressAddMedia}>
-          <Icon name='picture' style={[styles.imageButtonIcon, this.state.mediaPath && StyleUtility.UTILITY_STYLES.textHighlighted]} />
+          <Icon name='picture' style={[styles.imageButtonIcon, this.state.mediumPath && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TextInput
           style={styles.textInput}

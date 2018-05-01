@@ -3,7 +3,7 @@ import { amplitude }           from '../utilities/analytics_utility';
 import * as APIUtility         from '../utilities/api_utility';
 import { setErrorDescription } from '../utilities/error_utility';
 import { refreshAuthToken }    from './client_actions';
-import { getImages }           from './image_actions';
+import { getMedia }           from './medium_actions';
 
 //--------------------------------------------------------------------//
 
@@ -44,7 +44,7 @@ export const getBlockedUsers = (authToken, firebaseUserObj) => (dispatch) => {
   return APIUtility.get(authToken, '/blocks')
     .then((blockedUsers) => {
       dispatch(receiveBlockedUsers({ blockedUsers: blockedUsers }));
-      dispatch(getImages(blockedUsers));
+      dispatch(getMedia(blockedUsers));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
