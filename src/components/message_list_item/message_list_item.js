@@ -4,6 +4,7 @@ import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Hyperlink       from 'react-native-hyperlink';
 import ImageViewer     from 'react-native-image-zoom-viewer';
+import VideoPlayer     from 'react-native-video-player';
 
 // Local Imports
 import PostListItem          from '../post_list_item/post_list_item_container';
@@ -201,11 +202,24 @@ class MessageListItem extends React.PureComponent {
               />
           </RN.View>
         )
-      } else {
-        return null;
+      } else if (cachedMedia.mime_type.startsWith('video/')) {
+        return (
+          <VideoPlayer
+            style={{ width: width - 15, height: height - 15, borderRadius: 10 }}
+            video={{uri: mediumUrl}}
+            videoWidth={medium.width}
+            videoHeight={medium.height}
+            autoPlay={true}
+            defaultMuted={true}
+            disableControlsAutoHide={true}
+            disableFullscreen={false}
+            pauseOnPress={true}
+            fullScreenOnLongPress={true}
+            / >
+        )
       }
     } else if (cachedMedia) {
-      <RN.View style{isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser}>
+      <RN.View style={isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser}>
         <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
       </RN.View>
     } else {
@@ -234,7 +248,7 @@ class MessageListItem extends React.PureComponent {
         <PostListItem item={cachedPost} width={StyleUtility.getUsableDimensions().width * 0.75} />
       )
     } else if (postId && !cachedPost) {
-      <RN.View style{isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser}>
+      <RN.View style={isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser}>
         <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
       </RN.View>
     } else {
