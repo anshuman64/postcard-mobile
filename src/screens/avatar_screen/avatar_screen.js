@@ -1,6 +1,7 @@
 // Library Imports
-import React from 'react';
-import RN    from 'react-native';
+import React       from 'react';
+import RN          from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 
 // Local Imports
 import AvatarContainer        from '../../components/avatar/avatar_container';
@@ -17,8 +18,6 @@ Required Screen Props:
   -
 Optional Screen Props:
   isLogin (bool): determines what screen to go to after pressing 'Done'
-  imagePath (string): passed from CameraRollScreen when updating picture
-  imageType (string): passed from CameraRollScreen
 */
 class AvatarScreen extends React.PureComponent {
 
@@ -30,13 +29,12 @@ class AvatarScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      imagePath:     null,
-      imageType:     null,
+      avatarMedium:  null,
       isLoading:     false,
-      isNextPressed: true,
     };
 
     this.existingAvatar = null;
+    this.isButtonPressed = false;
   }
 
   //--------------------------------------------------------------------//
@@ -44,30 +42,23 @@ class AvatarScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   // If user has an avatar, get image and render it
-  componentDidMount() {
-    let client = this.props.usersCache[this.props.client.id];
-
-    if (client && client.avatar_url) {
-      let avatarImageUrl = this.props.mediaCache[client.avatar_url].url;
-
-      this.setState({ imagePath: avatarImageUrl });
-      this.existingAvatar = avatarImageUrl;
-    }
-  }
-
-  // If getting imagePath prop from CameraRollScreen, update imagePath to new picture
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.imagePath) {
-      this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
-    }
-  }
+  // componentDidMount() {
+  //   let client = this.props.usersCache[this.props.client.id];
+  //
+  //   if (client && client.avatar_medium) {
+  //     let avatarImageUrl = this.props.mediaCache[client.avatar_url].url;
+  //
+  //     this.setState({ avatarMedium: avatarImageUrl });
+  //     this.existingAvatar = avatarImageUrl;
+  //   }
+  // }
 
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
 
-  _setAvatarUrl = (imagePath, imageType) => {
-    this.props.editAvatar(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, imagePath, imageType)
+  _setAvatarUrl = (avatarMedium) => {
+    this.props.editAvatar(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, avatarMedium)
       .then(() => {
         if (this.props.isLogin) {
           this.props.navigateTo('HomeScreen');
@@ -79,7 +70,7 @@ class AvatarScreen extends React.PureComponent {
         defaultErrorAlert(error);
       })
       .finally(() => {
-        this.isNextPressed = false;
+        this.isButtonPressed = false;
         this.setState({ isLoading: false });
       })
   }
@@ -90,22 +81,48 @@ class AvatarScreen extends React.PureComponent {
 
   //Navigates to CameraRollScreen
   _onPressAddPhoto = () => {
-    this.props.navigateTo('CameraRollScreen', { isAvatar: true });
-  }
-
-  // Goes back if avatar hasn't changed, else upload image to AWS S3, changes user avatar_url, and then goes back
-  _onPressNextOrDone = () => {
-    if (this.isNextPressed) {
+    if (this.isButtonPressed) {
       return;
     }
 
-    this.isNextPressed = true;
+    this.isButtonPressed = true;
 
-    if (this.state.imagePath === this.existingAvatar) {
+    ImagePicker.openPicker({
+      height: 400,
+      width: 400,
+      cropping: true,
+      cropperCircleOverlay: true,
+      mediaType: 'photo',
+      showCropGuidelines: false,
+      hideBottomControls: true,
+      cropperToolbarColor: 'black',
+    })
+    .then((medium) => {
+      this.setState({ avatarMedium: medium, });
+    })
+    .catch((error) => {
+      error = setErrorDescription(error, 'Add media failed');
+      amplitude.logEvent('Media - Add Media', { is_successful: false, error_description: error.description, error_message: error.message });
+    })
+    .finally(() => {
+      this.isButtonPressed = false;
+    });
+  }
+
+  // Goes back if avatar hasn't changed, else upload image to AWS S3, changes user avatar_url, and then goes back
+  // TODO: wtf is this??
+  _onPressNextOrDone = () => {
+    if (this.isButtonPressed) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    if (this.state.avatarMedium === this.existingAvatar) {
       this.props.goBack();
     } else {
       this.setState({ isLoading: true }, () => {
-        this._setAvatarUrl(this.props.imagePath, this.props.imageType);
+        this._setAvatarUrl(this.props.avatarMedium, this.props.imageType);
       });
     }
   }
@@ -127,11 +144,11 @@ class AvatarScreen extends React.PureComponent {
 
   // Sets avatar_url to null
   _onConfirmRemove = () => {
-    if (this.isNextPressed) {
+    if (this.isButtonPressed) {
       return;
     }
 
-    this.isNextPressed = true;
+    this.isButtonPressed = true;
 
     this.setState({ isLoading: true }, () => {
       this._setAvatarUrl(null);
@@ -163,9 +180,9 @@ class AvatarScreen extends React.PureComponent {
       <RN.TouchableOpacity
         style={styles.skipButton}
         onPress={this._onPressAddPhoto}
-        disabled={!this.state.imagePath || this.state.isLoading}
+        disabled={!this.state.avatarMedium || this.state.isLoading}
         >
-        <RN.Text style={[styles.skipButtonText, !this.state.imagePath && UTILITY_STYLES.transparentText]}>
+        <RN.Text style={[styles.skipButtonText, !this.state.avatarMedium && UTILITY_STYLES.transparentText]}>
           Change
         </RN.Text>
       </RN.TouchableOpacity>
@@ -173,10 +190,10 @@ class AvatarScreen extends React.PureComponent {
   }
 
   _renderNextButton() {
-    let onPressFunction = this.state.imagePath ? this._onPressNextOrDone : this._onPressAddPhoto;
+    let onPressFunction = this.state.avatarMedium ? this._onPressNextOrDone : this._onPressAddPhoto;
     let buttonText;
 
-    if (this.state.imagePath) {
+    if (this.state.avatarMedium) {
       if (this.props.isLogin) {
         buttonText = 'Next';
       } else {
@@ -232,8 +249,8 @@ class AvatarScreen extends React.PureComponent {
         <RN.View style={UTILITY_STYLES.containerStart}>
           {this._renderTitle()}
           {this._renderSubtitle()}
-          <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.imagePath || this.state.isLoading}>
-            <AvatarContainer userId={this.props.client.id} avatarSize={200} iconSize={75} avatarUrl={this.state.imagePath} frameBorderWidth={3} />
+          <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.avatarMedium || this.state.isLoading}>
+            <AvatarContainer userId={this.props.client.id} avatarSize={200} iconSize={75} avatarUrl={this.state.avatarMedium} frameBorderWidth={3} />
           </RN.TouchableOpacity>
           {this._renderChangePhotoText()}
           {this._renderNextButton()}

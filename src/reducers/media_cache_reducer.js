@@ -8,12 +8,18 @@ import { MEDIUM_ACTION_TYPES } from '../actions/medium_actions';
 
 /*
 Data is in the form {
-  mediumPath1: {
-    url:         string,
-    type:        'PHOTO',
+  mediumId1: {
+    aws_path:    '2/messages/direct/24352j45kl-4235lhk4.jpg',
+    mime_type:   'image/jpeg',
+    height:      1600,
+    width:       900,
+    owner_id:    5,
+    post_id:     6,
+    message_id:  null,
+    url:         'www.insiya-public.com/asdlkalsdjkf'
     lastUpdated: Date()
   },
-  mediumPath2: { ...
+  mediumId2: { ...
 */
 
 const DEFAULT_STATE = {};
