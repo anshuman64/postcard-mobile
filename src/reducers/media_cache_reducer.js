@@ -24,33 +24,133 @@ Data is in the form {
 
 const DEFAULT_STATE = {};
 
+
+// Takes an array or single object and returns an array with extracted media
+const extractMedia = (object) => {
+  let media = [];
+
+  let addMedium = (obj) => {
+    // If the object is a message with a medium
+    if (obj.medium) {
+      obj.medium.url = FileUtility.getFile(obj.medium.aws_path);
+      media.push(obj.medium);
+    }
+
+    // If the object is a post with media
+    if (obj.media) {
+      _.forEach(obj.media, (medium) => {
+        medium.url = FileUtility.getFile(medium.aws_path);
+        media.push(medium);
+      })
+    }
+
+    // If the object is a user with an avatar
+    if (obj.avatar) {
+      obj.avatar.url = FileUtility.getFile(obj.avatar.aws_path);
+      media.push(obj.avatar)
+    }
+  }
+
+  if (Array.isArray(object)) {
+    _.forEach(object, (obj) => {
+      addMedium(obj);
+    });
+  } else {
+    addMedium(object);
+  }
+
+  return media;
+}
+
 const MediaCacheReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
   let newState = _.merge({}, state);
 
-  switch(action.type) {
-    case MEDIUM_ACTION_TYPES.RECEIVE_MEDIA:
-      let updateMedium = (medium) => {
-        newState[medium.key] = {
-          url:  medium.url,
-          type: medium.type,
-          lastUpdated: new Date()
+  let checkAndUpdateMedia = (media) => {
+    _.forEach(media, (medium) => {
+      if (newState[medium.id] && newState[medium.id].lastUpdated) {
+        let currentTime = new Date();
+        let lastUpdate = newState[medium.id].lastUpdated;
+        let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+
+        if (minsDiff > 59) {
+          medium.lastUpdated = new Date();
+          newState[medium.id] = medium;
         }
+      } else {
+        medium.lastUpdated = new Date();
+        newState[medium.id] = medium;
       }
+    });
+  }
 
-      _.forEach(action.data.media, (mediumObj) => {
-        if (newState[mediumObj.key] && newState[mediumObj.key].lastUpdated) {
-          let currentTime = new Date();
-          let lastUpdate = newState[mediumObj.key].lastUpdated;
-          let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
+  switch(action.type) {
 
-          if (minsDiff > 59) {
-            updateMedium(mediumObj);
-          }
-        } else {
-          updateMedium(mediumObj);
-        }
-      });
+    //--------------------------------------------------------------------//
+    // Client Actions
+    //--------------------------------------------------------------------//
+
+    case CLIENT_ACTION_TYPES.RECEIVE_CLIENT:
+      media = extractMedia(action.data.client);
+      checkAndUpdateMedia(media);
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Friendship Actions
+    //--------------------------------------------------------------------//
+
+    case FRIENDSHIP_ACTION_TYPES.RECEIVE_FRIENDSHIPS:
+      media = extractMedia(action.data.friends);
+      checkAndUpdateMedia(media);
+
+      return newState;
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_CREATE_FRIENDSHIP:
+    case FRIENDSHIP_ACTION_TYPES.PUSHER_RECEIVE_FRIENDSHIP:
+      media = extractMedia(action.data.user);
+      checkAndUpdateMedia(media);
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Post Actions
+    //--------------------------------------------------------------------//
+
+    case POST_ACTION_TYPES.RECEIVE_POSTS:
+      media = extractMedia(action.data.posts);
+      checkAndUpdateMedia(media);
+
+      return newState;
+    case POST_ACTION_TYPES.RECEIVE_POST:
+    case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
+      media = extractMedia(action.data.post);
+      checkAndUpdateMedia(media);
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Message Actions
+    //--------------------------------------------------------------------//
+
+    case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES:
+      media = extractMedia(action.data.messages);
+      checkAndUpdateMedia(media);
+
+      return newState;
+    case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
+    case MESSAGE_ACTION_TYPES.PUSHER_RECEIVE_MESSAGE:
+      media = extractMedia(action.data.message);
+      checkAndUpdateMedia(media);
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Other Actions
+    //--------------------------------------------------------------------//
+
+    case BLOCK_ACTION_TYPES.RECEIVE_BLOCKED_USERS:
+      media = extractMedia(action.data.blockedUsers);
+      checkAndUpdateMedia(media);
 
       return newState;
     default:
