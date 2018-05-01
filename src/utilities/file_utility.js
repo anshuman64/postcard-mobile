@@ -107,7 +107,7 @@ export const uploadMedia = (authToken, firebaseUserObj, userId, folderPath, medi
   return new Promise(async (resolve, reject) => {
     for (let i in media) {
       try {
-        media[i] = await dispatch(uploadFile(authToken, firebaseUserObj, userId, folderPath, media[i]);
+        media[i] = await dispatch(uploadFile(authToken, firebaseUserObj, userId, folderPath, media[i]));
       } catch (error) {
         reject(error);
       }
@@ -119,7 +119,7 @@ export const uploadMedia = (authToken, firebaseUserObj, userId, folderPath, medi
 
 // Uploads file to AWS S3 bucket
 // medium (object): has 'height', 'width', 'mime', 'path', and 'size' params
-// Returns 'medium' with added 'awsPath' param 
+// Returns 'medium' with added 'awsPath' param
 export const uploadFile = (authToken, firebaseUserObj, userId, folderPath, medium) => (dispatch) => {
   return readFile(medium.path)
     .then((buffer) => {

@@ -30,13 +30,11 @@ class MessagesScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      messageText:   '',
-      mediumPath:    null,
-      mediumType:    null,
-      takePhotoPath: null,
-      takePhotoType: null,
-      isLoading:     false,
-      isLoadingNew:  false
+      messageText:      '',
+      medium:           null,
+      takePhotoMedium:  null,
+      isLoading:        false,
+      isLoadingNew:     false
     };
 
     this.isMediaButtonPressed             = false;
@@ -122,7 +120,7 @@ class MessagesScreen extends React.PureComponent {
       cropperToolbarColor: 'black',
     })
     .then((medium) => {
-      this.setState({ mediumPath: medium.path, mediumType: medium.mime, takePhotoPath: null, takePhotoType: null });
+      this.setState({ medium: medium, takePhotoMedium: null });
     })
     .catch((error) => {
       error = setErrorDescription(error, 'Add media failed');
@@ -134,7 +132,7 @@ class MessagesScreen extends React.PureComponent {
 
   }
 
-  _onPressTakePhoto = () => {
+  _onPresstakePhotoMedium = () => {
     if (this.isMediaButtonPressed) {
       return;
     }
@@ -145,7 +143,7 @@ class MessagesScreen extends React.PureComponent {
       // TODO: add image size params
     })
     .then((photo) => {
-      this.setState({ mediumPath: null, mediumType: null, takePhotoPath: photo.path, takePhotoType: photo.mime });
+      this.setState({ medium: null, takePhotoMedium: photo });
     })
     .catch((error) => {
       error = setErrorDescription(error, 'Take photo failed');
@@ -158,7 +156,7 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _onPressSend = () => {
-    if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.mediumPath && !this.state.takePhotoPath)) {
+    if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.medium && !this.state.takePhotoMedium)) {
       return;
     }
 
@@ -166,7 +164,7 @@ class MessagesScreen extends React.PureComponent {
     let messageBody = isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
 
     this.setState({ isLoading: true }, () => {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.mediumPath || this.state.takePhotoPath, this.state.mediumType || this.state.takePhotoType)
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.medium || this.state.takePhotoMedium)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -176,7 +174,7 @@ class MessagesScreen extends React.PureComponent {
         });
 
         // Leave this out of .then for faster clearing
-        this.setState({ messageText: '', mediumPath: null, mediumType: null, takePhotoPath: null, takePhotoType: null });
+        this.setState({ messageText: '', medium: null, takePhotoMedium: null });
     })
   }
 
@@ -207,11 +205,11 @@ class MessagesScreen extends React.PureComponent {
   _renderTextInputRow() {
     return (
       <RN.View style={styles.textInputRow}>
-        <RN.TouchableOpacity style={styles.imageButton} onPress={this._onPressTakePhoto}>
-          <Icon name='camera' style={[styles.imageButtonIcon, this.state.takePhotoPath && StyleUtility.UTILITY_STYLES.textHighlighted]} />
+        <RN.TouchableOpacity style={styles.imageButton} onPress={this._onPresstakePhotoMedium}>
+          <Icon name='camera' style={[styles.imageButtonIcon, this.state.takePhotoMedium && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TouchableOpacity style={styles.imageButton} onPress={this._onPressAddMedia}>
-          <Icon name='picture' style={[styles.imageButtonIcon, this.state.mediumPath && StyleUtility.UTILITY_STYLES.textHighlighted]} />
+          <Icon name='picture' style={[styles.imageButtonIcon, this.state.medium && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TextInput
           style={styles.textInput}
