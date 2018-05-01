@@ -6,7 +6,6 @@ import { refreshAuthToken }                  from './client_actions';
 import { FRIEND_TYPES }                      from './friendship_actions';
 import { receiveGroups, getUsersFromGroups } from './group_actions';
 import { getMedia }                         from './medium_actions';
-import { getPostsFromMessages }              from './post_actions';
 import { uploadFile }                        from '../utilities/file_utility';
 
 //--------------------------------------------------------------------//
@@ -86,7 +85,6 @@ export const getMessages = (authToken, firebaseUserObj, isNew, convoId, queryPar
     .then((messages) => {
       dispatch(receiveMessages({ messages: messages, convoId: convoId, isNew: isNew }));
       dispatch(getMedia(messages));
-      dispatch(getPostsFromMessages(messages));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

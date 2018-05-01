@@ -2,9 +2,11 @@
 import _ from 'lodash';
 
 // Local Imports
-import { POST_ACTION_TYPES }    from '../actions/post_actions';
-import { LIKE_ACTION_TYPES }    from '../actions/like_actions';
-import { FLAG_ACTION_TYPES }    from '../actions/flag_actions';
+import { POST_ACTION_TYPES }       from '../actions/post_actions';
+import { FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
+import { MESSAGE_ACTION_TYPES }    from '../actions/message_actions';
+import { LIKE_ACTION_TYPES }       from '../actions/like_actions';
+import { FLAG_ACTION_TYPES }       from '../actions/flag_actions';
 
 //--------------------------------------------------------------------//
 
@@ -47,12 +49,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
         newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
         newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
         newState[post.id].contact_phone_numbers     = [];
-      });
-
-      return newState;
-    case POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES:
-      _.forEach(action.data.posts, (post) => {
-        newState[post.id] = _.merge(post, newState[post.id]);
       });
 
       return newState;
@@ -119,6 +115,44 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
       newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
       newState[post.id].contact_phone_numbers     = [];
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Friendship Actions
+    //--------------------------------------------------------------------//
+
+    case FRIENDSHIP_ACTION_TYPES.RECEIVE_FRIENDSHIPS:
+      posts = [];
+
+      _.forEach(action.data.friends, (friend) => {
+        if (friend.peek_message && friend.peek_message.post) {
+          posts.push(friend.peek_message.post);
+        }
+      });
+
+      _.forEach(posts, (post) => {
+        newState[post.id] = _.merge(post, newState[post.id]);
+      });
+
+      return newState;
+
+    //--------------------------------------------------------------------//
+    // Message Actions
+    //--------------------------------------------------------------------//
+
+    case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES:
+      posts = [];
+
+      _.forEach(action.data.messages, (message) => {
+        if (message.post) {
+          posts.push(message.post);
+        }
+      });
+
+      _.forEach(posts, (post) => {
+        newState[post.id] = _.merge(post, newState[post.id]);
+      });
 
       return newState;
 
