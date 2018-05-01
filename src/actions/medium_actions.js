@@ -75,6 +75,11 @@ export const getMedia = (object) => (dispatch) => {
         media.push(medium);
       })
     }
+
+    if (obj.avatar) {
+      obj.avatar.url = FileUtility.getFile(obj.avatar.aws_path);
+      media.push(obj.avatar)
+    }
   }
 
   if (Array.isArray(object)) {
