@@ -94,6 +94,7 @@ class LoadingScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
+  // TODO: add try/catch error handling 
   async _loadData() {
     await this._refreshData();
     await this.props.getCircles(this.props.client.authToken, this.props.client.firebaseUserObj);

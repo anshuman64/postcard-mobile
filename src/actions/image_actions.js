@@ -42,6 +42,7 @@ export const refreshCredsAndGetImage = (firebaseUserObj, avatarUrl) => (dispatch
 }
 
 // Gets signedUrl from S3 and stores it
+// TODO: make this work with videos
 export const getImages = (object) => (dispatch) => {
   let images = [];
 
@@ -64,6 +65,12 @@ export const getImages = (object) => (dispatch) => {
     // If the object is a user with an avatar_url
     if (obj.avatar_url) {
       images.push({ key: obj.avatar_url, url: FileUtility.getFile(obj.avatar_url) });
+    }
+
+    if (obj.media) {
+      _.forEach(obj.media, (media) => {
+        images.push(media.url);
+      })
     }
   }
 

@@ -103,8 +103,34 @@ export const deleteFile = (authToken, firebaseUserObj, key) => (dispatch) => {
   });
 };
 
+export const uploadMedia = (authToken, firebaseUserObj, userId, folderPath, photos, videos) => (dispatch) => {
+  let data = { photos: [], videos: [] };
+
+  return new Promise(async (resolve, reject) => {
+    for (let id in photos) {
+      try {
+        photoPath = await dispatch(uploadFile(authToken, firebaseUserObj, userId, folderPath, photos[id].path, photos[id].mime));
+        data.photos.push(photoPath.key);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    for (let id in videos) {
+      try {
+        videoPath = await dispatch(uploadFile(authToken, firebaseUserObj, userId, folderPath, videos[id].path, videos[id].mime))
+        data.videos.push(videoPath.key);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    resolve(data);
+  });
+}
+
 // Uploads file to AWS S3 bucket
-export const uploadFile = (authToken, firebaseUserObj, imagePath, imageType, userId, folderPath) => (dispatch) => {
+export const uploadFile = (authToken, firebaseUserObj, userId, folderPath, imagePath, imageType) => (dispatch) => {
   return readImageFile(imagePath)
     .then((buffer) => {
       params = getParamsForImage(userId, imageType, buffer, folderPath);
@@ -113,7 +139,7 @@ export const uploadFile = (authToken, firebaseUserObj, imagePath, imageType, use
         s3Client.upload(params, (error, data) => {
           if (error) {
             if (error.message === "Missing credentials in config") {
-              return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, imagePath, imageType, userId, folderPath))
+              return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, userId, folderPath, imagePath, imageType))
                 .then((data) => {
                   resolve(data);
                 })
