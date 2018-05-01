@@ -2,7 +2,8 @@
 import React           from 'react';
 import RN              from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import Hyperlink       from 'react-native-hyperlink'
+import Hyperlink       from 'react-native-hyperlink';
+import ImageViewer     from 'react-native-image-zoom-viewer';
 
 // Local Imports
 import PostListItem          from '../post_list_item/post_list_item_container';
@@ -32,7 +33,8 @@ class MessageListItem extends React.PureComponent {
     super(props);
 
     this.state = {
-      isDateShown: false,
+      isDateShown:    false,
+      isModalVisible: false,
     };
   }
 
@@ -156,7 +158,29 @@ class MessageListItem extends React.PureComponent {
     }
   }
 
-  _renderMedia() {
+  _renderImageViewer() {
+    let medium = this.props.message.medium;
+    let cachedMedia = medium ? this.props.mediaCache[medium.id] : null;
+    let mediumUrl = cachedMedia ? cachedMedia.url : null;
+
+    if (mediumUrl && this.state.isModalVisible) {
+      return (
+        <RN.Modal visible={this.state.isModalVisible} transparent={true}>
+          <ImageViewer
+            imageUrls={[{ url: mediumUrl }]}
+            onCancel={setStateCallback(this, { isModalVisible: false })}
+            onClick={setStateCallback(this, { isModalVisible: false })}
+            onSwipeDown={setStateCallback(this, { isModalVisible: false })}
+            failImageSource={'Could not load image'}
+            loadingRender={() => <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>}
+            renderHeader={() => null}
+            />
+        </RN.Modal>
+      )
+    }
+  }
+
+  _renderMedia(isAuthoredByClient) {
     let medium = this.props.message.medium;
     let cachedMedia = medium ? this.props.mediaCache[medium.id] : null;
     let mediumUrl = cachedMedia ? cachedMedia.url : null;
@@ -167,22 +191,23 @@ class MessageListItem extends React.PureComponent {
 
       if (cachedMedia.mime_type.startsWith('image/')) {
         return (
-          <RN.Image
-            source={{uri: mediumUrl}}
-            style={{ width: width - 15, height: height - 15, borderRadius: 10 }}
-            resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, medium)}
-            />
+          <RN.View style={isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser}>
+            <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
+            <RN.Image
+              source={{uri: mediumUrl}}
+              style={{ width: width - 15, height: height - 15, borderRadius: 10 }}
+              resizeMode={'cover'}
+              onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, medium)}
+              />
+          </RN.View>
         )
       } else {
         return null;
       }
     } else if (cachedMedia) {
-      return (
-        <RN.View style={styles.image}>
-          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
-        </RN.View>
-      )
+      <RN.View style{isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser}>
+        <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
+      </RN.View>
     } else {
       return null;
     }
@@ -200,7 +225,7 @@ class MessageListItem extends React.PureComponent {
     }
   }
 
-  _renderPost() {
+  _renderPost(isAuthoredByClient) {
     let postId = this.props.message.post_id;
     let cachedPost = this.props.postsCache[postId];
 
@@ -209,11 +234,9 @@ class MessageListItem extends React.PureComponent {
         <PostListItem item={cachedPost} width={StyleUtility.getUsableDimensions().width * 0.75} />
       )
     } else if (postId && !cachedPost) {
-      return (
-        <RN.View style={styles.image}>
-          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
-        </RN.View>
-      )
+      <RN.View style{isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser}>
+        <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
+      </RN.View>
     } else {
       return null;
     }
@@ -224,35 +247,23 @@ class MessageListItem extends React.PureComponent {
     let isBackgroundColor  = this.props.message.body;
     let isFirstMessage = this.props.index === 0;
 
-    if (isAuthoredByClient) {
-      return (
-        <RN.View style={[styles.messageContainerClient, isFirstMessage && {marginBottom: 15}]}>
-          <RN.TouchableOpacity activeOpacity={0.5} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
-            <RN.View style={[styles.messageViewClient, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
-              {this._renderPost()}
-              {this._renderBody(isAuthoredByClient)}
-              {this._renderMedia()}
-            </RN.View>
-            {this._renderDate(isAuthoredByClient)}
-          </RN.TouchableOpacity>
-        </RN.View>
-      )
-    } else {
-      return (
-        <RN.View style={[styles.messageContainerUser, isFirstMessage && {marginBottom: 15}]}>
-        {this._renderAvatar()}
-        <RN.TouchableOpacity activeOpacity={0.5} onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}>
-            {this._renderUsername()}
-            <RN.View style={[styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
-              {this._renderPost()}
-              {this._renderBody(isAuthoredByClient)}
-              {this._renderMedia()}
-            </RN.View>
-            {this._renderDate(isAuthoredByClient)}
-          </RN.TouchableOpacity>
-        </RN.View>
-      )
-    }
+    return (
+      <RN.View style={[isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser, isFirstMessage && {marginBottom: 15}]}>
+        {!isAuthoredByClient ? this._renderAvatar() : null}
+        <RN.TouchableOpacity
+          activeOpacity={0.5}
+          onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}
+          onLongPress={setStateCallback(this, { isModalVisible: true })}
+          >
+          <RN.View style={[isAuthoredByClient ? styles.messageViewClient : styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
+            {this._renderPost(isAuthoredByClient)}
+            {this._renderBody(isAuthoredByClient)}
+            {this._renderMedia(isAuthoredByClient)}
+          </RN.View>
+          {this._renderDate(isAuthoredByClient)}
+        </RN.TouchableOpacity>
+      </RN.View>
+    )
   }
 
 
@@ -261,6 +272,7 @@ class MessageListItem extends React.PureComponent {
       <RN.View>
         {this._renderDateHeader()}
         {this._renderMessage()}
+        {this._renderImageViewer()}
       </RN.View>
     )
   }
