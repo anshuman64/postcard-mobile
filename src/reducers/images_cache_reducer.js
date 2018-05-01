@@ -2,47 +2,49 @@
 import _ from 'lodash';
 
 // Local Imports
-import { IMAGE_ACTION_TYPES } from '../actions/image_actions';
+import { MEDIUM_ACTION_TYPES } from '../actions/medium_actions';
 
 //--------------------------------------------------------------------//
 
 /*
 Data is in the form {
-  imagePath1: {
+  mediumPath1: {
     url:         string,
+    type:        'PHOTO',
     lastUpdated: Date()
   },
-  imagePath2: { ...
+  mediumPath2: { ...
 */
 
 const DEFAULT_STATE = {};
 
-const ImagesCacheReducer = (state = DEFAULT_STATE, action) => {
+const MediaCacheReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
   let newState = _.merge({}, state);
 
   switch(action.type) {
-    case IMAGE_ACTION_TYPES.RECEIVE_IMAGES:
-      let updateImage = (image) => {
-        newState[image.key] = {
-          url: image.url,
+    case MEDIUM_ACTION_TYPES.RECEIVE_MEDIA:
+      let updateMedium = (medium) => {
+        newState[medium.key] = {
+          url:  medium.url,
+          type: medium.type,
           lastUpdated: new Date()
         }
       }
 
-      _.forEach(action.data.images, (imageObj) => {
-        if (newState[imageObj.key] && newState[imageObj.key].lastUpdated) {
+      _.forEach(action.data.media, (mediumObj) => {
+        if (newState[mediumObj.key] && newState[mediumObj.key].lastUpdated) {
           let currentTime = new Date();
-          let lastUpdate = newState[imageObj.key].lastUpdated;
+          let lastUpdate = newState[mediumObj.key].lastUpdated;
           let minsDiff = (currentTime - lastUpdate) / (1000 * 60);
 
           if (minsDiff > 59) {
-            updateImage(imageObj);
+            updateMedium(mediumObj);
           }
         } else {
-          updateImage(imageObj);
+          updateMedium(mediumObj);
         }
-      })
+      });
 
       return newState;
     default:
@@ -53,4 +55,4 @@ const ImagesCacheReducer = (state = DEFAULT_STATE, action) => {
 
 //--------------------------------------------------------------------//
 
-export default ImagesCacheReducer;
+export default MediaCacheReducer;

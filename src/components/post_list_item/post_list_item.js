@@ -387,12 +387,12 @@ class PostListItem extends React.PureComponent {
     let imagePath = this.props.item.image_url;
     let width = this.props.width;
 
-    if (imagePath && this.props.imagesCache[imagePath]) {
+    if (imagePath && this.props.mediaCache[imagePath]) {
       return (
         <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
           <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
             <RN.Image
-              source={{uri: this.props.imagesCache[imagePath].url}}
+              source={{uri: this.props.mediaCache[imagePath].url}}
               style={[styles.bodyImage, width && {height: width, width: width}]}
               resizeMode={'contain'}
               onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
@@ -401,7 +401,7 @@ class PostListItem extends React.PureComponent {
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
-    } else if (imagePath && !this.props.imagesCache[imagePath]) {
+    } else if (imagePath && !this.props.mediaCache[imagePath]) {
       return (
         <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
