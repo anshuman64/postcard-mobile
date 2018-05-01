@@ -72,6 +72,11 @@ export const getImageBorderRadius = (dimensions) => {
   return RN.Platform.OS === 'ios' ? dimensions / 2 : 10000;
 };
 
+// Given a width, gets the height while fixing aspect ratio for medium
+export const getScaledHeight = (medium, fixedWidth) => {
+  return fixedWidth / medium.width * medium.height;
+}
+
 export const UTILITY_STYLES = RN.StyleSheet.create({
   // Container Styles
   containerCenter: {

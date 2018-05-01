@@ -2,6 +2,8 @@
 import _ from 'lodash';
 
 // Local Imports
+import { getFile }                 from '../utilities/file_utility';
+import { MEDIUM_ACTION_TYPES }     from '../actions/medium_actions';
 import { CLIENT_ACTION_TYPES }     from '../actions/client_actions';
 import { FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
 import { POST_ACTION_TYPES }       from '../actions/post_actions';
@@ -37,21 +39,21 @@ const extractMedia = (object) => {
   let addMedium = (obj) => {
     // If the object is a message with a medium
     if (obj.medium) {
-      obj.medium.url = FileUtility.getFile(obj.medium.aws_path);
+      obj.medium.url = getFile(obj.medium.aws_path);
       media.push(obj.medium);
     }
 
     // If the object is a post with media
     if (obj.media) {
       _.forEach(obj.media, (medium) => {
-        medium.url = FileUtility.getFile(medium.aws_path);
+        medium.url = getFile(medium.aws_path);
         media.push(medium);
       })
     }
 
     // If the object is a user with an avatar
     if (obj.avatar) {
-      obj.avatar.url = FileUtility.getFile(obj.avatar.aws_path);
+      obj.avatar.url = getFile(obj.avatar.aws_path);
       media.push(obj.avatar)
     }
   }
@@ -90,6 +92,15 @@ const MediaCacheReducer = (state = DEFAULT_STATE, action) => {
   }
 
   switch(action.type) {
+
+    //--------------------------------------------------------------------//
+    // Medium Actions
+    //--------------------------------------------------------------------//
+
+    case MEDIUM_ACTION_TYPES.RECEIVE_MEDIUM:
+      checkAndUpdateMedia([action.data.medium]);
+
+      return newState;
 
     //--------------------------------------------------------------------//
     // Client Actions

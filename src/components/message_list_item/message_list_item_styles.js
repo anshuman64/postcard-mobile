@@ -8,7 +8,6 @@ import * as StyleUtility from '../../utilities/style_utility';
 //--------------------------------------------------------------------//
 
 const DEFAULT_MARGIN = 5;
-const IMAGE_SIZE = StyleUtility.getUsableDimensions().width * 0.75 - 15; // 75% width minus magic number
 
 export const styles = StyleSheet.create({
   messageContainerClient: {
@@ -68,11 +67,6 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
     margin: 10
-  },
-  image: {
-    width: IMAGE_SIZE,
-    height: IMAGE_SIZE,
-    borderRadius: 10,
   },
   date: {
     alignSelf: 'flex-start',

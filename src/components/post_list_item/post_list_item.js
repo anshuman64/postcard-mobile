@@ -395,7 +395,7 @@ class PostListItem extends React.PureComponent {
               source={{uri: this.props.mediaCache[imagePath].url}}
               style={[styles.bodyImage, width && {height: width, width: width}]}
               resizeMode={'contain'}
-              onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
+              onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, imagePath)}
               />
           </RN.TouchableWithoutFeedback>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>

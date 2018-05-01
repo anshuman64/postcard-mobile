@@ -2,7 +2,6 @@
 import _ from 'lodash';
 
 // Local Imports
-import * as FileUtility     from '../utilities/file_utility';
 import { refreshAuthToken } from './client_actions';
 
 //--------------------------------------------------------------------//
@@ -12,7 +11,7 @@ import { refreshAuthToken } from './client_actions';
 //--------------------------------------------------------------------//
 
 export const MEDIUM_ACTION_TYPES = {
-  RECEIVE_MEDIA: 'RECEIVE_MEDIA',
+  RECEIVE_MEDIUM: 'RECEIVE_MEDIUM',
 };
 
 //--------------------------------------------------------------------//
@@ -20,8 +19,8 @@ export const MEDIUM_ACTION_TYPES = {
 //--------------------------------------------------------------------//
 
 // media (array): array of photo and video urls for caching
-export const receiveMedia = (data) => {
-  return { type: MEDIUM_ACTION_TYPES.RECEIVE_MEDIA, data: data };
+export const receiveMedium = (data) => {
+  return { type: MEDIUM_ACTION_TYPES.RECEIVE_MEDIUM, data: data };
 };
 
 //--------------------------------------------------------------------//
@@ -30,9 +29,9 @@ export const receiveMedia = (data) => {
 
 
 // TODO: fix this
-export const refreshCredsAndGetImage = (firebaseUserObj, avatarUrl) => (dispatch) => {
+export const refreshCredsAndGetMedium = (firebaseUserObj, medium) => (dispatch) => {
   dispatch(refreshAuthToken(firebaseUserObj))
     .then(() => {
-      dispatch(getMedia(avatarUrl));
+      dispatch(receiveMedium({ medium: medium }));
     })
 }
