@@ -61,15 +61,18 @@ export const getMedia = (object) => (dispatch) => {
       media.push({ key: obj.avatar_url, url: FileUtility.getFile(obj.avatar_url), type: 'PHOTO' });
     }
 
+    // --- New Media Implementation ---
     // If the object is a message with a medium
     if (obj.medium) {
-      media.push({ key: obj.medium.url, url: FileUtility.getFile(obj.medium.url), type: obj.medium.medium_type});
+      obj.medium.url = FileUtility.getFile(obj.medium.aws_path);
+      media.push(obj.medium);
     }
 
     // If the object is a post with media
     if (obj.media) {
       _.forEach(obj.media, (medium) => {
-        media.push({ key: medium.url, url: FileUtility.getFile(medium.url), type: medium.medium_type});
+        medium.url = FileUtility.getFile(medium.aws_path);
+        media.push(medium);
       })
     }
   }
