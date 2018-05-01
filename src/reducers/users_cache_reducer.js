@@ -147,6 +147,14 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   // Message Actions
   //--------------------------------------------------------------------//
 
+    case MESSAGE_ACTION_TYPES.RECEIVE_CONVERSATIONS:
+      _.forEach(action.data.groups, (group) => {
+        _.forEach(group.users, (user) => {
+          newState[user.id] = _.merge(user, newState[user.id]); // use merge to keep friendship_status_with_client
+        });
+      });
+
+      return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
       convoId = action.data.convoId;
 
@@ -168,8 +176,9 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
   // Group Actions
   //--------------------------------------------------------------------//
-    case GROUP_ACTION_TYPES.RECEIVE_USERS_FROM_GROUPS:
-      _.forEach(action.data.users, (user) => {
+
+    case GROUP_ACTION_TYPES.RECEIVE_GROUP:
+      _.forEach(action.data.group.users, (user) => {
         newState[user.id] = _.merge(user, newState[user.id]); // use merge to keep friendship_status_with_client
       });
 

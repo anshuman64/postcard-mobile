@@ -4,7 +4,7 @@ import * as APIUtility                       from '../utilities/api_utility';
 import { setErrorDescription }               from '../utilities/error_utility';
 import { refreshAuthToken }                  from './client_actions';
 import { FRIEND_TYPES }                      from './friendship_actions';
-import { receiveGroups, getUsersFromGroups } from './group_actions';
+import { receiveGroups } from './group_actions';
 import { uploadFile }                        from '../utilities/file_utility';
 
 //--------------------------------------------------------------------//
@@ -64,7 +64,6 @@ export const getConversations = (authToken, firebaseUserObj) => (dispatch) => {
         .then((groups) => {
           dispatch(receiveConversations({ friends: friends, groups: groups }));
           dispatch(receiveGroups({ groups: groups }));
-          dispatch(getUsersFromGroups(groups));
         })
         .catch((error) => {
           getConversationsError(error);
