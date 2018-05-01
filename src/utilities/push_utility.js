@@ -91,7 +91,6 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
 
   myChannel.bind('receive-group', (data) => {
     dispatch(GroupActions.receiveGroup({ group: data.group }));
-    dispatch(GroupActions.getUsersFromGroups(data.group));
   });
 
   myChannel.bind('remove-group', (data) => {

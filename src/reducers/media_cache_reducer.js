@@ -132,6 +132,13 @@ const MediaCacheReducer = (state = DEFAULT_STATE, action) => {
     // Message Actions
     //--------------------------------------------------------------------//
 
+    case MESSAGE_ACTION_TYPES.RECEIVE_CONVERSATIONS:
+      _.forEach(action.data.groups, (group) => {
+        media = extractMedia(group.users);
+        checkAndUpdateMedia(media);
+      });
+
+      return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGES:
       media = extractMedia(action.data.messages);
       checkAndUpdateMedia(media);
@@ -148,6 +155,11 @@ const MediaCacheReducer = (state = DEFAULT_STATE, action) => {
     // Other Actions
     //--------------------------------------------------------------------//
 
+    case GROUP_ACTION_TYPES.RECEIVE_GROUP:
+      media = extractMedia(action.data.group.users);
+      checkAndUpdateMedia(media);
+
+      return newState;
     case BLOCK_ACTION_TYPES.RECEIVE_BLOCKED_USERS:
       media = extractMedia(action.data.blockedUsers);
       checkAndUpdateMedia(media);
