@@ -27,7 +27,6 @@ export const POST_ACTION_TYPES = {
   RECEIVE_POST:                'RECEIVE_POST',
   REMOVE_POST:                 'REMOVE_POST',
   PUSHER_RECEIVE_POST:         'PUSHER_RECEIVE_POST',
-  RECEIVE_POSTS_FROM_MESSAGES: 'RECEIVE_POSTS_FROM_MESSAGES',
 };
 
 //--------------------------------------------------------------------//
@@ -67,11 +66,6 @@ export const removePost = (data) => {
 export const pusherReceivePost = (data) => {
   return { type: POST_ACTION_TYPES.PUSHER_RECEIVE_POST, data: data };
 };
-
-// posts (array): array of post objects
-export const receivePostsFromMessages = (data) => {
-  return { type: POST_ACTION_TYPES.RECEIVE_POSTS_FROM_MESSAGES, data: data };
-}
 
 //--------------------------------------------------------------------//
 // Helpers
@@ -186,22 +180,3 @@ export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => 
       throw error;
     });
 };
-
-// Adds posts from messages and user peek messages to posts cache
-export const getPostsFromMessages = (object) => (dispatch) => {
-  let posts = [];
-
-  _.forEach(object, (obj) => {
-    // If object is an array of messages
-    if (obj.post) {
-      posts.push(obj.post);
-    }
-
-    // If object is an array of users
-    if (obj.peek_message && obj.peek_message.post) {
-      posts.push(obj.peek_message.post);
-    }
-  });
-
-  dispatch(receivePostsFromMessages({ posts: posts }));
-}
