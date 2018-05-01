@@ -28,6 +28,7 @@ const GroupsCacheReducer = (state = DEFAULT_STATE, action) => {
 
   switch(action.type) {
     case GROUP_ACTION_TYPES.RECEIVE_GROUPS:
+    case MESSAGE_ACTION_TYPES.RECEIVE_CONVERSATIONS:
       _.forEach(action.data.groups, (group) => {
         newState[-1 * group.id] = group; //WARNING/NOTE: using negative values for groups
       });
