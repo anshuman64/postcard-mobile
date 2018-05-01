@@ -6,7 +6,7 @@ import { getImages }              from './image_actions';
 import { amplitude }              from '../utilities/analytics_utility';
 import * as APIUtility            from '../utilities/api_utility';
 import { setErrorDescription }    from '../utilities/error_utility';
-import { deleteFile, uploadFile } from '../utilities/file_utility';
+import { deleteFile, uploadMedia } from '../utilities/file_utility';
 import { refreshAuthToken }       from './client_actions';
 
 //--------------------------------------------------------------------//
@@ -125,7 +125,13 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
 };
 
 // Create post to API from Header of NewPostScreen
-export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, postImagePath, postImageType, placeholderText) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, photos, videos, placeholderText) => (dispatch) => {
+  let postPostError = (error) => {
+    error = setErrorDescription(error, 'POST post failed');
+    amplitude.logEvent('Posts - Create Post', { is_successful: false, body: postBody, num_photos: photos.length, num_videos: videos.length, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
+    throw error;
+  }
+
   let recipient_ids = [];
   let group_ids = [];
 
@@ -137,42 +143,29 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
     }
   });
 
-  let postPost = (imageKey) => {
-    return APIUtility.post(authToken, '/posts', { body: postBody, image_url: imageKey, is_public: isPublic, recipient_ids: recipient_ids, contact_phone_numbers: contactPhoneNumbers, group_ids: group_ids })
-      .then((newPost) => {
-        amplitude.logEvent('Posts - Create Post', { is_successful: true, body: postBody, image: imageKey ? true : false, is_public: isPublic, num_recipients: recipientIds.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
-        dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
-        dispatch(getImages(newPost));
-      })
-      .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, postImagePath, postImageType, placeholderText));
-        }
+  return dispatch(uploadMedia(authToken, firebaseUserObj, clientId, 'posts/', photos, videos))
+    .then((data) => {
+      return APIUtility.post(authToken, '/posts', { body: postBody, photos: data.photos.length > 0 ? data.photos : null, videos: data.videos.length > 0 ? data.videos : null, is_public: isPublic, recipient_ids: recipient_ids, contact_phone_numbers: contactPhoneNumbers, group_ids: group_ids })
+        .then((newPost) => {
+          amplitude.logEvent('Posts - Create Post', { is_successful: true, body: postBody, num_photos: photos.length, num_videos: videos.length, is_public: isPublic, num_recipients: recipientIds.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
+          dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
+          dispatch(getImages(newPost));
+        })
+        .catch((error) => {
+          if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+            return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, photos, videos, placeholderText));
+          }
 
-        postPostError(error);
-      });
-  }
-
-  let postPostError = (error) => {
-    error = setErrorDescription(error, 'POST post failed');
-    amplitude.logEvent('Posts - Create Post', { is_successful: false, body: postBody, image: postImagePath ? true : false, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
-    throw error;
-  }
-
-  if (postImagePath) {
-    return dispatch(uploadFile(authToken, firebaseUserObj, postImagePath, postImageType, clientId, 'posts/'))
-      .then((data) => {
-        return postPost(data.key);
-      })
-      .catch((error) => {
-        postPostError(error);
-      });
-  } else {
-    return postPost();
-  }
+          postPostError(error);
+        });
+    })
+    .catch((error) => {
+      postPostError(error);
+    });
 };
 
 // Delete post to API from PostListItem. Call removePost from component.
+// TODO: make this work with multiple media
 export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {

@@ -14,7 +14,7 @@ Data is in the form {
     "id":                        30,
     "body":                      "hello world!",
     "author_id":                 1,
-    "image_url":                 "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
+    "media":                     [{url: "imagePath1", type: "PHOTO", owner_id: 1, post_id: 30}, ...],
     "created_at":                "2018-01-18T23:48:06.000Z",
     "updated_at":                "2018-01-18T23:48:06.000Z",
     "num_likes":                 0,
