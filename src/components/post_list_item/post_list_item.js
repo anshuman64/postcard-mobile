@@ -226,7 +226,7 @@ class PostListItem extends React.PureComponent {
 
   _onConfirmRespondToPost(convoId) {
     this.setState({ isLoading: true },() => {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, this.props.item.id)
         .then(() => {
           this.props.navigateTo('MessagesScreen', { convoId: convoId });
         })
