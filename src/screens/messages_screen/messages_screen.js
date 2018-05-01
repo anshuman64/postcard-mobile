@@ -1,9 +1,8 @@
 // Library Imports
-import React    from 'react';
-import RN       from 'react-native';
-import Icon     from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicon  from 'react-native-vector-icons/Ionicons';
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import React       from 'react';
+import RN          from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import ListFooter                         from '../../components/list_footer/list_footer';
@@ -20,8 +19,6 @@ import { defaultErrorAlert }              from '../../utilities/error_utility';
 /*
 Required Screen Props:
   convoId (id): id of group or user whose conversation it is with
-Optional Screen Props:
-  imagePath (string): path of image if coming from CameraRollScreen
 */
 class MessagesScreen extends React.PureComponent {
 
@@ -33,17 +30,20 @@ class MessagesScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      messageText:  '',
-      imagePath:    null,
-      imageType:    null,
-      isLoading:    false,
-      isLoadingNew: false
+      messageText:   '',
+      mediaPath:     null,
+      mediaType:     null,
+      takePhotoPath: null,
+      takePhotoType: null,
+      isLoading:     false,
+      isLoadingNew:  false
     };
 
+    this.isMediaButtonPressed             = false;
     this.isSendPressed                    = false;
     this.isLoading                        = false;
     this.onEndReachedCalledDuringMomentum = false;
-    this.currentAppState = 'active';
+    this.currentAppState                  = 'active';
   }
 
   //--------------------------------------------------------------------//
@@ -59,13 +59,6 @@ class MessagesScreen extends React.PureComponent {
       this._loadOldMessages();
     } else if (messages && messages.data.length > 0) {
       this._loadNewMessages();
-    }
-  }
-
-  // If selected image from CameraRollScreen, adds image
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.imagePath && nextProps.imagePath != this.state.imagePath && nextProps.imagePath != this.props.imagePath) {
-      this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
     }
   }
 
@@ -114,8 +107,56 @@ class MessagesScreen extends React.PureComponent {
     this.currentAppState = nextAppState;
   }
 
+  _onPressAddMedia = () => {
+    if (this.isMediaButtonPressed) {
+      return;
+    }
+
+    this.isMediaButtonPressed = true;
+
+    ImagePicker.openPicker({
+      showCropGuidelines: false,
+      hideBottomControls: true,
+      cropperToolbarColor: 'black',
+    })
+    .then((medium) => {
+      this.setState({ mediaPath: medium.path, mediumType: medium.mime, takePhotoPath: null, takePhotoType: null });
+    })
+    .catch((error) => {
+      error = setErrorDescription(error, 'Add media failed');
+      amplitude.logEvent('Media - Add Media', { is_successful: false, error_description: error.description, error_message: error.message });
+    })
+    .finally(() => {
+      this.isMediaButtonPressed = false;
+    });
+
+  }
+
+  _onPressTakePhoto = () => {
+    if (this.isMediaButtonPressed) {
+      return;
+    }
+
+    this.isMediaButtonPressed = true;
+
+    ImagePicker.openCamera({
+      // TODO: add image size params
+    })
+    .then((photo) => {
+      this.setState({ mediaPath: null, mediaType: null, takePhotoPath: photo.path, takePhotoType: photo.mime });
+    })
+    .catch((error) => {
+      error = setErrorDescription(error, 'Take photo failed');
+      amplitude.logEvent('Media - Take Photo', { is_successful: false, error_description: error.description, error_message: error.message });
+    })
+    .finally(() => {
+      this.isMediaButtonPressed = false;
+    });
+
+  }
+
   _onPressSend = () => {
-    if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.imagePath)) {
+    if (this.isSendPressed || (isStringEmpty(this.state.messageText) && !this.state.mediaPath && !this.state.takePhotoPath)) {
       return;
     }
 
@@ -123,7 +164,7 @@ class MessagesScreen extends React.PureComponent {
     let messageBody = isStringEmpty(this.state.messageText) ? null : this.state.messageText; // sets post body as null if there is no text
 
     this.setState({ isLoading: true }, () => {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.imagePath, this.state.imageType)
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.convoId, messageBody, this.state.mediaPath || this.state.takePhotoPath, this.state.mediaType || this.state.takePhotoType)
         .catch((error) => {
           defaultErrorAlert(error);
         })
@@ -133,7 +174,7 @@ class MessagesScreen extends React.PureComponent {
         });
 
         // Leave this out of .then for faster clearing
-        this.setState({ messageText: '', imagePath: null, imageType: null });
+        this.setState({ messageText: '', mediaPath: null, mediaType: null, takePhotoPath: null, takePhotoType: null });
     })
   }
 
@@ -164,8 +205,11 @@ class MessagesScreen extends React.PureComponent {
   _renderTextInputRow() {
     return (
       <RN.View style={styles.textInputRow}>
-        <RN.TouchableOpacity style={styles.imageButton} onPress={() => this.props.navigateTo('CameraRollScreen', { isAvatar: false })}>
-          <Ionicon name='md-images' style={styles.imageButtonIcon} />
+        <RN.TouchableOpacity style={styles.imageButton} onPress={this._onPressTakePhoto}>
+          <Icon name='camera' style={[styles.imageButtonIcon, this.state.takePhotoPath && StyleUtility.UTILITY_STYLES.textHighlighted]} />
+        </RN.TouchableOpacity>
+        <RN.TouchableOpacity style={styles.imageButton} onPress={this._onPressAddMedia}>
+          <Icon name='picture' style={[styles.imageButtonIcon, this.state.mediaPath && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TextInput
           style={styles.textInput}
@@ -213,16 +257,6 @@ class MessagesScreen extends React.PureComponent {
         <RN.View style={[styles.headerView, this.state.isLoadingNew && {justifyContent: 'center'}]}>
           <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
         </RN.View>
-      )
-    } else if (this.state.imagePath) {
-      return (
-        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'}>
-          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })}>
-            <RN.View style={styles.closeButtonBackground}>
-              <EvilIcon name='close' style={styles.closeIcon} />
-            </RN.View>
-          </RN.TouchableWithoutFeedback>
-        </RN.ImageBackground>
       )
     } else {
       return null;

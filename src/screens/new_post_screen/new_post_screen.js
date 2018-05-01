@@ -124,7 +124,7 @@ class NewPostScreen extends React.PureComponent {
       this.setState({ takePhoto: [photo] });
     })
     .catch((error) => {
-      error = setErrorDescription(error, 'Add photos failed');
+      error = setErrorDescription(error, 'Take photo failed');
       amplitude.logEvent('Media - Take Photo', { is_successful: false, error_description: error.description, error_message: error.message });
     })
     .finally(() => {
