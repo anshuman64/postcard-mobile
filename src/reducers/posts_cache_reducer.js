@@ -13,18 +13,20 @@ import { FLAG_ACTION_TYPES }       from '../actions/flag_actions';
 /*
 Data is in the form {
   postId1: {
-    "id":                        30,
-    "body":                      "hello world!",
-    "author_id":                 1,
-    "media":                     [{url: "imagePath1", type: "PHOTO", owner_id: 1, post_id: 30}, ...],
-    "created_at":                "2018-01-18T23:48:06.000Z",
-    "updated_at":                "2018-01-18T23:48:06.000Z",
-    "num_likes":                 0,
-    "is_liked_by_client":        false,
-    "is_flagged_by_client":      false,
-    "recipient_ids":             [1,3,-5,-6,7],
-    "recipient_ids_with_client": [1,-5],
-    "contact_phone_numbers":     ["+14082551245", "+14083060059"]
+    id:                        30,
+    body:                      hello world!,
+    author_id:                 1,
+    media:                     [{url: imagePath1, type: PHOTO, owner_id: 1, post_id: 30}, ...],
+    created_at:                2018-01-18T23:48:06.000Z,
+    updated_at:                2018-01-18T23:48:06.000Z,
+    num_likes:                 0,
+    is_liked_by_client:        false,
+    is_flagged_by_client:      false,
+    media:                     [{mediaObj1, mediaObj2}],
+    author:                    {userObj},
+    recipient_ids:             [1,3,-5,-6,7],
+    recipient_ids_with_client: [1,-5],
+    contact_phone_numbers:     [+14082551245, +14083060059]
   },
   postId2: {...
 */
