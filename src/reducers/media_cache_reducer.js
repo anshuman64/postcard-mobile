@@ -2,7 +2,12 @@
 import _ from 'lodash';
 
 // Local Imports
-import { MEDIUM_ACTION_TYPES } from '../actions/medium_actions';
+import { CLIENT_ACTION_TYPES }     from '../actions/client_actions';
+import { FRIENDSHIP_ACTION_TYPES } from '../actions/friendship_actions';
+import { POST_ACTION_TYPES }       from '../actions/post_actions';
+import { MESSAGE_ACTION_TYPES }    from '../actions/message_actions';
+import { GROUP_ACTION_TYPES }      from '../actions/group_actions';
+import { BLOCK_ACTION_TYPES }      from '../actions/block_actions';
 
 //--------------------------------------------------------------------//
 
