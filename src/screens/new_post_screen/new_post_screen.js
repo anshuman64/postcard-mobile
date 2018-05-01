@@ -211,8 +211,9 @@ class NewPostScreen extends React.PureComponent {
               nextButton={true}
               postText={this.state.postText}
               placeholderText={this.state.placeholderText}
-              photos={this.state.photos.concat(this.state.takePhoto)}
+              photos={this.state.photos}
               videos={this.state.videos}
+              takePhoto={this.state.takePhoto}
               />
             {this._renderTextInput()}
             {this._renderButton('photos')}
