@@ -14,7 +14,7 @@ import ConversationsReducer from './conversations_reducer';
 import GroupsCacheReducer   from './groups_cache_reducer';
 import ContactsReducer      from './contacts_reducer';
 import ContactsCacheReducer from './contacts_cache_reducer';
-import MediaCacheReducer   from './images_cache_reducer';
+import MediaCacheReducer    from './media_cache_reducer';
 import NavigationReducer    from './navigation_reducer';
 
 //--------------------------------------------------------------------//
