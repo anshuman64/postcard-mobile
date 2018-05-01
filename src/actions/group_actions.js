@@ -64,7 +64,6 @@ export const createGroup = (authToken, firebaseUserObj, userIds, contactPhoneNum
     .then((newGroup) => {
       amplitude.logEvent('Groups - Create Group', { is_successful: true, num_users: userIds.length, num_contacts: contactPhoneNumbers.length });
       dispatch(receiveGroup({ group: newGroup, contactPhoneNumbers: contactPhoneNumbers }));
-      dispatch(getUsersFromGroups(newGroup));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -164,19 +163,3 @@ export const deleteGroup = (authToken, firebaseUserObj, groupId) => (dispatch) =
       throw error;
     });
 };
-
-// Gets user info from groups for rendering username, avatar_url, etc.
-export const getUsersFromGroups = (object) => (dispatch) => {
-  let users = [];
-
-  if (Array.isArray(object)) {
-    _.forEach(object, (obj) => {
-      users = users.concat(obj.users);
-    });
-  } else {
-    users = users.concat(object.users);
-  }
-
-  dispatch(receiveUsersFromGroups({ users: users }));
-  dispatch(getMedia(users));
-}
