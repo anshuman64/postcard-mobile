@@ -6,7 +6,7 @@ import { amplitude }           from '../utilities/analytics_utility';
 import * as APIUtility         from '../utilities/api_utility';
 import { setErrorDescription } from '../utilities/error_utility';
 import { refreshAuthToken }    from './client_actions';
-import { getImages }           from './image_actions';
+import { getMedia }           from './medium_actions';
 
 //--------------------------------------------------------------------//
 
@@ -178,5 +178,5 @@ export const getUsersFromGroups = (object) => (dispatch) => {
   }
 
   dispatch(receiveUsersFromGroups({ users: users }));
-  dispatch(getImages(users));
+  dispatch(getMedia(users));
 }

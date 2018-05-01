@@ -156,20 +156,25 @@ class MessageListItem extends React.PureComponent {
     }
   }
 
-  _renderImage() {
-    let imagePath = this.props.message.image_url;
-    let cachedImage = this.props.imagesCache[imagePath];
+  _renderMedia() {
+    let medium = this.props.message.medium;
+    let mediumPath = medium ? medium.url : null;
+    let cachedMedia = this.props.mediaCache[mediumPath];
 
-    if (imagePath && cachedImage) {
-      return (
-        <RN.Image
-          source={{uri: cachedImage.url}}
-          style={styles.image}
-          resizeMode={'contain'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
-          />
-      )
-    } else if (imagePath && !cachedImage) {
+    if (mediumPath && cachedMedia) {
+      if (cachedMedia.type === 'PHOTO') {
+        return (
+          <RN.Image
+            source={{uri: cachedMedia.url}}
+            style={styles.image}
+            resizeMode={'cover'}
+            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, mediumPath)}
+            />
+        )
+      } else {
+        return null;
+      }
+    } else if (mediumPath && !cachedMedia) {
       return (
         <RN.View style={styles.image}>
           <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
@@ -223,7 +228,7 @@ class MessageListItem extends React.PureComponent {
             <RN.View style={[styles.messageViewClient, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
-              {this._renderImage()}
+              {this._renderMedia()}
             </RN.View>
             {this._renderDate(isAuthoredByClient)}
           </RN.TouchableOpacity>
@@ -238,7 +243,7 @@ class MessageListItem extends React.PureComponent {
             <RN.View style={[styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
               {this._renderPost()}
               {this._renderBody(isAuthoredByClient)}
-              {this._renderImage()}
+              {this._renderMedia()}
             </RN.View>
             {this._renderDate(isAuthoredByClient)}
           </RN.TouchableOpacity>

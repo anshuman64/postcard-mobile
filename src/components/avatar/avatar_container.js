@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import Avatar                      from './avatar';
-import { refreshCredsAndGetImage } from '../../actions/image_actions';
+import { refreshCredsAndGetImage } from '../../actions/medium_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, mediaCache }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
-  imagesCache: imagesCache,
+  mediaCache: mediaCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -8,16 +8,16 @@ import { createLike, deleteLike }      from '../../actions/like_actions';
 import { createFlag, deleteFlag }      from '../../actions/flag_actions';
 import { createMessage }               from '../../actions/message_actions';
 import { navigateTo }                  from '../../actions/navigation_actions';
-import { refreshCredsAndGetImage }     from '../../actions/image_actions';
+import { refreshCredsAndGetImage }     from '../../actions/medium_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, groupsCache, contactsCache, imagesCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, groupsCache, contactsCache, mediaCache }, ownProps) => ({
   client:        client,
   usersCache:    usersCache,
   groupsCache:   groupsCache,
   contactsCache: contactsCache,
-  imagesCache:   imagesCache,
+  mediaCache:   mediaCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

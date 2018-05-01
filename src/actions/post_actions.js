@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 // Local Imports
-import { getImages }              from './image_actions';
+import { getMedia }              from './medium_actions';
 import { amplitude }              from '../utilities/analytics_utility';
 import * as APIUtility            from '../utilities/api_utility';
 import { setErrorDescription }    from '../utilities/error_utility';
@@ -111,7 +111,7 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
         dispatch(receivePosts({ posts: posts, userId: userId, postType: postType }));
       }
 
-      dispatch(getImages(posts));
+      dispatch(getMedia(posts));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
@@ -149,7 +149,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
         .then((newPost) => {
           amplitude.logEvent('Posts - Create Post', { is_successful: true, body: postBody, num_photos: photos.length, num_videos: videos.length, is_public: isPublic, num_recipients: recipientIds.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
           dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
-          dispatch(getImages(newPost));
+          dispatch(getMedia(newPost));
         })
         .catch((error) => {
           if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {

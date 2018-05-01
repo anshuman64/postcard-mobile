@@ -9,10 +9,10 @@ import { navigateTo }                            from '../../actions/navigation_
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, mediaCache }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
-  imagesCache: imagesCache,
+  mediaCache: mediaCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
