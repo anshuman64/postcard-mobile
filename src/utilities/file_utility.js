@@ -39,22 +39,22 @@ let getBucketName = () => {
   }
 };
 
-// Reads an image file and returns a buffer to prepare for AWS S3 uploading
-let readImageFile = (imagePath) => {
-  return RNFetchBlob.fs.readFile(imagePath, 'base64')
+// Reads a file and returns a buffer to prepare for AWS S3 uploading
+let readFile = (filePath) => {
+  return RNFetchBlob.fs.readFile(filePath, 'base64')
     .then((data) => {
       return new Buffer(data, 'base64');
     })
     .catch((error) => {
-      throw setErrorDescription(error, 'Read image file failed');
+      throw setErrorDescription(error, 'Read file failed');
     });
 };
 
 // Returns AWS S3 upload params
-let getParamsForImage = (userId, imageType, buffer, folderPath) => {
+let getParamsForFile = (userId, mimeType, buffer, folderPath) => {
   let userFolder = userId;
   let name       = uuid.v1();
-  let ext        = mime.extension(imageType);
+  let ext        = mime.extension(mimeType);
   let folder     = folderPath ? folderPath : '';
 
   return {
@@ -62,7 +62,7 @@ let getParamsForImage = (userId, imageType, buffer, folderPath) => {
     Bucket: getBucketName(),
     Key: userFolder + '/' + folder + name + '.' + ext,
     ServerSideEncryption: 'AES256',
-    ContentType: imageType
+    ContentType: mimeType
   };
 };
 
@@ -103,43 +103,33 @@ export const deleteFile = (authToken, firebaseUserObj, key) => (dispatch) => {
   });
 };
 
-export const uploadMedia = (authToken, firebaseUserObj, userId, folderPath, photos, videos) => (dispatch) => {
-  let data = { photos: [], videos: [] };
-
+export const uploadMedia = (authToken, firebaseUserObj, userId, folderPath, media) => (dispatch) => {
   return new Promise(async (resolve, reject) => {
-    for (let id in photos) {
+    for (let i in media) {
       try {
-        photoPath = await dispatch(uploadFile(authToken, firebaseUserObj, userId, folderPath, photos[id].path, photos[id].mime));
-        data.photos.push(photoPath.key);
+        media[i] = await dispatch(uploadFile(authToken, firebaseUserObj, userId, folderPath, media[i]);
       } catch (error) {
         reject(error);
       }
     };
 
-    for (let id in videos) {
-      try {
-        videoPath = await dispatch(uploadFile(authToken, firebaseUserObj, userId, folderPath, videos[id].path, videos[id].mime))
-        data.videos.push(videoPath.key);
-      } catch (error) {
-        reject(error);
-      }
-    };
-
-    resolve(data);
+    resolve(media);
   });
 }
 
 // Uploads file to AWS S3 bucket
-export const uploadFile = (authToken, firebaseUserObj, userId, folderPath, imagePath, imageType) => (dispatch) => {
-  return readImageFile(imagePath)
+// medium (object): has 'height', 'width', 'mime', 'path', and 'size' params
+// Returns 'medium' with added 'awsPath' param 
+export const uploadFile = (authToken, firebaseUserObj, userId, folderPath, medium) => (dispatch) => {
+  return readFile(medium.path)
     .then((buffer) => {
-      params = getParamsForImage(userId, imageType, buffer, folderPath);
+      params = getParamsForFile(userId, medium.mime, buffer, folderPath);
 
       return new Promise((resolve, reject) => {
         s3Client.upload(params, (error, data) => {
           if (error) {
             if (error.message === "Missing credentials in config") {
-              return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, userId, folderPath, imagePath, imageType))
+              return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, userId, folderPath, medium))
                 .then((data) => {
                   resolve(data);
                 })
@@ -150,7 +140,8 @@ export const uploadFile = (authToken, firebaseUserObj, userId, folderPath, image
 
             reject(setErrorDescription(error, 'Upload file to S3 failed'));
           } else {
-            resolve(data);
+            medium.awsPath = data.key;
+            resolve(medium);
           }
         });
       });

@@ -125,35 +125,35 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
 };
 
 // Create post to API from Header of NewPostScreen
-export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, photos, videos, placeholderText) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, media, placeholderText) => (dispatch) => {
   let postPostError = (error) => {
     error = setErrorDescription(error, 'POST post failed');
-    amplitude.logEvent('Posts - Create Post', { is_successful: false, body: postBody, num_photos: photos.length, num_videos: videos.length, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
+    amplitude.logEvent('Posts - Create Post', { is_successful: false, body: postBody, num_media: media.length, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
     throw error;
   }
 
-  let recipient_ids = [];
-  let group_ids = [];
+  let recipientIdsToSend = [];
+  let groupIdsToSend = [];
 
   _.forEach(recipientIds, (recipientId) => {
     if (recipientId > 0) {
-      recipient_ids.push(recipientId);
+      recipientIdsToSend.push(recipientId);
     } else {
-      group_ids.push(-1 * recipientId);
+      groupIdsToSend.push(-1 * recipientId);
     }
   });
 
-  return dispatch(uploadMedia(authToken, firebaseUserObj, clientId, 'posts/', photos, videos))
-    .then((data) => {
-      return APIUtility.post(authToken, '/posts', { body: postBody, photos: data.photos.length > 0 ? data.photos : null, videos: data.videos.length > 0 ? data.videos : null, is_public: isPublic, recipient_ids: recipient_ids, contact_phone_numbers: contactPhoneNumbers, group_ids: group_ids })
+  return dispatch(uploadMedia(authToken, firebaseUserObj, clientId, 'posts/', media))
+    .then((updatedMedia) => {
+      return APIUtility.post(authToken, '/posts', { body: postBody, media: media && media.length > 0 ? updatedMedia : null, is_public: isPublic, recipient_ids: recipientIdsToSend, contact_phone_numbers: contactPhoneNumbers, group_ids: groupIdsToSend })
         .then((newPost) => {
-          amplitude.logEvent('Posts - Create Post', { is_successful: true, body: postBody, num_photos: photos.length, num_videos: videos.length, is_public: isPublic, num_recipients: recipientIds.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
+          amplitude.logEvent('Posts - Create Post', { is_successful: true, body: postBody, num_media: media.length, is_public: isPublic, num_recipients: recipientIds.length, num_group_recipients: groupIdsToSend.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
           dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
           dispatch(getMedia(newPost));
         })
         .catch((error) => {
           if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-            return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, photos, videos, placeholderText));
+            return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, media, placeholderText));
           }
 
           postPostError(error);
