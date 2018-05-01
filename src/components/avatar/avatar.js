@@ -43,7 +43,7 @@ class Avatar extends React.PureComponent {
             borderRadius: StyleUtility.getImageBorderRadius(this.props.avatarSize)
           }}
           resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, avatarPath)}
+          onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, avatarPath)}
           />
       )
     } else if (avatarPath && !avatarUrl) {

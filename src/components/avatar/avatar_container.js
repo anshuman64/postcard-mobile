@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import Avatar                      from './avatar';
-import { refreshCredsAndGetImage } from '../../actions/medium_actions';
+import { refreshCredsAndGetMedium } from '../../actions/medium_actions';
 
 //--------------------------------------------------------------------//
 
@@ -14,7 +14,7 @@ const mapStateToProps = ({ client, usersCache, mediaCache }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  refreshCredsAndGetImage: (firebaseUserObj, avatarUrl) => dispatch(refreshCredsAndGetImage(firebaseUserObj, avatarUrl)),
+  refreshCredsAndGetMedium: (firebaseUserObj, medium) => dispatch(refreshCredsAndGetMedium(firebaseUserObj, medium)),
 });
 
 export default connect(
