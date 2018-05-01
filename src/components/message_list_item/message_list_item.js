@@ -158,23 +158,26 @@ class MessageListItem extends React.PureComponent {
 
   _renderMedia() {
     let medium = this.props.message.medium;
-    let mediumPath = medium ? medium.url : null;
-    let cachedMedia = this.props.mediaCache[mediumPath];
+    let cachedMedia = medium ? this.props.mediaCache[medium.id] : null;
+    let mediumUrl = cachedMedia ? cachedMedia.url : null;
 
-    if (mediumPath && cachedMedia) {
-      if (cachedMedia.type === 'PHOTO') {
+    if (mediumUrl) {
+      let width = StyleUtility.getUsableDimensions().width * 0.75;
+      let height = StyleUtility.getScaledHeight(medium, width);
+
+      if (cachedMedia.mime_type.startsWith('image/')) {
         return (
           <RN.Image
-            source={{uri: cachedMedia.url}}
-            style={styles.image}
+            source={{uri: mediumUrl}}
+            style={{ width: width - 15, height: height - 15, borderRadius: 10 }}
             resizeMode={'cover'}
-            onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, mediumPath)}
+            onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, medium)}
             />
         )
       } else {
         return null;
       }
-    } else if (mediumPath && !cachedMedia) {
+    } else if (cachedMedia) {
       return (
         <RN.View style={styles.image}>
           <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
