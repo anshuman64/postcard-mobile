@@ -4,7 +4,6 @@ import AWS       from 'aws-sdk/dist/aws-sdk-react-native';
 import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { getMedia }               from './medium_actions';
 import { amplitude }               from '../utilities/analytics_utility';
 import * as APIUtility             from '../utilities/api_utility';
 import { setS3Client, uploadFile } from '../utilities/file_utility';
@@ -122,9 +121,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
 
     OneSignal.sendTag('user_id', String(client.id));
     dispatch(setPusherClient(authToken, client.id));
-
     dispatch(receiveClient({ client: client }));
-    dispatch(getMedia(client));
   }
 
   let handleExistingUser = (authToken) => {
@@ -232,7 +229,6 @@ export const editAvatar = (authToken, firebaseUserObj, userId, medium) => (dispa
       .then((editedUser) => {
         amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true });
         dispatch(receiveClient({ client: editedUser }));
-        dispatch(getMedia(editedUser));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
