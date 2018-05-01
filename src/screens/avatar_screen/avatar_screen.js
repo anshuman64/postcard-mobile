@@ -48,7 +48,7 @@ class AvatarScreen extends React.PureComponent {
     let client = this.props.usersCache[this.props.client.id];
 
     if (client && client.avatar_url) {
-      let avatarImageUrl = this.props.imagesCache[client.avatar_url].url;
+      let avatarImageUrl = this.props.mediaCache[client.avatar_url].url;
 
       this.setState({ imagePath: avatarImageUrl });
       this.existingAvatar = avatarImageUrl;

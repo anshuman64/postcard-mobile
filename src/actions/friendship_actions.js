@@ -3,7 +3,7 @@ import { amplitude }            from '../utilities/analytics_utility';
 import * as APIUtility          from '../utilities/api_utility';
 import { setErrorDescription }  from '../utilities/error_utility';
 import { refreshAuthToken }     from './client_actions';
-import { getImages }            from './image_actions';
+import { getMedia }            from './medium_actions';
 import { getPostsFromMessages } from './post_actions';
 
 //--------------------------------------------------------------------//
@@ -77,7 +77,7 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
   return APIUtility.get(authToken, '/friendships/' + friendType)
     .then((friends) => {
       dispatch(receiveFriendships({ friends: friends, friendType: friendType }));
-      dispatch(getImages(friends));
+      dispatch(getMedia(friends));
       dispatch(getPostsFromMessages(friends));
     })
     .catch((error) => {
@@ -95,7 +95,7 @@ export const getFriendsFromContacts = (authToken, firebaseUserObj, contactPhoneN
     return APIUtility.post(authToken, '/friendships/contacts', { contacts: contactPhoneNumbers })
       .then((friends) => {
         dispatch(receiveFriendships({ friends: friends, friendType: FRIEND_TYPES.CONTACTS }));
-        dispatch(getImages(friends));
+        dispatch(getMedia(friends));
         dispatch(getPostsFromMessages(friends));
       })
       .catch((error) => {
