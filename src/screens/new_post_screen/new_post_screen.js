@@ -1,15 +1,17 @@
 // Library Imports
-import React    from 'react';
-import RN       from 'react-native';
-import Ionicon  from 'react-native-vector-icons/Ionicons';
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import React       from 'react';
+import RN          from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import HeaderContainer                    from '../../components/header/header_container';
-import { styles }                         from './new_post_screen_styles';
-import { getRandomInt, setStateCallback } from '../../utilities/function_utility';
-import { postPlaceholders }               from '../../utilities/file_utility';
-import { UTILITY_STYLES, COLORS }         from '../../utilities/style_utility';
+import HeaderContainer                            from '../../components/header/header_container';
+import { styles }                                 from './new_post_screen_styles';
+import { getRandomInt, setStateCallback }         from '../../utilities/function_utility';
+import { postPlaceholders }                       from '../../utilities/file_utility';
+import { UTILITY_STYLES, COLORS }                 from '../../utilities/style_utility';
+import { setErrorDescription, defaultErrorAlert } from '../../utilities/error_utility';
+import { amplitude }                              from '../../utilities/analytics_utility';
 
 //--------------------------------------------------------------------//
 
@@ -31,9 +33,12 @@ class NewPostScreen extends React.PureComponent {
     this.state = {
       postText:        '',
       placeholderText: '',
-      imagePath:       null,
-      imageType:       null,
+      photos:          [],
+      videos:          [],
+      takePhoto:       []
     };
+
+    this.isButtonPressed = false;
   }
 
   //--------------------------------------------------------------------//
@@ -47,11 +52,84 @@ class NewPostScreen extends React.PureComponent {
     }
   }
 
-  // If selected image from CameraRollScreen, adds image
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.imagePath) {
-      this.setState({ imagePath: nextProps.imagePath, imageType: nextProps.imageType })
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
+  _onPressAddPhotos = () => {
+    if (this.isButtonPressed) {
+      return;
     }
+
+    this.isButtonPressed = true;
+
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      multiple: true,
+      maxFiles: 20,
+      showCropGuidelines: false,
+      hideBottomControls: true,
+      cropperToolbarColor: 'black',
+    })
+    .then((photos) => {
+      this.setState({ photos: photos });
+    })
+    .catch((error) => {
+      error = setErrorDescription(error, 'Add photos failed');
+      amplitude.logEvent('Media - Add Photos', { is_successful: false, error_description: error.description, error_message: error.message });
+    })
+    .finally(() => {
+      this.isButtonPressed = false;
+    });
+  }
+
+  _onPressAddVideo = () => {
+    if (this.isButtonPressed) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    ImagePicker.openPicker({
+      mediaType: 'video',
+      multiple: true,
+      maxFiles: 1,
+      showCropGuidelines: false,
+      hideBottomControls: true,
+      cropperToolbarColor: 'black',
+    })
+    .then((videos) => {
+      this.setState({ videos: videos });
+    })
+    .catch((error) => {
+      error = setErrorDescription(error, 'Add video failed');
+      amplitude.logEvent('Media - Add Video', { is_successful: false, error_description: error.description, error_message: error.message });
+    })
+    .finally(() => {
+      this.isButtonPressed = false;
+    });
+  }
+
+  _onPressTakePhoto = () => {
+    if (this.isButtonPressed) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    ImagePicker.openCamera({
+      // TODO: add image size params
+    })
+    .then((photo) => {
+      this.setState({ takePhoto: [photo] });
+    })
+    .catch((error) => {
+      error = setErrorDescription(error, 'Take photo failed');
+      amplitude.logEvent('Media - Take Photo', { is_successful: false, error_description: error.description, error_message: error.message });
+    })
+    .finally(() => {
+      this.isButtonPressed = false;
+    });
   }
 
   //--------------------------------------------------------------------//
@@ -74,28 +152,49 @@ class NewPostScreen extends React.PureComponent {
     )
   }
 
-  _renderImage() {
-    if (this.state.imagePath) {
-      return (
-        <RN.ImageBackground source={{uri: this.state.imagePath}} style={styles.image} resizeMode={'contain'}>
-          <RN.TouchableWithoutFeedback style={styles.closeButton} onPress={setStateCallback(this, { imagePath: null, imageType: null })}>
-            <RN.View style={styles.closeButtonBackground}>
-              <EvilIcon name='close' style={styles.closeIcon} />
-            </RN.View>
-          </RN.TouchableWithoutFeedback>
-        </RN.ImageBackground>
-      )
-    }
-  }
+  _renderButton(type) {
+    let text;
+    let iconName;
+    let buttonCallback;
+    let numAttached;
+    let closeCallback;
 
-  _renderImageButton() {
+    if (type === 'photos') {
+      text = 'Add Photos';
+      iconName = 'picture';
+      buttonCallback = this._onPressAddPhotos;
+      numAttached = this.state.photos.length;
+      closeCallback = setStateCallback(this, { photos: [] });
+    } else if (type === 'videos') {
+      text = 'Add Video';
+      iconName = 'camrecorder';
+      buttonCallback = this._onPressAddVideo;
+      numAttached = this.state.videos.length;
+      closeCallback = setStateCallback(this, { videos: [] });
+    } else if (type === 'takePhoto') {
+      text = 'Take Photo';
+      iconName = 'camera';
+      buttonCallback = this._onPressTakePhoto;
+      numAttached = this.state.takePhoto.length;
+      closeCallback = setStateCallback(this, { takePhoto: [] });
+    }
+
     return (
-      <RN.View style={styles.imageButtonView}>
-        <RN.TouchableOpacity style={styles.imageButtonView} onPress={() => this.props.navigateTo('CameraRollScreen', { isAvatar: false })}>
-          <Ionicon name='md-images' style={styles.imageButtonIcon} />
-          <RN.Text style={styles.imageButtonText}>
-            Photos
+      <RN.View style={styles.buttonView}>
+        <RN.TouchableOpacity style={styles.buttonView} onPress={buttonCallback}>
+          <Icon name={iconName} style={styles.buttonIcon} />
+          <RN.Text style={[UTILITY_STYLES.lightBlackText16, styles.buttonText]}>
+            {text}
           </RN.Text>
+          {numAttached > 0 ?
+            <RN.TouchableOpacity style={styles.buttonView} onPress={closeCallback}>
+              <Icon name={'close'} style={styles.closeIcon} />
+              <RN.Text style={[UTILITY_STYLES.regularBlackText16, UTILITY_STYLES.textRed, styles.messageText]}>
+                {numAttached + ' Attached'}
+              </RN.Text>
+            </RN.TouchableOpacity> :
+            null
+          }
         </RN.TouchableOpacity>
       </RN.View>
     )
@@ -112,12 +211,14 @@ class NewPostScreen extends React.PureComponent {
               nextButton={true}
               postText={this.state.postText}
               placeholderText={this.state.placeholderText}
-              imagePath={this.state.imagePath}
-              imageType={this.state.imageType}
+              photos={this.state.photos}
+              videos={this.state.videos}
+              takePhoto={this.state.takePhoto}
               />
             {this._renderTextInput()}
-            {this._renderImage()}
-            {this._renderImageButton()}
+            {this._renderButton('photos')}
+            {this._renderButton('videos')}
+            {this._renderButton('takePhoto')}
           </RN.View>
         </RN.TouchableWithoutFeedback>
       </RN.KeyboardAvoidingView>

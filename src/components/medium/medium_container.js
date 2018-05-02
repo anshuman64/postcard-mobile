@@ -2,15 +2,14 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import Avatar                      from './avatar';
+import Medium                       from './medium';
 import { refreshCredsAndGetMedium } from '../../actions/medium_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, mediaCache }, ownProps) => ({
-  client:      client,
-  usersCache:  usersCache,
-  mediaCache: mediaCache,
+const mapStateToProps = ({ client, mediaCache }, ownProps) => ({
+  client:     client,
+  mediaCache: mediaCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -20,4 +19,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Avatar);
+)(Medium);

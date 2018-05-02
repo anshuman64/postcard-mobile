@@ -42,7 +42,6 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'left',
     textAlignVertical: 'top',
-    marginTop: 4,
     marginLeft: 5,
     marginRight: 5
   },
@@ -78,12 +77,12 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 50,
+    width: 40,
     height: 50,
   },
   imageButtonIcon: {
     textAlign: 'center',
-    fontSize: StyleUtility.scaleFont(25),
+    fontSize: StyleUtility.scaleFont(20),
     color: StyleUtility.COLORS.grey600
   },
   sendButton: {

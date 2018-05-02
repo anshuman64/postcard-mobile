@@ -1,23 +1,25 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
+import Swiper          from 'react-native-swiper';
 import * as Animatable from 'react-native-animatable';
 import Hyperlink       from 'react-native-hyperlink'
 import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import LoadingModal                           from '../loading_modal/loading_modal';
-import ListModalContainer                     from '../list_modal/list_modal_container';
-import EntityInfoViewContainer                from '../entity_info_view/entity_info_view_container';
-import { FRIEND_TYPES }                       from '../../actions/friendship_actions';
-import { POST_TYPES }                         from '../../actions/post_actions';
-import { styles, scaleHeart }                 from './post_list_item_styles';
-import { renderPostDate }                     from '../../utilities/date_time_utility';
-import { defaultErrorAlert }                  from '../../utilities/error_utility';
-import { getReadableCount, setStateCallback } from '../../utilities/function_utility';
-import { getEntityDisplayName }               from '../../utilities/entity_utility';
-import { UTILITY_STYLES, COLORS }             from '../../utilities/style_utility';
+import MediumContainer          from '../medium/medium_container';
+import LoadingModal             from '../loading_modal/loading_modal';
+import ListModalContainer       from '../list_modal/list_modal_container';
+import EntityInfoViewContainer  from '../entity_info_view/entity_info_view_container';
+import { FRIEND_TYPES }         from '../../actions/friendship_actions';
+import { POST_TYPES }           from '../../actions/post_actions';
+import { styles, scaleHeart }   from './post_list_item_styles';
+import { renderPostDate }       from '../../utilities/date_time_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
+import * as FunctionUtility     from '../../utilities/function_utility';
+import { getEntityDisplayName } from '../../utilities/entity_utility';
+import * as StyleUtility        from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
@@ -29,6 +31,7 @@ Required Passed Props:
 Optional Passed Props:
   width (int): width of messages; only passed if on MessagesScreen
   postType (string): used as a proxy for which screen we are on
+  isClient (bool): if the screen is for the client
 */
 class PostListItem extends React.PureComponent {
 
@@ -44,12 +47,12 @@ class PostListItem extends React.PureComponent {
       isLikingServer:    false, // if the server is still registering the create/delete like
       isModalVisible:    false,
       isLoading:         false,
+      swiperHeight:      null,
     }
 
     this.isLikeDisabled    = false;
     this.isFlagDisabled    = false;
     this.isDeleteDisabled  = false;
-    this.isFollowDisabled  = false;
     this.isRespondDisabled = false;
     this.recipients        = null;
   }
@@ -180,48 +183,6 @@ class PostListItem extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Follow User Callback Methods
-  //--------------------------------------------------------------------//
-
-  // Creates or deletes follow from DB
-  _onPressFollow = () => {
-    if (this.isFollowDisabled) {
-      return;
-    }
-
-    this.isFollowDisabled = true;
-
-    // If user is followed, pop alert confirming unfollow
-    if (this.props.usersCache[this.props.item.author_id].is_user_followed_by_client) {
-      RN.Alert.alert('', 'Are you sure you want to unfollow this user?',
-        [{text: 'Cancel', onPress: () => this.isFollowDisabled = false, style: 'cancel'},
-         {text: 'Unfollow', onPress: this._onConfirmUnfollow}],
-         {onDismiss: () => this.isFollowDisabled = false}
-      )
-    // If user is not followed, create follow
-    } else {
-      this.props.createFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.author_id)
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
-        .finally(() => {
-          this.isFollowDisabled = false;
-        });
-    }
-  }
-
-  // Deletes follow from DB and updates ProfileScreen as necessary
-  _onConfirmUnfollow = () => {
-    this.props.deleteFollow(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.author_id)
-      .catch((error) => {
-        defaultErrorAlert(error);
-      })
-      .finally(() => {
-        this.isFollowDisabled = false;
-      });
-  }
-
-  //--------------------------------------------------------------------//
   // Navigation Callback Methods
   //--------------------------------------------------------------------//
 
@@ -234,28 +195,19 @@ class PostListItem extends React.PureComponent {
     let recipients;
     this.isRespondDisabled = true;
 
-    // For Discover and Liked tabs, go to author's messages if friends with client
-    if (this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
-      let user = this.props.usersCache[this.props.item.author_id];
-      let userFriendshipStatus = user ? user.friendship_status_with_client : null;
-
-      if (userFriendshipStatus === FRIEND_TYPES.ACCEPTED) {
-        convoId = this.props.item.author_id;
-      } else {
-        this.isRespondDisabled = false;
-        return;
-      }
     // For HomeScreen, either go to author if post was sent directly, or group that that post was sent to
-    } else if (this.props.postType === POST_TYPES.RECEIVED) {
+    if (this.props.postType === POST_TYPES.RECEIVED) {
       recipients = this.props.item.recipient_ids_with_client;
-      if (recipients.length === 1) {
+      if (recipients.length === 0) {
+        convoId = this.props.item.author_id;
+      } else if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids_with_client[0] > 0 ? this.props.item.author_id : this.props.item.recipient_ids_with_client[0];
       } else {
         this.isRespondDisabled = false;
         return;
       }
     // For AuthoredScreen, go to recipient which is either a user or group
-    } else if (this.props.postType === POST_TYPES.AUTHORED) {
+  } else if (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient) {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
@@ -277,7 +229,7 @@ class PostListItem extends React.PureComponent {
 
   _onConfirmRespondToPost(convoId) {
     this.setState({ isLoading: true },() => {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, null, this.props.item.id)
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, this.props.item.id)
         .then(() => {
           this.props.navigateTo('MessagesScreen', { convoId: convoId });
         })
@@ -312,96 +264,69 @@ class PostListItem extends React.PureComponent {
           entityId={this.props.item.author_id}
           marginLeft={0}
           />
-        {this._renderReceivedRecipients()}
-        {this._renderAuthoredRecipients()}
-        {this._renderFollowText()}
+        {this.props.postType === POST_TYPES.AUTHORED && this.props.isClient ?
+          this._renderAuthoredRecipients() :
+          this._renderReceivedRecipients()}
       </RN.View>
     )
   }
 
   _renderReceivedRecipients() {
-    if (this.props.postType === POST_TYPES.RECEIVED) {
-      let numRecipients = this.props.item.recipient_ids_with_client.length;
-      let displayString  = '';
-      let callback;
+    let numRecipients = this.props.item.recipient_ids_with_client.length;
+    let displayString  = '';
+    let callback;
 
-      if (numRecipients === 0) {
-        return null;
-      } else if (numRecipients === 1) {
-        convoId = this.props.item.recipient_ids_with_client[0];
-        displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onRespondToPost;
-      } else {
-        displayString = numRecipients + ' groups';
-        callback = setStateCallback(this, { isModalVisible: true });
-      }
-
-      return this._renderRecipients(displayString, callback);
-    } else {
+    if (numRecipients === 0) {
       return null;
+    } else if (numRecipients === 1) {
+      convoId = this.props.item.recipient_ids_with_client[0];
+      displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+      callback = this._onRespondToPost;
+    } else {
+      displayString = numRecipients + ' groups';
+      callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
     }
+
+    return this._renderRecipients(displayString, callback);
   }
 
   _renderAuthoredRecipients() {
-    if (this.props.postType === POST_TYPES.AUTHORED) {
-      let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
-      let displayString  = '';
-      let callback;
+    let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
+    let displayString  = '';
+    let callback;
 
-      if (numRecipients === 0) {
-        return null;
-      } else if (numRecipients === 1) {
-        entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
-        displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onRespondToPost;
-      } else {
-        displayString = numRecipients + ' recipients';
-        callback = setStateCallback(this, { isModalVisible: true });
-      }
-
-      return this._renderRecipients(displayString, callback);
-    } else {
+    if (numRecipients === 0) {
       return null;
+    } else if (numRecipients === 1) {
+      entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
+      displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+      callback = this._onRespondToPost;
+    } else {
+      displayString = numRecipients + ' recipients';
+      callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
     }
+
+    return this._renderRecipients(displayString, callback);
   }
 
   _renderRecipients(displayString, callback) {
     return (
       <RN.View style={styles.usernameView}>
-        <Ionicon name={'md-play'} style={[styles.playIcon, UTILITY_STYLES.marginLeft5]}/>
+        <Ionicon name={'md-play'} style={[styles.playIcon, StyleUtility.UTILITY_STYLES.marginLeft5]}/>
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.displayString.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-          onPressOut={() => this.displayString.setNativeProps({style: [UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5]})}
+          onPressIn={() => this.displayString.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
+          onPressOut={() => this.displayString.setNativeProps({style: [StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]})}
           style={styles.usernameView}
           onPress={callback}
           >
           <RN.View>
-            <RN.Text ref={(ref) => this.displayString = ref}  style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5]}>
+            <RN.Text ref={(ref) => this.displayString = ref}  style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]}>
               {displayString}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
       </RN.View>
     )
-  }
-
-  _renderFollowText() {
-    if (!this.props.width && this.props.postType != POST_TYPES.RECEIVED && this.props.client.id != this.props.item.author_id) {
-      let isFollowedByClient = this.props.usersCache[this.props.item.author_id].is_user_followed_by_client;
-
-      return (
-        <RN.View style={styles.usernameView}>
-          <RN.Text style={[UTILITY_STYLES.regularBlackText15, UTILITY_STYLES.marginLeft5]}>{'|'}</RN.Text>
-          <RN.TouchableOpacity style={styles.usernameView} onPress={this._onPressFollow}>
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5, !isFollowedByClient && UTILITY_STYLES.textHighlighted]}>
-              {isFollowedByClient ? 'Following' : 'Follow'}
-            </RN.Text>
-          </RN.TouchableOpacity>
-        </RN.View>
-      )
-    } else {
-      return null;
-    }
   }
 
   _renderCloseOrFlag() {
@@ -411,7 +336,7 @@ class PostListItem extends React.PureComponent {
     } else if (this.props.client.id === this.props.item.author_id && !this.props.width) {
       return (
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.closeIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+          onPressIn={() => this.closeIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
           onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
           onPress={this._onPressDeletePost}
           >
@@ -428,7 +353,7 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.closeOrFlagButton}>
             <Ionicon
               name={isFlaggedByClient ? 'ios-flag' : 'ios-flag-outline'}
-              style={[styles.flagIcon, isFlaggedByClient && UTILITY_STYLES.textRed]}
+              style={[styles.flagIcon, isFlaggedByClient && StyleUtility.UTILITY_STYLES.textRed]}
               />
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -449,7 +374,7 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
           <RN.View style={styles.bodyView}>
             <RN.View style={styles.bodyTextView}>
-              <Hyperlink linkDefault={true} linkStyle={UTILITY_STYLES.textHighlighted}>
+              <Hyperlink linkDefault={true} linkStyle={StyleUtility.UTILITY_STYLES.textHighlighted}>
                 <RN.Text style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
                   {body}
                 </RN.Text>
@@ -461,33 +386,63 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  _renderImage() {
-    let imagePath = this.props.item.image_url;
-    let width = this.props.width;
+  _renderMedia() {
+    let media = this.props.item.media;
+    let width = this.props.width || StyleUtility.getUsableDimensions().width;
+    let height;
 
-    if (imagePath && this.props.imagesCache[imagePath]) {
+    if (!media || media.length === 0) {
+      return null;
+    } else if (media.length === 1) {
+      height = StyleUtility.getScaledHeight(media[0], width);
+
       return (
-        <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
-          <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
-            <RN.Image
-              source={{uri: this.props.imagesCache[imagePath].url}}
-              style={[styles.bodyImage, width && {height: width, width: width}]}
-              resizeMode={'contain'}
-              onError={() => this.props.refreshCredsAndGetImage(this.props.client.firebaseUserObj, imagePath)}
-              />
-          </RN.TouchableWithoutFeedback>
-          <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
-        </RN.View>
-      )
-    } else if (imagePath && !this.props.imagesCache[imagePath]) {
-      return (
-        <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
-          <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
-        </RN.View>
+        <MediumContainer
+          medium={media[0]}
+          containerStyle={styles.mediumContainer}
+          mediumStyle={{ width: width, height: height }}
+          imageUrls={FunctionUtility.getImageUrlsFromMedia(this.props.item.media, this.props.mediaCache)}
+          />
       )
     } else {
-      return null;
+      height = this.state.swiperHeight || StyleUtility.getScaledHeight(media[0], width);
+      height += 80
+
+      return (
+        <Swiper
+          loop={false}
+          automaticallyAdjustContentInsets={true}
+          onIndexChanged={(index) => this.setState({ swiperHeight: StyleUtility.getScaledHeight(media[index], width) })}
+          height={height}
+          width={width}
+          >
+          {this._renderMediaList()}
+        </Swiper>
+      )
     }
+  }
+
+  _renderMediaList() {
+    let rows = [];
+    let media = this.props.item.media;
+    let width = this.props.width || StyleUtility.getUsableDimensions().width;
+    let height;
+
+    for (i = 0; i < media.length; i++) {
+      height = StyleUtility.getScaledHeight(media[i], width);
+
+      rows.push(
+        <MediumContainer
+          key={i}
+          medium={media[i]}
+          containerStyle={styles.mediumContainer}
+          mediumStyle={{ width: width, height: height }}
+          imageUrls={FunctionUtility.getImageUrlsFromMedia(this.props.item.media, this.props.mediaCache)}
+          />
+      )
+    }
+
+    return rows;
   }
 
   //--------------------------------------------------------------------//
@@ -501,7 +456,7 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.likesView}>
             {this._renderLike()}
             <RN.Text style={styles.likeCountText}>
-              {getReadableCount(this.props.item.num_likes)}
+              {FunctionUtility.getReadableCount(this.props.item.num_likes)}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -521,8 +476,8 @@ class PostListItem extends React.PureComponent {
           animation={scaleHeart}
           duration={750}
           style={styles.heartIcon}
-          onAnimationBegin={setStateCallback(this, { isLikingAnimation: true })}
-          onAnimationEnd={setStateCallback(this, { isLikingAnimation: false })}
+          onAnimationBegin={FunctionUtility.setStateCallback(this, { isLikingAnimation: true })}
+          onAnimationEnd={FunctionUtility.setStateCallback(this, { isLikingAnimation: false })}
           />
       )
     } else {
@@ -556,7 +511,7 @@ class PostListItem extends React.PureComponent {
         <Animatable.View ref={(ref) => this.container = ref} style={[styles.postContainer, this.props.width && {width: this.props.width, elevation: 0, shadowRadius: 0, borderRadius: 20}]}>
           {this._renderHeader()}
           {this._renderBody()}
-          {this._renderImage()}
+          {this._renderMedia()}
           {this._renderFooter()}
         </Animatable.View>
         {this._renderListModal()}

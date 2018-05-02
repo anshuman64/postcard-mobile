@@ -22,34 +22,7 @@ export const styles = StyleSheet.create({
   smallBodyText: {
     fontSize: 15,
   },
-  closeButton: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    width: 50,
-  },
-  closeButtonBackground: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 25,
-    width: 25,
-    marginLeft: 2,
-    marginTop: 2
-  },
-  closeIcon: {
-    fontSize: 20,
-    color: 'white',
-    textAlign: 'center',
-  },
-  image: {
-    flex: 1,
-    width: StyleUtility.DEVICE_DIM.width * 0.9,
-    height: StyleUtility.DEVICE_DIM.width * 0.9,
-    backgroundColor: StyleUtility.COLORS.grey900
-  },
-  imageButtonView: {
+  buttonView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -58,15 +31,19 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: StyleUtility.COLORS.grey200
   },
-  imageButtonIcon: {
-    fontSize: StyleUtility.scaleFont(25),
+  buttonIcon: {
+    fontSize: StyleUtility.scaleFont(21),
     marginLeft: 20,
     color: StyleUtility.COLORS.appleBlue
   },
-  imageButtonText: {
-    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: 16,
+  buttonText: {
+    textAlign: 'left',
     marginLeft: 15,
-    color: StyleUtility.COLORS.grey900
+    width: 120
+  },
+  closeIcon: {
+    fontSize: StyleUtility.scaleFont(18),
+    marginRight: 10,
+    color: StyleUtility.COLORS.appleRed
   },
 });
