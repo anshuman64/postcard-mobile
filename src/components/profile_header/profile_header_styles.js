@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: StyleUtility.COLORS.appleBlue,
   },
-  followButtonBackground: {
+  buttonBackground: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

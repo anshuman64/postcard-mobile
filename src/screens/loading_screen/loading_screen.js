@@ -6,12 +6,12 @@ import * as Animatable from 'react-native-animatable';
 import OneSignal       from 'react-native-onesignal';
 
 // Local Imports
-import { POST_TYPES }        from '../../actions/post_actions';
-import { FRIEND_TYPES }      from '../../actions/friendship_actions';
-import { styles, pulseIcon } from './loading_screen_styles';
-import { defaultErrorAlert } from '../../utilities/error_utility';
-import { UTILITY_STYLES }    from '../../utilities/style_utility';
-import * as FileUtility      from '../../utilities/file_utility';
+import { POST_TYPES }          from '../../actions/post_actions';
+import { FRIEND_TYPES }        from '../../actions/friendship_actions';
+import { styles, pulseIcon }   from './loading_screen_styles';
+import { defaultErrorAlert }   from '../../utilities/error_utility';
+import { UTILITY_STYLES }      from '../../utilities/style_utility';
+import { getPostPlaceholders } from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
@@ -49,8 +49,7 @@ class LoadingScreen extends React.PureComponent {
 
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
-    FileUtility.getPostPlaceholders();
-    FileUtility.getCameraRollPhotos();
+    getPostPlaceholders();
 
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
@@ -95,6 +94,7 @@ class LoadingScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
+  // TODO: add try/catch error handling 
   async _loadData() {
     await this._refreshData();
     await this.props.getCircles(this.props.client.authToken, this.props.client.firebaseUserObj);
@@ -146,6 +146,7 @@ class LoadingScreen extends React.PureComponent {
       // If opening app via notification, go to the screen you intended to go to
       if (this.navigateToNotification) {
         if (this.navigateToNotification === 'MessagesScreen') {
+          this.props.navigateTo('FriendScreen'); // NOTE: leave this here so that MessageScreen back doesn't go to login screen
           this.props.navigateTo('MessagesScreen', { convoId: this.navigateToMessages });
         } else {
           this.props.navigateTo(this.navigateToNotification);
@@ -183,7 +184,6 @@ class LoadingScreen extends React.PureComponent {
 
       if (minsDiff > 1) {
         this._refreshData();
-        FileUtility.getCameraRollPhotos();
         this.lastUpdate = new Date();
       }
     }
@@ -196,7 +196,6 @@ class LoadingScreen extends React.PureComponent {
 
     switch (data.type) {
       case 'receive-like':
-      case 'receive-follow':
         this.navigateToNotification = 'AuthoredScreen';
         break;
       case 'receive-friendship':

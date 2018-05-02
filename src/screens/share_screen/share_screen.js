@@ -16,8 +16,7 @@ Required Screen Props:
   placeholderText (string): placeholder text of NewPostScreen to send to analytics
 Optional Screen Props:
   postText (string): text of the post to be shared, coming from NewPostScreen and/or CreateCircleScreen
-  imagePath (string): folder path of image to upload to AWS
-  imageType (string): type of image for AWS uploading purposed
+  media (array of photos and videos): array of photos and videos from ImagePicker from NewPostScreen
 */
 class ShareScreen extends React.PureComponent {
 
@@ -131,8 +130,7 @@ class ShareScreen extends React.PureComponent {
           shareButton={true}
           postText={this.props.postText}
           placeholderText={this.props.placeholderText}
-          imagePath={this.props.imagePath}
-          imageType={this.props.imageType}
+          media={this.props.media}
           recipients={this.state.recipients}
           contactRecipients={this.state.contactRecipients}
           isPublic={this.state.isPublic}
