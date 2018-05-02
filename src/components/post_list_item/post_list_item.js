@@ -4,6 +4,7 @@ import RN              from 'react-native';
 import Swiper          from 'react-native-swiper';
 import * as Animatable from 'react-native-animatable';
 import Hyperlink       from 'react-native-hyperlink'
+import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
@@ -249,24 +250,29 @@ class PostListItem extends React.PureComponent {
   _renderHeader() {
     return (
       <RN.View style={styles.headerView}>
-        {this._renderUserView()}
-        {this._renderCloseOrFlag()}
-      </RN.View>
-    )
-  }
-
-  _renderUserView() {
-    return (
-      <RN.View style={styles.userView}>
-        <EntityInfoViewContainer
-          disableAvatar={this.props.client.id === this.props.item.author_id}
-          disableUsername={this.props.client.id === this.props.item.author_id}
-          entityId={this.props.item.author_id}
-          marginLeft={0}
-          />
-        {this.props.postType === POST_TYPES.AUTHORED && this.props.isClient ?
-          this._renderAuthoredRecipients() :
-          this._renderReceivedRecipients()}
+        <RN.View style={styles.userView}>
+          <EntityInfoViewContainer
+            disableAvatar={this.props.client.id === this.props.item.author_id}
+            disableUsername={this.props.client.id === this.props.item.author_id}
+            entityId={this.props.item.author_id}
+            marginLeft={0}
+            />
+          {this.props.postType === POST_TYPES.AUTHORED && this.props.isClient ?
+            this._renderAuthoredRecipients() :
+            this._renderReceivedRecipients()}
+        </RN.View>
+        <RN.View style={styles.iconView}>
+          <RN.TouchableWithoutFeedback
+            onPressIn={() => this.shareIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
+            onPressOut={() => this.shareIcon.setNativeProps({style: styles.shareIcon})}
+            onPress={() => this.props.navigateTo('ShareScreen', { postId: this.props.item.id })}
+            >
+            <RN.View style={styles.shareButton}>
+              <Icon ref={(ref) => this.shareIcon = ref} name={'share-alt'} style={styles.shareIcon} />
+            </RN.View>
+          </RN.TouchableWithoutFeedback>
+          {this._renderCloseOrFlag()}
+        </RN.View>
       </RN.View>
     )
   }
@@ -346,15 +352,14 @@ class PostListItem extends React.PureComponent {
         </RN.TouchableWithoutFeedback>
       )
     } else {
-      let isFlaggedByClient = this.props.item.is_flagged_by_client;
-
       return (
-        <RN.TouchableWithoutFeedback onPress={this._onPressFlagPost} >
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => this.flagIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textRed})}
+          onPressOut={() => this.flagIcon.setNativeProps({style: styles.flagIcon})}
+          onPress={this._onPressFlagPost}
+          >
           <RN.View style={styles.closeOrFlagButton}>
-            <Ionicon
-              name={isFlaggedByClient ? 'ios-flag' : 'ios-flag-outline'}
-              style={[styles.flagIcon, isFlaggedByClient && StyleUtility.UTILITY_STYLES.textRed]}
-              />
+            <Icon name={'flag'} ref={(ref) => this.flagIcon = ref} style={styles.flagIcon} />
           </RN.View>
         </RN.TouchableWithoutFeedback>
       )
