@@ -460,9 +460,11 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback onPressIn={this._onPressLike}>
           <RN.View style={styles.likesView}>
             {this._renderLike()}
-            <RN.Text style={styles.likeCountText}>
+            {this.props.client.id === this.props.item.author_id || this.props.item.is_public ?
+              <RN.Text style={styles.likeCountText}>
               {FunctionUtility.getReadableCount(this.props.item.num_likes)}
-            </RN.Text>
+            </RN.Text> :
+            null}
           </RN.View>
         </RN.TouchableWithoutFeedback>
         <RN.Text style={styles.dateText}>

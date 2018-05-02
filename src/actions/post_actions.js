@@ -183,15 +183,11 @@ export const forwardPost = (authToken, firebaseUserObj, clientId, isPublic, reci
     });
 };
 
-// Delete post to API from PostListItem. Call removePost from component.
-// TODO: make this work with multiple media
+// Delete post to API from PostListItem. Call removePost from component. Does not delete AWS media in case of reshares.
 export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => {
   return APIUtility.del(authToken, '/posts/' + postId)
     .then((delPost) => {
       amplitude.logEvent('Posts - Delete Post', { is_successful: true, body: delPost.body });
-      if (delPost.image_url) {
-        dispatch(deleteFile(authToken, firebaseUserObj, delPost.image_url));
-      }
 
       return delPost;
     })

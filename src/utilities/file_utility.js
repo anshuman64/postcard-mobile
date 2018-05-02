@@ -80,29 +80,6 @@ export const getFile = (key) => {
   return s3Client.getSignedUrl('getObject', { Bucket: getBucketName(), Key: key, Expires: 3600 });
 };
 
-// Deletes file from AWS S3 bucket using path key
-export const deleteFile = (authToken, firebaseUserObj, key) => (dispatch) => {
-  return new Promise((resolve, reject) => {
-    s3Client.deleteObject({ Bucket: getBucketName(), Key: key }, (error, data) => {
-      if (error) {
-        if (error.message === "Missing credentials in config") {
-          return dispatch(refreshAuthToken(firebaseUserObj, deleteFile, key))
-            .then((data) => {
-              resolve(data);
-            })
-            .catch((error) => {
-              reject(setErrorDescription(error, 'Delete file in S3 failed'));
-            });
-        }
-
-        reject(setErrorDescription(error, 'Delete file in S3 failed'));
-      } else {
-        resolve(data);
-      }
-    });
-  });
-};
-
 export const uploadMedia = (authToken, firebaseUserObj, userId, folderPath, media) => (dispatch) => {
   return new Promise(async (resolve, reject) => {
     for (let i in media) {
