@@ -1,23 +1,25 @@
 // Library Imports
 import React           from 'react';
 import RN              from 'react-native';
+import Swiper          from 'react-native-swiper';
 import * as Animatable from 'react-native-animatable';
 import Hyperlink       from 'react-native-hyperlink'
 import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import LoadingModal                           from '../loading_modal/loading_modal';
-import ListModalContainer                     from '../list_modal/list_modal_container';
-import EntityInfoViewContainer                from '../entity_info_view/entity_info_view_container';
-import { FRIEND_TYPES }                       from '../../actions/friendship_actions';
-import { POST_TYPES }                         from '../../actions/post_actions';
-import { styles, scaleHeart }                 from './post_list_item_styles';
-import { renderPostDate }                     from '../../utilities/date_time_utility';
-import { defaultErrorAlert }                  from '../../utilities/error_utility';
-import { getReadableCount, setStateCallback } from '../../utilities/function_utility';
-import { getEntityDisplayName }               from '../../utilities/entity_utility';
-import { UTILITY_STYLES, COLORS }             from '../../utilities/style_utility';
+import MediumContainer          from '../medium/medium_container';
+import LoadingModal             from '../loading_modal/loading_modal';
+import ListModalContainer       from '../list_modal/list_modal_container';
+import EntityInfoViewContainer  from '../entity_info_view/entity_info_view_container';
+import { FRIEND_TYPES }         from '../../actions/friendship_actions';
+import { POST_TYPES }           from '../../actions/post_actions';
+import { styles, scaleHeart }   from './post_list_item_styles';
+import { renderPostDate }       from '../../utilities/date_time_utility';
+import { defaultErrorAlert }    from '../../utilities/error_utility';
+import * as FunctionUtility     from '../../utilities/function_utility';
+import { getEntityDisplayName } from '../../utilities/entity_utility';
+import * as StyleUtility        from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
@@ -45,6 +47,7 @@ class PostListItem extends React.PureComponent {
       isLikingServer:    false, // if the server is still registering the create/delete like
       isModalVisible:    false,
       isLoading:         false,
+      swiperHeight:      null,
     }
 
     this.isLikeDisabled    = false;
@@ -281,7 +284,7 @@ class PostListItem extends React.PureComponent {
       callback = this._onRespondToPost;
     } else {
       displayString = numRecipients + ' groups';
-      callback = setStateCallback(this, { isModalVisible: true });
+      callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
     }
 
     return this._renderRecipients(displayString, callback);
@@ -300,7 +303,7 @@ class PostListItem extends React.PureComponent {
       callback = this._onRespondToPost;
     } else {
       displayString = numRecipients + ' recipients';
-      callback = setStateCallback(this, { isModalVisible: true });
+      callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
     }
 
     return this._renderRecipients(displayString, callback);
@@ -309,15 +312,15 @@ class PostListItem extends React.PureComponent {
   _renderRecipients(displayString, callback) {
     return (
       <RN.View style={styles.usernameView}>
-        <Ionicon name={'md-play'} style={[styles.playIcon, UTILITY_STYLES.marginLeft5]}/>
+        <Ionicon name={'md-play'} style={[styles.playIcon, StyleUtility.UTILITY_STYLES.marginLeft5]}/>
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.displayString.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-          onPressOut={() => this.displayString.setNativeProps({style: [UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5]})}
+          onPressIn={() => this.displayString.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
+          onPressOut={() => this.displayString.setNativeProps({style: [StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]})}
           style={styles.usernameView}
           onPress={callback}
           >
           <RN.View>
-            <RN.Text ref={(ref) => this.displayString = ref}  style={[UTILITY_STYLES.lightBlackText15, UTILITY_STYLES.marginLeft5]}>
+            <RN.Text ref={(ref) => this.displayString = ref}  style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]}>
               {displayString}
             </RN.Text>
           </RN.View>
@@ -333,7 +336,7 @@ class PostListItem extends React.PureComponent {
     } else if (this.props.client.id === this.props.item.author_id && !this.props.width) {
       return (
         <RN.TouchableWithoutFeedback
-          onPressIn={() => this.closeIcon.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+          onPressIn={() => this.closeIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
           onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
           onPress={this._onPressDeletePost}
           >
@@ -350,7 +353,7 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.closeOrFlagButton}>
             <Ionicon
               name={isFlaggedByClient ? 'ios-flag' : 'ios-flag-outline'}
-              style={[styles.flagIcon, isFlaggedByClient && UTILITY_STYLES.textRed]}
+              style={[styles.flagIcon, isFlaggedByClient && StyleUtility.UTILITY_STYLES.textRed]}
               />
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -371,7 +374,7 @@ class PostListItem extends React.PureComponent {
         <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
           <RN.View style={styles.bodyView}>
             <RN.View style={styles.bodyTextView}>
-              <Hyperlink linkDefault={true} linkStyle={UTILITY_STYLES.textHighlighted}>
+              <Hyperlink linkDefault={true} linkStyle={StyleUtility.UTILITY_STYLES.textHighlighted}>
                 <RN.Text style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
                   {body}
                 </RN.Text>
@@ -383,33 +386,58 @@ class PostListItem extends React.PureComponent {
     }
   }
 
-  _renderImage() {
-    let imagePath = this.props.item.image_url;
-    let width = this.props.width;
+  _renderMedia() {
+    let media = this.props.item.media;
+    let width = StyleUtility.getUsableDimensions().width || this.props.width;
+    let height;
 
-    if (imagePath && this.props.mediaCache[imagePath]) {
+    if (!media || media.length === 0) {
+      return null;
+    } else if (media.length === 1) {
+      height = StyleUtility.getScaledHeight(media[0], width);
+
       return (
-        <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
-          <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
-            <RN.Image
-              source={{uri: this.props.mediaCache[imagePath].url}}
-              style={[styles.bodyImage, width && {height: width, width: width}]}
-              resizeMode={'contain'}
-              onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, imagePath)}
-              />
-          </RN.TouchableWithoutFeedback>
-          <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
-        </RN.View>
-      )
-    } else if (imagePath && !this.props.mediaCache[imagePath]) {
-      return (
-        <RN.View style={[styles.bodyImageView, width && {height: width, width: width}]}>
-          <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
-        </RN.View>
+        <MediumContainer
+          medium={media[0]}
+          style={[styles.medium, { width: width, height: height }]}
+          imageUrls={FunctionUtility.getImageUrlsFromMedia(this.props.item.media, this.props.mediaCache)}
+          />
       )
     } else {
-      return null;
+      return (
+        <Swiper
+          loop={false}
+          automaticallyAdjustContentInsets={true}
+          onIndexChanged={(index) => this.setState({ swiperHeight: StyleUtility.getScaledHeight(media[index], width) })}
+          height={this.state.swiperHeight || StyleUtility.getScaledHeight(media[0], width)}
+          width={width}
+          >
+          {this._renderMediaList()}
+        </Swiper>
+      )
     }
+  }
+
+  _renderMediaList() {
+    let rows = [];
+    let media = this.props.item.media;
+    let width = StyleUtility.getUsableDimensions().width || this.props.width;
+    let height;
+
+    for (i = 0; i < media.length; i++) {
+      height = StyleUtility.getScaledHeight(media[i], width);
+
+      rows.push(
+        <MediumContainer
+          key={i}
+          medium={media[i]}
+          style={[styles.medium, { width: width, height: height }]}
+          imageUrls={FunctionUtility.getImageUrlsFromMedia(this.props.item.media, this.props.mediaCache)}
+          />
+      )
+    }
+
+    return rows;
   }
 
   //--------------------------------------------------------------------//
@@ -423,7 +451,7 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.likesView}>
             {this._renderLike()}
             <RN.Text style={styles.likeCountText}>
-              {getReadableCount(this.props.item.num_likes)}
+              {FunctionUtility.getReadableCount(this.props.item.num_likes)}
             </RN.Text>
           </RN.View>
         </RN.TouchableWithoutFeedback>
@@ -443,8 +471,8 @@ class PostListItem extends React.PureComponent {
           animation={scaleHeart}
           duration={750}
           style={styles.heartIcon}
-          onAnimationBegin={setStateCallback(this, { isLikingAnimation: true })}
-          onAnimationEnd={setStateCallback(this, { isLikingAnimation: false })}
+          onAnimationBegin={FunctionUtility.setStateCallback(this, { isLikingAnimation: true })}
+          onAnimationEnd={FunctionUtility.setStateCallback(this, { isLikingAnimation: false })}
           />
       )
     } else {
@@ -478,7 +506,7 @@ class PostListItem extends React.PureComponent {
         <Animatable.View ref={(ref) => this.container = ref} style={[styles.postContainer, this.props.width && {width: this.props.width, elevation: 0, shadowRadius: 0, borderRadius: 20}]}>
           {this._renderHeader()}
           {this._renderBody()}
-          {this._renderImage()}
+          {this._renderMedia()}
           {this._renderFooter()}
         </Animatable.View>
         {this._renderListModal()}
