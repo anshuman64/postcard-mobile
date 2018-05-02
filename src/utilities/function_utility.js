@@ -1,3 +1,6 @@
+// Library Imports
+import _ from 'lodash';
+
 
 //--------------------------------------------------------------------//
 // Interface
@@ -31,6 +34,24 @@ export const getReadableCount = (count) => {
   } else {
     return (Math.floor(count / 100000) / 10).toFixed(1) + 'M';
   }
+}
+
+// Takes media from posts and gets imageUrls for ImageViewer
+export const getImageUrlsFromMedia = (media, mediaCache) => {
+  let imageUrls = [];
+  let cachedMedium;
+  let mediumUrl;
+
+  _.forEach(media, (medium) => {
+    cachedMedium = mediaCache[medium.id];
+    mediumUrl = cachedMedium ? cachedMedium.url : null;
+
+    if (cachedMedium.mime_type.startsWith('image/') && mediumUrl) {
+      imageUrls.push({ url: mediumUrl });
+    }
+  });
+
+  return imageUrls;
 }
 
 // Merges arrayB into arrayA. Used in refreshPost reducer

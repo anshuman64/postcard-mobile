@@ -133,6 +133,7 @@ const MediaCacheReducer = (state = DEFAULT_STATE, action) => {
     //--------------------------------------------------------------------//
 
     case POST_ACTION_TYPES.RECEIVE_POSTS:
+    case POST_ACTION_TYPES.REFRESH_POSTS:
       media = extractMedia(action.data.posts);
       checkAndUpdateMedia(media);
 

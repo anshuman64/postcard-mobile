@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import MessageListItem             from './message_list_item';
-import { refreshCredsAndGetMedium } from '../../actions/medium_actions';
 
 //--------------------------------------------------------------------//
 
@@ -15,11 +14,6 @@ const mapStateToProps = ({ client, usersCache, postsCache, mediaCache, messages 
   messages:    messages,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  refreshCredsAndGetMedium: (firebaseUserObj, medium) => dispatch(refreshCredsAndGetMedium(firebaseUserObj, medium)),
-});
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(MessageListItem);

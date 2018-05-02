@@ -92,18 +92,12 @@ export const styles = StyleSheet.create({
   smallBodyText: {
     fontSize: 15,
   },
-  bodyImageView: {
+  medium: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: DEFAULT_MARGIN,
-    height: StyleUtility.getUsableDimensions().width,
-    width: StyleUtility.getUsableDimensions().width,
-  },
-  bodyImage: {
-    height: StyleUtility.getUsableDimensions().width,
-    width: StyleUtility.getUsableDimensions().width,
-    zIndex: 1,
+    zIndex: 1
   },
   footerView: {
     flexDirection: 'row',
@@ -140,7 +134,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
     marginTop: 1
-  }
+  },
 });
 
 export const scaleHeart = {
