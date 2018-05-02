@@ -52,9 +52,9 @@ const extractMedia = (object) => {
     }
 
     // If the object is a user with an avatar
-    if (obj.avatar) {
-      obj.avatar.url = getFile(obj.avatar.aws_path);
-      media.push(obj.avatar)
+    if (obj.avatar_medium) {
+      obj.avatar_medium.url = getFile(obj.avatar_medium.aws_path);
+      media.push(obj.avatar_medium)
     }
   }
 
