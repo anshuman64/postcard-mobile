@@ -154,6 +154,35 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
     });
 };
 
+// Forward post to API from Header of ShareScreen
+export const forwardPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postId) => (dispatch) => {
+  let recipientIdsToSend = [];
+  let groupIdsToSend = [];
+
+  _.forEach(recipientIds, (recipientId) => {
+    if (recipientId > 0) {
+      recipientIdsToSend.push(recipientId);
+    } else {
+      groupIdsToSend.push(-1 * recipientId);
+    }
+  });
+
+  return APIUtility.post(authToken, '/posts/forward', { post_id: postId, is_public: isPublic, recipient_ids: recipientIdsToSend, contact_phone_numbers: contactPhoneNumbers, group_ids: groupIdsToSend })
+    .then((newPost) => {
+      amplitude.logEvent('Posts - Forward Post', { is_successful: true, is_public: isPublic, num_recipients: recipientIds.length, num_group_recipients: groupIdsToSend.length, num_contact_recipients: contactPhoneNumbers.length });
+      dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
+    })
+    .catch((error) => {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, contactPhoneNumbers, postId));
+      }
+
+      error = setErrorDescription(error, 'POST post failed');
+      amplitude.logEvent('Posts - Forward Post', { is_successful: false, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
+      throw error;
+    });
+};
+
 // Delete post to API from PostListItem. Call removePost from component.
 // TODO: make this work with multiple media
 export const deletePost = (authToken, firebaseUserObj, postId) => (dispatch) => {

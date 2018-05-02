@@ -113,14 +113,16 @@ class MessagesScreen extends React.PureComponent {
     this.isMediaButtonPressed = true;
 
     ImagePicker.openPicker({
+      multiple: true, // leave this so that gifs work
+      maxFiles: 1,
       compressImageMaxHeight: 512,
       compressImageMaxWidth: 512,
       showCropGuidelines: false,
       hideBottomControls: true,
       cropperToolbarColor: 'black',
     })
-    .then((medium) => {
-      this.setState({ medium: medium, takePhotoMedium: null });
+    .then((media) => {
+      this.setState({ medium: media[0], takePhotoMedium: null });
     })
     .catch((error) => {
       error = setErrorDescription(error, 'Add media failed');
@@ -140,7 +142,8 @@ class MessagesScreen extends React.PureComponent {
     this.isMediaButtonPressed = true;
 
     ImagePicker.openCamera({
-      // TODO: add image size params
+      compressImageMaxHeight: 512,
+      compressImageMaxWidth: 512,
     })
     .then((photo) => {
       this.setState({ medium: null, takePhotoMedium: photo });

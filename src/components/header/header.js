@@ -25,6 +25,7 @@ Optional Passed Props:
   takePhoto(array of photos): array of photos from ImagePicker from NewPostScreen
   media (array of photos and videos): combines photos, videos, and takePhoto to send to backend from ShareScreen
   isPublic (bool): if new post should be public or not from NewPostScreen
+  postId (int): if forwarding a post, id of the post
   recipients (array): users to be passed to API from 1) ShareScreen, 2) CreateCircleScreen, 3) CreateGroupScreen, or 4) AddGroupMembersScreen
   contactRecipients (array): contact phoneNumbers to be passed to API from 1) ShareScreen, 2) CreateGroupScreen or 3) AddGroupMembersScreen
   convoId (int): group id when adding members to the group
@@ -98,6 +99,30 @@ class Header extends React.PureComponent {
       let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
 
       this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, this.props.contactRecipients, postBody, this.props.media, this.props.placeholderText)
+        .then(() => {
+          this.props.navigateTo('AuthoredScreen');
+          this.isGoBackPressed = true;
+        })
+        .catch((error) => {
+          defaultErrorAlert(error);
+        })
+        .finally(() => {
+          this.isButtonPressed = false;
+          this.setState({ isLoading: false });
+        });
+    });
+  }
+
+  // Forward button from ShareScreen
+  _onPressForward = () => {
+    if (this.isButtonPressed || (!this.props.isPublic && this.props.recipients.length === 0 && this.props.contactRecipients.length === 0)) {
+      return;
+    }
+
+    this.isButtonPressed = true;
+
+    this.setState({ isLoading: true },() => {
+      this.props.forwardPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, this.props.contactRecipients, this.props.postId)
         .then(() => {
           this.props.navigateTo('AuthoredScreen');
           this.isGoBackPressed = true;
@@ -273,9 +298,12 @@ class Header extends React.PureComponent {
       let text;
       let func;
 
-      if (this.props.shareButton) {
+      if (this.props.shareButton && !this.props.postId) {
         text = 'Share';
         func = this._onPressSharePost;
+      } else if (this.props.shareButton && this.props.postId) {
+        text = 'Forward';
+        func = this._onPressForward;
       } else if (this.props.nextButton) {
         text = 'Next';
         func = this._onPressToShare;
