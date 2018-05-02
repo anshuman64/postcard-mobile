@@ -51,22 +51,40 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
   },
-  closeOrFlagButton: {
+  iconView: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+  closeOrFlagButton: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     height: 40,
-    width: 80,
+    width: 50,
   },
   closeIcon: {
     fontSize: StyleUtility.scaleFont(20),
     color: StyleUtility.COLORS.grey900,
-    marginRight: 18
+    marginLeft: 10
   },
   flagIcon: {
-    fontSize: StyleUtility.scaleFont(28),
+    fontSize: StyleUtility.scaleFont(16),
     color: StyleUtility.COLORS.grey700,
-    marginRight: 18
+    marginLeft: 10,
+    marginTop: 1
+  },
+  shareButton: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: 40,
+    width: 50,
+  },
+  shareIcon: {
+    fontSize: StyleUtility.scaleFont(17.5),
+    color: StyleUtility.COLORS.grey700,
+    marginRight: 10
   },
   bodyView: {
     flexDirection: 'row',
