@@ -388,7 +388,7 @@ class PostListItem extends React.PureComponent {
 
   _renderMedia() {
     let media = this.props.item.media;
-    let width = StyleUtility.getUsableDimensions().width || this.props.width;
+    let width = this.props.width || StyleUtility.getUsableDimensions().width;
     let height;
 
     if (!media || media.length === 0) {
@@ -399,17 +399,21 @@ class PostListItem extends React.PureComponent {
       return (
         <MediumContainer
           medium={media[0]}
-          style={[styles.medium, { width: width, height: height }]}
+          containerStyle={styles.mediumContainer}
+          mediumStyle={{ width: width, height: height }}
           imageUrls={FunctionUtility.getImageUrlsFromMedia(this.props.item.media, this.props.mediaCache)}
           />
       )
     } else {
+      height = this.state.swiperHeight || StyleUtility.getScaledHeight(media[0], width);
+      height += 80
+
       return (
         <Swiper
           loop={false}
           automaticallyAdjustContentInsets={true}
           onIndexChanged={(index) => this.setState({ swiperHeight: StyleUtility.getScaledHeight(media[index], width) })}
-          height={this.state.swiperHeight || StyleUtility.getScaledHeight(media[0], width)}
+          height={height}
           width={width}
           >
           {this._renderMediaList()}
@@ -421,7 +425,7 @@ class PostListItem extends React.PureComponent {
   _renderMediaList() {
     let rows = [];
     let media = this.props.item.media;
-    let width = StyleUtility.getUsableDimensions().width || this.props.width;
+    let width = this.props.width || StyleUtility.getUsableDimensions().width;
     let height;
 
     for (i = 0; i < media.length; i++) {
@@ -431,7 +435,8 @@ class PostListItem extends React.PureComponent {
         <MediumContainer
           key={i}
           medium={media[i]}
-          style={[styles.medium, { width: width, height: height }]}
+          containerStyle={styles.mediumContainer}
+          mediumStyle={{ width: width, height: height }}
           imageUrls={FunctionUtility.getImageUrlsFromMedia(this.props.item.media, this.props.mediaCache)}
           />
       )
