@@ -25,28 +25,28 @@ class Avatar extends React.PureComponent {
 
   _renderAvatar() {
     let user = this.props.usersCache[this.props.userId];
-    let avatarPath = user ? user.avatar_url : null;
-    let avatarImage = this.props.mediaCache[avatarPath];
-    let avatarUrl = avatarImage ? avatarImage.url : null;
+    let medium = user ? user.avatar_medium : null;
+    let cachedMedium = medium ? this.props.mediaCache[medium.id] : null;
+    let mediumUrl = cachedMedium ? cachedMedium.url : null;
 
     if (this.props.avatarUrl) {
-      avatarUrl = this.props.avatarUrl;
+      mediumUrl = this.props.avatarUrl;
     }
 
-    if ((avatarPath && avatarUrl) || this.props.avatarUrl) {
+    if ((medium && mediumUrl) || this.props.avatar) {
       return (
         <RN.Image
-          source={{uri: avatarUrl}}
+          source={{uri: mediumUrl}}
           style={{
             height: this.props.avatarSize,
             width: this.props.avatarSize,
             borderRadius: StyleUtility.getImageBorderRadius(this.props.avatarSize)
           }}
           resizeMode={'cover'}
-          onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, avatarPath)}
+          onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, medium)}
           />
       )
-    } else if (avatarPath && !avatarUrl) {
+    } else if (medium && !mediumUrl) {
       return (
         <RN.View style={{width: this.props.avatarSize}} />
       )
