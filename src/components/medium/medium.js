@@ -5,15 +5,16 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import VideoPlayer from 'react-native-video-player';
 
 // Local Imports
-import { COLORS }           from '../../utilities/style_utility';
-import { setStateCallback } from '../../utilities/function_utility';
+import { COLORS, getUsableDimensions } from '../../utilities/style_utility';
+import { setStateCallback }            from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
 /*
 Required Passed Props:
   medium (medium object): medium to render
-  style  (style object): desired styling of medium, with height, width, and container styling
+  mediumStyle  (style object): desired styling of medium, with height, width
+  containerStyle (style object): desired styling of container
 Optional Passed Props:
   imageUrls (array): imageUrls to display on ImageViewer
 */
@@ -45,8 +46,9 @@ class Medium extends React.PureComponent {
             onClick={setStateCallback(this, { isModalVisible: false })}
             onSwipeDown={setStateCallback(this, { isModalVisible: false })}
             failImageSource={'Could not load image'}
-            loadingRender={() => <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>}
-            renderHeader={() => null}
+            loadingRender={() => <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{height: getUsableDimensions().height}}/>}
+            renderIndicator={() => null}
+            index={this.props.imageUrls ? this.props.imageUrls.map(x => x.url).indexOf(mediumUrl) : null}
             />
         </RN.Modal>
       )
@@ -57,12 +59,12 @@ class Medium extends React.PureComponent {
     if (mediumUrl) {
       if (cachedMedium.mime_type.startsWith('image/')) {
         return (
-          <RN.View style={this.props.style}>
+          <RN.View style={this.props.containerStyle}>
             <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
             <RN.TouchableWithoutFeedback onLongPress={setStateCallback(this, { isModalVisible: true })}>
               <RN.Image
                 source={{uri: mediumUrl}}
-                style={this.props.style}
+                style={this.props.mediumStyle}
                 resizeMode={'cover'}
                 onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, medium)}
                 />
@@ -71,10 +73,10 @@ class Medium extends React.PureComponent {
         )
       } else if (cachedMedium.mime_type.startsWith('video/')) {
         return (
-          <RN.View style={this.props.style}>
+          <RN.View style={this.props.containerStyle}>
             <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
             <VideoPlayer
-              style={this.props.style}
+              style={this.props.mediumStyle}
               video={{uri: mediumUrl}}
               videoWidth={medium.width}
               videoHeight={medium.height}
@@ -100,12 +102,12 @@ class Medium extends React.PureComponent {
   }
 
   render() {
-    let medium      = this.props.medium;
+    let medium       = this.props.medium;
     let cachedMedium = medium ? this.props.mediaCache[medium.id] : null;
-    let mediumUrl   = cachedMedium ? cachedMedium.url : null;
+    let mediumUrl    = cachedMedium ? cachedMedium.url : null;
 
     return (
-      <RN.View style={this.props.style}>
+      <RN.View style={this.props.containerStyle}>
         {this._renderMedium(medium, cachedMedium, mediumUrl)}
         {this._renderImageViewer(mediumUrl)}
       </RN.View>

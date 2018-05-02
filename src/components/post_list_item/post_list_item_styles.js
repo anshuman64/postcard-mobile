@@ -92,12 +92,11 @@ export const styles = StyleSheet.create({
   smallBodyText: {
     fontSize: 15,
   },
-  medium: {
+  mediumContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: DEFAULT_MARGIN,
-    zIndex: 1
+    marginTop: DEFAULT_MARGIN
   },
   footerView: {
     flexDirection: 'row',
