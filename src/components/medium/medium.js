@@ -29,6 +29,7 @@ class Medium extends React.PureComponent {
 
     this.state = {
       isModalVisible: false,
+      isSpinnerVisible: true
     }
   }
 
@@ -60,12 +61,15 @@ class Medium extends React.PureComponent {
       if (cachedMedium.mime_type.startsWith('image/')) {
         return (
           <RN.View style={this.props.containerStyle}>
-            <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
+            {this.state.isSpinnerVisible ?
+              <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/> :
+            null}
             <RN.TouchableWithoutFeedback onLongPress={setStateCallback(this, { isModalVisible: true })}>
               <RN.Image
                 source={{uri: mediumUrl}}
                 style={this.props.mediumStyle}
                 resizeMode={'cover'}
+                onLoad={setStateCallback(this, { isSpinnerVisible: false })}
                 onError={() => this.props.refreshCredsAndGetMedium(this.props.client.firebaseUserObj, medium)}
                 />
             </RN.TouchableWithoutFeedback>
