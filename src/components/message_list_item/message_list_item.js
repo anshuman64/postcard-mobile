@@ -164,7 +164,7 @@ class MessageListItem extends React.PureComponent {
     let height = StyleUtility.getScaledHeight(medium, width);
 
     return (
-      <MediumContainer medium={this.props.message.medium} style={[styles.medium, { width: width - 15, height: height - 15 }]} />
+      <MediumContainer medium={this.props.message.medium} containerStyle={styles.mediumContainer} mediumStyle={{ width: width - 15, height: height - 15, borderRadius: 10 }} />
     )
   }
 
