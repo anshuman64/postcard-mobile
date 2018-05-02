@@ -8,14 +8,14 @@ import { CONTACT_ACTION_TYPES } from '../actions/contact_actions';
 
 /*
 Data is in the form {
-  phone_number: {
-    "phone_number": +14082551245,
-    "given_name":   'Leslie',
-    "family_name":  'Knope',
-    "type":         "cell",
-    "is_invited":   false
+  phone_number1: {
+    phone_number: +14082551245,
+    given_name:   'Leslie',
+    family_name:  'Knope',
+    type:         'cell',
+    is_invited:   false
   },
-  phone_number: {...
+  phone_number2: {...
 */
 const DEFAULT_STATE = {};
 

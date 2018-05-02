@@ -4,7 +4,6 @@ import AWS       from 'aws-sdk/dist/aws-sdk-react-native';
 import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { getImages }               from './image_actions';
 import { amplitude }               from '../utilities/analytics_utility';
 import * as APIUtility             from '../utilities/api_utility';
 import { setS3Client, uploadFile } from '../utilities/file_utility';
@@ -122,9 +121,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
 
     OneSignal.sendTag('user_id', String(client.id));
     dispatch(setPusherClient(authToken, client.id));
-
     dispatch(receiveClient({ client: client }));
-    dispatch(getImages(client));
   }
 
   let handleExistingUser = (authToken) => {
@@ -226,17 +223,16 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
 }
 
 // PUT request to API to edit user avatar_url from AvatarScreen
-export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageType) => (dispatch) => {
-  let putUser = (avatarUrl) => {
-    return APIUtility.put(authToken, '/users', { avatar_url: avatarUrl })
+export const editAvatar = (authToken, firebaseUserObj, userId, medium) => (dispatch) => {
+  let putUser = (updatedMedium) => {
+    return APIUtility.put(authToken, '/users/avatar', { medium: updatedMedium })
       .then((editedUser) => {
-        amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true, avatar_url: avatarUrl });
+        amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: true });
         dispatch(receiveClient({ client: editedUser }));
-        dispatch(getImages(editedUser));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, userId, imagePath, imageType));
+          return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, userId, medium));
         }
 
         putUserError(error);
@@ -244,15 +240,15 @@ export const editAvatar = (authToken, firebaseUserObj, userId, imagePath, imageT
   }
 
   let putUserError = (error) => {
-    error = setErrorDescription(error, 'PUT user for avatarUrl failed');
+    error = setErrorDescription(error, 'PUT user for avatar failed');
     amplitude.logEvent('Onboarding - Edit Avatar', { is_successful: false, error_description: error.description, error_message: error.message });
     throw error;
   }
 
-  if (imagePath) {
-    return dispatch(uploadFile(authToken, firebaseUserObj, imagePath, imageType, userId, 'profile_pictures/'))
-      .then((data) => {
-        return putUser(data.key);
+  if (medium) {
+    return dispatch(uploadFile(authToken, firebaseUserObj, userId, 'profile_pictures/', medium))
+      .then((updatedMedium) => {
+        return putUser(updatedMedium);
       })
       .catch((error) => {
         putUserError(error);

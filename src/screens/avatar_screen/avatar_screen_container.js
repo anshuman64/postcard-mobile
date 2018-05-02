@@ -8,14 +8,14 @@ import { navigateTo, goBack } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ client, usersCache, imagesCache }, ownProps) => ({
+const mapStateToProps = ({ client, usersCache, mediaCache }, ownProps) => ({
   client:      client,
   usersCache:  usersCache,
-  imagesCache: imagesCache,
+  mediaCache: mediaCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  editAvatar: (authToken, firebaseUserObj, userId, imagePath, imageType) => dispatch(editAvatar(authToken, firebaseUserObj, userId, imagePath, imageType)),
+  editAvatar: (authToken, firebaseUserObj, userId, medium) => dispatch(editAvatar(authToken, firebaseUserObj, userId, medium)),
   navigateTo: (screen, props)                                            => dispatch(navigateTo(screen, props)),
   goBack:     (props)                                                    => dispatch(goBack(props)),
 });

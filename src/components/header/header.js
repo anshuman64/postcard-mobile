@@ -19,9 +19,11 @@ Required Passed Props:
   -
 Optional Passed Props:
   postText (string): text of the post to be shared, coming from NewPostScreen and/or CreateCircleScreen
-  imagePath (string): folder path of image to upload to AWS
   placeholderText (string): placeholder text of NewPostScreen to send to analytics
-  imageType (string): type of image for AWS uploading purposed
+  photos (array of photos): array of photos from ImagePicker from NewPostScreen
+  videos (array of videos): array of videos from ImagePicker from NewPostScreen
+  takePhoto(array of photos): array of photos from ImagePicker from NewPostScreen
+  media (array of photos and videos): combines photos, videos, and takePhoto to send to backend from ShareScreen
   isPublic (bool): if new post should be public or not from NewPostScreen
   recipients (array): users to be passed to API from 1) ShareScreen, 2) CreateCircleScreen, 3) CreateGroupScreen, or 4) AddGroupMembersScreen
   contactRecipients (array): contact phoneNumbers to be passed to API from 1) ShareScreen, 2) CreateGroupScreen or 3) AddGroupMembersScreen
@@ -72,16 +74,15 @@ class Header extends React.PureComponent {
 
   // Next button from NewPostScreen
   _onPressToShare = () => {
-    // Return if no post body or image selected
-    if (isStringEmpty(this.props.postText) && !this.props.imagePath) {
+    // Return if no post body or photos selected
+    if (isStringEmpty(this.props.postText) && this.props.photos.length === 0 && this.props.videos.length === 0 && this.props.takePhoto.length === 0) {
       return;
     }
 
     this.props.navigateTo('ShareScreen', {
       postText: this.props.postText,
       placeholderText: this.props.placeholderText,
-      imagePath: this.props.imagePath,
-      imageType: this.props.imageType,
+      media: this.props.photos.concat(this.props.videos, this.props.takePhoto)
     });
   }
 
@@ -96,7 +97,7 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
 
-      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, this.props.contactRecipients, postBody, this.props.imagePath, this.props.imageType, this.props.placeholderText)
+      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, this.props.contactRecipients, postBody, this.props.media, this.props.placeholderText)
         .then(() => {
           this.props.navigateTo('AuthoredScreen');
           this.isGoBackPressed = true;
