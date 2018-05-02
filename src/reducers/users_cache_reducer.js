@@ -8,7 +8,6 @@ import { POST_ACTION_TYPES }                     from '../actions/post_actions';
 import { MESSAGE_ACTION_TYPES }                  from '../actions/message_actions';
 import { GROUP_ACTION_TYPES }                    from '../actions/group_actions';
 import { CONTACT_ACTION_TYPES }                  from '../actions/contact_actions';
-import { FOLLOW_ACTION_TYPES }                   from '../actions/follow_actions';
 import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions';
 
 //--------------------------------------------------------------------//
@@ -16,11 +15,19 @@ import { BLOCK_ACTION_TYPES }                    from '../actions/block_actions'
 /*
 Data is in the form {
   userId1: {
-    "id":                            30,
-    "username":                      "anshu",
-    "avatar_url":                    "1/posts/054b24a0-fcaa-11e7-aad3-a1f5d5b8af51.jpeg",
-    "is_user_followed_by_client":    false,
-    "friendship_status_with_client": "accepted",
+    id:                            30,
+    firebase_uid:                  jhlakjsdhfalkjyewou,
+    username:                      anshu,
+    phone_number:                  '+14082551245',
+    email:                         null,
+    avatar_medium_id:              29,
+    is_banned:                     false,
+    created_at:                    Date(),
+    updated_at:                    Date(),
+    is_user_blocked_by_client:     false,
+    peek_message:                  {messageObj}
+    friendship_status_with_client: accepted,
+
   },
   userId2: {...
 */
@@ -94,19 +101,6 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
       return newState;
 
   //--------------------------------------------------------------------//
-  // Follow Actions
-  //--------------------------------------------------------------------//
-
-    case FOLLOW_ACTION_TYPES.RECEIVE_FOLLOW:
-      newState[action.data.follow.followee_id].is_user_followed_by_client = true;
-
-      return newState;
-    case FOLLOW_ACTION_TYPES.REMOVE_FOLLOW:
-      newState[action.data.follow.followee_id].is_user_followed_by_client = false;
-
-      return newState;
-
-  //--------------------------------------------------------------------//
   // Block Actions
   //--------------------------------------------------------------------//
 
@@ -155,6 +149,14 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   // Message Actions
   //--------------------------------------------------------------------//
 
+    case MESSAGE_ACTION_TYPES.RECEIVE_CONVERSATIONS:
+      _.forEach(action.data.groups, (group) => {
+        _.forEach(group.users, (user) => {
+          newState[user.id] = _.merge(user, newState[user.id]); // use merge to keep friendship_status_with_client
+        });
+      });
+
+      return newState;
     case MESSAGE_ACTION_TYPES.RECEIVE_MESSAGE:
       convoId = action.data.convoId;
 
@@ -176,8 +178,9 @@ const UsersCacheReducer = (state = DEFAULT_STATE, action) => {
   //--------------------------------------------------------------------//
   // Group Actions
   //--------------------------------------------------------------------//
-    case GROUP_ACTION_TYPES.RECEIVE_USERS_FROM_GROUPS:
-      _.forEach(action.data.users, (user) => {
+
+    case GROUP_ACTION_TYPES.RECEIVE_GROUP:
+      _.forEach(action.data.group.users, (user) => {
         newState[user.id] = _.merge(user, newState[user.id]); // use merge to keep friendship_status_with_client
       });
 

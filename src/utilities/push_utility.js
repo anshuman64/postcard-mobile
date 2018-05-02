@@ -7,7 +7,6 @@ import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config';
 import { getBaseUrl }                    from './api_utility';
 import * as FriendshipActions            from '../actions/friendship_actions';
 import { receiveMessage }                from '../actions/message_actions';
-import { getImages }                     from '../actions/image_actions';
 import { pusherReceivePost }             from '../actions/post_actions';
 import * as GroupActions                 from '../actions/group_actions';
 
@@ -62,13 +61,11 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   // Used to send user data when adding friend by username
   myChannel.bind('create-friendship', (data) => {
     dispatch(FriendshipActions.pusherCreateFriendship({ user: data.user }));
-    dispatch(getImages(data.user));
   });
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-friendship', (data) => {
     dispatch(FriendshipActions.pusherRecieveFriendship({ user: data.client }));
-    dispatch(getImages(data.client));
   });
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
@@ -84,19 +81,16 @@ export const setPusherClient = (authToken, clientId) => (dispatch) => {
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-post', (data) => {
     dispatch(pusherReceivePost({ clientId: data.user_id, post: data.post }));
-    dispatch(getImages(data.post));
   });
 
   // NOTE: the 'user' sending the Pusher message is defined as us, the 'client'.
   myChannel.bind('receive-message', (data) => {
     convoId = data.client_id ? data.client_id : -1 * data.group_id;
     dispatch(receiveMessage({ convoId: convoId, message: data.message }));
-    dispatch(getImages(data.message));
   });
 
   myChannel.bind('receive-group', (data) => {
     dispatch(GroupActions.receiveGroup({ group: data.group }));
-    dispatch(GroupActions.getUsersFromGroups(data.group));
   });
 
   myChannel.bind('remove-group', (data) => {

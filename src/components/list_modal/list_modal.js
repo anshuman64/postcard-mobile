@@ -66,7 +66,7 @@ class ListModal extends React.PureComponent {
     let revisedConvoId = this.props.client.id === convoId ? this.props.authorId : convoId;
 
     this.setState({ isLoading: true },() => {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, revisedConvoId, null, null, null, this.props.postId)
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, revisedConvoId, null, null, this.props.postId)
         .then(() => {
           this.setState({ isLoading: false }, () => {
             this.props.navigateTo('MessagesScreen', { convoId: revisedConvoId });
