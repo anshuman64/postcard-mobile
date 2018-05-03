@@ -34,7 +34,8 @@ class MessagesScreen extends React.PureComponent {
       medium:           null,
       takePhotoMedium:  null,
       isLoading:        false,
-      isLoadingNew:     false
+      isLoadingNew:     false,
+      isTyping:         false,
     };
 
     this.isMediaButtonPressed             = false;
@@ -201,6 +202,33 @@ class MessagesScreen extends React.PureComponent {
     this._loadOldMessages({ start_at: lastMessageId });
   }
 
+
+
+  // Starts Resend SMS timer
+  _resetTimer() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+
+    this.timer = setInterval(this._tick.bind(this), 1500);
+
+    if (!this.state.isTyping) {
+      this.setState({ isTyping: true });
+      // TODO: add Pusher code here
+    }
+  }
+
+  // Updates Resend SMS timer every second
+  _tick() {
+    this.setState({ isTyping: false });
+  }
+
+  _onChangeText = (value) => {
+    this.setState({ messageText: value });
+
+    this._resetTimer();
+  }
+
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -219,7 +247,7 @@ class MessagesScreen extends React.PureComponent {
           placeholderTextColor={StyleUtility.COLORS.grey400}
           placeholder={'Write a message...'}
           returnKeyType={RN.Platform.OS === 'ios' ? null : 'done'}
-          onChangeText={(value) => this.setState({ messageText: value })}
+          onChangeText={this._onChangeText.bind(this)}
           value={this.state.messageText}
           autoFocus={true}
           multiline={true}
@@ -255,10 +283,21 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _renderHeader = () => {
-    if (this.state.isLoading || this.state.isLoadingNew) {
+    if (this.state.isLoading || this.state.isLoadingNew || this.state.isTyping) {
       return (
-        <RN.View style={[styles.headerView, this.state.isLoadingNew && {justifyContent: 'center'}]}>
-          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
+        <RN.View style={styles.headerView}>
+          {this.state.isTyping ?
+            <RN.View style={styles.messageContainerUser}>
+              <RN.View style={styles.messageViewUser}>
+                <Icon name={'options'} style={styles.dotdotdotIcon} />
+              </RN.View>
+            </RN.View> :
+            null}
+          {this.state.isLoading || this.state.isLoadingNew ?
+            <RN.View style={[styles.headerLoadingView, this.state.isLoadingNew && {justifyContent: 'center'}]}>
+              <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
+            </RN.View> :
+            null}
         </RN.View>
       )
     } else {
