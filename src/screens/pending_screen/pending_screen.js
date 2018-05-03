@@ -7,6 +7,8 @@ import ListHeader               from '../../components/list_header/list_header';
 import PendingListItemContainer from '../../components/pending_list_item/pending_list_item_container';
 import SectionListHeader        from '../../components/section_list_header/section_list_header';
 import { UTILITY_STYLES }       from '../../utilities/style_utility';
+import { isStringEmpty }        from '../../utilities/function_utility';
+import { isContactSearched }    from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
@@ -25,7 +27,19 @@ class PendingScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    this.state = {
+      searchText: '',
+    }
+
     this.isSharedPressed = false;
+  }
+
+  //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
+  setParentState = (state) => {
+    this.setState(state);
   }
 
   //--------------------------------------------------------------------//
@@ -60,14 +74,20 @@ class PendingScreen extends React.PureComponent {
   }
 
   _renderContactItem = ({item}) => {
-    return (
-      <PendingListItemContainer phoneNumber={item} />
-    )
+    let contact = this.props.contactsCache[item];
+
+    if (isContactSearched(contact, this.state.searchText)) {
+      return (
+        <PendingListItemContainer phoneNumber={item} />
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderSectionHeader = ({section}) => {
     return (
-      <SectionListHeader title={section.title} />
+      <SectionListHeader title={section.title} searchText={this.state.searchText} setParentState={this.setParentState} />
     )
   }
 
