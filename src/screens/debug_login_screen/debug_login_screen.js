@@ -83,7 +83,7 @@ class DebugLoginScreen extends React.PureComponent {
     return (
       <RN.TextInput
         style={styles.textInput}
-        onChangeText={(value) => this.setState({ emailInput: value })}
+        onChangeText={(value) => this.setState({ passwordInput: value })}
         value={this.state.passwordInput}
         underlineColorAndroid={'transparent'}
         returnKeyType={RN.Platform.OS === 'ios' ? 'done' : null}
