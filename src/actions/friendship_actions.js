@@ -87,8 +87,8 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
     });
 };
 
-export const getFriendsFromContacts = (authToken, firebaseUserObj, contactPhoneNumbers) => (dispatch) => {
-    return APIUtility.post(authToken, '/friendships/contacts', { contacts: contactPhoneNumbers })
+export const getFriendsFromContacts = (authToken, firebaseUserObj, contactPhoneNumbers, isFirstLogin) => (dispatch) => {
+    return APIUtility.post(authToken, '/friendships/contacts', { contacts: contactPhoneNumbers, is_first_login: isFirstLogin })
       .then((friends) => {
         dispatch(receiveFriendships({ friends: friends, friendType: FRIEND_TYPES.CONTACTS }));
       })
