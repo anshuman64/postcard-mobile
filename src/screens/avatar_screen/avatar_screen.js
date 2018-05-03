@@ -175,6 +175,17 @@ class AvatarScreen extends React.PureComponent {
     )
   }
 
+  _renderAvatar() {
+    let avatar = this.state.avatarMedium;
+    let avatarUrl = avatar ? (avatar.url || avatar.path) : null;
+
+    return (
+      <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.avatarMedium || this.state.isLoading}>
+        <AvatarContainer userId={this.props.client.id} avatarSize={200} iconSize={75} avatarUrl={avatarUrl} frameBorderWidth={3} />
+      </RN.TouchableOpacity>
+    )
+  }
+
   _renderChangePhotoText() {
     return (
       <RN.TouchableOpacity
@@ -257,16 +268,11 @@ class AvatarScreen extends React.PureComponent {
   }
 
   render() {
-    let avatar = this.state.avatarMedium;
-    let avatarUrl = avatar ? (avatar.path || avatar.url) : null;
-
     return (
         <RN.View style={UTILITY_STYLES.containerStart}>
           {this._renderTitle()}
           {this._renderSubtitle()}
-          <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.avatarMedium || this.state.isLoading}>
-            <AvatarContainer userId={this.props.client.id} avatarSize={200} iconSize={75} avatarUrl={avatarUrl} frameBorderWidth={3} />
-          </RN.TouchableOpacity>
+          {this._renderAvatar()}
           {this._renderChangePhotoText()}
           {this._renderNextButton()}
           {this._renderSkipButton()}

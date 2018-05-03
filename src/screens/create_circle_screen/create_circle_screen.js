@@ -53,17 +53,14 @@ class CreateCircleScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderItem = ({item}) => {
-    if (isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)) {
-      return (
-        <CheckboxListItemContainer
-          convoId={item}
-          recipients={this.state.recipients}
-          setParentState={this.setParentState}
-          />
-      )
-    } else {
-      return null;
-    }
+    return (
+      <CheckboxListItemContainer
+        convoId={item}
+        recipients={this.state.recipients}
+        setParentState={this.setParentState}
+        isSearched={isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
+        />
+    )
   }
 
   _renderSectionHeader = ({section}) => {

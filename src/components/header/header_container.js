@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   forwardPost:     (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postId) => dispatch(forwardPost(authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postId)),
   createCircle:    (authToken, firebaseUserObj, name, recipientIds)                    => dispatch(createCircle(authToken, firebaseUserObj, name, recipientIds)),
   createGroup:     (authToken, firebaseUserObj, userIds, contactPhoneNumbers)          => dispatch(createGroup(authToken, firebaseUserObj, userIds, contactPhoneNumbers)),
-  addGroupMembers: (authToken, firebaseUserObj, groupId, userIds, contactPhoneNumbers) => dispatch(addGroupMembers(authToken, firebaseUserObj, groupId, userIds, contactPhoneNumbers)),
+  addGroupMembers: (authToken, firebaseUserObj, convoId, userIds, contactPhoneNumbers) => dispatch(addGroupMembers(authToken, firebaseUserObj, convoId, userIds, contactPhoneNumbers)),
   navigateTo:      (screen, props)                                                     => dispatch(navigateTo(screen, props)),
   goBack:          (props)                                                             => dispatch(goBack(props)),
 });
