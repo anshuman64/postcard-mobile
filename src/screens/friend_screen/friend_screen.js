@@ -8,6 +8,7 @@ import ConversationListItemContainer from '../../components/conversation_list_it
 import ListFooter                    from '../../components/list_footer/list_footer';
 import SectionListHeader             from '../../components/section_list_header/section_list_header';
 import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
+import { isConvoSearched }           from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
@@ -18,6 +19,27 @@ Optional Screen Props:
   -
 */
 class FriendScreen extends React.PureComponent {
+
+  //--------------------------------------------------------------------//
+  // Constructor
+  //--------------------------------------------------------------------//
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      convoSearchText: '',
+    };
+  }
+
+  //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
+  // Passed to CheckboxListItem for updating state
+  setParentState = (state) => {
+    this.setState(state);
+  }
 
   //--------------------------------------------------------------------//
   // Callback Methods
@@ -36,14 +58,18 @@ class FriendScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderItem = ({item}) => {
-    return (
-      <ConversationListItemContainer convoId={item} />
-    )
+    if (isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)) {
+      return (
+        <ConversationListItemContainer convoId={item} />
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderSectionHeader = ({section}) => {
     return (
-      <SectionListHeader title={section.title} />
+      <SectionListHeader title={section.title} convoSearchText={this.state.convoSearchText} setParentState={this.setParentState}/>
     )
   }
 
