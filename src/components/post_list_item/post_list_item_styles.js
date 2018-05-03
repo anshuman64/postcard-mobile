@@ -103,12 +103,12 @@ export const styles = StyleSheet.create({
   bodyText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: 18,
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
   },
   smallBodyText: {
-    fontSize: 15,
+    fontSize: StyleUtility.scaleFont(15),
   },
   mediumContainer: {
     flexDirection: 'column',
@@ -136,13 +136,13 @@ export const styles = StyleSheet.create({
     marginRight: 8
   },
   likeCountText: {
-    fontSize: 15,
+    fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey600
   },
   dateText: {
     textAlign: 'right',
-    fontSize: 14,
+    fontSize: StyleUtility.scaleFont(14),
     color: StyleUtility.COLORS.grey400,
     marginRight: 18
   },

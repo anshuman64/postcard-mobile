@@ -187,7 +187,7 @@ class ProfileHeader extends React.PureComponent {
   _renderChangeText() {
     if (this.props.client.id === this.props.userId) {
       return (
-        <RN.Text style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
+        <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
           Change
         </RN.Text>
       )
@@ -206,7 +206,7 @@ class ProfileHeader extends React.PureComponent {
         onPress={() => this.props.navigateTo('UsernameScreen', { screen: 'UsernameScreen' })}
         disabled={this.props.client.id != this.props.userId}
         >
-        <RN.Text style={styles.usernameText} numberOfLines={1}>
+        <RN.Text allowFontScaling={false} style={styles.usernameText} numberOfLines={1}>
           {username}
         </RN.Text>
         <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
@@ -244,7 +244,7 @@ class ProfileHeader extends React.PureComponent {
             onPress={this._onPressFriend}
             >
             <Icon name={iconName} style={[styles.friendIcon, deactivateButton && styles.buttonTextDisabled]} />
-            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, deactivateButton && styles.buttonTextDisabled]}>
+            <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText15, deactivateButton && styles.buttonTextDisabled]}>
               {friendString}
             </RN.Text>
           </RN.TouchableOpacity> :
@@ -253,7 +253,7 @@ class ProfileHeader extends React.PureComponent {
             style={[styles.buttonBackground, styles.buttonBackgroundDisabled]}
             onPress={this._onPressBlock}
             >
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, isBlocked && styles.buttonTextDisabled]}>
+            <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText15, isBlocked && styles.buttonTextDisabled]}>
               { isBlocked ? 'Unblock' : 'Block' }
             </RN.Text>
           </RN.TouchableOpacity>
