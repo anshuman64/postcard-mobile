@@ -187,7 +187,7 @@ class ProfileHeader extends React.PureComponent {
   _renderChangeText() {
     if (this.props.client.id === this.props.userId) {
       return (
-        <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
           Change
         </RN.Text>
       )
