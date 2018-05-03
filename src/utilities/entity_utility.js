@@ -177,28 +177,28 @@ export const isConvoSearched = (convoId, convoSearchText, usersCache, groupsCach
   }
 
   let searchText = convoSearchText.toLowerCase();
-  let displayName = getEntityDisplayName(convoId, usersCache, groupsCache, contactsCache);
+  let displayName = getEntityDisplayName(convoId, usersCache, groupsCache, contactsCache).toLowerCase();
 
   if (convoId > 0) {
-    return displayName.toLowerCase().startsWith(searchText);
+    return displayName.startsWith(searchText);
   } else if (convoId < 0) {
-    return displayName.toLowerCase().includes(searchText);
+    return displayName.includes(searchText);
   }
 
   return true;
 }
 
 // Given a search string, should the contact should up?
-export const isContactSearched = (contact, contactSearchText) => {
-  if (!contact || !contactSearchText || isStringEmpty(contactSearchText)) {
+export const isContactSearched = (phoneNumber, contactSearchText, contactsCache) => {
+  if (!phoneNumber || !contactSearchText || !contactsCache || isStringEmpty(contactSearchText)) {
     return true;
   }
 
+  let contact = contactsCache[phoneNumber];
   let searchText = contactSearchText.toLowerCase();
 
-  let firstNameStartsWith = contact.given_name && contact.given_name.toLowerCase().startsWith(searchText);
   let lastNameStartsWith = contact.family_name && contact.family_name.toLowerCase().startsWith(searchText);
   let fullNameStartsWith = contact.given_name && contact.family_name && (contact.given_name + ' ' + contact.family_name).toLowerCase().startsWith(searchText);
 
-  return firstNameStartsWith || lastNameStartsWith || fullNameStartsWith;
+  return lastNameStartsWith || fullNameStartsWith;
 }
