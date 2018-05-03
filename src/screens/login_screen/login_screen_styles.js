@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     height: DEFAULT_HEIGHT,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(18),
+    fontSize: StyleUtility.scaleFont(17),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
