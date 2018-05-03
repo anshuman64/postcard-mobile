@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'top',
     padding: 20,
     marginTop: (Platform.OS === 'ios') ? 20 : 0, // paddingTop on iOS isn't working for some reason
-    backgroundColor: StyleUtility.COLORS.grey50
+    backgroundColor: StyleUtility.COLORS.grey50,
   },
   smallBodyText: {
     fontSize: 15,
