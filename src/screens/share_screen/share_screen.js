@@ -153,6 +153,7 @@ class ShareScreen extends React.PureComponent {
           ListFooterComponent={this._renderFooter()}
           initialListSize={20}
           pageSize={60}
+          onEndReachedThreshold={0.1}
           showsVerticalScrollIndicator={true}
           stickySectionHeadersEnabled={false}
         />
