@@ -151,6 +151,7 @@ class ShareScreen extends React.PureComponent {
           initialListSize={20}
           pageSize={60}
           showsVerticalScrollIndicator={true}
+          stickySectionHeadersEnabled={false}
         />
       </RN.View>
     )
