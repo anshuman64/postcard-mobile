@@ -7,11 +7,13 @@ import { navigateTo } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ conversations, circles, contacts, contactsCache }, ownProps) => ({
+const mapStateToProps = ({ conversations, circles, contacts, contactsCache, usersCache, groupsCache }, ownProps) => ({
   conversations: conversations.conversations,
   circles:       circles.circles,
   contacts:      contacts,
   contactsCache: contactsCache,
+  usersCache:    usersCache,
+  groupsCache:   groupsCache
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
