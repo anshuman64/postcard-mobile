@@ -70,7 +70,6 @@ class ShareScreen extends React.PureComponent {
         convoId={item}
         recipients={this.state.recipients}
         setParentState={this.setParentState}
-        isHidden={!isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
         />
     )
   }
@@ -87,14 +86,11 @@ class ShareScreen extends React.PureComponent {
   }
 
   _renderContactItem = ({item}) => {
-    let contact = this.props.contactsCache[item];
-
     return (
       <CheckboxListItemContainer
         phoneNumber={item}
         contactRecipients={this.state.contactRecipients}
         setParentState={this.setParentState}
-        isHidden={!isContactSearched(contact, this.state.contactSearchText)}
         />
     )
   }
@@ -147,9 +143,9 @@ class ShareScreen extends React.PureComponent {
         <RN.SectionList
           sections={[
             {data: this.props.circles, renderItem: this._renderCircleItem.bind(this), title: 'Circles'},
-            {data: this.props.conversations, renderItem: this._renderConvoItem.bind(this), title: 'Groups & Friends'},
-            {data: this.props.contacts.phoneNumbersWithAccounts, renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
-            {data: this.props.contacts.phoneNumbersWithoutAccounts, renderItem: this._renderContactItem.bind(this)}
+            {data: this.props.conversations.filter((x) => isConvoSearched(x, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)).slice(0, 250), renderItem: this._renderConvoItem.bind(this), title: 'Groups & Friends'},
+            {data: this.props.contacts.phoneNumbersWithAccounts.filter((x) => isContactSearched(x, this.state.contactSearchText, this.props.contactsCache)).slice(0, 250), renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
+            {data: this.props.contacts.phoneNumbersWithoutAccounts.filter((x) => isContactSearched(x, this.state.contactSearchText, this.props.contactsCache)).slice(0, 250), renderItem: this._renderContactItem.bind(this)}
           ]}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}

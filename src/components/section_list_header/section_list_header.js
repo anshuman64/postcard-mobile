@@ -1,6 +1,7 @@
 // Library Imports
 import React  from 'react';
 import RN     from 'react-native';
+import _      from 'lodash';
 import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
@@ -23,8 +24,16 @@ Optional Passed Props:
 class SectionListHeader extends React.PureComponent {
 
   //--------------------------------------------------------------------//
-  // Render Methods
+  // Private Methods
   //--------------------------------------------------------------------//
+
+  _setParentState = (value) => {
+    if (this.props.title === 'Other Contacts') {
+      this.props.setParentState({ contactSearchText: value });
+    } else {
+      this.props.setParentState({ convoSearchText: value });
+    }
+  }
 
   //--------------------------------------------------------------------//
   // Render Methods
@@ -37,7 +46,7 @@ class SectionListHeader extends React.PureComponent {
       <RN.TextInput
         ref={(ref) => this.textInput = ref}
         style={styles.textInput}
-        onChangeText={this.props.title === 'Other Contacts' ? (value) => this.props.setParentState({ contactSearchText: value }) : (value) => this.props.setParentState({ convoSearchText: value })}
+        onChangeText={this._setParentState.bind(this)}
         value={this.props.title === 'Other Contacts' ? this.props.contactSearchText : this.props.convoSearchText}
         placeholder={'Search...'}
         autoCapitalize={'none'}
