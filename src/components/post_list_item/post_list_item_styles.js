@@ -44,6 +44,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginLeft: DEFAULT_MARGIN,
+    maxWidth: StyleUtility.scaleImage(80)
   },
   usernameView: {
     flexDirection: 'row',
@@ -61,17 +62,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: 40,
-    width: 50,
+    width: 45,
   },
   closeIcon: {
     fontSize: StyleUtility.scaleFont(21),
     color: StyleUtility.COLORS.grey700,
-    marginLeft: 10
+    marginLeft: 3
   },
   flagIcon: {
     fontSize: StyleUtility.scaleFont(16),
     color: StyleUtility.COLORS.grey700,
-    marginLeft: 10,
+    marginLeft: 8,
     marginTop: 1
   },
   shareButton: {
@@ -79,7 +80,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     height: 40,
-    width: 50,
+    width: 45,
   },
   shareIcon: {
     fontSize: StyleUtility.scaleFont(17.5),
