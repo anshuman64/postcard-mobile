@@ -14,6 +14,11 @@ export const styles = StyleSheet.create({
     backgroundColor: StyleUtility.COLORS.grey50,
   },
   headerView: {
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    width: '100%',
+  },
+  headerLoadingView: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -96,5 +101,32 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: StyleUtility.scaleFont(20),
     color: StyleUtility.COLORS.appleBlue
+  },
+  messageContainerUser: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    alignSelf: 'flex-start',
+    maxWidth: StyleUtility.getUsableDimensions().width * 0.75,
+    marginRight: 5,
+    marginLeft: 5,
+    marginTop: 2,
+    marginBottom: 5,
+  },
+  messageViewUser: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    alignSelf: 'flex-start',
+    maxWidth: StyleUtility.getUsableDimensions().width * 0.75,
+    marginLeft: 5,
+    borderRadius: 15,
+    backgroundColor: StyleUtility.COLORS.grey200,
+  },
+  dotdotdotIcon: {
+    textAlign: 'center',
+    fontSize: StyleUtility.scaleFont(20),
+    color: StyleUtility.COLORS.grey900,
+    margin: 10
   },
 });
