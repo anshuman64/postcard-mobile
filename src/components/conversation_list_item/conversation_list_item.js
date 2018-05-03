@@ -41,7 +41,7 @@ class ConversationListItem extends React.PureComponent {
     let createdAtDate = convo && convo.peek_message ? convo.peek_message.created_at : convo.created_at;
 
     return (
-      <RN.Text style={styles.dateText}>
+      <RN.Text allowFontScaling={false} style={styles.dateText}>
         {createdAtDate ? renderConversationDate(createdAtDate) : ''}
       </RN.Text>
     )

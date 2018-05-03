@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     width: 180,
   },
   dropdownIcon: {
-    fontSize: 16,
+    fontSize: StyleUtility.scaleFont(16),
     position: 'absolute',
     left: 210,
     color: StyleUtility.COLORS.grey900
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     height: DEFAULT_HEIGHT,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: 18,
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
   },
   invalidNumberText: {
     width: 165,
-    fontSize: 15,
+    fontSize: StyleUtility.scaleFont(15),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },
@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
     width: 240,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: 14,
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey600,
     marginTop: 15,

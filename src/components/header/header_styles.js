@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
   customButton: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: 16,
+    fontSize: StyleUtility.scaleFont(16),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },
