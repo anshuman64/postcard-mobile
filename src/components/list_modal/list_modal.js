@@ -38,6 +38,8 @@ class ListModal extends React.PureComponent {
       isModalMounted: false,
       isLoading:      false
     };
+
+    this.isRespondDisabled = false;
   }
 
   //--------------------------------------------------------------------//
@@ -63,14 +65,28 @@ class ListModal extends React.PureComponent {
 
   // Navigates to messages of selected group or user
   _onNavigateToMessages(convoId) {
+    if (this.isRespondDisabled) {
+      return;
+    }
+
+    this.isRespondDisabled = true;
+
+    RN.Alert.alert('', 'Respond to this post as a message?',
+      [{text: 'Cancel', onPress: () => this.isRespondDisabled = false, style: 'cancel'},
+       {text: 'Respond', onPress: () => this._onConfirmRespondToPost(convoId)}],
+       {onDismiss: () => this.isRespondDisabled = false}
+    )
+  }
+
+  _onConfirmRespondToPost(convoId) {
     let revisedConvoId = this.props.client.id === convoId ? this.props.authorId : convoId;
 
     this.setState({ isLoading: true },() => {
       this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, revisedConvoId, null, null, this.props.postId)
         .then(() => {
           this.setState({ isLoading: false }, () => {
-            this.props.navigateTo('MessagesScreen', { convoId: revisedConvoId });
             this.props.setParentState({ isModalVisible: false });
+            this.props.navigateTo('MessagesScreen', { convoId: revisedConvoId });
           });
         })
         .catch((error) => {
@@ -192,7 +208,7 @@ class ListModal extends React.PureComponent {
     return (
       <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)} disabled={isDisabled}>
         <RN.View style={[styles.rowContainer, {height: 60}]}>
-          <EntityInfoViewContainer entityId={item} marginLeft={10} disableUsername={true} />
+          <EntityInfoViewContainer entityId={item} marginLeft={10} disableUsername={true} disableAvatar={true} />
         </RN.View>
       </RN.TouchableOpacity>
     )
