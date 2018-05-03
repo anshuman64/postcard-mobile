@@ -4,9 +4,11 @@ import RN              from 'react-native';
 
 // Local Imports
 import HeaderContainer               from '../../components/header/header_container';
+import SectionListHeader             from '../../components/section_list_header/section_list_header';
 import CheckboxListItemContainer     from '../../components/checkbox_list_item/checkbox_list_item_container';
 import ListFooter                    from '../../components/list_footer/list_footer';
 import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
+import { isConvoSearched }           from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
@@ -30,7 +32,8 @@ class CreateCircleScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      recipients: [],
+      recipients:      [],
+      convoSearchText: '',
     };
 
     this.ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -49,13 +52,23 @@ class CreateCircleScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderRow = (rowData, sectionID, rowID) => {
+  _renderItem = ({item}) => {
+    if (isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)) {
+      return (
+        <CheckboxListItemContainer
+          convoId={item}
+          recipients={this.state.recipients}
+          setParentState={this.setParentState}
+          />
+      )
+    } else {
+      return null;
+    }
+  }
+
+  _renderSectionHeader = ({section}) => {
     return (
-      <CheckboxListItemContainer
-        convoId={rowData}
-        recipients={this.state.recipients}
-        setParentState={this.setParentState}
-        />
+      <SectionListHeader title={section.title} convoSearchText={this.state.convoSearchText} setParentState={this.setParentState}/>
     )
   }
 
@@ -75,16 +88,16 @@ class CreateCircleScreen extends React.PureComponent {
           circleName={this.props.circleName}
           recipients={this.state.recipients}
           />
-        <RN.ListView
-          dataSource={this.ds.cloneWithRows(this.props.conversations)}
+        <RN.SectionList
+          sections={[{data: this.props.conversations, renderItem: this._renderItem.bind(this), title: 'Groups & Friends'}]}
           keyExtractor={(item, index) => String(index)}
-          renderRow={this._renderRow}
+          renderSectionHeader={this._renderSectionHeader.bind(this)}
+          ListFooterComponent={this._renderFooter()}
           initialListSize={20}
           pageSize={60}
           showsVerticalScrollIndicator={true}
-          onEndReached={this._onEndReached}
-          renderFooter={this._renderFooter}
-          />
+          stickySectionHeadersEnabled={false}
+        />
       </RN.View>
     )
   }
