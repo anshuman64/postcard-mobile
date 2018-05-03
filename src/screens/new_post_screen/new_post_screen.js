@@ -67,6 +67,8 @@ class NewPostScreen extends React.PureComponent {
       mediaType: 'photo',
       multiple: true,
       maxFiles: 20,
+      compressImageMaxHeight: 512,
+      compressImageMaxWidth: 512,
       showCropGuidelines: false,
       hideBottomControls: true,
       cropperToolbarColor: 'black',
@@ -94,6 +96,8 @@ class NewPostScreen extends React.PureComponent {
       mediaType: 'video',
       multiple: true,
       maxFiles: 1,
+      compressImageMaxHeight: 512,
+      compressImageMaxWidth: 512,
       showCropGuidelines: false,
       hideBottomControls: true,
       cropperToolbarColor: 'black',
@@ -118,7 +122,8 @@ class NewPostScreen extends React.PureComponent {
     this.isButtonPressed = true;
 
     ImagePicker.openCamera({
-      // TODO: add image size params
+      compressImageMaxHeight: 512,
+      compressImageMaxWidth: 512,
     })
     .then((photo) => {
       this.setState({ takePhoto: [photo] });

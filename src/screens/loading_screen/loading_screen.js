@@ -6,6 +6,7 @@ import * as Animatable from 'react-native-animatable';
 import OneSignal       from 'react-native-onesignal';
 
 // Local Imports
+import { amplitude }           from '../../utilities/analytics_utility';
 import { POST_TYPES }          from '../../actions/post_actions';
 import { FRIEND_TYPES }        from '../../actions/friendship_actions';
 import { styles, pulseIcon }   from './loading_screen_styles';
@@ -56,8 +57,9 @@ class LoadingScreen extends React.PureComponent {
         // console.log('Firebase cookie found'); // Debug Test
         this.props.loginClient(firebaseUserObj)
           .then(() => {
+            client = this.props.usersCache[this.props.client.id];
             // console.log('Logged in'); // Debug Test
-            if (this.props.client.is_banned) {
+            if (client.is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
               this._loadContacts();
@@ -94,7 +96,7 @@ class LoadingScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
-  // TODO: add try/catch error handling 
+  // TODO: add try/catch error handling
   async _loadData() {
     await this._refreshData();
     await this.props.getCircles(this.props.client.authToken, this.props.client.firebaseUserObj);
@@ -116,11 +118,13 @@ class LoadingScreen extends React.PureComponent {
   }
 
   _loadContacts = () => {
-    this.props.getContacts(this.props.usersCache[this.props.client.id].phone_number)
+    client = this.props.usersCache[this.props.client.id];
+
+    this.props.getContacts(client.phone_number)
       .then(() => {
         let contactPhoneNumbers = Object.keys(this.props.contactsCache);
 
-        this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, contactPhoneNumbers)
+        this.props.getFriendsFromContacts(this.props.client.authToken, this.props.client.firebaseUserObj, contactPhoneNumbers, !client.username)
           .catch((error) => {
             // console.error(error); // Debug Test
           });
@@ -154,7 +158,7 @@ class LoadingScreen extends React.PureComponent {
 
         this.navigateToNotification = null;
         this.navigateToMessages     = null;
-      // If opening the app normally, go to HomeScreen. TODO: should this be FriendScreen instead?
+      // If opening the app normally, go to HomeScreen.
       } else if (client && client.username) {
         this.props.navigateTo('HomeScreen'); // Debug Test: should be HomeScreen
       // If opening the app normally and haven't created username, go to create username
@@ -196,23 +200,36 @@ class LoadingScreen extends React.PureComponent {
 
     switch (data.type) {
       case 'receive-like':
+        amplitude.logEvent('Notifications - Receive Like', { is_opened: true });
         this.navigateToNotification = 'AuthoredScreen';
         break;
       case 'receive-friendship':
+        amplitude.logEvent('Notifications - Receive Friendship', { is_opened: true });
+        this.navigateToNotification = 'PendingScreen';
+        break;
+      case 'welcome-contact':
+        amplitude.logEvent('Notifications - Welcome Contact', { is_opened: true });
         this.navigateToNotification = 'PendingScreen';
         break;
       case 'receive-accepted-friendship':
+        amplitude.logEvent('Notifications - Receive Accepted Friendship', { is_opened: true });
+        this.navigateToNotification = 'FriendScreen';
+        break;
       case 'receive-group':
+        amplitude.logEvent('Notifications - Receive Group', { is_opened: true });
         this.navigateToNotification = 'FriendScreen';
         break;
       case 'receive-post':
+        amplitude.logEvent('Notifications - Receive Post', { is_opened: true });
         this.navigateToNotification = 'HomeScreen';
         break;
       case 'receive-message':
+        amplitude.logEvent('Notifications - Receive Message', { is_opened: true });
         this.navigateToNotification = 'MessagesScreen';
         this.navigateToMessages     = data.client_id ? data.client_id : -1 * data.group_id;
         break;
       default:
+        amplitude.logEvent('Notifications - Unknown', { is_opened: true });
         this.navigateToNotification = 'HomeScreen';
     }
   }

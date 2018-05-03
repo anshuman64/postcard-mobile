@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getContacts:             (clientPhoneNumber)                                                              => dispatch(ContactActions.getContacts(clientPhoneNumber)),
   getContactsWithAccounts: (authToken, firebaseUserObj, contactPhoneNumbers)                                => dispatch(ContactActions.getContactsWithAccounts(authToken, firebaseUserObj, contactPhoneNumbers)),
   getOtherContacts:        (authToken, firebaseUserObj, contactPhoneNumbers)                                => dispatch(ContactActions.getOtherContacts(authToken, firebaseUserObj, contactPhoneNumbers)),
-  getFriendsFromContacts:  (authToken, firebaseUserObj, clientPhoneNumber)                                  => dispatch(getFriendsFromContacts(authToken, firebaseUserObj, clientPhoneNumber)),
+  getFriendsFromContacts:  (authToken, firebaseUserObj, clientPhoneNumber, isFirstLogin)                    => dispatch(getFriendsFromContacts(authToken, firebaseUserObj, clientPhoneNumber, isFirstLogin)),
   getConversations:        (authToken, firebaseUserObj)                                                     => dispatch(getConversations(authToken, firebaseUserObj)),
   getCircles:              (authToken, firebaseUserObj)                                                     => dispatch(getCircles(authToken, firebaseUserObj)),
   getBlockedUsers:         (authToken, firebaseUserObj)                                                     => dispatch(getBlockedUsers(authToken, firebaseUserObj)),
