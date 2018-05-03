@@ -127,21 +127,21 @@ export const UTILITY_STYLES = RN.StyleSheet.create({
   // Regular Black Text Styles
   regularBlackText18: {
     fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontWeight: '400',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   regularBlackText16: {
     fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: 16,
+    fontSize: scaleFont(16),
     fontWeight: '400',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   regularBlackText15: {
     fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: 15,
+    fontSize: scaleFont(15),
     fontWeight: '400',
     textAlign: 'center',
     color: COLORS.grey900,
@@ -150,21 +150,21 @@ export const UTILITY_STYLES = RN.StyleSheet.create({
   // Light Black Text Styles
   lightBlackText18: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   lightBlackText16: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 16,
+    fontSize: scaleFont(16),
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   lightBlackText15: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 15,
+    fontSize: scaleFont(15),
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
@@ -173,21 +173,21 @@ export const UTILITY_STYLES = RN.StyleSheet.create({
   // Light White Text RN.StyleSheet
   lightWhiteText18: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',
   },
   lightWhiteText16: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 16,
+    fontSize: scaleFont(16),
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',
   },
   lightWhiteText15: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 15,
+    fontSize: scaleFont(15),
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',

@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
  skipButtonText: {
    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
    fontWeight: '100',
-   fontSize: 15,
+   fontSize: StyleUtility.scaleFont(15),
    textAlign: 'center',
    color: StyleUtility.COLORS.appleBlue,
  },

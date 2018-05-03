@@ -42,7 +42,7 @@ class MenuListItem extends React.PureComponent {
             name={this.props.iconName}
             style={styles.menuItemIcon}
             />
-          <RN.Text ref={(ref) => this.textRef = ref} style={styles.menuItemText}>
+          <RN.Text allowFontScaling={false} ref={(ref) => this.textRef = ref} style={styles.menuItemText}>
             {this.props.text}
           </RN.Text>
         </RN.View>

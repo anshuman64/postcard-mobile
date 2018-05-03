@@ -118,13 +118,13 @@ class WelcomeScreen extends React.PureComponent {
             {this._renderFilledCheckbox()}
           </RN.View>
         </RN.TouchableWithoutFeedback>
-        <RN.Text style={styles.checkboxText}>
+        <RN.Text allowFontScaling={false} style={styles.checkboxText}>
           I agree to the
-            <RN.Text style={UTILITY_STYLES.textHighlighted} onPress={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/terms-of-use-de17e7b76742')}> Terms of Use</RN.Text>
+            <RN.Text allowFontScaling={false} style={UTILITY_STYLES.textHighlighted} onPress={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/terms-of-use-de17e7b76742')}> Terms of Use</RN.Text>
           ,
-            <RN.Text style={UTILITY_STYLES.textHighlighted} onPress={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/privacy-policy-a18b33e9d916')}> Privacy Policy</RN.Text>
+            <RN.Text allowFontScaling={false} style={UTILITY_STYLES.textHighlighted} onPress={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/privacy-policy-a18b33e9d916')}> Privacy Policy</RN.Text>
           , and
-            <RN.Text style={UTILITY_STYLES.textHighlighted} onPress={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/community-guidelines-598b3fd77a2e')}> Community Guidelines</RN.Text>
+            <RN.Text allowFontScaling={false} style={UTILITY_STYLES.textHighlighted} onPress={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/community-guidelines-598b3fd77a2e')}> Community Guidelines</RN.Text>
         </RN.Text>
       </RN.View>
     )
@@ -137,7 +137,7 @@ class WelcomeScreen extends React.PureComponent {
         onPress={() => this.props.navigateTo('LoginScreen')}
         disabled={!this.state.isChecked}
         >
-        <RN.Text style={[UTILITY_STYLES.lightWhiteText18, !this.state.isChecked && UTILITY_STYLES.nextButtonTextDisabled]}>
+        <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText18, !this.state.isChecked && UTILITY_STYLES.nextButtonTextDisabled]}>
           Next
         </RN.Text>
       </RN.TouchableOpacity>

@@ -274,6 +274,7 @@ class MessagesScreen extends React.PureComponent {
           <Icon name='picture' style={[styles.imageButtonIcon, this.state.medium && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TextInput
+          allowFontScaling={false}
           style={styles.textInput}
           placeholderTextColor={StyleUtility.COLORS.grey400}
           placeholder={'Write a message...'}
