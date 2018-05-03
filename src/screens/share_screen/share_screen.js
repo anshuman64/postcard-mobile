@@ -8,6 +8,7 @@ import CheckboxListItemContainer     from '../../components/checkbox_list_item/c
 import SectionListHeader             from '../../components/section_list_header/section_list_header';
 import ListFooter                    from '../../components/list_footer/list_footer';
 import { UTILITY_STYLES, scaleFont } from '../../utilities/style_utility';
+import { isContactSearched }         from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
@@ -32,7 +33,8 @@ class ShareScreen extends React.PureComponent {
       isPublic:          false,
       circles:           [],
       recipients:        [],
-      contactRecipients: []
+      contactRecipients: [],
+      searchText:        '',
     };
   }
 
@@ -83,13 +85,19 @@ class ShareScreen extends React.PureComponent {
   }
 
   _renderContactItem = ({item}) => {
-    return (
-      <CheckboxListItemContainer
-        phoneNumber={item}
-        contactRecipients={this.state.contactRecipients}
-        setParentState={this.setParentState}
-        />
-    )
+    let contact = this.props.contactsCache[item];
+
+    if (isContactSearched(contact, this.state.searchText)) {
+      return (
+        <CheckboxListItemContainer
+          phoneNumber={item}
+          contactRecipients={this.state.contactRecipients}
+          setParentState={this.setParentState}
+          />
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderSectionHeader = ({section}) => {
@@ -99,7 +107,7 @@ class ShareScreen extends React.PureComponent {
       )
     } else if (section.title === 'Other Contacts') {
       return (
-        <SectionListHeader title={section.title} iconName={'question'} callback={this.onPressOtherContactsHelp}/>
+        <SectionListHeader title={section.title} iconName={'question'} callback={this.onPressOtherContactsHelp} searchText={this.state.searchText} setParentState={this.setParentState}/>
       )
     } else if (section.title) {
       return (

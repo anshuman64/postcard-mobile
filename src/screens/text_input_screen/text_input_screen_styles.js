@@ -18,7 +18,8 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
-    marginTop: 80
+    marginTop: 80,
+    padding: 0,
   },
   errorText: {
     width: 240,
