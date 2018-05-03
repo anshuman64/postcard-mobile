@@ -176,12 +176,13 @@ export const isConvoSearched = (convoId, convoSearchText, usersCache, groupsCach
     return true;
   }
 
-  displayName = getEntityDisplayName(convoId, usersCache, groupsCache, contactsCache);
+  let searchText = convoSearchText.toLowerCase();
+  let displayName = getEntityDisplayName(convoId, usersCache, groupsCache, contactsCache);
 
   if (convoId > 0) {
-    return displayName.toLowerCase().startsWith(convoSearchText);
+    return displayName.toLowerCase().startsWith(searchText);
   } else if (convoId < 0) {
-    return displayName.toLowerCase().includes(convoSearchText);
+    return displayName.toLowerCase().includes(searchText);
   }
 
   return true;
@@ -189,13 +190,15 @@ export const isConvoSearched = (convoId, convoSearchText, usersCache, groupsCach
 
 // Given a search string, should the contact should up?
 export const isContactSearched = (contact, contactSearchText) => {
-  if (!contact || !contactSearchText) {
+  if (!contact || !contactSearchText || isStringEmpty(contactSearchText)) {
     return true;
   }
 
-  let firstNameStartsWith = contact.given_name && contact.given_name.toLowerCase().startsWith(contactSearchText);
-  let lastNameStartsWith = contact.family_name && contact.family_name.toLowerCase().startsWith(contactSearchText);
-  let fullNameStartsWith = contact.given_name && contact.family_name && (contact.given_name + ' ' + contact.family_name).toLowerCase().startsWith(contactSearchText);
+  let searchText = contactSearchText.toLowerCase();
 
-  return isStringEmpty(contactSearchText) || firstNameStartsWith || lastNameStartsWith || fullNameStartsWith;
+  let firstNameStartsWith = contact.given_name && contact.given_name.toLowerCase().startsWith(searchText);
+  let lastNameStartsWith = contact.family_name && contact.family_name.toLowerCase().startsWith(searchText);
+  let fullNameStartsWith = contact.given_name && contact.family_name && (contact.given_name + ' ' + contact.family_name).toLowerCase().startsWith(searchText);
+
+  return firstNameStartsWith || lastNameStartsWith || fullNameStartsWith;
 }

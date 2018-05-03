@@ -25,6 +25,7 @@ Optional Passed Props:
   circle (object): object of the circle being selected
   convoId (int): id of either the user or group being selected
   phoneNumber (string): phoneNumber of the contact being selected
+  isSearched (bool): if the render should not display because the name doesn't fit the searchBar text. This preserves the check.
 */
 class CheckboxListItem extends React.PureComponent {
 
@@ -230,23 +231,27 @@ class CheckboxListItem extends React.PureComponent {
       func = this._onPressPublic;
     }
 
-    return (
-      <RN.View>
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.convoId && !this.props.phoneNumber && styles.checkboxRed]})}
-          onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
-          onPress={func}
-          >
-          <RN.View style={UTILITY_STYLES.rowView}>
-            {this._renderItemView()}
-            <RN.View style={styles.checkboxView}>
-              {this._renderCheckbox()}
+    if (this.props.isSearched) {
+      return (
+        <RN.View>
+          <RN.TouchableWithoutFeedback
+            onPressIn={() => this.checkbox.setNativeProps({style: [styles.checkboxHighlighted, !this.props.convoId && !this.props.phoneNumber && styles.checkboxRed]})}
+            onPressOut={() => this.checkbox.setNativeProps({style: styles.checkbox})}
+            onPress={func}
+            >
+            <RN.View style={UTILITY_STYLES.rowView}>
+              {this._renderItemView()}
+              <RN.View style={styles.checkboxView}>
+                {this._renderCheckbox()}
+              </RN.View>
             </RN.View>
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
-        {this._renderLoadingModal()}
-      </RN.View>
-    )
+          </RN.TouchableWithoutFeedback>
+          {this._renderLoadingModal()}
+        </RN.View>
+      )
+    } else {
+      return null;
+    }
   }
 }
 
