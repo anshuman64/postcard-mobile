@@ -17,6 +17,7 @@ Required Screen Props:
 Optional Screen Props:
   postText (string): text of the post to be shared, coming from NewPostScreen and/or CreateCircleScreen
   media (array of photos and videos): array of photos and videos from ImagePicker from NewPostScreen
+  postId (int): if forwarding a post, id of post
 */
 class ShareScreen extends React.PureComponent {
 
@@ -134,6 +135,7 @@ class ShareScreen extends React.PureComponent {
           recipients={this.state.recipients}
           contactRecipients={this.state.contactRecipients}
           isPublic={this.state.isPublic}
+          postId={this.props.postId}
           />
         <RN.SectionList
           sections={[
@@ -149,6 +151,7 @@ class ShareScreen extends React.PureComponent {
           initialListSize={20}
           pageSize={60}
           showsVerticalScrollIndicator={true}
+          stickySectionHeadersEnabled={false}
         />
       </RN.View>
     )

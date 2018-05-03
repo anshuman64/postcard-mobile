@@ -99,6 +99,7 @@ class PendingScreen extends React.PureComponent {
         initialListSize={20}
         pageSize={10000}
         showsVerticalScrollIndicator={true}
+        stickySectionHeadersEnabled={false}
       />
     )
   }
