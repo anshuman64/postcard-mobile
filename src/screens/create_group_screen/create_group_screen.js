@@ -62,7 +62,7 @@ class CreateGroupScreen extends React.PureComponent {
           convoId={item}
           recipients={this.state.recipients}
           setParentState={this.setParentState}
-          isSearched={isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
+          isHidden={!isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
           />
       )
     }
@@ -79,7 +79,7 @@ class CreateGroupScreen extends React.PureComponent {
           phoneNumber={item}
           contactRecipients={this.state.contactRecipients}
           setParentState={this.setParentState}
-          isSearched={isContactSearched(contact, this.state.contactSearchText)}
+          isHidden={!isContactSearched(contact, this.state.contactSearchText)}
           />
       )
     }
