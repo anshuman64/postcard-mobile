@@ -172,6 +172,8 @@ class ListModal extends React.PureComponent {
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           initialListSize={20}
           pageSize={60}
+          showsVerticalScrollIndicator={false}
+          stickySectionHeadersEnabled={false}
         />
       )
     } else {

@@ -149,7 +149,8 @@ class GroupMenuScreen extends React.PureComponent {
         ListHeaderComponent={this._renderHeader()}
         initialListSize={20}
         pageSize={60}
-        showsVerticalScrollIndicator={true}
+        showsVerticalScrollIndicator={false}
+        stickySectionHeadersEnabled={false}
       />
     )
   }
