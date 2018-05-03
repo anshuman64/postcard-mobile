@@ -28,4 +28,15 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },
+  textInput: {
+    width: 150,
+    height: 30,
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
+    fontWeight: '100',
+    fontSize: 15,
+    textAlign: 'left',
+    color: StyleUtility.COLORS.grey900,
+    marginLeft: 15,
+    padding: 0,
+  },
 });

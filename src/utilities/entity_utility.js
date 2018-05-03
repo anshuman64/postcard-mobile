@@ -170,3 +170,32 @@ export const getContactPreview = (entityId, usersCache, contactsCache) => {
 
   return isStringEmpty(contactPreview) ? null : contactPreview;
 }
+
+export const isConvoSearched = (convoId, convoSearchText, usersCache, groupsCache, contactsCache) => {
+  if (!convoId || !convoSearchText || !usersCache || !groupsCache || !contactsCache || isStringEmpty(convoSearchText)) {
+    return true;
+  }
+
+  displayName = getEntityDisplayName(convoId, usersCache, groupsCache, contactsCache);
+
+  if (convoId > 0) {
+    return displayName.toLowerCase().startsWith(convoSearchText);
+  } else if (convoId < 0) {
+    return displayName.toLowerCase().includes(convoSearchText);
+  }
+
+  return true;
+}
+
+// Given a search string, should the contact should up?
+export const isContactSearched = (contact, contactSearchText) => {
+  if (!contact || !contactSearchText) {
+    return true;
+  }
+
+  let firstNameStartsWith = contact.given_name && contact.given_name.toLowerCase().startsWith(contactSearchText);
+  let lastNameStartsWith = contact.family_name && contact.family_name.toLowerCase().startsWith(contactSearchText);
+  let fullNameStartsWith = contact.given_name && contact.family_name && (contact.given_name + ' ' + contact.family_name).toLowerCase().startsWith(contactSearchText);
+
+  return isStringEmpty(contactSearchText) || firstNameStartsWith || lastNameStartsWith || fullNameStartsWith;
+}

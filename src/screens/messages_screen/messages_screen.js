@@ -1,6 +1,7 @@
 // Library Imports
 import React       from 'react';
 import RN          from 'react-native';
+import _           from 'lodash';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
@@ -9,6 +10,7 @@ import ListFooter                         from '../../components/list_footer/lis
 import HeaderContainer                    from '../../components/header/header_container';
 import MessageListItemContainer           from '../../components/message_list_item/message_list_item_container';
 import { styles }                         from './messages_screen_styles';
+import { pusher }                         from '../../utilities/push_utility';
 import { isStringEmpty, setStateCallback} from '../../utilities/function_utility';
 import { getEntityDisplayName }           from '../../utilities/entity_utility';
 import * as StyleUtility                  from '../../utilities/style_utility';
@@ -34,7 +36,9 @@ class MessagesScreen extends React.PureComponent {
       medium:           null,
       takePhotoMedium:  null,
       isLoading:        false,
-      isLoadingNew:     false
+      isLoadingNew:     false,
+      isClientTyping:   false,
+      usersTyping:      [],
     };
 
     this.isMediaButtonPressed             = false;
@@ -42,6 +46,7 @@ class MessagesScreen extends React.PureComponent {
     this.isLoading                        = false;
     this.onEndReachedCalledDuringMomentum = false;
     this.currentAppState                  = 'active';
+    this.convoChannelName                 = null;
   }
 
   //--------------------------------------------------------------------//
@@ -58,10 +63,13 @@ class MessagesScreen extends React.PureComponent {
     } else if (messages && messages.data.length > 0) {
       this._loadNewMessages();
     }
+
+    this._setupPusher();
   }
 
   componentWillUnmount() {
     RN.AppState.removeEventListener('change', this._handleAppStateChange);
+    pusher.unsubscribe(this.convoChannelName);
   }
 
   //--------------------------------------------------------------------//
@@ -202,6 +210,63 @@ class MessagesScreen extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // DotDotDotTyping Methods
+  //--------------------------------------------------------------------//
+
+  _setupPusher = () => {
+    if (this.props.convoId < 0) {
+      this.convoChannelName = 'private-group-' + (-1 * this.props.convoId);
+    } else if (this.props.convoId > 0) {
+      smallerId = this.props.client.id < this.props.convoId ? this.props.client.id : this.props.convoId;
+      biggerId = this.props.client.id > this.props.convoId ? this.props.client.id : this.props.convoId;
+      this.convoChannelName = 'private-convo-' + smallerId + '-' + biggerId;
+    }
+
+    convoChannel = pusher.subscribe(this.convoChannelName);
+
+    let arr = this.state.usersTyping.slice();
+
+    convoChannel.bind('client-start-typing', (data) => {
+      this.setState({ usersTyping: arr.concat(data.userId) });
+    });
+
+    convoChannel.bind('client-stop-typing', (data) => {
+      _.remove(arr, (id) => {
+        return id === data.userId;
+      });
+
+      this.setState({ usersTyping: arr });
+    });
+  }
+
+  // Starts Resend SMS timer
+  _resetTimer() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+
+    this.timer = setInterval(this._tick.bind(this), 1500);
+
+    if (!this.state.isClientTyping) {
+      this.setState({ isClientTyping: true });
+      convoChannel.trigger('client-start-typing', { userId: this.props.client.id });
+    }
+  }
+
+  // Updates Resend SMS timer every second
+  _tick() {
+    this.setState({ isClientTyping: false });
+    convoChannel.trigger('client-stop-typing', { userId: this.props.client.id });
+    clearInterval(this.timer);
+  }
+
+  _onChangeText = (value) => {
+    this.setState({ messageText: value });
+
+    this._resetTimer();
+  }
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -219,7 +284,7 @@ class MessagesScreen extends React.PureComponent {
           placeholderTextColor={StyleUtility.COLORS.grey400}
           placeholder={'Write a message...'}
           returnKeyType={RN.Platform.OS === 'ios' ? null : 'done'}
-          onChangeText={(value) => this.setState({ messageText: value })}
+          onChangeText={this._onChangeText.bind(this)}
           value={this.state.messageText}
           autoFocus={true}
           multiline={true}
@@ -255,10 +320,23 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _renderHeader = () => {
-    if (this.state.isLoading || this.state.isLoadingNew) {
+    let isUserTyping = this.state.usersTyping.length > 0;
+
+    if (this.state.isLoading || this.state.isLoadingNew || isUserTyping) {
       return (
-        <RN.View style={[styles.headerView, this.state.isLoadingNew && {justifyContent: 'center'}]}>
-          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
+        <RN.View style={styles.headerView}>
+          {isUserTyping ?
+            <RN.View style={styles.messageContainerUser}>
+              <RN.View style={styles.messageViewUser}>
+                <Icon name={'options'} style={styles.dotdotdotIcon} />
+              </RN.View>
+            </RN.View> :
+            null}
+          {this.state.isLoading || this.state.isLoadingNew ?
+            <RN.View style={[styles.headerLoadingView, this.state.isLoadingNew && {justifyContent: 'center'}]}>
+              <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
+            </RN.View> :
+            null}
         </RN.View>
       )
     } else {
