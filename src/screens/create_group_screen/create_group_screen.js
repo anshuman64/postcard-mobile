@@ -54,7 +54,7 @@ class CreateGroupScreen extends React.PureComponent {
 
   _renderUserItem = ({item}) => {
     // If the group already has the user, don't add it
-    if ((this.props.convoId && this.props.groupsCache[this.props.convoId].users.map(a => a.id).includes(item)) || !isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)) {
+    if (this.props.convoId && this.props.groupsCache[this.props.convoId].users.map(a => a.id).includes(item)) {
       return null;
     } else {
       return (
@@ -62,6 +62,7 @@ class CreateGroupScreen extends React.PureComponent {
           convoId={item}
           recipients={this.state.recipients}
           setParentState={this.setParentState}
+          isSearched={isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
           />
       )
     }
@@ -70,16 +71,17 @@ class CreateGroupScreen extends React.PureComponent {
   _renderContactItem = ({item}) => {
     let contact = this.props.contactsCache[item];
 
-    if (isContactSearched(contact, this.state.contactSearchText)) {
+    if (this.props.convoId && this.props.groupsCache[this.props.convoId].users.map(a => a.phone_number).includes(item)) {
+      return null;
+    } else {
       return (
         <CheckboxListItemContainer
           phoneNumber={item}
           contactRecipients={this.state.contactRecipients}
           setParentState={this.setParentState}
+          isSearched={isContactSearched(contact, this.state.contactSearchText)}
           />
       )
-    } else {
-      return null;
     }
   }
 

@@ -167,7 +167,7 @@ export const forwardPost = (authToken, firebaseUserObj, clientId, isPublic, reci
     }
   });
 
-  return APIUtility.post(authToken, '/posts/forward', { post_id: postId, is_public: isPublic, recipient_ids: recipientIdsToSend, contact_phone_numbers: contactPhoneNumbers, group_ids: groupIdsToSend })
+  return APIUtility.post(authToken, '/posts', { post_id: postId, is_public: isPublic, recipient_ids: recipientIdsToSend, contact_phone_numbers: contactPhoneNumbers, group_ids: groupIdsToSend })
     .then((newPost) => {
       amplitude.logEvent('Posts - Forward Post', { is_successful: true, is_public: isPublic, num_recipients: recipientIds.length, num_group_recipients: groupIdsToSend.length, num_contact_recipients: contactPhoneNumbers.length });
       dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
