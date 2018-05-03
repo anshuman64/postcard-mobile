@@ -32,5 +32,6 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
+    padding: 0,
   },
 });

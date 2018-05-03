@@ -58,16 +58,11 @@ class ConfirmCodeScreen extends React.PureComponent {
     this.setState({ isResendSMSDisabled: true, secsRemaining: 59 })
   }
 
-  // Stops Resend SMS timer
-  _stopTimer() {
-    clearInterval(this.timer);
-  }
-
   // Updates Resend SMS timer every second
   _tick() {
     this.setState({ secsRemaining: this.state.secsRemaining - 1 }, () => {
       if (this.state.secsRemaining <= 0) {
-        this._stopTimer();
+        clearInterval(this.timer);
         this.setState({ isResendSMSDisabled: false })
       }
     });
