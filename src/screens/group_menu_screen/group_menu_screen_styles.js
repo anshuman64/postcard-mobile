@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   icon: {
     width: 36,
-    fontSize: 18,
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },

@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: 16,
+    fontSize: StyleUtility.scaleFont(16),
     textAlign: 'left',
     textAlignVertical: 'top',
     marginLeft: 5,
@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
     marginTop: 2
   },
   closeIcon: {
-    fontSize: 20,
+    fontSize: StyleUtility.scaleFont(20),
     color: 'white',
     textAlign: 'center',
   },

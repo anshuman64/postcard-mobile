@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     width: StyleUtility.scaleFont(150),
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: 14,
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey500
   },

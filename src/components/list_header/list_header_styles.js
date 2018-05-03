@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: StyleUtility.COLORS.grey200
   },
   headerItemIcon: {
-    fontSize: 24,
+    fontSize: StyleUtility.scaleFont(24),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
     marginLeft: DEFAULT_MARGIN,

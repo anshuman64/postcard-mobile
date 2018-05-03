@@ -173,7 +173,7 @@ class LoginScreen extends React.PureComponent {
         }}
         >
         <RN.View ref={(ref) => this.countrySelectorView = ref} style={styles.countrySelectorView}>
-          <RN.Text ref={(ref) => this.countrySelectorText = ref} style={[UTILITY_STYLES.lightBlackText18, styles.countrySelectorTextWidth]}>
+          <RN.Text allowFontScaling={false} ref={(ref) => this.countrySelectorText = ref} style={[UTILITY_STYLES.lightBlackText18, styles.countrySelectorTextWidth]}>
             {COUNTRY_CODES[this.state.countryIndex].country_name}
           </RN.Text>
           <Ionicon name='md-arrow-dropdown' ref={(ref) => this.dropdownIcon = ref} style={styles.dropdownIcon} />
@@ -187,13 +187,14 @@ class LoginScreen extends React.PureComponent {
       <RN.View style={styles.phoneNumberView}>
         {/* PhoneNumberCountryCode */}
         <RN.View style={styles.countryCodeTextView}>
-          <RN.Text style={UTILITY_STYLES.lightBlackText18}>
+          <RN.Text allowFontScaling={false} style={UTILITY_STYLES.lightBlackText18}>
             {COUNTRY_CODES[this.state.countryIndex].dialing_code}
           </RN.Text>
         </RN.View>
 
         {/* PhoneNumberInput */}
           <RN.TextInput
+            allowFontScaling={false}
             ref={(ref) => this.phoneInput = ref}
             style={[styles.phoneNumberInput, this.state.isPhoneNumberInvalid && UTILITY_STYLES.borderRed]}
             keyboardType='phone-pad'
@@ -213,7 +214,7 @@ class LoginScreen extends React.PureComponent {
   _renderInvalidNumberText() {
     return (
       <RN.View style={styles.invalidNumberTextView}>
-        <RN.Text style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && UTILITY_STYLES.transparentText]}>
+        <RN.Text allowFontScaling={false} style={[styles.invalidNumberText, !this.state.isPhoneNumberInvalid && UTILITY_STYLES.transparentText]}>
           Invalid Number
         </RN.Text>
       </RN.View>
@@ -227,7 +228,7 @@ class LoginScreen extends React.PureComponent {
         onPress={this._onNextButtonPress}
         disabled={this.state.isNextButtonDisabled || this.state.isLoading}
         >
-        <RN.Text style={[UTILITY_STYLES.lightWhiteText18, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonTextDisabled]}>
+        <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText18, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonTextDisabled]}>
           Next
         </RN.Text>
       </RN.TouchableOpacity>
@@ -236,7 +237,7 @@ class LoginScreen extends React.PureComponent {
 
   _renderSMSNoticeText() {
     return (
-      <RN.Text style={styles.smsNoticeText}>
+      <RN.Text allowFontScaling={false} style={styles.smsNoticeText}>
         {"We'll send an SMS message to verify your phone number"}
       </RN.Text>
     )
