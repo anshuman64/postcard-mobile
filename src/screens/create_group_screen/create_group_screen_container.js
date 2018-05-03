@@ -6,11 +6,12 @@ import CreateGroupScreen from './create_group_screen';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ friendships, groupsCache, contacts, contactsCache }, ownProps) => ({
+const mapStateToProps = ({ friendships, groupsCache, contacts, contactsCache, usersCache }, ownProps) => ({
   friendships:   friendships,
   groupsCache:   groupsCache,
   contacts:      contacts,
-  contactsCache: contactsCache
+  contactsCache: contactsCache,
+  usersCache:    usersCache,
 });
 
 export default connect(

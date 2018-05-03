@@ -15,8 +15,9 @@ Required Passed Props:
 Optional Passed Props:
   highlightedText (string): any text to display in blue
   iconName (string): name of SimpleLineIcon to display
-  searchText (string): inputted text in searchBar
-  setParentState (func): to update searchText on screen
+  contactSearchText (string): inputted text in searchBar for contacts
+  convoSearchText (string): inputted text in searchBar for convos
+  setParentState (func): to update contactSearchText on screen
   callback (func): callback when header is pressed
 */
 class SectionListHeader extends React.PureComponent {
@@ -25,15 +26,21 @@ class SectionListHeader extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
+  //--------------------------------------------------------------------//
+  // Render Methods
+  //--------------------------------------------------------------------//
+
   _renderSearchBar() {
+    isContact = this.props.title === 'Other Contacts';
+
     return (
       <RN.TextInput
         ref={(ref) => this.textInput = ref}
         style={styles.textInput}
-        onChangeText={(value) => this.props.setParentState({ searchText: value })}
-        value={this.props.searchText}
+        onChangeText={this.props.title === 'Other Contacts' ? (value) => this.props.setParentState({ contactSearchText: value }) : (value) => this.props.setParentState({ convoSearchText: value })}
+        value={this.props.title === 'Other Contacts' ? this.props.contactSearchText : this.props.convoSearchText}
         placeholder={'Search...'}
-        autoCapitalize={'words'}
+        autoCapitalize={'none'}
         returnKeyType={RN.Platform.OS === 'ios' ? 'done' : null}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
@@ -42,6 +49,8 @@ class SectionListHeader extends React.PureComponent {
   }
 
   render() {
+    let isSearchBar = this.props.title === 'Other Contacts' || this.props.title === 'Conversations' || this.props.title === 'Friends' || this.props.title === 'Groups & Friends';
+
     return(
       <RN.TouchableOpacity onPress={this.props.callback} disabled={!this.props.callback}>
         <RN.View style={styles.sectionHeader}>
@@ -49,7 +58,7 @@ class SectionListHeader extends React.PureComponent {
             {this.props.title}
           </RN.Text>
           {this.props.iconName ? <Icon name={this.props.iconName} style={styles.icon} /> : null}
-          {this.props.title === 'Other Contacts' ? this._renderSearchBar() : null}
+          {isSearchBar ? this._renderSearchBar() : null}
         </RN.View>
       </RN.TouchableOpacity>
     )
