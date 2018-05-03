@@ -16,7 +16,7 @@ import * as GroupActions                 from '../actions/group_actions';
 // Constants
 //--------------------------------------------------------------------//
 
-let pusher    = null;
+export let pusher    = null;
 let myChannel = null;
 
 //--------------------------------------------------------------------//
