@@ -170,3 +170,16 @@ export const getContactPreview = (entityId, usersCache, contactsCache) => {
 
   return isStringEmpty(contactPreview) ? null : contactPreview;
 }
+
+// Given a search string, should the contact should up?
+export const isContactSearched = (contact, searchText) => {
+  if (!contact || !searchText) {
+    return true;
+  }
+
+  let firstNameStartsWith = contact.given_name && contact.given_name.startsWith(searchText);
+  let lastNameStartsWith = contact.family_name && contact.family_name.startsWith(searchText);
+  let fullNameStartsWith = contact.given_name && contact.family_name && (contact.given_name + ' ' + contact.family_name).startsWith(searchText);
+
+  return isStringEmpty(searchText) || firstNameStartsWith || lastNameStartsWith || fullNameStartsWith;
+}

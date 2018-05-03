@@ -48,7 +48,8 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
     textAlignVertical: 'top',
     marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
+    padding: 0, // handles weird behavior where TextInput is not centered on Android
   },
   closeButton: {
     flexDirection: 'column',
