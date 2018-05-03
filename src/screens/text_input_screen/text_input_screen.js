@@ -228,7 +228,7 @@ class TextInputScreen extends React.PureComponent {
         underlineColorAndroid={'transparent'}
         onFocus={this._onFocus}
         onEndEditing={() => this.textInput.setNativeProps({style: styles.textInput})}
-      />
+        />
     )
   }
 
