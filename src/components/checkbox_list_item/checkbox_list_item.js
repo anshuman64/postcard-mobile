@@ -156,7 +156,7 @@ class CheckboxListItem extends React.PureComponent {
   }
 
   _onPressHelp = () => {
-    RN.Alert.alert('', "Checking 'Public' makes your post visible to everyone in the 'Recent' tab.", [{text: 'OK', style: 'cancel'}]);
+    RN.Alert.alert('', "Checking 'Public' displays your post on all your friends' feeds and makes the post visible on your profile.", [{text: 'OK', style: 'cancel'}]);
   }
 
   //--------------------------------------------------------------------//
