@@ -208,7 +208,7 @@ class ListModal extends React.PureComponent {
     return (
       <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)} disabled={isDisabled}>
         <RN.View style={[styles.rowContainer, {height: 60}]}>
-          <EntityInfoViewContainer entityId={item} marginLeft={10} disableUsername={true} disableAvatar={true} />
+          <EntityInfoViewContainer entityId={item} marginLeft={10} maxWidth={90} disableUsername={true} disableAvatar={true} />
         </RN.View>
       </RN.TouchableOpacity>
     )

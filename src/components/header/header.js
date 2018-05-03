@@ -258,7 +258,7 @@ class Header extends React.PureComponent {
   _renderBackTitle() {
     if (this.props.backTitle) {
       return (
-        <RN.Text numberOfLines={1} style={[UTILITY_STYLES.regularBlackText18, {maxWidth: scaleImage(125)}, !this.props.backIcon && {marginLeft: 50}]}>
+        <RN.Text numberOfLines={1} style={[UTILITY_STYLES.regularBlackText18, {maxWidth: scaleImage(120)}, !this.props.backIcon && {marginLeft: 50}]}>
           {this.props.backTitle}
         </RN.Text>
       )
