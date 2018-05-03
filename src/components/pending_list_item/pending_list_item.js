@@ -245,7 +245,8 @@ class PendingListItem extends React.PureComponent {
         <EntityInfoViewContainer
           entityId={this.props.userId || this.props.phoneNumber}
           messagePreview={isStringEmpty(contactName) ? null : contactName}
-          marginLeft={15}
+          marginLeft={10}
+          maxWidth={acceptString && deleteString ? 40 : 80}
           />
         <RN.View style={styles.checkboxView}>
           <RN.View style={styles.buttonView}>

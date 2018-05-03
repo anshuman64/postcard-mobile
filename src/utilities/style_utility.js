@@ -59,7 +59,7 @@ export const scaleImage = (size) => {
 
 // Scales font by fontScale
 export const scaleFont = (fontSize) => {
-  return fontSize * RN.PixelRatio.getFontScale();
+  return fontSize * Math.min(RN.PixelRatio.getFontScale(), 1.5);
 };
 
 // Sets Android font but uses System for iOS
@@ -75,7 +75,7 @@ export const getImageBorderRadius = (dimensions) => {
 // Given a width, gets the height while fixing aspect ratio for medium
 export const getScaledHeight = (medium, fixedWidth) => {
   let scaledHeight;
-  
+
   if (medium) {
     scaledHeight = fixedWidth / medium.width * medium.height;
     scaledHeight = medium.height > medium.width ? scaledHeight * 0.85 : scaledHeight; // reduce height for aesthetic value
