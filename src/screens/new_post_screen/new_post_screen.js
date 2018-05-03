@@ -66,7 +66,7 @@ class NewPostScreen extends React.PureComponent {
     ImagePicker.openPicker({
       mediaType: 'photo',
       multiple: true,
-      maxFiles: 20,
+      maxFiles: 10,
       compressImageMaxHeight: 512,
       compressImageMaxWidth: 512,
       showCropGuidelines: false,
