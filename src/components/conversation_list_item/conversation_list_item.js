@@ -53,7 +53,7 @@ class ConversationListItem extends React.PureComponent {
     let messagePreview = EntityUtility.getMessagePreview(message, this.props.client.id, this.props.usersCache, this.props.postsCache);
 
     return (
-      <EntityInfoView entityId={this.props.convoId} messagePreview={messagePreview} disableUsername={true} marginLeft={7} />
+      <EntityInfoView entityId={this.props.convoId} messagePreview={messagePreview} disableUsername={true} marginLeft={7} maxWidth={90} />
     )
   }
 

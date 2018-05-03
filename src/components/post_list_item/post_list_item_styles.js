@@ -64,8 +64,8 @@ export const styles = StyleSheet.create({
     width: 50,
   },
   closeIcon: {
-    fontSize: StyleUtility.scaleFont(20),
-    color: StyleUtility.COLORS.grey900,
+    fontSize: StyleUtility.scaleFont(21),
+    color: StyleUtility.COLORS.grey700,
     marginLeft: 10
   },
   flagIcon: {
@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
   shareIcon: {
     fontSize: StyleUtility.scaleFont(17.5),
     color: StyleUtility.COLORS.grey700,
-    marginRight: 10
+    marginRight: 5
   },
   bodyView: {
     flexDirection: 'row',
@@ -147,7 +147,7 @@ export const styles = StyleSheet.create({
     marginRight: 18
   },
   playIcon: {
-    fontSize: 8,
+    fontSize: StyleUtility.scaleFont(8),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
     marginTop: 1

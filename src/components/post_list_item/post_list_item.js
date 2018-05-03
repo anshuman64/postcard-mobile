@@ -248,6 +248,8 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderHeader() {
+    let isRecipients = (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient && this.props.item.recipient_ids_with_client.length > 0) || this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length > 0;
+
     return (
       <RN.View style={styles.headerView}>
         <RN.View style={styles.userView}>
@@ -256,6 +258,7 @@ class PostListItem extends React.PureComponent {
             disableUsername={this.props.client.id === this.props.item.author_id}
             entityId={this.props.item.author_id}
             marginLeft={0}
+            maxWidth={isRecipients ? 50 : 100}
             />
           {this.props.postType === POST_TYPES.AUTHORED && this.props.isClient ?
             this._renderAuthoredRecipients() :
@@ -326,7 +329,11 @@ class PostListItem extends React.PureComponent {
           onPress={callback}
           >
           <RN.View>
-            <RN.Text ref={(ref) => this.displayString = ref}  style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]}>
+            <RN.Text
+              ref={(ref) => this.displayString = ref}
+              numberOfLines={1}
+              style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5, { maxWidth: StyleUtility.scaleImage(50) }]}
+              >
               {displayString}
             </RN.Text>
           </RN.View>
