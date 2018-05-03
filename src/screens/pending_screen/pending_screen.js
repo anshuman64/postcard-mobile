@@ -28,7 +28,7 @@ class PendingScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      searchText: '',
+      contactSearchText: '',
     }
 
     this.isSharedPressed = false;
@@ -76,7 +76,7 @@ class PendingScreen extends React.PureComponent {
   _renderContactItem = ({item}) => {
     let contact = this.props.contactsCache[item];
 
-    if (isContactSearched(contact, this.state.searchText)) {
+    if (isContactSearched(contact, this.state.contactSearchText)) {
       return (
         <PendingListItemContainer phoneNumber={item} />
       )
@@ -87,7 +87,7 @@ class PendingScreen extends React.PureComponent {
 
   _renderSectionHeader = ({section}) => {
     return (
-      <SectionListHeader title={section.title} searchText={this.state.searchText} setParentState={this.setParentState} />
+      <SectionListHeader title={section.title} contactSearchText={this.state.contactSearchText} setParentState={this.setParentState} />
     )
   }
 
