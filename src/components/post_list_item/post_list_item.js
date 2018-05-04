@@ -212,7 +212,7 @@ class PostListItem extends React.PureComponent {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
-        convoId = this.props.usersCache[convoId].firebase_uid ? convoId : null; // handle the case if only a contact received the post
+        convoId = this.props.usersCache[convoId] && !this.props.usersCache[convoId].firebase_uid ? null : convoId; // handle the case if only a contact received the post
       } else {
         this.isRespondDisabled = false;
         return;
