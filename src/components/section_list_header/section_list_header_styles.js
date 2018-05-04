@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontSize: 16,
+    fontSize: StyleUtility.scaleFont(16),
     fontWeight: '400',
     textAlign: 'center',
     color: StyleUtility.COLORS.grey700,
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   },
   icon: {
     width: 30,
-    fontSize: 14,
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   },
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     height: 30,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: 15,
+    fontSize: StyleUtility.scaleFont(14.5),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
     marginLeft: 15,

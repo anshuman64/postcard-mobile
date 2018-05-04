@@ -44,6 +44,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginLeft: DEFAULT_MARGIN,
+    maxWidth: StyleUtility.scaleImage(80)
   },
   usernameView: {
     flexDirection: 'row',
@@ -61,17 +62,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: 40,
-    width: 50,
+    width: 45,
   },
   closeIcon: {
-    fontSize: StyleUtility.scaleFont(20),
-    color: StyleUtility.COLORS.grey900,
-    marginLeft: 10
+    fontSize: StyleUtility.scaleFont(21),
+    color: StyleUtility.COLORS.grey700,
+    marginLeft: 3
   },
   flagIcon: {
     fontSize: StyleUtility.scaleFont(16),
     color: StyleUtility.COLORS.grey700,
-    marginLeft: 10,
+    marginLeft: 8,
     marginTop: 1
   },
   shareButton: {
@@ -79,12 +80,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     height: 40,
-    width: 50,
+    width: 45,
   },
   shareIcon: {
     fontSize: StyleUtility.scaleFont(17.5),
     color: StyleUtility.COLORS.grey700,
-    marginRight: 10
+    marginRight: 5
   },
   bodyView: {
     flexDirection: 'row',
@@ -103,18 +104,18 @@ export const styles = StyleSheet.create({
   bodyText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: 18,
+    fontSize: StyleUtility.scaleFont(18),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
   },
   smallBodyText: {
-    fontSize: 15,
+    fontSize: StyleUtility.scaleFont(15),
   },
   mediumContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: DEFAULT_MARGIN
+    marginTop: 8
   },
   footerView: {
     flexDirection: 'row',
@@ -136,21 +137,39 @@ export const styles = StyleSheet.create({
     marginRight: 8
   },
   likeCountText: {
-    fontSize: 15,
+    fontSize: StyleUtility.scaleFont(15),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey600
   },
   dateText: {
     textAlign: 'right',
-    fontSize: 14,
+    fontSize: StyleUtility.scaleFont(14),
     color: StyleUtility.COLORS.grey400,
     marginRight: 18
   },
   playIcon: {
-    fontSize: 8,
+    fontSize: StyleUtility.scaleFont(8),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
     marginTop: 1
+  },
+  dot: {
+    backgroundColor: StyleUtility.COLORS.grey300,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 33
+  },
+  activeDot: {
+    backgroundColor: StyleUtility.COLORS.appleBlue,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 33,
   },
 });
 

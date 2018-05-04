@@ -181,7 +181,7 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <RN.TouchableOpacity style={styles.confirmButton} onPress={callback}>
-        <RN.Text style={UTILITY_STYLES.lightWhiteText15}>
+        <RN.Text allowFontScaling={false} style={UTILITY_STYLES.lightWhiteText15}>
           {acceptString}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -201,7 +201,7 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <RN.TouchableOpacity style={styles.deleteButton} onPress={callback} disabled={!callback}>
-        <RN.Text style={UTILITY_STYLES.lightBlackText15}>
+        <RN.Text allowFontScaling={false} style={UTILITY_STYLES.lightBlackText15}>
           {deleteString}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -245,7 +245,8 @@ class PendingListItem extends React.PureComponent {
         <EntityInfoViewContainer
           entityId={this.props.userId || this.props.phoneNumber}
           messagePreview={isStringEmpty(contactName) ? null : contactName}
-          marginLeft={15}
+          marginLeft={10}
+          maxWidth={acceptString && deleteString ? 40 : 80}
           />
         <RN.View style={styles.checkboxView}>
           <RN.View style={styles.buttonView}>

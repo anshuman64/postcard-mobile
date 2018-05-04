@@ -15,9 +15,9 @@ export const styles = StyleSheet.create({
   },
   logo: {
     fontFamily: 'SourceSansPro-ExtraLight',
-    fontSize: 42,
+    fontSize: StyleUtility.scaleFont(42),
     position: 'absolute',
-    transform: [{translateX: 24}],
+    transform: [{translateX: StyleUtility.scaleFont(24)}],
     color: StyleUtility.COLORS.grey900
   },
   animatableView: {
@@ -29,7 +29,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 50,
     marginTop: 162
   },
   checkbox: {
@@ -57,7 +56,7 @@ export const styles = StyleSheet.create({
     width: 220,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: 14,
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey700,
   },
@@ -76,7 +75,7 @@ export const fadeInIcon = {
   },
   1: {
     opacity: 1,
-    translateX: -75,
+    translateX: StyleUtility.scaleFont(-75),
     translateY: -5
   }
 }
@@ -84,21 +83,21 @@ export const fadeInIcon = {
 export const translateIcon = {
   0: {
     translateY: -5,
-    translateX: -75,
+    translateX: StyleUtility.scaleFont(-75),
   },
   1: {
     translateY: -200,
-    translateX: -75,
+    translateX: StyleUtility.scaleFont(-75),
   }
 }
 
 export const translateLogo = {
   0: {
     translateY: 0,
-    translateX: 24,
+    translateX: StyleUtility.scaleFont(24),
   },
   1: {
     translateY: -195,
-    translateX: 24,
+    translateX: StyleUtility.scaleFont(24),
   }
 }

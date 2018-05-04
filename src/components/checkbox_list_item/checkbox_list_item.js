@@ -156,7 +156,7 @@ class CheckboxListItem extends React.PureComponent {
   }
 
   _onPressHelp = () => {
-    RN.Alert.alert('', "Checking 'Public' makes your post visible to everyone in the 'Recent' tab.", [{text: 'OK', style: 'cancel'}]);
+    RN.Alert.alert('', "Checking 'Public' displays your post on all your friends' feeds and makes the post visible on your profile.", [{text: 'OK', style: 'cancel'}]);
   }
 
   //--------------------------------------------------------------------//
@@ -184,7 +184,7 @@ class CheckboxListItem extends React.PureComponent {
   _renderItemView() {
     if (this.props.convoId || this.props.phoneNumber) {
       return (
-        <EntityInfoViewContainer entityId={this.props.convoId || this.props.phoneNumber} marginLeft={15} disableAvatar={true} disableUsername={true} />
+        <EntityInfoViewContainer entityId={this.props.convoId || this.props.phoneNumber} marginLeft={15} maxWidth={90} disableAvatar={true} disableUsername={true} />
       )
     } else if (this.props.circle) {
       return (
@@ -192,7 +192,7 @@ class CheckboxListItem extends React.PureComponent {
           <RN.View style={styles.frame}>
             <Icon name={'close'} onPress={this._onPressDeleteCircle} style={styles.closeIcon} />
           </RN.View>
-          <RN.Text style={UTILITY_STYLES.regularBlackText16}>
+          <RN.Text allowFontScaling={false} style={UTILITY_STYLES.regularBlackText16}>
             {this.props.circle.name}
           </RN.Text>
         </RN.View>
@@ -203,7 +203,7 @@ class CheckboxListItem extends React.PureComponent {
           <RN.View style={styles.frame}>
             <Icon name={'question'} onPress={this._onPressHelp} style={styles.questionIcon} />
           </RN.View>
-          <RN.Text style={UTILITY_STYLES.regularBlackText16}>
+          <RN.Text allowFontScaling={false} style={UTILITY_STYLES.regularBlackText16}>
             Public
           </RN.Text>
         </RN.View>

@@ -52,18 +52,14 @@ class CreateCircleScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderItem = ({item}) => {
-    if (isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)) {
-      return (
-        <CheckboxListItemContainer
-          convoId={item}
-          recipients={this.state.recipients}
-          setParentState={this.setParentState}
-          />
-      )
-    } else {
-      return null;
-    }
+  _renderConvoItem = ({item}) => {
+    return (
+      <CheckboxListItemContainer
+        convoId={item}
+        recipients={this.state.recipients}
+        setParentState={this.setParentState}
+        />
+    )
   }
 
   _renderSectionHeader = ({section}) => {
@@ -89,7 +85,7 @@ class CreateCircleScreen extends React.PureComponent {
           recipients={this.state.recipients}
           />
         <RN.SectionList
-          sections={[{data: this.props.conversations, renderItem: this._renderItem.bind(this), title: 'Groups & Friends'}]}
+          sections={[{data: this.props.conversations.filter((x) => isConvoSearched(x, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)).slice(0, 250), renderItem: this._renderConvoItem.bind(this), title: 'Groups & Friends'}]}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListFooterComponent={this._renderFooter()}

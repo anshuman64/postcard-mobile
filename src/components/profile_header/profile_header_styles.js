@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
   usernameText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontWeight: '400',
-    fontSize: 22,
+    fontSize: StyleUtility.scaleFont(22),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
   },

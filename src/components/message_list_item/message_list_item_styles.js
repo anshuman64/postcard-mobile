@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
   },
   bodyTextClient: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontSize: 15,
+    fontSize: StyleUtility.scaleFont(15),
     fontWeight: '400',
     textAlign: 'left',
     color: 'white',
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
   },
   bodyTextUser: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
-    fontSize: 15,
+    fontSize: StyleUtility.scaleFont(15),
     fontWeight: '400',
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
   date: {
     alignSelf: 'flex-start',
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: 12,
+    fontSize: StyleUtility.scaleFont(12),
     fontWeight: '100',
     color: StyleUtility.COLORS.grey700,
     marginTop: 1,
@@ -89,7 +89,7 @@ export const styles = StyleSheet.create({
   },
   dateHeaderText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: 13,
+    fontSize: StyleUtility.scaleFont(13),
     fontWeight: '100',
     textAlign: 'center',
     color: StyleUtility.COLORS.grey700,
