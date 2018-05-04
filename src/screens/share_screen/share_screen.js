@@ -64,18 +64,14 @@ class ShareScreen extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderUserItem = ({item}) => {
-    if (isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)) {
-      return (
-        <CheckboxListItemContainer
-          convoId={item}
-          recipients={this.state.recipients}
-          setParentState={this.setParentState}
-          />
-      )
-    } else {
-      return null;
-    }
+  _renderConvoItem = ({item}) => {
+    return (
+      <CheckboxListItemContainer
+        convoId={item}
+        recipients={this.state.recipients}
+        setParentState={this.setParentState}
+        />
+    )
   }
 
   _renderCircleItem = ({item}) => {
@@ -90,19 +86,13 @@ class ShareScreen extends React.PureComponent {
   }
 
   _renderContactItem = ({item}) => {
-    let contact = this.props.contactsCache[item];
-
-    if (isContactSearched(contact, this.state.contactSearchText)) {
-      return (
-        <CheckboxListItemContainer
-          phoneNumber={item}
-          contactRecipients={this.state.contactRecipients}
-          setParentState={this.setParentState}
-          />
-      )
-    } else {
-      return null;
-    }
+    return (
+      <CheckboxListItemContainer
+        phoneNumber={item}
+        contactRecipients={this.state.contactRecipients}
+        setParentState={this.setParentState}
+        />
+    )
   }
 
   _renderSectionHeader = ({section}) => {
@@ -153,16 +143,17 @@ class ShareScreen extends React.PureComponent {
         <RN.SectionList
           sections={[
             {data: this.props.circles, renderItem: this._renderCircleItem.bind(this), title: 'Circles'},
-            {data: this.props.conversations, renderItem: this._renderUserItem.bind(this), title: 'Groups & Friends'},
-            {data: this.props.contacts.phoneNumbersWithAccounts, renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
-            {data: this.props.contacts.phoneNumbersWithoutAccounts, renderItem: this._renderContactItem.bind(this)}
+            {data: this.props.conversations.filter((x) => isConvoSearched(x, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)).slice(0, 250), renderItem: this._renderConvoItem.bind(this), title: 'Groups & Friends'},
+            {data: this.props.contacts.phoneNumbersWithAccounts.filter((x) => isContactSearched(x, this.state.contactSearchText, this.props.contactsCache)).slice(0, 250), renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
+            {data: this.props.contacts.phoneNumbersWithoutAccounts.filter((x) => isContactSearched(x, this.state.contactSearchText, this.props.contactsCache)).slice(0, 250), renderItem: this._renderContactItem.bind(this)}
           ]}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListHeaderComponent={this._renderHeader()}
           ListFooterComponent={this._renderFooter()}
           initialListSize={20}
-          pageSize={60}
+          pageSize={20}
+          onEndReachedThreshold={0.1}
           showsVerticalScrollIndicator={true}
           stickySectionHeadersEnabled={false}
         />

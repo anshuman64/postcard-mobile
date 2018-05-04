@@ -20,9 +20,8 @@ export const styles = StyleSheet.create({
     marginLeft: 7
   },
   messageText: {
-    width: 200,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: 15,
+    fontSize: StyleUtility.scaleFont(15),
     fontWeight: '100',
     textAlign: 'left',
     color: StyleUtility.COLORS.grey700,

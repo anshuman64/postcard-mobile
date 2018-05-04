@@ -16,10 +16,9 @@ export const styles = StyleSheet.create({
     height: 50,
   },
   footerText: {
-    width: StyleUtility.scaleFont(150),
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: 14,
+    fontSize: StyleUtility.scaleFont(14),
     textAlign: 'center',
     color: StyleUtility.COLORS.grey500
   },
@@ -28,6 +27,8 @@ export const styles = StyleSheet.create({
     width: (StyleUtility.getUsableDimensions().width - StyleUtility.scaleFont(150)) / 2 - 20, // Device width minus footerText width over 2 minus aesthetic value
     height: '50%',
     borderBottomWidth: 1,
-    borderBottomColor: StyleUtility.COLORS.grey200
+    borderBottomColor: StyleUtility.COLORS.grey200,
+    marginLeft: 10,
+    marginRight: 10
   },
 })
