@@ -115,7 +115,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: DEFAULT_MARGIN
+    marginTop: 8
   },
   footerView: {
     flexDirection: 'row',
@@ -152,6 +152,24 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: StyleUtility.COLORS.grey900,
     marginTop: 1
+  },
+  dot: {
+    backgroundColor: StyleUtility.COLORS.grey300,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 33
+  },
+  activeDot: {
+    backgroundColor: StyleUtility.COLORS.appleBlue,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 33,
   },
 });
 

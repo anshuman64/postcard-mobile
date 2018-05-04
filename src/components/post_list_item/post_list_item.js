@@ -329,7 +329,7 @@ class PostListItem extends React.PureComponent {
           onPress={callback}
           >
           <RN.View>
-            <RN.Text 
+            <RN.Text
               allowFontScaling={false}
               ref={(ref) => this.displayString = ref}
               numberOfLines={1}
@@ -419,7 +419,7 @@ class PostListItem extends React.PureComponent {
       )
     } else {
       height = this.state.swiperHeight || StyleUtility.getScaledHeight(media[0], width);
-      height += 80
+      height += 65
 
       return (
         <Swiper
@@ -428,6 +428,8 @@ class PostListItem extends React.PureComponent {
           onIndexChanged={(index) => this.setState({ swiperHeight: StyleUtility.getScaledHeight(media[index], width) })}
           height={height}
           width={width}
+          dot={<RN.View style={styles.dot} />}
+          activeDot={<RN.View style={styles.activeDot} />}
           >
           {this._renderMediaList()}
         </Swiper>
