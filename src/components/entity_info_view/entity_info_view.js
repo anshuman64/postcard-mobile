@@ -18,6 +18,7 @@ Optional Passed Props:
   disableAvatar (bool): if should disable click on Avatar to go to profile
   disableUsername (bool): if should disable click on username to go to profile
   marginLeft (int): amount of left margin
+  mawWidth (int): maxWidth of username
 */
 class EntityInfoView extends React.PureComponent {
 
@@ -62,11 +63,11 @@ class EntityInfoView extends React.PureComponent {
           disabled={isNotUser ? true : this.props.disableUsername}
           >
           <RN.View style={styles.usernameView}>
-            <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: scaleImage(120)}]} numberOfLines={1}>
+            <RN.Text allowFontScaling={false} ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: scaleImage(this.props.maxWidth)}]} numberOfLines={1}>
               {displayName}
             </RN.Text>
             {preview ?
-              <RN.Text style={styles.messageText} numberOfLines={1}>
+              <RN.Text allowFontScaling={false} style={[styles.messageText, {maxWidth: scaleImage(this.props.maxWidth)}]} numberOfLines={1}>
                 {preview}
               </RN.Text> :
               null}

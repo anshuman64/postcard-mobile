@@ -54,7 +54,7 @@ class CreateGroupScreen extends React.PureComponent {
 
   _renderUserItem = ({item}) => {
     // If the group already has the user, don't add it
-    if ((this.props.convoId && this.props.groupsCache[this.props.convoId].users.map(a => a.id).includes(item)) || !isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)) {
+    if (this.props.convoId && this.props.groupsCache[this.props.convoId].users.map(a => a.id).includes(item)) {
       return null;
     } else {
       return (
@@ -68,9 +68,9 @@ class CreateGroupScreen extends React.PureComponent {
   }
 
   _renderContactItem = ({item}) => {
-    let contact = this.props.contactsCache[item];
-
-    if (isContactSearched(contact, this.state.contactSearchText)) {
+    if (this.props.convoId && this.props.groupsCache[this.props.convoId].users.map(a => a.phone_number).includes(item)) {
+      return null;
+    } else {
       return (
         <CheckboxListItemContainer
           phoneNumber={item}
@@ -78,8 +78,6 @@ class CreateGroupScreen extends React.PureComponent {
           setParentState={this.setParentState}
           />
       )
-    } else {
-      return null;
     }
   }
 
@@ -117,15 +115,16 @@ class CreateGroupScreen extends React.PureComponent {
           />
         <RN.SectionList
           sections={[
-            {data: this.props.friendships.accepted, renderItem: this._renderUserItem.bind(this), title: 'Friends'},
-            {data: this.props.contacts.phoneNumbersWithAccounts, renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
-            {data: this.props.contacts.phoneNumbersWithoutAccounts, renderItem: this._renderContactItem.bind(this)}
+            {data: this.props.friendships.accepted.filter((x) => isConvoSearched(x, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)).slice(0, 250), renderItem: this._renderUserItem.bind(this), title: 'Friends'},
+            {data: this.props.contacts.phoneNumbersWithAccounts.filter((x) => isContactSearched(x, this.state.contactSearchText, this.props.contactsCache)).slice(0, 250), renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
+            {data: this.props.contacts.phoneNumbersWithoutAccounts.filter((x) => isContactSearched(x, this.state.contactSearchText, this.props.contactsCache)).slice(0, 250), renderItem: this._renderContactItem.bind(this)}
           ]}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListFooterComponent={this._renderFooter()}
           initialListSize={20}
-          pageSize={60}
+          pageSize={20}
+          onEndReachedThreshold={0.1}
           showsVerticalScrollIndicator={true}
           stickySectionHeadersEnabled={false}
         />

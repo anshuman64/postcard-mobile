@@ -38,6 +38,8 @@ class ListModal extends React.PureComponent {
       isModalMounted: false,
       isLoading:      false
     };
+
+    this.isRespondDisabled = false;
   }
 
   //--------------------------------------------------------------------//
@@ -63,14 +65,28 @@ class ListModal extends React.PureComponent {
 
   // Navigates to messages of selected group or user
   _onNavigateToMessages(convoId) {
+    if (this.isRespondDisabled) {
+      return;
+    }
+
+    this.isRespondDisabled = true;
+
+    RN.Alert.alert('', 'Respond to this post as a message?',
+      [{text: 'Cancel', onPress: () => this.isRespondDisabled = false, style: 'cancel'},
+       {text: 'Respond', onPress: () => this._onConfirmRespondToPost(convoId)}],
+       {onDismiss: () => this.isRespondDisabled = false}
+    )
+  }
+
+  _onConfirmRespondToPost(convoId) {
     let revisedConvoId = this.props.client.id === convoId ? this.props.authorId : convoId;
 
     this.setState({ isLoading: true },() => {
       this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, revisedConvoId, null, null, this.props.postId)
         .then(() => {
           this.setState({ isLoading: false }, () => {
-            this.props.navigateTo('MessagesScreen', { convoId: revisedConvoId });
             this.props.setParentState({ isModalVisible: false });
+            this.props.navigateTo('MessagesScreen', { convoId: revisedConvoId });
           });
         })
         .catch((error) => {
@@ -90,7 +106,7 @@ class ListModal extends React.PureComponent {
 
     return (
       <RN.View style={styles.titleView}>
-        <RN.Text style={StyleUtility.UTILITY_STYLES.regularBlackText16}>
+        <RN.Text allowFontScaling={false} style={StyleUtility.UTILITY_STYLES.regularBlackText16}>
           {titleString}
         </RN.Text>
       </RN.View>
@@ -139,13 +155,14 @@ class ListModal extends React.PureComponent {
             >
             <RN.View style={styles.rowContainer}>
               <RN.Text
+                allowFontScaling={false}
                 ref={(ref) => this.countryText = ref}
                 style={StyleUtility.UTILITY_STYLES.lightBlackText15}
                 numberOfLines={1}
                 ellipsizeMode={'tail'}>
                 {COUNTRY_CODES[i].country_name}
               </RN.Text>
-              <RN.Text ref={(ref) => this.dialingCodeText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
+              <RN.Text allowFontScaling={false} ref={(ref) => this.dialingCodeText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
                 {COUNTRY_CODES[i].dialing_code}
               </RN.Text>
             </RN.View>
@@ -192,7 +209,7 @@ class ListModal extends React.PureComponent {
     return (
       <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)} disabled={isDisabled}>
         <RN.View style={[styles.rowContainer, {height: 60}]}>
-          <EntityInfoViewContainer entityId={item} marginLeft={10} disableUsername={true} />
+          <EntityInfoViewContainer entityId={item} marginLeft={10} maxWidth={90} disableUsername={true} disableAvatar={true} />
         </RN.View>
       </RN.TouchableOpacity>
     )
@@ -208,7 +225,7 @@ class ListModal extends React.PureComponent {
         onPress={() => this.props.setParentState({ isModalVisible: false })}
       >
         <RN.View style={styles.cancelButtonView}>
-          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
+          <RN.Text allowFontScaling={false} ref={(ref) => this.cancelButtonText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
             {cancelString}
           </RN.Text>
         </RN.View>

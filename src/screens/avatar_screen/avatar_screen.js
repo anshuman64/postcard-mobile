@@ -161,7 +161,7 @@ class AvatarScreen extends React.PureComponent {
 
   _renderTitle() {
     return (
-      <RN.Text style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
         Add Profile Photo
       </RN.Text>
     )
@@ -169,9 +169,20 @@ class AvatarScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5, {marginBottom: 25}]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5, {marginBottom: 25}]}>
         Choose a photo that represents you.
       </RN.Text>
+    )
+  }
+
+  _renderAvatar() {
+    let avatar = this.state.avatarMedium;
+    let avatarUrl = avatar ? (avatar.url || avatar.path) : null;
+
+    return (
+      <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.avatarMedium || this.state.isLoading}>
+        <AvatarContainer userId={this.props.client.id} avatarSize={200} iconSize={75} avatarUrl={avatarUrl} frameBorderWidth={3} />
+      </RN.TouchableOpacity>
     )
   }
 
@@ -182,7 +193,7 @@ class AvatarScreen extends React.PureComponent {
         onPress={this._onPressAddPhoto}
         disabled={!this.state.avatarMedium || this.state.isLoading}
         >
-        <RN.Text style={[styles.skipButtonText, !this.state.avatarMedium && UTILITY_STYLES.transparentText]}>
+        <RN.Text allowFontScaling={false} style={[styles.skipButtonText, !this.state.avatarMedium && UTILITY_STYLES.transparentText]}>
           Change
         </RN.Text>
       </RN.TouchableOpacity>
@@ -212,7 +223,7 @@ class AvatarScreen extends React.PureComponent {
         onPress={func}
         disabled={this.state.isLoading}
         >
-        <RN.Text style={UTILITY_STYLES.lightWhiteText18}>
+        <RN.Text allowFontScaling={false} style={UTILITY_STYLES.lightWhiteText18}>
           {buttonText}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -240,7 +251,7 @@ class AvatarScreen extends React.PureComponent {
           onPress={func}
           disabled={this.state.isLoading}
           >
-          <RN.Text style={styles.skipButtonText}>
+          <RN.Text allowFontScaling={false} style={styles.skipButtonText}>
             {text}
           </RN.Text>
         </RN.TouchableOpacity>
@@ -257,16 +268,11 @@ class AvatarScreen extends React.PureComponent {
   }
 
   render() {
-    let avatar = this.state.avatarMedium;
-    let avatarUrl = avatar ? (avatar.path || avatar.url) : null;
-
     return (
         <RN.View style={UTILITY_STYLES.containerStart}>
           {this._renderTitle()}
           {this._renderSubtitle()}
-          <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.avatarMedium || this.state.isLoading}>
-            <AvatarContainer userId={this.props.client.id} avatarSize={200} iconSize={75} avatarUrl={avatarUrl} frameBorderWidth={3} />
-          </RN.TouchableOpacity>
+          {this._renderAvatar()}
           {this._renderChangePhotoText()}
           {this._renderNextButton()}
           {this._renderSkipButton()}

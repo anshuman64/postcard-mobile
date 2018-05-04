@@ -67,7 +67,7 @@ class MessageListItem extends React.PureComponent {
     if (isHeader) {
       return (
         <RN.View style={styles.dateHeader}>
-          <RN.Text style={styles.dateHeaderText}>
+          <RN.Text allowFontScaling={false} style={styles.dateHeaderText}>
             {renderMessageDate(thisMessageCreatedAt)}
           </RN.Text>
         </RN.View>
@@ -103,7 +103,7 @@ class MessageListItem extends React.PureComponent {
 
     if (isUsername) {
       return (
-        <RN.Text style={styles.date}>
+        <RN.Text allowFontScaling={false} style={styles.date}>
           {this.props.usersCache[this.props.message.author_id].username}
         </RN.Text>
       )
@@ -148,7 +148,7 @@ class MessageListItem extends React.PureComponent {
     if (this.props.message.body) {
       return (
         <Hyperlink linkDefault={true} linkStyle={{color: StyleUtility.COLORS.grey900}}>
-          <RN.Text style={isAuthoredByClient ? styles.bodyTextClient : styles.bodyTextUser}>
+          <RN.Text allowFontScaling={false} style={isAuthoredByClient ? styles.bodyTextClient : styles.bodyTextUser}>
             {this.props.message.body}
           </RN.Text>
         </Hyperlink>
@@ -171,7 +171,7 @@ class MessageListItem extends React.PureComponent {
   _renderDate(isAuthoredByClient) {
     if (this.state.isDateShown) {
       return (
-        <RN.Text style={[styles.date, isAuthoredByClient && {alignSelf: 'flex-end'}]}>
+        <RN.Text allowFontScaling={false} style={[styles.date, isAuthoredByClient && {alignSelf: 'flex-end'}]}>
           {renderMessageDate(this.props.message.created_at)}
         </RN.Text>
       )
