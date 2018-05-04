@@ -384,17 +384,15 @@ class PostListItem extends React.PureComponent {
 
     if (body) {
       return (
-        <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
-          <RN.View style={styles.bodyView}>
-            <RN.View style={styles.bodyTextView}>
-              <Hyperlink linkDefault={true} linkStyle={StyleUtility.UTILITY_STYLES.textHighlighted}>
-                <RN.Text allowFontScaling={false} style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
-                  {body}
-                </RN.Text>
-              </Hyperlink>
-            </RN.View>
+        <RN.View style={styles.bodyView}>
+          <RN.View style={styles.bodyTextView}>
+            <Hyperlink linkDefault={true} linkStyle={StyleUtility.UTILITY_STYLES.textHighlighted}>
+              <RN.Text allowFontScaling={false} style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
+                {body}
+              </RN.Text>
+            </Hyperlink>
           </RN.View>
-        </RN.TouchableWithoutFeedback>
+        </RN.View>
       )
     }
   }
@@ -525,14 +523,16 @@ class PostListItem extends React.PureComponent {
   render() {
     return(
       <RN.View style={styles.container}>
-        <Animatable.View ref={(ref) => this.container = ref} style={[styles.postContainer, this.props.width && {width: this.props.width, elevation: 0, shadowRadius: 0, borderRadius: 20}]}>
-          {this._renderHeader()}
-          {this._renderBody()}
-          {this._renderMedia()}
-          {this._renderFooter()}
-        </Animatable.View>
-        {this._renderListModal()}
-        {this._renderLoadingModal()}
+        <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
+          <Animatable.View ref={(ref) => this.container = ref} style={[styles.postContainer, this.props.width && {width: this.props.width, elevation: 0, shadowRadius: 0, borderRadius: 20}]}>
+            {this._renderHeader()}
+            {this._renderBody()}
+            {this._renderMedia()}
+            {this._renderFooter()}
+          </Animatable.View>
+        </RN.TouchableWithoutFeedback>
+          {this._renderListModal()}
+          {this._renderLoadingModal()}
       </RN.View>
     )
   }
