@@ -58,13 +58,9 @@ class FriendScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderItem = ({item}) => {
-    if (isConvoSearched(item, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)) {
-      return (
-        <ConversationListItemContainer convoId={item} />
-      )
-    } else {
-      return null;
-    }
+    return (
+      <ConversationListItemContainer convoId={item} />
+    )
   }
 
   _renderSectionHeader = ({section}) => {
@@ -88,7 +84,7 @@ class FriendScreen extends React.PureComponent {
   _renderList() {
     return (
       <RN.SectionList
-        sections={[{data: this.props.conversations, renderItem: this._renderItem.bind(this), title: 'Conversations'}]}
+        sections={[{data: this.props.conversations.filter((x) => isConvoSearched(x, this.state.convoSearchText, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)).slice(0, 250), renderItem: this._renderItem.bind(this), title: 'Conversations'}]}
         keyExtractor={(item) => item}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}

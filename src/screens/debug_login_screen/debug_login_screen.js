@@ -70,6 +70,7 @@ class DebugLoginScreen extends React.PureComponent {
   _renderEmailInput() {
     return (
       <RN.TextInput
+        allowFontScaling={false}
         style={styles.textInput}
         onChangeText={(value) => this.setState({ emailInput: value })}
         value={this.state.emailInput}
@@ -82,6 +83,7 @@ class DebugLoginScreen extends React.PureComponent {
   _renderPasswordInput() {
     return (
       <RN.TextInput
+        allowFontScaling={false}
         style={styles.textInput}
         onChangeText={(value) => this.setState({ passwordInput: value })}
         value={this.state.passwordInput}
@@ -98,7 +100,7 @@ class DebugLoginScreen extends React.PureComponent {
         onPress={this._onNextButtonPress}
         underlayColor={'#0050a7'}
         >
-        <RN.Text style={UTILITY_STYLES.lightWhiteText16}>
+        <RN.Text allowFontScaling={false} style={UTILITY_STYLES.lightWhiteText16}>
           Next
         </RN.Text>
       </RN.TouchableHighlight>

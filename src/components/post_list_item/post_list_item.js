@@ -248,6 +248,8 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderHeader() {
+    let isRecipients = (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient && this.props.item.recipient_ids_with_client.length > 0) || this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length > 0;
+
     return (
       <RN.View style={styles.headerView}>
         <RN.View style={styles.userView}>
@@ -256,6 +258,7 @@ class PostListItem extends React.PureComponent {
             disableUsername={this.props.client.id === this.props.item.author_id}
             entityId={this.props.item.author_id}
             marginLeft={0}
+            maxWidth={isRecipients ? 50 : 100}
             />
           {this.props.postType === POST_TYPES.AUTHORED && this.props.isClient ?
             this._renderAuthoredRecipients() :
@@ -326,7 +329,12 @@ class PostListItem extends React.PureComponent {
           onPress={callback}
           >
           <RN.View>
-            <RN.Text ref={(ref) => this.displayString = ref}  style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]}>
+            <RN.Text
+              allowFontScaling={false}
+              ref={(ref) => this.displayString = ref}
+              numberOfLines={1}
+              style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5, { maxWidth: StyleUtility.scaleImage(50) }]}
+              >
               {displayString}
             </RN.Text>
           </RN.View>
@@ -376,17 +384,15 @@ class PostListItem extends React.PureComponent {
 
     if (body) {
       return (
-        <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
-          <RN.View style={styles.bodyView}>
-            <RN.View style={styles.bodyTextView}>
-              <Hyperlink linkDefault={true} linkStyle={StyleUtility.UTILITY_STYLES.textHighlighted}>
-                <RN.Text style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
-                  {body}
-                </RN.Text>
-              </Hyperlink>
-            </RN.View>
+        <RN.View style={styles.bodyView}>
+          <RN.View style={styles.bodyTextView}>
+            <Hyperlink linkDefault={true} linkStyle={StyleUtility.UTILITY_STYLES.textHighlighted}>
+              <RN.Text allowFontScaling={false} style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
+                {body}
+              </RN.Text>
+            </Hyperlink>
           </RN.View>
-        </RN.TouchableWithoutFeedback>
+        </RN.View>
       )
     }
   }
@@ -411,7 +417,7 @@ class PostListItem extends React.PureComponent {
       )
     } else {
       height = this.state.swiperHeight || StyleUtility.getScaledHeight(media[0], width);
-      height += 80
+      height += 65
 
       return (
         <Swiper
@@ -420,6 +426,8 @@ class PostListItem extends React.PureComponent {
           onIndexChanged={(index) => this.setState({ swiperHeight: StyleUtility.getScaledHeight(media[index], width) })}
           height={height}
           width={width}
+          dot={<RN.View style={styles.dot} />}
+          activeDot={<RN.View style={styles.activeDot} />}
           >
           {this._renderMediaList()}
         </Swiper>
@@ -461,13 +469,13 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.likesView}>
             {this._renderLike()}
             {this.props.client.id === this.props.item.author_id || this.props.item.is_public ?
-              <RN.Text style={styles.likeCountText}>
+              <RN.Text allowFontScaling={false} style={styles.likeCountText}>
               {FunctionUtility.getReadableCount(this.props.item.num_likes)}
             </RN.Text> :
             null}
           </RN.View>
         </RN.TouchableWithoutFeedback>
-        <RN.Text style={styles.dateText}>
+        <RN.Text allowFontScaling={false} style={styles.dateText}>
           {(this.props.item.is_public ? 'Public | ' : '') + renderPostDate(this.props.item.created_at)}
         </RN.Text>
       </RN.View>
@@ -515,14 +523,16 @@ class PostListItem extends React.PureComponent {
   render() {
     return(
       <RN.View style={styles.container}>
-        <Animatable.View ref={(ref) => this.container = ref} style={[styles.postContainer, this.props.width && {width: this.props.width, elevation: 0, shadowRadius: 0, borderRadius: 20}]}>
-          {this._renderHeader()}
-          {this._renderBody()}
-          {this._renderMedia()}
-          {this._renderFooter()}
-        </Animatable.View>
-        {this._renderListModal()}
-        {this._renderLoadingModal()}
+        <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
+          <Animatable.View ref={(ref) => this.container = ref} style={[styles.postContainer, this.props.width && {width: this.props.width, elevation: 0, shadowRadius: 0, borderRadius: 20}]}>
+            {this._renderHeader()}
+            {this._renderBody()}
+            {this._renderMedia()}
+            {this._renderFooter()}
+          </Animatable.View>
+        </RN.TouchableWithoutFeedback>
+          {this._renderListModal()}
+          {this._renderLoadingModal()}
       </RN.View>
     )
   }

@@ -1,8 +1,8 @@
 // Library Imports
-import React                           from 'react';
-import { AppState, BackHandler, View } from 'react-native';
-import { Provider }                    from 'react-redux';
-import { Scene, Tabs, Actions }        from 'react-native-router-flux';
+import React                    from 'react';
+import RN                       from 'react-native';
+import { Provider }             from 'react-redux';
+import { Scene, Tabs, Actions } from 'react-native-router-flux';
 
 // Local Imports
 import { amplitude }              from './utilities/analytics_utility';
@@ -57,13 +57,13 @@ class App extends React.Component {
   // Listens to changes in AppState and when Android backButton is pressed
   // NOTE: don't try to move these to LoadingScreen--it doesn't work!
   componentDidMount() {
-    AppState.addEventListener('change', this._handleAppStateChange);
-    BackHandler.addEventListener("hardwareBackPress", this._onBackPress);
+    RN.AppState.addEventListener('change', this._handleAppStateChange);
+    RN.BackHandler.addEventListener("hardwareBackPress", this._onBackPress);
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
-    BackHandler.removeEventListener("hardwareBackPress", this._onBackPress);
+    RN.AppState.removeEventListener('change', this._handleAppStateChange);
+    RN.BackHandler.removeEventListener("hardwareBackPress", this._onBackPress);
   }
 
   //--------------------------------------------------------------------//
@@ -90,7 +90,7 @@ class App extends React.Component {
         || currentScene === 'UsernameScreenLogin'
         || currentScene === 'HomeScreen'
         || currentScene === 'DebugLoginScreen') {
-      BackHandler.exitApp();
+      RN.BackHandler.exitApp();
       return false;
     }
 
@@ -138,7 +138,7 @@ class App extends React.Component {
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
             <Scene key='GroupMenuScreen'     component={GroupMenuScreenContainer}   panHandlers={null} navBar={this._renderHeader('Group Settings', true)} />
 
-            <Tabs key='UserTabs' tabBarComponent={() => <View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+            <Tabs key='UserTabs' tabBarComponent={() => <RN.View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
               <Scene key='UserAuthoredScreen' component={UserAuthoredScreenContainer} panHandlers={null} hideNavBar={true}/>
               <Scene key='UserLikedScreen'    component={UserLikedScreenContainer}    panHandlers={null} hideNavBar={true}/>
             </Tabs>
@@ -148,7 +148,7 @@ class App extends React.Component {
               <Scene key='FriendScreen'  component={FriendScreenContainer}  panHandlers={null} navBar={() => <HeaderContainer logo={true} />} />
               <Scene key='PendingScreen' component={PendingScreenContainer} panHandlers={null} navBar={() => <HeaderContainer logo={true} />} />
 
-              <Tabs key='ProfileTabs' tabBarComponent={() => <View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
+              <Tabs key='ProfileTabs' tabBarComponent={() => <RN.View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
                 <Scene key='AuthoredScreen' component={AuthoredScreenContainer} panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
                 <Scene key='LikedScreen'    component={LikedScreenContainer}    panHandlers={null} navBar={() => <HeaderContainer backTitle={'Your Profile'} blank={true} noBorder={true} settingsIcon={true} />} />
               </Tabs>

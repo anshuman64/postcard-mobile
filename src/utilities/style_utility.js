@@ -59,7 +59,7 @@ export const scaleImage = (size) => {
 
 // Scales font by fontScale
 export const scaleFont = (fontSize) => {
-  return fontSize * RN.PixelRatio.getFontScale();
+  return fontSize * Math.min(RN.PixelRatio.getFontScale(), 1.5);
 };
 
 // Sets Android font but uses System for iOS
@@ -75,7 +75,7 @@ export const getImageBorderRadius = (dimensions) => {
 // Given a width, gets the height while fixing aspect ratio for medium
 export const getScaledHeight = (medium, fixedWidth) => {
   let scaledHeight;
-  
+
   if (medium) {
     scaledHeight = fixedWidth / medium.width * medium.height;
     scaledHeight = medium.height > medium.width ? scaledHeight * 0.85 : scaledHeight; // reduce height for aesthetic value
@@ -127,21 +127,21 @@ export const UTILITY_STYLES = RN.StyleSheet.create({
   // Regular Black Text Styles
   regularBlackText18: {
     fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontWeight: '400',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   regularBlackText16: {
     fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: 16,
+    fontSize: scaleFont(16),
     fontWeight: '400',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   regularBlackText15: {
     fontFamily: setAndroidFont('Roboto-Regular'),
-    fontSize: 15,
+    fontSize: scaleFont(15),
     fontWeight: '400',
     textAlign: 'center',
     color: COLORS.grey900,
@@ -150,21 +150,21 @@ export const UTILITY_STYLES = RN.StyleSheet.create({
   // Light Black Text Styles
   lightBlackText18: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   lightBlackText16: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 16,
+    fontSize: scaleFont(16),
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
   },
   lightBlackText15: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 15,
+    fontSize: scaleFont(15),
     fontWeight: '100',
     textAlign: 'center',
     color: COLORS.grey900,
@@ -173,21 +173,21 @@ export const UTILITY_STYLES = RN.StyleSheet.create({
   // Light White Text RN.StyleSheet
   lightWhiteText18: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',
   },
   lightWhiteText16: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 16,
+    fontSize: scaleFont(16),
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',
   },
   lightWhiteText15: {
     fontFamily: setAndroidFont('Roboto-Light'),
-    fontSize: 15,
+    fontSize: scaleFont(15),
     fontWeight: '100',
     textAlign: 'center',
     color: 'white',

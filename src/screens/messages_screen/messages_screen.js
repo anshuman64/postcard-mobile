@@ -36,7 +36,6 @@ class MessagesScreen extends React.PureComponent {
       medium:           null,
       takePhotoMedium:  null,
       isLoading:        false,
-      isLoadingNew:     false,
       isClientTyping:   false,
       usersTyping:      [],
     };
@@ -87,15 +86,10 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _loadNewMessages = () => {
-    this.setState({ isLoadingNew: true }, () => {
-      this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.convoId, { start_at: this.props.messages[this.props.convoId].data[0].id, is_new: true })
-        .catch((error) => {
-          defaultErrorAlert(error);
-        })
-        .finally(() => {
-          this.setState({ isLoadingNew: false });
-        });
-    });
+    this.props.getMessages(this.props.client.authToken, this.props.client.firebaseUserObj, true, this.props.convoId, { start_at: this.props.messages[this.props.convoId].data[0].id, is_new: true })
+      .catch((error) => {
+        defaultErrorAlert(error);
+      })
   }
 
   //--------------------------------------------------------------------//
@@ -280,6 +274,7 @@ class MessagesScreen extends React.PureComponent {
           <Icon name='picture' style={[styles.imageButtonIcon, this.state.medium && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TextInput
+          allowFontScaling={false}
           style={styles.textInput}
           placeholderTextColor={StyleUtility.COLORS.grey400}
           placeholder={'Write a message...'}
@@ -322,7 +317,7 @@ class MessagesScreen extends React.PureComponent {
   _renderHeader = () => {
     let isUserTyping = this.state.usersTyping.length > 0;
 
-    if (this.state.isLoading || this.state.isLoadingNew || isUserTyping) {
+    if (this.state.isLoading || isUserTyping) {
       return (
         <RN.View style={styles.headerView}>
           {isUserTyping ?
@@ -332,8 +327,8 @@ class MessagesScreen extends React.PureComponent {
               </RN.View>
             </RN.View> :
             null}
-          {this.state.isLoading || this.state.isLoadingNew ?
-            <RN.View style={[styles.headerLoadingView, this.state.isLoadingNew && {justifyContent: 'center'}]}>
+          {this.state.isLoading ?
+            <RN.View style={styles.headerLoadingView}>
               <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400} />
             </RN.View> :
             null}

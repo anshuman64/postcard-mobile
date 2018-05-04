@@ -27,13 +27,13 @@ export const styles = StyleSheet.create({
   },
   questionIcon: {
     width: 40,
-    fontSize: 22,
+    fontSize: StyleUtility.scaleFont(22),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },
   closeIcon: {
     width: 40,
-    fontSize: 23,
+    fontSize: StyleUtility.scaleFont(23),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleRed,
   },
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     borderColor: StyleUtility.COLORS.appleRed,
   },
   checkIcon: {
-    fontSize: 28,
+    fontSize: StyleUtility.scaleFont(28),
     textAlign: 'center',
     color: StyleUtility.COLORS.appleBlue,
   }

@@ -258,7 +258,7 @@ class Header extends React.PureComponent {
   _renderBackTitle() {
     if (this.props.backTitle) {
       return (
-        <RN.Text numberOfLines={1} style={[UTILITY_STYLES.regularBlackText18, {maxWidth: scaleImage(125)}, !this.props.backIcon && {marginLeft: 50}]}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.regularBlackText18, {maxWidth: scaleImage(120)}, !this.props.backIcon && {marginLeft: 50}]}>
           {this.props.backTitle}
         </RN.Text>
       )
@@ -320,7 +320,7 @@ class Header extends React.PureComponent {
 
       return (
         <RN.TouchableOpacity onPress={func} style={styles.button} >
-          <RN.Text style={styles.customButton}>{text}</RN.Text>
+          <RN.Text allowFontScaling={false} style={styles.customButton}>{text}</RN.Text>
         </RN.TouchableOpacity>
       )
     }

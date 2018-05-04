@@ -74,15 +74,9 @@ class PendingScreen extends React.PureComponent {
   }
 
   _renderContactItem = ({item}) => {
-    let contact = this.props.contactsCache[item];
-
-    if (isContactSearched(contact, this.state.contactSearchText)) {
-      return (
-        <PendingListItemContainer phoneNumber={item} />
-      )
-    } else {
-      return null;
-    }
+    return (
+      <PendingListItemContainer phoneNumber={item} />
+    )
   }
 
   _renderSectionHeader = ({section}) => {
@@ -110,14 +104,15 @@ class PendingScreen extends React.PureComponent {
           {data: this.props.friendships.received, renderItem: this._renderItem.bind(this), title: 'Received Requests'},
           {data: this.props.friendships.sent, renderItem: this._renderItem.bind(this), title: 'Sent Requests'},
           {data: this.props.friendships.contacts, renderItem: this._renderItem.bind(this), title: 'Contacts on Postcard'},
-          {data: contacts, renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
+          {data: contacts.filter((x) => isContactSearched(x, this.state.contactSearchText, this.props.contactsCache)).slice(0, 250), renderItem: this._renderContactItem.bind(this), title: 'Other Contacts'},
           {data: this.props.blocks.blockedUsers, renderItem: this._renderItem.bind(this), title: 'Blocked Users'},
         ]}
         keyExtractor={(item) => item}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
         initialListSize={20}
-        pageSize={10000}
+        pageSize={20}
+        onEndReachedThreshold={0.1}
         showsVerticalScrollIndicator={true}
         stickySectionHeadersEnabled={false}
       />
