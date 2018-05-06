@@ -96,7 +96,7 @@ let getRouteForPostType = (postType, userId, isClient) => {
 
 // GET posts from API and append to current PostList
 export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType, isClient, queryParams) => (dispatch) => {
-  return APIUtility.get(authToken, '/posts_new' + getRouteForPostType(postType, userId, isClient), queryParams)
+  return APIUtility.get(authToken, '/posts' + getRouteForPostType(postType, userId, isClient), queryParams)
     .then((posts) => {
       if (isRefresh) {
         dispatch(refreshPosts({ posts: posts, userId: userId, postType: postType }));
