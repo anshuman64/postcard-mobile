@@ -3,11 +3,11 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import HeaderContainer    from '../../../components/header/header_container';
-import PostListContainer  from '../../../components/post_list/post_list_container';
-import { POST_TYPES }     from '../../../actions/post_actions';
-import { UTILITY_STYLES } from '../../../utilities/style_utility';
-import { getEntityDisplayName } from '../../../utilities/entity_utility';
+import HeaderContainer          from '../../components/header/header_container';
+import PostListContainer        from '../../components/post_list/post_list_container';
+import { POST_TYPES }           from '../../actions/post_actions';
+import { UTILITY_STYLES }       from '../../utilities/style_utility';
+import { getEntityDisplayName } from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
@@ -17,15 +17,15 @@ Required Screen Props:
 Optional Screen Props:
   -
 */
-class UserLikedScreen extends React.PureComponent {
+class UserScreen extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Lifecycle Methods
   //--------------------------------------------------------------------//
 
-  // Refresh LikedPosts on mount
+  // Refresh AuthoredPosts on mount
   componentDidMount() {
-    this.postList.getWrappedInstance().refresh(POST_TYPES.LIKED);
+    this.postList.getWrappedInstance().refresh(POST_TYPES.AUTHORED);
   }
 
   //--------------------------------------------------------------------//
@@ -41,7 +41,7 @@ class UserLikedScreen extends React.PureComponent {
           isProfile={true}
           isClient={false}
           userId={this.props.userId}
-          postType={POST_TYPES.LIKED}
+          postType={POST_TYPES.AUTHORED}
           />
       </RN.View>
     )
@@ -51,4 +51,4 @@ class UserLikedScreen extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default UserLikedScreen;
+export default UserScreen;

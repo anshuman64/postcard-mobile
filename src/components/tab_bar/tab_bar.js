@@ -13,8 +13,7 @@ import { UTILITY_STYLES } from '../../utilities/style_utility';
 Required Passed Props:
   -
 Optional Passed Props:
-  userId (int): user id if on ProfileTabs or UserTabs
-  isClient (bool): if the tabs are for the client 
+  userId (int): user id if on ProfileTabs or UserScreen
 */
 class TabBar extends React.PureComponent {
 
@@ -43,21 +42,12 @@ class TabBar extends React.PureComponent {
   render() {
     let currentScreen = this.props.screen;
 
-    if (this.props.isClient) {
-      return (
-        <RN.View style={styles.tabs}>
-          {this._renderTab('Posts', 'AuthoredScreen', { userId: this.props.userId })}
-          {this._renderTab('Liked', 'LikedScreen', { userId: this.props.userId })}
-        </RN.View>
-      )
-    } else {
-      return (
-        <RN.View style={styles.tabs}>
-          {this._renderTab('Posts', 'UserAuthoredScreen', { userId: this.props.userId })}
-          {this._renderTab('Liked', 'UserLikedScreen', { userId: this.props.userId })}
-        </RN.View>
-      )
-    }
+    return (
+      <RN.View style={styles.tabs}>
+        {this._renderTab('Posts', 'AuthoredScreen', { userId: this.props.userId })}
+        {this._renderTab('Liked', 'LikedScreen', { userId: this.props.userId })}
+      </RN.View>
+    )
   }
 }
 

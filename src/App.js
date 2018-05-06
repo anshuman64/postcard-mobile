@@ -24,8 +24,7 @@ import PendingScreenContainer     from './screens/pending_screen/pending_screen_
 import AuthoredScreenContainer    from './screens/profile_tabs/authored_screen/authored_screen_container';
 import LikedScreenContainer       from './screens/profile_tabs/liked_screen/liked_screen_container';
 
-import UserAuthoredScreenContainer from './screens/user_tabs/user_authored_screen/user_authored_screen_container';
-import UserLikedScreenContainer    from './screens/user_tabs/user_liked_screen/user_liked_screen_container';
+import UserScreenContainer        from './screens/user_screen/user_screen_container';
 import MessagesScreenContainer    from './screens/messages_screen/messages_screen_container';
 import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container';
 import ShareScreenContainer       from './screens/share_screen/share_screen_container';
@@ -127,6 +126,7 @@ class App extends React.Component {
             <Scene key='CreateGroupScreen'     component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='AddGroupMembersScreen' component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='MessagesScreen'        component={MessagesScreenContainer}     panHandlers={null} hideNavBar={true} />
+            <Scene key='UserScreen'            component={UserScreenContainer}         panHandlers={null} hideNavBar={true}/>
 
             <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
             <Scene key='UsernameScreenLogin' component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Username')} />
@@ -137,11 +137,6 @@ class App extends React.Component {
             <Scene key='NameGroupScreen'     component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Name Group', true)} />
             <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
             <Scene key='GroupMenuScreen'     component={GroupMenuScreenContainer}   panHandlers={null} navBar={this._renderHeader('Group Settings', true)} />
-
-            <Tabs key='UserTabs' tabBarComponent={() => <RN.View />} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
-              <Scene key='UserAuthoredScreen' component={UserAuthoredScreenContainer} panHandlers={null} hideNavBar={true}/>
-              <Scene key='UserLikedScreen'    component={UserLikedScreenContainer}    panHandlers={null} hideNavBar={true}/>
-            </Tabs>
 
             <Tabs key='MainTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
               <Scene key='HomeScreen'     component={HomeScreenContainer}   panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
