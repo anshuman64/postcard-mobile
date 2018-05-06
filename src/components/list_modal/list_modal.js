@@ -106,7 +106,7 @@ class ListModal extends React.PureComponent {
 
     return (
       <RN.View style={styles.titleView}>
-        <RN.Text allowFontScaling={false} style={StyleUtility.UTILITY_STYLES.regularBlackText16}>
+        <RN.Text style={StyleUtility.UTILITY_STYLES.regularBlackText16}>
           {titleString}
         </RN.Text>
       </RN.View>
@@ -162,7 +162,7 @@ class ListModal extends React.PureComponent {
                 ellipsizeMode={'tail'}>
                 {COUNTRY_CODES[i].country_name}
               </RN.Text>
-              <RN.Text allowFontScaling={false} ref={(ref) => this.dialingCodeText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
+              <RN.Text ref={(ref) => this.dialingCodeText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
                 {COUNTRY_CODES[i].dialing_code}
               </RN.Text>
             </RN.View>
@@ -225,7 +225,7 @@ class ListModal extends React.PureComponent {
         onPress={() => this.props.setParentState({ isModalVisible: false })}
       >
         <RN.View style={styles.cancelButtonView}>
-          <RN.Text allowFontScaling={false} ref={(ref) => this.cancelButtonText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
+          <RN.Text ref={(ref) => this.cancelButtonText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
             {cancelString}
           </RN.Text>
         </RN.View>

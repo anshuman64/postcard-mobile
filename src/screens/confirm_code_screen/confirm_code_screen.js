@@ -121,7 +121,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   _renderTitle() {
     return (
-      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
+      <RN.Text style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
         Enter Confirmation Code
       </RN.Text>
     )
@@ -129,7 +129,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
+      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
         Sent to {this.props.phoneNumber}
       </RN.Text>
     )
@@ -158,7 +158,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   _renderInvalidCodeText() {
     return (
-      <RN.Text allowFontScaling={false} style={[styles.invalidCodeText, !this.state.isCodeIncorrect && UTILITY_STYLES.transparentText]}>
+      <RN.Text style={[styles.invalidCodeText, !this.state.isCodeIncorrect && UTILITY_STYLES.transparentText]}>
         Invalid Code
       </RN.Text>
     )
@@ -181,10 +181,10 @@ class ConfirmCodeScreen extends React.PureComponent {
         disabled={this.state.isResendSMSDisabled}
         >
         <RN.View ref={(ref) => this.resendSMSView = ref} style={styles.resendSMSView}>
-          <RN.Text allowFontScaling={false} ref={(ref) => this.resendSMSText = ref} style={[styles.resendSMSText, !this.state.isResendSMSDisabled && UTILITY_STYLES.lightBlackText16]}>
+          <RN.Text ref={(ref) => this.resendSMSText = ref} style={[styles.resendSMSText, !this.state.isResendSMSDisabled && UTILITY_STYLES.lightBlackText16]}>
             Resend SMS
           </RN.Text>
-          <RN.Text allowFontScaling={false} style={[styles.resendSMSText, !this.state.isResendSMSDisabled && UTILITY_STYLES.lightBlackText16]}>
+          <RN.Text style={[styles.resendSMSText, !this.state.isResendSMSDisabled && UTILITY_STYLES.lightBlackText16]}>
             {timerText}
           </RN.Text>
         </RN.View>
