@@ -116,10 +116,10 @@ export const getPosts = (authToken, firebaseUserObj, isRefresh, userId, postType
 };
 
 // Create post to API from Header of NewPostScreen
-export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, media, placeholderText) => (dispatch) => {
+export const createPost = (authToken, firebaseUserObj, clientId, recipientIds, contactPhoneNumbers, postBody, media, placeholderText) => (dispatch) => {
   let postPostError = (error) => {
     error = setErrorDescription(error, 'POST post failed');
-    amplitude.logEvent('Posts - Create Post', { is_successful: false, body: postBody, num_media: media.length, placeholder_text: placeholderText, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
+    amplitude.logEvent('Posts - Create Post', { is_successful: false, body: postBody, num_media: media.length, placeholder_text: placeholderText, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
     throw error;
   }
 
@@ -136,14 +136,14 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
 
   return dispatch(uploadMedia(authToken, firebaseUserObj, clientId, 'posts/', media))
     .then((updatedMedia) => {
-      return APIUtility.post(authToken, '/posts', { body: postBody, media: media && media.length > 0 ? updatedMedia : null, is_public: isPublic, recipient_ids: recipientIdsToSend, contact_phone_numbers: contactPhoneNumbers, group_ids: groupIdsToSend })
+      return APIUtility.post(authToken, '/posts', { body: postBody, media: media && media.length > 0 ? updatedMedia : null, recipient_ids: recipientIdsToSend, contact_phone_numbers: contactPhoneNumbers, group_ids: groupIdsToSend })
         .then((newPost) => {
-          amplitude.logEvent('Posts - Create Post', { is_successful: true, body: postBody, num_media: media.length, is_public: isPublic, num_recipients: recipientIds.length, num_group_recipients: groupIdsToSend.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
+          amplitude.logEvent('Posts - Create Post', { is_successful: true, body: postBody, num_media: media.length, num_recipients: recipientIds.length, num_group_recipients: groupIdsToSend.length, num_contact_recipients: contactPhoneNumbers.length, placeholder_text: placeholderText });
           dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
         })
         .catch((error) => {
           if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-            return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, media, placeholderText));
+            return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, recipientIds, contactPhoneNumbers, postBody, media, placeholderText));
           }
 
           postPostError(error);
@@ -155,7 +155,7 @@ export const createPost = (authToken, firebaseUserObj, clientId, isPublic, recip
 };
 
 // Forward post to API from Header of ShareScreen
-export const forwardPost = (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postId) => (dispatch) => {
+export const forwardPost = (authToken, firebaseUserObj, clientId, recipientIds, contactPhoneNumbers, postId) => (dispatch) => {
   let recipientIdsToSend = [];
   let groupIdsToSend = [];
 
@@ -167,18 +167,18 @@ export const forwardPost = (authToken, firebaseUserObj, clientId, isPublic, reci
     }
   });
 
-  return APIUtility.post(authToken, '/posts', { post_id: postId, is_public: isPublic, recipient_ids: recipientIdsToSend, contact_phone_numbers: contactPhoneNumbers, group_ids: groupIdsToSend })
+  return APIUtility.post(authToken, '/posts', { post_id: postId, recipient_ids: recipientIdsToSend, contact_phone_numbers: contactPhoneNumbers, group_ids: groupIdsToSend })
     .then((newPost) => {
-      amplitude.logEvent('Posts - Forward Post', { is_successful: true, is_public: isPublic, num_recipients: recipientIds.length, num_group_recipients: groupIdsToSend.length, num_contact_recipients: contactPhoneNumbers.length });
+      amplitude.logEvent('Posts - Forward Post', { is_successful: true, num_recipients: recipientIds.length, num_group_recipients: groupIdsToSend.length, num_contact_recipients: contactPhoneNumbers.length });
       dispatch(receivePost({ post: newPost, clientId: clientId, recipientIds: recipientIds, contactPhoneNumbers: contactPhoneNumbers }));
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, isPublic, recipientIds, contactPhoneNumbers, postId));
+        return dispatch(refreshAuthToken(firebaseUserObj, createPost, clientId, recipientIds, contactPhoneNumbers, postId));
       }
 
       error = setErrorDescription(error, 'POST post failed');
-      amplitude.logEvent('Posts - Forward Post', { is_successful: false, is_public: isPublic, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
+      amplitude.logEvent('Posts - Forward Post', { is_successful: false, num_recipients: recipientIds.length, error_description: error.description, error_message: error.message });
       throw error;
     });
 };
