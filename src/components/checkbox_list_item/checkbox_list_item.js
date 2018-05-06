@@ -54,18 +54,12 @@ class CheckboxListItem extends React.PureComponent {
       this.setState({ isSelected: nextProps.contactRecipients.includes(nextProps.phoneNumber) });
     } else if (nextProps.circle) {
       this.setState({ isSelected: nextProps.circles.includes(nextProps.circle.id) });
-    } else {
-      this.setState({ isSelected: nextProps.isPublic });
     }
   }
 
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
-
-  _onPressPublic = () => {
-    this.props.setParentState({ isPublic: !this.props.isPublic });
-  }
 
   _onPressCircleItem = () => {
     let recipientArray = this.props.recipients.slice();

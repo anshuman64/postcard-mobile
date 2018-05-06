@@ -30,7 +30,6 @@ class ShareScreen extends React.PureComponent {
     super(props);
 
     this.state = {
-      isPublic:          false,
       circles:           [],
       recipients:        [],
       contactRecipients: [],
@@ -113,12 +112,6 @@ class ShareScreen extends React.PureComponent {
     }
   }
 
-  _renderHeader = () => {
-    return (
-      <CheckboxListItemContainer setParentState={this.setParentState} isPublic={this.state.isPublic} />
-    )
-  }
-
   _renderFooter = () => {
     return (
       <ListFooter footerWidth={scaleFont(120)} text={'No more Friends'} />
@@ -137,7 +130,6 @@ class ShareScreen extends React.PureComponent {
           media={this.props.media}
           recipients={this.state.recipients}
           contactRecipients={this.state.contactRecipients}
-          isPublic={this.state.isPublic}
           postId={this.props.postId}
           />
         <RN.SectionList
@@ -149,7 +141,6 @@ class ShareScreen extends React.PureComponent {
           ]}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
-          ListHeaderComponent={this._renderHeader()}
           ListFooterComponent={this._renderFooter()}
           initialListSize={20}
           pageSize={20}
