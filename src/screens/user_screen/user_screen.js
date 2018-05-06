@@ -38,7 +38,6 @@ class UserScreen extends React.PureComponent {
         <HeaderContainer backIcon={true} backTitle={getEntityDisplayName(this.props.userId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache) + "'s Profile"} noBorder={true} />
         <PostListContainer
           ref={(ref) => this.postList = ref}
-          isProfile={true}
           userId={this.props.userId}
           postType={POST_TYPES.AUTHORED}
           />
