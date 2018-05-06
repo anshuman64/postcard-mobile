@@ -382,7 +382,7 @@ class PostListItem extends React.PureComponent {
         <RN.View style={styles.bodyView}>
           <RN.View style={styles.bodyTextView}>
             <Hyperlink linkDefault={true} linkStyle={StyleUtility.UTILITY_STYLES.textHighlighted}>
-              <RN.Text allowFontScaling={false} style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
+              <RN.Text style={[styles.bodyText, body.length > 85 && styles.smallBodyText]}>
                 {body}
               </RN.Text>
             </Hyperlink>
@@ -464,13 +464,13 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.likesView}>
             {this._renderLike()}
             {this.props.client.id === this.props.item.author_id || this.props.item.is_public ?
-              <RN.Text allowFontScaling={false} style={styles.likeCountText}>
+              <RN.Text style={styles.likeCountText}>
               {FunctionUtility.getReadableCount(this.props.item.num_likes)}
             </RN.Text> :
             null}
           </RN.View>
         </RN.TouchableWithoutFeedback>
-        <RN.Text allowFontScaling={false} style={styles.dateText}>
+        <RN.Text style={styles.dateText}>
           {(this.props.item.is_public ? 'Public | ' : '') + renderPostDate(this.props.item.created_at)}
         </RN.Text>
       </RN.View>
