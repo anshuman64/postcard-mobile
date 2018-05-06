@@ -6,8 +6,10 @@ import UserLikedScreen from './user_liked_screen';
 
 //--------------------------------------------------------------------//
 
-const mapStateToProps = ({ usersCache }, ownProps) => ({
+const mapStateToProps = ({ usersCache, groupsCache, contactsCache }, ownProps) => ({
   usersCache: usersCache,
+  groupsCache:   groupsCache,
+  contactsCache: contactsCache,
 });
 
 export default connect(
