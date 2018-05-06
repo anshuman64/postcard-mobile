@@ -248,7 +248,8 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderHeader() {
-    let isRecipients = (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient && this.props.item.recipient_ids_with_client.length > 0) || this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length > 0;
+    let isRecipients = (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient && this.props.item.recipient_ids_with_client.length > 0)
+    || (this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length > 0);
 
     return (
       <RN.View style={styles.headerView}>
@@ -260,9 +261,7 @@ class PostListItem extends React.PureComponent {
             marginLeft={0}
             maxWidth={isRecipients ? 50 : 100}
             />
-          {this.props.postType === POST_TYPES.AUTHORED && this.props.isClient ?
-            this._renderAuthoredRecipients() :
-            this._renderReceivedRecipients()}
+          {this._renderRecipients()}
         </RN.View>
         <RN.View style={styles.iconView}>
           <RN.TouchableWithoutFeedback
@@ -280,45 +279,41 @@ class PostListItem extends React.PureComponent {
     )
   }
 
-  _renderReceivedRecipients() {
-    let numRecipients = this.props.item.recipient_ids_with_client.length;
-    let displayString  = '';
+  _renderRecipients() {
+    let numRecipients;
+    let displayString = '';
     let callback;
 
-    if (numRecipients === 0) {
-      return null;
-    } else if (numRecipients === 1) {
-      convoId = this.props.item.recipient_ids_with_client[0];
-      displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-      callback = this._onRespondToPost;
+    // If post is authored by client and on AuthoredPosts tab, render recipients of the post
+    if (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient) {
+      numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
+
+      if (numRecipients === 0) {
+        return null;
+      } else if (numRecipients === 1) {
+        entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
+        displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+        callback = this._onRespondToPost;
+      } else {
+        displayString = numRecipients + ' recipients';
+        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+      }
+    // Otherwise, render groups that client is a part of that received the post
     } else {
-      displayString = numRecipients + ' groups';
-      callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+      numRecipients = this.props.item.recipient_ids_with_client.length;
+
+      if (numRecipients === 0) {
+        return null;
+      } else if (numRecipients === 1) {
+        convoId = this.props.item.recipient_ids_with_client[0];
+        displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+        callback = this._onRespondToPost;
+      } else {
+        displayString = numRecipients + ' groups';
+        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+      }
     }
 
-    return this._renderRecipients(displayString, callback);
-  }
-
-  _renderAuthoredRecipients() {
-    let numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
-    let displayString  = '';
-    let callback;
-
-    if (numRecipients === 0) {
-      return null;
-    } else if (numRecipients === 1) {
-      entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
-      displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-      callback = this._onRespondToPost;
-    } else {
-      displayString = numRecipients + ' recipients';
-      callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
-    }
-
-    return this._renderRecipients(displayString, callback);
-  }
-
-  _renderRecipients(displayString, callback) {
     return (
       <RN.View style={styles.usernameView}>
         <Ionicon name={'md-play'} style={[styles.playIcon, StyleUtility.UTILITY_STYLES.marginLeft5]}/>
