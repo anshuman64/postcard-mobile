@@ -57,9 +57,10 @@ export const scaleImage = (size) => {
   return RN.PixelRatio.getPixelSizeForLayoutSize(size);
 };
 
-// Scales font by fontScale
+// Remove effects of automatic fontScaling and reapply with a cap on the value
 export const scaleFont = (fontSize) => {
-  return fontSize * Math.min(RN.PixelRatio.getFontScale(), 1.5);
+  let fontScale = RN.PixelRatio.getFontScale();
+  return fontSize / fontScale * Math.min(fontScale, 1.5);
 };
 
 // Sets Android font but uses System for iOS

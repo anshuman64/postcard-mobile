@@ -155,7 +155,6 @@ class ListModal extends React.PureComponent {
             >
             <RN.View style={styles.rowContainer}>
               <RN.Text
-                allowFontScaling={false}
                 ref={(ref) => this.countryText = ref}
                 style={StyleUtility.UTILITY_STYLES.lightBlackText15}
                 numberOfLines={1}
