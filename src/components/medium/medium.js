@@ -37,26 +37,37 @@ class Medium extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderImageViewer(mediumUrl) {
+  _renderImageViewer() {
+    let medium       = this.props.medium;
+    let cachedMedium = medium ? this.props.mediaCache[medium.id] : null;
+    let mediumUrl    = cachedMedium ? cachedMedium.url : null;
+
     if (mediumUrl && this.state.isModalVisible) {
+      let imageUrls = this.props.imageUrls || [{ url: mediumUrl }];
+      let index = this.props.imageUrls ? this.props.imageUrls.map(x => x.url).indexOf(mediumUrl) : 0;
+
       return (
         <RN.Modal visible={this.state.isModalVisible} transparent={true}>
           <ImageViewer
-            imageUrls={this.props.imageUrls || [{ url: mediumUrl }]}
+            imageUrls={imageUrls}
             onCancel={setStateCallback(this, { isModalVisible: false })}
             onClick={setStateCallback(this, { isModalVisible: false })}
             onSwipeDown={setStateCallback(this, { isModalVisible: false })}
             failImageSource={'Could not load image'}
             loadingRender={() => <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{height: getUsableDimensions().height}}/>}
             renderIndicator={() => null}
-            index={this.props.imageUrls ? this.props.imageUrls.map(x => x.url).indexOf(mediumUrl) : 0}
+            index={index}
             />
         </RN.Modal>
       )
     }
   }
 
-  _renderMedium(medium, cachedMedium, mediumUrl) {
+  _renderMedium() {
+    let medium       = this.props.medium;
+    let cachedMedium = medium ? this.props.mediaCache[medium.id] : null;
+    let mediumUrl    = cachedMedium ? cachedMedium.url : null;
+
     if (mediumUrl) {
       if (cachedMedium.mime_type.startsWith('image/')) {
         return (
@@ -106,14 +117,10 @@ class Medium extends React.PureComponent {
   }
 
   render() {
-    let medium       = this.props.medium;
-    let cachedMedium = medium ? this.props.mediaCache[medium.id] : null;
-    let mediumUrl    = cachedMedium ? cachedMedium.url : null;
-
     return (
       <RN.View style={this.props.containerStyle}>
-        {this._renderMedium(medium, cachedMedium, mediumUrl)}
-        {this._renderImageViewer(mediumUrl)}
+        {this._renderMedium()}
+        {this._renderImageViewer()}
       </RN.View>
     )
   }

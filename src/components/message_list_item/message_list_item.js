@@ -140,18 +140,22 @@ class MessageListItem extends React.PureComponent {
       return (
         <AvatarContainer userId={this.props.message.author_id} avatarSize={30} iconSize={12} frameBorderWidth={1.1} />
       )
-    } else {
+    } else if (this.props.message.author_id != this.props.client.id) {
       return (
         <RN.View style={{width: 30, height: 30}} />
       )
+    } else {
+      return null;
     }
   }
 
   _renderBody(isAuthoredByClient) {
     if (this.props.message.body) {
+      let bodyStyle = isAuthoredByClient ? styles.bodyTextClient : styles.bodyTextUser;
+
       return (
         <Hyperlink linkDefault={true} linkStyle={{color: StyleUtility.COLORS.grey900}}>
-          <RN.Text style={isAuthoredByClient ? styles.bodyTextClient : styles.bodyTextUser}>
+          <RN.Text style={bodyStyle}>
             {this.props.message.body}
           </RN.Text>
         </Hyperlink>
@@ -192,9 +196,13 @@ class MessageListItem extends React.PureComponent {
         <PostListItem item={cachedPost} width={StyleUtility.getUsableDimensions().width * 0.75} />
       )
     } else if (postId && !cachedPost) {
-      <RN.View style={isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser}>
-        <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
-      </RN.View>
+      let indicatorStyle = isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser;
+
+      return (
+        <RN.View style={indicatorStyle}>
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey500} style={{position: 'absolute'}}/>
+        </RN.View>
+      )
     } else {
       return null;
     }
@@ -204,16 +212,18 @@ class MessageListItem extends React.PureComponent {
     let isAuthoredByClient = this.props.message.author_id === this.props.client.id;
     let isBackgroundColor  = this.props.message.body;
     let isFirstMessage = this.props.index === 0;
+    let containerStyle = isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser;
+    let messageStyle = isAuthoredByClient ? styles.messageViewClient : styles.messageViewUser;
 
     return (
-      <RN.View style={[isAuthoredByClient ? styles.messageContainerClient : styles.messageContainerUser, isFirstMessage && {marginBottom: 15}]}>
-        {!isAuthoredByClient ? this._renderAvatar() : null}
+      <RN.View style={[containerStyle, isFirstMessage && {marginBottom: 15}]}>
+        {this.renderAvatar()}
         <RN.TouchableOpacity
           activeOpacity={0.5}
           onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}
           >
           {this._renderUsername()}
-          <RN.View style={[isAuthoredByClient ? styles.messageViewClient : styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
+          <RN.View style={[messageStyle, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
             {this._renderPost(isAuthoredByClient)}
             {this._renderBody(isAuthoredByClient)}
             {this._renderMedium(isAuthoredByClient)}
