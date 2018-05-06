@@ -33,5 +33,5 @@ export const refreshCredsAndGetMedium = (firebaseUserObj, medium) => (dispatch) 
   dispatch(refreshAuthToken(firebaseUserObj))
     .then(() => {
       dispatch(receiveMedium({ medium: medium }));
-    })
+    });
 }
