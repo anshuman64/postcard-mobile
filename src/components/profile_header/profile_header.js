@@ -185,16 +185,17 @@ class ProfileHeader extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderChangeText() {
-    if (this.props.client.id === this.props.userId) {
-      return (
-        <RN.Text numberOfLines={1} style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
-          Change
-        </RN.Text>
-      )
-    } else {
-      return null;
-    }
+  _renderAvatar() {
+    return (
+      <RN.TouchableOpacity style={styles.avatarView} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
+        <AvatarContainer userId={this.props.userId} avatarSize={70} iconSize={32} frameBorderWidth={2} />
+        {this.props.client.id === this.props.userId ?
+          <RN.Text numberOfLines={1} style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
+            Change
+          </RN.Text> :
+          null}
+      </RN.TouchableOpacity>
+    )
   }
 
   _renderUsername() {
@@ -264,6 +265,15 @@ class ProfileHeader extends React.PureComponent {
     }
   }
 
+  _renderUserView() {
+    return (
+      <RN.View style={styles.userView}>
+        {this._renderAvatar()}
+        {this._renderUsername()}
+      </RN.View>
+    )
+  }
+
   render() {
     const translateY = this.props.scrollY.interpolate({
       inputRange: [0, (PROFILE_HEADER_HEIGHT - (this.props.client.id === this.props.userId ? TAB_BAR_HEIGHT : 0))],
@@ -273,13 +283,7 @@ class ProfileHeader extends React.PureComponent {
 
     return (
       <RN.Animated.View style={[styles.container, { transform: [{translateY}] }]}>
-        <RN.View style={styles.userView}>
-          <RN.TouchableOpacity style={styles.avatarView} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
-            <AvatarContainer userId={this.props.userId} avatarSize={70} iconSize={32} frameBorderWidth={2} />
-            {this._renderChangeText()}
-          </RN.TouchableOpacity>
-          {this._renderUsername()}
-        </RN.View>
+        {this._renderUserView()}
         {this._renderButtons()}
         {this.props.client.id === this.props.userId ? <TabBarContainer userId={this.props.userId} /> : null}
       </RN.Animated.View>

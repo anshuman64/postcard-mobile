@@ -22,9 +22,11 @@ class Footer extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderButton(screen, iconName, isCenter, secondTab) {
+    let isScreenSelected = this.props.currentScreen === screen || this.props.currentScreen === secondTab;
+    
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateTo(screen)} style={styles.button}>
-        <Icon name={iconName} style={[styles.icon, isCenter && styles.iconBig, (this.props.currentScreen === screen || this.props.currentScreen === secondTab) && UTILITY_STYLES.textHighlighted]} />
+        <Icon name={iconName} style={[styles.icon, isCenter && styles.iconBig, isScreenSelected && UTILITY_STYLES.textHighlighted]} />
       </RN.TouchableOpacity>
     )
   }
