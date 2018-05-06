@@ -21,7 +21,6 @@ Required Passed Props:
   postType (string): one of POST_TYPES
 Optional Passed Props:
   isProfile (bool): determines if there should be a ProfileHeader
-  isClient (bool): determines if the list is for the client
 */
 class PostList extends React.PureComponent {
 
@@ -143,7 +142,7 @@ class PostList extends React.PureComponent {
 
   _renderItem = ({item}) => {
     return (
-      <PostListItemContainer item={this.props.postsCache[item]} postType={this.props.postType} isClient={this.props.isClient} />
+      <PostListItemContainer item={this.props.postsCache[item]} postType={this.props.postType} />
     )
   }
 
@@ -166,7 +165,7 @@ class PostList extends React.PureComponent {
   _renderProfileHeader = () => {
     if (this.props.isProfile) {
       return (
-        <ProfileHeaderContainer scrollY={this.state.scrollY} userId={this.props.userId} isClient={this.props.isClient}/>
+        <ProfileHeaderContainer scrollY={this.state.scrollY} userId={this.props.userId}/>
       )
     } else {
       return null;
