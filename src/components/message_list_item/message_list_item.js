@@ -87,7 +87,9 @@ class MessageListItem extends React.PureComponent {
     // 3) the last message was sent more than 10 mins later
     // 4) this is a group chat
     if (this.props.convoId < 0) {
-      if (this.props.index === this.props.messages[this.props.convoId].data.length - 1) {
+      if (this.props.message.author_id === this.props.client.id) {
+        isUsername = false;
+      } else if (this.props.index === this.props.messages[this.props.convoId].data.length - 1) {
         isUsername = true;
       } else {
         let thisMessage = this.props.message;
@@ -210,6 +212,7 @@ class MessageListItem extends React.PureComponent {
           activeOpacity={0.5}
           onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}
           >
+          {this._renderUsername()}
           <RN.View style={[isAuthoredByClient ? styles.messageViewClient : styles.messageViewUser, !isBackgroundColor && {backgroundColor: 'transparent'}]}>
             {this._renderPost(isAuthoredByClient)}
             {this._renderBody(isAuthoredByClient)}
