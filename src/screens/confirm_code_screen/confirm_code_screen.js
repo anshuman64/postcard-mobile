@@ -138,7 +138,6 @@ class ConfirmCodeScreen extends React.PureComponent {
   _renderCodeInput() {
     return (
       <RN.TextInput
-        allowFontScaling={false}
         ref={(ref) => this.codeInput = ref}
         style={[styles.codeInput, this.state.isCodeIncorrect && UTILITY_STYLES.borderRed]}
         keyboardType='numeric'
