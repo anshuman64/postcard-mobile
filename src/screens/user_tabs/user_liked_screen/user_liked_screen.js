@@ -7,6 +7,7 @@ import HeaderContainer    from '../../../components/header/header_container';
 import PostListContainer  from '../../../components/post_list/post_list_container';
 import { POST_TYPES }     from '../../../actions/post_actions';
 import { UTILITY_STYLES } from '../../../utilities/style_utility';
+import { getEntityDisplayName } from '../../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
@@ -32,12 +33,9 @@ class UserLikedScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let user = this.props.usersCache[this.props.userId];
-    let username = user ? user.username : null;
-
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
-        <HeaderContainer backIcon={true} backTitle={username + "'s Profile"} noBorder={true} />
+        <HeaderContainer backIcon={true} backTitle={getEntityDisplayName(this.props.userId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache) + "'s Profile"} noBorder={true} />
         <PostListContainer
           ref={(ref) => this.postList = ref}
           isProfile={true}

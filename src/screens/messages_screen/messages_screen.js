@@ -369,7 +369,7 @@ class MessagesScreen extends React.PureComponent {
         <RN.View style={StyleUtility.UTILITY_STYLES.containerStart}>
           <HeaderContainer
             backIcon={true}
-            backTitle={displayName + "'s Messages"}
+            backTitle={displayName}
             settingsIcon={this.props.convoId < 0}
             convoId={this.props.convoId}
             />

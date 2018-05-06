@@ -178,6 +178,7 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
 
       return configureAWS(newAuthToken)
         .then(() => {
+          isRefreshing = false; // NOTE: don't put this in a .finally, it breaks returning the authToken
           setS3Client();
 
           if (func) {
@@ -187,10 +188,8 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
           }
         })
         .catch((error) => {
-          throw setErrorDescription(error, 'Configure AWS failed');
-        })
-        .finally(() => {
           isRefreshing = false;
+          throw setErrorDescription(error, 'Configure AWS failed');
         });
     })
     .catch((error) => {
