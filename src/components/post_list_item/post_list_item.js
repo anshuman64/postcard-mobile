@@ -406,7 +406,6 @@ class PostListItem extends React.PureComponent {
           medium={media[0]}
           containerStyle={styles.mediumContainer}
           mediumStyle={{ width: width, height: height }}
-          imageUrls={FunctionUtility.getImageUrlsFromMedia(this.props.item.media, this.props.mediaCache)}
           />
       )
     } else {

@@ -49,7 +49,7 @@ class Medium extends React.PureComponent {
             failImageSource={'Could not load image'}
             loadingRender={() => <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{height: getUsableDimensions().height}}/>}
             renderIndicator={() => null}
-            index={this.props.imageUrls ? this.props.imageUrls.map(x => x.url).indexOf(mediumUrl) : null}
+            index={this.props.imageUrls ? this.props.imageUrls.map(x => x.url).indexOf(mediumUrl) : 0}
             />
         </RN.Modal>
       )
