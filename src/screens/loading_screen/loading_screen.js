@@ -74,7 +74,7 @@ class LoadingScreen extends React.PureComponent {
             }
           })
           .catch((error) => {
-            if (error.message === 'Log-in in progress') {
+            if (error.message === 'Token refresh in progress') {
               return;
             } else {
               defaultErrorAlert(error);
