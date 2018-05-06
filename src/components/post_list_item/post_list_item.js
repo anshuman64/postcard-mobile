@@ -32,7 +32,6 @@ Required Passed Props:
 Optional Passed Props:
   width (int): width of messages; only passed if on MessagesScreen
   postType (string): used as a proxy for which screen we are on
-  isClient (bool): if the screen is for the client
 */
 class PostListItem extends React.PureComponent {
 
@@ -208,7 +207,7 @@ class PostListItem extends React.PureComponent {
         return;
       }
     // For AuthoredScreen, go to recipient which is either a user or group
-  } else if (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient) {
+  } else if (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.userId) {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
@@ -248,7 +247,7 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderHeader() {
-    let isRecipients = (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient && this.props.item.recipient_ids_with_client.length > 0)
+    let isRecipients = (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.userId && this.props.item.recipient_ids_with_client.length > 0)
     || (this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length > 0);
 
     return (
@@ -285,7 +284,7 @@ class PostListItem extends React.PureComponent {
     let callback;
 
     // If post is authored by client and on AuthoredPosts tab, render recipients of the post
-    if (this.props.postType === POST_TYPES.AUTHORED && this.props.isClient) {
+    if (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.userId) {
       numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
 
       if (numRecipients === 0) {
