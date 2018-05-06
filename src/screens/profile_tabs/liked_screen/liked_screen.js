@@ -26,7 +26,6 @@ class LikedScreen extends React.PureComponent {
       <RN.View style={UTILITY_STYLES.containerStart}>
         <PostListContainer
           ref={(ref) => this.postList = ref}
-          isProfile={true}
           userId={this.props.client.id}
           postType={POST_TYPES.LIKED}
           />

@@ -6,6 +6,7 @@ import RN     from 'react-native';
 import ProfileHeaderContainer    from '../profile_header/profile_header_container';
 import PostListItemContainer     from '../post_list_item/post_list_item_container';
 import ListFooter                from '../list_footer/list_footer';
+import { POST_TYPES }            from '../../actions/post_actions';
 import { PROFILE_HEADER_HEIGHT } from '../profile_header/profile_header_styles';
 import { styles }                from './post_list_styles';
 import { COLORS, scaleFont }     from '../../utilities/style_utility';
@@ -20,7 +21,7 @@ Required Passed Props:
   userId (int): user id of which the posts were retrieved
   postType (string): one of POST_TYPES
 Optional Passed Props:
-  isProfile (bool): determines if there should be a ProfileHeader
+  -
 */
 class PostList extends React.PureComponent {
 
@@ -148,7 +149,7 @@ class PostList extends React.PureComponent {
 
   _renderRefreshControl = () => {
     let offset = 0;
-    if (this.props.isProfile) {
+    if (this.props.postType != POST_TYPES.RECEIVED) {
       offset = PROFILE_HEADER_HEIGHT;
     }
 
@@ -163,7 +164,7 @@ class PostList extends React.PureComponent {
   }
 
   _renderProfileHeader = () => {
-    if (this.props.isProfile) {
+    if (this.props.postType != POST_TYPES.RECEIVED) {
       return (
         <ProfileHeaderContainer scrollY={this.state.scrollY} userId={this.props.userId}/>
       )
@@ -173,7 +174,7 @@ class PostList extends React.PureComponent {
   }
 
   _renderActivityIndicatorHeader = () => {
-    if (this.props.isProfile) {
+    if (this.props.postType != POST_TYPES.RECEIVED) {
       return (
         <RN.View style={[styles.headerView, { height: PROFILE_HEADER_HEIGHT }]}>
           <RN.ActivityIndicator size='large' color={COLORS.grey400} style={{marginBottom: 20}} />
