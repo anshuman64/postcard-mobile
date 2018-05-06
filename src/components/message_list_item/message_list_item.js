@@ -5,13 +5,14 @@ import * as Animatable from 'react-native-animatable';
 import Hyperlink       from 'react-native-hyperlink';
 
 // Local Imports
-import PostListItem          from '../post_list_item/post_list_item_container';
-import MediumContainer       from '../medium/medium_container';
-import AvatarContainer       from '../avatar/avatar_container';
-import { styles }            from './message_list_item_styles';
-import * as StyleUtility     from '../../utilities/style_utility';
-import { renderMessageDate } from '../../utilities/date_time_utility';
-import { setStateCallback }  from '../../utilities/function_utility';
+import PostListItem             from '../post_list_item/post_list_item_container';
+import MediumContainer          from '../medium/medium_container';
+import AvatarContainer          from '../avatar/avatar_container';
+import { styles }               from './message_list_item_styles';
+import * as StyleUtility        from '../../utilities/style_utility';
+import { renderMessageDate }    from '../../utilities/date_time_utility';
+import { setStateCallback }     from '../../utilities/function_utility';
+import { getEntityDisplayName } from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
@@ -104,7 +105,7 @@ class MessageListItem extends React.PureComponent {
     if (isUsername) {
       return (
         <RN.Text style={styles.date}>
-          {this.props.usersCache[this.props.message.author_id].username}
+          {getEntityDisplayName(this.props.message.author_id, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
         </RN.Text>
       )
     } else {

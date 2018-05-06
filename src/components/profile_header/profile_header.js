@@ -11,6 +11,7 @@ import { styles, PROFILE_HEADER_HEIGHT } from './profile_header_styles';
 import { FRIEND_TYPES }                  from '../../actions/friendship_actions';
 import { UTILITY_STYLES }                from '../../utilities/style_utility';
 import { defaultErrorAlert }             from '../../utilities/error_utility';
+import { getEntityDisplayName }          from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
@@ -197,9 +198,6 @@ class ProfileHeader extends React.PureComponent {
   }
 
   _renderUsername() {
-    let user = this.props.usersCache[this.props.userId];
-    let username = user ? user.username : null;
-
     return (
       <RN.TouchableOpacity
         style={[styles.usernameButton, this.props.client.id === this.props.userId && {marginBottom: 15}]}
@@ -207,7 +205,7 @@ class ProfileHeader extends React.PureComponent {
         disabled={this.props.client.id != this.props.userId}
         >
         <RN.Text style={styles.usernameText} numberOfLines={1}>
-          {username}
+          {getEntityDisplayName(this.props.userId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
         </RN.Text>
         <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
       </RN.TouchableOpacity>
@@ -274,8 +272,7 @@ class ProfileHeader extends React.PureComponent {
     });
 
     return (
-      <RN.Animated.View style={[styles.container, { transform: [{translateY}] }]}
-        >
+      <RN.Animated.View style={[styles.container, { transform: [{translateY}] }]}>
         <RN.View style={styles.userView}>
           <RN.TouchableOpacity style={styles.avatarView} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
             <AvatarContainer userId={this.props.userId} avatarSize={70} iconSize={32} frameBorderWidth={2} />
