@@ -38,41 +38,56 @@ class EntityInfoView extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  render() {
-    let displayName = EntityUtility.getEntityDisplayName(this.props.entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+  _renderAvatar() {
     let authorId = EntityUtility.getConvoAuthorId(this.props.entityId, this.props.usersCache, this.props.groupsCache);
+    let isNotUser = _.isString(this.props.entityId) || this.props.entityId < 0;
+    let avatarSize = this.props.messagePreview ? 46 : 40;
+
+    return (
+      <RN.TouchableWithoutFeedback
+        onPressIn={isNotUser ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+        onPressOut={isNotUser ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
+        onPress={isNotUser ? null : this._onPressAvatar}
+        disabled={isNotUser ? true : this.props.disableAvatar}
+        >
+        <RN.View>
+          <AvatarContainer userId={authorId} avatarSize={avatarSize} iconSize={17} frameBorderWidth={1.1} />
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
+    )
+  }
+
+  _renderUsername() {
+    let displayName = EntityUtility.getEntityDisplayName(this.props.entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
     let preview = this.props.messagePreview ? this.props.messagePreview : EntityUtility.getContactPreview(this.props.entityId, this.props.usersCache, this.props.contactsCache);
     let isNotUser = _.isString(this.props.entityId) || this.props.entityId < 0;
 
     return (
+      <RN.TouchableWithoutFeedback
+        onPressIn={isNotUser ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
+        onPressOut={isNotUser ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
+        onPress={isNotUser ? null : this._onPressAvatar}
+        disabled={isNotUser ? true : this.props.disableUsername}
+        >
+        <RN.View style={styles.usernameView}>
+          <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: scaleImage(this.props.maxWidth)}]} numberOfLines={1}>
+            {displayName}
+          </RN.Text>
+          {preview ?
+            <RN.Text style={[styles.messageText, {maxWidth: scaleImage(this.props.maxWidth)}]} numberOfLines={1}>
+              {preview}
+            </RN.Text> :
+            null}
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
+    )
+  }
+
+  render() {
+    return (
       <RN.View style={[styles.userView, {marginLeft: this.props.marginLeft}]}>
-        <RN.TouchableWithoutFeedback
-          onPressIn={isNotUser ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-          onPressOut={isNotUser ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
-          onPress={isNotUser ? null : this._onPressAvatar}
-          disabled={isNotUser ? true : this.props.disableAvatar}
-          >
-          <RN.View>
-            <AvatarContainer userId={authorId} avatarSize={this.props.messagePreview ? 46 : 40} iconSize={17} frameBorderWidth={1.1} />
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
-        <RN.TouchableWithoutFeedback
-          onPressIn={isNotUser ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.textHighlighted})}
-          onPressOut={isNotUser ? null : () => this.usernameText.setNativeProps({style: UTILITY_STYLES.regularBlackText16})}
-          onPress={isNotUser ? null : this._onPressAvatar}
-          disabled={isNotUser ? true : this.props.disableUsername}
-          >
-          <RN.View style={styles.usernameView}>
-            <RN.Text ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: scaleImage(this.props.maxWidth)}]} numberOfLines={1}>
-              {displayName}
-            </RN.Text>
-            {preview ?
-              <RN.Text style={[styles.messageText, {maxWidth: scaleImage(this.props.maxWidth)}]} numberOfLines={1}>
-                {preview}
-              </RN.Text> :
-              null}
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
+        {this._renderAvatar()}
+        {this._renderUseranme()}
       </RN.View>
     )
   }

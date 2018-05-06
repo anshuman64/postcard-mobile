@@ -116,12 +116,13 @@ class PostList extends React.PureComponent {
   // NOTE/WARNING: leave keyExtractor exactly as is, or else fadeOut messes up other items around it!
   _renderPostList = () => {
     let postData = this.props.posts[this.props.userId];
+    let dataToRender = postData && postData[this.props.postType] ? postData[this.props.postType].data : null;
 
     if (this.state.isScreenMounted) {
       return (
         <AnimatedFlatList
           ref={(ref) => this.flatList = ref}
-          data={(postData && postData[this.props.postType]) ? postData[this.props.postType].data : null}
+          data={dataToRender}
           renderItem={this._renderItem.bind(this)}
           keyExtractor={(item) => this.props.postsCache[item].id}
           style={styles.postList}
@@ -148,10 +149,7 @@ class PostList extends React.PureComponent {
   }
 
   _renderRefreshControl = () => {
-    let offset = 0;
-    if (this.props.postType != POST_TYPES.RECEIVED) {
-      offset = PROFILE_HEADER_HEIGHT;
-    }
+    let offset = this.props.postType != POST_TYPES.RECEIVED ? PROFILE_HEADER_HEIGHT : 0;
 
     return (
       <RN.RefreshControl
