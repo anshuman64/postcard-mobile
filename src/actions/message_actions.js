@@ -97,11 +97,7 @@ export const createMessage = (authToken, firebaseUserObj, clientId, convoId, mes
     return APIUtility.post(authToken, '/' + route, { body: messageBody, medium: updatedMedium, recipient_id: idToSend, post_id: postId })
       .then((newMessage) => {
         amplitude.logEvent('Messages - Create Message', { is_successful: true, body: messageBody, media: messageMedium ? true : false, is_post: postId ? true : false, is_group: isGroup });
-
-        // If message is a post, will be refreshed automatically
-        if (!postId) {
-          dispatch(receiveMessage({ message: newMessage, convoId: convoId }));
-        }
+        dispatch(receiveMessage({ message: newMessage, convoId: convoId }));
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
