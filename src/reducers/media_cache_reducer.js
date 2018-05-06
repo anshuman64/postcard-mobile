@@ -43,12 +43,20 @@ const extractMedia = (object) => {
       media.push(obj.medium);
     }
 
+    // If the object is a message with a post with media
+    if (obj.post && obj.post.media) {
+      _.forEach(obj.post.media, (medium) => {
+        medium.url = getFile(medium.aws_path);
+        media.push(medium);
+      });
+    }
+
     // If the object is a post with media
     if (obj.media) {
       _.forEach(obj.media, (medium) => {
         medium.url = getFile(medium.aws_path);
         media.push(medium);
-      })
+      });
     }
 
     // If the object is a user with an avatar

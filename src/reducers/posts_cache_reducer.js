@@ -37,6 +37,13 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
   Object.freeze(state);
   let newState = _.merge({}, state);
 
+  let initializePost = (post) => {
+    newState[post.id]                           = post;
+    newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
+    newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
+    newState[post.id].contact_phone_numbers     = [];
+  }
+
   switch(action.type) {
 
     //--------------------------------------------------------------------//
@@ -47,10 +54,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     case POST_ACTION_TYPES.RECEIVE_POSTS:
     case POST_ACTION_TYPES.REFRESH_POSTS:
       _.forEach(action.data.posts, (post) => {
-        newState[post.id]                           = post;
-        newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
-        newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
-        newState[post.id].contact_phone_numbers     = [];
+        initializePost(post);
       });
 
       return newState;
@@ -62,11 +66,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     // When creating a new post, update the store with the new post
     case POST_ACTION_TYPES.RECEIVE_POST:
       post = action.data.post;
-
-      newState[post.id]                           = post;
-      newState[post.id].recipient_ids             = action.data.recipientIds;
-      newState[post.id].recipient_ids_with_client = [];
-      newState[post.id].contact_phone_numbers     = action.data.contactPhoneNumbers;
+      initializePost(post);
 
       return newState;
 
@@ -112,30 +112,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
 
     case POST_ACTION_TYPES.PUSHER_RECEIVE_POST:
       post = action.data.post;
-
-      newState[post.id]                           = post;
-      newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
-      newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
-      newState[post.id].contact_phone_numbers     = [];
-
-      return newState;
-
-    //--------------------------------------------------------------------//
-    // Friendship Actions
-    //--------------------------------------------------------------------//
-
-    case FRIENDSHIP_ACTION_TYPES.RECEIVE_FRIENDSHIPS:
-      posts = [];
-
-      _.forEach(action.data.friends, (friend) => {
-        if (friend.peek_message && friend.peek_message.post) {
-          posts.push(friend.peek_message.post);
-        }
-      });
-
-      _.forEach(posts, (post) => {
-        newState[post.id] = _.merge(post, newState[post.id]);
-      });
+      initializePost(post);
 
       return newState;
 
@@ -153,7 +130,7 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
       });
 
       _.forEach(posts, (post) => {
-        newState[post.id] = _.merge(post, newState[post.id]);
+        initializePost(post);
       });
 
       return newState;
