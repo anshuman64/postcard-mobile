@@ -29,7 +29,6 @@ class LikedScreen extends React.PureComponent {
           isProfile={true}
           userId={this.props.client.id}
           postType={POST_TYPES.LIKED}
-          isClient={true}
           />
       </RN.View>
     )
