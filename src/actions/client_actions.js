@@ -223,7 +223,7 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
   });
 }
 
-// PUT request to API to edit user avatar_url from AvatarScreen
+// PUT request to API to edit user avatar_medium_id from AvatarScreen
 export const editAvatar = (authToken, firebaseUserObj, userId, medium) => (dispatch) => {
   let putUser = (updatedMedium) => {
     return APIUtility.put(authToken, '/users/avatar', { medium: updatedMedium })
