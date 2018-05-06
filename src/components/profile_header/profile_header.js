@@ -20,7 +20,7 @@ Required Passed Props:
   userId (int): id of user to render header for
   scrollY (object): animation object
 Optional Passed Props:
-  isClient (bool): if the header is for the client
+  -
 */
 class ProfileHeader extends React.PureComponent {
 
