@@ -22,18 +22,12 @@ class AuthoredScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   render() {
-    let client = this.props.usersCache[this.props.client.id];
-    let username = client ? client.username : null;
-    let avatarUrl = client ? client.avatar_url : null;
-
     return (
       <RN.View style={UTILITY_STYLES.containerStart}>
         <PostListContainer
           ref={(ref) => this.postList = ref}
           isProfile={true}
           userId={this.props.client.id}
-          username={username}
-          avatarUrl={avatarUrl}
           postType={POST_TYPES.AUTHORED}
           isClient={true}
           />
