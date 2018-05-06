@@ -29,7 +29,6 @@ class AuthoredScreen extends React.PureComponent {
           isProfile={true}
           userId={this.props.client.id}
           postType={POST_TYPES.AUTHORED}
-          isClient={true}
           />
       </RN.View>
     )
