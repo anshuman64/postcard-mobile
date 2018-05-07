@@ -217,7 +217,6 @@ class PendingListItem extends React.PureComponent {
     let messagePreview = isStringEmpty(contactName) ? null : contactName;
     let friendshipStatus = user ? user.friendship_status_with_client : null;
     let isBlocked = user ? user.is_user_blocked_by_client : false;
-    let maxWidth = acceptString && deleteString ? 40 : 80;
 
     if (friendshipStatus) {
       if (friendshipStatus === FRIEND_TYPES.ACCEPTED) {
@@ -242,13 +241,15 @@ class PendingListItem extends React.PureComponent {
       }
     }
 
+    let subtractWidth = acceptString && deleteString ? 270 : 190;
+
     return (
       <Animatable.View ref={(ref) => this.container = ref} style={UTILITY_STYLES.rowView}>
         <EntityInfoViewContainer
           entityId={this.props.userId || this.props.phoneNumber}
           messagePreview={messagePreview}
           marginLeft={10}
-          maxWidth={maxWidth}
+          subtractWidth={subtractWidth}
           />
         <RN.View style={styles.checkboxView}>
           <RN.View style={styles.buttonView}>

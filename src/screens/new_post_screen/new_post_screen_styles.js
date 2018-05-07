@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'left',
     marginLeft: 15,
-    width: 120
+    width: 130
   },
   closeIcon: {
     fontSize: StyleUtility.scaleFont(18),

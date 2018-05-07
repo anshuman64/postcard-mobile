@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 // Local Imports
 import LoadingModal                   from '../loading_modal/loading_modal.js'
 import { styles }                     from './header_styles';
-import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility';
+import { UTILITY_STYLES, getUsableDimensions } from '../../utilities/style_utility';
 import { isStringEmpty }              from '../../utilities/function_utility';
 import { defaultErrorAlert }          from '../../utilities/error_utility';
 
@@ -257,7 +257,7 @@ class Header extends React.PureComponent {
   _renderBackTitle() {
     if (this.props.backTitle) {
       return (
-        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.regularBlackText18, {maxWidth: scaleImage(120)}, !this.props.backIcon && {marginLeft: 50}]}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.regularBlackText18, {maxWidth: getUsableDimensions().width - 140}, !this.props.backIcon && {marginLeft: 50}]}>
           {this.props.backTitle}
         </RN.Text>
       )
