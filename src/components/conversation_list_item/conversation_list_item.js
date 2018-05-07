@@ -42,7 +42,7 @@ class ConversationListItem extends React.PureComponent {
     let dateText = createdAtDate ? renderConversationDate(createdAtDate) : '';
 
     return (
-      <RN.Text style={styles.dateText}>
+      <RN.Text allowFontScaling={false} style={styles.dateText}>
         {dateText}
       </RN.Text>
     )

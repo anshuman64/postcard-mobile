@@ -190,7 +190,7 @@ class ProfileHeader extends React.PureComponent {
       <RN.TouchableOpacity style={styles.avatarView} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
         <AvatarContainer userId={this.props.userId} avatarSize={70} iconSize={32} frameBorderWidth={2} />
         {this.props.client.id === this.props.userId ?
-          <RN.Text numberOfLines={1} style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
             Change
           </RN.Text> :
           null}
@@ -205,7 +205,7 @@ class ProfileHeader extends React.PureComponent {
         onPress={() => this.props.navigateTo('UsernameScreen', { screen: 'UsernameScreen' })}
         disabled={this.props.client.id != this.props.userId}
         >
-        <RN.Text style={styles.usernameText} numberOfLines={1}>
+        <RN.Text allowFontScaling={false} style={styles.usernameText} numberOfLines={1}>
           {getEntityDisplayName(this.props.userId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
         </RN.Text>
         <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
@@ -243,7 +243,7 @@ class ProfileHeader extends React.PureComponent {
             onPress={this._onPressFriend}
             >
             <Icon name={iconName} style={[styles.friendIcon, deactivateButton && styles.buttonTextDisabled]} />
-            <RN.Text style={[UTILITY_STYLES.lightWhiteText15, deactivateButton && styles.buttonTextDisabled]}>
+            <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText15, deactivateButton && styles.buttonTextDisabled]}>
               {friendString}
             </RN.Text>
           </RN.TouchableOpacity> :
@@ -252,7 +252,7 @@ class ProfileHeader extends React.PureComponent {
             style={[styles.buttonBackground, styles.buttonBackgroundDisabled]}
             onPress={this._onPressBlock}
             >
-            <RN.Text style={[UTILITY_STYLES.lightBlackText15, isBlocked && styles.buttonTextDisabled]}>
+            <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText15, isBlocked && styles.buttonTextDisabled]}>
               { isBlocked ? 'Unblock' : 'Block' }
             </RN.Text>
           </RN.TouchableOpacity>
