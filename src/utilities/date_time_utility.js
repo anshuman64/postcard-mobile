@@ -20,7 +20,8 @@ export const renderPostDate = (date) => {
   let creationDate = new Date(date);           // creation date-time
   let diff         = todayDate - creationDate; // time difference in milliseconds
   let minsDiff     = diff / (1000 * 60);       // time difference in minutes
-  let hoursDiff    = diff / (1000 * 3600);     // time difference in hours
+  let hoursDiff    = minsDiff / 60;            // time difference in hours
+  let daysDiff     = hoursDiff / 24;           // time difference in days
 
   let hour = creationDate.getHours();
   let mins = (creationDate.getMinutes() < 10 ? '0' : '') + creationDate.getMinutes();
@@ -48,10 +49,10 @@ export const renderPostDate = (date) => {
   } else if (hoursDiff < 20) {
     // If creationDate was < 20 hours ago, return format 'xx hours ago'
     return Math.floor(hoursDiff) + ' hours ago';
-  } else if (diff < 172800000 && todayDate.getDate() - creationDate.getDate() === 1) {
+  } else if (hoursDiff < 48 && todayDate.getDate() - creationDate.getDate() === 1) {
     // If creationDate was within 48 hours ago and the day was 1 day ago, return format 'Yesterday at xx:xx AM'
     return 'Yesterday at ' + hour + ':' + mins + m;
-  } else if (diff < 604800000) {
+  } else if (daysDiff < 7) {
     // If creationDate was within the last week, return format '[dayName] at xx:xx AM'
     return DAY_NAMES[creationDate.getDay()]+ ' at ' + hour + ':' + mins + m;
   } else if (todayDate.getFullYear() - creationDate.getFullYear() < 1) {
@@ -69,7 +70,8 @@ export const renderMessageDate = (date) => {
   let creationDate = new Date(date);           // creation date-time
   let diff         = todayDate - creationDate; // time difference in milliseconds
   let minsDiff     = diff / (1000 * 60);       // time difference in minutes
-  let hoursDiff    = diff / (1000 * 3600);     // time difference in hours
+  let hoursDiff    = minsDiff / 60;            // time difference in hours
+  let daysDiff     = hoursDiff / 24;           // time difference in days
 
   let hour = creationDate.getHours();
   let mins = (creationDate.getMinutes() < 10 ? '0' : '') + creationDate.getMinutes();
@@ -84,10 +86,10 @@ export const renderMessageDate = (date) => {
     hour = hour % 12;
   }
 
-  if (todayDate.getDate() - creationDate.getDate() < 1) {
+  if (todayDate.getDate() - creationDate.getDate() < 1 && daysDiff < 1) {
     // If creationDate was some time today, return the time
     return hour + ':' + mins + m;
-  } else if (todayDate.getDate() - creationDate.getDate() < 7) {
+  } else if (daysDiff < 7) {
     // If creationDate was some time this week, return the day and time
     return SHORT_DAY_NAMES[creationDate.getDay()] + ' ' + hour + ':' + mins + m;
   } else if (todayDate.getFullYear() - creationDate.getFullYear() < 1) {
@@ -106,7 +108,8 @@ export const renderConversationDate = (date) => {
   let creationDate = new Date(date);           // creation date-time
   let diff         = todayDate - creationDate; // time difference in milliseconds
   let minsDiff     = diff / (1000 * 60);       // time difference in minutes
-  let hoursDiff    = diff / (1000 * 3600);     // time difference in hours
+  let hoursDiff    = minsDiff / 60;            // time difference in hours
+  let daysDiff     = hoursDiff / 24;           // time difference in days
 
   let hour = creationDate.getHours();
   let mins = (creationDate.getMinutes() < 10 ? '0' : '') + creationDate.getMinutes();
@@ -121,10 +124,10 @@ export const renderConversationDate = (date) => {
     hour = hour % 12;
   }
 
-  if (todayDate.getDate() - creationDate.getDate() < 1) {
+  if (todayDate.getDate() - creationDate.getDate() < 1 && daysDiff < 1) {
     // If creationDate was some time today, return the time
     return hour + ':' + mins + m;
-  } else if (todayDate.getDate() - creationDate.getDate() < 7) {
+  } else if (daysDiff < 7) {
     // If creationDate was some time this week, return the day
     return SHORT_DAY_NAMES[creationDate.getDay()];
   } else if (todayDate.getFullYear() - creationDate.getFullYear() < 1) {

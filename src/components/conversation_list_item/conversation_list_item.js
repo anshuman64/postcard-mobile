@@ -39,10 +39,11 @@ class ConversationListItem extends React.PureComponent {
   _renderDate() {
     let convo = EntityUtility.getEntity(this.props.convoId, this.props.usersCache, this.props.groupsCache);
     let createdAtDate = convo && convo.peek_message ? convo.peek_message.created_at : convo.created_at;
+    let dateText = createdAtDate ? renderConversationDate(createdAtDate) : '';
 
     return (
       <RN.Text allowFontScaling={false} style={styles.dateText}>
-        {createdAtDate ? renderConversationDate(createdAtDate) : ''}
+        {dateText}
       </RN.Text>
     )
   }
@@ -53,7 +54,7 @@ class ConversationListItem extends React.PureComponent {
     let messagePreview = EntityUtility.getMessagePreview(message, this.props.client.id, this.props.usersCache, this.props.postsCache);
 
     return (
-      <EntityInfoView entityId={this.props.convoId} messagePreview={messagePreview} disableUsername={true} marginLeft={7} maxWidth={95} />
+      <EntityInfoView entityId={this.props.convoId} messagePreview={messagePreview} disableUsername={true} marginLeft={7} subtractWidth={170} />
     )
   }
 

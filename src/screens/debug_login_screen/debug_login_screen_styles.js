@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     height: '20%',
   },
   logo: {
-    width: 100,
+    width: StyleUtility.scaleFont(100),
   },
   bottomView: {
     flexDirection: 'column',
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   },
   textInput: {
     width: 240,
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: StyleUtility.scaleFont(16, true),
     textAlign: 'center',
     textAlignVertical: 'center',
     color: StyleUtility.COLORS.grey900,

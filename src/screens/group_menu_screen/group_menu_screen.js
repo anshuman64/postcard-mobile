@@ -110,7 +110,7 @@ class GroupMenuScreen extends React.PureComponent {
     return (
       <RN.View style={UTILITY_STYLES.rowView}>
         <RN.View style={styles.userView}>
-          <EntityInfoViewContainer entityId={item.id} marginLeft={0} maxWidth={100} />
+          <EntityInfoViewContainer entityId={item.id} marginLeft={0} subtractWidth={140} />
           <Icon name={'close'} onPress={() => this._onPressDeleteMember(item.id)} style={styles.icon} />
         </RN.View>
       </RN.View>
@@ -147,8 +147,8 @@ class GroupMenuScreen extends React.PureComponent {
         keyExtractor={(item, index) => String(index)}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
-        initialListSize={20}
-        pageSize={60}
+        initialNumToRender={20}
+        windowSize={20}
         showsVerticalScrollIndicator={false}
         stickySectionHeadersEnabled={false}
       />
