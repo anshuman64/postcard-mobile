@@ -89,8 +89,8 @@ class FriendScreen extends React.PureComponent {
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
         ListFooterComponent={this._renderFooter()}
-        initialListSize={20}
-        pageSize={60}
+        initialNumToRender={20}
+        windowSize={20}
         showsVerticalScrollIndicator={false}
         stickySectionHeadersEnabled={false}
       />

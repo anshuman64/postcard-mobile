@@ -122,8 +122,8 @@ class CreateGroupScreen extends React.PureComponent {
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListFooterComponent={this._renderFooter()}
-          initialListSize={20}
-          pageSize={20}
+          initialNumToRender={20}
+          windowSize={20}
           onEndReachedThreshold={0.1}
           showsVerticalScrollIndicator={true}
           stickySectionHeadersEnabled={false}

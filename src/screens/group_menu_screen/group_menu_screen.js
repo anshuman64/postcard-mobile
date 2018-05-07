@@ -147,8 +147,8 @@ class GroupMenuScreen extends React.PureComponent {
         keyExtractor={(item, index) => String(index)}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
-        initialListSize={20}
-        pageSize={60}
+        initialNumToRender={20}
+        windowSize={20}
         showsVerticalScrollIndicator={false}
         stickySectionHeadersEnabled={false}
       />
