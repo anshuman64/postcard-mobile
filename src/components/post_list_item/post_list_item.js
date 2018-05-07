@@ -202,7 +202,7 @@ class PostListItem extends React.PureComponent {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
-        convoId = this.props.usersCache[convoId] && !this.props.usersCache[convoId].firebase_uid ? null : convoId; // handle the case if only a contact received the post
+        convoId = convoId < 0 || (this.props.usersCache[convoId] && this.props.usersCache[convoId].firebase_uid) ? convoId : null; // handle the case if only a contact received the post
       } else {
         this.isReplyDisabled = false;
         this.setState({ isModalVisible: true, isModalForReply: true });
@@ -274,7 +274,7 @@ class PostListItem extends React.PureComponent {
 
   _renderUserView() {
     let isRecipients = !this.props.width && ((this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.item.author_id && this.props.item.recipient_ids_with_client.length > 0)
-    || (this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length > 0));
+    || (this.props.item.recipient_ids.length > 0));
 
     return (
       <RN.View style={styles.userView}>
@@ -300,14 +300,14 @@ class PostListItem extends React.PureComponent {
 
       // If post is authored by client and on AuthoredPosts tab, render recipients of the post
       if (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.item.author_id) {
-        numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
+        numRecipients = this.props.item.recipient_ids.length;
 
         if (numRecipients === 0) {
           return null;
         } else if (numRecipients === 1) {
-          entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
+          entityId = this.props.item.recipient_ids[0];
           displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-          callback = entityId > 0 ? () => this.props.navigateToProfile({ userId: this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0] }) : null; // need to be explicit in userId because callback is in its own scope
+          callback = entityId > 0 && this.props.usersCache[entityId] && this.props.usersCache[entityId].firebase_uid ? () => this.props.navigateToProfile({ userId: this.props.item.recipient_ids[0] }) : null; // need to be explicit in userId because callback is in its own scope
         } else {
           displayString = numRecipients + ' recipients';
           callback = FunctionUtility.setStateCallback(this, { isModalVisible: true, isModalForReply: false });
@@ -522,7 +522,6 @@ class PostListItem extends React.PureComponent {
       <ListModalContainer
         isModalVisible={this.state.isModalVisible}
         recipientIds={recipientIds}
-        contactPhoneNumbers={this.props.item.contact_phone_numbers}
         postId={this.props.item.id}
         authorId={this.props.item.author_id}
         setParentState={this.setParentState}
