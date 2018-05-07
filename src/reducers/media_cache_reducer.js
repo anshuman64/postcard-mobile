@@ -59,6 +59,12 @@ const extractMedia = (object) => {
       });
     }
 
+    // If the object is a post with an author with an avatar
+    if (obj.author && obj.author.avatar_medium) {
+      obj.author.avatar_medium.url = getFile(obj.author.avatar_medium.aws_path);
+      media.push(obj.author.avatar_medium)
+    }
+
     // If the object is a user with an avatar
     if (obj.avatar_medium) {
       obj.avatar_medium.url = getFile(obj.avatar_medium.aws_path);
