@@ -44,6 +44,7 @@ class SectionListHeader extends React.PureComponent {
 
     return (
       <RN.TextInput
+        allowFontScaling={false}
         ref={(ref) => this.textInput = ref}
         style={styles.textInput}
         onChangeText={this._setParentState.bind(this)}
