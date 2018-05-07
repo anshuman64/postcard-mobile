@@ -363,7 +363,7 @@ class MessagesScreen extends React.PureComponent {
 
   render() {
     let displayName = getEntityDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-    let backTitle = this.props.convoId > 0 ? displayName + "'s Messages'" : displayName;
+    let backTitle = this.props.convoId > 0 ? displayName + "'s Messages" : displayName;
 
     return (
       <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>

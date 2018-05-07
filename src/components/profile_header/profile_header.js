@@ -282,7 +282,7 @@ class ProfileHeader extends React.PureComponent {
     });
 
     return (
-      <RN.Animated.View style={[styles.container, { transform: [{translateY}] }]}>
+      <RN.Animated.View style={[styles.container, this.props.client.id != this.props.userId && styles.border, { transform: [{translateY}] }]}>
         {this._renderUserView()}
         {this._renderButtons()}
         {this.props.client.id === this.props.userId ? <TabBarContainer userId={this.props.userId} /> : null}

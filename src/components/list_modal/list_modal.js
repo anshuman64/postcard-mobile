@@ -102,7 +102,15 @@ class ListModal extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderTitle() {
-    let titleString = this.props.setCountry ? 'Select Country' : 'Recipients';
+    let titleString;
+
+    if (this.props.setCountry) {
+      titleString = 'Select Country';
+    } else if (this.props.isModalForReply) {
+      titleString = 'Reply To';
+    } else {
+      titleString = 'Recipients';
+    }
 
     return (
       <RN.View style={styles.titleView}>
@@ -184,8 +192,8 @@ class ListModal extends React.PureComponent {
           style={[styles.listView, { height: this.props.recipientIds.length * 60 }]}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
-          initialListSize={20}
-          pageSize={60}
+          initialNumToRender={20}
+          windowSize={20}
           showsVerticalScrollIndicator={false}
           stickySectionHeadersEnabled={false}
         />
