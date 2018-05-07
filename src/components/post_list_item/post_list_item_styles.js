@@ -49,7 +49,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginLeft: DEFAULT_MARGIN,
-    maxWidth: StyleUtility.scaleImage(80)
   },
   usernameView: {
     flexDirection: 'row',
