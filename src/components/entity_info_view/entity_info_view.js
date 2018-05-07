@@ -40,7 +40,7 @@ class EntityInfoView extends React.PureComponent {
 
   _renderAvatar() {
     let authorId = EntityUtility.getConvoAuthorId(this.props.entityId, this.props.usersCache, this.props.groupsCache);
-    let isNotUser = _.isString(this.props.entityId) || this.props.entityId < 0;
+    let isNotUser = _.isString(this.props.entityId) || this.props.entityId < 0 || (this.props.usersCache[this.props.entityId] && !this.props.usersCache[this.props.entityId].firebase_uid);
     let avatarSize = this.props.messagePreview ? 46 : 40;
 
     return (
@@ -60,7 +60,7 @@ class EntityInfoView extends React.PureComponent {
   _renderUsername() {
     let displayName = EntityUtility.getEntityDisplayName(this.props.entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
     let preview = this.props.messagePreview ? this.props.messagePreview : EntityUtility.getContactPreview(this.props.entityId, this.props.usersCache, this.props.contactsCache);
-    let isNotUser = _.isString(this.props.entityId) || this.props.entityId < 0;
+    let isNotUser = _.isString(this.props.entityId) || this.props.entityId < 0 || (this.props.usersCache[this.props.entityId] && !this.props.usersCache[this.props.entityId].firebase_uid);
 
     return (
       <RN.TouchableWithoutFeedback
