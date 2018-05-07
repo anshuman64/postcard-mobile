@@ -174,7 +174,7 @@ class TextInputScreen extends React.PureComponent {
     }
 
     return (
-      <RN.Text style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
         {titleString}
       </RN.Text>
     )
@@ -195,7 +195,7 @@ class TextInputScreen extends React.PureComponent {
     }
 
     return (
-      <RN.Text style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5, {width: 300}]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5, {width: 300}]}>
         {subtitleString}
       </RN.Text>
     )
@@ -234,7 +234,7 @@ class TextInputScreen extends React.PureComponent {
 
   _renderErrorText() {
     return (
-      <RN.Text style={[styles.errorText, this.state.errorText.length === 0 && UTILITY_STYLES.transparentText, this.state.isSuccessful && UTILITY_STYLES.textHighlighted]}>
+      <RN.Text allowFontScaling={false} style={[styles.errorText, this.state.errorText.length === 0 && UTILITY_STYLES.transparentText, this.state.isSuccessful && UTILITY_STYLES.textHighlighted]}>
         {this.state.errorText}
       </RN.Text>
     )
@@ -268,7 +268,7 @@ class TextInputScreen extends React.PureComponent {
         onPress={buttonFunction}
         disabled={(this.state.inputtedText.length === 0) && !this.state.isLoading}
         >
-        <RN.Text style={[UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonTextDisabled]}>
+        <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonTextDisabled]}>
           {buttonText}
         </RN.Text>
       </RN.TouchableOpacity>

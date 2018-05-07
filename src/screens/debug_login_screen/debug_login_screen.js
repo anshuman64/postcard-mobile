@@ -98,7 +98,7 @@ class DebugLoginScreen extends React.PureComponent {
         onPress={this._onNextButtonPress}
         underlayColor={'#0050a7'}
         >
-        <RN.Text style={UTILITY_STYLES.lightWhiteText16}>
+        <RN.Text allowFontScaling={false} style={UTILITY_STYLES.lightWhiteText16}>
           Next
         </RN.Text>
       </RN.TouchableHighlight>

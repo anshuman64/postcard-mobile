@@ -186,7 +186,7 @@ class CheckboxListItem extends React.PureComponent {
           <RN.View style={styles.frame}>
             <Icon name={'close'} onPress={this._onPressDeleteCircle} style={styles.closeIcon} />
           </RN.View>
-          <RN.Text style={UTILITY_STYLES.regularBlackText16}>
+          <RN.Text allowFontScaling={false} style={UTILITY_STYLES.regularBlackText16}>
             {this.props.circle.name}
           </RN.Text>
         </RN.View>
@@ -197,7 +197,7 @@ class CheckboxListItem extends React.PureComponent {
           <RN.View style={styles.frame}>
             <Icon name={'question'} onPress={this._onPressHelp} style={styles.questionIcon} />
           </RN.View>
-          <RN.Text style={UTILITY_STYLES.regularBlackText16}>
+          <RN.Text allowFontScaling={false} style={UTILITY_STYLES.regularBlackText16}>
             Public
           </RN.Text>
         </RN.View>
