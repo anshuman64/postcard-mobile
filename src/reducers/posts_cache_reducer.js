@@ -26,7 +26,6 @@ Data is in the form {
     author:                    {userObj},
     recipient_ids:             [1,3,-5,-6,7],
     recipient_ids_with_client: [1,-5],
-    contact_phone_numbers:     [+14082551245, +14083060059]
   },
   postId2: {...
 */
@@ -41,7 +40,6 @@ const PostsCacheReducer = (state = DEFAULT_STATE, action) => {
     newState[post.id]                           = post;
     newState[post.id].recipient_ids             = post.group_recipient_ids.map((x) => -1 * x).concat(post.user_recipient_ids);
     newState[post.id].recipient_ids_with_client = post.group_ids_with_client.map((x) => -1 * x).concat(post.user_ids_with_client);
-    newState[post.id].contact_phone_numbers     = [];
   }
 
   switch(action.type) {
