@@ -32,6 +32,11 @@ export const styles = StyleSheet.create({
       y: 0
     }
   },
+  postAsMessageContainer: {
+    elevation: 0,
+    shadowRadius: 0,
+    borderRadius: 20
+  },
   headerView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -44,7 +49,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginLeft: DEFAULT_MARGIN,
-    maxWidth: StyleUtility.scaleImage(80)
   },
   usernameView: {
     flexDirection: 'row',
@@ -57,35 +61,29 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  closeOrFlagButton: {
+  iconButton: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
     height: 40,
-    width: 45,
+    width: 40,
+  },
+  replyIcon: {
+    fontSize: StyleUtility.scaleFont(18),
+    color: StyleUtility.COLORS.grey700,
+  },
+  forwardIcon: {
+    fontSize: StyleUtility.scaleFont(17.5),
+    color: StyleUtility.COLORS.grey700,
   },
   closeIcon: {
     fontSize: StyleUtility.scaleFont(21),
     color: StyleUtility.COLORS.grey700,
-    marginLeft: 3
   },
   flagIcon: {
     fontSize: StyleUtility.scaleFont(16),
     color: StyleUtility.COLORS.grey700,
-    marginLeft: 8,
     marginTop: 1
-  },
-  shareButton: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    height: 40,
-    width: 45,
-  },
-  shareIcon: {
-    fontSize: StyleUtility.scaleFont(17.5),
-    color: StyleUtility.COLORS.grey700,
-    marginRight: 5
   },
   bodyView: {
     flexDirection: 'row',

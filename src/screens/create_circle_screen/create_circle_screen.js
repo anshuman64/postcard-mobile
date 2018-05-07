@@ -89,8 +89,8 @@ class CreateCircleScreen extends React.PureComponent {
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           ListFooterComponent={this._renderFooter()}
-          initialListSize={20}
-          pageSize={60}
+          initialNumToRender={20}
+          windowSize={20}
           showsVerticalScrollIndicator={true}
           stickySectionHeadersEnabled={false}
         />

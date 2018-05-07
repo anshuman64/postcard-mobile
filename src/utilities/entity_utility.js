@@ -111,25 +111,19 @@ export const getMessagePreview = (message, clientId, usersCache, postsCache) => 
     let lastAuthorUsername = lastAuthor && lastAuthor.username ? lastAuthor.username : 'anonymous';
 
     if (message.post_id) {
-      let post = postsCache[message.post_id];
-
-      if (post && post.body) {
-        messagePreview = post.body;
+      if (message.author_id === clientId) {
+        messagePreview = 'You responded to a post.';
       } else {
-        if (message.author_id === clientId) {
-          messagePreview = 'You shared a post.';
-        } else {
-          messagePreview = lastAuthorUsername + ' shared a post.';
-        }
+        messagePreview = lastAuthorUsername + ' responded to a post.';
       }
     } else {
       if (message.body) {
         messagePreview = message.body;
       } else {
         if (message.author_id === clientId) {
-          messagePreview = 'You shared an image.';
+          messagePreview = 'You sent an image.';
         } else {
-          messagePreview = lastAuthorUsername + ' shared an image.';
+          messagePreview = lastAuthorUsername + ' sent an image.';
         }
       }
     }

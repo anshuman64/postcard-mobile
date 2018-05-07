@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: StyleUtility.scaleFont(16),
+    fontSize: StyleUtility.scaleFont(16, true),
     textAlign: 'left',
     textAlignVertical: 'top',
     marginLeft: 5,

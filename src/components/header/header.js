@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 // Local Imports
 import LoadingModal                   from '../loading_modal/loading_modal.js'
 import { styles }                     from './header_styles';
-import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility';
+import { UTILITY_STYLES, getUsableDimensions } from '../../utilities/style_utility';
 import { isStringEmpty }              from '../../utilities/function_utility';
 import { defaultErrorAlert }          from '../../utilities/error_utility';
 
@@ -24,7 +24,6 @@ Optional Passed Props:
   videos (array of videos): array of videos from ImagePicker from NewPostScreen
   takePhoto(array of photos): array of photos from ImagePicker from NewPostScreen
   media (array of photos and videos): combines photos, videos, and takePhoto to send to backend from ShareScreen
-  isPublic (bool): if new post should be public or not from NewPostScreen
   postId (int): if forwarding a post, id of the post
   recipients (array): users to be passed to API from 1) ShareScreen, 2) CreateCircleScreen, 3) CreateGroupScreen, or 4) AddGroupMembersScreen
   contactRecipients (array): contact phoneNumbers to be passed to API from 1) ShareScreen, 2) CreateGroupScreen or 3) AddGroupMembersScreen
@@ -89,7 +88,7 @@ class Header extends React.PureComponent {
 
   // Share button from ShareScreen
   _onPressSharePost = () => {
-    if (this.isButtonPressed || (!this.props.isPublic && this.props.recipients.length === 0 && this.props.contactRecipients.length === 0)) {
+    if (this.isButtonPressed || (this.props.recipients.length === 0 && this.props.contactRecipients.length === 0)) {
       return;
     }
 
@@ -98,7 +97,7 @@ class Header extends React.PureComponent {
     this.setState({ isLoading: true },() => {
       let postBody = isStringEmpty(this.props.postText) ? null : this.props.postText; // sets post body as null if there is no text
 
-      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, this.props.contactRecipients, postBody, this.props.media, this.props.placeholderText)
+      this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.recipients, this.props.contactRecipients, postBody, this.props.media, this.props.placeholderText)
         .then(() => {
           this.props.navigateTo('AuthoredScreen');
           this.isGoBackPressed = true;
@@ -115,14 +114,14 @@ class Header extends React.PureComponent {
 
   // Forward button from ShareScreen
   _onPressForward = () => {
-    if (this.isButtonPressed || (!this.props.isPublic && this.props.recipients.length === 0 && this.props.contactRecipients.length === 0)) {
+    if (this.isButtonPressed || (this.props.recipients.length === 0 && this.props.contactRecipients.length === 0)) {
       return;
     }
 
     this.isButtonPressed = true;
 
     this.setState({ isLoading: true },() => {
-      this.props.forwardPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.isPublic, this.props.recipients, this.props.contactRecipients, this.props.postId)
+      this.props.forwardPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.recipients, this.props.contactRecipients, this.props.postId)
         .then(() => {
           this.props.navigateTo('AuthoredScreen');
           this.isGoBackPressed = true;
@@ -258,7 +257,7 @@ class Header extends React.PureComponent {
   _renderBackTitle() {
     if (this.props.backTitle) {
       return (
-        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.regularBlackText18, {maxWidth: scaleImage(120)}, !this.props.backIcon && {marginLeft: 50}]}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.regularBlackText18, {maxWidth: getUsableDimensions().width - 140}, !this.props.backIcon && {marginLeft: 50}]}>
           {this.props.backTitle}
         </RN.Text>
       )
