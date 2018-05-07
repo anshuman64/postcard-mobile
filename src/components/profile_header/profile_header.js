@@ -11,6 +11,7 @@ import { styles, PROFILE_HEADER_HEIGHT } from './profile_header_styles';
 import { FRIEND_TYPES }                  from '../../actions/friendship_actions';
 import { UTILITY_STYLES }                from '../../utilities/style_utility';
 import { defaultErrorAlert }             from '../../utilities/error_utility';
+import { getEntityDisplayName }          from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
@@ -19,7 +20,7 @@ Required Passed Props:
   userId (int): id of user to render header for
   scrollY (object): animation object
 Optional Passed Props:
-  isClient (bool): if the profile header is for the client
+  -
 */
 class ProfileHeader extends React.PureComponent {
 
@@ -184,22 +185,20 @@ class ProfileHeader extends React.PureComponent {
   // Render Methods
   //--------------------------------------------------------------------//
 
-  _renderChangeText() {
-    if (this.props.client.id === this.props.userId) {
-      return (
-        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
-          Change
-        </RN.Text>
-      )
-    } else {
-      return null;
-    }
+  _renderAvatar() {
+    return (
+      <RN.TouchableOpacity style={styles.avatarView} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
+        <AvatarContainer userId={this.props.userId} avatarSize={70} iconSize={32} frameBorderWidth={2} />
+        {this.props.client.id === this.props.userId ?
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightBlackText15, {marginTop: 2}, UTILITY_STYLES.textHighlighted]}>
+            Change
+          </RN.Text> :
+          null}
+      </RN.TouchableOpacity>
+    )
   }
 
   _renderUsername() {
-    let user = this.props.usersCache[this.props.userId];
-    let username = user ? user.username : null;
-
     return (
       <RN.TouchableOpacity
         style={[styles.usernameButton, this.props.client.id === this.props.userId && {marginBottom: 15}]}
@@ -207,7 +206,7 @@ class ProfileHeader extends React.PureComponent {
         disabled={this.props.client.id != this.props.userId}
         >
         <RN.Text allowFontScaling={false} style={styles.usernameText} numberOfLines={1}>
-          {username}
+          {getEntityDisplayName(this.props.userId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
         </RN.Text>
         <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
       </RN.TouchableOpacity>
@@ -231,7 +230,7 @@ class ProfileHeader extends React.PureComponent {
       friendString = 'Accept';
       iconName = 'user-follow';
     } else {
-      friendString = 'Add Friend';
+      friendString = 'Add';
       iconName = 'user-follow';
     }
 
@@ -266,25 +265,27 @@ class ProfileHeader extends React.PureComponent {
     }
   }
 
+  _renderUserView() {
+    return (
+      <RN.View style={styles.userView}>
+        {this._renderAvatar()}
+        {this._renderUsername()}
+      </RN.View>
+    )
+  }
+
   render() {
     const translateY = this.props.scrollY.interpolate({
-      inputRange: [0, (PROFILE_HEADER_HEIGHT - TAB_BAR_HEIGHT)],
-      outputRange: [0, -(PROFILE_HEADER_HEIGHT - TAB_BAR_HEIGHT)],
+      inputRange: [0, (PROFILE_HEADER_HEIGHT - (this.props.client.id === this.props.userId ? TAB_BAR_HEIGHT : 0))],
+      outputRange: [0, -(PROFILE_HEADER_HEIGHT - (this.props.client.id === this.props.userId ? TAB_BAR_HEIGHT : 0))],
       extrapolate: 'clamp',
     });
 
     return (
-      <RN.Animated.View style={[styles.container, { transform: [{translateY}] }]}
-        >
-        <RN.View style={styles.userView}>
-          <RN.TouchableOpacity style={styles.avatarView} onPress={() => this.props.navigateTo('AvatarScreen')} disabled={this.props.client.id != this.props.userId}>
-            <AvatarContainer userId={this.props.userId} avatarSize={70} iconSize={32} frameBorderWidth={2} />
-            {this._renderChangeText()}
-          </RN.TouchableOpacity>
-          {this._renderUsername()}
-        </RN.View>
+      <RN.Animated.View style={[styles.container, this.props.client.id != this.props.userId && styles.border, { transform: [{translateY}] }]}>
+        {this._renderUserView()}
         {this._renderButtons()}
-        <TabBarContainer userId={this.props.userId} isClient={this.props.isClient} />
+        {this.props.client.id === this.props.userId ? <TabBarContainer userId={this.props.userId} /> : null}
       </RN.Animated.View>
     )
   }

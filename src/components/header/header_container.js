@@ -15,8 +15,8 @@ const mapStateToProps = ({ client }, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createPost:      (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, media, placeholderText) => dispatch(createPost(authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postBody, media, placeholderText)),
-  forwardPost:     (authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postId) => dispatch(forwardPost(authToken, firebaseUserObj, clientId, isPublic, recipientIds, contactPhoneNumbers, postId)),
+  createPost:      (authToken, firebaseUserObj, clientId, recipientIds, contactPhoneNumbers, postBody, media, placeholderText) => dispatch(createPost(authToken, firebaseUserObj, clientId, recipientIds, contactPhoneNumbers, postBody, media, placeholderText)),
+  forwardPost:     (authToken, firebaseUserObj, clientId, recipientIds, contactPhoneNumbers, postId) => dispatch(forwardPost(authToken, firebaseUserObj, clientId, recipientIds, contactPhoneNumbers, postId)),
   createCircle:    (authToken, firebaseUserObj, name, recipientIds)                    => dispatch(createCircle(authToken, firebaseUserObj, name, recipientIds)),
   createGroup:     (authToken, firebaseUserObj, userIds, contactPhoneNumbers)          => dispatch(createGroup(authToken, firebaseUserObj, userIds, contactPhoneNumbers)),
   addGroupMembers: (authToken, firebaseUserObj, convoId, userIds, contactPhoneNumbers) => dispatch(addGroupMembers(authToken, firebaseUserObj, convoId, userIds, contactPhoneNumbers)),

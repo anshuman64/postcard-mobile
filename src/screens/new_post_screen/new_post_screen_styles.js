@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: StyleUtility.scaleFont(18),
+    fontSize: StyleUtility.scaleFont(18, true),
     textAlign: 'left',
     textAlignVertical: 'top',
     padding: 20,
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'left',
     marginLeft: 15,
-    width: 120
+    width: 130
   },
   closeIcon: {
     fontSize: StyleUtility.scaleFont(18),

@@ -46,7 +46,7 @@ export const getImageUrlsFromMedia = (media, mediaCache) => {
     cachedMedium = mediaCache[medium.id];
     mediumUrl = cachedMedium ? cachedMedium.url : null;
 
-    if (cachedMedium.mime_type.startsWith('image/') && mediumUrl) {
+    if (mediumUrl && cachedMedium.mime_type.startsWith('image/')) {
       imageUrls.push({ url: mediumUrl });
     }
   });

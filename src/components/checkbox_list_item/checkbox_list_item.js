@@ -54,18 +54,12 @@ class CheckboxListItem extends React.PureComponent {
       this.setState({ isSelected: nextProps.contactRecipients.includes(nextProps.phoneNumber) });
     } else if (nextProps.circle) {
       this.setState({ isSelected: nextProps.circles.includes(nextProps.circle.id) });
-    } else {
-      this.setState({ isSelected: nextProps.isPublic });
     }
   }
 
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
-
-  _onPressPublic = () => {
-    this.props.setParentState({ isPublic: !this.props.isPublic });
-  }
 
   _onPressCircleItem = () => {
     let recipientArray = this.props.recipients.slice();
@@ -155,10 +149,6 @@ class CheckboxListItem extends React.PureComponent {
     });
   }
 
-  _onPressHelp = () => {
-    RN.Alert.alert('', "Checking 'Public' displays your post on all your friends' feeds and makes the post visible on your profile.", [{text: 'OK', style: 'cancel'}]);
-  }
-
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
@@ -184,7 +174,7 @@ class CheckboxListItem extends React.PureComponent {
   _renderItemView() {
     if (this.props.convoId || this.props.phoneNumber) {
       return (
-        <EntityInfoViewContainer entityId={this.props.convoId || this.props.phoneNumber} marginLeft={15} maxWidth={90} disableAvatar={true} disableUsername={true} />
+        <EntityInfoViewContainer entityId={this.props.convoId || this.props.phoneNumber} marginLeft={15} subtractWidth={150} disableAvatar={true} disableUsername={true} />
       )
     } else if (this.props.circle) {
       return (

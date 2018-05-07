@@ -274,7 +274,6 @@ class MessagesScreen extends React.PureComponent {
           <Icon name='picture' style={[styles.imageButtonIcon, this.state.medium && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TextInput
-          allowFontScaling={false}
           style={styles.textInput}
           placeholderTextColor={StyleUtility.COLORS.grey400}
           placeholder={'Write a message...'}
@@ -364,13 +363,14 @@ class MessagesScreen extends React.PureComponent {
 
   render() {
     let displayName = getEntityDisplayName(this.props.convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+    let backTitle = this.props.convoId > 0 ? displayName + "'s Messages" : displayName;
 
     return (
       <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>
         <RN.View style={StyleUtility.UTILITY_STYLES.containerStart}>
           <HeaderContainer
             backIcon={true}
-            backTitle={displayName + "'s Messages"}
+            backTitle={backTitle}
             settingsIcon={this.props.convoId < 0}
             convoId={this.props.convoId}
             />
