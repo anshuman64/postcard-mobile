@@ -20,6 +20,10 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     position: 'absolute',
   },
+  border: {
+    borderBottomColor: StyleUtility.COLORS.grey500,
+    borderBottomWidth: 0.5,
+  },
   userView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
