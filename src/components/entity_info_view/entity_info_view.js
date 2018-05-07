@@ -87,7 +87,7 @@ class EntityInfoView extends React.PureComponent {
     return (
       <RN.View style={[styles.userView, {marginLeft: this.props.marginLeft}]}>
         {this._renderAvatar()}
-        {this._renderUseranme()}
+        {this._renderUsername()}
       </RN.View>
     )
   }

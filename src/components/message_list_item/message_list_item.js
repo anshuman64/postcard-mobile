@@ -217,7 +217,7 @@ class MessageListItem extends React.PureComponent {
 
     return (
       <RN.View style={[containerStyle, isFirstMessage && {marginBottom: 15}]}>
-        {this.renderAvatar()}
+        {this._renderAvatar()}
         <RN.TouchableOpacity
           activeOpacity={0.5}
           onPress={setStateCallback(this, { isDateShown: !this.state.isDateShown})}
