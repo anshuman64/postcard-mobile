@@ -39,7 +39,7 @@ class ListModal extends React.PureComponent {
       isLoading:      false
     };
 
-    this.isRespondDisabled = false;
+    this.isReplyDisabled = false;
   }
 
   //--------------------------------------------------------------------//
@@ -64,21 +64,21 @@ class ListModal extends React.PureComponent {
   }
 
   // Navigates to messages of selected group or user
-  _onNavigateToMessages(convoId) {
-    if (this.isRespondDisabled) {
+  _onPressReply(convoId) {
+    if (this.isReplyDisabled) {
       return;
     }
 
-    this.isRespondDisabled = true;
+    this.isReplyDisabled = true;
 
-    RN.Alert.alert('', 'Respond to this post as a message?',
-      [{text: 'Cancel', onPress: () => this.isRespondDisabled = false, style: 'cancel'},
-       {text: 'Respond', onPress: () => this._onConfirmRespondToPost(convoId)}],
-       {onDismiss: () => this.isRespondDisabled = false}
+    RN.Alert.alert('', 'Reply to this post as a message?',
+      [{text: 'Cancel', onPress: () => this.isReplyDisabled = false, style: 'cancel'},
+       {text: 'Reply', onPress: () => this._onConfirmReply(convoId)}],
+       {onDismiss: () => this.isReplyDisabled = false}
     )
   }
 
-  _onConfirmRespondToPost(convoId) {
+  _onConfirmReply(convoId) {
     let revisedConvoId = this.props.client.id === convoId ? this.props.authorId : convoId;
 
     this.setState({ isLoading: true },() => {
@@ -203,12 +203,12 @@ class ListModal extends React.PureComponent {
 
   _renderItem({item}) {
     let user = this.props.usersCache[item];
-    let isDisabled = !(user && user.firebase_uid);
+    let isNotDisabled = this.props.isModalForReply && (item < 0 || (user && user.firebase_uid));
 
     return (
-      <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)} disabled={isDisabled}>
+      <RN.TouchableOpacity onPress={() => this._onPressReply(item)} disabled={!isNotDisabled}>
         <RN.View style={[styles.rowContainer, {height: 60}]}>
-          <EntityInfoViewContainer entityId={item} marginLeft={10} maxWidth={90} disableUsername={true} disableAvatar={true} />
+          <EntityInfoViewContainer entityId={item} marginLeft={10} maxWidth={90} disableUsername={this.props.isModalForReply} disableAvatar={this.props.isModalForReply} />
         </RN.View>
       </RN.TouchableOpacity>
     )
