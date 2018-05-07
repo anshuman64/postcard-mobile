@@ -55,7 +55,6 @@ class PostListItem extends React.PureComponent {
     this.isFlagDisabled    = false;
     this.isDeleteDisabled  = false;
     this.isReplyDisabled   = false;
-    this.isForwardDisabled = false;
     this.recipients        = null;
   }
 
@@ -250,12 +249,6 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressForward = () => {
-    if (this.isForwardDisabled) {
-      return;
-    }
-
-    this.isForwardDisabled = true;
-
     this.props.navigateTo('ShareScreen', { postId: this.props.item.id });
   }
 

@@ -110,9 +110,8 @@ class PendingScreen extends React.PureComponent {
         keyExtractor={(item) => item}
         renderSectionHeader={this._renderSectionHeader.bind(this)}
         ListHeaderComponent={this._renderHeader()}
-        initialListSize={20}
-        pageSize={20}
-        onEndReachedThreshold={0.1}
+        initialNumToRender={20}
+        windowSize={5}
         showsVerticalScrollIndicator={true}
         stickySectionHeadersEnabled={false}
       />
