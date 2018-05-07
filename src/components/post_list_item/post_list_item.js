@@ -46,6 +46,7 @@ class PostListItem extends React.PureComponent {
       isLikingAnimation: false, // if the liking animation is still playing
       isLikingServer:    false, // if the server is still registering the create/delete like
       isModalVisible:    false,
+      isModalForReply:   false,
       isLoading:         false,
       swiperHeight:      null,
     }
@@ -204,7 +205,7 @@ class PostListItem extends React.PureComponent {
         convoId = this.props.usersCache[convoId] && !this.props.usersCache[convoId].firebase_uid ? null : convoId; // handle the case if only a contact received the post
       } else {
         this.isReplyDisabled = false;
-        this.setState({ isModalVisible: true });
+        this.setState({ isModalVisible: true, isModalForReply: true });
         return;
       }
     } else {
@@ -215,7 +216,7 @@ class PostListItem extends React.PureComponent {
         convoId = this.props.item.recipient_ids_with_client[0] > 0 ? this.props.item.author_id : this.props.item.recipient_ids_with_client[0];
       } else {
         this.isReplyDisabled = false;
-        this.setState({ isModalVisible: true });
+        this.setState({ isModalVisible: true, isModalForReply: true });
         return;
       }
     }
@@ -309,7 +310,7 @@ class PostListItem extends React.PureComponent {
           callback = entityId > 0 ? () => this.props.navigateToProfile({ userId: this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0] }) : null; // need to be explicit in userId because callback is in its own scope
         } else {
           displayString = numRecipients + ' recipients';
-          callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+          callback = FunctionUtility.setStateCallback(this, { isModalVisible: true, isModalForReply: false });
         }
       // Otherwise, render groups that client is a part of that received the post
       } else {
@@ -322,7 +323,7 @@ class PostListItem extends React.PureComponent {
           displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
         } else {
           displayString = numRecipients + ' groups';
-          callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+          callback = FunctionUtility.setStateCallback(this, { isModalVisible: true, isModalForReply: false });
         }
       }
 
@@ -525,6 +526,7 @@ class PostListItem extends React.PureComponent {
         postId={this.props.item.id}
         authorId={this.props.item.author_id}
         setParentState={this.setParentState}
+        isModalForReply={this.state.isModalForReply}
         />
     )
   }
