@@ -283,7 +283,7 @@ class PostListItem extends React.PureComponent {
           disableUsername={this.props.client.id === this.props.item.author_id}
           entityId={this.props.item.author_id}
           marginLeft={0}
-          maxWidth={isRecipients ? 50 : 100}
+          subtractWidth={isRecipients ? 280 : 210}
           />
         {this._renderRecipients()}
       </RN.View>
@@ -342,7 +342,7 @@ class PostListItem extends React.PureComponent {
                 allowFontScaling={false}
                 ref={(ref) => this.displayString = ref}
                 numberOfLines={1}
-                style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5, { maxWidth: StyleUtility.scaleImage(50) }]}
+                style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5, { maxWidth: StyleUtility.getUsableDimensions().width - 280 }]}
                 >
                 {displayString}
               </RN.Text>

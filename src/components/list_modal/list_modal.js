@@ -206,7 +206,7 @@ class ListModal extends React.PureComponent {
     return (
       <RN.TouchableOpacity onPress={() => this._onPressReply(item)} disabled={isDisabled}>
         <RN.View style={[styles.rowContainer, {height: 60}]}>
-          <EntityInfoViewContainer entityId={item} marginLeft={10} maxWidth={90} disableUsername={this.props.isModalForReply} disableAvatar={this.props.isModalForReply} />
+          <EntityInfoViewContainer entityId={item} marginLeft={10} subtractWidth={170} disableUsername={this.props.isModalForReply} disableAvatar={this.props.isModalForReply} />
         </RN.View>
       </RN.TouchableOpacity>
     )
