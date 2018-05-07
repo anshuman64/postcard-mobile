@@ -32,7 +32,7 @@ class TabBar extends React.PureComponent {
   _renderTab(text, screen, props) {
     return (
       <RN.TouchableOpacity onPress={() => this.props.navigateTo(screen, props)} style={styles.button}>
-        <RN.Text style={[UTILITY_STYLES.lightBlackText16, { marginBottom: 5 }, this.props.currentScreen === screen && UTILITY_STYLES.textHighlighted]}>
+        <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, { marginBottom: 5 }, this.props.currentScreen === screen && UTILITY_STYLES.textHighlighted]}>
           {text}
         </RN.Text>
       </RN.TouchableOpacity>
