@@ -58,8 +58,10 @@ export const scaleImage = (size) => {
 };
 
 // Put a cap on fontScale value
-export const scaleFont = (fontSize) => {
-  return fontSize * Math.min(RN.PixelRatio.getFontScale(), 1.5);
+export const scaleFont = (fontSize, removeScale) => {
+  let scale = RN.PixelRatio.getFontScale();
+  let size = removeScale ? fontSize / scale : fontSize;
+  return size * Math.min(scale, 1.5);
 };
 
 // Sets Android font but uses System for iOS

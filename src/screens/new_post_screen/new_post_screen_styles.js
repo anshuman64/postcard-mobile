@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
-    fontSize: StyleUtility.scaleFont(18),
+    fontSize: StyleUtility.scaleFont(18, true),
     textAlign: 'left',
     textAlignVertical: 'top',
     padding: 20,
