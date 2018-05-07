@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     height: 50,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
-    fontSize: StyleUtility.scaleFont(18),
+    fontSize: StyleUtility.scaleFont(18, true),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
