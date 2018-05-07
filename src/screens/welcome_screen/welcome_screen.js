@@ -65,6 +65,7 @@ class WelcomeScreen extends React.PureComponent {
       return (
         <Animatable.Text
           style={styles.logo}
+          allowFontScaling={false}
           animation={'fadeIn'}
           duration={1800}
           delay={3400}
@@ -77,6 +78,7 @@ class WelcomeScreen extends React.PureComponent {
       return (
         <Animatable.Text
           style={styles.logo}
+          allowFontScaling={false}
           animation={translateLogo}
           duration={2000}
           >

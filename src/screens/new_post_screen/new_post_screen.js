@@ -144,6 +144,7 @@ class NewPostScreen extends React.PureComponent {
   _renderTextInput() {
     return (
       <RN.TextInput
+        allowFontScaling={false}
         style={[styles.textInput, this.state.postText.length >= 86 && styles.smallBodyText]}
         placeholderTextColor={COLORS.grey400}
         placeholder={this.state.placeholderText}
