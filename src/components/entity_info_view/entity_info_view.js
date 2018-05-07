@@ -6,7 +6,7 @@ import _     from 'lodash';
 // Local Imports
 import AvatarContainer                from '../avatar/avatar_container';
 import { styles }                     from './entity_info_view_styles';
-import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility';
+import { UTILITY_STYLES, getUsableDimensions } from '../../utilities/style_utility';
 import * as EntityUtility             from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
@@ -18,7 +18,7 @@ Optional Passed Props:
   disableAvatar (bool): if should disable click on Avatar to go to profile
   disableUsername (bool): if should disable click on username to go to profile
   marginLeft (int): amount of left margin
-  mawWidth (int): maxWidth of username
+  subtractWidth (int): amount to subtract from getUsableDimensions().width for length of username
 */
 class EntityInfoView extends React.PureComponent {
 
@@ -61,6 +61,7 @@ class EntityInfoView extends React.PureComponent {
     let displayName = EntityUtility.getEntityDisplayName(this.props.entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
     let preview = this.props.messagePreview ? this.props.messagePreview : EntityUtility.getContactPreview(this.props.entityId, this.props.usersCache, this.props.contactsCache);
     let isNotUser = _.isString(this.props.entityId) || this.props.entityId < 0 || (this.props.usersCache[this.props.entityId] && !this.props.usersCache[this.props.entityId].firebase_uid);
+    let maxWidth = getUsableDimensions().width - this.props.subtractWidth;
 
     return (
       <RN.TouchableWithoutFeedback
@@ -70,11 +71,11 @@ class EntityInfoView extends React.PureComponent {
         disabled={isNotUser ? true : this.props.disableUsername}
         >
         <RN.View style={styles.usernameView}>
-          <RN.Text allowFontScaling={false} ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: scaleImage(this.props.maxWidth)}]} numberOfLines={1}>
+          <RN.Text allowFontScaling={false} ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: maxWidth}]} numberOfLines={1}>
             {displayName}
           </RN.Text>
           {preview ?
-            <RN.Text allowFontScaling={false} style={[styles.messageText, {maxWidth: scaleImage(this.props.maxWidth)}]} numberOfLines={1}>
+            <RN.Text allowFontScaling={false} style={[styles.messageText, {maxWidth: maxWidth}]} numberOfLines={1}>
               {preview}
             </RN.Text> :
             null}

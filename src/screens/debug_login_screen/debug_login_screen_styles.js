@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     height: '20%',
   },
   logo: {
-    width: 100,
+    width: StyleUtility.scaleFont(100),
   },
   bottomView: {
     flexDirection: 'column',

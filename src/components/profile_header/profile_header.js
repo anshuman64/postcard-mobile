@@ -230,7 +230,7 @@ class ProfileHeader extends React.PureComponent {
       friendString = 'Accept';
       iconName = 'user-follow';
     } else {
-      friendString = 'Add Friend';
+      friendString = 'Add';
       iconName = 'user-follow';
     }
 
