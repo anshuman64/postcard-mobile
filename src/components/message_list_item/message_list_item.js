@@ -86,10 +86,10 @@ class MessageListItem extends React.PureComponent {
     // 2) the last message is by someone else
     // 3) the last message was sent more than 10 mins later
     // 4) this is a group chat
-    if (this.props.convoId < 0) {
-      if (this.props.message.author_id === this.props.client.id) {
-        isUsername = false;
-      } else if (this.props.index === this.props.messages[this.props.convoId].data.length - 1) {
+    if (this.props.message.author_id === this.props.client.id) {
+      isUsername = false;
+    } else if (this.props.convoId < 0) {
+      if (this.props.index === this.props.messages[this.props.convoId].data.length - 1) {
         isUsername = true;
       } else {
         let thisMessage = this.props.message;
@@ -122,7 +122,9 @@ class MessageListItem extends React.PureComponent {
     // 1) the message is the newest message
     // 2) the next message is by someone else
     // 3) the next message was sent more than 10 mins later
-    if (this.props.index === 0) {
+    if (this.props.message.author_id === this.props.client.id) {
+      isAvatar = false;
+    } else if (this.props.index === 0) {
       isAvatar = true;
     } else {
       let thisMessage = this.props.message;
