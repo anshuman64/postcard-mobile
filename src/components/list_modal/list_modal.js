@@ -39,7 +39,7 @@ class ListModal extends React.PureComponent {
       isLoading:      false
     };
 
-    this.isRespondDisabled = false;
+    this.isReplyDisabled = false;
   }
 
   //--------------------------------------------------------------------//
@@ -64,21 +64,21 @@ class ListModal extends React.PureComponent {
   }
 
   // Navigates to messages of selected group or user
-  _onNavigateToMessages(convoId) {
-    if (this.isRespondDisabled) {
+  _onPressReply(convoId) {
+    if (this.isReplyDisabled) {
       return;
     }
 
-    this.isRespondDisabled = true;
+    this.isReplyDisabled = true;
 
-    RN.Alert.alert('', 'Respond to this post as a message?',
-      [{text: 'Cancel', onPress: () => this.isRespondDisabled = false, style: 'cancel'},
-       {text: 'Respond', onPress: () => this._onConfirmRespondToPost(convoId)}],
-       {onDismiss: () => this.isRespondDisabled = false}
+    RN.Alert.alert('', 'Reply to this post as a message?',
+      [{text: 'Cancel', onPress: () => this.isReplyDisabled = false, style: 'cancel'},
+       {text: 'Reply', onPress: () => this._onConfirmReply(convoId)}],
+       {onDismiss: () => this.isReplyDisabled = false}
     )
   }
 
-  _onConfirmRespondToPost(convoId) {
+  _onConfirmReply(convoId) {
     let revisedConvoId = this.props.client.id === convoId ? this.props.authorId : convoId;
 
     this.setState({ isLoading: true },() => {
@@ -102,7 +102,15 @@ class ListModal extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderTitle() {
-    let titleString = this.props.setCountry ? 'Select Country' : 'Recipients';
+    let titleString;
+
+    if (this.props.setCountry) {
+      titleString = 'Select Country';
+    } else if (this.props.isModalForReply) {
+      titleString = 'Reply To';
+    } else {
+      titleString = 'Recipients';
+    }
 
     return (
       <RN.View style={styles.titleView}>
@@ -180,15 +188,12 @@ class ListModal extends React.PureComponent {
     if (!this.props.setCountry) {
       return (
         <RN.SectionList
-          sections={[
-            {data: this.props.recipientIds, renderItem: this._renderItem.bind(this)},
-            {data: this.props.contactPhoneNumbers, renderItem: this._renderItem.bind(this)},
-          ]}
-          style={[styles.listView, { height: (this.props.recipientIds.length + this.props.contactPhoneNumbers.length) * 60 }]}
+          sections={[{data: this.props.recipientIds, renderItem: this._renderItem.bind(this)}]}
+          style={[styles.listView, { height: this.props.recipientIds.length * 60 }]}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
-          initialListSize={20}
-          pageSize={60}
+          initialNumToRender={20}
+          windowSize={20}
           showsVerticalScrollIndicator={false}
           stickySectionHeadersEnabled={false}
         />
@@ -204,12 +209,12 @@ class ListModal extends React.PureComponent {
 
   _renderItem({item}) {
     let user = this.props.usersCache[item];
-    let isDisabled = !(user && user.firebase_uid);
+    let isDisabled = !this.props.isModalForReply || (user && !user.firebase_uid);
 
     return (
-      <RN.TouchableOpacity onPress={() => this._onNavigateToMessages(item)} disabled={isDisabled}>
+      <RN.TouchableOpacity onPress={() => this._onPressReply(item)} disabled={isDisabled}>
         <RN.View style={[styles.rowContainer, {height: 60}]}>
-          <EntityInfoViewContainer entityId={item} marginLeft={10} maxWidth={90} disableUsername={true} disableAvatar={true} />
+          <EntityInfoViewContainer entityId={item} marginLeft={10} subtractWidth={170} disableUsername={this.props.isModalForReply} disableAvatar={this.props.isModalForReply} />
         </RN.View>
       </RN.TouchableOpacity>
     )
