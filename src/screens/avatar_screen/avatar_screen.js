@@ -88,8 +88,8 @@ class AvatarScreen extends React.PureComponent {
     this.isButtonPressed = true;
 
     ImagePicker.openPicker({
-      height: 400,
-      width: 400,
+      height: 100,
+      width: 100,
       cropping: true,
       cropperCircleOverlay: true,
       mediaType: 'photo',
