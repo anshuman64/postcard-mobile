@@ -53,7 +53,8 @@ class PostListItem extends React.PureComponent {
     this.isLikeDisabled    = false;
     this.isFlagDisabled    = false;
     this.isDeleteDisabled  = false;
-    this.isRespondDisabled = false;
+    this.isReplyDisabled   = false;
+    this.isForwardDisabled = false;
     this.recipients        = null;
   }
 
@@ -107,7 +108,7 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   // Creates/deletes flag on post
-  _onPressFlagPost = () => {
+  _onPressFlag = () => {
     if (this.isFlagDisabled) {
       return;
     }
@@ -127,14 +128,14 @@ class PostListItem extends React.PureComponent {
     } else {
       RN.Alert.alert('', 'Are you sure you want to flag this post as inappropriate and remove it?',
         [{text: 'Cancel', onPress: () => this.isFlagDisabled = false, style: 'cancel'},
-         {text: 'Flag', onPress: this._onConfirmFlagPost}],
+         {text: 'Flag', onPress: this._onConfirmFlag}],
          {onDismiss: () => this.isFlagDisabled = false}
       )
     }
   }
 
   // Creates flag
-  _onConfirmFlagPost = () => {
+  _onConfirmFlag = () => {
     this.props.createFlag(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .catch((error) => {
         defaultErrorAlert(error);
@@ -149,7 +150,7 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   // Alert that pops up when a user is about to delete a post
-  _onPressDeletePost = () => {
+  _onPressDelete = () => {
     if (this.isDeleteDisabled) {
       return;
     }
@@ -158,13 +159,13 @@ class PostListItem extends React.PureComponent {
 
     RN.Alert.alert('', 'Are you sure you want to delete this post?',
       [{text: 'Cancel', onPress: () => this.isDeleteDisabled = false, style: 'cancel'},
-       {text: 'Delete', onPress: this._onConfirmDeletePost}],
+       {text: 'Delete', onPress: this._onConfirmDelete}],
        {onDismiss: () => this.isDeleteDisabled = false}
     )
   }
 
   // Deletes post from DB and fades post out before removing from store
-  _onConfirmDeletePost = () => {
+  _onConfirmDelete = () => {
     // Delete post from DB
     this.props.deletePost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.item.id)
       .then((deletedPost) => {
@@ -183,51 +184,52 @@ class PostListItem extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
-  // Navigation Callback Methods
+  // Reply Post Callback Methods
   //--------------------------------------------------------------------//
 
-  _onRespondToPost = () => {
-    if (this.props.width || this.isRespondDisabled) { // width is only passed if on MessagesScreen
+  _onPressReply = () => {
+    if (this.isReplyDisabled) {
       return;
     }
 
     let convoId;
     let recipients;
-    this.isRespondDisabled = true;
+    this.isReplyDisabled = true;
 
-    // For HomeScreen, either go to author if post was sent directly, or group that that post was sent to
-    if (this.props.postType === POST_TYPES.RECEIVED) {
+    // For AuthoredScreen, go to recipient which is either a user or group
+    if (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.item.author_id) {
+      recipients = this.props.item.recipient_ids;
+      if (recipients.length === 1) {
+        convoId = this.props.item.recipient_ids[0];
+        convoId = this.props.usersCache[convoId] && !this.props.usersCache[convoId].firebase_uid ? null : convoId; // handle the case if only a contact received the post
+      } else {
+        this.isReplyDisabled = false;
+        this.setState({ isModalVisible: true });
+        return;
+      }
+    } else {
       recipients = this.props.item.recipient_ids_with_client;
       if (recipients.length === 0) {
         convoId = this.props.item.author_id;
       } else if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids_with_client[0] > 0 ? this.props.item.author_id : this.props.item.recipient_ids_with_client[0];
       } else {
-        this.isRespondDisabled = false;
-        return;
-      }
-    // For AuthoredScreen, go to recipient which is either a user or group
-  } else if (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.userId) {
-      recipients = this.props.item.recipient_ids;
-      if (recipients.length === 1) {
-        convoId = this.props.item.recipient_ids[0];
-        convoId = this.props.usersCache[convoId] && !this.props.usersCache[convoId].firebase_uid ? null : convoId; // handle the case if only a contact received the post
-      } else {
-        this.isRespondDisabled = false;
+        this.isReplyDisabled = false;
+        this.setState({ isModalVisible: true });
         return;
       }
     }
 
     if (convoId) {
-      RN.Alert.alert('', 'Respond to this post as a message?',
-        [{text: 'Cancel', onPress: () => this.isRespondDisabled = false, style: 'cancel'},
-         {text: 'Respond', onPress: () => this._onConfirmRespondToPost(convoId)}],
-         {onDismiss: () => this.isRespondDisabled = false}
+      RN.Alert.alert('', 'Reply to this post as a message?',
+        [{text: 'Cancel', onPress: () => this.isReplyDisabled = false, style: 'cancel'},
+         {text: 'Reply', onPress: () => this._onConfirmReply(convoId)}],
+         {onDismiss: () => this.isReplyDisabled = false}
       )
     }
   }
 
-  _onConfirmRespondToPost(convoId) {
+  _onConfirmReply(convoId) {
     this.setState({ isLoading: true },() => {
       this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, this.props.item.id)
         .then(() => {
@@ -243,128 +245,142 @@ class PostListItem extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // Forward Post Callback Methods
+  //--------------------------------------------------------------------//
+
+  _onPressForward = () => {
+    if (this.isForwardDisabled) {
+      return;
+    }
+
+    this.isForwardDisabled = true;
+
+    this.props.navigateTo('ShareScreen', { postId: this.props.item.id });
+  }
+
+  //--------------------------------------------------------------------//
   // Post Header Render Methods
   //--------------------------------------------------------------------//
 
   _renderHeader() {
-    let isRecipients = (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.userId && this.props.item.recipient_ids_with_client.length > 0)
-    || (this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length > 0);
-
     return (
       <RN.View style={styles.headerView}>
-        <RN.View style={styles.userView}>
-          <EntityInfoViewContainer
-            disableAvatar={this.props.client.id === this.props.item.author_id}
-            disableUsername={this.props.client.id === this.props.item.author_id}
-            entityId={this.props.item.author_id}
-            marginLeft={0}
-            maxWidth={isRecipients ? 50 : 100}
-            />
-          {this._renderRecipients()}
-        </RN.View>
-        <RN.View style={styles.iconView}>
-          <RN.TouchableWithoutFeedback
-            onPressIn={() => this.shareIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
-            onPressOut={() => this.shareIcon.setNativeProps({style: styles.shareIcon})}
-            onPress={() => this.props.navigateTo('ShareScreen', { postId: this.props.item.id })}
-            >
-            <RN.View style={styles.shareButton}>
-              <Icon ref={(ref) => this.shareIcon = ref} name={'share-alt'} style={styles.shareIcon} />
-            </RN.View>
-          </RN.TouchableWithoutFeedback>
-          {this._renderCloseOrFlag()}
-        </RN.View>
+        {this._renderUserView()}
+        {this._renderIconView()}
+      </RN.View>
+    )
+  }
+
+  _renderUserView() {
+    let isRecipients = !this.props.width && ((this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.item.author_id && this.props.item.recipient_ids_with_client.length > 0)
+    || (this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length > 0));
+
+    return (
+      <RN.View style={styles.userView}>
+        <EntityInfoViewContainer
+          disableAvatar={this.props.client.id === this.props.item.author_id}
+          disableUsername={this.props.client.id === this.props.item.author_id}
+          entityId={this.props.item.author_id}
+          marginLeft={0}
+          maxWidth={isRecipients ? 50 : 100}
+          />
+        {this._renderRecipients()}
       </RN.View>
     )
   }
 
   _renderRecipients() {
-    let numRecipients;
-    let displayString = '';
-    let callback;
-
-    // If post is authored by client and on AuthoredPosts tab, render recipients of the post
-    if (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.userId) {
-      numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
-
-      if (numRecipients === 0) {
-        return null;
-      } else if (numRecipients === 1) {
-        entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
-        displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onRespondToPost;
-      } else {
-        displayString = numRecipients + ' recipients';
-        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
-      }
-    // Otherwise, render groups that client is a part of that received the post
+    if (this.props.width) {
+      return null;
     } else {
-      numRecipients = this.props.item.recipient_ids_with_client.length;
+      let numRecipients;
+      let displayString = '';
+      let callback;
 
-      if (numRecipients === 0) {
-        return null;
-      } else if (numRecipients === 1) {
-        convoId = this.props.item.recipient_ids_with_client[0];
-        displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-        callback = this._onRespondToPost;
+      // If post is authored by client and on AuthoredPosts tab, render recipients of the post
+      if (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.item.author_id) {
+        numRecipients = this.props.item.recipient_ids.length + this.props.item.contact_phone_numbers.length;
+
+        if (numRecipients === 0) {
+          return null;
+        } else if (numRecipients === 1) {
+          entityId = this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0];
+          displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+          callback = entityId > 0 ? () => this.props.navigateToProfile({ userId: this.props.item.recipient_ids[0] || this.props.item.contact_phone_numbers[0] }) : null; // need to be explicit in userId because callback is in its own scope
+        } else {
+          displayString = numRecipients + ' recipients';
+          callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+        }
+      // Otherwise, render groups that client is a part of that received the post
       } else {
-        displayString = numRecipients + ' groups';
-        callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
-      }
-    }
+        numRecipients = this.props.item.recipient_ids_with_client.length;
 
-    return (
-      <RN.View style={styles.usernameView}>
-        <Ionicon name={'md-play'} style={[styles.playIcon, StyleUtility.UTILITY_STYLES.marginLeft5]}/>
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.displayString.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
-          onPressOut={() => this.displayString.setNativeProps({style: [StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]})}
-          style={styles.usernameView}
-          onPress={callback}
-          >
-          <RN.View>
-            <RN.Text
-              ref={(ref) => this.displayString = ref}
-              numberOfLines={1}
-              style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5, { maxWidth: StyleUtility.scaleImage(50) }]}
-              >
-              {displayString}
-            </RN.Text>
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
-      </RN.View>
-    )
+        if (numRecipients === 0) {
+          return null;
+        } else if (numRecipients === 1) {
+          convoId = this.props.item.recipient_ids_with_client[0];
+          displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+        } else {
+          displayString = numRecipients + ' groups';
+          callback = FunctionUtility.setStateCallback(this, { isModalVisible: true });
+        }
+      }
+
+      return (
+        <RN.View style={styles.usernameView}>
+          <Ionicon name={'md-play'} style={[styles.playIcon, StyleUtility.UTILITY_STYLES.marginLeft5]}/>
+          <RN.TouchableWithoutFeedback
+            onPressIn={() => this.displayString.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
+            onPressOut={() => this.displayString.setNativeProps({style: [StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]})}
+            style={styles.usernameView}
+            onPress={callback}
+            disabled={!callback}
+            >
+            <RN.View>
+              <RN.Text
+                ref={(ref) => this.displayString = ref}
+                numberOfLines={1}
+                style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5, { maxWidth: StyleUtility.scaleImage(50) }]}
+                >
+                {displayString}
+              </RN.Text>
+            </RN.View>
+          </RN.TouchableWithoutFeedback>
+        </RN.View>
+      )
+    }
   }
 
-  _renderCloseOrFlag() {
-    // If in MessagesScreen and is own post, don't show the X
-    if (this.props.client.id === this.props.item.author_id && this.props.width) {
+  _renderIconView() {
+    if (this.props.width) {
       return null;
-    } else if (this.props.client.id === this.props.item.author_id && !this.props.width) {
-      return (
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.closeIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
-          onPressOut={() => this.closeIcon.setNativeProps({style: styles.closeIcon})}
-          onPress={this._onPressDeletePost}
-          >
-          <RN.View style={styles.closeOrFlagButton}>
-            <EvilIcons ref={(ref) => this.closeIcon = ref} name={'close'} style={styles.closeIcon} />
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
-      )
     } else {
       return (
-        <RN.TouchableWithoutFeedback
-          onPressIn={() => this.flagIcon.setNativeProps({style: StyleUtility.UTILITY_STYLES.textRed})}
-          onPressOut={() => this.flagIcon.setNativeProps({style: styles.flagIcon})}
-          onPress={this._onPressFlagPost}
-          >
-          <RN.View style={styles.closeOrFlagButton}>
-            <Icon name={'flag'} ref={(ref) => this.flagIcon = ref} style={styles.flagIcon} />
-          </RN.View>
-        </RN.TouchableWithoutFeedback>
+        <RN.View style={styles.iconView}>
+          {this._renderIcon(this.replyIcon, 'action-undo', this._onPressReply, styles.replyIcon, StyleUtility.UTILITY_STYLES.textHighlighted, false)}
+          {this._renderIcon(this.forwardIcon, 'action-redo', this._onPressForward, styles.forwardIcon, StyleUtility.UTILITY_STYLES.textHighlighted, false)}
+          {this.props.client.id === this.props.item.author_id ?
+            this._renderIcon(this.closeIcon, 'close', this._onPressDelete, styles.closeIcon, StyleUtility.UTILITY_STYLES.textHighlighted, true) :
+            this._renderIcon(this.flagIcon, 'flag', this._onPressFlag, styles.flagIcon, StyleUtility.UTILITY_STYLES.textRed, false)}
+        </RN.View>
       )
     }
+  }
+
+  _renderIcon(iconRef, iconName, callback, style, highlightStyle, isEvilIcon) {
+    return (
+      <RN.TouchableWithoutFeedback
+        onPressIn={() => iconRef.setNativeProps({style: highlightStyle})}
+        onPressOut={() => iconRef.setNativeProps({style: style})}
+        onPress={callback}
+        >
+        <RN.View style={styles.iconButton}>
+          {isEvilIcon ?
+          <EvilIcons ref={(ref) => iconRef = ref} name={iconName} style={style} /> :
+          <Icon ref={(ref) => iconRef = ref} name={iconName} style={style} />}
+        </RN.View>
+      </RN.TouchableWithoutFeedback>
+    )
   }
 
 
@@ -494,11 +510,22 @@ class PostListItem extends React.PureComponent {
     }
   }
 
+  //--------------------------------------------------------------------//
+  // Other Render Methods
+  //--------------------------------------------------------------------//
+
   _renderListModal() {
     let recipientIds = this.props.postType === POST_TYPES.RECEIVED ? this.props.item.recipient_ids_with_client : this.props.item.recipient_ids;
 
     return (
-      <ListModalContainer isModalVisible={this.state.isModalVisible} recipientIds={recipientIds} contactPhoneNumbers={this.props.item.contact_phone_numbers} postId={this.props.item.id} authorId={this.props.item.author_id} setParentState={this.setParentState} />
+      <ListModalContainer
+        isModalVisible={this.state.isModalVisible}
+        recipientIds={recipientIds}
+        contactPhoneNumbers={this.props.item.contact_phone_numbers}
+        postId={this.props.item.id}
+        authorId={this.props.item.author_id}
+        setParentState={this.setParentState}
+        />
     )
   }
 
@@ -508,15 +535,11 @@ class PostListItem extends React.PureComponent {
     )
   }
 
-  //--------------------------------------------------------------------//
-  // Other Render Methods
-  //--------------------------------------------------------------------//
-
   render() {
     return(
       <RN.View style={styles.container}>
-        <RN.TouchableWithoutFeedback onPress={this._onRespondToPost} onLongPress={this._onPressLike}>
-          <Animatable.View ref={(ref) => this.container = ref} style={[styles.postContainer, this.props.width && {width: this.props.width, elevation: 0, shadowRadius: 0, borderRadius: 20}]}>
+        <RN.TouchableWithoutFeedback onLongPress={this._onPressLike}>
+          <Animatable.View ref={(ref) => this.container = ref} style={[styles.postContainer, this.props.width && styles.postAsMessageContainer, this.props.width && { width: this.props.width }]}>
             {this._renderHeader()}
             {this._renderBody()}
             {this._renderMedia()}
