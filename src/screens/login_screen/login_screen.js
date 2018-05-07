@@ -194,6 +194,7 @@ class LoginScreen extends React.PureComponent {
 
         {/* PhoneNumberInput */}
           <RN.TextInput
+            allowFontScaling={false}
             ref={(ref) => this.phoneInput = ref}
             style={[styles.phoneNumberInput, this.state.isPhoneNumberInvalid && UTILITY_STYLES.borderRed]}
             keyboardType='phone-pad'
