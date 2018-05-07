@@ -7,12 +7,6 @@ import RN from 'react-native';
 // Helpers
 //--------------------------------------------------------------------//
 
-// Determines if the phone is an iPhone X
-let isIphoneX = () => {
-  return RN.Platform.OS === 'ios' && !RN.Platform.isPad && !RN.Platform.isTVOS &&
-    (DEVICE_DIM.height === 812 || DEVICE_DIM.width === 812);
-};
-
 // Determines if the device is a tablet or not
 let isTablet = () => {
   return (DEVICE_DIM.width >= 520 || DEVICE_DIM.height >= 960);
@@ -48,8 +42,14 @@ export const getUsableDimensions = () => {
   return isTablet() ? MAX_TABLET_DIM : DEVICE_DIM;
 };
 
+// Determines if the phone is an iPhone X
+export const isIphoneX = () => {
+  return RN.Platform.OS === 'ios' && !RN.Platform.isPad && !RN.Platform.isTVOS &&
+    (DEVICE_DIM.height === 812 || DEVICE_DIM.width === 812);
+};
+
 export const getStatusBarHeight = () => {
-  return RN.Platform.OS === 'ios' ? (isIphoneX() ? 44 : 20) : 24;
+  return RN.Platform.OS === 'ios' ? (isIphoneX() ? 30 : 20) : 24;
 };
 
 // Scales image by PixelSize
@@ -57,10 +57,9 @@ export const scaleImage = (size) => {
   return RN.PixelRatio.getPixelSizeForLayoutSize(size);
 };
 
-// Remove effects of automatic fontScaling and reapply with a cap on the value
+// Put a cap on fontScale value
 export const scaleFont = (fontSize) => {
-  let fontScale = RN.PixelRatio.getFontScale();
-  return fontSize / fontScale * Math.min(fontScale, 1.5);
+  return fontSize * Math.min(RN.PixelRatio.getFontScale(), 1.5);
 };
 
 // Sets Android font but uses System for iOS
