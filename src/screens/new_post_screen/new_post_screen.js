@@ -188,13 +188,13 @@ class NewPostScreen extends React.PureComponent {
       <RN.View style={styles.buttonView}>
         <RN.TouchableOpacity style={styles.buttonView} onPress={buttonCallback}>
           <Icon name={iconName} style={styles.buttonIcon} />
-          <RN.Text style={[UTILITY_STYLES.lightBlackText16, styles.buttonText]}>
+          <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, styles.buttonText]}>
             {text}
           </RN.Text>
           {numAttached > 0 ?
             <RN.TouchableOpacity style={styles.buttonView} onPress={closeCallback}>
               <Icon name={'close'} style={styles.closeIcon} />
-              <RN.Text style={[UTILITY_STYLES.regularBlackText16, UTILITY_STYLES.textRed, styles.messageText]}>
+              <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText16, UTILITY_STYLES.textRed, styles.messageText]}>
                 {numAttached + ' Attached'}
               </RN.Text>
             </RN.TouchableOpacity> :

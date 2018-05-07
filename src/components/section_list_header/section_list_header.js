@@ -63,7 +63,7 @@ class SectionListHeader extends React.PureComponent {
     return(
       <RN.TouchableOpacity onPress={this.props.callback} disabled={!this.props.callback}>
         <RN.View style={styles.sectionHeader}>
-          <RN.Text style={styles.sectionHeaderText}>
+          <RN.Text allowFontScaling={false} style={styles.sectionHeaderText}>
             {this.props.title}
           </RN.Text>
           {this.props.iconName ? <Icon name={this.props.iconName} style={styles.icon} /> : null}
