@@ -7,6 +7,7 @@ import LoadingModal               from '../../components/loading_modal/loading_m
 import { styles }                 from './text_input_screen_styles';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
 import { defaultErrorAlert }      from '../../utilities/error_utility';
+import { isStringEmpty }          from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -92,6 +93,36 @@ class TextInputScreen extends React.PureComponent {
     });
   }
 
+  _onPressDisplayNameScreen = () => {
+    if (this.state.isLoading) {
+      return;
+    }
+
+    this.setState({ isError: false, errorText: '' }, () => {
+      this.setState({ isLoading: true } , () => {
+        this.props.editFullName(this.props.client.authToken, this.props.client.firebaseUserObj, this.state.inputtedText)
+          .then(() => {
+            let client = this.props.usersCache[this.props.client.id];
+            let username = client ? client.username : null;
+
+            if (this.props.screen === 'DisplayNameScreenLogin' && !username) {
+              this.props.navigateTo('UsernameScreenLogin', { screen: 'UsernameScreenLogin' });
+            } else if (this.props.screen === 'DisplayNameScreenLogin' && username) {
+              this.props.navigateTo('HomeScreen');
+            } else {
+              this.props.goBack();
+            }
+          })
+          .catch((error) => {
+            defaultErrorAlert(error);
+          })
+          .finally(() => {
+            this.setState({ isLoading: false });
+          })
+      });
+    });
+  }
+
   // Validates entered username and requests friendship
   _onPressAddFriendScreen = () => {
     if (this.state.isLoading) {
@@ -165,7 +196,9 @@ class TextInputScreen extends React.PureComponent {
 
     if (this.props.screen === 'UsernameScreen' || this.props.screen === 'UsernameScreenLogin') {
       titleString = 'Choose Username';
-    } else if (this.props.screen === 'AddFriendScreen') {
+    } else if (this.props.screen === 'DisplayNameScreen' || this.props.screen === 'DisplayNameScreenLogin') {
+      titleString = 'Enter Your Name';
+    }  else if (this.props.screen === 'AddFriendScreen') {
       titleString = 'Enter Username';
     } else if (this.props.screen === 'NameCircleScreen') {
       titleString = 'Choose Circle Name';
@@ -182,15 +215,16 @@ class TextInputScreen extends React.PureComponent {
 
   _renderSubtitle() {
     let subtitleString;
-    let currentScreen = this.props.screen;
 
-    if (currentScreen === 'UsernameScreen' || currentScreen === 'UsernameScreenLogin') {
-      subtitleString = 'You can change it at any time.';
-    } else if (currentScreen === 'AddFriendScreen') {
+    if (this.props.screen === 'UsernameScreen' || this.props.screen === 'UsernameScreenLogin') {
+      subtitleString = 'Share it with friends so they can add you on Postcard.';
+    } else if (this.props.screen === 'DisplayNameScreen' || this.props.screen === 'DisplayNameScreenLogin') {
+      subtitleString = "Help your friends know it's you.";
+    } else if (this.props.screen === 'AddFriendScreen') {
       subtitleString = 'A friend request will be sent directly to the user.';
-    } else if (currentScreen === 'NameCircleScreen') {
+    } else if (this.props.screen === 'NameCircleScreen') {
       subtitleString = 'Circles make it easier to select friends to send posts to.';
-    } else if (currentScreen === 'NameGroupScreen') {
+    } else if (this.props.screen === 'NameGroupScreen') {
       subtitleString = 'Group name will be seen by all members.';
     }
 
@@ -203,13 +237,14 @@ class TextInputScreen extends React.PureComponent {
 
   _renderTextInput() {
     let placeholderText;
-    let currentScreen = this.props.screen;
 
-    if (currentScreen === 'UsernameScreen' || currentScreen === 'UsernameScreenLogin' || currentScreen === 'AddFriendScreen') {
+    if (this.props.screen === 'UsernameScreen' || this.props.screen === 'UsernameScreenLogin' || this.props.screen === 'AddFriendScreen') {
       placeholderText = 'Enter username';
-    } else if (currentScreen === 'NameCircleScreen') {
+    } else if (this.props.screen === 'DisplayNameScreen' || this.props.screen === 'DisplayNameScreenLogin') {
+      placeholderText = 'Enter name';
+    } else if (this.props.screen === 'NameCircleScreen') {
       placeholderText = 'Enter circle name';
-    } else if (currentScreen === 'NameGroupScreen') {
+    } else if (this.props.screen === 'NameGroupScreen') {
       placeholderText = 'Enter group name';
     }
 
@@ -243,30 +278,35 @@ class TextInputScreen extends React.PureComponent {
   _renderNextButton() {
     let buttonText;
     let buttonFunction;
-    let currentScreen = this.props.screen;
 
-    if (currentScreen === 'UsernameScreen') {
+    if (this.props.screen === 'UsernameScreen') {
       buttonText = 'Done';
       buttonFunction = this._onPressUsernameScreen;
-    } else if (currentScreen === 'UsernameScreenLogin') {
+    } else if (this.props.screen === 'UsernameScreenLogin') {
       buttonText = 'Next';
       buttonFunction = this._onPressUsernameScreen;
-    } else if (currentScreen === 'AddFriendScreen') {
+    } else if (this.props.screen === 'DisplayNameScreen') {
+      buttonText = 'Done';
+      buttonFunction = this._onPressDisplayNameScreen;
+    } else if (this.props.screen === 'DisplayNameScreenLogin') {
+      buttonText = 'Next';
+      buttonFunction = this._onPressDisplayNameScreen;
+    } else if (this.props.screen === 'AddFriendScreen') {
       buttonText = 'Add Friend';
       buttonFunction = this._onPressAddFriendScreen;
-    } else if (currentScreen === 'NameCircleScreen') {
+    } else if (this.props.screen === 'NameCircleScreen') {
       buttonText = 'Next';
       buttonFunction = this._onPressNameCircleScreen;
-    } else if (currentScreen === 'NameGroupScreen') {
+    } else if (this.props.screen === 'NameGroupScreen') {
       buttonText = 'Done';
       buttonFunction = this._onPressNameGroupScreen;
     }
 
     return (
       <RN.TouchableOpacity
-        style={[UTILITY_STYLES.nextButtonBackground, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonBackgroundDisabled]}
+        style={[UTILITY_STYLES.nextButtonBackground, isStringEmpty(this.state.inputtedText) && UTILITY_STYLES.nextButtonBackgroundDisabled]}
         onPress={buttonFunction}
-        disabled={(this.state.inputtedText.length === 0) && !this.state.isLoading}
+        disabled={isStringEmpty(this.state.inputtedText) || this.state.isLoading}
         >
         <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonTextDisabled]}>
           {buttonText}

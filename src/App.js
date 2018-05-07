@@ -115,9 +115,9 @@ class App extends React.Component {
       <Provider store={ this.store }>
         <RouterContainer>
           <Scene key='root' headerMode={'screen'} >
-            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} />
+            <Scene key='DebugLoginScreen' component={DebugLoginScreenContainer} panHandlers={null} hideNavBar={true} initial={true}/>
 
-            <Scene key='LoadingScreen'         component={LoadingScreenContainer}      panHandlers={null} hideNavBar={true} initial={true}/>
+            <Scene key='LoadingScreen'         component={LoadingScreenContainer}      panHandlers={null} hideNavBar={true} />
             <Scene key='WelcomeScreen'         component={WelcomeScreenContainer}      panHandlers={null} hideNavBar={true} />
             <Scene key='LoginScreen'           component={LoginScreenContainer}        panHandlers={null} hideNavBar={true} />
             <Scene key='NewPostScreen'         component={NewPostScreenContainer}      panHandlers={null} hideNavBar={true} />
@@ -128,15 +128,17 @@ class App extends React.Component {
             <Scene key='MessagesScreen'        component={MessagesScreenContainer}     panHandlers={null} hideNavBar={true} />
             <Scene key='UserScreen'            component={UserScreenContainer}         panHandlers={null} hideNavBar={true}/>
 
-            <Scene key='ConfirmCodeScreen'   component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
-            <Scene key='UsernameScreenLogin' component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Username')} />
-            <Scene key='UsernameScreen'      component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Username', true)} />
-            <Scene key='AvatarScreen'        component={AvatarScreenContainer}      panHandlers={null} navBar={this._renderHeader('Profile Photo', true)} />
-            <Scene key='AddFriendScreen'     component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
-            <Scene key='NameCircleScreen'    component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Create Circle', true)} />
-            <Scene key='NameGroupScreen'     component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Name Group', true)} />
-            <Scene key='MenuScreen'          component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
-            <Scene key='GroupMenuScreen'     component={GroupMenuScreenContainer}   panHandlers={null} navBar={this._renderHeader('Group Settings', true)} />
+            <Scene key='ConfirmCodeScreen'      component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
+            <Scene key='UsernameScreenLogin'    component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Username')} />
+            <Scene key='UsernameScreen'         component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Username', true)} />
+            <Scene key='DisplayNameScreenLogin' component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Display Name')} />
+            <Scene key='DisplayNameScreen'      component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Display Name', true)} />
+            <Scene key='AvatarScreen'           component={AvatarScreenContainer}      panHandlers={null} navBar={this._renderHeader('Profile Photo', true)} />
+            <Scene key='AddFriendScreen'        component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Add Friends', true)} />
+            <Scene key='NameCircleScreen'       component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Create Circle', true)} />
+            <Scene key='NameGroupScreen'        component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Name Group', true)} />
+            <Scene key='MenuScreen'             component={MenuScreen}                 panHandlers={null} navBar={this._renderHeader('Settings', true)} />
+            <Scene key='GroupMenuScreen'        component={GroupMenuScreenContainer}   panHandlers={null} navBar={this._renderHeader('Group Settings', true)} />
 
             <Tabs key='MainTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
               <Scene key='HomeScreen'     component={HomeScreenContainer}   panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
