@@ -179,11 +179,8 @@ class ListModal extends React.PureComponent {
     if (!this.props.setCountry) {
       return (
         <RN.SectionList
-          sections={[
-            {data: this.props.recipientIds, renderItem: this._renderItem.bind(this)},
-            {data: this.props.contactPhoneNumbers, renderItem: this._renderItem.bind(this)},
-          ]}
-          style={[styles.listView, { height: (this.props.recipientIds.length + this.props.contactPhoneNumbers.length) * 60 }]}
+          sections={[{data: this.props.recipientIds, renderItem: this._renderItem.bind(this)}]}
+          style={[styles.listView, { height: this.props.recipientIds.length * 60 }]}
           keyExtractor={(item, index) => String(index)}
           renderSectionHeader={this._renderSectionHeader.bind(this)}
           initialListSize={20}
@@ -203,10 +200,10 @@ class ListModal extends React.PureComponent {
 
   _renderItem({item}) {
     let user = this.props.usersCache[item];
-    let isNotDisabled = this.props.isModalForReply && (item < 0 || (user && user.firebase_uid));
+    let isDisabled = !this.props.isModalForReply || (user && !user.firebase_uid);
 
     return (
-      <RN.TouchableOpacity onPress={() => this._onPressReply(item)} disabled={!isNotDisabled}>
+      <RN.TouchableOpacity onPress={() => this._onPressReply(item)} disabled={isDisabled}>
         <RN.View style={[styles.rowContainer, {height: 60}]}>
           <EntityInfoViewContainer entityId={item} marginLeft={10} maxWidth={90} disableUsername={this.props.isModalForReply} disableAvatar={this.props.isModalForReply} />
         </RN.View>
