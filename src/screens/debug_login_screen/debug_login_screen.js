@@ -70,6 +70,7 @@ class DebugLoginScreen extends React.PureComponent {
   _renderEmailInput() {
     return (
       <RN.TextInput
+        allowFontScaling={false}
         style={styles.textInput}
         onChangeText={(value) => this.setState({ emailInput: value })}
         value={this.state.emailInput}
@@ -82,6 +83,7 @@ class DebugLoginScreen extends React.PureComponent {
   _renderPasswordInput() {
     return (
       <RN.TextInput
+        allowFontScaling={false}
         style={styles.textInput}
         onChangeText={(value) => this.setState({ passwordInput: value })}
         value={this.state.passwordInput}

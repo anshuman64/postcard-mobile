@@ -215,6 +215,7 @@ class TextInputScreen extends React.PureComponent {
 
     return (
       <RN.TextInput
+        allowFontScaling={false}
         ref={(ref) => this.textInput = ref}
         style={[styles.textInput, this.state.isError && UTILITY_STYLES.borderRed]}
         onChangeText={(value) => this.setState({ inputtedText: value })}

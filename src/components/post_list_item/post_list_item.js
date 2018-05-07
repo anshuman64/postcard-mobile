@@ -339,6 +339,7 @@ class PostListItem extends React.PureComponent {
             >
             <RN.View>
               <RN.Text
+                allowFontScaling={false}
                 ref={(ref) => this.displayString = ref}
                 numberOfLines={1}
                 style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5, { maxWidth: StyleUtility.scaleImage(50) }]}
