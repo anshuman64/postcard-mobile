@@ -7,7 +7,7 @@ import * as StyleUtility from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
 
-export const FOOTER_HEIGHT = 45;
+export const FOOTER_HEIGHT = StyleUtility.isIphoneX() ? 55 : 45;
 
 export const styles = StyleSheet.create({
   footer: {
@@ -15,10 +15,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    height: FOOTER_HEIGHT,
     backgroundColor: 'white',
     borderTopColor: StyleUtility.COLORS.grey300,
     borderTopWidth: 1,
+    paddingBottom: StyleUtility.isIphoneX() ? 10 : 0
   },
   button: {
     flexDirection: 'column',
