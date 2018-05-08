@@ -223,7 +223,7 @@ class LoginScreen extends React.PureComponent {
   _renderNextButton() {
     return (
       <RN.TouchableOpacity
-        style={[UTILITY_STYLES.nextButtonBackground, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonBackgroundDisabled]}
+        style={[UTILITY_STYLES.nextButtonBackground, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonBackgroundDisabled, {marginTop: 20}]}
         onPress={this._onNextButtonPress}
         disabled={this.state.isNextButtonDisabled || this.state.isLoading}
         >
@@ -256,19 +256,17 @@ class LoginScreen extends React.PureComponent {
 
   render() {
     return (
-      <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? RN.Platform.OS === 'ios' ? 'padding' : null : null}>
+      <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>
         <RN.TouchableWithoutFeedback onPress={RN.Keyboard.dismiss} accessible={false}>
           <RN.View style={UTILITY_STYLES.containerStart}>
-            <RN.View style={{flex: 5}} />
+            <RN.View style={{flex: 1}} />
             {this._renderLogo()}
-            <RN.View style={{flex: 4}} />
             {this._renderCountrySelector()}
             {this._renderPhoneNumberInput()}
             {this._renderInvalidNumberText()}
-            <RN.View style={{flex: 3}} />
             {this._renderNextButton()}
             {this._renderSMSNoticeText()}
-            <RN.View style={{flex: 8}} />
+            <RN.View style={{flex: 1.5}} />
             {this._renderListModal()}
             {this._renderLoadingModal()}
           </RN.View>
