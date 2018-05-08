@@ -49,6 +49,7 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'top',
     marginLeft: 5,
     marginRight: 5,
+    marginTop: Platform.OS === 'ios' ? 0 : 6,
     padding: 0, // handles weird behavior where TextInput is not centered on Android
   },
   closeButton: {
