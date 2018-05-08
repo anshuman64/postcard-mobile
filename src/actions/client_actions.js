@@ -206,7 +206,7 @@ export const editFullName = (authToken, firebaseUserObj, fullName) => (dispatch)
     dispatch(receiveClient({ client: editedUser }));
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
       return dispatch(refreshAuthToken(firebaseUserObj, editFullName, fullName));
     }
 
@@ -224,7 +224,7 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
     dispatch(receiveClient({ client: editedUser }));
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
       return dispatch(refreshAuthToken(firebaseUserObj, editUsername, username));
     }
 
@@ -250,7 +250,7 @@ export const editAvatar = (authToken, firebaseUserObj, userId, medium) => (dispa
         dispatch(receiveClient({ client: editedUser }));
       })
       .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
           return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, userId, medium));
         }
 

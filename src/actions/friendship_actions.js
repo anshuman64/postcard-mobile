@@ -77,7 +77,7 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
       dispatch(receiveFriendships({ friends: friends, friendType: friendType }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, getFriendships, friendType));
       }
 
@@ -93,7 +93,7 @@ export const getFriendsFromContacts = (authToken, firebaseUserObj, contactPhoneN
         dispatch(receiveFriendships({ friends: friends, friendType: FRIEND_TYPES.CONTACTS }));
       })
       .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
           return dispatch(refreshAuthToken(firebaseUserObj, getFriendsFromContacts, contactPhoneNumbers));
         }
 
@@ -111,7 +111,7 @@ export const createFriendRequest = (authToken, firebaseUserObj, userId, username
       return friendship;
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, createFriendRequest, userId, username));
       }
 
@@ -129,7 +129,7 @@ export const acceptFriendRequest = (authToken, firebaseUserObj, userId) => (disp
       return friendship;
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, acceptFriendRequest, userId));
       }
 
@@ -147,7 +147,7 @@ export const deleteFriendship = (authToken, firebaseUserObj, userId) => (dispatc
       return friendship;
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, deleteFriendship, userId));
       }
 

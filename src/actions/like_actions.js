@@ -44,7 +44,7 @@ export const createLike = (authToken, firebaseUserObj, clientId, postId) => (dis
       dispatch(receiveLike({ like: newLike, clientId: clientId }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, createLike, clientId, postId));
       }
 
@@ -62,7 +62,7 @@ export const deleteLike = (authToken, firebaseUserObj, clientId, postId) => (dis
       dispatch(removeLike({ like: deletedLike, clientId: clientId }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, deleteLike, clientId, postId));
       }
 

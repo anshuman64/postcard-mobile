@@ -66,7 +66,7 @@ export const createGroup = (authToken, firebaseUserObj, userIds, contactPhoneNum
       dispatch(receiveGroup({ group: newGroup, contactPhoneNumbers: contactPhoneNumbers }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, createGroup, userIds, contactPhoneNumbers));
       }
 
@@ -89,7 +89,7 @@ export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dis
     dispatch(editGroup({ group: editedGroup }));
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
       return dispatch(refreshAuthToken(firebaseUserObj, editGroupName, groupId, name));
     }
 
@@ -107,7 +107,7 @@ export const addGroupMembers = (authToken, firebaseUserObj, convoId, userIds, co
     dispatch(editGroup({ group: editedGroup, contactPhoneNumbers: contactPhoneNumbers }));
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
       return dispatch(refreshAuthToken(firebaseUserObj, addGroupMembers, convoId, userIds, contactPhoneNumbers));
     }
 
@@ -130,7 +130,7 @@ export const removeGroupMember = (authToken, firebaseUserObj, groupId, userId, i
     }
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
       return dispatch(refreshAuthToken(firebaseUserObj, removeGroupMember, groupId, userId));
     }
 
@@ -154,7 +154,7 @@ export const deleteGroup = (authToken, firebaseUserObj, groupId) => (dispatch) =
       dispatch(removeGroup({ groupId: deletedGroup.id }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, deleteGroup, groupId));
       }
 
