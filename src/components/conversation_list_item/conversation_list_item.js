@@ -3,12 +3,12 @@ import React from 'react';
 import RN    from 'react-native';
 
 // Local Imports
-import EntityInfoView                 from '../entity_info_view/entity_info_view_container';
-import AvatarContainer                from '../avatar/avatar_container';
-import { styles }                     from './conversation_list_item_styles';
-import { UTILITY_STYLES, scaleImage } from '../../utilities/style_utility';
-import { renderConversationDate }     from '../../utilities/date_time_utility';
-import * as EntityUtility             from '../../utilities/entity_utility';
+import EntityInfoView              from '../entity_info_view/entity_info_view_container';
+import AvatarContainer             from '../avatar/avatar_container';
+import { styles }                  from './conversation_list_item_styles';
+import { UTILITY_STYLES }          from '../../utilities/style_utility';
+import { renderConversationDate }  from '../../utilities/date_time_utility';
+import * as EntityUtility          from '../../utilities/entity_utility';
 
 //--------------------------------------------------------------------//
 
