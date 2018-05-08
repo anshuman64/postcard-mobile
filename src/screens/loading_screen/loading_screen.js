@@ -74,11 +74,7 @@ class LoadingScreen extends React.PureComponent {
             }
           })
           .catch((error) => {
-            if (error.message === 'Token refresh in progress') {
-              return;
-            } else {
-              defaultErrorAlert(error);
-            }
+            defaultErrorAlert(error);
           });
       } else {
         // console.log('No Firebase cookie found'); // Debug Test
