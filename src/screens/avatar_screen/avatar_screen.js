@@ -161,7 +161,7 @@ class AvatarScreen extends React.PureComponent {
 
   _renderTitle() {
     return (
-      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText18, {marginTop: 50}]}>
         Add Profile Photo
       </RN.Text>
     )
@@ -169,7 +169,7 @@ class AvatarScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5, {marginBottom: 25}]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, {marginTop: 5}, {marginBottom: 25}]}>
         Choose a photo that represents you.
       </RN.Text>
     )
