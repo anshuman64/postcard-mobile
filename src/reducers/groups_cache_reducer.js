@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 // Local Imports
-import { GROUP_ACTION_TYPES } from '../actions/group_actions';
+import { GROUP_ACTION_TYPES }   from '../actions/group_actions';
 import { MESSAGE_ACTION_TYPES } from '../actions/message_actions';
 
 //--------------------------------------------------------------------//

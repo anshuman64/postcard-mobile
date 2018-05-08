@@ -2,11 +2,11 @@
 import _ from 'lodash';
 
 // Local Imports
-import { amplitude }              from '../utilities/analytics_utility';
-import * as APIUtility            from '../utilities/api_utility';
-import { setErrorDescription }    from '../utilities/error_utility';
+import { amplitude }               from '../utilities/analytics_utility';
+import * as APIUtility             from '../utilities/api_utility';
+import { setErrorDescription }     from '../utilities/error_utility';
 import { deleteFile, uploadMedia } from '../utilities/file_utility';
-import { refreshAuthToken }       from './client_actions';
+import { refreshAuthToken }        from './client_actions';
 
 //--------------------------------------------------------------------//
 
