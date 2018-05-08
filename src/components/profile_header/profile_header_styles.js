@@ -37,17 +37,24 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: 70,
   },
-  usernameButton: {
+  nameButton: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: 200,
     marginLeft: DEFAULT_MARGIN,
   },
-  usernameText: {
+  fullNameText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Regular'),
     fontWeight: '400',
     fontSize: StyleUtility.scaleFont(22),
+    textAlign: 'left',
+    color: StyleUtility.COLORS.grey900,
+  },
+  usernameText: {
+    fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
+    fontWeight: '100',
+    fontSize: StyleUtility.scaleFont(20),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
   },
