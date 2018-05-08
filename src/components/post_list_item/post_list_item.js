@@ -277,6 +277,7 @@ class PostListItem extends React.PureComponent {
           entityId={this.props.item.author_id}
           marginLeft={0}
           subtractWidth={isRecipients ? 280 : 210}
+          messagePreview={' '}
           />
         {this._renderRecipients()}
       </RN.View>
