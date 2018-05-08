@@ -7,7 +7,7 @@ import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
 import LoadingModal             from '../loading_modal/loading_modal.js';
-import EntityInfoViewContainer    from '../entity_info_view/entity_info_view_container';
+import EntityInfoViewContainer  from '../entity_info_view/entity_info_view_container';
 import { styles }               from './checkbox_list_item_styles';
 import { UTILITY_STYLES }       from '../../utilities/style_utility';
 import { defaultErrorAlert }    from '../../utilities/error_utility';
