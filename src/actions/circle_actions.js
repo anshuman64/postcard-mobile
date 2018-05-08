@@ -49,7 +49,7 @@ export const getCircles = (authToken, firebaseUserObj) => (dispatch) => {
       dispatch(receiveCircles({ circles: circles }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, getCircles));
       }
 
@@ -78,7 +78,7 @@ export const createCircle = (authToken, firebaseUserObj, name, recipientIds) => 
       dispatch(receiveCircle({ circle: newCircle }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, createCircle, name, recipientIds));
       }
 
@@ -103,7 +103,7 @@ export const deleteCircle = (authToken, firebaseUserObj, circleId) => (dispatch)
       dispatch(removeCircle({ circle: deletedCircle }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, deleteCircle, circleId));
       }
 
