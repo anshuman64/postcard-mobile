@@ -5,37 +5,37 @@ import { Provider }             from 'react-redux';
 import { Scene, Tabs, Actions } from 'react-native-router-flux';
 
 // Local Imports
-import { amplitude }              from './utilities/analytics_utility';
-import configureStore             from './store';
-import RouterContainer            from './router/router_container';
+import { amplitude }               from './utilities/analytics_utility';
+import configureStore              from './store';
+import RouterContainer             from './router/router_container';
 
-import DebugLoginScreenContainer  from './screens/debug_login_screen/debug_login_screen_container';
-import LoadingScreenContainer     from './screens/loading_screen/loading_screen_container';
+import DebugLoginScreenContainer   from './screens/debug_login_screen/debug_login_screen_container';
+import LoadingScreenContainer      from './screens/loading_screen/loading_screen_container';
 
-import WelcomeScreenContainer     from './screens/welcome_screen/welcome_screen_container';
-import LoginScreenContainer       from './screens/login_screen/login_screen_container';
-import ConfirmCodeScreenContainer from './screens/confirm_code_screen/confirm_code_screen_container';
-import TextInputScreenContainer   from './screens/text_input_screen/text_input_screen_container';
-import AvatarScreenContainer      from './screens/avatar_screen/avatar_screen_container';
+import WelcomeScreenContainer      from './screens/welcome_screen/welcome_screen_container';
+import LoginScreenContainer        from './screens/login_screen/login_screen_container';
+import ConfirmCodeScreenContainer  from './screens/confirm_code_screen/confirm_code_screen_container';
+import TextInputScreenContainer    from './screens/text_input_screen/text_input_screen_container';
+import AvatarScreenContainer       from './screens/avatar_screen/avatar_screen_container';
 
-import HomeScreenContainer        from './screens/home_screen/home_screen_container';
-import FriendScreenContainer      from './screens/friend_screen/friend_screen_container';
-import PendingScreenContainer     from './screens/pending_screen/pending_screen_container';
-import AuthoredScreenContainer    from './screens/profile_tabs/authored_screen/authored_screen_container';
-import LikedScreenContainer       from './screens/profile_tabs/liked_screen/liked_screen_container';
+import HomeScreenContainer         from './screens/home_screen/home_screen_container';
+import FriendScreenContainer       from './screens/friend_screen/friend_screen_container';
+import PendingScreenContainer      from './screens/pending_screen/pending_screen_container';
+import AuthoredScreenContainer     from './screens/profile_tabs/authored_screen/authored_screen_container';
+import LikedScreenContainer        from './screens/profile_tabs/liked_screen/liked_screen_container';
 
-import UserScreenContainer        from './screens/user_screen/user_screen_container';
-import MessagesScreenContainer    from './screens/messages_screen/messages_screen_container';
-import NewPostScreenContainer     from './screens/new_post_screen/new_post_screen_container';
-import ShareScreenContainer       from './screens/share_screen/share_screen_container';
-import CreateGroupScreenContainer from './screens/create_group_screen/create_group_screen_container';
+import UserScreenContainer         from './screens/user_screen/user_screen_container';
+import MessagesScreenContainer     from './screens/messages_screen/messages_screen_container';
+import NewPostScreenContainer      from './screens/new_post_screen/new_post_screen_container';
+import ShareScreenContainer        from './screens/share_screen/share_screen_container';
+import CreateGroupScreenContainer  from './screens/create_group_screen/create_group_screen_container';
 import CreateCircleScreenContainer from './screens/create_circle_screen/create_circle_screen_container';
-import MenuScreen                 from './screens/menu_screen/menu_screen';
-import GroupMenuScreenContainer   from './screens/group_menu_screen/group_menu_screen_container';
+import MenuScreen                  from './screens/menu_screen/menu_screen';
+import GroupMenuScreenContainer    from './screens/group_menu_screen/group_menu_screen_container';
 
-import HeaderContainer            from './components/header/header_container';
-import FooterContainer            from './components/footer/footer_container';
-import TabBarContainer            from './components/tab_bar/tab_bar_container';
+import HeaderContainer             from './components/header/header_container';
+import FooterContainer             from './components/footer/footer_container';
+import TabBarContainer             from './components/tab_bar/tab_bar_container';
 
 //--------------------------------------------------------------------//
 
