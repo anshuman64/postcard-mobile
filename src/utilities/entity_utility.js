@@ -3,7 +3,7 @@ import _                                      from 'lodash';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 
 // Local Imports
-import { isStringEmpty }   from './function_utility';
+import { isStringEmpty } from './function_utility';
 
 //--------------------------------------------------------------------//
 // Interface

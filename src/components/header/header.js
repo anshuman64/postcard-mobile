@@ -6,11 +6,11 @@ import Ionicon     from 'react-native-vector-icons/Ionicons';
 import { Actions } from 'react-native-router-flux';
 
 // Local Imports
-import LoadingModal                   from '../loading_modal/loading_modal.js'
-import { styles }                     from './header_styles';
+import LoadingModal                            from '../loading_modal/loading_modal.js'
+import { styles }                              from './header_styles';
 import { UTILITY_STYLES, getUsableDimensions } from '../../utilities/style_utility';
-import { isStringEmpty }              from '../../utilities/function_utility';
-import { defaultErrorAlert }          from '../../utilities/error_utility';
+import { isStringEmpty }                       from '../../utilities/function_utility';
+import { defaultErrorAlert }                   from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 

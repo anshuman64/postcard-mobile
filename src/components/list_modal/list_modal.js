@@ -5,7 +5,7 @@ import _      from 'lodash';
 
 // Local Imports
 import LoadingModal             from '../loading_modal/loading_modal';
-import EntityInfoViewContainer    from '../entity_info_view/entity_info_view_container';
+import EntityInfoViewContainer  from '../entity_info_view/entity_info_view_container';
 import { styles }               from './list_modal_styles';
 import * as StyleUtility        from '../../utilities/style_utility';
 import { COUNTRY_CODES }        from '../../utilities/country_utility';

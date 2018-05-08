@@ -4,11 +4,11 @@ import RN    from 'react-native';
 import _     from 'lodash';
 
 // Local Imports
-import AvatarContainer                from '../avatar/avatar_container';
-import { styles }                     from './entity_info_view_styles';
+import AvatarContainer                         from '../avatar/avatar_container';
+import { styles }                              from './entity_info_view_styles';
 import { UTILITY_STYLES, getUsableDimensions } from '../../utilities/style_utility';
-import * as EntityUtility             from '../../utilities/entity_utility';
-import { isStringEmpty }              from '../../utilities/function_utility';
+import * as EntityUtility                      from '../../utilities/entity_utility';
+import { isStringEmpty }                       from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 

@@ -6,7 +6,7 @@ import { amplitude }           from '../utilities/analytics_utility';
 import * as APIUtility         from '../utilities/api_utility';
 import { setErrorDescription } from '../utilities/error_utility';
 import { refreshAuthToken }    from './client_actions';
-import { getMedia }           from './medium_actions';
+import { getMedia }            from './medium_actions';
 
 //--------------------------------------------------------------------//
 
