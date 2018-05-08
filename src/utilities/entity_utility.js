@@ -72,8 +72,8 @@ export const getEntityDisplayName = (entityId, usersCache, groupsCache, contacts
     if (user) {
       contact = contactsCache[user.phone_number];
 
-      if (user.username) {
-        displayName = user.username;
+      if (user.full_name) {
+        displayName = user.full_name;
       } else if (contact) {
         displayName = getContactDisplayName(contact);
       }
@@ -87,6 +87,63 @@ export const getEntityDisplayName = (entityId, usersCache, groupsCache, contacts
   }
 
   return isStringEmpty(displayName) ? 'anonymous' : displayName;
+}
+
+let getContactPreview = (entityId, usersCache, contactsCache) => {
+  let parseNumber = (phoneNumber) => {
+    let phoneUtil = PhoneNumberUtil.getInstance();
+    let number;
+
+    try {
+      number = phoneUtil.format(phoneUtil.parse(phoneNumber), PhoneNumberFormat.INTERNATIONAL);
+    } catch (err) {
+      number = phoneNumber;
+    }
+
+    return number;
+  }
+
+  let contact;
+  let user;
+  let contactPreview = '';
+
+  if (_.isString(entityId)) {
+    contact = contactsCache ? contactsCache[entityId] : null;
+    contactPreview = contact ? contact.type + ': ' + parseNumber(contact.phone_number) : '';
+  } else if (entityId > 0) {
+    user = usersCache ? usersCache[entityId] : null;
+
+    if (user) {
+      contact = contactsCache ? contactsCache[user.phone_number] : null;
+      contactPreview = contact && !user.username ? contact.type + ': ' + parseNumber(contact.phone_number) : '';
+    }
+  }
+
+  return isStringEmpty(contactPreview) ? null : contactPreview;
+}
+
+export const getEntityPreview = (entityId, usersCache, contactsCache) => {
+  let user;
+  let contact;
+  let preview = '';
+
+  if (_.isString(entityId)) {
+    contact = contactsCache ? contactsCache[entityId] : null;
+
+    if (contact) {
+      preview = getContactPreview(entityId, usersCache, contactsCache);
+    }
+  } else if (entityId > 0) {
+    user = usersCache ? usersCache[entityId] : null;
+
+    if (user && user.firebase_uid) {
+      preview = user.username;
+    } else if (user && !user.firebase_uid) {
+      preview = getContactPreview(entityId, usersCache, contactsCache);
+    }
+  }
+
+  return isStringEmpty(preview) ? null : preview;
 }
 
 export const getConvoAuthorId = (convoId, usersCache, groupsCache) => {
@@ -130,39 +187,6 @@ export const getMessagePreview = (message, clientId, usersCache, postsCache) => 
   }
 
   return messagePreview;
-}
-
-export const getContactPreview = (entityId, usersCache, contactsCache) => {
-  let parseNumber = (phoneNumber) => {
-    let phoneUtil = PhoneNumberUtil.getInstance();
-    let number;
-
-    try {
-      number = phoneUtil.format(phoneUtil.parse(phoneNumber), PhoneNumberFormat.INTERNATIONAL);
-    } catch (err) {
-      number = phoneNumber;
-    }
-
-    return number;
-  }
-
-  let contact;
-  let user;
-  let contactPreview = '';
-
-  if (_.isString(entityId)) {
-    contact = contactsCache ? contactsCache[entityId] : null;
-    contactPreview = contact ? contact.type + ': ' + parseNumber(contact.phone_number) : '';
-  } else if (entityId > 0) {
-    user = usersCache ? usersCache[entityId] : null;
-
-    if (user) {
-      contact = contactsCache ? contactsCache[user.phone_number] : null;
-      contactPreview = contact && !user.username ? contact.type + ': ' + parseNumber(contact.phone_number) : '';
-    }
-  }
-
-  return isStringEmpty(contactPreview) ? null : contactPreview;
 }
 
 export const isConvoSearched = (convoId, convoSearchText, usersCache, groupsCache, contactsCache) => {

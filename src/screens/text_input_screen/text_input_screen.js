@@ -237,11 +237,13 @@ class TextInputScreen extends React.PureComponent {
 
   _renderTextInput() {
     let placeholderText;
+    let maxLength = 12;
 
     if (this.props.screen === 'UsernameScreen' || this.props.screen === 'UsernameScreenLogin' || this.props.screen === 'AddFriendScreen') {
       placeholderText = 'Enter username';
     } else if (this.props.screen === 'DisplayNameScreen' || this.props.screen === 'DisplayNameScreenLogin') {
       placeholderText = 'Enter name';
+      maxLength = 20;
     } else if (this.props.screen === 'NameCircleScreen') {
       placeholderText = 'Enter circle name';
     } else if (this.props.screen === 'NameGroupScreen') {
@@ -257,7 +259,7 @@ class TextInputScreen extends React.PureComponent {
         placeholder={placeholderText}
         autoCapitalize={'none'}
         autoFocus={true}
-        maxLength={12}
+        maxLength={maxLength}
         returnKeyType={RN.Platform.OS === 'ios' ? 'done' : null}
         placeholderTextColor={COLORS.grey400}
         underlineColorAndroid={'transparent'}
