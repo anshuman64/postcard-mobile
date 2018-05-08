@@ -41,7 +41,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: 200,
     marginLeft: DEFAULT_MARGIN,
   },
   fullNameText: {
@@ -50,6 +49,7 @@ export const styles = StyleSheet.create({
     fontSize: StyleUtility.scaleFont(22),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
+    maxWidth: StyleUtility.getUsableDimensions().width - 150,
   },
   usernameText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
@@ -57,6 +57,7 @@ export const styles = StyleSheet.create({
     fontSize: StyleUtility.scaleFont(20),
     textAlign: 'left',
     color: StyleUtility.COLORS.grey900,
+    maxWidth: StyleUtility.getUsableDimensions().width - 150,
   },
   pencil: {
     fontSize: StyleUtility.scaleFont(14),
