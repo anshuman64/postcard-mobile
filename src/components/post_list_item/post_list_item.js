@@ -323,10 +323,10 @@ class PostListItem extends React.PureComponent {
 
       return (
         <RN.View style={styles.usernameView}>
-          <Ionicon name={'md-play'} style={[styles.playIcon, StyleUtility.UTILITY_STYLES.marginLeft5]}/>
+          <Ionicon name={'md-play'} style={[styles.playIcon, {marginLeft: 5}]}/>
           <RN.TouchableWithoutFeedback
             onPressIn={() => this.displayString.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
-            onPressOut={() => this.displayString.setNativeProps({style: [StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]})}
+            onPressOut={() => this.displayString.setNativeProps({style: [StyleUtility.UTILITY_STYLES.lightBlackText15, {marginLeft: 5}]})}
             style={styles.usernameView}
             onPress={callback}
             disabled={!callback}
@@ -336,7 +336,7 @@ class PostListItem extends React.PureComponent {
                 allowFontScaling={false}
                 ref={(ref) => this.displayString = ref}
                 numberOfLines={1}
-                style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5, { maxWidth: StyleUtility.getUsableDimensions().width - 280 }]}
+                style={[StyleUtility.UTILITY_STYLES.lightBlackText15, {marginLeft: 5}, { maxWidth: StyleUtility.getUsableDimensions().width - 280 }]}
                 >
                 {displayString}
               </RN.Text>

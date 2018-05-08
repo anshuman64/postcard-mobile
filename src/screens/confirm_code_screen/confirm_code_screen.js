@@ -121,7 +121,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   _renderTitle() {
     return (
-      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText18, {marginTop: 50}]}>
         Enter Confirmation Code
       </RN.Text>
     )
@@ -129,7 +129,7 @@ class ConfirmCodeScreen extends React.PureComponent {
 
   _renderSubtitle() {
     return (
-      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, {marginTop: 5}]}>
         Sent to {this.props.phoneNumber}
       </RN.Text>
     )
