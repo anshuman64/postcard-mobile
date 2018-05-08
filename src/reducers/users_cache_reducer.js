@@ -17,17 +17,18 @@ Data is in the form {
   userId1: {
     id:                            30,
     firebase_uid:                  jhlakjsdhfalkjyewou,
-    username:                      anshu,
+    full_name:                     'Anshuman Dewangan',
+    username:                      'anshu',
     phone_number:                  '+14082551245',
     email:                         null,
     avatar_medium_id:              29,
     is_banned:                     false,
+    last_login:                    Date(),
     created_at:                    Date(),
     updated_at:                    Date(),
     is_user_blocked_by_client:     false,
     peek_message:                  {messageObj}
     friendship_status_with_client: accepted,
-
   },
   userId2: {...
 */

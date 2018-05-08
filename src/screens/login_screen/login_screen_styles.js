@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
     height: DEFAULT_HEIGHT,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
+    marginTop: 30
   },
   countrySelectorTextWidth: {
     width: 180,

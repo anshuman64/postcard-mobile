@@ -6,7 +6,7 @@ import Icon  from 'react-native-vector-icons/SimpleLineIcons';
 // Local Imports
 import MenuListItem             from '../../components/menu_list_item/menu_list_item';
 import SectionListHeader        from '../../components/section_list_header/section_list_header';
-import EntityInfoViewContainer    from '../../components/entity_info_view/entity_info_view_container';
+import EntityInfoViewContainer  from '../../components/entity_info_view/entity_info_view_container';
 import { styles }               from './group_menu_screen_styles';
 import { UTILITY_STYLES }       from '../../utilities/style_utility';
 import { defaultErrorAlert }    from '../../utilities/error_utility';
@@ -111,8 +111,8 @@ class GroupMenuScreen extends React.PureComponent {
       <RN.View style={UTILITY_STYLES.rowView}>
         <RN.View style={styles.userView}>
           <EntityInfoViewContainer entityId={item.id} marginLeft={0} subtractWidth={140} />
-          <Icon name={'close'} onPress={() => this._onPressDeleteMember(item.id)} style={styles.icon} />
         </RN.View>
+        <Icon name={'close'} onPress={() => this._onPressDeleteMember(item.id)} style={styles.icon} />
       </RN.View>
     )
   }
