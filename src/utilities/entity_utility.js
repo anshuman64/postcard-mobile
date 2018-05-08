@@ -74,6 +74,8 @@ export const getEntityDisplayName = (entityId, usersCache, groupsCache, contacts
 
       if (user.full_name) {
         displayName = user.full_name;
+      } else if (user.username) { // BACKWARDS COMPATABILITY
+        displayName = user.username;
       } else if (contact) {
         displayName = getContactDisplayName(contact);
       }
@@ -115,7 +117,7 @@ let getContactPreview = (entityId, usersCache, contactsCache) => {
 
     if (user) {
       contact = contactsCache ? contactsCache[user.phone_number] : null;
-      contactPreview = contact && !user.username ? contact.type + ': ' + parseNumber(contact.phone_number) : '';
+      contactPreview = contact && !user.full_name ? contact.type + ': ' + parseNumber(contact.phone_number) : '';
     }
   }
 
@@ -165,13 +167,21 @@ export const getMessagePreview = (message, clientId, usersCache, postsCache) => 
 
   if (message) {
     let lastAuthor = usersCache[message.author_id];
-    let lastAuthorUsername = lastAuthor && lastAuthor.username ? lastAuthor.username : 'anonymous';
+    let lastAuthorName;
+
+    if (lastAuthor && lastAuthor.full_name) {
+      lastAuthorName = lastAuthor.full_name;
+    } else if (lastAuthor && lastAuthor.username) {
+      lastAuthorName = lastAuthor.username;
+    } else {
+      lastAuthorName = 'anonymous';
+    }
 
     if (message.post_id) {
       if (message.author_id === clientId) {
-        messagePreview = 'You responded to a post.';
+        messagePreview = 'You replied to a post.';
       } else {
-        messagePreview = lastAuthorUsername + ' responded to a post.';
+        messagePreview = lastAuthorName + ' replied to a post.';
       }
     } else {
       if (message.body) {
@@ -180,7 +190,7 @@ export const getMessagePreview = (message, clientId, usersCache, postsCache) => 
         if (message.author_id === clientId) {
           messagePreview = 'You sent an image.';
         } else {
-          messagePreview = lastAuthorUsername + ' sent an image.';
+          messagePreview = lastAuthorName + ' sent an image.';
         }
       }
     }
