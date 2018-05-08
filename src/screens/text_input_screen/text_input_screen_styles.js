@@ -18,12 +18,11 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
-    marginTop: 80,
+    marginTop: 25,
     padding: 0,
   },
   errorText: {
     width: 240,
-    height: 50,
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
     fontWeight: '100',
     fontSize: StyleUtility.scaleFont(15),

@@ -4,10 +4,11 @@ import RN    from 'react-native';
 import _     from 'lodash';
 
 // Local Imports
-import AvatarContainer                from '../avatar/avatar_container';
-import { styles }                     from './entity_info_view_styles';
+import AvatarContainer                         from '../avatar/avatar_container';
+import { styles }                              from './entity_info_view_styles';
 import { UTILITY_STYLES, getUsableDimensions } from '../../utilities/style_utility';
-import * as EntityUtility             from '../../utilities/entity_utility';
+import * as EntityUtility                      from '../../utilities/entity_utility';
+import { isStringEmpty }                       from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -59,7 +60,7 @@ class EntityInfoView extends React.PureComponent {
 
   _renderUsername() {
     let displayName = EntityUtility.getEntityDisplayName(this.props.entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-    let preview = this.props.messagePreview ? this.props.messagePreview : EntityUtility.getContactPreview(this.props.entityId, this.props.usersCache, this.props.contactsCache);
+    let preview = this.props.messagePreview ? this.props.messagePreview : EntityUtility.getEntityPreview(this.props.entityId, this.props.usersCache, this.props.contactsCache);
     let isNotUser = _.isString(this.props.entityId) || this.props.entityId < 0 || (this.props.usersCache[this.props.entityId] && !this.props.usersCache[this.props.entityId].firebase_uid);
     let maxWidth = getUsableDimensions().width - this.props.subtractWidth;
 
@@ -74,7 +75,7 @@ class EntityInfoView extends React.PureComponent {
           <RN.Text allowFontScaling={false} ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: maxWidth}]} numberOfLines={1}>
             {displayName}
           </RN.Text>
-          {preview ?
+          {!isStringEmpty(preview) ?
             <RN.Text allowFontScaling={false} style={[styles.messageText, {maxWidth: maxWidth}]} numberOfLines={1}>
               {preview}
             </RN.Text> :

@@ -114,7 +114,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
 
   let setClient = (client, authToken, isNew) => {
     amplitude.setUserId(client.id);
-    amplitude.setUserProperties({ username: client.username, database_id: client.id, phone_number: client.phone_number, email: client.email, firebase_uid: client.firebase_uid, created_at: client.created_at });
+    amplitude.setUserProperties({ full_name: client.full_name, username: client.username, database_id: client.id, phone_number: client.phone_number, email: client.email, firebase_uid: client.firebase_uid, last_login: client.last_login, created_at: client.created_at });
     amplitude.logEvent('Onboarding - Log In', { is_successful: true, is_new_user: isNew });
 
     OneSignal.sendTag('user_id', String(client.id));
@@ -196,6 +196,24 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
       isRefreshing = false;
       throw setErrorDescription(error, 'Firebase getIdToken failed');
     });
+}
+
+// PUT request to API to edit client full_name from DisplayNameScreen
+export const editFullName = (authToken, firebaseUserObj, fullName) => (dispatch) => {
+  return APIUtility.put(authToken, '/users', { full_name: fullName })
+  .then((editedUser) => {
+    amplitude.logEvent('Onboarding - Edit Full Name', { is_successful: true, full_name: fullName });
+    dispatch(receiveClient({ client: editedUser }));
+  })
+  .catch((error) => {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshAuthToken(firebaseUserObj, editFullName, fullName));
+    }
+
+    error = setErrorDescription(error, 'PUT user for full name failed');
+    amplitude.logEvent('Onboarding - Edit Full Name', { is_successful: false, full_name: fullName, error_description: error.description, error_message: error.message });
+    throw error;
+  });
 }
 
 // PUT request to API to edit client username from UsernameScreen
