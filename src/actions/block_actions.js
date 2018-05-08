@@ -45,7 +45,7 @@ export const getBlockedUsers = (authToken, firebaseUserObj) => (dispatch) => {
       dispatch(receiveBlockedUsers({ blockedUsers: blockedUsers }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, getBlockedUsers));
       }
 
@@ -64,7 +64,7 @@ export const createBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch)
       dispatch(receiveBlock({ block: newBlock }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, createBlock, blockeeId));
       }
 
@@ -82,7 +82,7 @@ export const deleteBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch)
       return deletedBlock;
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, deleteBlock, blockeeId));
       }
 

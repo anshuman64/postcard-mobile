@@ -14,7 +14,7 @@ let isAlertVisible = false;
 
 // Pops appropriate alert depending on error
 export const defaultErrorAlert = (error) => {
-  if (isAlertVisible) {
+  if (isAlertVisible || !error) {
     return;
   }
 
