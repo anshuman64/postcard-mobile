@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     color: StyleUtility.COLORS.grey900,
     borderBottomColor: StyleUtility.COLORS.grey900,
     borderBottomWidth: 1,
-    marginTop: 50
+    marginTop: 25
   },
   invalidCodeText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
@@ -36,6 +36,7 @@ export const styles = StyleSheet.create({
     paddingRight: 15,
     borderBottomColor: StyleUtility.COLORS.grey300,
     borderBottomWidth: 1,
+    marginTop: 20
   },
   resendSMSText: {
     fontFamily: StyleUtility.setAndroidFont('Roboto-Light'),
