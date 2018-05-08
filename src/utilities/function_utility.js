@@ -1,14 +1,13 @@
 // Library Imports
 import _ from 'lodash';
 
-
 //--------------------------------------------------------------------//
 // Interface
 //--------------------------------------------------------------------//
 
 // Checks if string is empty (null, blank, or spaces only)
 export const isStringEmpty = (string) => {
-  return string.length === 0 || !string.trim();
+  return !string || string.length === 0 || !string.trim();
 };
 
 // Gets a random integer between 0 and max

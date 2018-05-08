@@ -147,8 +147,8 @@ class LoadingScreen extends React.PureComponent {
     if (this.isLoggedIn) {
       let client = this.props.usersCache[this.props.client.id];
 
-      // If opening app via notification, go to the screen you intended to go to
       if (this.navigateToNotification) {
+        // If opening app via notification, go to the screen you intended to go to
         if (this.navigateToNotification === 'MessagesScreen') {
           this.props.navigateTo('FriendScreen'); // NOTE: leave this here so that MessageScreen back doesn't go to login screen
           this.props.navigateTo('MessagesScreen', { convoId: this.navigateToMessages });
@@ -158,15 +158,21 @@ class LoadingScreen extends React.PureComponent {
 
         this.navigateToNotification = null;
         this.navigateToMessages     = null;
-      // If opening the app normally, go to HomeScreen.
-      } else if (client && client.username) {
+      } else if (client && client.full_name && client.username) {
+        // If opening the app normally, go to HomeScreen.
         this.props.navigateTo('HomeScreen'); // Debug Test: should be HomeScreen
-      // If opening the app normally and haven't created username, go to create username
-      } else {
+      } else if (client && client.full_name && !client.username) {
+        // If opening the app normally and haven't created username, go to create username
         this.props.navigateTo('UsernameScreenLogin', { screen: 'UsernameScreenLogin' });
+      } else if (client && !client.full_name) {
+        // If opening the app normally and haven't created username, go to create username
+        this.props.navigateTo('DisplayNameScreenLogin', { screen: 'DisplayNameScreenLogin' });
+      } else {
+        // If haven't logged in and somehow on LoadingScreen, go to WelcomeScreen
+        this.props.navigateTo('WelcomeScreen');
       }
-    // If haven't logged in and somehow on LoadingScreen, go to WelcomeScreen
-  } else if (!this.navigateToNotification) {
+    } else if (!this.navigateToNotification) {
+      // If haven't logged in and somehow on LoadingScreen, go to WelcomeScreen
       this.props.navigateTo('WelcomeScreen');
     }
   }

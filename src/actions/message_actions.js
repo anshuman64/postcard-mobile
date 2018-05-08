@@ -1,10 +1,10 @@
 // Local Imports
-import { amplitude }                         from '../utilities/analytics_utility';
-import * as APIUtility                       from '../utilities/api_utility';
-import { setErrorDescription }               from '../utilities/error_utility';
-import { refreshAuthToken }                  from './client_actions';
-import { FRIEND_TYPES }                      from './friendship_actions';
-import { uploadFile }                        from '../utilities/file_utility';
+import { amplitude }           from '../utilities/analytics_utility';
+import * as APIUtility         from '../utilities/api_utility';
+import { setErrorDescription } from '../utilities/error_utility';
+import { refreshAuthToken }    from './client_actions';
+import { FRIEND_TYPES }        from './friendship_actions';
+import { uploadFile }          from '../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 

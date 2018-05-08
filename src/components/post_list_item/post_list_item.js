@@ -276,7 +276,8 @@ class PostListItem extends React.PureComponent {
           disableUsername={this.props.client.id === this.props.item.author_id}
           entityId={this.props.item.author_id}
           marginLeft={0}
-          subtractWidth={isRecipients ? 280 : 210}
+          subtractWidth={isRecipients ? 300 : 200}
+          messagePreview={' '}
           />
         {this._renderRecipients()}
       </RN.View>
@@ -322,10 +323,10 @@ class PostListItem extends React.PureComponent {
 
       return (
         <RN.View style={styles.usernameView}>
-          <Ionicon name={'md-play'} style={[styles.playIcon, StyleUtility.UTILITY_STYLES.marginLeft5]}/>
+          <Ionicon name={'md-play'} style={[styles.playIcon, {marginLeft: 5}]}/>
           <RN.TouchableWithoutFeedback
             onPressIn={() => this.displayString.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})}
-            onPressOut={() => this.displayString.setNativeProps({style: [StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5]})}
+            onPressOut={() => this.displayString.setNativeProps({style: [StyleUtility.UTILITY_STYLES.lightBlackText15, {marginLeft: 5}]})}
             style={styles.usernameView}
             onPress={callback}
             disabled={!callback}
@@ -335,7 +336,7 @@ class PostListItem extends React.PureComponent {
                 allowFontScaling={false}
                 ref={(ref) => this.displayString = ref}
                 numberOfLines={1}
-                style={[StyleUtility.UTILITY_STYLES.lightBlackText15, StyleUtility.UTILITY_STYLES.marginLeft5, { maxWidth: StyleUtility.getUsableDimensions().width - 280 }]}
+                style={[StyleUtility.UTILITY_STYLES.lightBlackText15, {marginLeft: 5}, { maxWidth: 100 }]}
                 >
                 {displayString}
               </RN.Text>

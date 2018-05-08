@@ -5,7 +5,7 @@ import _      from 'lodash';
 import Icon   from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import { styles } from './section_list_header_styles';
+import { styles }                 from './section_list_header_styles';
 import { UTILITY_STYLES, COLORS } from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
