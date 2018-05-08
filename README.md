@@ -71,7 +71,7 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 1. Comment all logging 'console.', 'debugger', and 'Debug Test' lines
 2. ENV_SETTING = ENV_TYPES.PRODUCTION in app_config.js
 3. LoadingScreen inital={true} in App.js
-4. Make sure push notification code in insiya-api is uncommented for production
+4. Run the app on iOS simulator with these settings and logging into +14083060059. Make sure everything works.
 
 ## Release - Android
 1. Increment versionCode and versionName in android > app > build.gradle and AndroidManifest.xml
