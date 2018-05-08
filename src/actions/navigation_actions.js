@@ -34,6 +34,10 @@ export const navigateTo = (screen, props) => (dispatch) => {
       Actions.ConfirmCodeScreen(props)
     } else if (screen === 'UsernameScreenLogin') {
       Actions.UsernameScreenLogin(props)
+    } else if (screen === 'DisplayNameScreen') {
+      Actions.DisplayNameScreen(props)
+    } else if (screen === 'DisplayNameScreenLogin') {
+      Actions.DisplayNameScreenLogin(props)
     } else if (screen === 'AvatarScreen') {
       Actions.AvatarScreen(props)
     } else if (screen === 'HomeScreen') {
@@ -90,6 +94,11 @@ export const navigateTo = (screen, props) => (dispatch) => {
       || Actions.currentScene === 'ConfirmCodeScreen'
       || Actions.currentScene === 'UsernameScreenLogin'
       || Actions.currentScene === 'UsernameScreen'
+      || Actions.currentScene === 'DisplayNameScreen'
+      || Actions.currentScene === 'DisplayNameScreenLogin'
+      || Actions.currentScene === 'AddFriendScreen'
+      || Actions.currentScene === 'NameCircleScreen'
+      || Actions.currentScene === 'NameGroupScreen'
       || Actions.currentScene === 'NewPostScreen'
       || Actions.currentScene === 'DebugLoginScreen') {
     dismissKeyBoard()

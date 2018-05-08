@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import EntityInfoView          from './entity_info_view';
+import EntityInfoView        from './entity_info_view';
 import { navigateToProfile } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//

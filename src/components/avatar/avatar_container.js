@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import Avatar                      from './avatar';
+import Avatar                       from './avatar';
 import { refreshCredsAndGetMedium } from '../../actions/medium_actions';
 
 //--------------------------------------------------------------------//
