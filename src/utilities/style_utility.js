@@ -223,15 +223,4 @@ export const UTILITY_STYLES = RN.StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS.grey200
   },
-
-  // Margin Styles
-  marginTop50: {
-   marginTop: 50
-  },
-  marginTop5: {
-   marginTop: 5
-  },
-  marginLeft5: {
-   marginLeft: 5
-  }
 });
