@@ -207,7 +207,7 @@ class TextInputScreen extends React.PureComponent {
     }
 
     return (
-      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText18, UTILITY_STYLES.marginTop50]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText18]}>
         {titleString}
       </RN.Text>
     )
@@ -229,7 +229,7 @@ class TextInputScreen extends React.PureComponent {
     }
 
     return (
-      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.marginTop5, {width: 300}]}>
+      <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, {marginTop: 5}, {width: 300}]}>
         {subtitleString}
       </RN.Text>
     )
@@ -306,7 +306,7 @@ class TextInputScreen extends React.PureComponent {
 
     return (
       <RN.TouchableOpacity
-        style={[UTILITY_STYLES.nextButtonBackground, isStringEmpty(this.state.inputtedText) && UTILITY_STYLES.nextButtonBackgroundDisabled]}
+        style={[UTILITY_STYLES.nextButtonBackground, isStringEmpty(this.state.inputtedText) && UTILITY_STYLES.nextButtonBackgroundDisabled, {marginTop: 20}]}
         onPress={buttonFunction}
         disabled={isStringEmpty(this.state.inputtedText) || this.state.isLoading}
         >
@@ -328,13 +328,13 @@ class TextInputScreen extends React.PureComponent {
       <RN.KeyboardAvoidingView behavior={RN.Platform.OS === 'ios' ? 'padding' : null}>
         <RN.TouchableWithoutFeedback onPress={RN.Keyboard.dismiss} accessible={false}>
           <RN.View style={UTILITY_STYLES.containerStart}>
+            <RN.View style={{flex: 1}} />
             {this._renderTitle()}
             {this._renderSubtitle()}
             {this._renderTextInput()}
             {this._renderErrorText()}
-            <RN.View style={{flex: 1}} />
             {this._renderNextButton()}
-            <RN.View style={{flex: 10}} />
+            <RN.View style={{flex: 2}} />
             {this._renderLoadingModal()}
           </RN.View>
         </RN.TouchableWithoutFeedback>
