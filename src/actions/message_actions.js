@@ -48,7 +48,7 @@ export const receiveMessage = (data) => {
 // TODO: refactor this so that it doesn't have to hit API twice for accepted friendships
 export const getConversations = (authToken, firebaseUserObj) => (dispatch) => {
   let getConversationsError = (error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
       return dispatch(refreshAuthToken(firebaseUserObj, getConversations));
     }
 
@@ -82,7 +82,7 @@ export const getMessages = (authToken, firebaseUserObj, isNew, convoId, queryPar
       dispatch(receiveMessages({ messages: messages, convoId: convoId, isNew: isNew }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, getMessages, isNew, convoId, queryParams));
       }
 
@@ -100,7 +100,7 @@ export const createMessage = (authToken, firebaseUserObj, clientId, convoId, mes
         dispatch(receiveMessage({ message: newMessage, convoId: convoId }));
       })
       .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
           return dispatch(refreshAuthToken(firebaseUserObj, createMessage, clientId, convoId, messageBody, messageMedium, postId));
         }
 

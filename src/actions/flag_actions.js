@@ -43,7 +43,7 @@ export const createFlag = (authToken, firebaseUserObj, postId) => (dispatch) => 
       dispatch(receiveFlag({ flag: newFlag }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, createFlag, postId));
       }
 
@@ -61,7 +61,7 @@ export const deleteFlag = (authToken, firebaseUserObj, postId) => (dispatch) => 
       dispatch(removeFlag({ flag: deletedFlag }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
         return dispatch(refreshAuthToken(firebaseUserObj, deleteFlag, postId));
       }
 
