@@ -124,7 +124,7 @@ Change "CodePushDeploymentKey" from ````Z4GhodCyEHaA8swmU9dEUS38zI0_HJgxhKlCM```
 git checkout stable
 git merge master
 git tag vX.Y.Z
-git push
+git push origin vX.Y.Z
 git checkout master
 ````
 
