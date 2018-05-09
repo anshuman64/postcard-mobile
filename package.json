@@ -17,6 +17,7 @@
 		"react-native": "^0.55.2",
 		"react-native-amplitude-analytics": "0.1.12",
 		"react-native-animatable": "^1.2.4",
+		"react-native-code-push": "^5.3.3",
 		"react-native-contacts": "^2.1.3",
 		"react-native-exit-app": "^1.0.0",
 		"react-native-fetch-blob": "^0.10.8",
