@@ -1,9 +1,8 @@
 // Local Imports
-import { amplitude }           from '../utilities/analytics_utility';
-import * as APIUtility         from '../utilities/api_utility';
-import { getDataFromContacts } from '../utilities/file_utility';
-import { setErrorDescription } from '../utilities/error_utility';
-import { refreshAuthToken }    from './client_actions';
+import { amplitude }                                  from '../utilities/analytics_utility';
+import * as APIUtility                                from '../utilities/api_utility';
+import { getDataFromContacts }                        from '../utilities/file_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -64,8 +63,8 @@ export const getContactsWithAccounts = (authToken, firebaseUserObj, contactPhone
       dispatch(receiveContactsWithAccounts({ contacts: contactsWithAccounts }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, getContactsWithAccounts, contactPhoneNumbers));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, getContactsWithAccounts, contactPhoneNumbers));
       }
 
       error = setErrorDescription(error, 'POST contacts with accounts failed');
@@ -80,8 +79,8 @@ export const getOtherContacts = (authToken, firebaseUserObj, contactPhoneNumbers
         dispatch(receiveOtherContacts({ otherPhoneNumbers: otherPhoneNumbers }));
       })
       .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-          return dispatch(refreshAuthToken(firebaseUserObj, getOtherContacts, contactPhoneNumbers));
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+          return dispatch(refreshCredsAndResume(firebaseUserObj, getOtherContacts, contactPhoneNumbers));
         }
 
         error = setErrorDescription(error, 'POST other contacts failed');
@@ -97,8 +96,8 @@ export const inviteContact = (authToken, firebaseUserObj, contactPhoneNumber) =>
         dispatch(receiveInvitedContact({ phoneNumber: contactPhoneNumber }));
       })
       .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-          return dispatch(refreshAuthToken(firebaseUserObj, inviteContact, contactPhoneNumber));
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+          return dispatch(refreshCredsAndResume(firebaseUserObj, inviteContact, contactPhoneNumber));
         }
 
         error = setErrorDescription(error, 'POST invite contact failed');

@@ -1,8 +1,7 @@
 // Local Imports
-import { amplitude }            from '../utilities/analytics_utility';
-import * as APIUtility          from '../utilities/api_utility';
-import { setErrorDescription }  from '../utilities/error_utility';
-import { refreshAuthToken }     from './client_actions';
+import { amplitude }                                  from '../utilities/analytics_utility';
+import * as APIUtility                                from '../utilities/api_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -77,8 +76,8 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
       dispatch(receiveFriendships({ friends: friends, friendType: friendType }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, getFriendships, friendType));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, getFriendships, friendType));
       }
 
       error = setErrorDescription(error, 'GET friendships failed');
@@ -93,8 +92,8 @@ export const getFriendsFromContacts = (authToken, firebaseUserObj, contactPhoneN
         dispatch(receiveFriendships({ friends: friends, friendType: FRIEND_TYPES.CONTACTS }));
       })
       .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-          return dispatch(refreshAuthToken(firebaseUserObj, getFriendsFromContacts, contactPhoneNumbers));
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+          return dispatch(refreshCredsAndResume(firebaseUserObj, getFriendsFromContacts, contactPhoneNumbers));
         }
 
         error = setErrorDescription(error, 'POST friends from contacts failed');
@@ -111,8 +110,8 @@ export const createFriendRequest = (authToken, firebaseUserObj, userId, username
       return friendship;
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, createFriendRequest, userId, username));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, createFriendRequest, userId, username));
       }
 
       error = setErrorDescription(error, 'POST for create friend request failed');
@@ -129,8 +128,8 @@ export const acceptFriendRequest = (authToken, firebaseUserObj, userId) => (disp
       return friendship;
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, acceptFriendRequest, userId));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, acceptFriendRequest, userId));
       }
 
       error = setErrorDescription(error, 'PUT for accept friend request failed');
@@ -147,8 +146,8 @@ export const deleteFriendship = (authToken, firebaseUserObj, userId) => (dispatc
       return friendship;
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, deleteFriendship, userId));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, deleteFriendship, userId));
       }
 
       error = setErrorDescription(error, 'DEL friendship failed');
