@@ -167,7 +167,12 @@ let isRefreshing = false;
 // Refreshes Firebase authToken and AWS credentials (if expired)
 export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
   if (isRefreshing) {
-    return new Promise.reject(new Error('Token refresh in progress'));
+    return new Promise((resolve, reject) => {
+      let wait = setTimeout(() => {
+        clearTimout(wait);
+        reject(new Error('Token refresh in progress'));
+      }, 1000)
+    });
   }
 
   isRefreshing = true;
