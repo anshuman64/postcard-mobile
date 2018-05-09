@@ -4,7 +4,7 @@ import _ from 'lodash';
 // Local Imports
 import { amplitude }                                  from '../utilities/analytics_utility';
 import * as APIUtility                                from '../utilities/api_utility';
-import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 import { getMedia }                                   from './medium_actions';
 
 //--------------------------------------------------------------------//
@@ -66,7 +66,7 @@ export const createGroup = (authToken, firebaseUserObj, userIds, contactPhoneNum
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, createGroup, userIds, contactPhoneNumbers));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, createGroup, userIds, contactPhoneNumbers));
       }
 
       if (error.message === 'Minimum 2 user_ids required') {
@@ -89,7 +89,7 @@ export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dis
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshTokenAndResume(firebaseUserObj, editGroupName, groupId, name));
+      return dispatch(refreshCredsAndResume(firebaseUserObj, editGroupName, groupId, name));
     }
 
     error = setErrorDescription(error, 'PUT group for name failed');
@@ -107,7 +107,7 @@ export const addGroupMembers = (authToken, firebaseUserObj, convoId, userIds, co
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshTokenAndResume(firebaseUserObj, addGroupMembers, convoId, userIds, contactPhoneNumbers));
+      return dispatch(refreshCredsAndResume(firebaseUserObj, addGroupMembers, convoId, userIds, contactPhoneNumbers));
     }
 
     error = setErrorDescription(error, 'POST group to add members failed');
@@ -130,7 +130,7 @@ export const removeGroupMember = (authToken, firebaseUserObj, groupId, userId, i
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshTokenAndResume(firebaseUserObj, removeGroupMember, groupId, userId));
+      return dispatch(refreshCredsAndResume(firebaseUserObj, removeGroupMember, groupId, userId));
     }
 
     error = setErrorDescription(error, 'DEL group member failed');
@@ -154,7 +154,7 @@ export const deleteGroup = (authToken, firebaseUserObj, groupId) => (dispatch) =
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, deleteGroup, groupId));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, deleteGroup, groupId));
       }
 
       error = setErrorDescription(error, 'DEL group failed');
