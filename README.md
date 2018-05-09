@@ -31,7 +31,7 @@ open ./node_modules/react-native-video-player/index.js
 ````
 Replace contents with this file: https://drive.google.com/file/d/1-99De6dgEY4WnHhBvfqVrp5ktRA5a6wg/view?usp=sharing
 
-## Setup - iOS
+### Setup - iOS
 0. Fix react-native-image-crop-picker UI
 ````
 open ./node_modules/react-native-image-crop-picker/ios/RSKImageCropper/RSKImageCropper/RSKImageCropViewController.m
@@ -51,7 +51,7 @@ NOTE: If you forget to do this step before installing pods below, also make the 
 cd ios && pod install && cd ..
 ````
 
-2.
+2. Fix search header for RCTBridgeModule.h
 ````
 open ./node_modules/react-native/React/Base/RCTBridgeModule.h
 ````
@@ -67,35 +67,54 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 
 ![Alt text](https://s3.amazonaws.com/insiya-public/XCode_Amplitude_Header_Config.png)
 
+
 ## Release - General
-1. Comment all logging 'console.', 'debugger', and 'Debug Test' lines
+1. Comment all logging "console.", "debugger", and "Debug Test" lines
 2. ENV_SETTING = ENV_TYPES.PRODUCTION in app_config.js
 3. LoadingScreen inital={true} in App.js
-4. Run the app on iOS simulator with these settings and logging into +14083060059. Make sure everything works.
+4. Run the app on iOS simulator with these settings and log in with your phone number. Make sure everything works.
 
-## Release - Android
+### CodePush Release
+0. Make sure you follow the steps under "Release - General"!
+1. Android
+````
+appcenter codepush release-react -a Insiya/Postcard-Android -d Production
+````
+
+2. iOS
+````
+appcenter codepush release-react -a Insiya/Postcard-iOS -d Production
+````
+Note: Add option ````---mandatory```` if the update should cause the app to refresh on start
+
+### Full Release - Android
+0. Add insiya-android.keystore (ask Anshuman) to /android/app directory if you haven't already
 1. Increment versionCode and versionName in android > app > build.gradle and AndroidManifest.xml
-2. Add insiya-android.keystore (ask Anshuman) to /android/app directory
-3. Generate signed release APK
+2. Change CodePush deployment key from Staging to Production
+````
+open ./android/app/src/res/values/strings.xml
+````
+Change "reactNativeCodePush_androidDeploymentKey" from ````wQznyJIRxUTXo2p5b0GAhdQuklSKHJZqy5gRG```` to ````gauKs8V0PH5drJBr6_oJYfGNVlKHHyb9JqgAG````
 
+3. Generate signed release APK
 ````
 cd android && ./gradlew assembleRelease && cd ..
 ````
-3. Run signed release APK
-
-````
-react-native run-android --variant=release
-````
 4. Search for "app-release.apk" in ````insiya-mobile/android/app/build/outputs/apk/release/app-release.apk```` and drag into Google Play Console
 
-## Release - iOS
-1. Change Bundle Identifier to com.insiya.apple
-2. Change signing team to Anshuman Dewangan (contact@insiya.io)
-3. Turn on Push Notifications in Capabilities
-4. Set Build Configuration to Release in Product > Scheme > Edit Scheme
-5. Increment Version and Build in XCode
-6. Set build target to 'Generic iOS Device'
-7. Run 'Product > Archive'
+Note: If you want to test the signed release APK, run ````react-native run-android --variant=release````
+
+### Full Release - iOS
+0. Set Build Configuration to Release in Product > Scheme > Edit Scheme
+1. Increment Version and Build in XCode
+2. Change CodePush deployment key from Staging to Production
+````
+open ./ios/Insiya/Info.plist
+````
+Change "CodePushDeploymentKey" from ````Z4GhodCyEHaA8swmU9dEUS38zI0_HJgxhKlCM```` to ````n4zkUBoJNjy28UmPw0rSWObb0fM5HyxlhtxAG````
+
+3. Set build target to "Generic iOS Device"
+4. Run ````Product > Archive````
 
 
 ## Other Stuff
