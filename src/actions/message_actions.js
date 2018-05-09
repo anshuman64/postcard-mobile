@@ -1,10 +1,9 @@
 // Local Imports
-import { amplitude }           from '../utilities/analytics_utility';
-import * as APIUtility         from '../utilities/api_utility';
-import { setErrorDescription } from '../utilities/error_utility';
-import { refreshAuthToken }    from './client_actions';
-import { FRIEND_TYPES }        from './friendship_actions';
-import { uploadFile }          from '../utilities/file_utility';
+import { amplitude }                                  from '../utilities/analytics_utility';
+import * as APIUtility                                from '../utilities/api_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
+import { FRIEND_TYPES }                               from './friendship_actions';
+import { uploadFile }                                 from '../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
@@ -48,8 +47,8 @@ export const receiveMessage = (data) => {
 // TODO: refactor this so that it doesn't have to hit API twice for accepted friendships
 export const getConversations = (authToken, firebaseUserObj) => (dispatch) => {
   let getConversationsError = (error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-      return dispatch(refreshAuthToken(firebaseUserObj, getConversations));
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshCredsAndResume(firebaseUserObj, getConversations));
     }
 
     error = setErrorDescription(error, 'GET conversations failed');
@@ -82,8 +81,8 @@ export const getMessages = (authToken, firebaseUserObj, isNew, convoId, queryPar
       dispatch(receiveMessages({ messages: messages, convoId: convoId, isNew: isNew }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, getMessages, isNew, convoId, queryParams));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, getMessages, isNew, convoId, queryParams));
       }
 
       error = setErrorDescription(error, 'GET messages failed');
@@ -100,8 +99,8 @@ export const createMessage = (authToken, firebaseUserObj, clientId, convoId, mes
         dispatch(receiveMessage({ message: newMessage, convoId: convoId }));
       })
       .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-          return dispatch(refreshAuthToken(firebaseUserObj, createMessage, clientId, convoId, messageBody, messageMedium, postId));
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+          return dispatch(refreshCredsAndResume(firebaseUserObj, createMessage, clientId, convoId, messageBody, messageMedium, postId));
         }
 
         if (error.message === 'Post as message already exists') {

@@ -31,10 +31,6 @@ class ProfileHeader extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      avatarUrl:  null,
-    }
-
     this.isFriendDisabled   = false;
     this.isUnfriendDisabled = false;
     this.isBlockDisabled    = false;
