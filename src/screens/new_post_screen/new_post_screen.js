@@ -8,7 +8,6 @@ import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 import HeaderContainer                            from '../../components/header/header_container';
 import { styles }                                 from './new_post_screen_styles';
 import { getRandomInt, setStateCallback }         from '../../utilities/function_utility';
-import { postPlaceholders }                       from '../../utilities/file_utility';
 import { UTILITY_STYLES, COLORS }                 from '../../utilities/style_utility';
 import { setErrorDescription, defaultErrorAlert } from '../../utilities/error_utility';
 import { amplitude }                              from '../../utilities/analytics_utility';
@@ -32,24 +31,12 @@ class NewPostScreen extends React.PureComponent {
 
     this.state = {
       postText:        '',
-      placeholderText: '',
       photos:          [],
       videos:          [],
       takePhoto:       []
     };
 
     this.isButtonPressed = false;
-  }
-
-  //--------------------------------------------------------------------//
-  // Lifecycle Methods
-  //--------------------------------------------------------------------//
-
-  // Sets placeholderText as a random string from placeholders.csv from S3 bucket
-  componentDidMount() {
-    if (postPlaceholders) {
-      this.setState({ placeholderText: postPlaceholders[getRandomInt(postPlaceholders.length)] });
-    }
   }
 
   //--------------------------------------------------------------------//
@@ -146,7 +133,7 @@ class NewPostScreen extends React.PureComponent {
       <RN.TextInput
         style={[styles.textInput, this.state.postText.length >= 86 && styles.smallBodyText]}
         placeholderTextColor={COLORS.grey400}
-        placeholder={this.state.placeholderText}
+        placeholder={'What would you like to share?'}
         onChangeText={(value) => this.setState({ postText: value })}
         value={this.state.postText}
         autoFocus={true}

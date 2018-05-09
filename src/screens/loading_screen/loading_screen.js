@@ -12,7 +12,6 @@ import { FRIEND_TYPES }        from '../../actions/friendship_actions';
 import { styles, pulseIcon }   from './loading_screen_styles';
 import { defaultErrorAlert }   from '../../utilities/error_utility';
 import { UTILITY_STYLES }      from '../../utilities/style_utility';
-import { getPostPlaceholders } from '../../utilities/file_utility';
 
 //--------------------------------------------------------------------//
 
@@ -50,8 +49,6 @@ class LoadingScreen extends React.PureComponent {
 
   // Automatically detects login cookie from Firebase and logs in user
   componentDidMount() {
-    getPostPlaceholders();
-
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
         // console.log('Firebase cookie found'); // Debug Test
