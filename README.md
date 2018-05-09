@@ -1,6 +1,7 @@
 # insiya-mobile
 
-## Setup - General
+## Setup
+### Setup - General
 1. Clone repository
 ````
 git clone https://github.com/anshuman64/insiya-mobile.git
@@ -68,7 +69,8 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 ![Alt text](https://s3.amazonaws.com/insiya-public/XCode_Amplitude_Header_Config.png)
 
 
-## Release - General
+## Release
+### Release - General
 1. Comment all logging "console.", "debugger", and "Debug Test" lines
 2. ENV_SETTING = ENV_TYPES.PRODUCTION in app_config.js
 3. LoadingScreen inital={true} in App.js
