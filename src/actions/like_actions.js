@@ -1,7 +1,7 @@
 // Local Imports
 import { amplitude }                                  from '../utilities/analytics_utility';
 import * as APIUtility                                from '../utilities/api_utility';
-import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -44,7 +44,7 @@ export const createLike = (authToken, firebaseUserObj, clientId, postId) => (dis
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, createLike, clientId, postId));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, createLike, clientId, postId));
       }
 
       error = setErrorDescription(error, 'POST like failed');
@@ -62,7 +62,7 @@ export const deleteLike = (authToken, firebaseUserObj, clientId, postId) => (dis
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, deleteLike, clientId, postId));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, deleteLike, clientId, postId));
       }
 
       error = setErrorDescription(error, 'DEL like failed');

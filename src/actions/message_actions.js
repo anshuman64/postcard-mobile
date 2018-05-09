@@ -1,7 +1,7 @@
 // Local Imports
 import { amplitude }                                  from '../utilities/analytics_utility';
 import * as APIUtility                                from '../utilities/api_utility';
-import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 import { FRIEND_TYPES }                               from './friendship_actions';
 import { uploadFile }                                 from '../utilities/file_utility';
 
@@ -48,7 +48,7 @@ export const receiveMessage = (data) => {
 export const getConversations = (authToken, firebaseUserObj) => (dispatch) => {
   let getConversationsError = (error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshTokenAndResume(firebaseUserObj, getConversations));
+      return dispatch(refreshCredsAndResume(firebaseUserObj, getConversations));
     }
 
     error = setErrorDescription(error, 'GET conversations failed');
@@ -82,7 +82,7 @@ export const getMessages = (authToken, firebaseUserObj, isNew, convoId, queryPar
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, getMessages, isNew, convoId, queryParams));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, getMessages, isNew, convoId, queryParams));
       }
 
       error = setErrorDescription(error, 'GET messages failed');
@@ -100,7 +100,7 @@ export const createMessage = (authToken, firebaseUserObj, clientId, convoId, mes
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshTokenAndResume(firebaseUserObj, createMessage, clientId, convoId, messageBody, messageMedium, postId));
+          return dispatch(refreshCredsAndResume(firebaseUserObj, createMessage, clientId, convoId, messageBody, messageMedium, postId));
         }
 
         if (error.message === 'Post as message already exists') {

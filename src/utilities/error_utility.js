@@ -55,14 +55,14 @@ export const setErrorDescription = (error, description) => {
   return error;
 };
 
-export const refreshTokenAndResume = (firebaseUserObj, func, ...params) => (dispatch) => {
+export const refreshCredsAndResume = (firebaseUserObj, func, ...params) => (dispatch) => {
   return dispatch(refreshAuthToken(firebaseUserObj))
     .then((newAuthToken) => {
       return dispatch(func(newAuthToken, firebaseUserObj, ...params));
     })
     .catch((error) => {
       if (error.message === 'Token refresh was in progress') {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, func, ...params));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, func, ...params));
       }
     });
 }

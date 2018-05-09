@@ -1,7 +1,7 @@
 // Local Imports
 import { amplitude }                                  from '../utilities/analytics_utility';
 import * as APIUtility                                from '../utilities/api_utility';
-import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -77,7 +77,7 @@ export const getFriendships = (authToken, firebaseUserObj, friendType) => (dispa
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, getFriendships, friendType));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, getFriendships, friendType));
       }
 
       error = setErrorDescription(error, 'GET friendships failed');
@@ -93,7 +93,7 @@ export const getFriendsFromContacts = (authToken, firebaseUserObj, contactPhoneN
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshTokenAndResume(firebaseUserObj, getFriendsFromContacts, contactPhoneNumbers));
+          return dispatch(refreshCredsAndResume(firebaseUserObj, getFriendsFromContacts, contactPhoneNumbers));
         }
 
         error = setErrorDescription(error, 'POST friends from contacts failed');
@@ -111,7 +111,7 @@ export const createFriendRequest = (authToken, firebaseUserObj, userId, username
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, createFriendRequest, userId, username));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, createFriendRequest, userId, username));
       }
 
       error = setErrorDescription(error, 'POST for create friend request failed');
@@ -129,7 +129,7 @@ export const acceptFriendRequest = (authToken, firebaseUserObj, userId) => (disp
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, acceptFriendRequest, userId));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, acceptFriendRequest, userId));
       }
 
       error = setErrorDescription(error, 'PUT for accept friend request failed');
@@ -147,7 +147,7 @@ export const deleteFriendship = (authToken, firebaseUserObj, userId) => (dispatc
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, deleteFriendship, userId));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, deleteFriendship, userId));
       }
 
       error = setErrorDescription(error, 'DEL friendship failed');
