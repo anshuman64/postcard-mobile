@@ -50,6 +50,7 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
 
       if (action.data.isNew) {
         newState[convoId].data = action.data.messages.concat(newState[convoId].data);
+        newState[convoId].data = newState[convoId].data.filter((thing, index, self) => index === self.findIndex((t) => t.id === thing.id)); // prevents duplicates
       } else {
         newState[convoId].data = newState[convoId].data.concat(action.data.messages);
       }
@@ -63,6 +64,7 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
       newState[convoId].isEnd = newState[convoId].isEnd || false;
 
       newState[convoId].data.unshift(action.data.message);
+      newState[convoId].data = newState[convoId].data.filter((thing, index, self) => index === self.findIndex((t) => t.id === thing.id));
 
       return newState;
 
