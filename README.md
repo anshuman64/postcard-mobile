@@ -118,6 +118,15 @@ Change "CodePushDeploymentKey" from ````Z4GhodCyEHaA8swmU9dEUS38zI0_HJgxhKlCM```
 3. Set build target to "Generic iOS Device"
 4. Run ````Product > Archive````
 
+### Post-Release
+1. Assuming you were on "master" branch:
+````
+git checkout stable
+git merge master
+git tag vX.Y.Z
+git push
+git checkout master
+````
 
 ## Other Stuff
 ### Definitions
