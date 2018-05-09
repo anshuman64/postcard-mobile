@@ -4,8 +4,7 @@ import _ from 'lodash';
 // Local Imports
 import { amplitude }           from '../utilities/analytics_utility';
 import * as APIUtility         from '../utilities/api_utility';
-import { setErrorDescription } from '../utilities/error_utility';
-import { refreshAuthToken }    from './client_actions';
+import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
 import { getMedia }            from './medium_actions';
 
 //--------------------------------------------------------------------//
@@ -66,8 +65,8 @@ export const createGroup = (authToken, firebaseUserObj, userIds, contactPhoneNum
       dispatch(receiveGroup({ group: newGroup, contactPhoneNumbers: contactPhoneNumbers }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, createGroup, userIds, contactPhoneNumbers));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshTokenAndResume(firebaseUserObj, createGroup, userIds, contactPhoneNumbers));
       }
 
       if (error.message === 'Minimum 2 user_ids required') {
@@ -89,8 +88,8 @@ export const editGroupName = (authToken, firebaseUserObj, groupId, name) => (dis
     dispatch(editGroup({ group: editedGroup }));
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-      return dispatch(refreshAuthToken(firebaseUserObj, editGroupName, groupId, name));
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshTokenAndResume(firebaseUserObj, editGroupName, groupId, name));
     }
 
     error = setErrorDescription(error, 'PUT group for name failed');
@@ -107,8 +106,8 @@ export const addGroupMembers = (authToken, firebaseUserObj, convoId, userIds, co
     dispatch(editGroup({ group: editedGroup, contactPhoneNumbers: contactPhoneNumbers }));
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-      return dispatch(refreshAuthToken(firebaseUserObj, addGroupMembers, convoId, userIds, contactPhoneNumbers));
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshTokenAndResume(firebaseUserObj, addGroupMembers, convoId, userIds, contactPhoneNumbers));
     }
 
     error = setErrorDescription(error, 'POST group to add members failed');
@@ -130,8 +129,8 @@ export const removeGroupMember = (authToken, firebaseUserObj, groupId, userId, i
     }
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-      return dispatch(refreshAuthToken(firebaseUserObj, removeGroupMember, groupId, userId));
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshTokenAndResume(firebaseUserObj, removeGroupMember, groupId, userId));
     }
 
     error = setErrorDescription(error, 'DEL group member failed');
@@ -154,8 +153,8 @@ export const deleteGroup = (authToken, firebaseUserObj, groupId) => (dispatch) =
       dispatch(removeGroup({ groupId: deletedGroup.id }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, deleteGroup, groupId));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshTokenAndResume(firebaseUserObj, deleteGroup, groupId));
       }
 
       error = setErrorDescription(error, 'DEL group failed');

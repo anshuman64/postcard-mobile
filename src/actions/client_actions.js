@@ -8,7 +8,7 @@ import { amplitude }               from '../utilities/analytics_utility';
 import * as APIUtility             from '../utilities/api_utility';
 import { setS3Client, uploadFile } from '../utilities/file_utility';
 import { setPusherClient }         from '../utilities/push_utility';
-import { setErrorDescription }     from '../utilities/error_utility';
+import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -166,8 +166,20 @@ let isRefreshing = false;
 
 // Refreshes Firebase authToken and AWS credentials (if expired)
 export const refreshAuthToken = (firebaseUserObj) => (dispatch) => {
+  // If token doesn't need refreshing, return the current token
+  if (AWS.config.credentials && !AWS.config.credentials.needsRefresh()) {
+    return firebaseUserObj.getIdToken(false)
+      .then((newAuthToken) => {
+        return newAuthToken;
+      })
+      .catch((error) => {
+        throw setErrorDescription(error, 'Firebase getIdToken failed');
+      });
+  }
+
+  // If currently refreshing, return a rejected Promise after 1 second with an error
   if (isRefreshing) {
-    return new Promise((resolve, reject) => setTimeout(() => reject(new Error('Token refresh in progress')), 1000)); // delay rejection by 1 second to avoid continuous loop
+    return new Promise((resolve, reject) => setTimeout(() => reject(new Error('Token refresh was in progress')), 1000));
   }
 
   isRefreshing = true;
@@ -201,8 +213,8 @@ export const editFullName = (authToken, firebaseUserObj, fullName) => (dispatch)
     dispatch(receiveClient({ client: editedUser }));
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-      return dispatch(refreshAuthToken(firebaseUserObj, editFullName, fullName));
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshTokenAndResume(firebaseUserObj, editFullName, fullName));
     }
 
     error = setErrorDescription(error, 'PUT user for full name failed');
@@ -219,8 +231,8 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
     dispatch(receiveClient({ client: editedUser }));
   })
   .catch((error) => {
-    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-      return dispatch(refreshAuthToken(firebaseUserObj, editUsername, username));
+    if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+      return dispatch(refreshTokenAndResume(firebaseUserObj, editUsername, username));
     }
 
     if (!error.description) {
@@ -245,8 +257,8 @@ export const editAvatar = (authToken, firebaseUserObj, userId, medium) => (dispa
         dispatch(receiveClient({ client: editedUser }));
       })
       .catch((error) => {
-        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-          return dispatch(refreshAuthToken(firebaseUserObj, editAvatar, userId, medium));
+        if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+          return dispatch(refreshTokenAndResume(firebaseUserObj, editAvatar, userId, medium));
         }
 
         putUserError(error);

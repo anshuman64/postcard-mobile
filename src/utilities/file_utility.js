@@ -10,9 +10,8 @@ import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 
 // Local Imports
 import { ENV_TYPES, AWS_ENV_SETTING } from '../app_config';
-import { setErrorDescription }        from './error_utility';
+import { setErrorDescription, refreshTokenAndResume } from './error_utility';
 import { amplitude }                  from './analytics_utility';
-import { refreshAuthToken }           from '../actions/client_actions';
 
 //--------------------------------------------------------------------//
 
@@ -106,7 +105,7 @@ export const uploadFile = (authToken, firebaseUserObj, userId, folderPath, mediu
         s3Client.upload(params, (error, data) => {
           if (error) {
             if (error.message === "Missing credentials in config") {
-              return dispatch(refreshAuthToken(firebaseUserObj, uploadFile, userId, folderPath, medium))
+              return dispatch(refreshTokenAndResume(firebaseUserObj, uploadFile, userId, folderPath, medium))
                 .then((data) => {
                   resolve(data);
                 })
