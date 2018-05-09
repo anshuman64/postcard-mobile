@@ -8,7 +8,7 @@ import { amplitude }                                  from '../utilities/analyti
 import * as APIUtility                                from '../utilities/api_utility';
 import { setS3Client, uploadFile }                    from '../utilities/file_utility';
 import { setPusherClient }                            from '../utilities/push_utility';
-import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -214,7 +214,7 @@ export const editFullName = (authToken, firebaseUserObj, fullName) => (dispatch)
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshTokenAndResume(firebaseUserObj, editFullName, fullName));
+      return dispatch(refreshCredsAndResume(firebaseUserObj, editFullName, fullName));
     }
 
     error = setErrorDescription(error, 'PUT user for full name failed');
@@ -232,7 +232,7 @@ export const editUsername = (authToken, firebaseUserObj, username) => (dispatch)
   })
   .catch((error) => {
     if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-      return dispatch(refreshTokenAndResume(firebaseUserObj, editUsername, username));
+      return dispatch(refreshCredsAndResume(firebaseUserObj, editUsername, username));
     }
 
     if (!error.description) {
@@ -258,7 +258,7 @@ export const editAvatar = (authToken, firebaseUserObj, userId, medium) => (dispa
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshTokenAndResume(firebaseUserObj, editAvatar, userId, medium));
+          return dispatch(refreshCredsAndResume(firebaseUserObj, editAvatar, userId, medium));
         }
 
         putUserError(error);
