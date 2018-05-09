@@ -1,7 +1,7 @@
 // Local Imports
-import { amplitude }           from '../utilities/analytics_utility';
-import * as APIUtility         from '../utilities/api_utility';
-import { getDataFromContacts } from '../utilities/file_utility';
+import { amplitude }                                  from '../utilities/analytics_utility';
+import * as APIUtility                                from '../utilities/api_utility';
+import { getDataFromContacts }                        from '../utilities/file_utility';
 import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
