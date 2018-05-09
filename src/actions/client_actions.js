@@ -165,7 +165,7 @@ export const loginClient = (firebaseUserObj) => (dispatch) => {
 let isRefreshing = false;
 
 // Refreshes Firebase authToken and AWS credentials (if expired)
-export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch) => {
+export const refreshAuthToken = (firebaseUserObj) => (dispatch) => {
   if (isRefreshing) {
     return new Promise((resolve, reject) => setTimeout(() => reject(new Error('Token refresh in progress')), 1000)); // delay rejection by 1 second to avoid continuous loop
   }
@@ -180,12 +180,7 @@ export const refreshAuthToken = (firebaseUserObj, func, ...params) => (dispatch)
         .then(() => {
           isRefreshing = false; // NOTE: don't put this in a .finally, it breaks returning the authToken
           setS3Client();
-
-          if (func) {
-            return dispatch(func(newAuthToken, firebaseUserObj, ...params));
-          } else {
-            return newAuthToken;
-          }
+          return newAuthToken;
         })
         .catch((error) => {
           isRefreshing = false;
