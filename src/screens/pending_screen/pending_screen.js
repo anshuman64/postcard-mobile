@@ -57,7 +57,7 @@ class PendingScreen extends React.PureComponent {
 
     this.isSharedPressed = true;
 
-    RN.Share.share({message: 'Add me on Postcard! My username is: ' + this.props.usersCache[this.props.client.id].username + '\n\n- Download Now -\nwww.insiya.io' })
+    RN.Share.share({message: "Add me on Postcard! My username is: \"" + this.props.usersCache[this.props.client.id].username + "\"\n\n-- Download Now --\nhttps://postcard.insiya.io/?utm_source=app&utm_term=share" })
       .finally(() => {
         this.isSharedPressed = false;
       });
