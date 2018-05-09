@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 
 // Local Imports
 import { amplitude } from './analytics_utility';
+import { refreshAuthToken } from '../actions/client_actions';
 
 //--------------------------------------------------------------------//
 
@@ -14,7 +15,7 @@ let isAlertVisible = false;
 
 // Pops appropriate alert depending on error
 export const defaultErrorAlert = (error) => {
-  if (isAlertVisible || !error || error.message === 'Token refresh in progress') { // TODO: FIX THIS!
+  if (isAlertVisible || !error) {
     return;
   }
 
@@ -53,3 +54,15 @@ export const setErrorDescription = (error, description) => {
 
   return error;
 };
+
+export const refreshCredsAndResume = (firebaseUserObj, func, ...params) => (dispatch) => {
+  return dispatch(refreshAuthToken(firebaseUserObj))
+    .then((newAuthToken) => {
+      return dispatch(func(newAuthToken, firebaseUserObj, ...params));
+    })
+    .catch((error) => {
+      if (error.message === 'Token refresh was in progress') {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, func, ...params));
+      }
+    });
+}

@@ -27,11 +27,14 @@ export const receiveMedium = (data) => {
 // Asynchronous Actions
 //--------------------------------------------------------------------//
 
-
-// TODO: fix this
 export const refreshCredsAndGetMedium = (firebaseUserObj, medium) => (dispatch) => {
   dispatch(refreshAuthToken(firebaseUserObj))
     .then(() => {
       dispatch(receiveMedium({ medium: medium }));
+    })
+    .catch((error) => {
+      if (error.message === 'Token refresh was in progress') {
+        dispatch(refreshCredsAndGetMedium(firebaseUserObj, medium));
+      }
     });
 }

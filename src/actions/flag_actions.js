@@ -1,8 +1,7 @@
 // Local Imports
-import { amplitude }           from '../utilities/analytics_utility';
-import * as APIUtility         from '../utilities/api_utility';
-import { setErrorDescription } from '../utilities/error_utility';
-import { refreshAuthToken }    from './client_actions';
+import { amplitude }                                  from '../utilities/analytics_utility';
+import * as APIUtility                                from '../utilities/api_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -43,8 +42,8 @@ export const createFlag = (authToken, firebaseUserObj, postId) => (dispatch) => 
       dispatch(receiveFlag({ flag: newFlag }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, createFlag, postId));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, createFlag, postId));
       }
 
       error = setErrorDescription(error, 'POST flag failed');
@@ -61,8 +60,8 @@ export const deleteFlag = (authToken, firebaseUserObj, postId) => (dispatch) => 
       dispatch(removeFlag({ flag: deletedFlag }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, deleteFlag, postId));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, deleteFlag, postId));
       }
 
       error = setErrorDescription(error, 'DEL flag failed');

@@ -2,10 +2,9 @@
 import _ from 'lodash';
 
 // Local Imports
-import { amplitude }           from '../utilities/analytics_utility';
-import * as APIUtility         from '../utilities/api_utility';
-import { setErrorDescription } from '../utilities/error_utility';
-import { refreshAuthToken }    from './client_actions';
+import { amplitude }                                  from '../utilities/analytics_utility';
+import * as APIUtility                                from '../utilities/api_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -49,8 +48,8 @@ export const getCircles = (authToken, firebaseUserObj) => (dispatch) => {
       dispatch(receiveCircles({ circles: circles }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, getCircles));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, getCircles));
       }
 
       error = setErrorDescription(error, 'GET circles failed');
@@ -78,8 +77,8 @@ export const createCircle = (authToken, firebaseUserObj, name, recipientIds) => 
       dispatch(receiveCircle({ circle: newCircle }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, createCircle, name, recipientIds));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, createCircle, name, recipientIds));
       }
 
       if (error.message === 'Name has already been taken') {
@@ -103,8 +102,8 @@ export const deleteCircle = (authToken, firebaseUserObj, circleId) => (dispatch)
       dispatch(removeCircle({ circle: deletedCircle }));
     })
     .catch((error) => {
-      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future." || error.message === 'Token refresh in progress') {
-        return dispatch(refreshAuthToken(firebaseUserObj, deleteCircle, circleId));
+      if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
+        return dispatch(refreshCredsAndResume(firebaseUserObj, deleteCircle, circleId));
       }
 
       error = setErrorDescription(error, 'DEL circle failed');
