@@ -20,7 +20,6 @@ import { amplitude }                  from './analytics_utility';
 //--------------------------------------------------------------------//
 
 let s3Client = null;
-export let postPlaceholders;
 
 //--------------------------------------------------------------------//
 // Helper Functions
@@ -121,16 +120,6 @@ export const uploadFile = (authToken, firebaseUserObj, userId, folderPath, mediu
           }
         });
       });
-    });
-};
-
-export const getPostPlaceholders = () => {
-  RNFetchBlob.fetch('GET', 'https://s3.amazonaws.com/insiya-public/placeholders.csv')
-    .then((data) => {
-      postPlaceholders = data.text().split(/\r?\n/);
-    })
-    .catch((error) => {
-      amplitude.logEvent('Error - Get Post Placeholders', { error_message: error.message, error_description: 'Get post placeholders from AWS failed' });
     });
 };
 
