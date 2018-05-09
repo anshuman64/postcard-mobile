@@ -14,7 +14,7 @@ let isAlertVisible = false;
 
 // Pops appropriate alert depending on error
 export const defaultErrorAlert = (error) => {
-  if (isAlertVisible || !error || error.message === 'Token refresh in progress') { // TODO: FIX THIS!
+  if (isAlertVisible || !error) {
     return;
   }
 
