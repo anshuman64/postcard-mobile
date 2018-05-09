@@ -2,7 +2,7 @@
 import { amplitude }                                  from '../utilities/analytics_utility';
 import * as APIUtility                                from '../utilities/api_utility';
 import { getDataFromContacts }                        from '../utilities/file_utility';
-import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -64,7 +64,7 @@ export const getContactsWithAccounts = (authToken, firebaseUserObj, contactPhone
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, getContactsWithAccounts, contactPhoneNumbers));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, getContactsWithAccounts, contactPhoneNumbers));
       }
 
       error = setErrorDescription(error, 'POST contacts with accounts failed');
@@ -80,7 +80,7 @@ export const getOtherContacts = (authToken, firebaseUserObj, contactPhoneNumbers
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshTokenAndResume(firebaseUserObj, getOtherContacts, contactPhoneNumbers));
+          return dispatch(refreshCredsAndResume(firebaseUserObj, getOtherContacts, contactPhoneNumbers));
         }
 
         error = setErrorDescription(error, 'POST other contacts failed');
@@ -97,7 +97,7 @@ export const inviteContact = (authToken, firebaseUserObj, contactPhoneNumber) =>
       })
       .catch((error) => {
         if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-          return dispatch(refreshTokenAndResume(firebaseUserObj, inviteContact, contactPhoneNumber));
+          return dispatch(refreshCredsAndResume(firebaseUserObj, inviteContact, contactPhoneNumber));
         }
 
         error = setErrorDescription(error, 'POST invite contact failed');

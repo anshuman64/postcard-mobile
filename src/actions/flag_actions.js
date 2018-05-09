@@ -1,7 +1,7 @@
 // Local Imports
 import { amplitude }                                  from '../utilities/analytics_utility';
 import * as APIUtility                                from '../utilities/api_utility';
-import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -43,7 +43,7 @@ export const createFlag = (authToken, firebaseUserObj, postId) => (dispatch) => 
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, createFlag, postId));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, createFlag, postId));
       }
 
       error = setErrorDescription(error, 'POST flag failed');
@@ -61,7 +61,7 @@ export const deleteFlag = (authToken, firebaseUserObj, postId) => (dispatch) => 
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, deleteFlag, postId));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, deleteFlag, postId));
       }
 
       error = setErrorDescription(error, 'DEL flag failed');

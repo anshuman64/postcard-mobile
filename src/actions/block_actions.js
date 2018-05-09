@@ -1,7 +1,7 @@
 // Local Imports
 import { amplitude }                                  from '../utilities/analytics_utility';
 import * as APIUtility                                from '../utilities/api_utility';
-import { setErrorDescription, refreshTokenAndResume } from '../utilities/error_utility';
+import { setErrorDescription, refreshCredsAndResume } from '../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -45,7 +45,7 @@ export const getBlockedUsers = (authToken, firebaseUserObj) => (dispatch) => {
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, getBlockedUsers));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, getBlockedUsers));
       }
 
       error = setErrorDescription(error, 'GET blocked users failed');
@@ -64,7 +64,7 @@ export const createBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch)
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, createBlock, blockeeId));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, createBlock, blockeeId));
       }
 
       error = setErrorDescription(error, 'POST block failed');
@@ -82,7 +82,7 @@ export const deleteBlock = (authToken, firebaseUserObj, blockeeId) => (dispatch)
     })
     .catch((error) => {
       if (error.message === "Invalid access token. 'Expiration time' (exp) must be in the future.") {
-        return dispatch(refreshTokenAndResume(firebaseUserObj, deleteBlock, blockeeId));
+        return dispatch(refreshCredsAndResume(firebaseUserObj, deleteBlock, blockeeId));
       }
 
       error = setErrorDescription(error, 'DEL block failed');
