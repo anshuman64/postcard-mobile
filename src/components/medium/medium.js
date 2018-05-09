@@ -75,7 +75,7 @@ class Medium extends React.PureComponent {
             {this.state.isSpinnerVisible ?
               <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/> :
             null}
-            <RN.TouchableWithoutFeedback onLongPress={setStateCallback(this, { isModalVisible: true })}>
+            <RN.TouchableWithoutFeedback onPress={setStateCallback(this, { isModalVisible: true })}>
               <RN.Image
                 source={{uri: mediumUrl}}
                 style={this.props.mediumStyle}

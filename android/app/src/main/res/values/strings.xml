@@ -1,3 +1,4 @@
 <resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">gauKs8V0PH5drJBr6_oJYfGNVlKHHyb9JqgAG</string>
     <string name="app_name">Postcard</string>
 </resources>
