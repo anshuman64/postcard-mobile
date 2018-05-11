@@ -107,7 +107,6 @@ cd android && ./gradlew assembleRelease && cd ..
 Note: If you want to test the signed release APK, run ````react-native run-android --variant=release````
 
 ### Full Release - iOS
-0. Set Build Configuration to Release in Product > Scheme > Edit Scheme
 1. Increment Version and Build in XCode
 2. Change CodePush deployment key from Staging to Production
 ````
