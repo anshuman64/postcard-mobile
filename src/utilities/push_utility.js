@@ -28,6 +28,8 @@ let getPusherApiKey = () => {
 
   if (PUSHER_ENV_SETTING === ENV_TYPES.PRODUCTION) {
     apiKey = '53d300091a1ab13e964b'; // key for insiya-production
+  } else if (PUSHER_ENV_SETTING === ENV_TYPES.TEST) {
+    apiKey = '8ce9d31068f161ea7b04'; // key for insiya-test
   } else {
     apiKey = 'd2f580733ffae972b477'; // key for insiya-development
   }
