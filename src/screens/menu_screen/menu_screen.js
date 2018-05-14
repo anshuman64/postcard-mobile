@@ -47,7 +47,7 @@ class MenuScreen extends React.PureComponent {
         <MenuListItem iconName={'paper-plane'} text={'Telegram Community'}   callback={() => RN.Linking.openURL('https://t.me/insiyaapp')}/>
         <MenuListItem iconName={'docs'}        text={'Terms of Use'}         callback={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/terms-of-use-de17e7b76742')}/>
         <MenuListItem iconName={'lock'}        text={'Privacy Policy'}       callback={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/privacy-policy-a18b33e9d916')}/>
-        <MenuListItem iconName={'people'}      text={'Community Guidelines'} callback={() => RN.Linking.openURL('mailto:contact@insiya.io')}/>
+        <MenuListItem iconName={'people'}      text={'Community Guidelines'} callback={() => RN.Linking.openURL('https://medium.com/@InsiyaInc/community-guidelines-598b3fd77a2e')}/>
         <MenuListItem iconName={'logout'}      text={'Log Out'}              callback={this._logOut}/>
      </RN.View>
     )
