@@ -162,7 +162,7 @@ export const getConvoAuthorId = (convoId, usersCache, groupsCache) => {
   return authorId;
 }
 
-export const getMessagePreview = (message, clientId, usersCache, postsCache) => {
+export const getMessagePreview = (message, clientId, usersCache) => {
   let messagePreview = 'Send a message...';
 
   if (message) {
