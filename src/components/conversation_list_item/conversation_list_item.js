@@ -51,7 +51,7 @@ class ConversationListItem extends React.PureComponent {
   _renderUsernameView() {
     let convo = EntityUtility.getEntity(this.props.convoId, this.props.usersCache, this.props.groupsCache);
     let message = convo ? convo.peek_message : null;
-    let messagePreview = EntityUtility.getMessagePreview(message, this.props.client.id, this.props.usersCache, this.props.postsCache);
+    let messagePreview = EntityUtility.getMessagePreview(message, this.props.client.id, this.props.usersCache);
 
     return (
       <EntityInfoView entityId={this.props.convoId} messagePreview={messagePreview} disableUsername={true} marginLeft={7} subtractWidth={170} />
