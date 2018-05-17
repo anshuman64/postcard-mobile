@@ -121,8 +121,8 @@ android {
         applicationId "com.insiya.android"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 23
-        versionName "3.0.4"
+        versionCode 24
+        versionName "3.0.6"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         manifestPlaceholders = [onesignal_app_id: "3b029fbc-71e5-41cb-b4a2-0ae911cc519a",
@@ -172,11 +172,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-restart')
     compile project(':react-native-code-push')
     compile project(':react-native-video')
     compile project(':react-native-contacts')
     compile project(':react-native-vector-icons')
-    compile project(':react-native-exit-app')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-fetch-blob')
     compile 'com.amplitude:android-sdk:2.13.4'
