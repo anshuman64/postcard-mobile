@@ -121,8 +121,8 @@ android {
         applicationId "com.insiya.android"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 23
-        versionName "3.0.4"
+        versionCode 24
+        versionName "3.0.6"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         manifestPlaceholders = [onesignal_app_id: "3b029fbc-71e5-41cb-b4a2-0ae911cc519a",
