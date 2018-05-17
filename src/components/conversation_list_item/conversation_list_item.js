@@ -38,7 +38,7 @@ class ConversationListItem extends React.PureComponent {
 
   _renderDate() {
     let convo = EntityUtility.getEntity(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-    let createdAtDate = convo && convo.peek_message ? convo.peek_message.created_at : convo.created_at;
+    let createdAtDate = convo ? (convo.peek_message ? convo.peek_message.created_at : convo.created_at) : null;
     let dateText = createdAtDate ? renderConversationDate(createdAtDate) : '';
 
     return (
