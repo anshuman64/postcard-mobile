@@ -4,6 +4,7 @@ import RN              from 'react-native';
 import Firebase        from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
 import OneSignal       from 'react-native-onesignal';
+import Permissions     from 'react-native-permissions';
 
 // Local Imports
 import { amplitude }           from '../../utilities/analytics_utility';
@@ -51,33 +52,19 @@ class LoadingScreen extends React.PureComponent {
   componentDidMount() {
     this.unsubscribe = Firebase.auth().onAuthStateChanged((firebaseUserObj) => {
       if (firebaseUserObj) {
-        // console.log('Firebase cookie found'); // Debug Test
         this.props.loginClient(firebaseUserObj)
           .then(() => {
-            client = this.props.usersCache[this.props.client.id];
-            // console.log('Logged in'); // Debug Test
-            if (client.is_banned) {
+            if (this.props.usersCache[this.props.client.id].is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
-              this._loadContacts();
-              this._loadData()
-                .then(() => {
-                  // console.log('Data loaded'); // Debug Test
-                  this._onLogin();
-                })
-                .catch((error) => {
-                  defaultErrorAlert(error);
-                });
+              this._checkPermissions();
             }
           })
           .catch((error) => {
-            if (error.message != 'Token refresh was in progress') {
-              defaultErrorAlert(error);
-            }
+            defaultErrorAlert(error);
           });
       } else {
-        // console.log('No Firebase cookie found'); // Debug Test
-        this._onAnimationEnd();
+        this._onNotLoggedIn();
       }
     });
   }
@@ -91,6 +78,29 @@ class LoadingScreen extends React.PureComponent {
   // Private Methods
   //--------------------------------------------------------------------//
 
+  _checkPermissions = () => {
+    Permissions.check('contacts')
+      .then((response) => {
+        if (response === 'authorized') {
+          this._loadContacts();
+
+          this._loadData()
+            .then(() => {
+              this._onLoadData();
+            })
+            .catch((error) => {
+              defaultErrorAlert(error);
+            });
+        } else {
+          RN.Alert.alert('', "Postcard is only fun when we can find your friends. Go to \"Settings\" > \"Postcard\" and enable \"Contacts.\"", [{text: 'OK', style: 'cancel'}]);
+        }
+      })
+      .catch((error) => {
+        error.description = 'Check contacts permissions failed';
+        amplitude.logEvent('Permissions - Check Contacts', { error_description: error.description, error_message: error.message });
+      });
+  }
+
   // TODO: add try/catch error handling
   async _loadData() {
     await this._refreshData();
@@ -98,6 +108,7 @@ class LoadingScreen extends React.PureComponent {
     await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
   }
 
+  // Function with all the data to refresh when refocusing the app
   async _refreshData() {
     await this.props.getConversations(this.props.client.authToken, this.props.client.firebaseUserObj);
 
@@ -235,7 +246,7 @@ class LoadingScreen extends React.PureComponent {
     }
   }
 
-  _onLogin = () => {
+  _onLoadData = () => {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
@@ -246,7 +257,7 @@ class LoadingScreen extends React.PureComponent {
     this._navigateFromLoading();
   }
 
-  _onAnimationEnd = () => {
+  _onNotLoggedIn = () => {
     if (this.isAnimationEnd) {
       return;
     }
@@ -271,7 +282,7 @@ class LoadingScreen extends React.PureComponent {
         easing={'ease-in'}
         duration={1500}
         iterationCount={20}
-        onAnimationEnd={this._onAnimationEnd}
+        onAnimationEnd={this._onNotLoggedIn}
         />
     )
   }
