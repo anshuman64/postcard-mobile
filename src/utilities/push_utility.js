@@ -3,7 +3,7 @@ import Pusher    from 'pusher-js/react-native';
 import OneSignal from 'react-native-onesignal';
 
 // Local Imports
-import { ENV_TYPES, PUSHER_ENV_SETTING } from '../app_config';
+import { ENV_TYPES, SERVER_ENV_SETTING } from '../app_config';
 import { getBaseUrl }                    from './api_utility';
 import * as FriendshipActions            from '../actions/friendship_actions';
 import { receiveMessage }                from '../actions/message_actions';
@@ -26,9 +26,9 @@ let myChannel = null;
 let getPusherApiKey = () => {
   let apiKey;
 
-  if (PUSHER_ENV_SETTING === ENV_TYPES.PRODUCTION) {
+  if (SERVER_ENV_SETTING === ENV_TYPES.PRODUCTION) {
     apiKey = '53d300091a1ab13e964b'; // key for insiya-production
-  } else if (PUSHER_ENV_SETTING === ENV_TYPES.TEST) {
+  } else if (SERVER_ENV_SETTING === ENV_TYPES.TEST) {
     apiKey = '8ce9d31068f161ea7b04'; // key for insiya-test
   } else {
     apiKey = 'd2f580733ffae972b477'; // key for insiya-development

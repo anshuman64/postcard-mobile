@@ -3,7 +3,7 @@ import React       from 'react';
 import RN          from 'react-native';
 import Firebase    from 'react-native-firebase';
 import AWS         from 'aws-sdk/dist/aws-sdk-react-native';
-import { Actions } from 'react-native-router-flux';
+import RNRestart   from 'react-native-restart';
 
 // Local Imports
 import MenuListItem          from '../../components/menu_list_item/menu_list_item';
@@ -29,7 +29,7 @@ class MenuScreen extends React.PureComponent {
       .then(() => {
         AWS.config.credentials.clearCachedId();
         AWS.config.credentials = null;
-        Actions.reset('LoadingScreen');
+        RNRestart.Restart();
       })
       .catch((error) => {
         defaultErrorAlert(error);
