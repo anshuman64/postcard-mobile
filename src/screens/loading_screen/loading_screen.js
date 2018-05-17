@@ -79,33 +79,29 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _checkPermissions = () => {
-    if (RN.Platform.OS != 'ios') {
-      this._onCheckPermissions();
-    } else {
-      Permissions.check('contacts')
-        .then((response) => {
-          if (response === 'authorized') {
-            this._onCheckPermissions();
-          } else {
-            Permissions.request('contacts')
-              .then((response) => {
-                if (response === 'authorized') {
-                  this._onCheckPermissions();
-                } else {
-                  RN.Alert.alert('', "Postcard is only fun when we can find your friends. Go to \"Settings\" > \"Postcard\" and enable \"Contacts.\"", [{text: 'OK', style: 'cancel'}]);
-                }
-              })
-              .catch((error) => {
-                error.description = 'Request contacts permissions failed';
-                amplitude.logEvent('Permissions - Request Contacts', { error_description: error.description, error_message: error.message });
-              });
-          }
-        })
-        .catch((error) => {
-          error.description = 'Check contacts permissions failed';
-          amplitude.logEvent('Permissions - Check Contacts', { error_description: error.description, error_message: error.message });
-        });
-    }
+    Permissions.check('contacts')
+      .then((response) => {
+        if (response === 'authorized') {
+          this._onCheckPermissions();
+        } else {
+          Permissions.request('contacts')
+            .then((response) => {
+              if (response === 'authorized') {
+                this._onCheckPermissions();
+              } else {
+                RN.Alert.alert('', "Postcard is only fun when we can find your friends. Go to \"Settings\" > \"Postcard\" and enable \"Contacts.\"", [{text: 'OK', style: 'cancel'}]);
+              }
+            })
+            .catch((error) => {
+              error.description = 'Request contacts permissions failed';
+              amplitude.logEvent('Permissions - Request Contacts', { error_description: error.description, error_message: error.message });
+            });
+        }
+      })
+      .catch((error) => {
+        error.description = 'Check contacts permissions failed';
+        amplitude.logEvent('Permissions - Check Contacts', { error_description: error.description, error_message: error.message });
+      });
   }
 
   // Loads all data async and navigates screens
