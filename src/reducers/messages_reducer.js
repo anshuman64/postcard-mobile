@@ -74,14 +74,8 @@ const MessagesReducer = (state = DEFAULT_STATE, action) => {
 
     // Since we don't know if user is requester or requestee, delete messages for both
     case FRIENDSHIP_ACTION_TYPES.REMOVE_FRIENDSHIP:
-      let removeMessages = (id) => {
-        newState[id]       = {};
-        newState[id].data  = [];
-        newState[id].isEnd = false;
-      }
-
-      removeMessages(action.data.friendship.requester_id);
-      removeMessages(action.data.friendship.requestee_id);
+      newState[action.data.friendship.requester_id] = null;
+      newState[action.data.friendship.requestee_id] = null;
 
       return newState;
 

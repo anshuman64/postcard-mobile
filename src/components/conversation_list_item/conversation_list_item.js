@@ -38,14 +38,18 @@ class ConversationListItem extends React.PureComponent {
 
   _renderDate() {
     let convo = EntityUtility.getEntity(this.props.convoId, this.props.usersCache, this.props.groupsCache);
-    let createdAtDate = convo ? (convo.peek_message ? convo.peek_message.created_at : convo.created_at) : null;
-    let dateText = createdAtDate ? renderConversationDate(createdAtDate) : '';
+    let createdAtDate = convo && convo.peek_message ? convo.peek_message.created_at : null;
+    let dateText = createdAtDate ? renderConversationDate(createdAtDate) : null;
 
-    return (
-      <RN.Text allowFontScaling={false} style={styles.dateText}>
-        {dateText}
-      </RN.Text>
-    )
+    if (dateText) {
+      return (
+        <RN.Text allowFontScaling={false} style={styles.dateText}>
+          {dateText}
+        </RN.Text>
+      )
+    } else {
+      return null;
+    }
   }
 
   _renderUsernameView() {
