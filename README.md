@@ -32,6 +32,9 @@ open ./node_modules/react-native-video-player/index.js
 ````
 Replace contents with this file: https://drive.google.com/file/d/1-99De6dgEY4WnHhBvfqVrp5ktRA5a6wg/view?usp=sharing
 
+### Setup - Android
+1. Add insiya-android-certified.jks (ask Anshuman) to /android/app directory
+
 ### Setup - iOS
 0. Fix react-native-image-crop-picker UI
 ````
@@ -90,32 +93,21 @@ appcenter codepush release-react -a Insiya/Postcard-iOS -d Production
 Note: Add option ````---mandatory```` if the update should cause the app to refresh on start
 
 ### Full Release - Android
-0. Add insiya-android.keystore (ask Anshuman) to /android/app directory if you haven't already
-1. Increment versionCode and versionName in android > app > build.gradle and AndroidManifest.xml
-2. Change CodePush deployment key from Staging to Production
-````
-open ./android/app/src/res/values/strings.xml
-````
-Change "reactNativeCodePush_androidDeploymentKey" from ````wQznyJIRxUTXo2p5b0GAhdQuklSKHJZqy5gRG```` to ````gauKs8V0PH5drJBr6_oJYfGNVlKHHyb9JqgAG````
-
-3. Generate signed release APK
+0. Make sure you follow the steps under "Release - General"!
+1. Increment versionCode and versionName in android > app > build.gradle
+2. Generate signed release APK
 ````
 cd android && ./gradlew assembleRelease && cd ..
 ````
-4. Search for "app-release.apk" in ````insiya-mobile/android/app/build/outputs/apk/release/app-release.apk```` and drag into Google Play Console
+3. Search for "app-release.apk" in ````insiya-mobile/android/app/build/outputs/apk/release/app-release.apk```` and drag into Google Play Console
 
 Note: If you want to test the signed release APK, run ````react-native run-android --variant=release````
 
 ### Full Release - iOS
+0. Make sure you follow the steps under "Release - General"!
 1. Increment Version and Build in XCode
-2. Change CodePush deployment key from Staging to Production
-````
-open ./ios/Insiya/Info.plist
-````
-Change "CodePushDeploymentKey" from ````Z4GhodCyEHaA8swmU9dEUS38zI0_HJgxhKlCM```` to ````n4zkUBoJNjy28UmPw0rSWObb0fM5HyxlhtxAG````
-
-3. Set build target to "Generic iOS Device"
-4. Run ````Product > Archive````
+2. Set build target to "Generic iOS Device"
+3. Run ````Product > Archive````
 
 ### Post-Release
 1. Assuming you were on "master" branch:
@@ -136,3 +128,17 @@ git checkout master
 
 ### Do's and Dont's
 1. Read comments titled "WARNING". They are there for a reason.
+
+### Change CodePush Deployment Keys
+1. Android
+````
+open ./android/app/src/res/values/strings.xml
+````
+Change "reactNativeCodePush_androidDeploymentKey" from Staging ````wQznyJIRxUTXo2p5b0GAhdQuklSKHJZqy5gRG```` to Production ````gauKs8V0PH5drJBr6_oJYfGNVlKHHyb9JqgAG````
+
+2. iOS
+
+````
+open ./ios/Insiya/Info.plist
+````
+Change "CodePushDeploymentKey" from Staging ````Z4GhodCyEHaA8swmU9dEUS38zI0_HJgxhKlCM```` to Production ````n4zkUBoJNjy28UmPw0rSWObb0fM5HyxlhtxAG````
