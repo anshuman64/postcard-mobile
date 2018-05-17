@@ -115,6 +115,7 @@ Note: If you want to test the signed release APK, run ````react-native run-andro
 git checkout stable
 git merge master
 git tag vX.Y.Z
+git push
 git push origin vX.Y.Z
 git checkout master
 ````
