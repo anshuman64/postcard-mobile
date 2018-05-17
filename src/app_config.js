@@ -8,14 +8,11 @@ export const ENV_TYPES = {
   PRODUCTION: 'PRODUCTION'
 }
 
-// WARNING -- affects Elastic Beanstalk API URL
+// WARNING -- affects Elastic Beanstalk API URL and Pusher key
 export const SERVER_ENV_SETTING    = ENV_TYPES.PRODUCTION
 
 // WARNING -- affects the AWS S3 bucket
 export const AWS_ENV_SETTING       = ENV_TYPES.PRODUCTION
-
-// WARNING -- affects the Pusher project
-export const PUSHER_ENV_SETTING    = ENV_TYPES.PRODUCTION
 
 // WARNING -- affects the Amplitude Analytics project
 export const AMPLITUDE_ENV_SETTING = ENV_TYPES.PRODUCTION
