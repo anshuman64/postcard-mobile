@@ -20,6 +20,7 @@ target 'Insiya' do
   # pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
   # pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
   # pod 'react-native-video', :path => '../node_modules/react-native-video'
+  # pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
 
   target 'InsiyaTests' do
     inherit! :search_paths
