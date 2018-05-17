@@ -8,7 +8,6 @@ import com.microsoft.codepush.react.CodePush;
 import com.brentvatne.react.ReactVideoPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
-import com.github.wumke.RNExitApp.RNExitAppPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.sudoplz.reactnativeamplitudeanalytics.RNAmplitudeSDKPackage;
@@ -31,7 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSBundleFile() {
         return CodePush.getJSBundleFile();
         }
-    
+
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -47,7 +46,6 @@ public class MainApplication extends Application implements ReactApplication {
             new BridgePackage(),
             new ReactNativeContacts(),
             new ReactNativeOneSignalPackage(),
-            new RNExitAppPackage(),
             new PickerPackage(),
             new RNFetchBlobPackage(),
             new RNAmplitudeSDKPackage(MainApplication.this),
