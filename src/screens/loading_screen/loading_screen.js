@@ -82,17 +82,20 @@ class LoadingScreen extends React.PureComponent {
     Permissions.check('contacts')
       .then((response) => {
         if (response === 'authorized') {
-          this._loadContacts();
-
-          this._loadData()
-            .then(() => {
-              this._onLoadData();
+          this._onCheckPermissions();
+        } else {
+          Permissions.request('contacts')
+            .then((response) => {
+              if (response === 'authorized') {
+                this._onCheckPermissions();
+              } else {
+                RN.Alert.alert('', "Postcard is only fun when we can find your friends. Go to \"Settings\" > \"Postcard\" and enable \"Contacts.\"", [{text: 'OK', style: 'cancel'}]);
+              }
             })
             .catch((error) => {
-              defaultErrorAlert(error);
+              error.description = 'Request contacts permissions failed';
+              amplitude.logEvent('Permissions - Request Contacts', { error_description: error.description, error_message: error.message });
             });
-        } else {
-          RN.Alert.alert('', "Postcard is only fun when we can find your friends. Go to \"Settings\" > \"Postcard\" and enable \"Contacts.\"", [{text: 'OK', style: 'cancel'}]);
         }
       })
       .catch((error) => {
@@ -101,11 +104,14 @@ class LoadingScreen extends React.PureComponent {
       });
   }
 
-  // TODO: add try/catch error handling
-  async _loadData() {
-    await this._refreshData();
-    await this.props.getCircles(this.props.client.authToken, this.props.client.firebaseUserObj);
-    await this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+  // Loads all data async and navigates screens
+  _onCheckPermissions = () => {
+    this._loadContacts();
+    this._refreshData();
+    this.props.getCircles(this.props.client.authToken, this.props.client.firebaseUserObj);
+    this.props.getBlockedUsers(this.props.client.authToken, this.props.client.firebaseUserObj);
+
+    this._onLogin();
   }
 
   // Function with all the data to refresh when refocusing the app
@@ -123,6 +129,7 @@ class LoadingScreen extends React.PureComponent {
     }
   }
 
+  // Loads contacts from disk and finds friends
   _loadContacts = () => {
     client = this.props.usersCache[this.props.client.id];
 
@@ -246,7 +253,7 @@ class LoadingScreen extends React.PureComponent {
     }
   }
 
-  _onLoadData = () => {
+  _onLogin = () => {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
