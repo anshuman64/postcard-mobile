@@ -3,12 +3,14 @@ import React           from 'react';
 import RN              from 'react-native';
 import Swiper          from 'react-native-swiper';
 import * as Animatable from 'react-native-animatable';
-import Hyperlink       from 'react-native-hyperlink'
+import Hyperlink       from 'react-native-hyperlink';
+import LinkPreview     from 'react-native-link-preview';
 import Icon            from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
+import LinkPreviewItem          from '../link_preview_item/link_preview_item';
 import MediumContainer          from '../medium/medium_container';
 import LoadingModal             from '../loading_modal/loading_modal';
 import ListModalContainer       from '../list_modal/list_modal_container';
@@ -49,6 +51,7 @@ class PostListItem extends React.PureComponent {
       isModalForReply:   false,
       isLoading:         false,
       swiperHeight:      null,
+      linkPreviewData:   null,
     }
 
     this.isLikeDisabled    = false;
@@ -56,6 +59,17 @@ class PostListItem extends React.PureComponent {
     this.isDeleteDisabled  = false;
     this.isReplyDisabled   = false;
     this.recipients        = null;
+  }
+
+  //--------------------------------------------------------------------//
+  // Lifecycle Methods
+  //--------------------------------------------------------------------//
+
+  componentDidMount() {
+    LinkPreview.getPreview(this.props.item.body)
+      .then((data) => {
+        this.setState({ linkPreviewData: data });
+      });
   }
 
   //--------------------------------------------------------------------//
@@ -408,14 +422,20 @@ class PostListItem extends React.PureComponent {
     let height;
 
     if (!media || media.length === 0) {
-      return null;
+      // Only render link previews if there is no other media attached
+      if (this.state.linkPreviewData) {
+        return (
+          <LinkPreviewItem data={this.state.linkPreviewData} width={width} />
+        )
+      } else {
+        return null;
+      }
     } else if (media.length === 1) {
       height = StyleUtility.getScaledHeight(media[0], width);
 
       return (
         <MediumContainer
           medium={media[0]}
-          containerStyle={styles.mediumContainer}
           mediumStyle={{ width: width, height: height }}
           />
       )
@@ -452,7 +472,6 @@ class PostListItem extends React.PureComponent {
         <MediumContainer
           key={i}
           medium={media[i]}
-          containerStyle={styles.mediumContainer}
           mediumStyle={{ width: width, height: height }}
           imageUrls={FunctionUtility.getImageUrlsFromMedia(this.props.item.media, this.props.mediaCache)}
           />
