@@ -66,13 +66,15 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    LinkPreview.getPreview(this.props.item.body)
-      .then((data) => {
-        this.setState({ linkPreviewData: data });
-      })
-      .catch((error) => {
-        // console.log(error);
-      });
+    if (this.props.item.body) {
+      LinkPreview.getPreview(this.props.item.body)
+        .then((data) => {
+          this.setState({ linkPreviewData: data });
+        })
+        .catch((error) => {
+          // console.log(error);
+        });
+    }
   }
 
   //--------------------------------------------------------------------//
