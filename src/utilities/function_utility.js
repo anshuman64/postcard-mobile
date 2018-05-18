@@ -53,6 +53,22 @@ export const getImageUrlsFromMedia = (media, mediaCache) => {
   return imageUrls;
 }
 
+export const getDomainFromUrl = (url) => {
+  let hostname;
+
+  //find & remove protocol (http, ftp, etc.) and get hostname
+  if (url.indexOf("://") > -1) {
+    hostname = url.split('/')[2];
+  } else {
+    hostname = url.split('/')[0];
+  }
+
+  hostname = hostname.split(':')[0]; //find & remove port number
+  hostname = hostname.split('?')[0]; //find & remove "?"
+
+  return hostname;
+}
+
 // Merges arrayB into arrayA. Used in refreshPost reducer
 export const mergeSorted = (arrayA, arrayB) => {
   let i = 0;
