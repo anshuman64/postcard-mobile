@@ -48,7 +48,7 @@ class PostLinkPreview extends React.PureComponent {
     } else if (this.props.data.contentType.startsWith('video/')) {
       let width = this.props.width;
       let height = 0.4 * width;
-      
+
       this.setState({ previewType: 'video', mediumDimensions: { width: width, height: height }, scaledDimensions: { width: width, height: height } });
     }
   }
