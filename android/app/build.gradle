@@ -172,6 +172,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-link-preview')
     compile project(':react-native-restart')
     compile project(':react-native-code-push')
     compile project(':react-native-video')
