@@ -5,7 +5,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import VideoPlayer from 'react-native-video-player';
 
 // Local Imports
-import { styles }                             from './link_preview_item_styles';
+import { styles }                             from './post_link_preview_styles';
 import * as StyleUtility                      from '../../utilities/style_utility';
 import { setStateCallback, getDomainFromUrl } from '../../utilities/function_utility';
 
@@ -14,10 +14,11 @@ import { setStateCallback, getDomainFromUrl } from '../../utilities/function_uti
 /*
 Required Passed Props:
   data (LinkPreview object): contains information about the link
+  width (int): width of item (post vs. post as message)
 Optional Passed Props:
   -
 */
-class Medium extends React.PureComponent {
+class PostLinkPreview extends React.PureComponent {
 
   //--------------------------------------------------------------------//
   // Constructor
@@ -45,8 +46,9 @@ class Medium extends React.PureComponent {
     } else if (this.props.data.contentType.startsWith('image/')) {
       this._setMediumDimensions(this.props.data.url, 'image');
     } else if (this.props.data.contentType.startsWith('video/')) {
-      let width = StyleUtility.getUsableDimensions().width;
-      let height = 0.4 * StyleUtility.getUsableDimensions().height;
+      let width = this.props.width;
+      let height = 0.4 * width;
+      
       this.setState({ previewType: 'video', mediumDimensions: { width: width, height: height }, scaledDimensions: { width: width, height: height } });
     }
   }
@@ -156,4 +158,4 @@ class Medium extends React.PureComponent {
 
 //--------------------------------------------------------------------//
 
-export default Medium;
+export default PostLinkPreview;

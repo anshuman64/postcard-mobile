@@ -10,7 +10,7 @@ import Ionicon         from 'react-native-vector-icons/Ionicons';
 import EvilIcons       from 'react-native-vector-icons/EvilIcons';
 
 // Local Imports
-import LinkPreviewItem          from '../link_preview_item/link_preview_item';
+import PostLinkPreview          from '../post_link_preview/post_link_preview';
 import MediumContainer          from '../medium/medium_container';
 import LoadingModal             from '../loading_modal/loading_modal';
 import ListModalContainer       from '../list_modal/list_modal_container';
@@ -428,7 +428,7 @@ class PostListItem extends React.PureComponent {
       // Only render link previews if there is no other media attached
       if (this.state.linkPreviewData) {
         return (
-          <LinkPreviewItem data={this.state.linkPreviewData} width={width} />
+          <PostLinkPreview data={this.state.linkPreviewData} width={width} />
         )
       } else {
         return null;
