@@ -109,12 +109,6 @@ export const styles = StyleSheet.create({
   smallBodyText: {
     fontSize: StyleUtility.scaleFont(15),
   },
-  mediumContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 8
-  },
   footerView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
