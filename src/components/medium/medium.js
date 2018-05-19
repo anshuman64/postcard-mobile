@@ -5,6 +5,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import VideoPlayer from 'react-native-video-player';
 
 // Local Imports
+import { styles }                      from './medium_styles';
 import { COLORS, getUsableDimensions } from '../../utilities/style_utility';
 import { setStateCallback }            from '../../utilities/function_utility';
 
@@ -71,7 +72,7 @@ class Medium extends React.PureComponent {
     if (mediumUrl) {
       if (cachedMedium.mime_type.startsWith('image/')) {
         return (
-          <RN.View style={this.props.containerStyle}>
+          <RN.View style={[styles.mediumContainer, this.props.mediumStyle]}>
             {this.state.isSpinnerVisible ?
               <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/> :
             null}
@@ -88,7 +89,7 @@ class Medium extends React.PureComponent {
         )
       } else if (cachedMedium.mime_type.startsWith('video/')) {
         return (
-          <RN.View style={this.props.containerStyle}>
+          <RN.View style={[styles.mediumContainer, this.props.mediumStyle]}>
             <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
             <VideoPlayer
               style={this.props.mediumStyle}
@@ -107,7 +108,7 @@ class Medium extends React.PureComponent {
       }
     } else if (cachedMedium) {
       return (
-        <RN.View style={this.props.style}>
+        <RN.View style={this.props.mediumStyle}>
           <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{position: 'absolute'}}/>
         </RN.View>
       )
@@ -118,7 +119,7 @@ class Medium extends React.PureComponent {
 
   render() {
     return (
-      <RN.View style={this.props.containerStyle}>
+      <RN.View style={styles.container}>
         {this._renderMedium()}
         {this._renderImageViewer()}
       </RN.View>
