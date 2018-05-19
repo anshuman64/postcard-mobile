@@ -32,6 +32,12 @@ open ./node_modules/react-native-video-player/index.js
 ````
 Replace contents with this file: https://drive.google.com/file/d/1-99De6dgEY4WnHhBvfqVrp5ktRA5a6wg/view?usp=sharing
 
+5. Fix react-native-link-preview
+````
+open ./node_modules/react-native-link-preview/index.js
+````
+Replace contents with this file: https://drive.google.com/open?id=1mQ4ygwP4ooXTSMyujj7ZbuEBgSO_HA9m
+
 ### Setup - Android
 1. Add insiya-android-certified.jks (ask Anshuman) to /android/app directory
 
