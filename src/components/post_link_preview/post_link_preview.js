@@ -41,7 +41,7 @@ class PostLinkPreview extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   componentDidMount() {
-    if (this.props.data.contentType.startsWith('text/') && this.props.data.images) {
+    if (this.props.data.contentType.startsWith('text/') && this.props.data.images && this.props.data.images[0]) {
       this._setMediumDimensions(this.props.data.images[0], 'text');
     } else if (this.props.data.contentType.startsWith('image/')) {
       this._setMediumDimensions(this.props.data.url, 'image');
@@ -99,7 +99,7 @@ class PostLinkPreview extends React.PureComponent {
   }
 
   _renderImage() {
-    let url = this.state.previewType === 'text' ? this.props.data.images[0] : this.props.data.url;
+    let url = this.state.previewType === 'text' && this.props.data.images && this.props.data.images[0] ? this.props.data.images[0] : this.props.data.url;
 
     return (
       <RN.View style={[styles.mediumContainer, { width: this.state.scaledDimensions.width, height: this.state.scaledDimensions.height }]}>
