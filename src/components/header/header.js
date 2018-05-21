@@ -319,7 +319,7 @@ class Header extends React.PureComponent {
 
       return (
         <RN.TouchableOpacity onPress={func} style={styles.button} >
-          <RN.Text allowFontScaling={false} style={styles.customButton}>{text}</RN.Text>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.customButton}>{text}</RN.Text>
         </RN.TouchableOpacity>
       )
     }

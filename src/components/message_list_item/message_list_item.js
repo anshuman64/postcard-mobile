@@ -68,7 +68,7 @@ class MessageListItem extends React.PureComponent {
     if (isHeader) {
       return (
         <RN.View style={styles.dateHeader}>
-          <RN.Text allowFontScaling={false} style={styles.dateHeaderText}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.dateHeaderText}>
             {renderMessageDate(thisMessageCreatedAt)}
           </RN.Text>
         </RN.View>
@@ -106,7 +106,7 @@ class MessageListItem extends React.PureComponent {
 
     if (isUsername) {
       return (
-        <RN.Text allowFontScaling={false} style={styles.date}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.date}>
           {getEntityDisplayName(this.props.message.author_id, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
         </RN.Text>
       )
@@ -180,7 +180,7 @@ class MessageListItem extends React.PureComponent {
   _renderDate(isAuthoredByClient) {
     if (this.state.isDateShown) {
       return (
-        <RN.Text allowFontScaling={false} style={[styles.date, isAuthoredByClient && {alignSelf: 'flex-end'}]}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={[styles.date, isAuthoredByClient && {alignSelf: 'flex-end'}]}>
           {renderMessageDate(this.props.message.created_at)}
         </RN.Text>
       )
