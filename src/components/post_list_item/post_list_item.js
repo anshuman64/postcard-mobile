@@ -67,7 +67,7 @@ class PostListItem extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.item.body) {
-      LinkPreview.getPreview(this.props.item.body)
+      LinkPreview.getPreview(this.props.item.body.replace(/\r?\n|\r/g,' '))
         .then((data) => {
           this.setState({ linkPreviewData: data });
         })
