@@ -179,7 +179,7 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <RN.TouchableOpacity style={styles.confirmButton} onPress={callback}>
-        <RN.Text allowFontScaling={false} style={UTILITY_STYLES.lightWhiteText15}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={UTILITY_STYLES.lightWhiteText15}>
           {acceptString}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -199,7 +199,7 @@ class PendingListItem extends React.PureComponent {
 
     return (
       <RN.TouchableOpacity style={styles.deleteButton} onPress={callback} disabled={!callback}>
-        <RN.Text allowFontScaling={false} style={UTILITY_STYLES.lightBlackText15}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={UTILITY_STYLES.lightBlackText15}>
           {deleteString}
         </RN.Text>
       </RN.TouchableOpacity>
