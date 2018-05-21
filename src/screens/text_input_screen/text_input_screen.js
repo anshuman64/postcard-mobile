@@ -308,7 +308,7 @@ class TextInputScreen extends React.PureComponent {
         onPress={buttonFunction}
         disabled={isStringEmpty(this.state.inputtedText) || this.state.isLoading}
         >
-        <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonTextDisabled]}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightWhiteText18, this.state.inputtedText.length === 0 && UTILITY_STYLES.nextButtonTextDisabled]}>
           {buttonText}
         </RN.Text>
       </RN.TouchableOpacity>
