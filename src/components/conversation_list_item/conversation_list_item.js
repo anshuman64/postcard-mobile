@@ -43,7 +43,7 @@ class ConversationListItem extends React.PureComponent {
 
     if (dateText) {
       return (
-        <RN.Text allowFontScaling={false} style={styles.dateText}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.dateText}>
           {dateText}
         </RN.Text>
       )

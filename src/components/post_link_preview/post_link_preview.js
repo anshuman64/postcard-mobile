@@ -137,7 +137,7 @@ class PostLinkPreview extends React.PureComponent {
           </RN.Text> :
           null
         }
-        <RN.Text allowFontScaling={false} style={styles.urlText}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.urlText}>
           {domain}
         </RN.Text>
       </RN.View>

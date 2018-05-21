@@ -227,7 +227,7 @@ class LoginScreen extends React.PureComponent {
         onPress={this._onNextButtonPress}
         disabled={this.state.isNextButtonDisabled || this.state.isLoading}
         >
-        <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText18, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonTextDisabled]}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightWhiteText18, this.state.isNextButtonDisabled && UTILITY_STYLES.nextButtonTextDisabled]}>
           Next
         </RN.Text>
       </RN.TouchableOpacity>
