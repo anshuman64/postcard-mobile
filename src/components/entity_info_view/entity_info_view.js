@@ -72,11 +72,11 @@ class EntityInfoView extends React.PureComponent {
         disabled={isNotUser ? true : this.props.disableUsername}
         >
         <RN.View style={styles.usernameView}>
-          <RN.Text allowFontScaling={false} ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: maxWidth}]} numberOfLines={1}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} ref={(ref) => this.usernameText = ref} style={[UTILITY_STYLES.regularBlackText16, {maxWidth: maxWidth}]}>
             {displayName}
           </RN.Text>
           {!isStringEmpty(preview) ?
-            <RN.Text allowFontScaling={false} style={[styles.messageText, {maxWidth: maxWidth}]} numberOfLines={1}>
+            <RN.Text allowFontScaling={false} numberOfLines={1} style={[styles.messageText, {maxWidth: maxWidth}]}>
               {preview}
             </RN.Text> :
             null}

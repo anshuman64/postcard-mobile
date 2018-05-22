@@ -9,9 +9,9 @@ import mime                                   from 'mime-types';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 
 // Local Imports
-import { ENV_TYPES, AWS_ENV_SETTING } from '../app_config';
+import { ENV_TYPES, AWS_ENV_SETTING }                 from '../app_config';
 import { setErrorDescription, refreshCredsAndResume } from './error_utility';
-import { amplitude }                  from './analytics_utility';
+import { amplitude }                                  from './analytics_utility';
 
 //--------------------------------------------------------------------//
 
