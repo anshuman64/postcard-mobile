@@ -29,10 +29,10 @@ class ListFooter extends React.PureComponent {
       <RN.TouchableWithoutFeedback onPress={this.props.callback} disabled={!this.props.callback}>
         <RN.View style={styles.footerView}>
           <RN.View style={[styles.horizontalLine, {width: lineWidth}]} />
-          <RN.Text allowFontScaling={false} style={styles.footerText}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.footerText}>
             {this.props.text}
           </RN.Text>
-          <RN.Text allowFontScaling={false} style={[styles.footerText, UTILITY_STYLES.textHighlighted]}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={[styles.footerText, UTILITY_STYLES.textHighlighted]}>
             {this.props.highlightedText}
           </RN.Text>
           <RN.View style={[styles.horizontalLine, {width: lineWidth}]} />

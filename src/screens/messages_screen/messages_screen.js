@@ -6,15 +6,15 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 
 // Local Imports
-import ListFooter                         from '../../components/list_footer/list_footer';
-import HeaderContainer                    from '../../components/header/header_container';
-import MessageListItemContainer           from '../../components/message_list_item/message_list_item_container';
-import { styles }                         from './messages_screen_styles';
-import { pusher }                         from '../../utilities/push_utility';
-import { isStringEmpty, setStateCallback} from '../../utilities/function_utility';
-import { getEntityDisplayName }           from '../../utilities/entity_utility';
-import * as StyleUtility                  from '../../utilities/style_utility';
-import { defaultErrorAlert }              from '../../utilities/error_utility';
+import ListFooter                          from '../../components/list_footer/list_footer';
+import HeaderContainer                     from '../../components/header/header_container';
+import MessageListItemContainer            from '../../components/message_list_item/message_list_item_container';
+import { styles }                          from './messages_screen_styles';
+import { pusher }                          from '../../utilities/push_utility';
+import { isStringEmpty, checkPermissions } from '../../utilities/function_utility';
+import { getEntityDisplayName }            from '../../utilities/entity_utility';
+import * as StyleUtility                   from '../../utilities/style_utility';
+import { defaultErrorAlert }               from '../../utilities/error_utility';
 
 //--------------------------------------------------------------------//
 
@@ -105,6 +105,10 @@ class MessagesScreen extends React.PureComponent {
     }
 
     this.currentAppState = nextAppState;
+  }
+
+  _checkPermissions(type, callback) {
+    checkPermissions(type, callback);
   }
 
   _onPressAddMedia = () => {
@@ -267,10 +271,10 @@ class MessagesScreen extends React.PureComponent {
   _renderTextInputRow() {
     return (
       <RN.View style={styles.textInputRow}>
-        <RN.TouchableOpacity style={styles.imageButton} onPress={this._onPresstakePhotoMedium}>
+        <RN.TouchableOpacity style={styles.imageButton} onPress={() => this._checkPermissions('camera', this._onPresstakePhotoMedium)}>
           <Icon name='camera' style={[styles.imageButtonIcon, this.state.takePhotoMedium && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
-        <RN.TouchableOpacity style={styles.imageButton} onPress={this._onPressAddMedia}>
+        <RN.TouchableOpacity style={styles.imageButton} onPress={() => this._checkPermissions('photo', this._onPressAddMedia)}>
           <Icon name='picture' style={[styles.imageButtonIcon, this.state.medium && StyleUtility.UTILITY_STYLES.textHighlighted]} />
         </RN.TouchableOpacity>
         <RN.TextInput

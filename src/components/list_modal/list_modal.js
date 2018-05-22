@@ -32,7 +32,9 @@ class ListModal extends React.PureComponent {
 
   constructor(props) {
     super(props);
+
     const ds = new RN.ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.state = {
       dataSource:     ds.cloneWithRows(COUNTRY_CODES),
       isModalMounted: false,
@@ -114,7 +116,7 @@ class ListModal extends React.PureComponent {
 
     return (
       <RN.View style={styles.titleView}>
-        <RN.Text allowFontScaling={false} style={StyleUtility.UTILITY_STYLES.regularBlackText16}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={StyleUtility.UTILITY_STYLES.regularBlackText16}>
           {titleString}
         </RN.Text>
       </RN.View>
@@ -144,80 +146,85 @@ class ListModal extends React.PureComponent {
   }
 
   _renderCountryListItem() {
-    if (this.props.setCountry) {
-      let rows = [];
+    let rows = [];
 
-      for (i = 0; i < COUNTRY_CODES.length; i++) {
-        rows.push(
-          <RN.TouchableWithoutFeedback
-            onPressIn={() => {
-              this.countryText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
-              this.dialingCodeText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
-            }}
-            onPressOut={() => {
-              this.countryText.setNativeProps({style: StyleUtility.UTILITY_STYLES.lightBlackText15})
-              this.dialingCodeText.setNativeProps({style: StyleUtility.UTILITY_STYLES.lightBlackText15})
-            }}
-            onPress={this.props.setCountry(i)}
-            key={i}
-            >
-            <RN.View style={styles.rowContainer}>
-              <RN.Text
-                allowFontScaling={false}
-                ref={(ref) => this.countryText = ref}
-                style={StyleUtility.UTILITY_STYLES.lightBlackText15}
-                numberOfLines={1}
-                ellipsizeMode={'tail'}>
-                {COUNTRY_CODES[i].country_name}
-              </RN.Text>
-              <RN.Text allowFontScaling={false} ref={(ref) => this.dialingCodeText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
-                {COUNTRY_CODES[i].dialing_code}
-              </RN.Text>
-            </RN.View>
-          </RN.TouchableWithoutFeedback>
-        )
-      }
-
-      return rows;
-    } else {
-      return null;
+    for (i = 0; i < COUNTRY_CODES.length; i++) {
+      rows.push(
+        <RN.TouchableWithoutFeedback
+          onPressIn={() => {
+            this.countryText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
+            this.dialingCodeText.setNativeProps({style: StyleUtility.UTILITY_STYLES.textHighlighted})
+          }}
+          onPressOut={() => {
+            this.countryText.setNativeProps({style: StyleUtility.UTILITY_STYLES.lightBlackText15})
+            this.dialingCodeText.setNativeProps({style: StyleUtility.UTILITY_STYLES.lightBlackText15})
+          }}
+          onPress={this.props.setCountry(i)}
+          key={i}
+          >
+          <RN.View style={styles.rowContainer}>
+            <RN.Text
+              allowFontScaling={false}
+              numberOfLines={1}
+              ref={(ref) => this.countryText = ref}
+              style={StyleUtility.UTILITY_STYLES.lightBlackText15}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
+              {COUNTRY_CODES[i].country_name}
+            </RN.Text>
+            <RN.Text allowFontScaling={false} numberOfLines={1} ref={(ref) => this.dialingCodeText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
+              {COUNTRY_CODES[i].dialing_code}
+            </RN.Text>
+          </RN.View>
+        </RN.TouchableWithoutFeedback>
+      )
     }
+
+    return rows;
   }
 
   _renderRecipientList() {
     if (!this.props.setCountry) {
-      return (
-        <RN.SectionList
-          sections={[{data: this.props.recipientIds, renderItem: this._renderItem.bind(this)}]}
-          style={[styles.listView, { height: this.props.recipientIds.length * 60 }]}
-          keyExtractor={(item, index) => String(index)}
-          renderSectionHeader={this._renderSectionHeader.bind(this)}
-          initialNumToRender={20}
-          windowSize={20}
-          showsVerticalScrollIndicator={false}
-          stickySectionHeadersEnabled={false}
-        />
-      )
+      if(this.state.isModalMounted) {
+        return (
+          <RN.ScrollView
+            ref={(ref) => this.scrollView = ref}
+            style={styles.listView}
+            onContentSizeChange={this._onListViewContentSizeChange}
+            >
+            {this._renderRecipientListItem()}
+          </RN.ScrollView>
+        )
+      } else {
+        return (
+          <RN.ActivityIndicator size='small' color={StyleUtility.COLORS.grey400}  />
+        )
+      }
     } else {
       return null;
     }
   }
 
-  _renderSectionHeader = ({section}) => {
-    return null;
-  }
+  _renderRecipientListItem() {
+    let rows = [];
+    let user;
+    let isDisabled;
 
-  _renderItem({item}) {
-    let user = this.props.usersCache[item];
-    let isDisabled = !this.props.isModalForReply || (user && !user.firebase_uid);
+    for (i = 0; i < this.props.recipientIds.length; i++) {
+      userId = this.props.recipientIds[i];
+      user = this.props.usersCache[userId];
+      isDisabled = !this.props.isModalForReply || (user && !user.firebase_uid);
 
-    return (
-      <RN.TouchableOpacity onPress={() => this._onPressReply(item)} disabled={isDisabled}>
-        <RN.View style={[styles.rowContainer, {height: 60}]}>
-          <EntityInfoViewContainer entityId={item} marginLeft={10} subtractWidth={170} disableUsername={this.props.isModalForReply} disableAvatar={this.props.isModalForReply} />
-        </RN.View>
-      </RN.TouchableOpacity>
-    )
+      rows.push(
+        <RN.TouchableOpacity key={i} onPress={() => this._onPressReply(userId)} disabled={isDisabled}>
+          <RN.View style={[styles.rowContainer, {height: 60}]}>
+            <EntityInfoViewContainer entityId={userId} marginLeft={10} subtractWidth={170} disableUsername={this.props.isModalForReply} disableAvatar={this.props.isModalForReply} />
+          </RN.View>
+        </RN.TouchableOpacity>
+      )
+    }
+
+    return rows;
   }
 
   _renderCancelButton() {
@@ -230,7 +237,7 @@ class ListModal extends React.PureComponent {
         onPress={() => this.props.setParentState({ isModalVisible: false })}
       >
         <RN.View style={styles.cancelButtonView}>
-          <RN.Text allowFontScaling={false} ref={(ref) => this.cancelButtonText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} ref={(ref) => this.cancelButtonText = ref} style={StyleUtility.UTILITY_STYLES.lightBlackText15}>
             {cancelString}
           </RN.Text>
         </RN.View>

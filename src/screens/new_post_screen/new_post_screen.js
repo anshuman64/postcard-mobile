@@ -7,7 +7,7 @@ import Icon        from 'react-native-vector-icons/SimpleLineIcons';
 // Local Imports
 import HeaderContainer                            from '../../components/header/header_container';
 import { styles }                                 from './new_post_screen_styles';
-import { getRandomInt, setStateCallback }         from '../../utilities/function_utility';
+import { setStateCallback, checkPermissions }     from '../../utilities/function_utility';
 import { UTILITY_STYLES, COLORS }                 from '../../utilities/style_utility';
 import { setErrorDescription, defaultErrorAlert } from '../../utilities/error_utility';
 import { amplitude }                              from '../../utilities/analytics_utility';
@@ -42,6 +42,10 @@ class NewPostScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
+
+  _checkPermissions(type, callback) {
+    checkPermissions(type, callback);
+  }
 
   _onPressAddPhotos = () => {
     if (this.isButtonPressed) {
@@ -154,19 +158,19 @@ class NewPostScreen extends React.PureComponent {
     if (type === 'photos') {
       text = 'Add Photos';
       iconName = 'picture';
-      buttonCallback = this._onPressAddPhotos;
+      buttonCallback = () => this._checkPermissions('photo', this._onPressAddPhotos);
       numAttached = this.state.photos.length;
       closeCallback = setStateCallback(this, { photos: [] });
     } else if (type === 'videos') {
       text = 'Add Video';
       iconName = 'camrecorder';
-      buttonCallback = this._onPressAddVideo;
+      buttonCallback = () => this._checkPermissions('photo', this._onPressAddVideo);
       numAttached = this.state.videos.length;
       closeCallback = setStateCallback(this, { videos: [] });
     } else if (type === 'takePhoto') {
       text = 'Take Photo';
       iconName = 'camera';
-      buttonCallback = this._onPressTakePhoto;
+      buttonCallback = () => this._checkPermissions('camera', this._onPressTakePhoto);
       numAttached = this.state.takePhoto.length;
       closeCallback = setStateCallback(this, { takePhoto: [] });
     }
@@ -175,13 +179,13 @@ class NewPostScreen extends React.PureComponent {
       <RN.View style={styles.buttonView}>
         <RN.TouchableOpacity style={styles.buttonView} onPress={buttonCallback}>
           <Icon name={iconName} style={styles.buttonIcon} />
-          <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, styles.buttonText]}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightBlackText16, styles.buttonText]}>
             {text}
           </RN.Text>
           {numAttached > 0 ?
             <RN.TouchableOpacity style={styles.buttonView} onPress={closeCallback}>
               <Icon name={'close'} style={styles.closeIcon} />
-              <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.regularBlackText16, UTILITY_STYLES.textRed, styles.messageText]}>
+              <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.regularBlackText16, UTILITY_STYLES.textRed, styles.messageText]}>
                 {numAttached + ' Attached'}
               </RN.Text>
             </RN.TouchableOpacity> :

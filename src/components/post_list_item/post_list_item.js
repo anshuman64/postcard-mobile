@@ -67,7 +67,7 @@ class PostListItem extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.item.body) {
-      LinkPreview.getPreview(this.props.item.body)
+      LinkPreview.getPreview(this.props.item.body.replace(/\r?\n|\r/g,' '))
         .then((data) => {
           this.setState({ linkPreviewData: data });
         })
@@ -497,7 +497,7 @@ class PostListItem extends React.PureComponent {
           <RN.View style={styles.likesView}>
             {this._renderLike()}
             {this.props.client.id === this.props.item.author_id ?
-              <RN.Text allowFontScaling={false} style={styles.likeCountText}>
+              <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.likeCountText}>
               {FunctionUtility.getReadableCount(this.props.item.num_likes)}
             </RN.Text> :
             null}
