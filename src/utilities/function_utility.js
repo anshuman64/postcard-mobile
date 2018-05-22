@@ -1,5 +1,10 @@
 // Library Imports
-import _ from 'lodash';
+import { Alert }   from 'react-native';
+import _           from 'lodash';
+import Permissions from 'react-native-permissions';
+
+// Local Imports
+import { amplitude } from './analytics_utility';
 
 //--------------------------------------------------------------------//
 // Interface
@@ -67,6 +72,42 @@ export const getDomainFromUrl = (url) => {
   hostname = hostname.split('?')[0]; //find & remove "?"
 
   return hostname;
+}
+
+export const checkPermissions = (type, callback) => {
+  let alertString;
+
+  if (type === 'contacts') {
+    alertString = "Postcard is only fun when we can find your friends. Go to \"Settings\" > \"Postcard\" and enable \"Contacts.\"";
+  } else if (type === 'photo') {
+    alertString = "Postcard is more fun when you can share photos. Go to \"Settings\" > \"Privacy\" > \"Photos\" > \"Postcard\" and enable \"Read and Write.\"";
+  } else if (type === 'camera') {
+    alertString = "Postcard is more fun when you can share photos. Go to \"Settings\" > \"Privacy\" > \"Camera\" and enable \"Postcard.\"";
+  }
+
+  return Permissions.check(type)
+    .then((response) => {
+      if (response === 'authorized') {
+        callback();
+      } else {
+        return Permissions.request(type)
+          .then((response) => {
+            if (response === 'authorized') {
+              callback();
+            } else {
+              Alert.alert('', alertString, [{text: 'OK', style: 'cancel'}]);
+            }
+          })
+          .catch((error) => {
+            error.description = 'Request ' + type + ' permissions failed';
+            amplitude.logEvent('Permissions - Request ' + type, { error_description: error.description, error_message: error.message });
+          });
+      }
+    })
+    .catch((error) => {
+      error.description = 'Check ' + type + ' permissions failed';
+      amplitude.logEvent('Permissions - Check ' + type, { error_description: error.description, error_message: error.message });
+    });
 }
 
 // Merges arrayB into arrayA. Used in refreshPost reducer
