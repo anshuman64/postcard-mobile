@@ -137,7 +137,7 @@ class WelcomeScreen extends React.PureComponent {
         onPress={() => this.props.navigateTo('LoginScreen')}
         disabled={!this.state.isChecked}
         >
-        <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText18, !this.state.isChecked && UTILITY_STYLES.nextButtonTextDisabled]}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightWhiteText18, !this.state.isChecked && UTILITY_STYLES.nextButtonTextDisabled]}>
           Next
         </RN.Text>
       </RN.TouchableOpacity>

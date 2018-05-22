@@ -28,7 +28,7 @@ class ListHeader extends React.PureComponent {
       <RN.TouchableOpacity onPress={this.props.callback}>
         <RN.View style={styles.headerItemView}>
           <Icon name={this.props.iconName} style={[styles.headerItemIcon, UTILITY_STYLES.textHighlighted]} />
-          <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.textHighlighted]}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightBlackText16, UTILITY_STYLES.textHighlighted]}>
             {this.props.text}
           </RN.Text>
         </RN.View>
