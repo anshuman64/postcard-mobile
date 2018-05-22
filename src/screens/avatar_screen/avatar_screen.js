@@ -9,6 +9,7 @@ import LoadingModal           from '../../components/loading_modal/loading_modal
 import { styles }             from './avatar_screen_styles';
 import { UTILITY_STYLES }     from '../../utilities/style_utility';
 import { defaultErrorAlert }  from '../../utilities/error_utility';
+import { checkPermissions }   from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -78,6 +79,10 @@ class AvatarScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Callback Methods
   //--------------------------------------------------------------------//
+
+  _checkPermissions(type, callback) {
+    checkPermissions(type, callback);
+  }
 
   //Navigates to CameraRollScreen
   _onPressAddPhoto = () => {
@@ -180,7 +185,7 @@ class AvatarScreen extends React.PureComponent {
     let avatarUrl = avatar ? (avatar.url || avatar.path) : null;
 
     return (
-      <RN.TouchableOpacity onPress={this._onPressAddPhoto} disabled={!this.state.avatarMedium || this.state.isLoading}>
+      <RN.TouchableOpacity onPress={() => this._checkPermissions('photo', this._onPressAddPhoto)} disabled={!this.state.avatarMedium || this.state.isLoading}>
         <AvatarContainer userId={this.props.client.id} avatarSize={200} iconSize={75} avatarUrl={avatarUrl} frameBorderWidth={3} />
       </RN.TouchableOpacity>
     )
@@ -190,10 +195,10 @@ class AvatarScreen extends React.PureComponent {
     return (
       <RN.TouchableOpacity
         style={styles.skipButton}
-        onPress={this._onPressAddPhoto}
+        onPress={() => this._checkPermissions('photo', this._onPressAddPhoto)}
         disabled={!this.state.avatarMedium || this.state.isLoading}
         >
-        <RN.Text allowFontScaling={false} style={[styles.skipButtonText, !this.state.avatarMedium && UTILITY_STYLES.transparentText]}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={[styles.skipButtonText, !this.state.avatarMedium && UTILITY_STYLES.transparentText]}>
           Change
         </RN.Text>
       </RN.TouchableOpacity>
@@ -213,7 +218,7 @@ class AvatarScreen extends React.PureComponent {
         buttonText = 'Done';
       }
     } else {
-      func = this._onPressAddPhoto;
+      func = () => this._checkPermissions('photo', this._onPressAddPhoto);
       buttonText = 'Add Photo';
     }
 
@@ -223,7 +228,7 @@ class AvatarScreen extends React.PureComponent {
         onPress={func}
         disabled={this.state.isLoading}
         >
-        <RN.Text allowFontScaling={false} style={UTILITY_STYLES.lightWhiteText18}>
+        <RN.Text allowFontScaling={false} numberOfLines={1} style={UTILITY_STYLES.lightWhiteText18}>
           {buttonText}
         </RN.Text>
       </RN.TouchableOpacity>
@@ -251,7 +256,7 @@ class AvatarScreen extends React.PureComponent {
           onPress={func}
           disabled={this.state.isLoading}
           >
-          <RN.Text allowFontScaling={false} style={styles.skipButtonText}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.skipButtonText}>
             {text}
           </RN.Text>
         </RN.TouchableOpacity>

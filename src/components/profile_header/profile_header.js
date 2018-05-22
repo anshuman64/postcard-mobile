@@ -202,7 +202,7 @@ class ProfileHeader extends React.PureComponent {
           onPress={() => this.props.navigateTo('DisplayNameScreen', { screen: 'DisplayNameScreen' })}
           disabled={this.props.client.id != this.props.userId}
           >
-          <RN.Text allowFontScaling={false} style={styles.fullNameText} numberOfLines={1}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.fullNameText}>
             {getEntityDisplayName(this.props.userId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache)}
           </RN.Text>
           <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
@@ -212,7 +212,7 @@ class ProfileHeader extends React.PureComponent {
           onPress={() => this.props.navigateTo('UsernameScreen', { screen: 'UsernameScreen' })}
           disabled={this.props.client.id != this.props.userId}
           >
-          <RN.Text allowFontScaling={false} style={styles.usernameText} numberOfLines={1}>
+          <RN.Text allowFontScaling={false} numberOfLines={1} style={styles.usernameText}>
             {getEntityPreview(this.props.userId, this.props.usersCache, this.props.contactsCache)}
           </RN.Text>
           <Icon name='pencil' style={[styles.pencil, this.props.client.id != this.props.userId && UTILITY_STYLES.transparentText]} />
@@ -251,7 +251,7 @@ class ProfileHeader extends React.PureComponent {
             onPress={this._onPressFriend}
             >
             <Icon name={iconName} style={[styles.friendIcon, deactivateButton && styles.buttonTextDisabled]} />
-            <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightWhiteText15, deactivateButton && styles.buttonTextDisabled]}>
+            <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightWhiteText15, deactivateButton && styles.buttonTextDisabled]}>
               {friendString}
             </RN.Text>
           </RN.TouchableOpacity> :
@@ -260,7 +260,7 @@ class ProfileHeader extends React.PureComponent {
             style={[styles.buttonBackground, styles.buttonBackgroundDisabled]}
             onPress={this._onPressBlock}
             >
-            <RN.Text allowFontScaling={false} style={[UTILITY_STYLES.lightBlackText15, isBlocked && styles.buttonTextDisabled]}>
+            <RN.Text allowFontScaling={false} numberOfLines={1} style={[UTILITY_STYLES.lightBlackText15, isBlocked && styles.buttonTextDisabled]}>
               { isBlocked ? 'Unblock' : 'Block' }
             </RN.Text>
           </RN.TouchableOpacity>

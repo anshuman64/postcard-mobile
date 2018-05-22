@@ -1,13 +1,13 @@
 // Library Imports
 import React       from 'react';
 import RN          from 'react-native';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import VideoPlayer from 'react-native-video-player';
 
 // Local Imports
-import { styles }                      from './medium_styles';
-import { COLORS, getUsableDimensions } from '../../utilities/style_utility';
-import { setStateCallback }            from '../../utilities/function_utility';
+import ImageViewerModal      from '../image_viewer_modal/image_viewer_modal';
+import { styles }            from './medium_styles';
+import { COLORS }            from '../../utilities/style_utility';
+import { setStateCallback }  from '../../utilities/function_utility';
 
 //--------------------------------------------------------------------//
 
@@ -35,6 +35,14 @@ class Medium extends React.PureComponent {
   }
 
   //--------------------------------------------------------------------//
+  // Public Methods
+  //--------------------------------------------------------------------//
+
+  setParentState = (state) => {
+    this.setState(state);
+  }
+
+  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -48,18 +56,7 @@ class Medium extends React.PureComponent {
       let index = this.props.imageUrls ? this.props.imageUrls.map(x => x.url).indexOf(mediumUrl) : 0;
 
       return (
-        <RN.Modal visible={this.state.isModalVisible} transparent={true}>
-          <ImageViewer
-            imageUrls={imageUrls}
-            onCancel={setStateCallback(this, { isModalVisible: false })}
-            onClick={setStateCallback(this, { isModalVisible: false })}
-            onSwipeDown={setStateCallback(this, { isModalVisible: false })}
-            failImageSource={'Could not load image'}
-            loadingRender={() => <RN.ActivityIndicator size='small' color={COLORS.grey500} style={{height: getUsableDimensions().height}}/>}
-            renderIndicator={() => null}
-            index={index}
-            />
-        </RN.Modal>
+        <ImageViewerModal isModalVisible={this.state.isModalVisible} imageUrls={imageUrls} setParentState={this.setParentState} index={index} />
       )
     }
   }
