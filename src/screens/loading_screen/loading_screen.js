@@ -4,7 +4,6 @@ import RN              from 'react-native';
 import Firebase        from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
 import OneSignal       from 'react-native-onesignal';
-import Permissions     from 'react-native-permissions';
 
 // Local Imports
 import { amplitude }           from '../../utilities/analytics_utility';
@@ -12,6 +11,7 @@ import { POST_TYPES }          from '../../actions/post_actions';
 import { FRIEND_TYPES }        from '../../actions/friendship_actions';
 import { styles, pulseIcon }   from './loading_screen_styles';
 import { defaultErrorAlert }   from '../../utilities/error_utility';
+import { checkPermissions }    from '../../utilities/function_utility';
 import { UTILITY_STYLES }      from '../../utilities/style_utility';
 
 //--------------------------------------------------------------------//
@@ -57,7 +57,7 @@ class LoadingScreen extends React.PureComponent {
             if (this.props.usersCache[this.props.client.id].is_banned) {
               RN.Alert.alert('', 'This account has been disabled. Email support@insiya.io for more info.', [{text: 'OK', style: 'cancel'}]);
             } else {
-              this._checkPermissions();
+              checkPermissions('contacts', this._onCheckPermissions);
             }
           })
           .catch((error) => {
@@ -77,32 +77,6 @@ class LoadingScreen extends React.PureComponent {
   //--------------------------------------------------------------------//
   // Private Methods
   //--------------------------------------------------------------------//
-
-  _checkPermissions = () => {
-    Permissions.check('contacts')
-      .then((response) => {
-        if (response === 'authorized') {
-          this._onCheckPermissions();
-        } else {
-          Permissions.request('contacts')
-            .then((response) => {
-              if (response === 'authorized') {
-                this._onCheckPermissions();
-              } else {
-                RN.Alert.alert('', "Postcard is only fun when we can find your friends. Go to \"Settings\" > \"Postcard\" and enable \"Contacts.\"", [{text: 'OK', style: 'cancel'}]);
-              }
-            })
-            .catch((error) => {
-              error.description = 'Request contacts permissions failed';
-              amplitude.logEvent('Permissions - Request Contacts', { error_description: error.description, error_message: error.message });
-            });
-        }
-      })
-      .catch((error) => {
-        error.description = 'Check contacts permissions failed';
-        amplitude.logEvent('Permissions - Check Contacts', { error_description: error.description, error_message: error.message });
-      });
-  }
 
   // Loads all data async and navigates screens
   _onCheckPermissions = () => {
