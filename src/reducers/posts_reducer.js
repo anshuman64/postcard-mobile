@@ -107,6 +107,7 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the client creates a post
+      newState[clientId][POST_TYPES.RECEIVED].data.unshift(postId);
       newState[clientId][POST_TYPES.AUTHORED].data.unshift(postId);
 
       return newState;
@@ -116,6 +117,10 @@ const PostsReducer = (state = DEFAULT_STATE, action) => {
       postId = action.data.post.id;
 
       // Assumes that this case is only hit when the client removes their own post
+      _.remove(newState[clientId][POST_TYPES.RECEIVED].data, (postsId) => {
+        return postsId === postId;
+      });
+
       _.remove(newState[clientId][POST_TYPES.AUTHORED].data, (postsId) => {
         return postsId === postId;
       });
