@@ -21,18 +21,6 @@ Optional Passed Props:
 class ConversationListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
-
-  _onPressAvatar = () => {
-    if (this.props.convoId < 0) {
-      return;
-    }
-
-    this.props.navigateToProfile({ userId: this.props.convoId });
-  }
-
-  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
