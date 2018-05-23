@@ -31,6 +31,7 @@ import ShareScreenContainer        from './screens/share_screen/share_screen_con
 import CreateGroupScreenContainer  from './screens/create_group_screen/create_group_screen_container';
 import CreateCircleScreenContainer from './screens/create_circle_screen/create_circle_screen_container';
 import MenuScreen                  from './screens/menu_screen/menu_screen';
+import UserMenuScreenContainer     from './screens/user_menu_screen/user_menu_screen_container';
 import GroupMenuScreenContainer    from './screens/group_menu_screen/group_menu_screen_container';
 
 import HeaderContainer             from './components/header/header_container';
@@ -127,6 +128,7 @@ class App extends React.Component {
             <Scene key='AddGroupMembersScreen' component={CreateGroupScreenContainer}  panHandlers={null} hideNavBar={true} />
             <Scene key='MessagesScreen'        component={MessagesScreenContainer}     panHandlers={null} hideNavBar={true} />
             <Scene key='UserScreen'            component={UserScreenContainer}         panHandlers={null} hideNavBar={true} />
+            <Scene key='UserMenuScreen'        component={UserMenuScreenContainer}     panHandlers={null} hideNavBar={true} />
 
             <Scene key='ConfirmCodeScreen'      component={ConfirmCodeScreenContainer} panHandlers={null} navBar={this._renderHeader('Confirm Code', true)} />
             <Scene key='UsernameScreenLogin'    component={TextInputScreenContainer}   panHandlers={null} navBar={this._renderHeader('Username')} />
@@ -141,7 +143,7 @@ class App extends React.Component {
             <Scene key='GroupMenuScreen'        component={GroupMenuScreenContainer}   panHandlers={null} navBar={this._renderHeader('Group Settings', true)} />
 
             <Tabs key='MainTabs' tabBarPosition={'bottom'} tabBarComponent={FooterContainer} swipeEnabled={false} lazy={true} animationEnabled={false} panHandlers={null}>
-              <Scene key='HomeScreen'     component={HomeScreenContainer}   panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
+              <Scene key='HomeScreen'    component={HomeScreenContainer}    panHandlers={null} navBar={() => <HeaderContainer logo={true} />} initial={true} />
               <Scene key='FriendScreen'  component={FriendScreenContainer}  panHandlers={null} navBar={() => <HeaderContainer logo={true} />} />
               <Scene key='PendingScreen' component={PendingScreenContainer} panHandlers={null} navBar={() => <HeaderContainer logo={true} />} />
 
