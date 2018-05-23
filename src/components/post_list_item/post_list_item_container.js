@@ -2,13 +2,13 @@
 import { connect } from 'react-redux';
 
 // Local Imports
-import PostListItem                      from './post_list_item';
-import { deletePost, removePost }        from '../../actions/post_actions';
-import { createLike, deleteLike }        from '../../actions/like_actions';
-import { createFlag, deleteFlag }        from '../../actions/flag_actions';
-import { createMessage }                 from '../../actions/message_actions';
-import { navigateTo, navigateToProfile } from '../../actions/navigation_actions';
-import { refreshCredsAndGetMedium }      from '../../actions/medium_actions';
+import PostListItem                  from './post_list_item';
+import { deletePost, removePost }    from '../../actions/post_actions';
+import { createLike, deleteLike }    from '../../actions/like_actions';
+import { createFlag, deleteFlag }    from '../../actions/flag_actions';
+import { createMessage }             from '../../actions/message_actions';
+import { navigateTo }                from '../../actions/navigation_actions';
+import { refreshCredsAndGetMedium }  from '../../actions/medium_actions';
 
 //--------------------------------------------------------------------//
 
@@ -17,7 +17,7 @@ const mapStateToProps = ({ client, usersCache, groupsCache, contactsCache, media
   usersCache:    usersCache,
   groupsCache:   groupsCache,
   contactsCache: contactsCache,
-  mediaCache:   mediaCache,
+  mediaCache:    mediaCache,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -29,7 +29,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   removePost:               (deletedPost)                                                                       => dispatch(removePost(deletedPost)),
   createMessage:            (authToken, firebaseUserObj, clientId, convoId, messageBody, messageMedium, postId) => dispatch(createMessage(authToken, firebaseUserObj, clientId, convoId, messageBody, messageMedium, postId)),
   navigateTo:               (screen, props)                                                                     => dispatch(navigateTo(screen, props)),
-  navigateToProfile:        (props)                                                                             => dispatch(navigateToProfile(props)),
   refreshCredsAndGetMedium: (firebaseUserObj, medium)                                                           => dispatch(refreshCredsAndGetMedium(firebaseUserObj, medium)),
 });
 
