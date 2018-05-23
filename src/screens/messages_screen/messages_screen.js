@@ -369,7 +369,7 @@ class MessagesScreen extends React.PureComponent {
           <HeaderContainer
             backIcon={true}
             backTitle={backTitle}
-            settingsIcon={this.props.convoId < 0}
+            settingsIcon={true}
             convoId={this.props.convoId}
             />
           {this._renderMessageList()}
