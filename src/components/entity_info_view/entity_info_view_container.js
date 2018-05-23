@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 // Local Imports
 import EntityInfoView from './entity_info_view';
+import { navigateTo } from '../../actions/navigation_actions';
 
 //--------------------------------------------------------------------//
 
@@ -12,6 +13,11 @@ const mapStateToProps = ({ usersCache, groupsCache, contactsCache }, ownProps) =
   contactsCache: contactsCache,
 });
 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  navigateTo: (screen, props) => dispatch(navigateTo(screen, props))
+});
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(EntityInfoView);
