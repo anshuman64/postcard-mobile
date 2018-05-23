@@ -213,8 +213,10 @@ class Header extends React.PureComponent {
     // If coming from ProfileTabs
     if (this.props.blank) {
       this.props.navigateTo('MenuScreen');
-    // If coming from MessagesScreen
-    } else {
+    // If coming from MessagesScreen and convo is a user
+    } else if (this.props.convoId > 0) {
+      this.props.navigateTo('UserMenuScreen', { userId: this.props.convoId });
+    } else if (this.props.convoId < 0) {
       this.props.navigateTo('GroupMenuScreen', { convoId: this.props.convoId });
     }
   }
