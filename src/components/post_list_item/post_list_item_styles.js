@@ -56,6 +56,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
   },
+  usernameTextView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+  },
   iconView: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
