@@ -99,7 +99,7 @@ class Header extends React.PureComponent {
 
       this.props.createPost(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, this.props.recipients, this.props.contactRecipients, postBody, this.props.media, this.props.placeholderText)
         .then(() => {
-          this.props.navigateTo('AuthoredScreen');
+          this.props.navigateTo('HomeScreen');
           this.isGoBackPressed = true;
         })
         .catch((error) => {
@@ -213,8 +213,10 @@ class Header extends React.PureComponent {
     // If coming from ProfileTabs
     if (this.props.blank) {
       this.props.navigateTo('MenuScreen');
-    // If coming from MessagesScreen
-    } else {
+    // If coming from MessagesScreen and convo is a user
+    } else if (this.props.convoId > 0) {
+      this.props.navigateTo('UserMenuScreen', { userId: this.props.convoId });
+    } else if (this.props.convoId < 0) {
       this.props.navigateTo('GroupMenuScreen', { convoId: this.props.convoId });
     }
   }

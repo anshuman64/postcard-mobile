@@ -21,18 +21,6 @@ Optional Passed Props:
 class ConversationListItem extends React.PureComponent {
 
   //--------------------------------------------------------------------//
-  // Callback Methods
-  //--------------------------------------------------------------------//
-
-  _onPressAvatar = () => {
-    if (this.props.convoId < 0) {
-      return;
-    }
-
-    this.props.navigateToProfile({ userId: this.props.convoId });
-  }
-
-  //--------------------------------------------------------------------//
   // Render Methods
   //--------------------------------------------------------------------//
 
@@ -58,7 +46,7 @@ class ConversationListItem extends React.PureComponent {
     let messagePreview = EntityUtility.getMessagePreview(message, this.props.client.id, this.props.usersCache);
 
     return (
-      <EntityInfoView entityId={this.props.convoId} messagePreview={messagePreview} disableUsername={true} marginLeft={7} subtractWidth={170} />
+      <EntityInfoView entityId={this.props.convoId} messagePreview={messagePreview} disableUsername={true} disableAvatar={true} marginLeft={7} subtractWidth={170} />
     )
   }
 

@@ -37,7 +37,7 @@ class MessagesScreen extends React.PureComponent {
       takePhotoMedium:  null,
       isLoading:        false,
       isClientTyping:   false,
-      usersTyping:      [],
+      numUsersTyping:   0,
     };
 
     this.isMediaButtonPressed             = false;
@@ -222,18 +222,12 @@ class MessagesScreen extends React.PureComponent {
 
     convoChannel = pusher.subscribe(this.convoChannelName);
 
-    let arr = this.state.usersTyping.slice();
-
     convoChannel.bind('client-start-typing', (data) => {
-      this.setState({ usersTyping: arr.concat(data.userId) });
+      this.setState({ numUsersTyping: this.state.numUsersTyping + 1 });
     });
 
     convoChannel.bind('client-stop-typing', (data) => {
-      _.remove(arr, (id) => {
-        return id === data.userId;
-      });
-
-      this.setState({ usersTyping: arr });
+      this.setState({ numUsersTyping: this.state.numUsersTyping - 1 });
     });
   }
 
@@ -318,7 +312,7 @@ class MessagesScreen extends React.PureComponent {
   }
 
   _renderHeader = () => {
-    let isUserTyping = this.state.usersTyping.length > 0;
+    let isUserTyping = this.state.numUsersTyping > 0;
 
     if (this.state.isLoading || isUserTyping) {
       return (
@@ -375,7 +369,7 @@ class MessagesScreen extends React.PureComponent {
           <HeaderContainer
             backIcon={true}
             backTitle={backTitle}
-            settingsIcon={this.props.convoId < 0}
+            settingsIcon={true}
             convoId={this.props.convoId}
             />
           {this._renderMessageList()}
