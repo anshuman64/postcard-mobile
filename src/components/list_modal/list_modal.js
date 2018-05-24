@@ -66,7 +66,7 @@ class ListModal extends React.PureComponent {
   }
 
   // Navigates to messages of selected group or user
-  _onPressReply(convoId) {
+  _onPressReply = (convoId) => {
     if (this.isReplyDisabled) {
       return;
     }
@@ -81,22 +81,28 @@ class ListModal extends React.PureComponent {
   }
 
   _onConfirmReply(convoId) {
-    let revisedConvoId = this.props.client.id === convoId ? this.props.authorId : convoId;
-
     this.setState({ isLoading: true },() => {
-      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, revisedConvoId, null, null, this.props.postId)
+      this.props.createMessage(this.props.client.authToken, this.props.client.firebaseUserObj, this.props.client.id, convoId, null, null, this.props.postId)
         .then(() => {
           this.setState({ isLoading: false }, () => {
             this.props.setParentState({ isModalVisible: false });
-            this.props.navigateTo('MessagesScreen', { convoId: revisedConvoId });
+            this.props.navigateTo('MessagesScreen', { convoId: convoId });
           });
         })
         .catch((error) => {
           this.setState({ isLoading: false }, () => {
             defaultErrorAlert(error);
           });
+        })
+        .finally(() => {
+          this.isReplyDisabled = false
         });
     });
+  }
+
+  _onNavigateToMessages = (userId) => {
+    this.props.setParentState({ isModalVisible: false });
+    this.props.navigateTo('MessagesScreen', { convoId: userId });
   }
 
   //--------------------------------------------------------------------//
@@ -209,16 +215,19 @@ class ListModal extends React.PureComponent {
     let rows = [];
     let user;
     let isDisabled;
+    let callback;
 
     for (i = 0; i < this.props.recipientIds.length; i++) {
       userId = this.props.recipientIds[i];
+      userId = userId === this.props.client.id && this.props.isModalForReply ? this.props.authorId : userId;
       user = this.props.usersCache[userId];
-      isDisabled = !this.props.isModalForReply || (user && !user.firebase_uid);
+      isDisabled = (user && !user.firebase_uid) || userId === this.props.client.id;
+      callback = this.props.isModalForReply ? this._onPressReply.bind(this, userId) : this._onNavigateToMessages.bind(this, userId);
 
       rows.push(
-        <RN.TouchableOpacity key={i} onPress={() => this._onPressReply(userId)} disabled={isDisabled}>
+        <RN.TouchableOpacity key={i} onPress={callback} disabled={isDisabled}>
           <RN.View style={[styles.rowContainer, {height: 60}]}>
-            <EntityInfoViewContainer entityId={userId} marginLeft={10} subtractWidth={170} disableUsername={this.props.isModalForReply} disableAvatar={this.props.isModalForReply} />
+            <EntityInfoViewContainer entityId={userId} marginLeft={10} subtractWidth={170} disableUsername={true} disableAvatar={true} />
           </RN.View>
         </RN.TouchableOpacity>
       )
