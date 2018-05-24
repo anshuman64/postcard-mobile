@@ -16,7 +16,6 @@ import LoadingModal             from '../loading_modal/loading_modal';
 import ListModalContainer       from '../list_modal/list_modal_container';
 import EntityInfoViewContainer  from '../entity_info_view/entity_info_view_container';
 import { FRIEND_TYPES }         from '../../actions/friendship_actions';
-import { POST_TYPES }           from '../../actions/post_actions';
 import { styles, scaleHeart }   from './post_list_item_styles';
 import { renderPostDate }       from '../../utilities/date_time_utility';
 import { defaultErrorAlert }    from '../../utilities/error_utility';
@@ -67,7 +66,7 @@ class PostListItem extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.item.body) {
-      LinkPreview.getPreview(this.props.item.body.replace(/\r?\n|\r/g,' '))
+      LinkPreview.getPreview(this.props.item.body.replace(/\r?\n|\r/g,' ')) // remove new lines to make sure parsing works
         .then((data) => {
           this.setState({ linkPreviewData: data });
         })
@@ -215,8 +214,8 @@ class PostListItem extends React.PureComponent {
     let recipients;
     this.isReplyDisabled = true;
 
-    // For AuthoredScreen, go to recipient which is either a user or group
-    if (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.item.author_id) {
+    // For authored post, go to recipient which is either a user or group
+    if (this.props.client.id === this.props.item.author_id) {
       recipients = this.props.item.recipient_ids;
       if (recipients.length === 1) {
         convoId = this.props.item.recipient_ids[0];
@@ -285,7 +284,7 @@ class PostListItem extends React.PureComponent {
   }
 
   _renderUserView() {
-    let isRecipients = !this.props.width && ((this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.item.author_id && this.props.item.recipient_ids_with_client.length > 0)
+    let isRecipients = !this.props.width && ((this.props.client.id === this.props.item.author_id && this.props.item.recipient_ids_with_client.length > 0)
     || (this.props.item.recipient_ids.length > 0));
 
     return (
@@ -311,8 +310,8 @@ class PostListItem extends React.PureComponent {
       let displayString = '';
       let callback;
 
-      // If post is authored by client and on AuthoredPosts tab, render recipients of the post
-      if (this.props.postType === POST_TYPES.AUTHORED && this.props.client.id === this.props.item.author_id) {
+      // If post is authored by client, render recipients of the post
+      if (this.props.client.id === this.props.item.author_id) {
         numRecipients = this.props.item.recipient_ids.length;
 
         if (numRecipients === 0) {
@@ -320,7 +319,7 @@ class PostListItem extends React.PureComponent {
         } else if (numRecipients === 1) {
           entityId = this.props.item.recipient_ids[0];
           displayString = getEntityDisplayName(entityId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
-          callback = entityId > 0 && this.props.usersCache[entityId] && this.props.usersCache[entityId].firebase_uid ? () => this.props.navigateToProfile({ userId: this.props.item.recipient_ids[0] }) : null; // need to be explicit in userId because callback is in its own scope
+          callback = (entityId > 0 && this.props.usersCache[entityId] && this.props.usersCache[entityId].firebase_uid) || entityId < 0 ? () => this.props.navigateTo('MessagesScreen', { convoId: this.props.item.recipient_ids[0] }) : null; // need to be explicit in userId because callback is in its own scope
         } else {
           displayString = numRecipients + ' recipients';
           callback = FunctionUtility.setStateCallback(this, { isModalVisible: true, isModalForReply: false });
@@ -334,6 +333,7 @@ class PostListItem extends React.PureComponent {
         } else if (numRecipients === 1) {
           convoId = this.props.item.recipient_ids_with_client[0];
           displayString = getEntityDisplayName(convoId, this.props.usersCache, this.props.groupsCache, this.props.contactsCache);
+          callback = convoId < 0 ? () => this.props.navigateTo('MessagesScreen', { convoId: convoId }) : null; // if the post was sent to a group that the client belongs to, navigate to the messages of that group
         } else {
           displayString = numRecipients + ' groups';
           callback = FunctionUtility.setStateCallback(this, { isModalVisible: true, isModalForReply: false });
@@ -350,7 +350,7 @@ class PostListItem extends React.PureComponent {
             onPress={callback}
             disabled={!callback}
             >
-            <RN.View>
+            <RN.View style={styles.usernameTextView}>
               <RN.Text
                 allowFontScaling={false}
                 ref={(ref) => this.displayString = ref}
@@ -535,7 +535,7 @@ class PostListItem extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _renderListModal() {
-    let recipientIds = this.props.postType === POST_TYPES.RECEIVED ? this.props.item.recipient_ids_with_client : this.props.item.recipient_ids;
+    let recipientIds = this.props.client.id === this.props.item.author_id ? this.props.item.recipient_ids : this.props.item.recipient_ids_with_client;
 
     return (
       <ListModalContainer
