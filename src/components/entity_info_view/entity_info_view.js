@@ -28,11 +28,11 @@ class EntityInfoView extends React.PureComponent {
   //--------------------------------------------------------------------//
 
   _onPressAvatar = () => {
-    if (_.isString(this.props.entityId) || this.props.entityId < 0) {
+    if (_.isString(this.props.entityId)) {
       return;
     }
 
-    this.props.navigateToProfile({ userId: this.props.entityId });
+    this.props.navigateTo('MessagesScreen', { convoId: this.props.entityId });
   }
 
   //--------------------------------------------------------------------//
