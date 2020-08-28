@@ -52,6 +52,12 @@ open ./node_modules/react-native-link-preview/index.js
 ````
 Replace contents with this file: https://drive.google.com/open?id=1mQ4ygwP4ooXTSMyujj7ZbuEBgSO_HA9m
 
+6. Replace files with secret keys (ask anshuman64):
+````
+ios/Insiya/GoogleService-Info.plist
+src/screens/debug_login_screen/debug_login_screen.js
+````
+
 ### Setup - Android
 1. Add insiya-android-certified.jks (ask anshuman64 for file) to /android/app directory
 
