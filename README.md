@@ -9,6 +9,7 @@ Postcard is a social platform and messenger that encourages you to keep in touch
 
 Postcard was developed for Android & iOS in 2018 by Anshuman Dewangan and Vinit Parikh. The code is free for everyone to view, reuse, and evolve. If you do use the code in your own projects, attribution to Anshuman & Vinit would be appreciated. 
 
+![Alt](Postcard-Screenshots.png)
 
 # postcard-mobile
 Repository for Postcard's Android & iOS front-end using React Native. **Also see [postcard-api](https://github.com/anshuman64/postcard-api).**
