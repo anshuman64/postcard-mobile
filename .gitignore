@@ -62,3 +62,7 @@ process-palette.json
 
 # Bundle artifact
 *.jsbundle
+
+# Secret Keys
+ios/Insiya/GoogleService-Info.plist
+src/screens/debug_login_screen/debug_login_screen.js
