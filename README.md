@@ -1,4 +1,17 @@
-# insiya-mobile
+# Postcard
+Postcard is a social platform and messenger that encourages you to keep in touch with your friends and family.
+
+* Create a profile with a username and photo
+* Share posts directly with friends or make them public
+* Like posts to find them later and show others they've been heard
+* Follow people who you want to hear more about
+* Message your friends directly in private chat
+
+Postcard was developed for Android & iOS in 2018 by Anshuman Dewangan and Vinit Parikh. The code is free for everyone to view, reuse, and evolve. If you do use the code in your own projects, attribution to Anshuman & Vinit would be appreciated. 
+
+
+# postcard-mobile
+Repository for Postcard's Android & iOS front-end using React Native. **Also see [postcard-api](https://github.com/anshuman64/postcard-api).**
 
 ## Setup
 ### Setup - General
@@ -39,7 +52,7 @@ open ./node_modules/react-native-link-preview/index.js
 Replace contents with this file: https://drive.google.com/open?id=1mQ4ygwP4ooXTSMyujj7ZbuEBgSO_HA9m
 
 ### Setup - Android
-1. Add insiya-android-certified.jks (ask Anshuman) to /android/app directory
+1. Add insiya-android-certified.jks (ask anshuman64 for file) to /android/app directory
 
 ### Setup - iOS
 0. Fix react-native-image-crop-picker UI
@@ -74,8 +87,6 @@ Edit ````#import <React/RCTDefines.h>```` to ````#import "RCTDefines.h" ````
 7. Click on "Header Search Paths"
 8. Add ````"$(PODS_ROOT)/../../node_modules/react-native/React/"````
 9. Set as "Recursive"
-
-![Alt text](https://s3.amazonaws.com/insiya-public/XCode_Amplitude_Header_Config.png)
 
 
 ## Release
@@ -141,11 +152,11 @@ git checkout master
 ````
 open ./android/app/src/res/values/strings.xml
 ````
-Change "reactNativeCodePush_androidDeploymentKey" from Staging ````wQznyJIRxUTXo2p5b0GAhdQuklSKHJZqy5gRG```` to Production ````gauKs8V0PH5drJBr6_oJYfGNVlKHHyb9JqgAG````
+Change "reactNativeCodePush_androidDeploymentKey" from Staging ````wQznyJIRxUTXo2p5b0GAhdQuklSKHJZqy5gRG```` to Production ````#####################````
 
 2. iOS
 
 ````
 open ./ios/Insiya/Info.plist
 ````
-Change "CodePushDeploymentKey" from Staging ````Z4GhodCyEHaA8swmU9dEUS38zI0_HJgxhKlCM```` to Production ````n4zkUBoJNjy28UmPw0rSWObb0fM5HyxlhtxAG````
+Change "CodePushDeploymentKey" from Staging ````Z4GhodCyEHaA8swmU9dEUS38zI0_HJgxhKlCM```` to Production ````#####################````
