@@ -10,7 +10,7 @@
 		"aws-sdk": "^2.176.0",
 		"buffer": "^5.0.8",
 		"google-libphonenumber": "^3.0.9",
-		"lodash": "^4.17.4",
+		"lodash": "^4.17.21",
 		"mime-types": "^2.1.17",
 		"pusher-js": "^4.2.2",
 		"react": "^16.2.0",
